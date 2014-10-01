@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceRestTests.h"
+#import "SalesforceRestAPITests.h"
 
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>
@@ -38,7 +38,7 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFRestAPI+Files.h"
 
-@interface SalesforceRestTests ()
+@interface SalesforceRestAPITests ()
 {
     NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion
     SFUserAccount *_currentUser;
@@ -52,7 +52,7 @@
 
 static NSException *authException = nil;
 
-@implementation SalesforceRestTests
+@implementation SalesforceRestAPITests
 
 + (void)setUp
 {

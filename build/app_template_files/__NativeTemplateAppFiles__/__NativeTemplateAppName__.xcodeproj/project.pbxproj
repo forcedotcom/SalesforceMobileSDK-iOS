@@ -38,7 +38,7 @@
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
 		8273F18A1778F39F005E31A6 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8273F1881778F39F005E31A6 /* libSalesforceCommonUtils.a */; };
-		82BBB59F1793941D00374DD8 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB59E1793941D00374DD8 /* libSalesforceNativeSDK.a */; };
+		82BBB59F1793941D00374DD8 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB59E1793941D00374DD8 /* libSalesforceRestAPI.a */; };
 		82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5A61793944400374DD8 /* libSalesforceOAuth.a */; };
 		82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5BF1793946800374DD8 /* libSalesforceSDKCore.a */; };
 		82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */; };
@@ -141,7 +141,7 @@
 		82BBB59B1793941D00374DD8 /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		82BBB59C1793941D00374DD8 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
 		82BBB59D1793941D00374DD8 /* SFRestRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestRequest.h; sourceTree = "<group>"; };
-		82BBB59E1793941D00374DD8 /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = "<group>"; };
+		82BBB59E1793941D00374DD8 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = "<group>"; };
 		82BBB5A31793944400374DD8 /* SFOAuthCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCoordinator.h; sourceTree = "<group>"; };
 		82BBB5A41793944400374DD8 /* SFOAuthCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthCredentials.h; sourceTree = "<group>"; };
 		82BBB5A51793944400374DD8 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthInfo.h; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 				4F3F413617E7CA71008B3283 /* libMKNetworkKit-iOS.a in Frameworks */,
 				824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */,
 				8273F18A1778F39F005E31A6 /* libSalesforceCommonUtils.a in Frameworks */,
-				82BBB59F1793941D00374DD8 /* libSalesforceNativeSDK.a in Frameworks */,
+				82BBB59F1793941D00374DD8 /* libSalesforceRestAPI.a in Frameworks */,
 				82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */,
 				82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */,
 				82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */,
@@ -365,7 +365,7 @@
 				4F3F412C17E7C9CA008B3283 /* SalesforceNetworkSDK */,
 				824A9F311725079000C9BD79 /* openssl */,
 				8273F1641778F39F005E31A6 /* SalesforceCommonUtils */,
-				82BBB5971793941D00374DD8 /* SalesforceNativeSDK */,
+				82BBB5971793941D00374DD8 /* SalesforceRestAPI */,
 				82BBB5A01793944400374DD8 /* SalesforceOAuth */,
 				82BBB5A81793946800374DD8 /* SalesforceSDKCore */,
 				82F6F66318E4D0280033CACD /* SalesforceSecurity */,
@@ -450,24 +450,24 @@
 			path = SalesforceCommonUtils;
 			sourceTree = "<group>";
 		};
-		82BBB5971793941D00374DD8 /* SalesforceNativeSDK */ = {
+		82BBB5971793941D00374DD8 /* SalesforceRestAPI */ = {
 			isa = PBXGroup;
 			children = (
 				82BBB5981793941D00374DD8 /* Headers */,
-				82BBB59E1793941D00374DD8 /* libSalesforceNativeSDK.a */,
+				82BBB59E1793941D00374DD8 /* libSalesforceRestAPI.a */,
 			);
-			path = SalesforceNativeSDK;
+			path = SalesforceRestAPI;
 			sourceTree = "<group>";
 		};
 		82BBB5981793941D00374DD8 /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				82BBB5991793941D00374DD8 /* SalesforceNativeSDK */,
+				82BBB5991793941D00374DD8 /* SalesforceRestAPI */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
 		};
-		82BBB5991793941D00374DD8 /* SalesforceNativeSDK */ = {
+		82BBB5991793941D00374DD8 /* SalesforceRestAPI */ = {
 			isa = PBXGroup;
 			children = (
 				4F57794817F4CF5B004706EE /* SFRestAPI+Files.h */,
@@ -476,7 +476,7 @@
 				82BBB59C1793941D00374DD8 /* SFRestAPI.h */,
 				82BBB59D1793941D00374DD8 /* SFRestRequest.h */,
 			);
-			path = SalesforceNativeSDK;
+			path = SalesforceRestAPI;
 			sourceTree = "<group>";
 		};
 		82BBB5A01793944400374DD8 /* SalesforceOAuth */ = {
@@ -755,7 +755,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK/Headers",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
@@ -766,7 +766,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK",
@@ -792,7 +792,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK/Headers",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
@@ -803,7 +803,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/MKNetworkKit-iOS",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNativeSDK",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceNetworkSDK",

@@ -13,7 +13,7 @@
 		4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */; };
 		4F66D8641935356F00625E1F /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F66D8631935356F00625E1F /* SalesforceSDKResources.bundle */; };
 		4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */; };
-		4FDA6D5219DB7B3D005AF96F /* libSalesforceRest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDA6D5119DB7B3D005AF96F /* libSalesforceRest.a */; };
+		4FDA6D5219DB7B3D005AF96F /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FDA6D5119DB7B3D005AF96F /* libSalesforceRestAPI.a */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
 		824A9DDD1724E16400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */; };
@@ -53,7 +53,7 @@
 		4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F66D8631935356F00625E1F /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FDA6D5119DB7B3D005AF96F /* libSalesforceRest.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRest.a; path = "../../../libs/SalesforceRest/build/Debug-iphoneos/libSalesforceRest.a"; sourceTree = "<group>"; };
+		4FDA6D5119DB7B3D005AF96F /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		824A9DD51724E16400C9BD79 /* NativeSqlAggregator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NativeSqlAggregator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -87,7 +87,7 @@
 		CE006E60176BD23B00411A4C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE006E67176BD26700411A4C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE006E69176BD2AA00411A4C /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1A53991768456D00D202D8 /* SmartStoreInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStoreInterface.h; sourceTree = "<group>"; };
@@ -102,7 +102,7 @@
 			files = (
 				4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */,
-				4FDA6D5219DB7B3D005AF96F /* libSalesforceRest.a in Frameworks */,
+				4FDA6D5219DB7B3D005AF96F /* libSalesforceRestAPI.a in Frameworks */,
 				CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */,
 				CE006E6E176BD2AB00411A4C /* libSalesforceSDKCore.a in Frameworks */,
 				82AA406C18E3B2E100BD34D8 /* libSalesforceSecurity.a in Frameworks */,
@@ -149,12 +149,12 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4FDA6D5119DB7B3D005AF96F /* libSalesforceRest.a */,
+				4FDA6D5119DB7B3D005AF96F /* libSalesforceRestAPI.a */,
 				CE006E5F176BD23B00411A4C /* libcrypto.a */,
 				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
 				CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */,
 				4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */,
-				CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */,
+				CE006E69176BD2AA00411A4C /* libSalesforceRestAPI.a */,
 				CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */,
 				CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */,
 				82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */,
@@ -410,7 +410,7 @@
 				INFOPLIST_FILE = "NativeSqlAggregator/NativeSqlAggregator-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRest/build/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -432,7 +432,7 @@
 				INFOPLIST_FILE = "NativeSqlAggregator/NativeSqlAggregator-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRest/build/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -1,6 +1,6 @@
 //
 //  main.m
-//  SalesforceNativeSDKUnitTestApp
+//  SalesforceRestAPIUnitTestApp
 //
 //  Created by Kevin Hawkins on 2/28/13.
 //  Copyright (c) 2013 salesforce.com. All rights reserved.

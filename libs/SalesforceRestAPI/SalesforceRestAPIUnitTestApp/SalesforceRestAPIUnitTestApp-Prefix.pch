@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'SalesforceNativeSDKUnitTestApp' target in the 'SalesforceNativeSDKUnitTestApp' project
+// Prefix header for all source files of the 'SalesforceRestAPIUnitTestApp' target in the 'SalesforceRestAPIUnitTestApp' project
 //
 
 #import <Availability.h>

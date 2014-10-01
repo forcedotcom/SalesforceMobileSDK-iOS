@@ -37,7 +37,7 @@ The easiest way to do this is to delete everything in the Dependencies folder of
 1. In your Xcode project, in Project Navigator, locate the Dependencies folder.  Control-click the folder, choose Delete, and select "Move to Trash".
 2. Download the following binary packages from [the distribution repo](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution):
     - MKNetworkKit-iOS-Release.zip
-    - SalesforceNativeSDK-Release.zip
+    - SalesforceRestAPI-Release.zip
     - SalesforceNetworkSDK-Release.zip
     - SalesforceOAuth-Release.zip
     - SalesforceSDKCore-Release.zip
