@@ -38,7 +38,6 @@
 		4FDA6D4719DB78A7005AF96F /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3A19DB78A7005AF96F /* SFRestRequest.m */; };
 		4FDA6D4819DB78A7005AF96F /* SFSessionRefresher.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3B19DB78A7005AF96F /* SFSessionRefresher.h */; };
 		4FDA6D4919DB78A7005AF96F /* SFSessionRefresher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3C19DB78A7005AF96F /* SFSessionRefresher.m */; };
-		4FDA6D4B19DB78DB005AF96F /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D4A19DB78DB005AF96F /* SalesforceSDKResources.bundle */; };
 		4FDA6D6319DB7C45005AF96F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5C19DB7C22005AF96F /* AppDelegate.m */; };
 		4FDA6D6819DB7C82005AF96F /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6419DB7C82005AF96F /* ViewController_iPad.xib */; };
 		4FDA6D6919DB7C82005AF96F /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6619DB7C82005AF96F /* ViewController_iPhone.xib */; };
@@ -47,7 +46,6 @@
 		4FDA6D7319DB7D14005AF96F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6D19DB7D14005AF96F /* Default.png */; };
 		4FDA6D7419DB7D14005AF96F /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6E19DB7D14005AF96F /* Default@2x.png */; };
 		4FDA6D7519DB7D14005AF96F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6F19DB7D14005AF96F /* main.m */; };
-		4FDA6D7619DB7D14005AF96F /* SalesforceRestUnitTestApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D7019DB7D14005AF96F /* SalesforceRestUnitTestApp-Info.plist */; };
 		4FDA6D7919DB7D32005AF96F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D7719DB7D32005AF96F /* InfoPlist.strings */; };
 		4FDA6D7D19DB7D4E005AF96F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D7B19DB7D4E005AF96F /* InfoPlist.strings */; };
 		8212C1C017F0EA7B002C59E2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA316E1315200768DE8 /* libcrypto.a */; };
@@ -479,13 +477,11 @@
 				4F0E604417F242AD00EB71A0 /* test_credentials.json in Resources */,
 				4FDA6D7D19DB7D4E005AF96F /* InfoPlist.strings in Resources */,
 				4FDA6D7219DB7D14005AF96F /* Default-568h@2x.png in Resources */,
-				4FDA6D4B19DB78DB005AF96F /* SalesforceSDKResources.bundle in Resources */,
 				4FDA6D6919DB7C82005AF96F /* ViewController_iPhone.xib in Resources */,
 				4FDA6D7419DB7D14005AF96F /* Default@2x.png in Resources */,
 				4FDA6D6B19DB7C96005AF96F /* SalesforceRestTests-Info.plist in Resources */,
 				4FDA6D7319DB7D14005AF96F /* Default.png in Resources */,
 				4FDA6D6819DB7C82005AF96F /* ViewController_iPad.xib in Resources */,
-				4FDA6D7619DB7D14005AF96F /* SalesforceRestUnitTestApp-Info.plist in Resources */,
 				4FDA6D7919DB7D32005AF96F /* InfoPlist.strings in Resources */,
 				8212C1C217F0EAB2002C59E2 /* libSalesforceCommonUtils.a in Resources */,
 			);
@@ -773,8 +769,8 @@
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceNativeSDKUnitTestApp/SalesforceRestUnitTestApp-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceRestUnitTestApp-Info.plist";
+				GCC_PREFIX_HEADER = "SalesforceRestUnitTestApp/SalesforceRestUnitTestApp-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceRestUnitTestApp/SalesforceRestUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
@@ -797,8 +793,8 @@
 					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceNativeSDKUnitTestApp/SalesforceRestUnitTestApp-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceNativeSDKUnitTestApp/SalesforceRestUnitTestApp-Info.plist";
+				GCC_PREFIX_HEADER = "SalesforceRestUnitTestApp/SalesforceRestUnitTestApp-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceRestUnitTestApp/SalesforceRestUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
