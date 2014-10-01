@@ -8,11 +8,11 @@
     
     <target name="nativeSdkDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceNativeSDK" />
+            <param name="buildConfiguration" value="SalesforceRestAPI" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../native" />
-            <param name="PROJECT_NAME" value="SalesforceNativeSDK" />
+            <param name="PROJECT_NAME" value="SalesforceRestAPI" />
         </antcall>
     </target>
     
@@ -64,7 +64,7 @@
     <target name="buildDoc">
 		<exec executable="/usr/local/bin/appledoc">
             <arg value="--project-name" />
-            <arg value="SalesforceNativeSDK" />
+            <arg value="SalesforceRestAPI" />
             <arg value="--project-company" />
             <arg value="Salesforce.com" />
             <arg value="--company-id" />

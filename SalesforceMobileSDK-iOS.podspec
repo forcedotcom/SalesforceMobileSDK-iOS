@@ -59,8 +59,8 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceSecurity' do |salesforcesecurity|
 
       salesforcesecurity.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
-      salesforcesecurity.source_files = 'shared/SalesforceSecurity/SalesforceSecurity/Classes/*.{h,m}'
-      salesforcesecurity.public_header_files = 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFSDKCryptoUtils.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFEncryptionKey.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeProviderManager.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreKey.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreManager.h', 'shared/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager+Internal.h'
+      salesforcesecurity.source_files = 'libs/SalesforceSecurity/SalesforceSecurity/Classes/*.{h,m}'
+      salesforcesecurity.public_header_files = 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFSDKCryptoUtils.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFEncryptionKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeProviderManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager+Internal.h'
       salesforcesecurity.header_dir = 'Headers/SalesforceSecurity'
       salesforcesecurity.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       salesforcesecurity.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
@@ -72,8 +72,8 @@ Pod::Spec.new do |s|
 
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
-      oauth.source_files = 'shared/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}'
-      oauth.public_header_files = 'shared/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'shared/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'shared/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h'
+      oauth.source_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}'
+      oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h'
       oauth.header_dir = 'Headers/SalesforceOAuth'
       oauth.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       oauth.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
@@ -88,8 +88,8 @@ Pod::Spec.new do |s|
       sdkcore.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
       sdkcore.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       sdkcore.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
-      sdkcore.source_files = 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/**/*.{h,m}'
-      sdkcore.public_header_files = 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Fmdb/FMDatabase.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Fmdb/FMResultSet.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/NSURL+SFStringUtils.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAbstractPasscodeViewController.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFApplication.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthErrorHandler.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthErrorHandlerList.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationManager+Internal.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationManager.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationViewHandler.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthorizingViewController.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFCommunityData.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFDefaultUserManagementViewController.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFDirectoryManager.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Identity/SFIdentityCoordinator.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Identity/SFIdentityData.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFJsonUtils.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFPreferences.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/PushNotification/SFPushNotificationManager.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFQuerySpec.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFSDKResourceUtils.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/SFSDKTestCredentialsData.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/SFSDKTestRequestListener.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFSDKWebUtils.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFSecurityLockout.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStore.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStoreDatabaseManager.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStoreInspectorViewController.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSoupIndex.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFStoreCursor.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccount.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountConstants.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountIdentity.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountManager.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFUserActivityMonitor.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h', 'shared/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/TestSetupUtils.h'
+      sdkcore.source_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/**/*.{h,m}'
+      sdkcore.public_header_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Fmdb/FMDatabase.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Fmdb/FMResultSet.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/NSURL+SFStringUtils.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAbstractPasscodeViewController.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFApplication.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthErrorHandler.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthErrorHandlerList.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationManager+Internal.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationManager.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthenticationViewHandler.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFAuthorizingViewController.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFCommunityData.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFDefaultUserManagementViewController.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFDirectoryManager.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Identity/SFIdentityCoordinator.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Identity/SFIdentityData.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFJsonUtils.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFPreferences.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/PushNotification/SFPushNotificationManager.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFQuerySpec.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFSDKResourceUtils.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/SFSDKTestCredentialsData.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/SFSDKTestRequestListener.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Util/SFSDKWebUtils.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFSecurityLockout.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStore.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStoreDatabaseManager.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSmartStoreInspectorViewController.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFSoupIndex.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/SmartStore/SFStoreCursor.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccount.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountConstants.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountIdentity.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Security/SFUserAccountManager.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFUserActivityMonitor.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Test/TestSetupUtils.h'
       sdkcore.header_dir = 'Headers/SalesforceSDKCore'
       sdkcore.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>', '#import "SalesforceSDKConstants.h"'
       sdkcore.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers", 'OTHER_CFLAGS' => '-DSQLITE_HAS_CODEC' }
@@ -107,8 +107,8 @@ Pod::Spec.new do |s|
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       networksdk.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
-      networksdk.source_files = 'shared/SalesforceNetworkSDK/SalesforceNetworkSDK/*.{h,m}'
-      networksdk.public_header_files = 'shared/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkEngine.h', 'shared/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkOperation.h', 'shared/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkUtils.h', 'shared/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkCoordinator.h'
+      networksdk.source_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/*.{h,m}'
+      networksdk.public_header_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkEngine.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkOperation.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkUtils.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkCoordinator.h'
       networksdk.header_dir = 'Headers/SalesforceNetworkSDK'
       networksdk.prefix_header_contents = '#import <SalesforceCommonUtils/SalesforceCommonUtils.h>'
       networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
@@ -116,29 +116,29 @@ Pod::Spec.new do |s|
 
   end
 
-  s.subspec 'SalesforceNativeSDK' do |nativesdk|
+  s.subspec 'SalesforceRestAPI' do |restapi|
 
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceNetworkSDK'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
-      nativesdk.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
-      nativesdk.source_files = 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/*.{h,m}'
-      nativesdk.public_header_files = 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/SFRestAPI+QueryBuilder.h', 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/SFRestRequest.h', 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/SFRestAPI+Files.h', 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/SFRestAPI+Blocks.h', 'native/SalesforceNativeSDK/SalesforceNativeSDK/Classes/SFRestAPI.h'
-      nativesdk.header_dir = 'Headers/SalesforceNativeSDK'
-      nativesdk.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
-      nativesdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
-      nativesdk.requires_arc = true
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceNetworkSDK'
+      restapi.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      restapi.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
+      restapi.source_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/*.{h,m}'
+      restapi.public_header_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+QueryBuilder.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestRequest.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Files.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Blocks.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI.h'
+      restapi.header_dir = 'Headers/SalesforceRestAPI'
+      restapi.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
+      restapi.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      restapi.requires_arc = true
 
   end
 
   s.subspec 'SmartSync' do |smartsync|
 
-      smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceNativeSDK'
+      smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceRestAPI'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceNetworkSDK'
       smartsync.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
@@ -148,8 +148,8 @@ Pod::Spec.new do |s|
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       smartsync.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
-      smartsync.source_files = 'native/SmartSync/SmartSync/Classes/**/*.{h,m}'
-      smartsync.public_header_files = 'native/SmartSync/SmartSync/Classes/Manager/SFSmartSyncCacheManager.h', 'native/SmartSync/SmartSync/Classes/Manager/SFSmartSyncMetadataManager.h', 'native/SmartSync/SmartSync/Classes/Manager/SFSmartSyncNetworkManager.h', 'native/SmartSync/SmartSync/Classes/Model/SFObject.h', 'native/SmartSync/SmartSync/Classes/Model/SFObjectType.h', 'native/SmartSync/SmartSync/Classes/Model/SFObjectTypeLayout.h', 'native/SmartSync/SmartSync/Classes/Util/SFSmartSyncConstants.h', 'native/SmartSync/SmartSync/Classes/Util/SFSmartSyncObjectUtils.h', 'native/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoqlBuilder.h', 'native/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslBuilder.h', 'native/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslReturningBuilder.h'
+      smartsync.source_files = 'libs/SmartSync/SmartSync/Classes/**/*.{h,m}'
+      smartsync.public_header_files = 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncCacheManager.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncMetadataManager.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncNetworkManager.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObject.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObjectType.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObjectTypeLayout.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncConstants.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncObjectUtils.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoqlBuilder.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslBuilder.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslReturningBuilder.h'
       smartsync.header_dir = 'Headers/SmartSync'
       smartsync.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       smartsync.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }

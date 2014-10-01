@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'SalesforceRestAPI' target in the 'SalesforceRestAPI' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <SalesforceCommonUtils/SFLogger.h>
+#endif
