@@ -91,7 +91,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
+		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -659,7 +659,6 @@
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -694,7 +693,6 @@
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
