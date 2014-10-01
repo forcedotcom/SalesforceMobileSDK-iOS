@@ -29,7 +29,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceRest/SFRestAPI.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface SmartSyncTests : XCTestCase

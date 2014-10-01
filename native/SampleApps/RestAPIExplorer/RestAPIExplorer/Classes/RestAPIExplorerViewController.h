@@ -24,7 +24,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceRest/SFRestAPI.h>
 
 @interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate, UIActionSheetDelegate>
 {

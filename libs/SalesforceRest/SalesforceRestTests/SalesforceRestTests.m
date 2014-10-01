@@ -38,7 +38,7 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFRestAPI+Files.h"
 
-@interface SalesforceNativeSDKTests ()
+@interface SalesforceRestTests ()
 {
     NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion
     SFUserAccount *_currentUser;
@@ -52,7 +52,7 @@
 
 static NSException *authException = nil;
 
-@implementation SalesforceNativeSDKTests
+@implementation SalesforceRestTests
 
 + (void)setUp
 {

@@ -25,6 +25,7 @@
 		4F3A72E719DB819300E6F468 /* SalesforceRestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5419DB7BF2005AF96F /* SalesforceRestTests.m */; };
 		4F3A72E819DB819B00E6F468 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5619DB7BF2005AF96F /* SFNativeRestRequestListener.m */; };
 		4F3A72E919DB81B400E6F468 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5E19DB7C22005AF96F /* ViewController.m */; };
+		4F3A72ED19DB882500E6F468 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3A72EC19DB882500E6F468 /* test_credentials.json */; };
 		4FDA6D3D19DB78A7005AF96F /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3019DB78A7005AF96F /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FDA6D3E19DB78A7005AF96F /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3119DB78A7005AF96F /* SFRestAPI.m */; };
 		4FDA6D3F19DB78A7005AF96F /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3219DB78A7005AF96F /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -68,7 +69,6 @@
 		8212C1D217F0ED76002C59E2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
 		8212C1D317F0ED7A002C59E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8212C1D417F0EFA0002C59E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF500BC17E2715F00051FA4 /* ImageIO.framework */; };
-		8280EBAC16E1425D00768DE8 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8280EBAB16E1425D00768DE8 /* test_credentials.json */; };
 		82AA405E18E3AECF00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405D18E3AECF00BD34D8 /* libSalesforceSecurity.a */; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C74116E076DE0006B3C0 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74016E076DE0006B3C0 /* SenTestingKit.framework */; };
@@ -95,6 +95,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F3A72EC19DB882500E6F468 /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		4FDA6D3019DB78A7005AF96F /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFRestAPI.h; path = SalesforceRest/Classes/SFRestAPI.h; sourceTree = SOURCE_ROOT; };
 		4FDA6D3119DB78A7005AF96F /* SFRestAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFRestAPI.m; path = SalesforceRest/Classes/SFRestAPI.m; sourceTree = SOURCE_ROOT; };
 		4FDA6D3219DB78A7005AF96F /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFRestAPI+Blocks.h"; path = "SalesforceRest/Classes/SFRestAPI+Blocks.h"; sourceTree = SOURCE_ROOT; };
@@ -219,6 +220,7 @@
 		82C0C72516E076DE0006B3C0 = {
 			isa = PBXGroup;
 			children = (
+				4F3A72EC19DB882500E6F468 /* test_credentials.json */,
 				82C0C73316E076DE0006B3C0 /* SalesforceRest */,
 				82C0C74816E076DF0006B3C0 /* SalesforceRestTests */,
 				82C0C76216E07DEB0006B3C0 /* SalesforceRestUnitTestApp */,
@@ -466,7 +468,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8280EBAC16E1425D00768DE8 /* test_credentials.json in Resources */,
+				4F3A72ED19DB882500E6F468 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -721,14 +723,14 @@
 		82C0C75716E076DF0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceNativeSDKUnitTestApp.app/SalesforceNativeSDKUnitTestApp";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceRestUnitTestApp.app/SalesforceRestUnitTestApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceNativeSDKTests/SalesforceRestTests-Info.plist";
+				GCC_PREFIX_HEADER = "SalesforceRest/SalesforceRest-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceRestTests/SalesforceRestTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -742,14 +744,14 @@
 		82C0C75816E076DF0006B3C0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceNativeSDKUnitTestApp.app/SalesforceNativeSDKUnitTestApp";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceRestUnitTestApp.app/SalesforceRestUnitTestApp";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceNativeSDK/SalesforceNativeSDK-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceNativeSDKTests/SalesforceRestTests-Info.plist";
+				GCC_PREFIX_HEADER = "SalesforceRest/SalesforceRest-Prefix.pch";
+				INFOPLIST_FILE = "SalesforceRestTests/SalesforceRestTests-Info.plist";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

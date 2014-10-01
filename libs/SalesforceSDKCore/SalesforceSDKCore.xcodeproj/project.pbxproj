@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4F3A72EB19DB87D900E6F468 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3A72EA19DB87D900E6F468 /* test_credentials.json */; };
 		4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */; };
 		4F9BB825192AA7CB0000712D /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */; };
@@ -123,7 +124,6 @@
 		82D4647019C7CBD30006BDFE /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4646719C7CBD30006BDFE /* SFSmartStoreTestCase.m */; };
 		82D4647119C7CBD30006BDFE /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4646919C7CBD30006BDFE /* SFSmartStoreTests.m */; };
 		82D4647219C7CBD30006BDFE /* SFUserAccountManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4646A19C7CBD30006BDFE /* SFUserAccountManagerTests.m */; };
-		82D4647519C7CC060006BDFE /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82D4647419C7CC060006BDFE /* test_credentials.json */; };
 		82D4647619C7CD420006BDFE /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
 		82D4647819C7CD580006BDFE /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */; };
 		82D4647A19C7CD6C0006BDFE /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647919C7CD6C0006BDFE /* libSalesforceSecurity.a */; };
@@ -174,6 +174,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F3A72EA19DB87D900E6F468 /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotificationManager.h; path = PushNotification/SFPushNotificationManager.h; sourceTree = "<group>"; };
 		4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManager.m; path = PushNotification/SFPushNotificationManager.m; sourceTree = "<group>"; };
 		4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreInspectorViewController.m; sourceTree = "<group>"; };
@@ -393,6 +394,7 @@
 		8220B74116D804CA00EC3921 = {
 			isa = PBXGroup;
 			children = (
+				4F3A72EA19DB87D900E6F468 /* test_credentials.json */,
 				8220B75116D804CA00EC3921 /* SalesforceSDKCore */,
 				82D4642819C7C8170006BDFE /* SalesforceSDKCoreUnitTestApp */,
 				82D4644A19C7C8180006BDFE /* SalesforceSDKCoreTests */,
@@ -870,7 +872,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D4647519C7CC060006BDFE /* test_credentials.json in Resources */,
+				4F3A72EB19DB87D900E6F468 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
