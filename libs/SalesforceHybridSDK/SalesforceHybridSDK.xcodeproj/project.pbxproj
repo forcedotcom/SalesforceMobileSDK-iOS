@@ -31,6 +31,8 @@
 		4FA19A591992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FA19A5A1992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
+		4FC2768119DCA6BB008F4AA6 /* SFSmartSyncPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4FC2768219DCA6BB008F4AA6 /* SFSmartSyncPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */; };
 		4FC404A41911C6720027AD76 /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
 		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
 		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
@@ -235,6 +237,8 @@
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
 		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncPlugin.h; sourceTree = "<group>"; };
+		4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncPlugin.m; sourceTree = "<group>"; };
 		4FC404981911C6720027AD76 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		4FC404991911C6720027AD76 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
 		4FC4049B1911C6720027AD76 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
@@ -403,6 +407,15 @@
 				4F3A72E619DB801F00E6F468 /* libSalesforceNetworkSDK.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4FC2767E19DCA6BB008F4AA6 /* SFSmartSyncPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */,
+				4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */,
+			);
+			path = SFSmartSyncPlugin;
 			sourceTree = "<group>";
 		};
 		4FC404931911C6720027AD76 /* dependencies */ = {
@@ -587,6 +600,7 @@
 		82EFF2E216E7C84900A63CDF /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				4FC2767E19DCA6BB008F4AA6 /* SFSmartSyncPlugin */,
 				82EFF2E316E7C84900A63CDF /* SDKInfo */,
 				82B0CA4B18D0F88F00DC2BBB /* SFAccountManagerPlugin */,
 				82EFF2E616E7C84900A63CDF /* SFAdditions */,
@@ -715,6 +729,7 @@
 				4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */,
 				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
 				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
+				4FC2768119DCA6BB008F4AA6 /* SFSmartSyncPlugin.h in Headers */,
 				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -892,6 +907,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FC2768219DCA6BB008F4AA6 /* SFSmartSyncPlugin.m in Sources */,
 				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
 				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
 				4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */,
