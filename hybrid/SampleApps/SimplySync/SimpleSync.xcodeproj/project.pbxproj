@@ -30,6 +30,7 @@
 		4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */; };
 		4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */; };
 		4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */; };
+		4FC276C719DCC9CD008F4AA6 /* ratchet-theme-ios.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
 		4FF15E861908856800705FE0 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E5E1908852E00705FE0 /* cordova_plugins.js */; };
 		4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */; };
@@ -95,6 +96,7 @@
 			dstPath = www/css;
 			dstSubfolderSpec = 7;
 			files = (
+				4FC276C719DCC9CD008F4AA6 /* ratchet-theme-ios.css in Copy css Files */,
 				4FC276B419DCBC88008F4AA6 /* ratchet.css in Copy css Files */,
 				4FC276B519DCBC88008F4AA6 /* styles.css in Copy css Files */,
 			);
@@ -169,6 +171,7 @@
 		4FC2769A19DCBB1B008F4AA6 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
+		4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "ratchet-theme-ios.css"; path = "../../../dependencies/ratchet2/ratchet-theme-ios.css"; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15E5E1908852E00705FE0 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../external/shared/gen/cordova_plugins.js; sourceTree = "<group>"; };
 		4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
@@ -265,6 +268,7 @@
 		4FC2768B19DCBB1B008F4AA6 /* css */ = {
 			isa = PBXGroup;
 			children = (
+				4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */,
 				4FC2768C19DCBB1B008F4AA6 /* ratchet.css */,
 				4FC2768D19DCBB1B008F4AA6 /* styles.css */,
 			);
@@ -375,8 +379,6 @@
 		824A9BD71721FCA400C9BD79 /* SimpleSync */ = {
 			isa = PBXGroup;
 			children = (
-				4FC2768B19DCBB1B008F4AA6 /* css */,
-				4FC2768E19DCBB1B008F4AA6 /* js */,
 				824A9BF91721FE1100C9BD79 /* readme.md */,
 				824A9BFB1721FE7E00C9BD79 /* shared-www */,
 				824A9C5E1722021D00C9BD79 /* Classes */,
@@ -401,10 +403,12 @@
 		824A9BFB1721FE7E00C9BD79 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15E9C1908860100705FE0 /* cordova.js */,
-				4FF15E5E1908852E00705FE0 /* cordova_plugins.js */,
-				4FF15E5F1908852E00705FE0 /* plugins */,
 				4FC2768719DCBAD5008F4AA6 /* bootconfig.json */,
+				4FF15E5E1908852E00705FE0 /* cordova_plugins.js */,
+				4FF15E9C1908860100705FE0 /* cordova.js */,
+				4FC2768B19DCBB1B008F4AA6 /* css */,
+				4FC2768E19DCBB1B008F4AA6 /* js */,
+				4FF15E5F1908852E00705FE0 /* plugins */,
 				4FC2768819DCBAD5008F4AA6 /* SimpleSync.html */,
 			);
 			name = "shared-www";

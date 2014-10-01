@@ -43,9 +43,6 @@
       location = "container:"
       name = "HybridSamples">
       <FileRef
-         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
       </FileRef>
       <FileRef
@@ -53,6 +50,9 @@
       </FileRef>
       <FileRef
          location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">

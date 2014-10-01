@@ -381,13 +381,13 @@
 		824A9BFB1721FE7E00C9BD79 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15E9C1908860100705FE0 /* cordova.js */,
-				4FF15E5E1908852E00705FE0 /* cordova_plugins.js */,
-				4FF15E5F1908852E00705FE0 /* plugins */,
 				4FF15E2A190884FE00705FE0 /* AccountEditor.html */,
 				4FF15E2B190884FE00705FE0 /* bootconfig.json */,
+				4FF15E5E1908852E00705FE0 /* cordova_plugins.js */,
+				4FF15E9C1908860100705FE0 /* cordova.js */,
 				4FF15E2C190884FE00705FE0 /* css */,
 				4FF15E30190884FE00705FE0 /* js */,
+				4FF15E5F1908852E00705FE0 /* plugins */,
 			);
 			name = "shared-www";
 			sourceTree = "<group>";
