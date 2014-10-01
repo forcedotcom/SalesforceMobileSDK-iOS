@@ -73,7 +73,7 @@
                BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
                BuildableName = "libSalesforceHybridSDK.a"
                BlueprintName = "SalesforceHybridSDK"
-               ReferencedContainer = "container:../../SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+               ReferencedContainer = "container:../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
