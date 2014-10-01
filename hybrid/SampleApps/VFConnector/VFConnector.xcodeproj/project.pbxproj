@@ -31,7 +31,6 @@
 		7DBD06E6149AA8420043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD06E5149AA8420043A9E0 /* SystemConfiguration.framework */; };
 		7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EA149AA8420043A9E0 /* InfoPlist.strings */; };
 		7DBD06EE149AA8420043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD06ED149AA8420043A9E0 /* main.m */; };
-		7DBD06F0149AA8420043A9E0 /* VFConnector-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD06EF149AA8420043A9E0 /* VFConnector-Prefix.pch */; };
 		8202760E1651795300DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8202760D1651795300DB814C /* MessageUI.framework */; };
 		8251CAA316ED5F4500BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA216ED5F4500BD1EA2 /* libxml2.dylib */; };
 		8251CAA516ED5F6000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CAA416ED5F6000BD1EA2 /* libssl.a */; };
@@ -328,7 +327,6 @@
 			files = (
 				7DBD06EC149AA8420043A9E0 /* InfoPlist.strings in Resources */,
 				4F2147C9193D21B40010F9D3 /* ImagesHybrid.xcassets in Resources */,
-				7DBD06F0149AA8420043A9E0 /* VFConnector-Prefix.pch in Resources */,
 				82954630167A7F5B00A0FC34 /* config.xml in Resources */,
 				4F53F6E71683D9A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				4F2147C8193D21B40010F9D3 /* Settings.bundle in Resources */,

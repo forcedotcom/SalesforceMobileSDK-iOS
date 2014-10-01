@@ -30,7 +30,7 @@
 /**
  String used with Cordova to uniquely identify this plugin
  */
-extern NSString * const kSmartStorePluginIdentifier;
+extern NSString * const kSmartSyncPluginIdentifier;
 
 @interface SFSmartSyncPlugin : CDVPlugin
 

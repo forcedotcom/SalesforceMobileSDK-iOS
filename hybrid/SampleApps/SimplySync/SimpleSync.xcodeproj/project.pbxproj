@@ -7,25 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F2147AE193D20C80010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
-		4F2147AF193D20C80010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AD193D20C80010F9D3 /* ImagesHybrid.xcassets */; };
 		4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839819525B66003EBB16 /* AppDelegate.m */; };
+		4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
+		4FC276AE19DCBC6E008F4AA6 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AD193D20C80010F9D3 /* ImagesHybrid.xcassets */; };
+		4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
+		4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
+		4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
+		4FC276B219DCBC80008F4AA6 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FC2768719DCBAD5008F4AA6 /* bootconfig.json */; };
+		4FC276B319DCBC80008F4AA6 /* SimpleSync.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FC2768819DCBAD5008F4AA6 /* SimpleSync.html */; };
+		4FC276B419DCBC88008F4AA6 /* ratchet.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC2768C19DCBB1B008F4AA6 /* ratchet.css */; };
+		4FC276B519DCBC88008F4AA6 /* styles.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC2768D19DCBB1B008F4AA6 /* styles.css */; };
+		4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2768F19DCBB1B008F4AA6 /* auth.js */; };
+		4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769019DCBB1B008F4AA6 /* backbone-min.js */; };
+		4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769119DCBB1B008F4AA6 /* backbone.js */; };
+		4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769219DCBB1B008F4AA6 /* cordova.force.js */; };
+		4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769319DCBB1B008F4AA6 /* fastclick.js */; };
+		4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */; };
+		4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */; };
+		4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769619DCBB1B008F4AA6 /* jquery.min.js */; };
+		4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769A19DCBB1B008F4AA6 /* smartsync.js */; };
+		4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */; };
+		4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */; };
+		4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
 		4FF15E861908856800705FE0 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E5E1908852E00705FE0 /* cordova_plugins.js */; };
-		4FF15E871908856800705FE0 /* AccountEditor.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2A190884FE00705FE0 /* AccountEditor.html */; };
-		4FF15E881908856800705FE0 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2B190884FE00705FE0 /* bootconfig.json */; };
-		4FF15E891908857A00705FE0 /* ratchet-theme-android.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2D190884FE00705FE0 /* ratchet-theme-android.css */; };
-		4FF15E8A1908857A00705FE0 /* ratchet.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2E190884FE00705FE0 /* ratchet.css */; };
-		4FF15E8B1908857A00705FE0 /* styles.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FF15E2F190884FE00705FE0 /* styles.css */; };
-		4FF15E8C190885B000705FE0 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E31190884FE00705FE0 /* auth.js */; };
-		4FF15E8D190885B000705FE0 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E33190884FE00705FE0 /* backbone-min.js */; };
-		4FF15E8E190885B000705FE0 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E35190884FE00705FE0 /* fastclick.js */; };
-		4FF15E8F190885B000705FE0 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E36190884FE00705FE0 /* forcetk.mobilesdk.js */; };
-		4FF15E90190885B000705FE0 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E37190884FE00705FE0 /* jquery.min.js */; };
-		4FF15E91190885B000705FE0 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E3A190884FE00705FE0 /* smartsync.js */; };
-		4FF15E92190885B000705FE0 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E3B190884FE00705FE0 /* stackrouter.js */; };
-		4FF15E93190885B000705FE0 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FF15E3C190884FE00705FE0 /* underscore-min.js */; };
 		4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */; };
 		4FF15E95190885CC00705FE0 /* com.salesforce.plugin.sdkinfo.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */; };
 		4FF15E96190885CC00705FE0 /* com.salesforce.plugin.sfaccountmanager.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E631908852E00705FE0 /* com.salesforce.plugin.sfaccountmanager.js */; };
@@ -38,9 +44,7 @@
 		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
 		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
 		824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */; };
-		824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
 		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
-		824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
 		824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D921724C7C400C9BD79 /* libcrypto.a */; };
 		824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */; };
 		824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */; };
@@ -64,7 +68,6 @@
 		824A9DBB1724CAB100C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBA1724CAB100C9BD79 /* QuartzCore.framework */; };
 		824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBC1724CAB900C9BD79 /* Security.framework */; };
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
-		824A9DC11724CE4600C9BD79 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
 		82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		8272301C19D764160066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272301B19D764160066A350 /* InitialViewController.m */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
@@ -78,10 +81,10 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				4FC276B219DCBC80008F4AA6 /* bootconfig.json in Copy Shared www Files */,
+				4FC276B319DCBC80008F4AA6 /* SimpleSync.html in Copy Shared www Files */,
 				4FF15E9E1908860900705FE0 /* cordova.js in Copy Shared www Files */,
 				4FF15E861908856800705FE0 /* cordova_plugins.js in Copy Shared www Files */,
-				4FF15E871908856800705FE0 /* AccountEditor.html in Copy Shared www Files */,
-				4FF15E881908856800705FE0 /* bootconfig.json in Copy Shared www Files */,
 			);
 			name = "Copy Shared www Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -92,9 +95,8 @@
 			dstPath = www/css;
 			dstSubfolderSpec = 7;
 			files = (
-				4FF15E891908857A00705FE0 /* ratchet-theme-android.css in Copy css Files */,
-				4FF15E8A1908857A00705FE0 /* ratchet.css in Copy css Files */,
-				4FF15E8B1908857A00705FE0 /* styles.css in Copy css Files */,
+				4FC276B419DCBC88008F4AA6 /* ratchet.css in Copy css Files */,
+				4FC276B519DCBC88008F4AA6 /* styles.css in Copy css Files */,
 			);
 			name = "Copy css Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,14 +107,17 @@
 			dstPath = www/js;
 			dstSubfolderSpec = 7;
 			files = (
-				4FF15E8C190885B000705FE0 /* auth.js in Copy js Files */,
-				4FF15E8D190885B000705FE0 /* backbone-min.js in Copy js Files */,
-				4FF15E8E190885B000705FE0 /* fastclick.js in Copy js Files */,
-				4FF15E8F190885B000705FE0 /* forcetk.mobilesdk.js in Copy js Files */,
-				4FF15E90190885B000705FE0 /* jquery.min.js in Copy js Files */,
-				4FF15E91190885B000705FE0 /* smartsync.js in Copy js Files */,
-				4FF15E92190885B000705FE0 /* stackrouter.js in Copy js Files */,
-				4FF15E93190885B000705FE0 /* underscore-min.js in Copy js Files */,
+				4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */,
+				4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */,
+				4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */,
+				4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */,
+				4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */,
+				4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */,
+				4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */,
+				4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */,
+				4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */,
+				4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */,
+				4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */,
 			);
 			name = "Copy js Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,6 +128,7 @@
 			dstPath = www/plugins/com.salesforce;
 			dstSubfolderSpec = 7;
 			files = (
+				4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */,
 				4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */,
 				4FF15E95190885CC00705FE0 /* com.salesforce.plugin.sdkinfo.js in Copy plugins Files */,
 				4FF15E96190885CC00705FE0 /* com.salesforce.plugin.sfaccountmanager.js in Copy plugins Files */,
@@ -144,20 +150,26 @@
 		4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D839819525B66003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
 		4F6D839919525B66003EBB16 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../../../../shared/hybrid/AppDelegate.h; sourceTree = "<group>"; };
+		4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartsync.js; sourceTree = "<group>"; };
+		4FC2768719DCBAD5008F4AA6 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/samples/simplesync/bootconfig.json; sourceTree = "<group>"; };
+		4FC2768819DCBAD5008F4AA6 /* SimpleSync.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = SimpleSync.html; path = ../../../../external/shared/samples/simplesync/SimpleSync.html; sourceTree = "<group>"; };
+		4FC2768C19DCBB1B008F4AA6 /* ratchet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ratchet.css; sourceTree = "<group>"; };
+		4FC2768D19DCBB1B008F4AA6 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
+		4FC2768F19DCBB1B008F4AA6 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
+		4FC2769019DCBB1B008F4AA6 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
+		4FC2769119DCBB1B008F4AA6 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
+		4FC2769219DCBB1B008F4AA6 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
+		4FC2769319DCBB1B008F4AA6 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
+		4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
+		4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.ui.js; sourceTree = "<group>"; };
+		4FC2769619DCBB1B008F4AA6 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
+		4FC2769719DCBB1B008F4AA6 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
+		4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartStore.js; sourceTree = "<group>"; };
+		4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartSyncPlugin.js; sourceTree = "<group>"; };
+		4FC2769A19DCBB1B008F4AA6 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
+		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
+		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		4FF15E2A190884FE00705FE0 /* AccountEditor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = AccountEditor.html; path = ../../../../external/shared/samples/accounteditor/AccountEditor.html; sourceTree = "<group>"; };
-		4FF15E2B190884FE00705FE0 /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../../external/shared/samples/accounteditor/bootconfig.json; sourceTree = "<group>"; };
-		4FF15E2D190884FE00705FE0 /* ratchet-theme-android.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "ratchet-theme-android.css"; sourceTree = "<group>"; };
-		4FF15E2E190884FE00705FE0 /* ratchet.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = ratchet.css; sourceTree = "<group>"; };
-		4FF15E2F190884FE00705FE0 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
-		4FF15E31190884FE00705FE0 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
-		4FF15E33190884FE00705FE0 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
-		4FF15E35190884FE00705FE0 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
-		4FF15E36190884FE00705FE0 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
-		4FF15E37190884FE00705FE0 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		4FF15E3A190884FE00705FE0 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
-		4FF15E3B190884FE00705FE0 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
-		4FF15E3C190884FE00705FE0 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		4FF15E5E1908852E00705FE0 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../external/shared/gen/cordova_plugins.js; sourceTree = "<group>"; };
 		4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
@@ -168,14 +180,14 @@
 		4FF15E671908852E00705FE0 /* com.salesforce.util.exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.exec.js; sourceTree = "<group>"; };
 		4FF15E681908852E00705FE0 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FF15E9C1908860100705FE0 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
-		824A9BCE1721FCA400C9BD79 /* AccountEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccountEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A9BCE1721FCA400C9BD79 /* SimpleSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9BD31721FCA400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		824A9BD91721FCA400C9BD79 /* AccountEditor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AccountEditor-Info.plist"; sourceTree = "<group>"; };
+		824A9BD91721FCA400C9BD79 /* SimpleSync-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleSync-Info.plist"; sourceTree = "<group>"; };
 		824A9BDB1721FCA400C9BD79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		824A9BDD1721FCA400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		824A9BDF1721FCA400C9BD79 /* AccountEditor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccountEditor-Prefix.pch"; sourceTree = "<group>"; };
+		824A9BDF1721FCA400C9BD79 /* SimpleSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleSync-Prefix.pch"; sourceTree = "<group>"; };
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		824A9D921724C7C400C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
@@ -250,31 +262,36 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4FF15E2C190884FE00705FE0 /* css */ = {
+		4FC2768B19DCBB1B008F4AA6 /* css */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15E2D190884FE00705FE0 /* ratchet-theme-android.css */,
-				4FF15E2E190884FE00705FE0 /* ratchet.css */,
-				4FF15E2F190884FE00705FE0 /* styles.css */,
+				4FC2768C19DCBB1B008F4AA6 /* ratchet.css */,
+				4FC2768D19DCBB1B008F4AA6 /* styles.css */,
 			);
 			name = css;
-			path = ../../../../external/shared/samples/accounteditor/css;
+			path = ../../../../external/shared/samples/simplesync/css;
 			sourceTree = "<group>";
 		};
-		4FF15E30190884FE00705FE0 /* js */ = {
+		4FC2768E19DCBB1B008F4AA6 /* js */ = {
 			isa = PBXGroup;
 			children = (
-				4FF15E31190884FE00705FE0 /* auth.js */,
-				4FF15E33190884FE00705FE0 /* backbone-min.js */,
-				4FF15E35190884FE00705FE0 /* fastclick.js */,
-				4FF15E36190884FE00705FE0 /* forcetk.mobilesdk.js */,
-				4FF15E37190884FE00705FE0 /* jquery.min.js */,
-				4FF15E3A190884FE00705FE0 /* smartsync.js */,
-				4FF15E3B190884FE00705FE0 /* stackrouter.js */,
-				4FF15E3C190884FE00705FE0 /* underscore-min.js */,
+				4FC2768F19DCBB1B008F4AA6 /* auth.js */,
+				4FC2769019DCBB1B008F4AA6 /* backbone-min.js */,
+				4FC2769119DCBB1B008F4AA6 /* backbone.js */,
+				4FC2769219DCBB1B008F4AA6 /* cordova.force.js */,
+				4FC2769319DCBB1B008F4AA6 /* fastclick.js */,
+				4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */,
+				4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */,
+				4FC2769619DCBB1B008F4AA6 /* jquery.min.js */,
+				4FC2769719DCBB1B008F4AA6 /* MockCordova.js */,
+				4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */,
+				4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */,
+				4FC2769A19DCBB1B008F4AA6 /* smartsync.js */,
+				4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */,
+				4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */,
 			);
 			name = js;
-			path = ../../../../external/shared/samples/accounteditor/js;
+			path = ../../../../external/shared/samples/simplesync/js;
 			sourceTree = "<group>";
 		};
 		4FF15E5F1908852E00705FE0 /* plugins */ = {
@@ -289,6 +306,7 @@
 		4FF15E601908852E00705FE0 /* com.salesforce */ = {
 			isa = PBXGroup;
 			children = (
+				4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */,
 				4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */,
 				4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */,
 				4FF15E631908852E00705FE0 /* com.salesforce.plugin.sfaccountmanager.js */,
@@ -304,7 +322,7 @@
 		824A9BC51721FCA400C9BD79 = {
 			isa = PBXGroup;
 			children = (
-				824A9BD71721FCA400C9BD79 /* AccountEditor */,
+				824A9BD71721FCA400C9BD79 /* SimpleSync */,
 				824A9BD01721FCA400C9BD79 /* Frameworks */,
 				824A9BCF1721FCA400C9BD79 /* Products */,
 			);
@@ -313,7 +331,7 @@
 		824A9BCF1721FCA400C9BD79 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				824A9BCE1721FCA400C9BD79 /* AccountEditor.app */,
+				824A9BCE1721FCA400C9BD79 /* SimpleSync.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -354,26 +372,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		824A9BD71721FCA400C9BD79 /* AccountEditor */ = {
+		824A9BD71721FCA400C9BD79 /* SimpleSync */ = {
 			isa = PBXGroup;
 			children = (
+				4FC2768B19DCBB1B008F4AA6 /* css */,
+				4FC2768E19DCBB1B008F4AA6 /* js */,
 				824A9BF91721FE1100C9BD79 /* readme.md */,
 				824A9BFB1721FE7E00C9BD79 /* shared-www */,
 				824A9C5E1722021D00C9BD79 /* Classes */,
 				824A9C5B1722018E00C9BD79 /* Resources */,
 				824A9BD81721FCA400C9BD79 /* Supporting Files */,
 			);
-			path = AccountEditor;
+			path = SimpleSync;
 			sourceTree = "<group>";
 		};
 		824A9BD81721FCA400C9BD79 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				824A9DC01724CE4600C9BD79 /* config.xml */,
-				824A9BD91721FCA400C9BD79 /* AccountEditor-Info.plist */,
+				824A9BD91721FCA400C9BD79 /* SimpleSync-Info.plist */,
 				824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */,
 				824A9BDD1721FCA400C9BD79 /* main.m */,
-				824A9BDF1721FCA400C9BD79 /* AccountEditor-Prefix.pch */,
+				824A9BDF1721FCA400C9BD79 /* SimpleSync-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -384,10 +404,8 @@
 				4FF15E9C1908860100705FE0 /* cordova.js */,
 				4FF15E5E1908852E00705FE0 /* cordova_plugins.js */,
 				4FF15E5F1908852E00705FE0 /* plugins */,
-				4FF15E2A190884FE00705FE0 /* AccountEditor.html */,
-				4FF15E2B190884FE00705FE0 /* bootconfig.json */,
-				4FF15E2C190884FE00705FE0 /* css */,
-				4FF15E30190884FE00705FE0 /* js */,
+				4FC2768719DCBAD5008F4AA6 /* bootconfig.json */,
+				4FC2768819DCBAD5008F4AA6 /* SimpleSync.html */,
 			);
 			name = "shared-www";
 			sourceTree = "<group>";
@@ -420,9 +438,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		824A9BCD1721FCA400C9BD79 /* AccountEditor */ = {
+		824A9BCD1721FCA400C9BD79 /* SimpleSync */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "AccountEditor" */;
+			buildConfigurationList = 824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "SimpleSync" */;
 			buildPhases = (
 				824A9BCA1721FCA400C9BD79 /* Sources */,
 				824A9BCB1721FCA400C9BD79 /* Frameworks */,
@@ -436,9 +454,9 @@
 			);
 			dependencies = (
 			);
-			name = AccountEditor;
-			productName = AccountEditor;
-			productReference = 824A9BCE1721FCA400C9BD79 /* AccountEditor.app */;
+			name = SimpleSync;
+			productName = SimpleSync;
+			productReference = 824A9BCE1721FCA400C9BD79 /* SimpleSync.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -450,7 +468,7 @@
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = salesforce.com;
 			};
-			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "AccountEditor" */;
+			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "SimpleSync" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -462,7 +480,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				824A9BCD1721FCA400C9BD79 /* AccountEditor */,
+				824A9BCD1721FCA400C9BD79 /* SimpleSync */,
 			);
 		};
 /* End PBXProject section */
@@ -472,11 +490,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
-				4F2147AF193D20C80010F9D3 /* ImagesHybrid.xcassets in Resources */,
-				824A9C601722023700C9BD79 /* SalesforceSDKResources.bundle in Resources */,
-				824A9DC11724CE4600C9BD79 /* config.xml in Resources */,
-				4F2147AE193D20C80010F9D3 /* Settings.bundle in Resources */,
+				4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */,
+				4FC276AE19DCBC6E008F4AA6 /* ImagesHybrid.xcassets in Resources */,
+				4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */,
+				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
+				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,8 +616,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
-				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
+				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
+				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -615,8 +633,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
-				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
+				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
+				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -628,7 +646,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "AccountEditor" */ = {
+		824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "SimpleSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				824A9BF21721FCA400C9BD79 /* Debug */,
@@ -637,7 +655,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "AccountEditor" */ = {
+		824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "SimpleSync" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				824A9BF51721FCA400C9BD79 /* Debug */,

@@ -48,7 +48,6 @@
 		8250720E15C3513E00F3A529 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720D15C3513E00F3A529 /* SystemConfiguration.framework */; };
 		8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8250721215C3513E00F3A529 /* InfoPlist.strings */; };
 		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
-		8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */; };
 		8250723915C3514100F3A529 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250723815C3514100F3A529 /* libz.dylib */; };
 		8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */; };
 		8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8E16ED590E00BD1EA2 /* libssl.a */; };
@@ -461,7 +460,6 @@
 			files = (
 				8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */,
 				4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
-				8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
 				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */,
