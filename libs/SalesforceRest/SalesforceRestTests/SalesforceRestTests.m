@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceNativeSDKTests.h"
+#import "SalesforceRestTests.h"
 
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceOAuth/SFOAuthCoordinator.h>

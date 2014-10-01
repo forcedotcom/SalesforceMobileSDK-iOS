@@ -8,6 +8,6 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceNativeSDK/SFRestAPI+Blocks.h>
-#import <SalesforceNativeSDK/SFRestAPI+Files.h>
+#import <SalesforceRest/SFRestAPI+Blocks.h>
+#import <SalesforceRest/SFRestAPI+Files.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>

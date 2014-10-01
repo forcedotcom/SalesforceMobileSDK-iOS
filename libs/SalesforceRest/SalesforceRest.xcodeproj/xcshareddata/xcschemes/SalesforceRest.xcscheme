@@ -85,9 +85,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C72D16E076DE0006B3C0"
-               BuildableName = "libSalesforceNativeSDK.a"
-               BlueprintName = "SalesforceNativeSDK"
-               ReferencedContainer = "container:SalesforceNativeSDK.xcodeproj">
+               BuildableName = "libSalesforceRest.a"
+               BlueprintName = "SalesforceRest"
+               ReferencedContainer = "container:SalesforceRest.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

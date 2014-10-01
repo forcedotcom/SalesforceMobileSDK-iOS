@@ -5,31 +5,25 @@
       location = "container:"
       name = "Libs">
       <FileRef
-         location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+         location = "group:libs/SalesforceHybridSDK/../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+         location = "group:libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:native/SalesforceNativeSDK/SalesforceRest.xcodeproj">
+         location = "group:libs/SalesforceRest/SalesforceRest.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:shared/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+         location = "group:libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:shared/SalesforceSecurity/SalesforceSecurity.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:native/SmartSync/SmartSync.xcodeproj">
+         location = "group:libs/SmartSync/SmartSync.xcodeproj">
       </FileRef>
    </Group>
    <Group
@@ -62,6 +56,16 @@
       </FileRef>
       <FileRef
          location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "External">
+      <FileRef
+         location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
       </FileRef>
    </Group>
    <Group

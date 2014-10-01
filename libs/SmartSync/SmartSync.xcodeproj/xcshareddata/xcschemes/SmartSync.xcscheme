@@ -17,7 +17,7 @@
                BlueprintIdentifier = "820AB72318E230EC00E25E1D"
                BuildableName = "libSalesforceSecurity.a"
                BlueprintName = "SalesforceSecurity"
-               ReferencedContainer = "container:../../shared/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+               ReferencedContainer = "container:../../libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
                BuildableName = "libSalesforceOAuth.a"
                BlueprintName = "SalesforceOAuth"
-               ReferencedContainer = "container:../../shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+               ReferencedContainer = "container:../../libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "8220B74B16D804CA00EC3921"
                BuildableName = "libSalesforceSDKCore.a"
                BlueprintName = "SalesforceSDKCore"
-               ReferencedContainer = "container:../../shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+               ReferencedContainer = "container:../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -56,10 +56,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
-               BuildableName = "libCordova.a"
-               BlueprintName = "CordovaLib"
-               ReferencedContainer = "container:../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+               BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
+               BuildableName = "libMKNetworkKit-iOS.a"
+               BlueprintName = "MKNetworkKit-iOS"
+               ReferencedContainer = "container:../../external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -70,10 +70,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-               BuildableName = "libSalesforceHybridSDK.a"
-               BlueprintName = "SalesforceHybridSDK"
-               ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
+               BlueprintIdentifier = "1090C534161275BF0054B040"
+               BuildableName = "libSalesforceNetworkSDK.a"
+               BlueprintName = "SalesforceNetworkSDK"
+               ReferencedContainer = "container:../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -84,10 +84,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-               BuildableName = "HybridPluginTestApp.app"
-               BlueprintName = "HybridPluginTestApp"
-               ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
+               BlueprintIdentifier = "82C0C72D16E076DE0006B3C0"
+               BuildableName = "libSalesforceRest.a"
+               BlueprintName = "SalesforceRest"
+               ReferencedContainer = "container:../SalesforceRest/SalesforceRest.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
+               BuildableName = "libSmartSync.a"
+               BlueprintName = "SmartSync"
+               ReferencedContainer = "container:SmartSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -102,22 +116,13 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "HybridPluginTestAppTests.xctest"
-               BlueprintName = "HybridPluginTestAppTests"
-               ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
+               BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
+               BuildableName = "SmartSyncTests.xctest"
+               BlueprintName = "SmartSyncTests"
+               ReferencedContainer = "container:SmartSync.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
-            ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -128,15 +133,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
-            ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
+            BlueprintIdentifier = "820AB72318E230EC00E25E1D"
+            BuildableName = "libSalesforceSecurity.a"
+            BlueprintName = "SalesforceSecurity"
+            ReferencedContainer = "container:../../libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -146,15 +151,6 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
-            ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
-         </BuildableReference>
-      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

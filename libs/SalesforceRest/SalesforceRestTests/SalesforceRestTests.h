@@ -24,6 +24,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface SalesforceNativeSDKTests : SenTestCase
+@interface SalesforceRestTests : SenTestCase
 
 @end
