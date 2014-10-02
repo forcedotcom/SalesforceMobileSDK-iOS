@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		4F3A72EF19DB89CF00E6F468 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */; };
+		4F8BD16E19DDF9AA00D8778A /* SFSmartSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F8BD16C19DDF9AA00D8778A /* SFSmartSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F8BD17019DE05B200D8778A /* SFSmartSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BD16F19DE05B200D8778A /* SFSmartSyncSyncManager.m */; };
 		82722FFF19D4FD170066A350 /* SFSmartSyncMetadataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300019D4FD170066A350 /* SFSmartSyncCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300119D4FD170066A350 /* SFSmartSyncNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -92,6 +94,8 @@
 
 /* Begin PBXFileReference section */
 		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F8BD16C19DDF9AA00D8778A /* SFSmartSyncSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncSyncManager.h; sourceTree = "<group>"; };
+		4F8BD16F19DE05B200D8778A /* SFSmartSyncSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncSyncManager.m; sourceTree = "<group>"; };
 		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -302,6 +306,8 @@
 				CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */,
 				CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */,
 				CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */,
+				4F8BD16C19DDF9AA00D8778A /* SFSmartSyncSyncManager.h */,
+				4F8BD16F19DE05B200D8778A /* SFSmartSyncSyncManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -366,6 +372,7 @@
 				8272300619D4FD170066A350 /* SFSmartSyncConstants.h in Headers */,
 				8272300719D4FD170066A350 /* SFSmartSyncSoqlBuilder.h in Headers */,
 				8272300819D4FD170066A350 /* SFSmartSyncSoslBuilder.h in Headers */,
+				4F8BD16E19DDF9AA00D8778A /* SFSmartSyncSyncManager.h in Headers */,
 				8272300919D4FD170066A350 /* SFSmartSyncSoslReturningBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,6 +493,7 @@
 				CEF50A87196B3EB60076264C /* SFObject.m in Sources */,
 				CEB808B8199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m in Sources */,
 				CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */,
+				4F8BD17019DE05B200D8778A /* SFSmartSyncSyncManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
