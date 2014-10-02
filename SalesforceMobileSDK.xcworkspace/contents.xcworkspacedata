@@ -52,6 +52,9 @@
          location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
       </FileRef>
       <FileRef

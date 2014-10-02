@@ -15,7 +15,6 @@
 		4FA70CDB199D78C600A82BC3 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA70CD8199D78C600A82BC3 /* CDVStatusBar.m */; };
 		4FA70CDE199D790B00A82BC3 /* statusbar.js in Copy status bar plugin file */ = {isa = PBXBuildFile; fileRef = 4FA70CDA199D78C600A82BC3 /* statusbar.js */; };
 		4FF15E24190884BD00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E23190884BD00705FE0 /* AssetsLibrary.framework */; };
-		4FF15E571908851900705FE0 /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FF15E4E1908851900705FE0 /* bootconfig.json */; };
 		4FF15EB61908897700705FE0 /* CDVContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15EA21908897700705FE0 /* CDVContact.m */; };
 		4FF15EB71908897700705FE0 /* CDVContacts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF15EA41908897700705FE0 /* CDVContacts.m */; };
 		4FF15EC619088A8F00705FE0 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FF15E4E1908851900705FE0 /* bootconfig.json */; };
@@ -63,7 +62,6 @@
 		7DBD077D149AA9620043A9E0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DBD077C149AA9620043A9E0 /* SystemConfiguration.framework */; };
 		7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0781149AA9630043A9E0 /* InfoPlist.strings */; };
 		7DBD0785149AA9630043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0784149AA9630043A9E0 /* main.m */; };
-		7DBD0787149AA9630043A9E0 /* ContactExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0786149AA9630043A9E0 /* ContactExplorer-Prefix.pch */; };
 		820275F9165178B200DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F8165178B200DB814C /* MessageUI.framework */; };
 		8251CA5716ED3BC400BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5316ED3BC400BD1EA2 /* libCordova.a */; };
 		8251CA5816ED3BC400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5416ED3BC400BD1EA2 /* libSalesforceHybridSDK.a */; };
@@ -639,8 +637,6 @@
 				4F2147BC193D215A0010F9D3 /* Settings.bundle in Resources */,
 				4FF15EE719088FF200705FE0 /* config.xml in Resources */,
 				7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */,
-				7DBD0787149AA9630043A9E0 /* ContactExplorer-Prefix.pch in Resources */,
-				4FF15E571908851900705FE0 /* bootconfig.json in Resources */,
 				4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				4F2147BD193D215A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
 			);
