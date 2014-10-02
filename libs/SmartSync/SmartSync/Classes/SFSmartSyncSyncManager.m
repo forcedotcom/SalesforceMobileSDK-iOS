@@ -26,10 +26,15 @@
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceRestAPI/SFRestAPI.h>
 
 @interface SFSmartSyncSyncManager ()
 
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFRestAPI *restClient;
 
 @end
 
@@ -71,6 +76,9 @@ static NSMutableDictionary *syncMgrList = nil;
     self = [super init];
     if (self) {
         self.user = user;
+        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+        self.restClient = [SFRestAPI sharedInstance];
+        [self setupSyncsSoupIfNeeded];
     }
     return self;
 }
@@ -92,6 +100,18 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (void) runSync:(long)syncId {
     
+}
+
+/**
+ */
+- (void) setupSyncsSoupIfNeeded {
+    if ([self.store soupExists:kSyncsSoup])
+        return;
+    NSArray* indexSpecs = @[
+                            [[SFSoupIndex alloc] initWithPath:kSyncsSoupType indexType:kSoupIndexTypeString columnName:nil]
+                         ];
+    
+    [self.store registerSoup:kSyncsSoup withIndexSpecs:indexSpecs];
 }
 
 @end

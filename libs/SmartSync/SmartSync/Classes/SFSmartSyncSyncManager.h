@@ -24,6 +24,14 @@
 
 @class SFUserAccount;
 
+NSString * const kSyncsSoup = @"syncs_soup";
+NSString * const kSyncsSoupType = @"type";
+NSString * const kSyncLocal = @"__local__";
+NSString * const kSyncLocallyCreated = @"__locally_created__";
+NSString * const kSyncLocallyUpdated = @"__locally_updated__";
+NSString * const kSyncLocallyDeleted = @"__locally_deleted__";
+
+
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
 @interface SFSmartSyncSyncManager : NSObject
