@@ -24,13 +24,9 @@
 
 @class SFUserAccount;
 
-NSString * const kSyncsSoup = @"syncs_soup";
-NSString * const kSyncsSoupType = @"type";
-NSString * const kSyncLocal = @"__local__";
-NSString * const kSyncLocallyCreated = @"__locally_created__";
-NSString * const kSyncLocallyUpdated = @"__locally_updated__";
-NSString * const kSyncLocallyDeleted = @"__locally_deleted__";
-
+extern NSString * const kSyncManagerSyncId;
+extern NSString * const kSyncManagerSyncTypeDown;
+extern NSString * const kSyncManagerSyncTypeUp;
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
@@ -49,11 +45,11 @@ NSString * const kSyncLocallyDeleted = @"__locally_deleted__";
 /** Return details about a sync
  @param syncId
  */
-- (NSDictionary*)getSyncStatusWithSyncId:(long)syncId;
+- (NSDictionary*)getSyncStatus:(long)syncId;
 
 /** Create/record a sync but don't start it yet
  */
-- (NSDictionary*) recordSyncWithTarget:(NSDictionary*)target withSoupName:(NSString*)soupName withOptions:(NSDictionary*)options;
+- (NSDictionary*) recordSync:(NSString*)type withTarget:(NSDictionary*)target withSoupName:(NSString*)soupName withOptions:(NSDictionary*)options;
 
 /** Run a previously created sync
  */

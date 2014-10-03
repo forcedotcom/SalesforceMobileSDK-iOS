@@ -24,15 +24,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Cordova/CDVPlugin.h>
-@class CDVInvokedUrlCommand;
+#import "SFForcePlugin.h"
 
 /**
  String used with Cordova to uniquely identify this plugin
  */
 extern NSString * const kSmartSyncPluginIdentifier;
 
-@interface SFSmartSyncPlugin : CDVPlugin
+@interface SFSmartSyncPlugin : SFForcePlugin
 
 /**
  * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
