@@ -24,6 +24,8 @@
 		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
+		4F22155819DF480100FF2D26 /* SFForcePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155619DF480100FF2D26 /* SFForcePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155719DF480100FF2D26 /* SFForcePlugin.m */; };
 		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
@@ -105,13 +107,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4F3A72E519DB801F00E6F468 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F3A72E019DB801F00E6F468 /* SalesforceNetworkSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1090C535161275BF0054B040;
-			remoteInfo = SalesforceNetworkSDK;
-		};
 		822272AB19C39F4500FC537E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EFF2C816E7C57100A63CDF /* Project object */;
@@ -229,7 +224,8 @@
 		4F1A59DF174FF02500473EE8 /* SFTestRunnerPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestRunnerPlugin.js; sourceTree = "<group>"; };
 		4F1A59E0174FF02500473EE8 /* SFTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFTestSuite.js; sourceTree = "<group>"; };
 		4F1A59F1174FF0B100473EE8 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
-		4F3A72E019DB801F00E6F468 /* SalesforceNetworkSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceNetworkSDK.xcodeproj; path = ../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj; sourceTree = "<group>"; };
+		4F22155619DF480100FF2D26 /* SFForcePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFForcePlugin.h; path = SFForcePlugin/SFForcePlugin.h; sourceTree = "<group>"; };
+		4F22155719DF480100FF2D26 /* SFForcePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFForcePlugin.m; path = SFForcePlugin/SFForcePlugin.m; sourceTree = "<group>"; };
 		4F753374193D252200540762 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLocalhostSubstitutionCache.h; sourceTree = "<group>"; };
 		4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLocalhostSubstitutionCache.m; sourceTree = "<group>"; };
@@ -401,12 +397,13 @@
 			path = ../../../external/shared/libs;
 			sourceTree = "<group>";
 		};
-		4F3A72E119DB801F00E6F468 /* Products */ = {
+		4F22155019DF477C00FF2D26 /* SFForcePlugin */ = {
 			isa = PBXGroup;
 			children = (
-				4F3A72E619DB801F00E6F468 /* libSalesforceNetworkSDK.a */,
+				4F22155619DF480100FF2D26 /* SFForcePlugin.h */,
+				4F22155719DF480100FF2D26 /* SFForcePlugin.m */,
 			);
-			name = Products;
+			name = SFForcePlugin;
 			sourceTree = "<group>";
 		};
 		4FC2767E19DCA6BB008F4AA6 /* SFSmartSyncPlugin */ = {
@@ -506,7 +503,6 @@
 		82EFF2C716E7C57100A63CDF = {
 			isa = PBXGroup;
 			children = (
-				4F3A72E019DB801F00E6F468 /* SalesforceNetworkSDK.xcodeproj */,
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* HybridPluginTestApp */,
 				822272A219C39F4500FC537E /* HybridPluginTestAppTests */,
@@ -600,6 +596,7 @@
 		82EFF2E216E7C84900A63CDF /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				4F22155019DF477C00FF2D26 /* SFForcePlugin */,
 				4FC2767E19DCA6BB008F4AA6 /* SFSmartSyncPlugin */,
 				82EFF2E316E7C84900A63CDF /* SDKInfo */,
 				82B0CA4B18D0F88F00DC2BBB /* SFAccountManagerPlugin */,
@@ -720,6 +717,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F22155819DF480100FF2D26 /* SFForcePlugin.h in Headers */,
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
 				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
 				82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */,
@@ -821,12 +819,6 @@
 			mainGroup = 82EFF2C716E7C57100A63CDF;
 			productRefGroup = 82EFF2D116E7C57100A63CDF /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 4F3A72E119DB801F00E6F468 /* Products */;
-					ProjectRef = 4F3A72E019DB801F00E6F468 /* SalesforceNetworkSDK.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				82EFF2CF16E7C57100A63CDF /* SalesforceHybridSDK */,
@@ -836,16 +828,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		4F3A72E619DB801F00E6F468 /* libSalesforceNetworkSDK.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceNetworkSDK.a;
-			remoteRef = 4F3A72E519DB801F00E6F468 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8222729B19C39F4500FC537E /* Resources */ = {
@@ -916,6 +898,7 @@
 				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,
 				82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
+				4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
 				4FA19A5A1992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m in Sources */,
 			);

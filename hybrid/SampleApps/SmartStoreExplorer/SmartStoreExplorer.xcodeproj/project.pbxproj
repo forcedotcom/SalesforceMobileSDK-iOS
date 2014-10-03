@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C2193D219A0010F9D3 /* Settings.bundle */; };
 		4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */; };
+		4F22158319DF5B2400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */; };
+		4F22158419DF5B2400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */; };
+		4F22158519DF5B2400FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */; };
+		4F22158619DF5B2400FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158119DF5B2400FF2D26 /* libSmartSync.a */; };
+		4F22158719DF5B2400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158219DF5B2400FF2D26 /* ImageIO.framework */; };
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F6D83AC1952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D83AD1952638C003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83AA1952638C003EBB16 /* AppDelegate.m */; };
@@ -128,6 +133,11 @@
 /* Begin PBXFileReference section */
 		4F2147C2193D219A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
+		4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
+		4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
+		4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
+		4F22158119DF5B2400FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
+		4F22158219DF5B2400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
@@ -198,7 +208,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */,
+				4F22158319DF5B2400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
+				4F22158419DF5B2400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
+				4F22158519DF5B2400FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
+				4F22158619DF5B2400FF2D26 /* libSmartSync.a in Frameworks */,
 				8251CA9D16ED599400BD1EA2 /* libCordova.a in Frameworks */,
 				8251CA9B16ED598A00BD1EA2 /* libcrypto.a in Frameworks */,
 				8251CA9916ED597D00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -210,6 +223,8 @@
 				8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */,
 				8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */,
 				8250723915C3514100F3A529 /* libz.dylib in Frameworks */,
+				4F22158719DF5B2400FF2D26 /* ImageIO.framework in Frameworks */,
+				4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */,
 				8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */,
 				8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */,
 				8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */,
@@ -297,6 +312,11 @@
 		825071F015C3513E00F3A529 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */,
+				4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */,
+				4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */,
+				4F22158119DF5B2400FF2D26 /* libSmartSync.a */,
+				4F22158219DF5B2400FF2D26 /* ImageIO.framework */,
 				4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */,
 				8251CA9C16ED599400BD1EA2 /* libCordova.a */,
 				8251CA9A16ED598A00BD1EA2 /* libcrypto.a */,
@@ -595,6 +615,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStoreExplorer/SmartStoreExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreExplorer/SmartStoreExplorer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -611,6 +637,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStoreExplorer/SmartStoreExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreExplorer/SmartStoreExplorer-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
+					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

@@ -17,7 +17,7 @@
                BlueprintIdentifier = "820AB72318E230EC00E25E1D"
                BuildableName = "libSalesforceSecurity.a"
                BlueprintName = "SalesforceSecurity"
-               ReferencedContainer = "container:../../libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+               ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
                BuildableName = "libSalesforceOAuth.a"
                BlueprintName = "SalesforceOAuth"
-               ReferencedContainer = "container:../../libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+               ReferencedContainer = "container:../SalesforceOAuth/SalesforceOAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -45,7 +45,7 @@
                BlueprintIdentifier = "8220B74B16D804CA00EC3921"
                BuildableName = "libSalesforceSDKCore.a"
                BlueprintName = "SalesforceSDKCore"
-               ReferencedContainer = "container:../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+               ReferencedContainer = "container:../SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -73,7 +73,7 @@
                BlueprintIdentifier = "1090C534161275BF0054B040"
                BuildableName = "libSalesforceNetworkSDK.a"
                BlueprintName = "SalesforceNetworkSDK"
-               ReferencedContainer = "container:../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+               ReferencedContainer = "container:../SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -139,7 +139,7 @@
             BlueprintIdentifier = "820AB72318E230EC00E25E1D"
             BuildableName = "libSalesforceSecurity.a"
             BlueprintName = "SalesforceSecurity"
-            ReferencedContainer = "container:../../libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+            ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
