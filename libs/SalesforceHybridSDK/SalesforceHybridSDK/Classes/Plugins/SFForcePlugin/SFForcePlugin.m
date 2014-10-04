@@ -35,15 +35,12 @@
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     
     [self log:SFLogLevelDebug format:@"%@ called.", command.methodName];
-    CDVPluginResult* result = block(argsDict);
-    [self log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
-    
-    if ([[result status] intValue] == CDVCommandStatus_OK) {
-        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    }
-    else {
-        [self writeErrorResultToJsRealm:result callbackId:callbackId];
-    }
+ 
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* result = block(argsDict);
+        [self log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }];
 }
 
 @end
