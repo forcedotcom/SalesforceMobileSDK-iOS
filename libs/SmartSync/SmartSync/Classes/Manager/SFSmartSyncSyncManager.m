@@ -28,7 +28,7 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 // soups and soup fields
 NSString * const kSyncManagerSyncsSoupName = @"syncs_soup";
@@ -58,6 +58,11 @@ NSString * const kSyncManagerTargetQuery = @"query";
 NSString * const kSyncManagerQueryTypeSoql = @"soql";
 NSString * const kSyncManagerQueryTypeSosl = @"sosl";
 
+// response
+NSString * const kSyncManagerServerId = @"Id";
+NSString * const kSyncManagerResponseRecords = @"records";
+NSString * const kSyncManagerResponseTotalSize = @"totalSize";
+NSString * const kSyncManagerResponseNextRecordsUrl = @"nextRecordsUrl";
 
 /** Types of sync
  */
@@ -153,7 +158,7 @@ dispatch_queue_t queue;
  */
 - (void) runSync:(long)syncId {
     NSArray* syncs = [self.store retrieveEntries:@[[NSNumber numberWithLong:syncId]] fromSoup:kSyncManagerSyncsSoupName];
-    if (syncs==nil || [syncs count])
+    if (syncs==nil || [syncs count] == 0)
         return; // TBD throw error
     
     NSDictionary* sync = syncs[0];
@@ -205,37 +210,66 @@ dispatch_queue_t queue;
     NSString* soupName = sync[kSyncManagerSyncSoupName];
     NSDictionary* target = sync[kSyncManagerSyncTarget];
     NSString* queryType = target[kSyncManagerTargetQueryType];
-    SFRestRequest* request;
+    NSString* query = target[kSyncManagerTargetQuery];
+    
+    SFRestFailBlock failBlock = ^(NSError *e) {
+        // TBD throw error
+    };
+
+    __block NSUInteger countFetched = 0;
+    __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *d) {
+        
+        NSArray* recordsFetched = d[kSyncManagerResponseRecords];
+        if ([recordsFetched count] == 0)
+            return; // done
+        
+        NSMutableArray* recordsToSave = [NSMutableArray array];
+        
+        // Prepare for smartstore
+        for (NSDictionary* record in recordsFetched) {
+            NSMutableDictionary* udpatedRecord = [record mutableCopy];
+            udpatedRecord[kSyncManagerLocal] = @NO;
+            udpatedRecord[kSyncManagerLocallyCreated] = @NO;
+            udpatedRecord[kSyncManagerLocallyUpdated] = @NO;
+            udpatedRecord[kSyncManagerLocallyDeleted] = @NO;
+            [recordsToSave addObject:udpatedRecord];
+        }
+        
+        // Save to smartstore
+        [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kSyncManagerServerId error:nil];
+
+        // Update status
+        countFetched += [recordsFetched count];
+        NSUInteger totalSize = [d[kSyncManagerResponseTotalSize] integerValue];
+        NSUInteger progress = 100*countFetched / totalSize;
+        if (progress  < 100) {
+            [self updateSync:sync withStatus:kSyncManagerStatusRunning withProgress:progress];
+        }
+        
+        // Fetch next records if any
+        NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
+        if (nextRecordsUrl) {
+            [self.restClient performRequestWithMethod:SFRestMethodGET path:nextRecordsUrl queryParams:nil failBlock:failBlock completeBlock:completeBlockRecurse];
+        }
+    };
+    // initialize the alias
+    completeBlockRecurse = completeBlock;
+    
     
     if ([queryType isEqualToString:kSyncManagerQueryTypeSoql]) {
-
+        [self.restClient performSOQLQuery:query failBlock:failBlock completeBlock:completeBlock];
     }
     else if ([queryType isEqualToString:kSyncManagerQueryTypeSosl]) {
-        
+        // TBD
     }
     else {
         // TBD throw error
     }
     
+    // TBD get more loop
+
     /*
-    JSONObject target = sync.getJSONObject(SYNC_TARGET);
-    String soupName = sync.getString(SYNC_SOUP_NAME);
-    
-    QueryType queryType = QueryType.valueOf(target.getString(QUERY_TYPE));
-    String query = target.getString(QUERY);
-    RestRequest request = null;
-    
-    switch(queryType) {
-        case soql:
-            request = RestRequest.getRequestForQuery(apiVersion, query);
-            break;
-        case sosl:
-            request = RestRequest.getRequestForSearch(apiVersion, query);
-            break;
-        default:
-            throw new SmartSyncException("Unknown query type: " + queryType);
-    }
-    
     // Call server
     RestResponse response = restClient.sendSync(request);
     
