@@ -184,7 +184,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
-    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+    NSString *hybridViewUserAgentString = [[self class] sfHybridViewUserAgentString];
+    [SFSDKWebUtils configureUserAgent:hybridViewUserAgentString];
+    [[self class] overrideCdvOriginalUserAgent:hybridViewUserAgentString];
+    
     if ([self isOffline] && (!_hybridViewConfig.isLocal || _hybridViewConfig.shouldAuthenticate)) {
         // Device is offline, and we have to try to load cached content.
         if (_hybridViewConfig.attemptOfflineLoad) {
@@ -635,11 +638,23 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 #pragma mark - Cordova overrides
 
-+ (NSString *)originalUserAgent
+//
+// TODO: Remove this once https://issues.apache.org/jira/browse/CB-2520 is resolved.
+//
++ (void)overrideCdvOriginalUserAgent:(NSString *)userAgentString
 {
-    // Overriding Cordova's method because we don't want the chance of our user agent not being
-    // configured first, and thus overwritten with a bad value.
-    return [self sfHybridViewUserAgentString];
+    NSString * const cdvUserAgentKey = @"Cordova-User-Agent";
+    NSString * const cdvUserAgentVersionKey = @"Cordova-User-Agent-Version";
+    
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
+    NSString* localeStr = [[NSLocale currentLocale] localeIdentifier];
+    NSString* model = [UIDevice currentDevice].model;
+    NSString* systemAndLocale = [NSString stringWithFormat:@"%@ %@ %@", model, systemVersion, localeStr];
+    
+    [userDefaults setObject:userAgentString forKey:cdvUserAgentKey];
+    [userDefaults setObject:systemAndLocale forKey:cdvUserAgentVersionKey];
+    [userDefaults synchronize];
 }
 
 @end
