@@ -123,7 +123,7 @@ dispatch_queue_t queue;
     self = [super init];
     if (self) {
         self.user = user;
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
         self.restClient = [SFRestAPI sharedInstance];
         queue = dispatch_queue_create("com.salesforce.smartsync.syncmanager",  NULL);
         [self setupSyncsSoupIfNeeded];
