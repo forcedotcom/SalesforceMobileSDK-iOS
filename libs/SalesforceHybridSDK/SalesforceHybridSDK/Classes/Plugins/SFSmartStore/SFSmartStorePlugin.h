@@ -23,10 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
-
-#import <Cordova/CDVPlugin.h>
-@class CDVInvokedUrlCommand;
+#import "SFForcePlugin.h"
 
 /**
  String used with Cordova to uniquely identify this plugin
@@ -36,7 +33,7 @@ extern NSString * const kSmartStorePluginIdentifier;
 @class SFStoreCursor;
 @class SFSmartStore;
 
-@interface SFSmartStorePlugin : CDVPlugin {
+@interface SFSmartStorePlugin : SFForcePlugin {
     //the native store used by this plugin
     SFSmartStore *_store;
     

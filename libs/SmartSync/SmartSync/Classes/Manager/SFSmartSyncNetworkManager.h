@@ -22,8 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
 @class SFUserAccount;
 
 /** This class uses SalesforceNetworkSDK to send and process remote service calls.

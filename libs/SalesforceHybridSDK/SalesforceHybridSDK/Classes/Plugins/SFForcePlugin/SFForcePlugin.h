@@ -23,37 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <Cordova/CDVPlugin.h>
 
-#import "SFForcePlugin.h"
+@interface SFForcePlugin : CDVPlugin
 
-/**
- String used with Cordova to uniquely identify this plugin
- */
-extern NSString * const kSmartSyncPluginIdentifier;
-
-@interface SFSmartSyncPlugin : SFForcePlugin
-
-/**
- * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
- * @param command Cordova arguments object containing "syncId".
- *
- */
-- (void)getSyncStatus:(CDVInvokedUrlCommand *)command;
-
-/**
- * Starts a sync up operation. See [SFSyncManager syncUp].
- * @param command Cordova arguments object containing "soupName" and "options".
- *
- */
-- (void)syncUp:(CDVInvokedUrlCommand *)command;
-
-
-/**
- * Starts a sync up operation. See [SFSyncManager syncDown].
- * @param command Cordova arguments object containing "soupName".
- *
- */
-- (void)syncDown:(CDVInvokedUrlCommand *)command;
-
+- (void)runCommand:(CDVPluginResult* (^)(NSDictionary *argsDict))block command:(CDVInvokedUrlCommand*)command;
 
 @end

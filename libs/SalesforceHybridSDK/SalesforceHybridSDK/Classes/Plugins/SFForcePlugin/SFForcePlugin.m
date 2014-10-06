@@ -22,38 +22,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
 #import "SFForcePlugin.h"
+#import "CDVPlugin+SFAdditions.h"
 
-/**
- String used with Cordova to uniquely identify this plugin
- */
-extern NSString * const kSmartSyncPluginIdentifier;
+@implementation SFForcePlugin
 
-@interface SFSmartSyncPlugin : SFForcePlugin
-
-/**
- * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
- * @param command Cordova arguments object containing "syncId".
- *
- */
-- (void)getSyncStatus:(CDVInvokedUrlCommand *)command;
-
-/**
- * Starts a sync up operation. See [SFSyncManager syncUp].
- * @param command Cordova arguments object containing "soupName" and "options".
- *
- */
-- (void)syncUp:(CDVInvokedUrlCommand *)command;
-
-
-/**
- * Starts a sync up operation. See [SFSyncManager syncDown].
- * @param command Cordova arguments object containing "soupName".
- *
- */
-- (void)syncDown:(CDVInvokedUrlCommand *)command;
-
+- (void)runCommand:(CDVPluginResult* (^)(NSDictionary *argsDict))block command:(CDVInvokedUrlCommand*)command
+{
+    NSDate *startTime = [NSDate date];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:command.methodName withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    
+    [self log:SFLogLevelDebug format:@"%@ called.", command.methodName];
+ 
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult* result = block(argsDict);
+        [self log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+    }];
+}
 
 @end

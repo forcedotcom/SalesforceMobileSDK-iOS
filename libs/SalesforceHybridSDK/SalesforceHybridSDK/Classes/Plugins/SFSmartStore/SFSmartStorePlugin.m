@@ -341,27 +341,4 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     } command:command];
 }
 
-#pragma mark - Utility methods
-
-
-- (void)runCommand:(CDVPluginResult* (^)(NSDictionary *argsDict))block command:(CDVInvokedUrlCommand*)command
-{
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:command.methodName withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-
-    [self log:SFLogLevelDebug format:@"%@ called.", command.methodName];
-    CDVPluginResult* result = block(argsDict);
-    [self log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
-
-    if ([[result status] intValue] == CDVCommandStatus_OK) {
-        [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-    }
-    else {
-        [self writeErrorResultToJsRealm:result callbackId:callbackId];
-    }
-}
-
-
 @end

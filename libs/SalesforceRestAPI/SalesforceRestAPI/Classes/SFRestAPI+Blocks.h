@@ -221,4 +221,20 @@ typedef void (^SFRestDataResponseBlock) (NSData* data);
                                          failBlock:(SFRestFailBlock)failBlock
                                      completeBlock:(SFRestDataResponseBlock)completeBlock;
 
+/**
+ * Executes a request that returns json
+ * @param method the HTTP method
+ * @param path the request path
+ * @param queryParams the parameters of the request (could be nil)
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
+ */
+
+- (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method
+                                        path:(NSString*)path
+                                 queryParams:(NSDictionary*)queryParams
+                                   failBlock:(SFRestFailBlock)failBlock
+                               completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
+
 @end

@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		4F2147C0193D217A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BE193D217A0010F9D3 /* Settings.bundle */; };
 		4F2147C1193D217A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */; };
+		4F22157919DF5B0400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */; };
+		4F22157A19DF5B0400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */; };
+		4F22157B19DF5B0400FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */; };
+		4F22157C19DF5B0400FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157719DF5B0400FF2D26 /* libSmartSync.a */; };
+		4F22157D19DF5B0400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157819DF5B0400FF2D26 /* ImageIO.framework */; };
 		4F6D83A619526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A219526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D83A719526344003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A419526344003EBB16 /* AppDelegate.m */; };
 		4FF15DD6190882BC00705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */; };
@@ -138,6 +143,11 @@
 /* Begin PBXFileReference section */
 		4F2147BE193D217A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F2147BF193D217A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
+		4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
+		4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
+		4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
+		4F22157719DF5B0400FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
+		4F22157819DF5B0400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F6D83A219526344003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D83A319526344003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D83A419526344003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
@@ -212,7 +222,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FF15DD6190882BC00705FE0 /* AssetsLibrary.framework in Frameworks */,
+				4F22157919DF5B0400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
+				4F22157A19DF5B0400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
+				4F22157B19DF5B0400FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
+				4F22157C19DF5B0400FF2D26 /* libSmartSync.a in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
 				824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */,
 				824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -229,6 +242,8 @@
 				824A9DA91724C99800C9BD79 /* AudioToolbox.framework in Frameworks */,
 				824A9DAB1724C9C900C9BD79 /* AVFoundation.framework in Frameworks */,
 				824A9DAD1724C9D100C9BD79 /* CFNetwork.framework in Frameworks */,
+				4F22157D19DF5B0400FF2D26 /* ImageIO.framework in Frameworks */,
+				4FF15DD6190882BC00705FE0 /* AssetsLibrary.framework in Frameworks */,
 				824A9DAF1724C9DB00C9BD79 /* CoreData.framework in Frameworks */,
 				824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */,
 				824A9DB11724CA1400C9BD79 /* CoreLocation.framework in Frameworks */,
@@ -317,6 +332,11 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */,
+				4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */,
+				4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */,
+				4F22157719DF5B0400FF2D26 /* libSmartSync.a */,
+				4F22157819DF5B0400FF2D26 /* ImageIO.framework */,
 				4FF15DD5190882BC00705FE0 /* AssetsLibrary.framework */,
 				828B294C174AE06400741BBE /* libCordova.a */,
 				824A9D921724C7C400C9BD79 /* libcrypto.a */,

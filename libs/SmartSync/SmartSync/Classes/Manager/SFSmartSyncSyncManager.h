@@ -22,38 +22,37 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+@class SFUserAccount;
 
-#import "SFForcePlugin.h"
+extern NSString * const kSyncManagerSyncId;
+extern NSString * const kSyncManagerSyncTypeDown;
+extern NSString * const kSyncManagerSyncTypeUp;
 
-/**
- String used with Cordova to uniquely identify this plugin
+/** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
-extern NSString * const kSmartSyncPluginIdentifier;
+@interface SFSmartSyncSyncManager : NSObject
 
-@interface SFSmartSyncPlugin : SFForcePlugin
-
-/**
- * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
- * @param command Cordova arguments object containing "syncId".
- *
+/** Singleton method for accessing cache manager instance.
+ @param user A user that will scope this manager instance data
  */
-- (void)getSyncStatus:(CDVInvokedUrlCommand *)command;
++ (id)sharedInstance:(SFUserAccount *)user;
 
-/**
- * Starts a sync up operation. See [SFSyncManager syncUp].
- * @param command Cordova arguments object containing "soupName" and "options".
- *
+/** Removes the shared instance associated with the specified user
+ @param user The user
  */
-- (void)syncUp:(CDVInvokedUrlCommand *)command;
++ (void)removeSharedInstance:(SFUserAccount *)user;
 
-
-/**
- * Starts a sync up operation. See [SFSyncManager syncDown].
- * @param command Cordova arguments object containing "soupName".
- *
+/** Return details about a sync
+ @param syncId
  */
-- (void)syncDown:(CDVInvokedUrlCommand *)command;
+- (NSDictionary*)getSyncStatus:(NSNumber*)syncId;
 
+/** Create/record a sync but don't start it yet
+ */
+- (NSDictionary*) recordSync:(NSString*)type withTarget:(NSDictionary*)target withSoupName:(NSString*)soupName withOptions:(NSDictionary*)options;
+
+/** Run a previously created sync
+ */
+- (void) runSync:(NSNumber*)syncId;
 
 @end
