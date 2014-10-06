@@ -76,7 +76,16 @@ NSString * const kSyncDetail = @"detail";
         }
         else {
             NSString* syncAsString = [[NSString alloc] initWithData:syncData encoding:NSUTF8StringEncoding];
-            NSString* js = [@[@"document.dispatchEvent(new CustomEvent(\"", kSyncEventType, @"\", { \"", kSyncDetail, @"\": ", syncAsString, @"}))" ] componentsJoinedByString:@""];
+            NSString* js = [
+                            @[@"document.dispatchEvent(new CustomEvent(\"",
+                              kSyncEventType,
+                              @"\", { \"",
+                              kSyncDetail,
+                              @"\": ",
+                              syncAsString,
+                              @"}))" ]
+                            componentsJoinedByString:@""
+                            ];
             [self writeJavascript:js];
         }
     });
