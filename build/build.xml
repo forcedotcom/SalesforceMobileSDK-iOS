@@ -20,7 +20,7 @@
     
     <target name="buildAll" depends="nativeAppTemplate" />
     
-    <target name="libPackages" depends="packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
+    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -124,6 +124,32 @@
             <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="packageSmartSync" depends="buildSmartSync" description="Packages and builds the Salesforce SmartSync library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
+        </antcall>
+    </target>
+    
+    <target name="buildSmartSync">
+        <antcall target="buildLib">
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
+            <param name="schemeName" value="SmartSync" />
+        </antcall>
+    </target>
+    
+    <target name="cleanSmartSync" description="Cleans the build artifacts and output of the Salesforce SmartSync library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
+            <param name="schemeName" value="SmartSync" />
         </antcall>
     </target>
     
@@ -431,7 +457,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
         <delete dir="${artifactsDir}" />
     </target>
 </project>
