@@ -27,6 +27,8 @@
 extern NSString * const kSyncManagerSyncId;
 extern NSString * const kSyncManagerSyncTypeDown;
 extern NSString * const kSyncManagerSyncTypeUp;
+extern NSString * const kSyncManagerNotification;
+
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
