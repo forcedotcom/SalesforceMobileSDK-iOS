@@ -621,12 +621,6 @@
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -644,12 +638,6 @@
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

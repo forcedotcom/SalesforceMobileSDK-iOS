@@ -794,12 +794,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
 				INFOPLIST_FILE = "ContactExplorer/ContactExplorer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -817,12 +811,6 @@
 				GCC_PREFIX_HEADER = "ContactExplorer/ContactExplorer-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "CORDOVA_FRAMEWORK=1";
 				INFOPLIST_FILE = "ContactExplorer/ContactExplorer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceRestAPI/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS/libs/SmartSync/build/Debug-iphoneos",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
