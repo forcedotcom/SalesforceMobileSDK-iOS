@@ -36,6 +36,9 @@ NSString * const kSyncSoupNameArg = @"soupName";
 NSString * const kSyncTargetArg = @"target";
 NSString * const kSyncOptionsArg = @"options";
 NSString * const kSyncIdArg = @"syncId";
+NSString * const kSyncEventType = @"sync";
+NSString * const kSyncDetail = @"detail";
+
 
 @interface SFSmartSyncPlugin ()
 
@@ -52,12 +55,31 @@ NSString * const kSyncIdArg = @"syncId";
     if (nil != self)  {
         SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
         self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncNotification:) name:kSyncManagerNotification object:nil];
     }
     return self;
 }
 
 - (void) dealloc
 {
+}
+
+- (void)handleSyncNotification:(NSNotification*)notification
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSError *error = nil;
+        NSData *syncData = [NSJSONSerialization dataWithJSONObject:notification.object
+                                                       options:0 // non-pretty printing
+                                                         error:&error];
+        if(error) {
+            [self log:SFLogLevelError format:@"JSON Parsing Error: %@", error];
+        }
+        else {
+            NSString* syncAsString = [[NSString alloc] initWithData:syncData encoding:NSUTF8StringEncoding];
+            NSString* js = [@[@"document.dispatchEvent(new CustomEvent(\"", kSyncEventType, @"\", { \"", kSyncDetail, @"\": ", syncAsString, @"}))" ] componentsJoinedByString:@""];
+            [self writeJavascript:js];
+        }
+    });
 }
 
 #pragma mark - Smart sync plugin methods
