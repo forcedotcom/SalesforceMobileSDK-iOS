@@ -65,7 +65,7 @@ NSString * const kSyncIdArg = @"syncId";
 - (void) getSyncStatus:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        long syncId = [(NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg] longValue];
+        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
         
         [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
         
@@ -84,9 +84,9 @@ NSString * const kSyncIdArg = @"syncId";
         // Record sync
         NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeDown withTarget:target withSoupName:soupName withOptions:options];
         
-        long syncId = [sync[kSyncManagerSyncId] longValue];
+        NSNumber* syncId = sync[kSyncManagerSyncId];
         
-        [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", syncId, soupName];
+        [self log:SFLogLevelDebug format:@"syncDown # %@ from soup: %@", syncId, soupName];
         
         // Run sync (async)
         [self.syncManager runSync:syncId];
@@ -104,9 +104,9 @@ NSString * const kSyncIdArg = @"syncId";
         // Record sync
         NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeUp withTarget:nil withSoupName:soupName withOptions:options];
         
-        long syncId = [sync[kSyncManagerSyncId] longValue];
+        NSNumber* syncId = sync[kSyncManagerSyncId];
 
-        [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", syncId, soupName];
+        [self log:SFLogLevelDebug format:@"syncUp # %@ from soup: %@", syncId, soupName];
         
         // Run sync (async)
         [self.syncManager runSync:syncId];

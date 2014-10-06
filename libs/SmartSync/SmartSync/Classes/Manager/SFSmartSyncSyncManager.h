@@ -45,7 +45,7 @@ extern NSString * const kSyncManagerSyncTypeUp;
 /** Return details about a sync
  @param syncId
  */
-- (NSDictionary*)getSyncStatus:(long)syncId;
+- (NSDictionary*)getSyncStatus:(NSNumber*)syncId;
 
 /** Create/record a sync but don't start it yet
  */
@@ -53,6 +53,6 @@ extern NSString * const kSyncManagerSyncTypeUp;
 
 /** Run a previously created sync
  */
-- (void) runSync:(long)syncId;
+- (void) runSync:(NSNumber*)syncId;
 
 @end

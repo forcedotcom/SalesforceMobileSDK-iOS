@@ -134,8 +134,9 @@ dispatch_queue_t queue;
 /** Return details about a sync
  @param syncId
  */
-- (NSDictionary*)getSyncStatus:(long)syncId {
-    return nil;
+- (NSDictionary*)getSyncStatus:(NSNumber*)syncId {
+    NSArray* syncs = [self.store retrieveEntries:@[syncId] fromSoup:kSyncManagerSyncsSoupName];
+    return (syncs == nil || [syncs count]) == 0 ? nil : syncs[0];
 }
 
 /** Create/record a sync but don't start it yet
@@ -156,8 +157,8 @@ dispatch_queue_t queue;
 
 /** Run a previously created sync
  */
-- (void) runSync:(long)syncId {
-    NSArray* syncs = [self.store retrieveEntries:@[[NSNumber numberWithLong:syncId]] fromSoup:kSyncManagerSyncsSoupName];
+- (void) runSync:(NSNumber*)syncId {
+    NSArray* syncs = [self.store retrieveEntries:@[syncId] fromSoup:kSyncManagerSyncsSoupName];
     if (syncs==nil || [syncs count] == 0)
         return; // TBD throw error
     
