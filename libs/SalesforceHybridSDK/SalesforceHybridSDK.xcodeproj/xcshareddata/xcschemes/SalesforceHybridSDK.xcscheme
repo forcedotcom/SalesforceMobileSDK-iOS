@@ -14,34 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
-               BuildableName = "libMKNetworkKit-iOS.a"
-               BlueprintName = "MKNetworkKit-iOS"
-               ReferencedContainer = "container:../../external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1090C534161275BF0054B040"
-               BuildableName = "libSalesforceNetworkSDK.a"
-               BlueprintName = "SalesforceNetworkSDK"
-               ReferencedContainer = "container:../SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "820AB72318E230EC00E25E1D"
                BuildableName = "libSalesforceSecurity.a"
                BlueprintName = "SalesforceSecurity"
@@ -84,6 +56,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
+               BuildableName = "libMKNetworkKit-iOS.a"
+               BlueprintName = "MKNetworkKit-iOS"
+               ReferencedContainer = "container:../../external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "1090C534161275BF0054B040"
+               BuildableName = "libSalesforceNetworkSDK.a"
+               BlueprintName = "SalesforceNetworkSDK"
+               ReferencedContainer = "container:../SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C72D16E076DE0006B3C0"
                BuildableName = "libSalesforceRestAPI.a"
                BlueprintName = "SalesforceRestAPI"
@@ -98,10 +98,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
-               BuildableName = "libCordova.a"
-               BlueprintName = "CordovaLib"
-               ReferencedContainer = "container:../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+               BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
+               BuildableName = "libSmartSync.a"
+               BlueprintName = "SmartSync"
+               ReferencedContainer = "container:../SmartSync/SmartSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -112,10 +112,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
-               BuildableName = "libSmartSync.a"
-               BlueprintName = "SmartSync"
-               ReferencedContainer = "container:../SmartSync/SmartSync.xcodeproj">
+               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
+               BuildableName = "libCordova.a"
+               BlueprintName = "CordovaLib"
+               ReferencedContainer = "container:../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
