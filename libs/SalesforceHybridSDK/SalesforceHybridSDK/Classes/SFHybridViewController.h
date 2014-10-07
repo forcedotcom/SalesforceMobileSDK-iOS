@@ -137,4 +137,17 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  */
 + (NSString *)sfHybridViewUserAgentString;
 
+/**
+ Determines whether an error that occurs during the web view load is fatal or not.  For example,
+ redirects can sometimes generate an NSURLErrorCancelled error in the web view, which shouldn't
+ otherwise halt the progress of the app.
+ 
+ If this method returns YES, web view processing will stop, and the configured error page will be
+ loaded with the details of the error.
+ 
+ @param error The web view error to evaluate.
+ @return YES if the error is fatal, NO otherwise.
+ */
++ (BOOL)isFatalWebViewError:(NSError *)error;
+
 @end
