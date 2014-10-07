@@ -51,7 +51,7 @@ extern NSString * const kSyncManagerNotification;
 
 /** Create/record a sync but don't start it yet
  */
-- (NSDictionary*) recordSync:(NSString*)type withTarget:(NSDictionary*)target withSoupName:(NSString*)soupName withOptions:(NSDictionary*)options;
+- (NSDictionary*) recordSync:(NSString*)type target:(NSDictionary*)target soupName:(NSString*)soupName options:(NSDictionary*)options;
 
 /** Run a previously created sync
  */
