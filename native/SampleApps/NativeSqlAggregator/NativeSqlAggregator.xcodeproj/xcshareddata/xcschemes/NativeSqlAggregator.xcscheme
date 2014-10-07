@@ -42,6 +42,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
+               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintName = "SalesforceSDKCore"
+               ReferencedContainer = "container:../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
                BuildableName = "libMKNetworkKit-iOS.a"
                BlueprintName = "MKNetworkKit-iOS"
@@ -60,20 +74,6 @@
                BuildableName = "libSalesforceNetworkSDK.a"
                BlueprintName = "SalesforceNetworkSDK"
                ReferencedContainer = "container:../../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
-               BuildableName = "libSalesforceSDKCore.a"
-               BlueprintName = "SalesforceSDKCore"
-               ReferencedContainer = "container:../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

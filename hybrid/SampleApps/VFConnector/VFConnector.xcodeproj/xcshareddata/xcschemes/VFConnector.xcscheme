@@ -56,10 +56,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
-               BuildableName = "libCordova.a"
-               BlueprintName = "CordovaLib"
-               ReferencedContainer = "container:../../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+               BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
+               BuildableName = "libMKNetworkKit-iOS.a"
+               BlueprintName = "MKNetworkKit-iOS"
+               ReferencedContainer = "container:../../../external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -70,10 +70,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-               BuildableName = "libSalesforceHybridSDK.a"
-               BlueprintName = "SalesforceHybridSDK"
-               ReferencedContainer = "container:../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+               BlueprintIdentifier = "1090C534161275BF0054B040"
+               BuildableName = "libSalesforceNetworkSDK.a"
+               BlueprintName = "SalesforceNetworkSDK"
+               ReferencedContainer = "container:../../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -112,10 +112,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ABB5C25B148B3AE00056D3E9"
-               BuildableName = "libMKNetworkKit-iOS.a"
-               BlueprintName = "MKNetworkKit-iOS"
-               ReferencedContainer = "container:../../../external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+               BlueprintIdentifier = "D2AAC07D0554694100DB518D"
+               BuildableName = "libCordova.a"
+               BlueprintName = "CordovaLib"
+               ReferencedContainer = "container:../../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -126,10 +126,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1090C534161275BF0054B040"
-               BuildableName = "libSalesforceNetworkSDK.a"
-               BlueprintName = "SalesforceNetworkSDK"
-               ReferencedContainer = "container:../../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+               BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
+               BuildableName = "libSalesforceHybridSDK.a"
+               BlueprintName = "SalesforceHybridSDK"
+               ReferencedContainer = "container:../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
