@@ -549,9 +549,20 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     [self log:SFLogLevelError format:@"Error while attempting to load web page: %@", error];
     if ([webView isEqual:self.webView]) {
-        [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
+        if ([[self class] isFatalWebViewError:error]) {
+            [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
+        }
         [super webView:webView didFailLoadWithError:error];
     }
+}
+
++ (BOOL)isFatalWebViewError:(NSError *)error
+{
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - URL evaluation helpers
