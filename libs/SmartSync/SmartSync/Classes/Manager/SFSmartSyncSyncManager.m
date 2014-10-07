@@ -46,6 +46,7 @@ NSString * const kSyncManagerSyncSoupName = @"soupName";
 NSString * const kSyncManagerSyncOptions = @"options";
 NSString * const kSyncManagerSyncStatus = @"status";
 NSString * const kSyncManagerSyncProgress = @"progress";
+NSString * const kSyncManagerSyncTotalSize = @"totalSize";
 
 // in options
 NSString * const kSyncManagerOptionsFieldlist = @"fieldlist";
@@ -75,7 +76,7 @@ NSString * const kSyncManagerNotification = @"com.salesforce.smartsync.manager.S
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
 
 // block type
-typedef void (^SFSyncManagerUpdateBlock) (NSUInteger progress);
+typedef void (^SFSyncManagerUpdateBlock) (NSInteger progress, NSInteger totalSize);
 
 /** Types of sync
  */
@@ -154,7 +155,7 @@ dispatch_queue_t queue;
 
 /** Create/record a sync but don't start it yet
  */
-- (NSDictionary*) recordSync:(NSString*)type withTarget:(NSDictionary*)target withSoupName:(NSString*)soupName withOptions:(NSDictionary*)options {
+- (NSDictionary*) recordSync:(NSString*)type target:(NSDictionary*)target soupName:(NSString*)soupName options:(NSDictionary*)options {
 
     NSDictionary* sync = @{
                            kSyncManagerSyncType: type,
@@ -179,11 +180,10 @@ dispatch_queue_t queue;
     
     NSDictionary* sync = syncs[0];
     
-    [self updateSync:sync withStatus:kSyncManagerStatusRunning withProgress:0];
-    
     // Run on background thread
     __weak SFSmartSyncSyncManager *weakSelf = self;
     dispatch_async(queue, ^{
+        [weakSelf updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:-1];
         NSString* syncType = sync[kSyncManagerSyncType];
         if ([syncType isEqualToString:kSyncManagerSyncTypeDown]) {
             [weakSelf syncDown:sync];
@@ -193,7 +193,7 @@ dispatch_queue_t queue;
         }
         else {
             [self log:SFLogLevelError format:@"Sync %@ failed unknown sync type:%@", sync[kSyncManagerSyncId], syncType];
-            [weakSelf updateSync:sync withStatus:kSyncManagerStatusFailed withProgress:0];
+            [weakSelf updateSync:sync status:kSyncManagerStatusFailed progress:-1 totalSize:-1];
         }
     });
 }
@@ -212,11 +212,12 @@ dispatch_queue_t queue;
 
 /** Update sync status and progress
  */
-- (void) updateSync:(NSDictionary*)sync withStatus:(NSString*)status withProgress:(NSUInteger)progress {
-    [self log:SFLogLevelDebug format:@"Sync %@ status: %@ progress:%d", sync[kSyncManagerSyncId], status, progress];
+- (void) updateSync:(NSDictionary*)sync status:(NSString*)status progress:(NSInteger)progress totalSize:(NSInteger)totalSize {
+    [self log:SFLogLevelDebug format:@"Sync %@ status: %@ progress:%d totalSize:%d", sync[kSyncManagerSyncId], status, progress, totalSize];
     NSMutableDictionary* modifiedSync = [sync mutableCopy];
     modifiedSync[kSyncManagerSyncStatus] = status;
-    modifiedSync[kSyncManagerSyncProgress] = [NSNumber numberWithInt:progress];
+    if (progress>=0)  modifiedSync[kSyncManagerSyncProgress] = [NSNumber numberWithInt:progress];
+    if (totalSize>=0) modifiedSync[kSyncManagerSyncTotalSize] = [NSNumber numberWithInt:totalSize];
     
     [self.store upsertEntries:@[ modifiedSync ] toSoup:kSyncManagerSyncsSoupName];
     
@@ -236,8 +237,8 @@ dispatch_queue_t queue;
         [self log:SFLogLevelError format:@"Sync %@ failed rest call error:%@", sync[kSyncManagerSyncId], error];
     };
     
-    SFSyncManagerUpdateBlock updateBlock = ^(NSUInteger progress) {
-        [self updateSync:sync withStatus:(progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning) withProgress:progress];
+    SFSyncManagerUpdateBlock updateBlock = ^(NSInteger progress, NSInteger totalSize) {
+        [self updateSync:sync status:(progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning) progress:progress totalSize:totalSize];
     };
 
     if ([queryType isEqualToString:kSyncManagerQueryTypeMru]) {
@@ -291,19 +292,17 @@ dispatch_queue_t queue;
     __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestDictionaryResponseBlock completeBlockSOQL = ^(NSDictionary *d) {
-        
+        NSUInteger totalSize = [d[kSyncManagerResponseTotalSize] integerValue];
+        if (countFetched == 0) // after first request only
+            updateBlock(0, totalSize);
+
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
-        if ([recordsFetched count] == 0)
-            return; // done
-        
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName];
-        
         // Update status
         countFetched += [recordsFetched count];
-        NSUInteger totalSize = [d[kSyncManagerResponseTotalSize] integerValue];
         NSUInteger progress = 100*countFetched / totalSize;
-        updateBlock(progress);
+        updateBlock(progress, totalSize);
         
         // Fetch next records if any
         NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
@@ -322,14 +321,12 @@ dispatch_queue_t queue;
 - (void) syncDownSosl:(NSString*)query soup:(NSString*)soupName updateBlock:(SFSyncManagerUpdateBlock)updateBlock failBlock:(SFRestFailBlock)failBlock {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *recordsFetched) {
-        if ([recordsFetched count] == 0)
-            return; // done
-        
+        NSUInteger totalSize = [recordsFetched count];
+        updateBlock(0, totalSize);
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName];
-        
         // Update status
-        updateBlock(100);
+        updateBlock(100, totalSize);
     };
     
     [self.restClient performSOSLSearch:query failBlock:failBlock completeBlock:completeBlockSOSL];

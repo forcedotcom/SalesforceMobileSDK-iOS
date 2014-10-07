@@ -113,7 +113,7 @@ NSString * const kSyncDetail = @"detail";
         NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
         // Record sync
-        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeDown withTarget:target withSoupName:soupName withOptions:options];
+        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeDown target:target soupName:soupName options:options];
         
         NSNumber* syncId = sync[kSyncManagerSyncId];
         
@@ -133,7 +133,7 @@ NSString * const kSyncDetail = @"detail";
         NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
         // Record sync
-        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeUp withTarget:nil withSoupName:soupName withOptions:options];
+        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeUp target:nil soupName:soupName options:options];
         
         NSNumber* syncId = sync[kSyncManagerSyncId];
 
