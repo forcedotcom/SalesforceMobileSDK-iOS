@@ -53,8 +53,11 @@ NSString * const kSyncManagerOptionsFieldlist = @"fieldlist";
 // in target
 NSString * const kSyncManagerTargetQueryType = @"type";
 NSString * const kSyncManagerTargetQuery = @"query";
+NSString * const kSyncManagerTargetObjectType = @"sobjectType";
+NSString * const kSyncManagerTargetFieldlist = @"fieldlist";
 
 // query types
+NSString * const kSyncManagerQueryTypeMru = @"mru";
 NSString * const kSyncManagerQueryTypeSoql = @"soql";
 NSString * const kSyncManagerQueryTypeSosl = @"sosl";
 
@@ -63,6 +66,7 @@ NSString * const kSyncManagerServerId = @"Id";
 NSString * const kSyncManagerResponseRecords = @"records";
 NSString * const kSyncManagerResponseTotalSize = @"totalSize";
 NSString * const kSyncManagerResponseNextRecordsUrl = @"nextRecordsUrl";
+NSString * const kSyncManagerRecentItems = @"recentItems";
 
 // notification
 NSString * const kSyncManagerNotification = @"com.salesforce.smartsync.manager.SyncManager.UPDATE_SYNC";
@@ -235,8 +239,13 @@ dispatch_queue_t queue;
     SFSyncManagerUpdateBlock updateBlock = ^(NSUInteger progress) {
         [self updateSync:sync withStatus:(progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning) withProgress:progress];
     };
-    
-    if ([queryType isEqualToString:kSyncManagerQueryTypeSoql]) {
+
+    if ([queryType isEqualToString:kSyncManagerQueryTypeMru]) {
+        NSString* sobjectType = target[kSyncManagerTargetObjectType];
+        NSArray* fieldlist = target[kSyncManagerTargetFieldlist];
+        [self syncDownMru:sobjectType fieldlist:fieldlist soup:soupName updateBlock:updateBlock failBlock:failBlock];
+    }
+    else if ([queryType isEqualToString:kSyncManagerQueryTypeSoql]) {
         [self syncDownSoql:query soup:soupName updateBlock:updateBlock failBlock:failBlock];
     }
     else if ([queryType isEqualToString:kSyncManagerQueryTypeSosl]) {
@@ -245,7 +254,35 @@ dispatch_queue_t queue;
     else {
         [self log:SFLogLevelError format:@"Sync %@ failed unknown query type:%@", sync[kSyncManagerSyncId], queryType];
     }
- }
+}
+
+/** Run a sync down for a mru target
+ */
+- (void) syncDownMru:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateBlock:(SFSyncManagerUpdateBlock)updateBlock failBlock:(SFRestFailBlock)failBlock {
+    __weak SFSmartSyncSyncManager *weakSelf = self;
+    [self.restClient performMetadataWithObjectType:sobjectType failBlock:failBlock completeBlock:^(NSDictionary* d) {
+        NSArray* recentItems = [weakSelf pluck:d[kSyncManagerRecentItems] key:kSyncManagerServerId];
+        NSString* soql = [
+            @[@"SELECT ",
+              [fieldlist componentsJoinedByString:@", "],
+              @" FROM ",
+              sobjectType,
+              @" WHERE Id IN ('",
+              [recentItems componentsJoinedByString:@"', '"],
+              @"')"
+              ]
+             componentsJoinedByString:@""];
+        [weakSelf syncDownSoql:soql soup:soupName updateBlock:updateBlock failBlock:failBlock];
+    }];
+}
+
+- (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
+    NSMutableArray* result = [NSMutableArray array];
+    for (NSDictionary* d in arrayOfDictionaries) {
+        [result addObject:d[key]];
+    }
+    return result;
+}
 
 /** Run a sync down for a soql target
  */
