@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const kSoupIndexPath;
+extern NSString * const kSoupIndexType;
 extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeInteger;
 extern NSString * const kSoupIndexTypeFloating;

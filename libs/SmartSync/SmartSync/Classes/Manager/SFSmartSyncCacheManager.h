@@ -53,11 +53,6 @@ typedef  enum {
  */
 - (void)setEnableInMemoryCache:(BOOL)enableInMemoryCache;
 
-/** Set to YES to make cached data persist with app upgrade. Default value is YES
- @shouldPersistAppUpgrade YES to make cached data persist with app upgrade
- */
-- (void)setCacheShouldPersistWithAppUpgrade:(BOOL)shouldPersistAppUpgrade;
-
 /** Clean cache
  */
 - (void)cleanCache;
@@ -84,33 +79,13 @@ typedef  enum {
  @param encrypted Yes if cache to read is encrypted
  @cachedTime Return time the data was last updated in cache
  */
-- (NSData *)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy encrypted:(BOOL)encrypted cachedTime:(out NSDate **)lastCachedTime;
+- (id)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy cachedTime:(out NSDate **)lastCachedTime;
 
 /** Write data to cache.
  @param data Data to cache
  @param cacheType Cache type
  @param cacheKey Key to save cached data
- @param encryptCache Yes to encrypt cache
  */
-- (void)writeDataToCache:(NSData *)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey encryptCache:(BOOL)encryptCache;
-
-/** Read archivable object from cache.
- Object read with this option has to be a single object implement `NSCoding` protocol or an NSArray of objects that implement `NSCoding` protocol
- @param cacheType Cache type
- @param cacheKey Key to use to retrieve cached data
- @param cachePolicy See `SFDataCachePolicy`
- @param encrypted Yes if cache to read is encrypted
- @cachedTime Return time the data was last updated in cache
- */
-- (id)readArchivableObjectWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy encrypted:(BOOL)encrypted cachedTime:(out NSDate **)cachedTime;
-
-/** Write data to cache.
- Object cached by this class has to be either a single object implement `NSCoding` protocol or an NSArray of objects that implement `NSCoding` protocol
- @param object Object to cache
- @param cacheType Cache type
- @param cacheKey Key to save cached data
- @param encryptCache Yes to encrypt cache
- */
-- (void)writeArchivableObjectToCache:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey encryptCache:(BOOL)encryptCache;
+- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 
 @end
