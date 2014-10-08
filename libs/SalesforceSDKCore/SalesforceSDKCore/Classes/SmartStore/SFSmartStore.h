@@ -333,4 +333,6 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 - (NSArray*) allSoupNames;
 
++ (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue;
+
 @end

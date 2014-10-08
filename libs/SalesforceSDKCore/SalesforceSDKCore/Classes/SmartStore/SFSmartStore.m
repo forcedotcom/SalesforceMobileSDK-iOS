@@ -546,6 +546,12 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return nowVal;
 }
 
++ (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue {
+    NSTimeInterval lastModifiedSecs = [lastModifiedValue doubleValue] / 1000.0;
+    NSDate *retDate = [[NSDate alloc] initWithTimeIntervalSince1970:lastModifiedSecs];
+    return retDate;
+}
+
 - (BOOL)isFileDataProtectionActive {
     return _dataProtectionKnownAvailable;
 }

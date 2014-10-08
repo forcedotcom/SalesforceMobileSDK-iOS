@@ -24,33 +24,32 @@
 
 #import "SFSmartSyncCacheManager.h"
 #import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceSDKCore/SFDirectoryManager.h>
-#import <SalesforceSecurity/SFKeyStoreManager.h>
-#import <SalesforceCommonUtils/SFCrypto.h>
-#import <SalesforceCommonUtils/SFPathUtil.h>
+#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
-static NSString * const kRootCachePath = @"smart_sync_cache";
-static NSString * const kCacheTimeKey = @"CacheTime";
-static NSString * const kCacheEncryptedKey = @"CacheEncrypted";
-static NSString * const kCacheDataKey = @"CacheData";
-static NSString * const kPlainCacheKey = @"%@_plain";
-static NSString * const kEncryptedCacheKey = @"%@_encrypted";
+
+static NSString * const kCacheTimeKey      = @"CacheTime";
+static NSString * const kCacheDataKey      = @"CacheData";
+
+// SmartStore constants
+static NSString * const kSmartStoreSoupMappingSoupName = @"master_soup";
+static NSString * const kSmartStoreSoupNamesPath       = @"soup_names";
+static NSString * const kSmartStoreCacheKeyPath        = @"cache_key";
+static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
 
 @interface SFSmartSyncCacheManager ()
 
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) NSCache *inMemCache;
 @property (nonatomic, assign) BOOL enableInMemoryCache;
-@property (nonatomic, strong) NSString *rootCachePath;
-@property (nonatomic, assign) BOOL cacheShouldPersistWithAppUpgrade;
 
-- (void)ensurePathExists:(NSString *)path;
-- (NSString *)compositeCacheKeyFor:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted;
-- (NSString *)filePathFor:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted;
-- (NSData *)dataAtPath:(NSString *)filePath encrypted:(BOOL)encrypted cachedTime:(out NSDate **)cachedTime;
+- (NSString *)compositeCacheKeyForCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 - (BOOL)shouldInvalidateCache:(SFDataCachePolicy)cachePolicy;
 - (BOOL)shouldBypassCache:(SFDataCachePolicy)cachePolicy;
-- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted;
+- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 
 @end
 
@@ -92,32 +91,10 @@ static NSMutableDictionary *cacheMgrList = nil;
     if (self) {
         self.inMemCache = [[NSCache alloc] init];
         self.enableInMemoryCache = YES;
-        self.cacheShouldPersistWithAppUpgrade = YES;
         self.user = user;
+        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
     }
     return self;
-}
-
-- (void)setCacheShouldPersistWithAppUpgrade:(BOOL)shouldPersistAppUpgrade {
-    if (_cacheShouldPersistWithAppUpgrade == shouldPersistAppUpgrade  ) {
-        return;
-    }
-
-    // Remove old file caches.
-    if (_rootCachePath) {
-
-        // Remove root cache path.
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:_rootCachePath]) {
-            NSError *error = nil;
-            BOOL success = [fileManager removeItemAtPath:_rootCachePath error:&error];
-            if (!success) {
-                [self log:SFLogLevelError format:@"Failed to clean root cache path: [%@]", [error localizedDescription]];
-            }
-        }
-        _rootCachePath = nil;
-    }
-    _cacheShouldPersistWithAppUpgrade = shouldPersistAppUpgrade;
 }
 
 #pragma mark - Private Methods
@@ -137,140 +114,45 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (BOOL)shouldBypassCache:(SFDataCachePolicy)cachePolicy {
-    BOOL byPassCache = NO;
+    BOOL bypassCache = NO;
     switch (cachePolicy) {
         case SFDataCachePolicyIgnoreCacheData:
         case SFDataCachePolicyReloadAndReturnCacheOnFailure:
         case SFDataCachePolicyInvalidateCacheDontReload:
         case SFDataCachePolicyInvalidateCacheAndReload:
-            byPassCache = YES;
+            bypassCache = YES;
             break;
         case SFDataCachePolicyReturnCacheDataAndReload:
         case SFDataCachePolicyReturnCacheDataAndReloadIfExpired:
         case SFDataCachePolicyReturnCacheDataDontReload:
         default:
-            byPassCache = NO;
+            bypassCache = NO;
             break;
     }
-    return byPassCache;
+    return bypassCache;
 }
 
-- (NSString *)rootCachePath {
-    if (_rootCachePath) {
-        return _rootCachePath;
-    }
-    if (nil == self.user) {
+- (NSString *)compositeCacheKeyForCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    if ([cacheKey length] == 0 || [cacheType length] == 0) {
         return nil;
     }
     
-    // Calculate root path for cache.
-    NSSearchPathDirectory type;
-    if (self.cacheShouldPersistWithAppUpgrade) {
-        type = NSLibraryDirectory;
-    } else {
-        type = NSCachesDirectory;
-    }
-    _rootCachePath = [[SFDirectoryManager sharedManager] directoryForUser:self.user type:type components:@[kRootCachePath]];
-
-    // This will create the root path and with proper do not backup flag applied.
-    [SFPathUtil createFileItemIfNotExist:_rootCachePath skipBackup:YES];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:_rootCachePath]) {
-        _rootCachePath = nil;
-    }
-    return _rootCachePath;
+    return [NSString stringWithFormat:@"%@%@", cacheType, cacheKey];
 }
 
-- (void)ensurePathExists:(NSString *)path {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:path]) {
-        [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-}
-
-- (NSString *)compositeCacheKeyFor:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted {
-    NSString *compositeCacheKey = nil;
-    if (encrypted) {
-        compositeCacheKey = [NSString stringWithFormat:kEncryptedCacheKey, cacheKey];
-    } else {
-        compositeCacheKey = [NSString stringWithFormat:kPlainCacheKey, cacheKey];
-    }
-    return compositeCacheKey;
-}
-
-- (NSString *)filePathFor:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted {
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-    NSString *filePath = [[self rootCachePath] stringByAppendingPathComponent:cacheType];
-
-    // Ensure path exists.
-    [self ensurePathExists:filePath];
-    filePath = [filePath stringByAppendingPathComponent:compositeCacheKey];
-    return filePath;
-}
-
-- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey encrypted:(BOOL)encrypted {
-    if (nil == cacheType || nil == cacheKey) {
+- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    NSString *compositeCacheKey = [self compositeCacheKeyForCacheType:cacheType cacheKey:cacheKey];
+    if (compositeCacheKey == nil) {
+        // Invalid cacheType and/or cacheKey
         return;
     }
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encrypted];
 
     // Clean out in memory cache.
     [self.inMemCache removeObjectForKey:compositeCacheKey];
     
     // Clean out disk cache.
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *filePath = [self filePathFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-    if ([fileManager fileExistsAtPath:filePath]) {
-        NSError *error = nil;
-        BOOL success = [fileManager removeItemAtPath:filePath error:&error];
-        if (!success) {
-            [self log:SFLogLevelError format:@"Failed to clean cache [%@]: [%@]", compositeCacheKey, [error localizedDescription]];
-        }
-    }
+    // TODO: Remove from SmartStore.
 }
-
-- (NSData *)dataAtPath:(NSString *)filePath encrypted:(BOOL)encrypted cachedTime:(out NSDate **)cachedTime {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if ([fileManager fileExistsAtPath:filePath]) {
-        NSData *cachedData = [NSData dataWithContentsOfFile:filePath];
-        NSDictionary *attributes = [fileManager attributesOfItemAtPath:filePath error:nil];
-        if (attributes) {
-            if (cachedTime) {
-                *cachedTime =  [attributes fileModificationDate];
-            }
-        }
-        NSData *returnData = nil;
-        if (encrypted) {
-
-            // Decrypt data.
-            SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"CHSalesforceOneEncryptionKey" keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
-            SFCrypto *cipher = [[SFCrypto alloc] initWithOperation:kCCDecrypt
-                                                               key:encryptionKey.key
-                                                              mode:SFCryptoModeInMemory];
-            @try {
-                returnData = [cipher decryptDataInMemory:cachedData];
-            } @catch (NSException *exception) {
-                [self log:SFLogLevelError format:@"Error decrypting file at path [%@]: [%@]", filePath, exception.debugDescription];
-                returnData = nil;
-                NSError *error = nil;
-                if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
-                    [self log:SFLogLevelError format:@"Error deleting malformed encrypted file at path %@: %@", filePath, error];
-                }
-            }
-        } else {
-
-            // Data not encrypted.
-            returnData = cachedData;
-        }
-        return cachedData;
-    } else {
-        if (cachedTime) {
-            *cachedTime = nil;
-        }
-        return nil;
-    }
-}
-
-#pragma mark - Implement Delegate Methods
 
 - (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan {
     if (cachePolicy == SFDataCachePolicyInvalidateCacheDontReload) {
@@ -297,7 +179,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     if (nil == cacheTime) {
         return YES;
     }
-    NSTimeInterval timeDiff= [[NSDate date] timeIntervalSinceDate:cacheTime];
+    NSTimeInterval timeDiff = [[NSDate date] timeIntervalSinceDate:cacheTime];
     if (timeDiff > refreshIfOlderThan) {
         return YES;
     } else {
@@ -306,131 +188,25 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (void)cleanCache {
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    // Remove root cache path.
-    if (self.rootCachePath && [fileManager fileExistsAtPath:self.rootCachePath]) {
-        NSError *error = nil;
-        BOOL success = [fileManager removeItemAtPath:self.rootCachePath error:&error];
-        if (!success) {
-            [self log:SFLogLevelError format:@"Failed to clean root cache path: [%@]", [error localizedDescription]];
-        }
-    }
-
     // Clean out in memory cache.
     [self.inMemCache removeAllObjects];
+    
+    // TODO: Clean SmartStore cache
 }
 
-- (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
-
-    // Remove both encrypted and non-encrypted cache.
-    [self removeCache:cacheType cacheKey:cacheKey encrypted:YES];
-    [self removeCache:cacheType cacheKey:cacheKey encrypted:NO];
-}
-
-- (NSData *)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy encrypted:(BOOL)encrypted cachedTime:(out NSDate **)lastCachedTime {
-    BOOL byPassCache = [self shouldBypassCache:cachePolicy];
-    if (byPassCache) {
+- (id)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy cachedTime:(out NSDate **)lastCachedTime {
+    BOOL bypassCache = [self shouldBypassCache:cachePolicy];
+    if (bypassCache) {
         return nil;
     }
-    NSDate *cachedTime = nil;
-    NSData *cachedData = nil;
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-
-    // Calculate local file cache path.
-    NSString *filePath = [self filePathFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-    NSData *returnData = nil;
-
+    
+    NSString *compositeCacheKey = [self compositeCacheKeyForCacheType:cacheType cacheKey:cacheKey];
+    if (compositeCacheKey == nil) {
+        return nil;
+    }
+    
     // Check in-memory cache first.
-    if (self.enableInMemoryCache) {
-        NSDictionary *inMemoryCacheInfo = [self.inMemCache objectForKey:compositeCacheKey];
-        if (inMemoryCacheInfo) {
-            cachedData = inMemoryCacheInfo[kCacheDataKey];
-            cachedTime = inMemoryCacheInfo[kCacheTimeKey];
-        }
-    }
-
-    // Check on disk cache if in-memory cache not found.
-    if (!cachedData) {
-        returnData = [self dataAtPath:filePath encrypted:encrypted cachedTime:lastCachedTime];
-
-        // Save to in memory cache.
-        if (returnData && self.enableInMemoryCache) {
-            if (lastCachedTime) {
-                if (nil == *lastCachedTime) {
-                    *lastCachedTime = [NSDate date];
-                }
-                [self.inMemCache setObject:@{kCacheDataKey : returnData, kCacheTimeKey : *lastCachedTime} forKey:compositeCacheKey];
-            } else {
-                [self.inMemCache setObject:@{kCacheDataKey : returnData} forKey:compositeCacheKey];
-            }
-        }
-    } else {
-        if (lastCachedTime) {
-            *lastCachedTime = cachedTime;
-        }
-    }
-    return returnData;
-}
-
-- (void)writeDataToCache:(NSData *)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey encryptCache:(BOOL)encryptCache {
-    if (!cacheKey) {
-
-        // Cache key is nil, directly return.
-        return;
-    }
-    if (!data) {
-
-        // Set cache to nil = remove cache by key.
-        [self removeCache:cacheType cacheKey:cacheKey encrypted:encryptCache];
-    }
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encryptCache];
-
-    // Save to in-memory cache.
-    if (data && self.enableInMemoryCache) {
-        [self.inMemCache setObject:@{kCacheDataKey : data, kCacheTimeKey : [NSDate date]} forKey:compositeCacheKey];
-    }
-
-    // Write to disk.
-    NSString *filePath = [self filePathFor:cacheType cacheKey:cacheKey encrypted:encryptCache];
-    @try {
-
-        // Encrypt data.
-        SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"CHSalesforceOneEncryptionKey" keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
-        SFCrypto *cipher = [[SFCrypto alloc] initWithOperation:kCCEncrypt
-                                                           key:encryptionKey.key
-                                                          mode:SFCryptoModeInMemory];
-        NSData *dataToWrite = nil;
-        @try {
-            dataToWrite = [cipher encryptDataInMemory:data];
-            [dataToWrite writeToFile:filePath atomically:YES];
-        } @catch (NSException *exception) {
-            [self log:SFLogLevelError format:@"Error decrypting file at path [%@]: [%@]", filePath, exception.debugDescription];
-            NSError *error = nil;
-            if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
-                [self log:SFLogLevelError format:@"Error deleting malformed encrypted file at path %@: %@", filePath, error];
-            }
-        }
-    } @catch (NSException *exception) {
-        [self log:SFLogLevelError format:@"Failed to save to disk cache: [%@]", exception.debugDescription];
-    }
-}
-
-- (id)readArchivableObjectWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy encrypted:(BOOL)encrypted cachedTime:(out NSDate **)lastCachedTime {
-    BOOL shouldInvalidateCache = [self shouldInvalidateCache:cachePolicy];
-    if (shouldInvalidateCache) {
-        [self removeCache:cacheType cacheKey:cacheKey encrypted:encrypted];
-        return nil;
-    }
-    BOOL byPassCache = [self shouldBypassCache:cachePolicy];
-    if (byPassCache) {
-        return nil;
-    }
-    NSData *cachedData = nil;
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-    NSString *filePath = [self filePathFor:cacheType cacheKey:cacheKey encrypted:encrypted];
-
-    // Check in memory cache first.
+    id cachedData = nil;
     if (self.enableInMemoryCache) {
         NSDictionary *inMemoryCacheInfo = [self.inMemCache objectForKey:compositeCacheKey];
         if (inMemoryCacheInfo) {
@@ -438,108 +214,183 @@ static NSMutableDictionary *cacheMgrList = nil;
             if (lastCachedTime) {
                 *lastCachedTime = inMemoryCacheInfo[kCacheTimeKey];
             }
+            return cachedData;
         }
     }
-    if (cachedData) {
-        return cachedData;
-    }
-
-    // Check on disk cache instead.
-    cachedData = [self dataAtPath:filePath encrypted:encrypted cachedTime:lastCachedTime];
-    if (nil == cachedData) {
-        return nil;
-    }
-    id <NSCoding> unarchivedData = nil;
-    @try {
-
-        // Decrypt the data.
-        if (encrypted) {
-            SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"CHSalesforceOneEncryptionKey" keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
-            SFCrypto *cipher = [[SFCrypto alloc] initWithOperation:kCCDecrypt
-                                                               key:encryptionKey.key
-                                                              mode:SFCryptoModeInMemory];
-            cachedData = [cipher decryptDataInMemory:cachedData];
-        }
-        unarchivedData = [NSKeyedUnarchiver unarchiveObjectWithData:cachedData];
-
-        // Save to in-memory cache.
-        if (unarchivedData && self.enableInMemoryCache) {
-            if (lastCachedTime) {
-                if (nil == *lastCachedTime) {
-                    *lastCachedTime = [NSDate date];
-                }
-                [self.inMemCache setObject:@{kCacheDataKey : unarchivedData, kCacheTimeKey : *lastCachedTime} forKey:compositeCacheKey];
-            } else {
-                [self.inMemCache setObject:@{kCacheDataKey : unarchivedData} forKey:compositeCacheKey];
-            }
-        }
-    } @catch (NSException *exception) {
-
-        // If we received an exception when unarchiving this object, remove
-        // it from disk and return a nil object.
-        unarchivedData = nil;
+    
+    // Check SmartStore if in-memory cache not found.
+    NSDate *smartStoreLastCachedTime = nil;
+    cachedData = [self retrieveDataWithCacheType:cacheType cacheKey:cacheKey cachedTime:&smartStoreLastCachedTime];
+    
+    // Save to in-memory cache, if there's data to save.
+    if (cachedData && self.enableInMemoryCache) {
+        [self.inMemCache setObject:@{ kCacheDataKey : cachedData, kCacheTimeKey : smartStoreLastCachedTime } forKey:compositeCacheKey];
         if (lastCachedTime) {
-            *lastCachedTime = nil;
+            *lastCachedTime = smartStoreLastCachedTime;
+            
         }
-        [self log:SFLogLevelError format:@"Error unarchiving %@: %@", filePath, exception.description];
-        if (filePath) {
-            NSError *error = nil;
-            if (![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error]) {
-                [self log:SFLogLevelError format:@"Error delete corrupted archive file %@: %@", filePath, exception.description];
-            }
+    }
+    
+    return cachedData;
+}
+
+- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    NSString *compositeCacheKey = [self compositeCacheKeyForCacheType:cacheType cacheKey:cacheKey];
+    if (compositeCacheKey == nil) {
+        // Invalid/empty cache key or cache type.
+        [self log:SFLogLevelError msg:@"Cache type and cache key must both have a value. No action taken."];
+        return;
+    }
+    
+    // Delete data case.
+    if (data == nil) {
+        // Set cache to nil = remove cache by key.
+        [self removeCache:cacheType cacheKey:cacheKey];
+        return;
+    }
+    
+    // Otherwise, we have data to write to the cache.
+    
+    if (![self isValidSmartStoreData:data]) {
+        [self log:SFLogLevelError msg:@"Data is not in a valid serializable format.  Should be a dictionary or an array of dictionaries."];
+        return;
+    }
+
+    // Save to in-memory cache first.
+    if (self.enableInMemoryCache) {
+        [self.inMemCache setObject:@{kCacheDataKey : data, kCacheTimeKey : [NSDate date]} forKey:compositeCacheKey];
+    }
+    
+    // Build SmartStore data entry.
+    NSDictionary *cacheSoupEntry = @{ kSmartStoreCacheKeyPath: cacheKey, kSmartStoreCacheDataPath: data };
+
+    // Write to SmartStore.
+    NSString *cacheSoupName = cacheType;
+    [self upsertData:cacheSoupEntry toSoup:cacheSoupName];
+}
+
+#pragma mark - SmartStore management
+
+- (BOOL)isValidSmartStoreData:(id)inputData
+{
+    if (![inputData isKindOfClass:[NSArray class]] && ![inputData isKindOfClass:[NSDictionary class]]) {
+        return NO;
+    }
+    
+    if ([inputData isKindOfClass:[NSDictionary class]]) {
+        return YES;
+    }
+    
+    // It's an array.  Is it an array of dictionaries?
+    for (id arrayItem in (NSArray *)inputData) {
+        if (![arrayItem isKindOfClass:[NSDictionary class]]) {
+            return NO;
         }
-    } @finally {
-        return unarchivedData;
+    }
+    
+    return YES;
+}
+
+- (void)upsertData:(NSDictionary *)data toSoup:(NSString *)soupName {
+    [self createCacheSoup:soupName];
+    NSError *upsertError = nil;
+    [self.store upsertEntries:@[ data ] toSoup:soupName withExternalIdPath:kSmartStoreCacheKeyPath error:&upsertError];
+    if (upsertError) {
+        [self log:SFLogLevelError format:@"Error upserting cache data to SmartStore: %@", [upsertError localizedDescription]];
     }
 }
 
-- (void)writeArchivableObjectToCache:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey encryptCache:(BOOL)encryptCache {
-    if (nil == object || nil == cacheType || nil == cacheKey) {
+- (id)retrieveDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachedTime:(out NSDate **)lastCachedTime {
+    NSString *retrieveDataSql = [NSString stringWithFormat:@"SELECT {%@:_soup}, {%@:__soupLastModifiedDate} FROM {%@} WHERE {%@:%@} = %@", cacheType, cacheType, cacheType, cacheType, kSmartStoreCacheKeyPath, cacheKey];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:retrieveDataSql withPageSize:1];
+    NSError *queryError = nil;
+    
+    NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:&queryError];
+    if (queryError) {
+        [self log:SFLogLevelError format:@"Error querying SmartStore for cached data: %@", [queryError localizedDescription]];
+        return nil;
+    }
+    
+    if ([results count] == 0) {
+        return nil;
+    } else {
+        NSArray *result = results[0];
+        id retData = ((NSDictionary *)result[0])[kSmartStoreCacheDataPath];
+        NSDate *modDate = [SFSmartStore dateFromLastModifiedValue:result[1]];
+        if (lastCachedTime) {
+            *lastCachedTime = modDate;
+        }
+        return retData;
+    }
+}
+
+- (void)createCacheSoup:(NSString *)cacheSoupName {
+    [self createCacheSoupMappingSoup];
+    if (![self.store soupExists:cacheSoupName]) {
+        NSArray *cacheIndexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kSmartStoreCacheKeyPath indexType:kSoupIndexTypeString columnName:nil] ];
+        [self.store registerSoup:cacheSoupName withIndexSpecs:cacheIndexSpecs];
+    }
+}
+
+- (void)createCacheSoupMappingSoup {
+    if ([self.store soupExists:kSmartStoreSoupMappingSoupName]) {
         return;
     }
-    BOOL validObjectTypes = NO;
-    if ([object conformsToProtocol:@protocol(NSCoding)]) {
-        validObjectTypes = YES;
-    } else if ([object isKindOfClass:[NSArray class]]) {
-        NSArray *objects = (NSArray *)object;
-        if (objects.count == 0) {
-            // return
-            return;
-        } else if ([objects[0] conformsToProtocol:@protocol(NSCoding)]) {
-            validObjectTypes = YES;
+    
+    SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithPath:kSmartStoreSoupNamesPath indexType:kSoupIndexTypeString columnName:nil];
+    [self.store registerSoup:kSmartStoreSoupMappingSoupName withIndexSpecs:@[ indexSpec ]];
+}
+
+- (void)addCacheSoupToSoupMappingSoup:(NSString *)soupName {
+//    if (doesMasterSoupContainSoup(soupName)) {
+//        return;
+//    }
+//    final JSONObject object = new JSONObject();
+//    try {
+//        object.put(SOUP_NAMES_KEY, soupName);
+//        smartStore.upsert(SOUP_OF_SOUPS, object);
+//    } catch (JSONException e) {
+//        Log.e(TAG, "JSONException occurred while attempting to cache data", e);
+//    } catch (SmartStoreException e) {
+//        Log.e(TAG, "SmartStoreException occurred while attempting to cache data", e);
+//    }
+}
+
+- (BOOL)cacheSoupInSoupMappingSoup:(NSString *)soupName {
+    NSArray *allSoupNames = [self allCacheSoupNames];
+    for (NSString *existingSoupName in allSoupNames) {
+        if ([existingSoupName isEqualToString:soupName]) {
+            return YES;
         }
     }
-    if (!validObjectTypes) {
-        [self log:SFLogLevelError format:@"Object to be persisted using %@ has to be either implement NSCoding or an NSArray of objects that implement NSCoding", [[self class] description]];
-        return;
-    }
-    NSString *compositeCacheKey = [self compositeCacheKeyFor:cacheType cacheKey:cacheKey encrypted:encryptCache];
-    NSString *filePath = [self filePathFor:cacheType cacheKey:cacheKey encrypted:encryptCache];
+    
+    return NO;
+}
 
-    // Save to in-memory cache.
-    if (object && self.enableInMemoryCache) {
-        [self.inMemCache setObject:@{kCacheDataKey : object, kCacheTimeKey : [NSDate date]} forKey:compositeCacheKey];
-    }
-
-    // Write to disk.
-    if (object) {
-        @try {
-            NSData *objectData = [NSKeyedArchiver archivedDataWithRootObject:object];
-            if (encryptCache) {
-
-                // Encrypt cache if necessary.
-                SFEncryptionKey *encryptionKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"CHSalesforceOneEncryptionKey" keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
-                SFCrypto *cipher = [[SFCrypto alloc] initWithOperation:kCCEncrypt key:encryptionKey.key mode:SFCryptoModeInMemory];
-                objectData = [cipher encryptDataInMemory:objectData];
+- (NSArray *)allCacheSoupNames {
+    NSString *allCacheSoupsSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@}", kSmartStoreSoupMappingSoupName, kSmartStoreSoupNamesPath, kSmartStoreSoupMappingSoupName];
+    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:allCacheSoupsSql withPageSize:25];
+    NSError *queryError = nil;
+    NSMutableArray *soupNamesArray = [NSMutableArray array];
+    NSUInteger pageIndex = 0;
+    NSUInteger numResults = 0;
+    do {
+        NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:&queryError];
+        if (queryError) {
+            [self log:SFLogLevelError format:@"Error querying SmartStore for cache soup names: %@", [queryError localizedDescription]];
+            return nil;
+        }
+        
+        numResults = [results count];
+        if (numResults > 0) {
+            for (NSUInteger i = 0; i < numResults; i++) {
+                [soupNamesArray addObject:results[i][0]];
+                pageIndex++;
             }
-            [objectData writeToFile:filePath atomically:YES];
-        } @catch (NSException *exception) {
-
-            // If we received an exception when unarchiving this object, remove
-            // it from disk and return a nil object.
-            [self log:SFLogLevelError format:@"Error archiving %@: %@", filePath, exception.description];
         }
-    }
+    } while (numResults > 0);
+    
+    return soupNamesArray;
 }
 
 @end
