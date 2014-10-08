@@ -377,7 +377,16 @@ dispatch_queue_t queue;
     NSUInteger totalSize = [records count];
     [self updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:totalSize];
 
+    SFSyncManagerUpdateBlock updateBlock = ^(NSInteger progress, NSInteger totalSize) {
+        [self updateSync:sync status:(progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning) progress:progress totalSize:totalSize];
+    };
+    
+    SFRestFailBlock failBlock = ^(NSError *error) {
+        [self updateSyncFailed:sync message:@"REST call failed" error:error];
+    };
+    
     for (NSUInteger i=0; i<totalSize; i++) {
+        NSUInteger progress = (i+1)*100 / totalSize;
         NSMutableDictionary* record = [records[i] mutableCopy];
         
         // Do we need to do a create, update or delete
@@ -408,15 +417,16 @@ dispatch_queue_t queue;
             }
         }
         
-        SFRestFailBlock failBlock = ^(NSError *error) {
-            [self updateSyncFailed:sync message:@"REST call failed" error:error];
-        };
-        
+        // Delete handler
         SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
             // Remove entry on delete
             [self.store removeEntries:@[record] fromSoup:soupName];
+            
+            // Update sync status
+            updateBlock(progress, totalSize);
         };
         
+        // Update handler
         SFRestDictionaryResponseBlock completeBlockUpdate = ^(NSDictionary *d) {
             // Set local flags to false
             record[kSyncManagerLocal] = @NO;
@@ -426,8 +436,12 @@ dispatch_queue_t queue;
 
             // Update smartstore
             [self.store upsertEntries:@[record] toSoup:soupName];
+            
+            // Update sync status
+            updateBlock(progress, totalSize);
         };
         
+        // Create handler
         SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
             // Replace id with server id during create
             record[kSyncManagerObjectId] = d[kSyncManagerLObjectId];
@@ -440,14 +454,7 @@ dispatch_queue_t queue;
             case kSyncManagerActionDelete: [self.restClient performDeleteWithObjectType:objectType objectId:objectId failBlock:failBlock completeBlock:completeBlockDelete]; break;
             case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
         }
-        
-        // Updating status
-        NSUInteger progress = (i+1)*100 / totalSize;
-        if (progress < 100)
-            [self updateSync:sync status:kSyncManagerStatusRunning progress:progress totalSize:totalSize];
     }
-    [self updateSync:sync status:kSyncManagerStatusDone progress:100 totalSize:totalSize];
-
 }
 
 - (void) updateSyncFailed:(NSDictionary*)sync message:(NSString*)message error:(NSError*)error {
