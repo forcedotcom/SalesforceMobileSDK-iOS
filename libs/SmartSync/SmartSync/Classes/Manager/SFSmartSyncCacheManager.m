@@ -305,8 +305,7 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (NSDictionary *)retrieveDataFromStoreWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
-    NSString *retrieveDataSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} = %@", cacheType, cacheType, cacheType, kSmartStoreCacheKeyPath, cacheKey];
-    SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:retrieveDataSql withPageSize:1];
+    SFQuerySpec *querySpec = [SFQuerySpec newExactQuerySpec:cacheType withPath:kSmartStoreCacheKeyPath withMatchKey:cacheKey withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSError *queryError = nil;
     
     NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:&queryError];
