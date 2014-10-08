@@ -147,11 +147,11 @@ static NSMutableDictionary *cacheMgrList = nil;
         return;
     }
 
-    // Clean out in memory cache.
+    // Clean out in-memory cache.
     [self.inMemCache removeObjectForKey:compositeCacheKey];
     
-    // Clean out disk cache.
-    // TODO: Remove from SmartStore.
+    // Clean out SmartStore.
+    [self removeDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
 }
 
 - (BOOL)needToReloadCache:(BOOL)cacheExists cachePolicy:(SFDataCachePolicy)cachePolicy lastCachedTime:(NSDate *)cacheTime refreshIfOlderThan:(NSTimeInterval)refreshIfOlderThan {
@@ -188,10 +188,13 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (void)cleanCache {
-    // Clean out in memory cache.
+    // Clean out in-memory cache.
     [self.inMemCache removeAllObjects];
     
-    // TODO: Clean SmartStore cache
+    // Clean out SmartStore
+    for (NSString *soupName in [self allCacheSoupNames]) {
+        [self.store removeSoup:soupName];
+    }
 }
 
 - (id)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy cachedTime:(out NSDate **)lastCachedTime {
@@ -219,14 +222,15 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     // Check SmartStore if in-memory cache not found.
-    NSDate *smartStoreLastCachedTime = nil;
-    cachedData = [self retrieveDataWithCacheType:cacheType cacheKey:cacheKey cachedTime:&smartStoreLastCachedTime];
+    NSDictionary *soupEntry = [self retrieveDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
     
     // Save to in-memory cache, if there's data to save.
-    if (cachedData && self.enableInMemoryCache) {
-        [self.inMemCache setObject:@{ kCacheDataKey : cachedData, kCacheTimeKey : smartStoreLastCachedTime } forKey:compositeCacheKey];
+    if (soupEntry && self.enableInMemoryCache) {
+        cachedData = soupEntry[kSmartStoreCacheDataPath];
+        NSDate *dbLastCachedTime = [SFSmartStore dateFromLastModifiedValue:soupEntry[SOUP_LAST_MODIFIED_DATE]];
+        [self.inMemCache setObject:@{ kCacheDataKey : cachedData, kCacheTimeKey : dbLastCachedTime } forKey:compositeCacheKey];
         if (lastCachedTime) {
-            *lastCachedTime = smartStoreLastCachedTime;
+            *lastCachedTime = dbLastCachedTime;
             
         }
     }
@@ -300,8 +304,8 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
 }
 
-- (id)retrieveDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachedTime:(out NSDate **)lastCachedTime {
-    NSString *retrieveDataSql = [NSString stringWithFormat:@"SELECT {%@:_soup}, {%@:__soupLastModifiedDate} FROM {%@} WHERE {%@:%@} = %@", cacheType, cacheType, cacheType, cacheType, kSmartStoreCacheKeyPath, cacheKey];
+- (NSDictionary *)retrieveDataFromStoreWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    NSString *retrieveDataSql = [NSString stringWithFormat:@"SELECT {%@:_soup} FROM {%@} WHERE {%@:%@} = %@", cacheType, cacheType, cacheType, kSmartStoreCacheKeyPath, cacheKey];
     SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:retrieveDataSql withPageSize:1];
     NSError *queryError = nil;
     
@@ -315,11 +319,7 @@ static NSMutableDictionary *cacheMgrList = nil;
         return nil;
     } else {
         NSArray *result = results[0];
-        id retData = ((NSDictionary *)result[0])[kSmartStoreCacheDataPath];
-        NSDate *modDate = [SFSmartStore dateFromLastModifiedValue:result[1]];
-        if (lastCachedTime) {
-            *lastCachedTime = modDate;
-        }
+        NSDictionary *retData = result[0];
         return retData;
     }
 }
@@ -329,6 +329,14 @@ static NSMutableDictionary *cacheMgrList = nil;
     if (![self.store soupExists:cacheSoupName]) {
         NSArray *cacheIndexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kSmartStoreCacheKeyPath indexType:kSoupIndexTypeString columnName:nil] ];
         [self.store registerSoup:cacheSoupName withIndexSpecs:cacheIndexSpecs];
+        [self addCacheSoupToSoupMappingSoup:cacheSoupName];
+    }
+}
+
+- (void)removeDataFromStoreWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    NSDictionary *storeEntry = [self retrieveDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
+    if (storeEntry != nil) {
+        [self.store removeEntries:@[ storeEntry[SOUP_ENTRY_ID] ] fromSoup:cacheType];
     }
 }
 
@@ -342,18 +350,16 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (void)addCacheSoupToSoupMappingSoup:(NSString *)soupName {
-//    if (doesMasterSoupContainSoup(soupName)) {
-//        return;
-//    }
-//    final JSONObject object = new JSONObject();
-//    try {
-//        object.put(SOUP_NAMES_KEY, soupName);
-//        smartStore.upsert(SOUP_OF_SOUPS, object);
-//    } catch (JSONException e) {
-//        Log.e(TAG, "JSONException occurred while attempting to cache data", e);
-//    } catch (SmartStoreException e) {
-//        Log.e(TAG, "SmartStoreException occurred while attempting to cache data", e);
-//    }
+    if ([self cacheSoupInSoupMappingSoup:soupName]) {
+        return;
+    }
+    
+    NSDictionary *soupNameEntry = @{ kSmartStoreSoupNamesPath: soupName };
+    NSError *upsertError = nil;
+    [self.store upsertEntries:@[ soupNameEntry ] toSoup:kSmartStoreSoupMappingSoupName withExternalIdPath:kSmartStoreSoupNamesPath error:&upsertError];
+    if (upsertError) {
+        [self log:SFLogLevelError format:@"Error adding cache soup '%@' to mapping soup: %@", soupName, [upsertError localizedDescription]];
+    }
 }
 
 - (BOOL)cacheSoupInSoupMappingSoup:(NSString *)soupName {

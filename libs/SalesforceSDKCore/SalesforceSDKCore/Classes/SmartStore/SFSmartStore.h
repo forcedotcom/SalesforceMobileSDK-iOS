@@ -333,6 +333,11 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 - (NSArray*) allSoupNames;
 
+/**
+ Creates a date object from the last modified date column value, which is numeric.
+ @param lastModifiedValue The numeric value of the date stored in the soup entry.
+ @return The NSDate representation of the last modified date.
+ */
 + (NSDate *)dateFromLastModifiedValue:(NSNumber *)lastModifiedValue;
 
 @end

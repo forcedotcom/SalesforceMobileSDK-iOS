@@ -978,13 +978,16 @@ static NSMutableDictionary *metadataMgrList = nil;
 }
 
 - (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
-    [self.cacheManager writeArchivableObjectToCache:object cacheType:cacheType cacheKey:cacheKey encryptCache:self.encryptCache];
+    [self.cacheManager writeDataToCache:object cacheType:cacheType cacheKey:cacheKey];
 }
 
-- (id)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType
-                cacheKey:(NSString *)cacheKey objectClass:(Class)objectClass
-                    containedObjectClass:(Class)containedObjectClass cachedTime:(out NSDate **)cachedTime {
-    id cachedData =  [self.cacheManager readArchivableObjectWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:self.encryptCache cachedTime:cachedTime];
+- (id)cachedObject:(SFDataCachePolicy)cachePolicy
+         cacheType:(NSString *)cacheType
+          cacheKey:(NSString *)cacheKey
+       objectClass:(Class)objectClass
+containedObjectClass:(Class)containedObjectClass
+        cachedTime:(out NSDate **)cachedTime {
+    id cachedData = [self.cacheManager readDataWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload cachedTime:cachedTime];
     if (cachedData && ![cachedData isKindOfClass:objectClass]) {
         [self.cacheManager removeCache:cacheType cacheKey:cacheKey];
         cachedData = nil;
