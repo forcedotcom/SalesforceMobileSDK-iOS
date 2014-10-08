@@ -388,12 +388,10 @@ static NSMutableDictionary *cacheMgrList = nil;
         }
         
         numResults = [results count];
-        if (numResults > 0) {
-            for (NSUInteger i = 0; i < numResults; i++) {
-                [soupNamesArray addObject:results[i][0]];
-                pageIndex++;
-            }
+        for (NSUInteger i = 0; i < numResults; i++) {
+            [soupNamesArray addObject:results[i][0]];
         }
+        pageIndex++;
     } while (numResults > 0);
     
     return soupNamesArray;
