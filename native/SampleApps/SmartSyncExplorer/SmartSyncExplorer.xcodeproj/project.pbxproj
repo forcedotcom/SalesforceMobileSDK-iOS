@@ -33,6 +33,8 @@
 		827C631F19E6018C00027484 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 827C631D19E6018C00027484 /* InfoPlist.strings */; };
 		827C632119E6018C00027484 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 827C632019E6018C00027484 /* main.m */; };
 		827C633019E6018C00027484 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 827C632F19E6018C00027484 /* Images.xcassets */; };
+		827C634D19E6D69C00027484 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = 827C634C19E6D69C00027484 /* search.png */; };
+		827C634F19E6D6F100027484 /* search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 827C634E19E6D6F100027484 /* search@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +70,8 @@
 		827C632019E6018C00027484 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		827C632219E6018C00027484 /* SmartSyncExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSyncExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		827C632F19E6018C00027484 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		827C634C19E6D69C00027484 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		827C634E19E6D6F100027484 /* search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 		820C8B3319E639D500E9BE5C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				827C634E19E6D6F100027484 /* search@2x.png */,
+				827C634C19E6D69C00027484 /* search.png */,
 				820C8B3419E639E400E9BE5C /* sync.png */,
 				820C8B3619E63DCC00E9BE5C /* sync@2x.png */,
 			);
@@ -237,6 +243,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				827C634F19E6D6F100027484 /* search@2x.png in Resources */,
+				827C634D19E6D69C00027484 /* search.png in Resources */,
 				827C633019E6018C00027484 /* Images.xcassets in Resources */,
 				820C8B3719E63DCC00E9BE5C /* sync@2x.png in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,

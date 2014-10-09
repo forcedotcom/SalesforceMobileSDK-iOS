@@ -86,6 +86,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    [self setupRootViewController];
     
     //
     // If you wish to register for push notifications, uncomment the line below.  Note that,
@@ -95,7 +96,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
     
-    [[SalesforceSDKManager sharedManager] launch];
+//    [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
 
