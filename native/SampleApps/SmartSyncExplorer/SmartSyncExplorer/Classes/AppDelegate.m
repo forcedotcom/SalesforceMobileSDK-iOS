@@ -24,7 +24,7 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import "RootViewController.h"
+//#import "RootViewController.h"
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -95,7 +95,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
     
-    [[SalesforceSDKManager sharedManager] launch];
+//    [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
 
@@ -126,9 +126,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)setupRootViewController
 {
-    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    self.window.rootViewController = navVC;
+//    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
+//    self.window.rootViewController = navVC;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock

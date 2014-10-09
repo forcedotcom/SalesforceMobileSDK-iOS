@@ -8,6 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
+		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
+		820C8B1819E6070E00E9BE5C /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1219E6070E00E9BE5C /* libMKNetworkKit-iOS.a */; };
+		820C8B1919E6070E00E9BE5C /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1319E6070E00E9BE5C /* libSalesforceNetworkSDK.a */; };
+		820C8B1A19E6070E00E9BE5C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1419E6070E00E9BE5C /* libSalesforceOAuth.a */; };
+		820C8B1B19E6070E00E9BE5C /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */; };
+		820C8B1C19E6070E00E9BE5C /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */; };
+		820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1719E6070E00E9BE5C /* libSmartSync.a */; };
+		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
+		820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */; };
+		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
+		820C8B2519E608A500E9BE5C /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */; };
+		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
+		820C8B2919E6093300E9BE5C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2819E6093300E9BE5C /* libz.dylib */; };
+		820C8B2C19E6095900E9BE5C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2A19E6095900E9BE5C /* libcrypto.a */; };
+		820C8B2D19E6095900E9BE5C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2B19E6095900E9BE5C /* libssl.a */; };
+		820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2E19E6096800E9BE5C /* libsqlcipher.a */; };
 		827C631519E6018C00027484 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631419E6018C00027484 /* Foundation.framework */; };
 		827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631619E6018C00027484 /* CoreGraphics.framework */; };
 		827C631919E6018C00027484 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631819E6018C00027484 /* UIKit.framework */; };
@@ -19,6 +35,23 @@
 /* Begin PBXFileReference section */
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		820C8B0F19E6059400E9BE5C /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
+		820C8B1019E6059400E9BE5C /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
+		820C8B1219E6070E00E9BE5C /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMKNetworkKit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1319E6070E00E9BE5C /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1419E6070E00E9BE5C /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1719E6070E00E9BE5C /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B1E19E6081C00E9BE5C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		820C8B2219E6088400E9BE5C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		820C8B2819E6093300E9BE5C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		820C8B2A19E6095900E9BE5C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
+		820C8B2B19E6095900E9BE5C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
+		820C8B2E19E6096800E9BE5C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		827C631119E6018C00027484 /* SmartSyncExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827C631419E6018C00027484 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827C631619E6018C00027484 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -28,7 +61,6 @@
 		827C632019E6018C00027484 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		827C632219E6018C00027484 /* SmartSyncExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSyncExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		827C632F19E6018C00027484 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		827C633619E6018C00027484 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,7 +68,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820C8B2C19E6095900E9BE5C /* libcrypto.a in Frameworks */,
+				820C8B1819E6070E00E9BE5C /* libMKNetworkKit-iOS.a in Frameworks */,
+				820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */,
+				820C8B1919E6070E00E9BE5C /* libSalesforceNetworkSDK.a in Frameworks */,
+				820C8B1A19E6070E00E9BE5C /* libSalesforceOAuth.a in Frameworks */,
+				820C8B2519E608A500E9BE5C /* libSalesforceRestAPI.a in Frameworks */,
+				820C8B1B19E6070E00E9BE5C /* libSalesforceSDKCore.a in Frameworks */,
+				820C8B1C19E6070E00E9BE5C /* libSalesforceSecurity.a in Frameworks */,
+				820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */,
+				820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */,
+				820C8B2D19E6095900E9BE5C /* libssl.a in Frameworks */,
+				820C8B2919E6093300E9BE5C /* libz.dylib in Frameworks */,
 				827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */,
+				820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */,
+				820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */,
+				820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */,
 				827C631919E6018C00027484 /* UIKit.framework in Frameworks */,
 				827C631519E6018C00027484 /* Foundation.framework in Frameworks */,
 			);
@@ -50,6 +97,8 @@
 			children = (
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
+				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
+				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -74,10 +123,24 @@
 		827C631319E6018C00027484 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				820C8B2A19E6095900E9BE5C /* libcrypto.a */,
+				820C8B1219E6070E00E9BE5C /* libMKNetworkKit-iOS.a */,
+				820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */,
+				820C8B1319E6070E00E9BE5C /* libSalesforceNetworkSDK.a */,
+				820C8B1419E6070E00E9BE5C /* libSalesforceOAuth.a */,
+				820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */,
+				820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */,
+				820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */,
+				820C8B1719E6070E00E9BE5C /* libSmartSync.a */,
+				820C8B2E19E6096800E9BE5C /* libsqlcipher.a */,
+				820C8B2B19E6095900E9BE5C /* libssl.a */,
+				820C8B2819E6093300E9BE5C /* libz.dylib */,
 				827C631419E6018C00027484 /* Foundation.framework */,
+				820C8B1E19E6081C00E9BE5C /* ImageIO.framework */,
+				820C8B2219E6088400E9BE5C /* MessageUI.framework */,
+				820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */,
 				827C631619E6018C00027484 /* CoreGraphics.framework */,
 				827C631819E6018C00027484 /* UIKit.framework */,
-				827C633619E6018C00027484 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -167,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
 			);
