@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -165,6 +165,15 @@ typedef enum {
  * @return A query spec object.
  */
 + (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
+
+/**
+ * Factory method to build a query spec to return all data from a soup.
+ * @param soupName The target soup name.
+ * @param path The path to filter on (in this spec, used only for ordering).
+ * @param order The sort order.
+ * @param pageSize The page size.
+ */
++ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withPath:(NSString*)path withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
  * Factory method to build a smart query spec

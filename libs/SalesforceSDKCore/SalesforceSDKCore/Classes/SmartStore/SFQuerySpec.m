@@ -105,6 +105,10 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     return querySpec;
 }
 
++ (SFQuerySpec*) newAllQuerySpec:(NSString *)soupName withPath:(NSString *)path withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize {
+    return [self newRangeQuerySpec:soupName withPath:path withBeginKey:nil withEndKey:nil withOrder:order withPageSize:pageSize];
+}
+
 + (SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize {
     SFQuerySpec* querySpec = [[super alloc] init];
     if (nil != querySpec) {

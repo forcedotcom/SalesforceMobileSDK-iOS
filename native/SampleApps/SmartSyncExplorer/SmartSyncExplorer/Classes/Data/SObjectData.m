@@ -22,8 +22,26 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SObjectData+Internal.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+@implementation SObjectData
+
+- (id)initWithSoupDict:(NSDictionary *)soupDict {
+    self = [super init];
+    if (self) {
+        self.soupDict = soupDict;
+    }
+    return self;
+}
+
+- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue  {
+    NSMutableDictionary *mutableSoup = [self.soupDict mutableCopy];
+    if (fieldValue == nil) {
+        [mutableSoup removeObjectForKey:fieldName];
+    } else {
+        mutableSoup[fieldName] = fieldValue;
+    }
+    self.soupDict = mutableSoup;
+}
 
 @end

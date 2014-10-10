@@ -27,6 +27,11 @@
 		820C8B3219E60BDE00E9BE5C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3119E60BDE00E9BE5C /* RootViewController.m */; };
 		820C8B3519E639E400E9BE5C /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 820C8B3419E639E400E9BE5C /* sync.png */; };
 		820C8B3719E63DCC00E9BE5C /* sync@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820C8B3619E63DCC00E9BE5C /* sync@2x.png */; };
+		820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */; };
+		820C8B4119E71C3F00E9BE5C /* ContactSObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */; };
+		820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4319E75CFB00E9BE5C /* SObjectData.m */; };
+		820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */; };
+		820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */; };
 		827C631519E6018C00027484 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631419E6018C00027484 /* Foundation.framework */; };
 		827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631619E6018C00027484 /* CoreGraphics.framework */; };
 		827C631919E6018C00027484 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631819E6018C00027484 /* UIKit.framework */; };
@@ -61,6 +66,17 @@
 		820C8B3119E60BDE00E9BE5C /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		820C8B3419E639E400E9BE5C /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
 		820C8B3619E63DCC00E9BE5C /* sync@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sync@2x.png"; sourceTree = "<group>"; };
+		820C8B3C19E71A3800E9BE5C /* SObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataSpec.h; path = Data/SObjectDataSpec.h; sourceTree = "<group>"; };
+		820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectDataSpec.m; path = Data/SObjectDataSpec.m; sourceTree = "<group>"; };
+		820C8B3F19E71C3F00E9BE5C /* ContactSObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactSObjectDataSpec.h; path = Data/ContactSObjectDataSpec.h; sourceTree = "<group>"; };
+		820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactSObjectDataSpec.m; path = Data/ContactSObjectDataSpec.m; sourceTree = "<group>"; };
+		820C8B4219E75CFB00E9BE5C /* SObjectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectData.h; path = Data/SObjectData.h; sourceTree = "<group>"; };
+		820C8B4319E75CFB00E9BE5C /* SObjectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectData.m; path = Data/SObjectData.m; sourceTree = "<group>"; };
+		820C8B4519E75DAE00E9BE5C /* ContactSObjectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactSObjectData.h; path = Data/ContactSObjectData.h; sourceTree = "<group>"; };
+		820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactSObjectData.m; path = Data/ContactSObjectData.m; sourceTree = "<group>"; };
+		820C8B4819E78E1B00E9BE5C /* SObjectData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SObjectData+Internal.h"; path = "Data/SObjectData+Internal.h"; sourceTree = "<group>"; };
+		820C8B4919E7936100E9BE5C /* SObjectDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataManager.h; path = Data/SObjectDataManager.h; sourceTree = "<group>"; };
+		820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectDataManager.m; path = Data/SObjectDataManager.m; sourceTree = "<group>"; };
 		827C631119E6018C00027484 /* SmartSyncExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827C631419E6018C00027484 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827C631619E6018C00027484 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -106,6 +122,7 @@
 		820C8B0B19E6054E00E9BE5C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				820C8B3B19E71A1600E9BE5C /* Data */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
 				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
@@ -125,6 +142,24 @@
 				820C8B3619E63DCC00E9BE5C /* sync@2x.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		820C8B3B19E71A1600E9BE5C /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				820C8B4519E75DAE00E9BE5C /* ContactSObjectData.h */,
+				820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */,
+				820C8B3F19E71C3F00E9BE5C /* ContactSObjectDataSpec.h */,
+				820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */,
+				820C8B4219E75CFB00E9BE5C /* SObjectData.h */,
+				820C8B4819E78E1B00E9BE5C /* SObjectData+Internal.h */,
+				820C8B4319E75CFB00E9BE5C /* SObjectData.m */,
+				820C8B4919E7936100E9BE5C /* SObjectDataManager.h */,
+				820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */,
+				820C8B3C19E71A3800E9BE5C /* SObjectDataSpec.h */,
+				820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		827C630819E6018C00027484 = {
@@ -261,8 +296,13 @@
 			files = (
 				820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */,
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
+				820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */,
+				820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */,
+				820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */,
 				820C8B3219E60BDE00E9BE5C /* RootViewController.m in Sources */,
+				820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
+				820C8B4119E71C3F00E9BE5C /* ContactSObjectDataSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

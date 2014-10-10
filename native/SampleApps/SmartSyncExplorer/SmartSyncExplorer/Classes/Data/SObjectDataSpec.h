@@ -22,8 +22,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SFSoupIndex.h>
+#import "SObjectData.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+extern NSString * const kSObjectIdField;
+
+@interface SObjectDataSpec : NSObject
+
+@property (nonatomic, copy) NSString *objectType;
+@property (nonatomic, strong) NSArray *objectFields;
+@property (nonatomic, strong) NSArray *indexSpecs;
+@property (nonatomic, copy) NSString *soupName;
+@property (nonatomic, copy) NSString *orderByFieldName;
+
+@property (nonatomic, readonly) NSArray *soupFieldNames;
+
+- (id)initWithObjectType:(NSString *)objectType
+            objectFields:(NSArray *)objectFields
+              indexSpecs:(NSArray *)indexSpecs
+                soupName:(NSString *)soupName
+        orderByFieldName:(NSString *)orderByFieldName;
+
++ (SObjectData *)createSObjectData:(NSDictionary *)soupDict;
 
 @end

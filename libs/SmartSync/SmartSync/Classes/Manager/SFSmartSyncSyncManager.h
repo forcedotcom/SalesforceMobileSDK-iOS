@@ -29,6 +29,20 @@ extern NSString * const kSyncManagerSyncTypeDown;
 extern NSString * const kSyncManagerSyncTypeUp;
 extern NSString * const kSyncManagerNotification;
 
+extern NSString * const kSyncManagerSyncStatus;
+extern NSString * const kSyncManagerStatusNew;
+extern NSString * const kSyncManagerStatusRunning;
+extern NSString * const kSyncManagerStatusDone;
+extern NSString * const kSyncManagerStatusFailed;
+
+extern NSString * const kSyncManagerTargetQueryType;
+extern NSString * const kSyncManagerTargetQuery;
+extern NSString * const kSyncManagerTargetObjectType;
+extern NSString * const kSyncManagerTargetFieldlist;
+extern NSString * const kSyncManagerQueryTypeMru;
+extern NSString * const kSyncManagerQueryTypeSoql;
+extern NSString * const kSyncManagerQueryTypeSosl;
+
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */

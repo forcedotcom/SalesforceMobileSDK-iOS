@@ -22,8 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SObjectDataSpec.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+extern NSString * const kContactFirstNameField;
+extern NSString * const kContactLastNameField;
+extern NSString * const kContactTitleField;
+extern NSString * const kContactPhoneField;
+extern NSString * const kContactEmailField;
+extern NSString * const kContactDepartmentField;
+extern NSString * const kContactHomePhoneField;
+
+@interface ContactSObjectDataSpec : SObjectDataSpec
 
 @end

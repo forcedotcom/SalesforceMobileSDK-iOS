@@ -22,8 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "SObjectData.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+@interface ContactSObjectData : SObjectData
+
+@property (nonatomic, copy) NSString *firstName;
+@property (nonatomic, copy) NSString *lastName;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *phone;
+@property (nonatomic, copy) NSString *email;
+@property (nonatomic, copy) NSString *department;
+@property (nonatomic, copy) NSString *homePhone;
 
 @end

@@ -22,8 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+@interface SObjectData : NSObject
+
+@property (nonatomic, strong) NSDictionary *soupDict;
+
+- (id)initWithSoupDict:(NSDictionary *)soupDict;
 
 @end

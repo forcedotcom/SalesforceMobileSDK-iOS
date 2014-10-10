@@ -22,8 +22,68 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "ContactSObjectData.h"
+#import "ContactSObjectDataSpec.h"
+#import "SObjectData+Internal.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+@implementation ContactSObjectData
+
+#pragma mark - Property getters / setters
+
+- (NSString *)firstName {
+    return self.soupDict[kContactFirstNameField];
+}
+
+- (void)setFirstName:(NSString *)firstName {
+    [self updateSoupForFieldName:kContactFirstNameField fieldValue:firstName];
+}
+
+- (NSString *)lastName {
+    return self.soupDict[kContactLastNameField];
+}
+
+- (void)setLastName:(NSString *)lastName {
+    [self updateSoupForFieldName:kContactLastNameField fieldValue:lastName];
+}
+
+- (NSString *)title {
+    return self.soupDict[kContactTitleField];
+}
+
+- (void)setTitle:(NSString *)title {
+    [self updateSoupForFieldName:kContactTitleField fieldValue:title];
+}
+
+- (NSString *)phone {
+    return self.soupDict[kContactPhoneField];
+}
+
+- (void)setPhone:(NSString *)phone {
+    [self updateSoupForFieldName:kContactPhoneField fieldValue:phone];
+}
+
+- (NSString *)email {
+    return self.soupDict[kContactEmailField];
+}
+
+- (void)setEmail:(NSString *)email {
+    [self updateSoupForFieldName:kContactEmailField fieldValue:email];
+}
+
+- (NSString *)department {
+    return self.soupDict[kContactDepartmentField];
+}
+
+- (void)setDepartment:(NSString *)department {
+    [self updateSoupForFieldName:kContactDepartmentField fieldValue:department];
+}
+
+- (NSString *)homePhone {
+    return self.soupDict[kContactHomePhoneField];
+}
+
+- (void)setHomePhone:(NSString *)homePhone {
+    [self updateSoupForFieldName:kContactHomePhoneField fieldValue:homePhone];
+}
 
 @end

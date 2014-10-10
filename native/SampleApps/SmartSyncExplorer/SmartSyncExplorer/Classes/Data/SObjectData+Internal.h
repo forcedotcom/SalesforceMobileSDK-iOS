@@ -22,8 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import "SObjectData.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource>
+@interface SObjectData ()
+
+- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue;
 
 @end
