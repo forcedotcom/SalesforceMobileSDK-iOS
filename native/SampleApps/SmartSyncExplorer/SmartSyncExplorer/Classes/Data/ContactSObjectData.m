@@ -31,7 +31,7 @@
 #pragma mark - Property getters / setters
 
 - (NSString *)firstName {
-    return self.soupDict[kContactFirstNameField];
+    return [self nonNullFieldValue:kContactFirstNameField];
 }
 
 - (void)setFirstName:(NSString *)firstName {
@@ -39,7 +39,7 @@
 }
 
 - (NSString *)lastName {
-    return self.soupDict[kContactLastNameField];
+    return [self nonNullFieldValue:kContactLastNameField];
 }
 
 - (void)setLastName:(NSString *)lastName {
@@ -47,7 +47,7 @@
 }
 
 - (NSString *)title {
-    return self.soupDict[kContactTitleField];
+    return [self nonNullFieldValue:kContactTitleField];
 }
 
 - (void)setTitle:(NSString *)title {
@@ -55,7 +55,7 @@
 }
 
 - (NSString *)phone {
-    return self.soupDict[kContactPhoneField];
+    return [self nonNullFieldValue:kContactPhoneField];
 }
 
 - (void)setPhone:(NSString *)phone {
@@ -71,7 +71,7 @@
 }
 
 - (NSString *)department {
-    return self.soupDict[kContactDepartmentField];
+    return [self nonNullFieldValue:kContactDepartmentField];
 }
 
 - (void)setDepartment:(NSString *)department {
@@ -79,7 +79,7 @@
 }
 
 - (NSString *)homePhone {
-    return self.soupDict[kContactHomePhoneField];
+    return [self nonNullFieldValue:kContactHomePhoneField];
 }
 
 - (void)setHomePhone:(NSString *)homePhone {

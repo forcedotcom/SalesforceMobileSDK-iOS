@@ -23,6 +23,7 @@
  */
 
 #import "SObjectData+Internal.h"
+#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 
 @implementation SObjectData
 
@@ -42,6 +43,10 @@
         mutableSoup[fieldName] = fieldValue;
     }
     self.soupDict = mutableSoup;
+}
+
+- (id)nonNullFieldValue:(NSString *)fieldName {
+    return [self.soupDict nonNullObjectForKey:fieldName];
 }
 
 @end
