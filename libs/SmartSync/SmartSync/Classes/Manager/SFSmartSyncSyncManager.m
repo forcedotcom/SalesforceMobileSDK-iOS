@@ -173,7 +173,7 @@ dispatch_queue_t queue;
                            kSyncManagerSyncType: type,
                            kSyncManagerSyncTarget: target == nil ? @{} : target,
                            kSyncManagerSyncSoupName: soupName,
-                           kSyncManagerSyncOptions: options,
+                           kSyncManagerSyncOptions: options == nil ? @{} : options,
                            kSyncManagerSyncStatus: kSyncManagerStatusNew };
 
     NSArray* syncs = [self.store upsertEntries:@[ sync ] toSoup:kSyncManagerSyncsSoupName];
