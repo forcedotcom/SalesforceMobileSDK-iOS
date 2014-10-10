@@ -42,6 +42,10 @@
     return builder;
 }
 
++ (SFSmartSyncSoqlBuilder *) withFieldsArray:(NSArray *) fields {
+    return [SFSmartSyncSoqlBuilder withFields:[fields componentsJoinedByString:@", "]];
+}
+
 - (id) init {
     if (self = [super init]) {
         properties = [[NSMutableDictionary alloc] init];
