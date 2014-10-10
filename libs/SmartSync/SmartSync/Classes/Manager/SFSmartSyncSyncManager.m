@@ -25,6 +25,7 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
+#import "SFSmartSyncSoqlBuilder.h"
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
@@ -274,16 +275,12 @@ dispatch_queue_t queue;
     __weak SFSmartSyncSyncManager *weakSelf = self;
     [self.restClient performMetadataWithObjectType:sobjectType failBlock:failBlock completeBlock:^(NSDictionary* d) {
         NSArray* recentItems = [weakSelf pluck:d[kSyncManagerRecentItems] key:kSyncManagerObjectId];
-        NSString* soql = [
-            @[@"SELECT ",
-              [fieldlist componentsJoinedByString:@", "],
-              @" FROM ",
-              sobjectType,
-              @" WHERE Id IN ('",
-              [recentItems componentsJoinedByString:@"', '"],
-              @"')"
-              ]
-             componentsJoinedByString:@""];
+        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
+                                 componentsJoinedByString:@""];
+        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:fieldlist]
+                            from:sobjectType]
+                           where:inPredicate]
+                          build];
         [weakSelf syncDownSoql:soql soup:soupName updateBlock:updateBlock failBlock:failBlock];
     }];
 }

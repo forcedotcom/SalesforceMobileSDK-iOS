@@ -34,6 +34,14 @@
  */
 + (SFSmartSyncSoqlBuilder *) withFields:(NSString *) fields;
 
+/** @name Query Builder */
+/** A builder to help create a SOQL statement.
+ *
+ * @param fields an array of one or more fields, that are to be retrieved from the specified object
+ * @return the builder
+ */
++ (SFSmartSyncSoqlBuilder *) withFieldsArray:(NSArray *) fields;
+
 /** A builder to help create a SOQL statement.
  *
  * @param from the object to be queried
