@@ -109,6 +109,7 @@
 
 - (void)viewWillLayoutSubviews {
     // TODO: Clean up, split out into methods.
+    // TODO: Coordinates cleanup.
     self.navBarLabel.frame = self.navigationController.navigationBar.frame;
     self.searchHeader.frame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 50);
     self.syncIconView.frame = CGRectMake(5, CGRectGetMidY(self.searchHeader.frame) - (self.syncIconView.image.size.height / 2.0), self.syncIconView.image.size.width, self.syncIconView.image.size.height);
@@ -139,7 +140,7 @@
     
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
     // TODO: Circle
@@ -147,7 +148,8 @@
     cell.imageView.image = image;
     
     ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", obj.firstName, obj.lastName];
+    cell.textLabel.text = [self formatNameWithFirstName:obj.firstName lastName:obj.lastName];
+    cell.detailTextLabel.text = [self formatTitle:obj.title];
     
     //this adds the arrow to the right hand side.
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -161,6 +163,27 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.dataMgr.dataRows count];
+}
+
+#pragma mark - Private methods
+
+- (NSString *)formatNameWithFirstName:(NSString *)firstName lastName:(NSString *)lastName {
+    firstName = [firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    lastName = [lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (firstName == nil && lastName == nil) {
+        return @"";
+    } else if (firstName == nil && lastName != nil) {
+        return lastName;
+    } else if (firstName != nil && lastName == nil) {
+        return firstName;
+    } else {
+        return [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+    }
+}
+
+- (NSString *)formatTitle:(NSString *)title {
+    title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return (title != nil ? title : @"");
 }
 
 @end
