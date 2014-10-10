@@ -63,7 +63,8 @@
 
 - (void)loadView {
     [super loadView];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(241.0 / 255.0) green:0.0 blue:0.0 alpha:0.0];
+    
+    self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:0xf10000];
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -76,14 +77,14 @@
     
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchHeader.backgroundColor = [UIColor colorWithRed:(175.0 / 255.0) green:(182.0 / 255.0) blue:(187.0 / 255.0) alpha:1.0];
+    self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:0xafb6bb];
     
     UIImage *syncIcon = [UIImage imageNamed:@"sync"];
     self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
     [self.searchHeader addSubview:self.syncIconView];
     
     self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    self.searchTextField.backgroundColor = [UIColor colorWithRed:(224.0 / 255.0) green:(221.0 / 255.0) blue:(221.0 / 255.0) alpha:1.0];
+    self.searchTextField.backgroundColor = [[self class] colorFromRgbHexValue:0xe0dddd];
     self.searchTextField.font = [UIFont systemFontOfSize:14.0];
     self.searchTextField.layer.cornerRadius = 10.0f;
     
@@ -94,7 +95,7 @@
     [self.searchTextFieldLeftView addSubview:self.searchIconView];
     self.searchTextFieldLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.searchTextFieldLabel.text = @"Search";
-    self.searchTextFieldLabel.textColor = [UIColor colorWithRed:(150.0 / 255.0) green:(150.0 / 255.0) blue:(150.0 / 255.0) alpha:1.0];
+    self.searchTextFieldLabel.textColor = [[self class] colorFromRgbHexValue:0x969696];
     self.searchTextFieldLabel.font = [UIFont systemFontOfSize:14.0];
     [self.searchTextFieldLeftView addSubview:self.searchTextFieldLabel];
     
@@ -148,8 +149,11 @@
     cell.imageView.image = image;
     
     ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
-    cell.textLabel.text = [self formatNameWithFirstName:obj.firstName lastName:obj.lastName];
+    cell.textLabel.text = [self formatNameFromContact:obj];
     cell.detailTextLabel.text = [self formatTitle:obj.title];
+    cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:0x696969];
+    cell.imageView.frame = CGRectMake(0, 0, 25, 25);
+    cell.imageView.image = [self initialsBackgroundImageWithColor:[self colorFromContact:obj] initials:[self formatInitialsFromContact:obj]];
     
     //this adds the arrow to the right hand side.
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -167,9 +171,9 @@
 
 #pragma mark - Private methods
 
-- (NSString *)formatNameWithFirstName:(NSString *)firstName lastName:(NSString *)lastName {
-    firstName = [firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    lastName = [lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+- (NSString *)formatNameFromContact:(ContactSObjectData *)contact {
+    NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (firstName == nil && lastName == nil) {
         return @"";
     } else if (firstName == nil && lastName != nil) {
@@ -181,9 +185,82 @@
     }
 }
 
+- (NSString *)formatInitialsFromContact:(ContactSObjectData *)contact {
+    NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    NSMutableString *initialsString = [NSMutableString stringWithString:@""];
+    if ([firstName length] > 0) {
+        unichar firstChar = [firstName characterAtIndex:0];
+        NSString *firstCharString = [NSString stringWithCharacters:&firstChar length:1];
+        [initialsString appendFormat:@"%@", firstCharString];
+    }
+    if ([lastName length] > 0) {
+        unichar firstChar = [lastName characterAtIndex:0];
+        NSString *firstCharString = [NSString stringWithCharacters:&firstChar length:1];
+        [initialsString appendFormat:@"%@", firstCharString];
+    }
+    
+    return initialsString;
+}
+
 - (NSString *)formatTitle:(NSString *)title {
     title = [title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     return (title != nil ? title : @"");
+}
+
+- (UIColor *)colorFromContact:(ContactSObjectData *)contact {
+    static NSArray *colorCodesList = nil;
+    if (colorCodesList == nil) {
+        colorCodesList = @[ @0x1abc9c, @0x2ecc71, @0x3498db, @0x9b59b6, @0x34495e, @0x16a085, @0x27ae60, @0x2980b9, @0x8e44ad, @0x2c3e50, @0xf1c40f, @0xe67e22, @0xe74c3c, @0x95a5a6, @0xf39c12, @0xd35400, @0xc0392b, @0xbdc3c7, @0x7f8c8d ];
+    }
+    
+    NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSUInteger codeSeedFromName = 0;
+    for (NSUInteger i = 0; i < [lastName length]; i++) {
+        codeSeedFromName += [lastName characterAtIndex:i];
+    }
+    
+    NSUInteger colorCodesListIndex = codeSeedFromName % [colorCodesList count];
+    NSUInteger colorCodeHexValue = [colorCodesList[colorCodesListIndex] unsignedIntegerValue];
+    return [[self class] colorFromRgbHexValue:colorCodeHexValue];
+}
+
++ (UIColor *)colorFromRgbHexValue:(NSUInteger)rgbHexColorValue {
+    return [UIColor colorWithRed:((CGFloat)((rgbHexColorValue & 0xFF0000) >> 16)) / 255.0
+                           green:((CGFloat)((rgbHexColorValue & 0xFF00) >> 8)) / 255.0
+                            blue:((CGFloat)(rgbHexColorValue & 0xFF)) / 255.0
+                           alpha:1.0];
+}
+
+- (UIImage *)initialsBackgroundImageWithColor:(UIColor *)circleColor initials:(NSString *)initials {
+    CGFloat circleWidth = 35.0;
+    CGFloat circleHeight = 35.0;
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(circleWidth, circleHeight), NO, [UIScreen mainScreen].scale);
+    
+    // Draw the circle.
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIGraphicsPushContext(context);
+    CGPoint circleCenter = CGPointMake(circleWidth / 2.0, circleHeight / 2.0);
+    CGContextSetFillColorWithColor(context, [circleColor CGColor]);
+    CGContextBeginPath(context);
+    CGContextAddArc(context, circleCenter.x, circleCenter.y, circleWidth / 2.0, 0, 2*M_PI, 0);
+    CGContextFillPath(context);
+    
+    // Draw the initials.
+    NSDictionary *initialsAttrs = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
+    CGSize initialsTextSize = [initials sizeWithAttributes:initialsAttrs];
+    CGRect initialsRect = CGRectMake(circleCenter.x - (initialsTextSize.width / 2.0), circleCenter.y - (initialsTextSize.height / 2.0), initialsTextSize.width, initialsTextSize.height);
+    [initials drawInRect:initialsRect withAttributes:initialsAttrs];
+    
+    UIGraphicsPopContext();
+    
+    UIImage *imageFromGraphicsContext = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return imageFromGraphicsContext;
 }
 
 @end
