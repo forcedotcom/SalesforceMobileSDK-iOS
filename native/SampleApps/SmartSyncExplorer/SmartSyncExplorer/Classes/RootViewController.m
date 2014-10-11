@@ -28,17 +28,17 @@
 #import "ContactSObjectData.h"
 
 static NSUInteger const kNavBarTintColor                = 0xf10000;
-static CGFloat const kNavBarTitleFontSize               = 20.0;
+static CGFloat    const kNavBarTitleFontSize            = 20.0;
 static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
 static NSUInteger const kSearchTextFieldBackgroundColor = 0xe0dddd;
 static NSUInteger const kSearchLabelBackgroundColor     = 0x969696;
 static NSUInteger const kContactTitleTextColor          = 0x696969;
-static CGFloat const kSearchTextFieldFontSize           = 14.0;
-static CGFloat const kControlBuffer                     = 5.0;
-static CGFloat const kSearchHeaderHeight                = 50.0;
-static CGFloat const kSearchTextFieldHeight             = 35.0;
+static CGFloat    const kSearchTextFieldFontSize        = 14.0;
+static CGFloat    const kControlBuffer                  = 5.0;
+static CGFloat    const kSearchHeaderHeight             = 50.0;
+static CGFloat    const kSearchTextFieldHeight          = 35.0;
 
-@interface RootViewController ()
+@interface RootViewController () <UISearchBarDelegate>
 
 // View / UI properties
 @property (nonatomic, copy) NSString *sobjectTitle;
@@ -49,9 +49,11 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
 @property (nonatomic, strong) UIView *searchTextFieldLeftView;
 @property (nonatomic, strong) UIImageView *searchIconView;
 @property (nonatomic, strong) UILabel *searchTextFieldLabel;
+@property (nonatomic, strong) UISearchBar *searchBar;
 
 // Data properties
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+@property (nonatomic, assign) BOOL isSearching;
 
 @end
 
@@ -61,8 +63,8 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.sobjectTitle = @"Contacts";
-        SObjectDataSpec *dataSpec = [[ContactSObjectDataSpec alloc] init];
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:dataSpec];
+        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+        self.isSearching = NO;
     }
     return self;
 }
@@ -90,30 +92,36 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
     self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
     
-    UIImage *syncIcon = [UIImage imageNamed:@"sync"];
-    self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
-    [self.searchHeader addSubview:self.syncIconView];
+//    UIImage *syncIcon = [UIImage imageNamed:@"sync"];
+//    self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
+//    [self.searchHeader addSubview:self.syncIconView];
     
-    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    self.searchTextField.backgroundColor = [[self class] colorFromRgbHexValue:kSearchTextFieldBackgroundColor];
-    self.searchTextField.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
-    self.searchTextField.layer.cornerRadius = 10.0f;
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar.barTintColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
+    self.searchBar.placeholder = @"Search";
+    self.searchBar.delegate = self;
+    [self.searchHeader addSubview:self.searchBar];
     
-    self.searchTextFieldLeftView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchTextFieldLeftView.backgroundColor = [UIColor clearColor];
-    UIImage *searchIcon = [UIImage imageNamed:@"search"];
-    self.searchIconView = [[UIImageView alloc] initWithImage:searchIcon];
-    [self.searchTextFieldLeftView addSubview:self.searchIconView];
-    self.searchTextFieldLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.searchTextFieldLabel.text = @"Search";
-    self.searchTextFieldLabel.textColor = [[self class] colorFromRgbHexValue:kSearchLabelBackgroundColor];
-    self.searchTextFieldLabel.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
-    [self.searchTextFieldLeftView addSubview:self.searchTextFieldLabel];
-    
-    self.searchTextField.leftView = self.searchTextFieldLeftView;
-    self.searchTextField.leftViewMode = UITextFieldViewModeUnlessEditing;
-    
-    [self.searchHeader addSubview:self.searchTextField];
+//    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+//    self.searchTextField.backgroundColor = [[self class] colorFromRgbHexValue:kSearchTextFieldBackgroundColor];
+//    self.searchTextField.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
+//    self.searchTextField.layer.cornerRadius = 10.0f;
+//    
+//    self.searchTextFieldLeftView = [[UIView alloc] initWithFrame:CGRectZero];
+//    self.searchTextFieldLeftView.backgroundColor = [UIColor clearColor];
+//    UIImage *searchIcon = [UIImage imageNamed:@"search"];
+//    self.searchIconView = [[UIImageView alloc] initWithImage:searchIcon];
+//    [self.searchTextFieldLeftView addSubview:self.searchIconView];
+//    self.searchTextFieldLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//    self.searchTextFieldLabel.text = @"Search";
+//    self.searchTextFieldLabel.textColor = [[self class] colorFromRgbHexValue:kSearchLabelBackgroundColor];
+//    self.searchTextFieldLabel.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
+//    [self.searchTextFieldLeftView addSubview:self.searchTextFieldLabel];
+//    
+//    self.searchTextField.leftView = self.searchTextFieldLeftView;
+//    self.searchTextField.leftViewMode = UITextFieldViewModeUnlessEditing;
+//    
+//    [self.searchHeader addSubview:self.searchTextField];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -134,7 +142,7 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UITableViewDataSource methods
+#pragma mark - UITableView delegate methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CellIdentifier";
@@ -183,7 +191,36 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
         return 0;
 }
 
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self searchResignFirstResponder];
+}
+
+#pragma mark - UISearchBarDelegate methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
+    [self.dataMgr filterOnSearchTerm:searchText completion:^{
+        [self.tableView reloadData];
+        if (self.isSearching && ![self.searchBar isFirstResponder]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.searchBar becomeFirstResponder];
+            });
+        }
+    }];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.isSearching = YES;
+}
+
 #pragma mark - Private methods
+
+- (void)searchResignFirstResponder {
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
+        self.isSearching = NO;
+    }
+}
 
 - (void)layoutSearchHeader {
     
@@ -193,54 +230,63 @@ static CGFloat const kSearchTextFieldHeight             = 35.0;
     CGRect searchHeaderFrame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, kSearchHeaderHeight);
     self.searchHeader.frame = searchHeaderFrame;
     
-    //
-    // syncIconView
-    //
-    CGRect iconViewFrame = CGRectMake(kControlBuffer,
-                                      CGRectGetMidY(self.searchHeader.bounds) - (self.syncIconView.image.size.height / 2.0),
-                                      self.syncIconView.image.size.width,
-                                      self.syncIconView.image.size.height);
-    self.syncIconView.frame = iconViewFrame;
+//    //
+//    // syncIconView
+//    //
+//    CGRect iconViewFrame = CGRectMake(kControlBuffer,
+//                                      CGRectGetMidY(self.searchHeader.bounds) - (self.syncIconView.image.size.height / 2.0),
+//                                      self.syncIconView.image.size.width,
+//                                      self.syncIconView.image.size.height);
+//    self.syncIconView.frame = iconViewFrame;
     
     //
-    // searchTextField
+    // searchBar
     //
-    CGFloat searchTextFieldXOffset = self.syncIconView.frame.size.width + kControlBuffer;
-    CGRect searchTextFieldFrame = CGRectMake(searchTextFieldXOffset,
-                                             CGRectGetMidY(self.searchHeader.bounds) - (kSearchTextFieldHeight / 2.0),
-                                             self.searchHeader.frame.size.width - searchTextFieldXOffset - kControlBuffer,
-                                             kSearchTextFieldHeight);
-    self.searchTextField.frame = searchTextFieldFrame;
+    CGRect searchBarFrame = CGRectMake(0,
+                                       0,
+                                       self.searchHeader.frame.size.width,
+                                       self.searchHeader.frame.size.height);
+    self.searchBar.frame = searchBarFrame;
     
-    //
-    // searchTextFieldLeftView
-    //
-    CGSize searchLabelTextSize = [self.searchTextFieldLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.searchTextFieldLabel.font }];
-    CGFloat searchTextFieldLeftViewWidth = self.searchIconView.image.size.width + 5 + searchLabelTextSize.width;
-    CGFloat searchTextFieldLeftViewHeight = MAX(self.searchIconView.image.size.height, searchLabelTextSize.height);
-    CGRect searchTextFieldLeftViewFrame = CGRectMake(0,
-                                                     CGRectGetMidY(self.searchTextField.bounds) - (searchTextFieldLeftViewHeight / 2.0),
-                                                     searchTextFieldLeftViewWidth,
-                                                     searchTextFieldLeftViewHeight);
-    self.searchTextFieldLeftView.frame = searchTextFieldLeftViewFrame;
-    
-    //
-    // searchIconView
-    //
-    CGRect searchIconViewFrame = CGRectMake(0,
-                                            CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (self.searchIconView.image.size.height / 2.0),
-                                            self.searchIconView.image.size.width,
-                                            self.searchIconView.image.size.height);
-    self.searchIconView.frame = searchIconViewFrame;
-    
-    //
-    // searchTextFieldLabel
-    //
-    CGRect searchTextFieldLabelFrame = CGRectMake(self.searchIconView.frame.size.width + kControlBuffer,
-                                                  CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (searchLabelTextSize.height / 2.0),
-                                                  searchLabelTextSize.width,
-                                                  searchLabelTextSize.height);
-    self.searchTextFieldLabel.frame = searchTextFieldLabelFrame;
+//    //
+//    // searchTextField
+//    //
+//    CGFloat searchTextFieldXOffset = self.syncIconView.frame.size.width + kControlBuffer;
+//    CGRect searchTextFieldFrame = CGRectMake(searchTextFieldXOffset,
+//                                             CGRectGetMidY(self.searchHeader.bounds) - (kSearchTextFieldHeight / 2.0),
+//                                             self.searchHeader.frame.size.width - searchTextFieldXOffset - kControlBuffer,
+//                                             kSearchTextFieldHeight);
+//    self.searchTextField.frame = searchTextFieldFrame;
+//    
+//    //
+//    // searchTextFieldLeftView
+//    //
+//    CGSize searchLabelTextSize = [self.searchTextFieldLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.searchTextFieldLabel.font }];
+//    CGFloat searchTextFieldLeftViewWidth = self.searchIconView.image.size.width + 5 + searchLabelTextSize.width;
+//    CGFloat searchTextFieldLeftViewHeight = MAX(self.searchIconView.image.size.height, searchLabelTextSize.height);
+//    CGRect searchTextFieldLeftViewFrame = CGRectMake(0,
+//                                                     CGRectGetMidY(self.searchTextField.bounds) - (searchTextFieldLeftViewHeight / 2.0),
+//                                                     searchTextFieldLeftViewWidth,
+//                                                     searchTextFieldLeftViewHeight);
+//    self.searchTextFieldLeftView.frame = searchTextFieldLeftViewFrame;
+//    
+//    //
+//    // searchIconView
+//    //
+//    CGRect searchIconViewFrame = CGRectMake(0,
+//                                            CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (self.searchIconView.image.size.height / 2.0),
+//                                            self.searchIconView.image.size.width,
+//                                            self.searchIconView.image.size.height);
+//    self.searchIconView.frame = searchIconViewFrame;
+//    
+//    //
+//    // searchTextFieldLabel
+//    //
+//    CGRect searchTextFieldLabelFrame = CGRectMake(self.searchIconView.frame.size.width + kControlBuffer,
+//                                                  CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (searchLabelTextSize.height / 2.0),
+//                                                  searchLabelTextSize.width,
+//                                                  searchLabelTextSize.height);
+//    self.searchTextFieldLabel.frame = searchTextFieldLabelFrame;
 }
 
 - (NSString *)formatNameFromContact:(ContactSObjectData *)contact {

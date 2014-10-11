@@ -37,7 +37,14 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
 
 - (id)init {
     NSString *objectType = @"Contact";
-    NSArray *objectFields = @[ kContactFirstNameField, kContactLastNameField, kContactTitleField, kContactPhoneField, kContactEmailField, kContactDepartmentField, kContactHomePhoneField ];
+    NSArray *objectFieldSpecs = @[ [[SObjectDataFieldSpec alloc] initWithFieldName:kContactFirstNameField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactLastNameField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactTitleField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactPhoneField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactEmailField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactDepartmentField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactHomePhoneField searchable:YES]
+                                   ];
     NSArray *indexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kContactFirstNameField indexType:kSoupIndexTypeString columnName:kContactFirstNameField],
                              [[SFSoupIndex alloc] initWithPath:kContactLastNameField indexType:kSoupIndexTypeString columnName:kContactLastNameField],
                              [[SFSoupIndex alloc] initWithPath:kContactTitleField indexType:kSoupIndexTypeString columnName:kContactTitleField],
@@ -48,7 +55,7 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
                              ];
     NSString *soupName = @"contacts";
     NSString *orderByFieldName = kContactLastNameField;
-    return [self initWithObjectType:objectType objectFields:objectFields indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
+    return [self initWithObjectType:objectType objectFieldSpecs:objectFieldSpecs indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
 }
 
 #pragma mark - Abstract overrides

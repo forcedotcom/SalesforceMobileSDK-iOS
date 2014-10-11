@@ -22,19 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SObjectDataSpec.h"
-#import "SObjectData.h"
+#import "SObjectDataFieldSpec.h"
 
-@interface SObjectDataManager : NSObject
+@implementation SObjectDataFieldSpec
 
-@property (nonatomic, strong) NSArray *dataRows;
-
-- (id)initWithViewController:(UITableViewController *)parentVc
-                    dataSpec:(SObjectDataSpec *)dataSpec;
-
-- (void)refreshData;
-- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
-- (void)resetDataRows;
+- (id)initWithFieldName:(NSString *)fieldName searchable:(BOOL)isSearchable {
+    self = [super init];
+    if (self) {
+        self.fieldName = fieldName;
+        self.isSearchable = isSearchable;
+    }
+    return self;
+}
 
 @end
