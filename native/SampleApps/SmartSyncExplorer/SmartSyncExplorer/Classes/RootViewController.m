@@ -30,13 +30,11 @@
 static NSUInteger const kNavBarTintColor                = 0xf10000;
 static CGFloat    const kNavBarTitleFontSize            = 20.0;
 static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
-static NSUInteger const kSearchTextFieldBackgroundColor = 0xe0dddd;
-static NSUInteger const kSearchLabelBackgroundColor     = 0x969696;
 static NSUInteger const kContactTitleTextColor          = 0x696969;
-static CGFloat    const kSearchTextFieldFontSize        = 14.0;
 static CGFloat    const kControlBuffer                  = 5.0;
 static CGFloat    const kSearchHeaderHeight             = 50.0;
-static CGFloat    const kSearchTextFieldHeight          = 35.0;
+
+static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
 @interface RootViewController () <UISearchBarDelegate>
 
@@ -104,27 +102,6 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
     self.searchBar.placeholder = @"Search";
     self.searchBar.delegate = self;
     [self.searchHeader addSubview:self.searchBar];
-    
-//    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-//    self.searchTextField.backgroundColor = [[self class] colorFromRgbHexValue:kSearchTextFieldBackgroundColor];
-//    self.searchTextField.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
-//    self.searchTextField.layer.cornerRadius = 10.0f;
-//    
-//    self.searchTextFieldLeftView = [[UIView alloc] initWithFrame:CGRectZero];
-//    self.searchTextFieldLeftView.backgroundColor = [UIColor clearColor];
-//    UIImage *searchIcon = [UIImage imageNamed:@"search"];
-//    self.searchIconView = [[UIImageView alloc] initWithImage:searchIcon];
-//    [self.searchTextFieldLeftView addSubview:self.searchIconView];
-//    self.searchTextFieldLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//    self.searchTextFieldLabel.text = @"Search";
-//    self.searchTextFieldLabel.textColor = [[self class] colorFromRgbHexValue:kSearchLabelBackgroundColor];
-//    self.searchTextFieldLabel.font = [UIFont systemFontOfSize:kSearchTextFieldFontSize];
-//    [self.searchTextFieldLeftView addSubview:self.searchTextFieldLabel];
-//    
-//    self.searchTextField.leftView = self.searchTextFieldLeftView;
-//    self.searchTextField.leftViewMode = UITextFieldViewModeUnlessEditing;
-//    
-//    [self.searchHeader addSubview:self.searchTextField];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -202,11 +179,12 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
+    __weak RootViewController *weakSelf = self;
     [self.dataMgr filterOnSearchTerm:searchText completion:^{
-        [self.tableView reloadData];
-        if (self.isSearching && ![self.searchBar isFirstResponder]) {
+        [weakSelf.tableView reloadData];
+        if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.searchBar becomeFirstResponder];
+                [weakSelf.searchBar becomeFirstResponder];
             });
         }
     }];
@@ -250,46 +228,6 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
                                        self.searchHeader.frame.size.width,
                                        self.searchHeader.frame.size.height);
     self.searchBar.frame = searchBarFrame;
-    
-//    //
-//    // searchTextField
-//    //
-//    CGFloat searchTextFieldXOffset = self.syncIconView.frame.size.width + kControlBuffer;
-//    CGRect searchTextFieldFrame = CGRectMake(searchTextFieldXOffset,
-//                                             CGRectGetMidY(self.searchHeader.bounds) - (kSearchTextFieldHeight / 2.0),
-//                                             self.searchHeader.frame.size.width - searchTextFieldXOffset - kControlBuffer,
-//                                             kSearchTextFieldHeight);
-//    self.searchTextField.frame = searchTextFieldFrame;
-//    
-//    //
-//    // searchTextFieldLeftView
-//    //
-//    CGSize searchLabelTextSize = [self.searchTextFieldLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.searchTextFieldLabel.font }];
-//    CGFloat searchTextFieldLeftViewWidth = self.searchIconView.image.size.width + 5 + searchLabelTextSize.width;
-//    CGFloat searchTextFieldLeftViewHeight = MAX(self.searchIconView.image.size.height, searchLabelTextSize.height);
-//    CGRect searchTextFieldLeftViewFrame = CGRectMake(0,
-//                                                     CGRectGetMidY(self.searchTextField.bounds) - (searchTextFieldLeftViewHeight / 2.0),
-//                                                     searchTextFieldLeftViewWidth,
-//                                                     searchTextFieldLeftViewHeight);
-//    self.searchTextFieldLeftView.frame = searchTextFieldLeftViewFrame;
-//    
-//    //
-//    // searchIconView
-//    //
-//    CGRect searchIconViewFrame = CGRectMake(0,
-//                                            CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (self.searchIconView.image.size.height / 2.0),
-//                                            self.searchIconView.image.size.width,
-//                                            self.searchIconView.image.size.height);
-//    self.searchIconView.frame = searchIconViewFrame;
-//    
-//    //
-//    // searchTextFieldLabel
-//    //
-//    CGRect searchTextFieldLabelFrame = CGRectMake(self.searchIconView.frame.size.width + kControlBuffer,
-//                                                  CGRectGetMidY(self.searchTextFieldLeftView.bounds) - (searchLabelTextSize.height / 2.0),
-//                                                  searchLabelTextSize.width,
-//                                                  searchLabelTextSize.height);
-//    self.searchTextFieldLabel.frame = searchTextFieldLabelFrame;
 }
 
 - (NSString *)formatNameFromContact:(ContactSObjectData *)contact {
@@ -331,10 +269,6 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
 }
 
 - (UIColor *)colorFromContact:(ContactSObjectData *)contact {
-    static NSArray *colorCodesList = nil;
-    if (colorCodesList == nil) {
-        colorCodesList = @[ @0x1abc9c, @0x2ecc71, @0x3498db, @0x9b59b6, @0x34495e, @0x16a085, @0x27ae60, @0x2980b9, @0x8e44ad, @0x2c3e50, @0xf1c40f, @0xe67e22, @0xe74c3c, @0x95a5a6, @0xf39c12, @0xd35400, @0xc0392b, @0xbdc3c7, @0x7f8c8d ];
-    }
     
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSUInteger codeSeedFromName = 0;
@@ -342,8 +276,9 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
         codeSeedFromName += [lastName characterAtIndex:i];
     }
     
-    NSUInteger colorCodesListIndex = codeSeedFromName % [colorCodesList count];
-    NSUInteger colorCodeHexValue = [colorCodesList[colorCodesListIndex] unsignedIntegerValue];
+    static NSUInteger colorCodesListCount = sizeof(kColorCodesList) / sizeof(NSUInteger);
+    NSUInteger colorCodesListIndex = codeSeedFromName % colorCodesListCount;
+    NSUInteger colorCodeHexValue = kColorCodesList[colorCodesListIndex];
     return [[self class] colorFromRgbHexValue:colorCodeHexValue];
 }
 
