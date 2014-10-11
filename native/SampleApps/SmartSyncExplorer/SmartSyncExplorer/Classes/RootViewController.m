@@ -78,6 +78,9 @@ static CGFloat    const kSearchTextFieldHeight          = 35.0;
     [super loadView];
     
     self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:kNavBarTintColor];
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.navigationController.navigationBar addGestureRecognizer:tapGesture];
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
