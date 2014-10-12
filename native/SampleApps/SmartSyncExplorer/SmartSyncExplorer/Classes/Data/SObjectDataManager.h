@@ -33,7 +33,8 @@
 - (id)initWithViewController:(UITableViewController *)parentVc
                     dataSpec:(SObjectDataSpec *)dataSpec;
 
-- (void)refreshData;
+- (void)refreshLocalData;
+- (void)refreshRemoteData;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;
 

@@ -74,7 +74,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.dataMgr refreshData];
+    [self.dataMgr refreshLocalData];
+    [self.dataMgr refreshRemoteData];
 }
 
 - (void)loadView {

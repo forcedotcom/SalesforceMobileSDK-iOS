@@ -65,7 +65,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [[NSNotificationCenter defaultCenter] removeObserver:self name:kSyncManagerNotification object:nil];
 }
 
-- (void)refreshData {
+- (void)refreshRemoteData {
     if (![self.store soupExists:self.dataSpec.soupName]) {
         [self registerSoup];
     }
@@ -134,11 +134,15 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     if ([updatedSync[kSyncManagerSyncStatus] isEqualToString:kSyncManagerStatusDone]) {
         self.sync = nil;
-        [self localDataUpdate];
+        [self refreshLocalData];
     }
 }
 
-- (void)localDataUpdate {
+- (void)refreshLocalData {
+    if (![self.store soupExists:self.dataSpec.soupName]) {
+        [self registerSoup];
+    }
+    
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
