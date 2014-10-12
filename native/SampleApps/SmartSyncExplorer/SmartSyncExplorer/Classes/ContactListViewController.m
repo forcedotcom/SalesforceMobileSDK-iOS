@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "RootViewController.h"
+#import "ContactListViewController.h"
 #import "SObjectDataManager.h"
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
@@ -36,7 +36,7 @@ static CGFloat    const kSearchHeaderHeight             = 50.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
-@interface RootViewController () <UISearchBarDelegate>
+@interface ContactListViewController () <UISearchBarDelegate>
 
 // View / UI properties
 @property (nonatomic, copy) NSString *sobjectTitle;
@@ -55,7 +55,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 @end
 
-@implementation RootViewController
+@implementation ContactListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -182,7 +182,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
-    __weak RootViewController *weakSelf = self;
+    __weak ContactListViewController *weakSelf = self;
     [self.dataMgr filterOnSearchTerm:searchText completion:^{
         [weakSelf.tableView reloadData];
         if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {

@@ -24,7 +24,7 @@
 		820C8B2C19E6095900E9BE5C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2A19E6095900E9BE5C /* libcrypto.a */; };
 		820C8B2D19E6095900E9BE5C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2B19E6095900E9BE5C /* libssl.a */; };
 		820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2E19E6096800E9BE5C /* libsqlcipher.a */; };
-		820C8B3219E60BDE00E9BE5C /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3119E60BDE00E9BE5C /* RootViewController.m */; };
+		820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */; };
 		820C8B3519E639E400E9BE5C /* sync.png in Resources */ = {isa = PBXBuildFile; fileRef = 820C8B3419E639E400E9BE5C /* sync.png */; };
 		820C8B3719E63DCC00E9BE5C /* sync@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820C8B3619E63DCC00E9BE5C /* sync@2x.png */; };
 		820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */; };
@@ -63,8 +63,8 @@
 		820C8B2A19E6095900E9BE5C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		820C8B2B19E6095900E9BE5C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		820C8B2E19E6096800E9BE5C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		820C8B3019E60BDE00E9BE5C /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		820C8B3119E60BDE00E9BE5C /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
+		820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
+		820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
 		820C8B3419E639E400E9BE5C /* sync.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sync.png; sourceTree = "<group>"; };
 		820C8B3619E63DCC00E9BE5C /* sync@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sync@2x.png"; sourceTree = "<group>"; };
 		820C8B3C19E71A3800E9BE5C /* SObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataSpec.h; path = Data/SObjectDataSpec.h; sourceTree = "<group>"; };
@@ -130,8 +130,8 @@
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
 				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
 				820C8B1019E6059400E9BE5C /* InitialViewController.m */,
-				820C8B3019E60BDE00E9BE5C /* RootViewController.h */,
-				820C8B3119E60BDE00E9BE5C /* RootViewController.m */,
+				820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */,
+				820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -304,7 +304,7 @@
 				820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */,
 				820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */,
 				820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */,
-				820C8B3219E60BDE00E9BE5C /* RootViewController.m in Sources */,
+				820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */,
 				820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
 				827E631C19E8C3CC009350C5 /* SObjectDataFieldSpec.m in Sources */,

@@ -24,6 +24,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ContactListViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
