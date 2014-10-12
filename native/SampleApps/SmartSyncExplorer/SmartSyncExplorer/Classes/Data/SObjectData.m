@@ -45,8 +45,19 @@
     self.soupDict = mutableSoup;
 }
 
+- (id)fieldValueForFieldName:(NSString *)fieldName {
+    return [self nonNullFieldValue:fieldName];
+}
+
 - (id)nonNullFieldValue:(NSString *)fieldName {
     return [self.soupDict nonNullObjectForKey:fieldName];
+}
+
+// dataSpec is abstract.
++ (SObjectDataSpec *)dataSpec {
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException
+                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
+                                 userInfo:nil];
 }
 
 @end

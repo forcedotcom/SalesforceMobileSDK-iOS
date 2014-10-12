@@ -27,7 +27,16 @@
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
 
-@interface RootViewController ()
+static NSUInteger const kNavBarTintColor                = 0xf10000;
+static CGFloat    const kNavBarTitleFontSize            = 20.0;
+static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
+static NSUInteger const kContactTitleTextColor          = 0x696969;
+static CGFloat    const kControlBuffer                  = 5.0;
+static CGFloat    const kSearchHeaderHeight             = 50.0;
+
+static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
+
+@interface RootViewController () <UISearchBarDelegate>
 
 // View / UI properties
 @property (nonatomic, copy) NSString *sobjectTitle;
@@ -38,9 +47,11 @@
 @property (nonatomic, strong) UIView *searchTextFieldLeftView;
 @property (nonatomic, strong) UIImageView *searchIconView;
 @property (nonatomic, strong) UILabel *searchTextFieldLabel;
+@property (nonatomic, strong) UISearchBar *searchBar;
 
 // Data properties
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+@property (nonatomic, assign) BOOL isSearching;
 
 @end
 
@@ -50,8 +61,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.sobjectTitle = @"Contacts";
-        SObjectDataSpec *dataSpec = [[ContactSObjectDataSpec alloc] init];
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:dataSpec];
+        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+        self.isSearching = NO;
     }
     return self;
 }
@@ -64,7 +75,13 @@
 - (void)loadView {
     [super loadView];
     
-    self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:0xf10000];
+    self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:kNavBarTintColor];
+    UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    navBarTapGesture.cancelsTouchesInView = NO;
+    [self.navigationController.navigationBar addGestureRecognizer:navBarTapGesture];
+    UITapGestureRecognizer* tableViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    tableViewTapGesture.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:tableViewTapGesture];
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -72,60 +89,34 @@
     self.navBarLabel.textAlignment = NSTextAlignmentLeft;
     self.navBarLabel.textColor = [UIColor whiteColor];
     self.navBarLabel.backgroundColor = [UIColor clearColor];
-    self.navBarLabel.font = [UIFont systemFontOfSize:20.0];
+    self.navBarLabel.font = [UIFont systemFontOfSize:kNavBarTitleFontSize];
     self.navigationItem.titleView = self.navBarLabel;
     
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:0xafb6bb];
+    self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
     
-    UIImage *syncIcon = [UIImage imageNamed:@"sync"];
-    self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
-    [self.searchHeader addSubview:self.syncIconView];
+//    UIImage *syncIcon = [UIImage imageNamed:@"sync"];
+//    self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
+//    [self.searchHeader addSubview:self.syncIconView];
     
-    self.searchTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    self.searchTextField.backgroundColor = [[self class] colorFromRgbHexValue:0xe0dddd];
-    self.searchTextField.font = [UIFont systemFontOfSize:14.0];
-    self.searchTextField.layer.cornerRadius = 10.0f;
-    
-    self.searchTextFieldLeftView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.searchTextFieldLeftView.backgroundColor = [UIColor clearColor];
-    UIImage *searchIcon = [UIImage imageNamed:@"search"];
-    self.searchIconView = [[UIImageView alloc] initWithImage:searchIcon];
-    [self.searchTextFieldLeftView addSubview:self.searchIconView];
-    self.searchTextFieldLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.searchTextFieldLabel.text = @"Search";
-    self.searchTextFieldLabel.textColor = [[self class] colorFromRgbHexValue:0x969696];
-    self.searchTextFieldLabel.font = [UIFont systemFontOfSize:14.0];
-    [self.searchTextFieldLeftView addSubview:self.searchTextFieldLabel];
-    
-    self.searchTextField.leftView = self.searchTextFieldLeftView;
-    self.searchTextField.leftViewMode = UITextFieldViewModeUnlessEditing;
-    
-    
-    [self.searchHeader addSubview:self.searchTextField];
-    
-    self.tableView.tableHeaderView = self.searchHeader;
+    self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
+    self.searchBar.barTintColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
+    self.searchBar.placeholder = @"Search";
+    self.searchBar.delegate = self;
+    [self.searchHeader addSubview:self.searchBar];
 }
 
 - (void)viewWillLayoutSubviews {
     // TODO: Clean up, split out into methods.
     // TODO: Coordinates cleanup.
     self.navBarLabel.frame = self.navigationController.navigationBar.frame;
-    self.searchHeader.frame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, 50);
-    self.syncIconView.frame = CGRectMake(5, CGRectGetMidY(self.searchHeader.frame) - (self.syncIconView.image.size.height / 2.0), self.syncIconView.image.size.width, self.syncIconView.image.size.height);
-    self.searchTextField.frame = CGRectMake(5 + self.syncIconView.frame.size.width + 5, CGRectGetMidY(self.searchHeader.frame) - (35.0 / 2.0), self.searchHeader.frame.size.width - 15 - 5 - 5 - self.syncIconView.frame.size.width, 35);
-    
-    // Determine search text field left view size.
-    CGSize searchLabelTextSize = [self.searchTextFieldLabel.text sizeWithAttributes:@{ NSFontAttributeName:self.searchTextFieldLabel.font }];
-    CGFloat viewWidth = self.searchIconView.image.size.width + 5 + searchLabelTextSize.width;
-    CGFloat viewHeight = MAX(self.searchIconView.image.size.height, searchLabelTextSize.height);
-    self.searchTextFieldLeftView.frame = CGRectMake(5, 0, viewWidth, viewHeight);
-    self.searchIconView.frame = CGRectMake(0, CGRectGetMidY(self.searchTextFieldLeftView.frame) - (self.searchIconView.image.size.height / 2.0), self.searchIconView.image.size.width, self.searchIconView.image.size.height);
-    self.searchTextFieldLabel.frame = CGRectMake(self.searchIconView.frame.size.width + 5, CGRectGetMidY(self.searchTextFieldLeftView.frame) - (searchLabelTextSize.height / 2.0), searchLabelTextSize.width, searchLabelTextSize.height);
+    [self layoutSearchHeader];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
     
 }
 
@@ -134,7 +125,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - UITableViewDataSource methods
+#pragma mark - UITableView delegate methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CellIdentifier";
@@ -151,8 +142,7 @@
     ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     cell.textLabel.text = [self formatNameFromContact:obj];
     cell.detailTextLabel.text = [self formatTitle:obj.title];
-    cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:0x696969];
-    cell.imageView.frame = CGRectMake(0, 0, 25, 25);
+    cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:kContactTitleTextColor];
     cell.imageView.image = [self initialsBackgroundImageWithColor:[self colorFromContact:obj] initials:[self formatInitialsFromContact:obj]];
     
     //this adds the arrow to the right hand side.
@@ -169,7 +159,79 @@
     return [self.dataMgr.dataRows count];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section != 0) return nil;
+    
+    [self layoutSearchHeader];
+    
+    return self.searchHeader;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0)
+        return kSearchHeaderHeight;
+    else
+        return 0;
+}
+
+- (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+}
+
+#pragma mark - UISearchBarDelegate methods
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
+    __weak RootViewController *weakSelf = self;
+    [self.dataMgr filterOnSearchTerm:searchText completion:^{
+        [weakSelf.tableView reloadData];
+        if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.searchBar becomeFirstResponder];
+            });
+        }
+    }];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.isSearching = YES;
+}
+
 #pragma mark - Private methods
+
+- (void)searchResignFirstResponder {
+    if ([self.searchBar isFirstResponder]) {
+        [self.searchBar resignFirstResponder];
+        self.isSearching = NO;
+    }
+}
+
+- (void)layoutSearchHeader {
+    
+    //
+    // searchHeader
+    //
+    CGRect searchHeaderFrame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, kSearchHeaderHeight);
+    self.searchHeader.frame = searchHeaderFrame;
+    
+//    //
+//    // syncIconView
+//    //
+//    CGRect iconViewFrame = CGRectMake(kControlBuffer,
+//                                      CGRectGetMidY(self.searchHeader.bounds) - (self.syncIconView.image.size.height / 2.0),
+//                                      self.syncIconView.image.size.width,
+//                                      self.syncIconView.image.size.height);
+//    self.syncIconView.frame = iconViewFrame;
+    
+    //
+    // searchBar
+    //
+    CGRect searchBarFrame = CGRectMake(0,
+                                       0,
+                                       self.searchHeader.frame.size.width,
+                                       self.searchHeader.frame.size.height);
+    self.searchBar.frame = searchBarFrame;
+}
 
 - (NSString *)formatNameFromContact:(ContactSObjectData *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -210,10 +272,6 @@
 }
 
 - (UIColor *)colorFromContact:(ContactSObjectData *)contact {
-    static NSArray *colorCodesList = nil;
-    if (colorCodesList == nil) {
-        colorCodesList = @[ @0x1abc9c, @0x2ecc71, @0x3498db, @0x9b59b6, @0x34495e, @0x16a085, @0x27ae60, @0x2980b9, @0x8e44ad, @0x2c3e50, @0xf1c40f, @0xe67e22, @0xe74c3c, @0x95a5a6, @0xf39c12, @0xd35400, @0xc0392b, @0xbdc3c7, @0x7f8c8d ];
-    }
     
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSUInteger codeSeedFromName = 0;
@@ -221,8 +279,9 @@
         codeSeedFromName += [lastName characterAtIndex:i];
     }
     
-    NSUInteger colorCodesListIndex = codeSeedFromName % [colorCodesList count];
-    NSUInteger colorCodeHexValue = [colorCodesList[colorCodesListIndex] unsignedIntegerValue];
+    static NSUInteger colorCodesListCount = sizeof(kColorCodesList) / sizeof(NSUInteger);
+    NSUInteger colorCodesListIndex = codeSeedFromName % colorCodesListCount;
+    NSUInteger colorCodeHexValue = kColorCodesList[colorCodesListIndex];
     return [[self class] colorFromRgbHexValue:colorCodeHexValue];
 }
 

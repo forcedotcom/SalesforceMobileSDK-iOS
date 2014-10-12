@@ -28,6 +28,14 @@
 
 @implementation ContactSObjectData
 
++ (SObjectDataSpec *)dataSpec {
+    static ContactSObjectDataSpec *sDataSpec = nil;
+    if (sDataSpec == nil) {
+        sDataSpec = [[ContactSObjectDataSpec alloc] init];
+    }
+    return sDataSpec;
+}
+
 #pragma mark - Property getters / setters
 
 - (NSString *)firstName {

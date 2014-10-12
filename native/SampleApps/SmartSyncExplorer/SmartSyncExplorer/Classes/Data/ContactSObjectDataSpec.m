@@ -37,18 +37,23 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
 
 - (id)init {
     NSString *objectType = @"Contact";
-    NSArray *objectFields = @[ kContactFirstNameField, kContactLastNameField, kContactTitleField, kContactPhoneField, kContactEmailField, kContactDepartmentField, kContactHomePhoneField ];
+    NSArray *objectFieldSpecs = @[ [[SObjectDataFieldSpec alloc] initWithFieldName:kContactFirstNameField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactLastNameField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactTitleField searchable:YES],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactPhoneField searchable:NO],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactEmailField searchable:NO],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactDepartmentField searchable:NO],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactHomePhoneField searchable:NO]
+                                   ];
+    
+    // Any searchable fields would likely require index specs, if you're searching directly against SmartStore.
     NSArray *indexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kContactFirstNameField indexType:kSoupIndexTypeString columnName:kContactFirstNameField],
                              [[SFSoupIndex alloc] initWithPath:kContactLastNameField indexType:kSoupIndexTypeString columnName:kContactLastNameField],
-                             [[SFSoupIndex alloc] initWithPath:kContactTitleField indexType:kSoupIndexTypeString columnName:kContactTitleField],
-                             [[SFSoupIndex alloc] initWithPath:kContactPhoneField indexType:kSoupIndexTypeString columnName:kContactPhoneField],
-                             [[SFSoupIndex alloc] initWithPath:kContactEmailField indexType:kSoupIndexTypeString columnName:kContactEmailField],
-                             [[SFSoupIndex alloc] initWithPath:kContactDepartmentField indexType:kSoupIndexTypeString columnName:kContactDepartmentField],
-                             [[SFSoupIndex alloc] initWithPath:kContactHomePhoneField indexType:kSoupIndexTypeString columnName:kContactHomePhoneField]
+                             [[SFSoupIndex alloc] initWithPath:kContactTitleField indexType:kSoupIndexTypeString columnName:kContactTitleField]
                              ];
     NSString *soupName = @"contacts";
     NSString *orderByFieldName = kContactLastNameField;
-    return [self initWithObjectType:objectType objectFields:objectFields indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
+    return [self initWithObjectType:objectType objectFieldSpecs:objectFieldSpecs indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
 }
 
 #pragma mark - Abstract overrides

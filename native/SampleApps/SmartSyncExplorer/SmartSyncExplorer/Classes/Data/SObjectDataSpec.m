@@ -23,21 +23,20 @@
  */
 
 #import "SObjectDataSpec.h"
-#import <SalesforceSDKCore/SFSoupIndex.h>
 
 NSString * const kSObjectIdField = @"Id";
 
 @implementation SObjectDataSpec
 
 - (id)initWithObjectType:(NSString *)objectType
-            objectFields:(NSArray *)objectFields
+            objectFieldSpecs:(NSArray *)objectFieldSpecs
               indexSpecs:(NSArray *)indexSpecs
                 soupName:(NSString *)soupName
         orderByFieldName:(NSString *)orderByFieldName {
     self = [super init];
     if (self) {
         self.objectType = objectType;
-        self.objectFields = [self buildObjectFields:objectFields];
+        self.objectFieldSpecs = [self buildObjectFieldSpecs:objectFieldSpecs];
         self.indexSpecs = [self buildSoupIndexSpecs:indexSpecs];
         self.soupName = soupName;
         self.orderByFieldName = orderByFieldName;
@@ -45,10 +44,18 @@ NSString * const kSObjectIdField = @"Id";
     return self;
 }
 
+- (NSArray *)fieldNames {
+    NSMutableArray *mutableFieldNames = [NSMutableArray arrayWithCapacity:[self.objectFieldSpecs count]];
+    for (SObjectDataFieldSpec *fieldSpec in [self.objectFieldSpecs copy]) {
+        [mutableFieldNames addObject:fieldSpec.fieldName];
+    }
+    return mutableFieldNames;
+}
+
 - (NSArray *)soupFieldNames {
-    NSMutableArray *retNames = [NSMutableArray array];
-    for (NSString *fieldName in [self.objectFields copy]) {
-        [retNames addObject:[NSString stringWithFormat:@"{%@:%@}", self.soupName, fieldName]];
+    NSMutableArray *retNames = [NSMutableArray arrayWithCapacity:[self.objectFieldSpecs count]];
+    for (SObjectDataFieldSpec *fieldSpec in [self.objectFieldSpecs copy]) {
+        [retNames addObject:[NSString stringWithFormat:@"{%@:%@}", self.soupName, fieldSpec.fieldName]];
     }
     return retNames;
 }
@@ -62,21 +69,22 @@ NSString * const kSObjectIdField = @"Id";
 
 #pragma mark - Private methods
 
-- (NSArray *)buildObjectFields:(NSArray *)origObjectFields {
-    BOOL foundIdField = NO;
-    for (NSString *objectField in origObjectFields) {
-        if ([objectField isEqualToString:kSObjectIdField]) {
-            foundIdField = YES;
+- (NSArray *)buildObjectFieldSpecs:(NSArray *)origObjectFieldSpecs {
+    BOOL foundIdFieldSpec = NO;
+    for (SObjectDataFieldSpec *objectFieldSpec in origObjectFieldSpecs) {
+        if ([objectFieldSpec.fieldName isEqualToString:kSObjectIdField]) {
+            foundIdFieldSpec = YES;
             break;
         }
     }
     
-    if (!foundIdField) {
-        NSMutableArray *objectFieldsWithId = [NSMutableArray arrayWithArray:origObjectFields];
-        [objectFieldsWithId insertObject:kSObjectIdField atIndex:0];
-        return objectFieldsWithId;
+    if (!foundIdFieldSpec) {
+        NSMutableArray *objectFieldSpecsWithId = [NSMutableArray arrayWithArray:origObjectFieldSpecs];
+        SObjectDataFieldSpec *idSpec = [[SObjectDataFieldSpec alloc] initWithFieldName:kSObjectIdField searchable:NO];
+        [objectFieldSpecsWithId insertObject:idSpec atIndex:0];
+        return objectFieldSpecsWithId;
     } else {
-        return origObjectFields;
+        return origObjectFieldSpecs;
     }
 }
 

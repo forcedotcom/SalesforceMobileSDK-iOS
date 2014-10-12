@@ -29,14 +29,19 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 static NSUInteger kMaxQueryPageSize = 4000;
+static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
 
 @interface SObjectDataManager ()
+{
+    dispatch_queue_t _searchFilterQueue;
+}
 
 @property (nonatomic, weak) UITableViewController *parentVc;
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSDictionary *sync;
+@property (nonatomic, strong) NSArray *fullDataRowList;
 
 @end
 
@@ -51,6 +56,7 @@ static NSUInteger kMaxQueryPageSize = 4000;
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
         self.dataSpec = dataSpec;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncProgress:) name:kSyncManagerNotification object:nil];
+        _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
     return self;
 }
@@ -64,11 +70,52 @@ static NSUInteger kMaxQueryPageSize = 4000;
         [self registerSoup];
     }
     
-    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@", [self.dataSpec.objectFields componentsJoinedByString:@","], self.dataSpec.objectType];
+    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType];
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
     self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
     NSNumber *syncId = self.sync[kSyncManagerSyncId];
     [self.syncMgr runSync:syncId];
+}
+
+- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock {
+    dispatch_async(_searchFilterQueue, ^{
+        self.dataRows = self.fullDataRowList;
+        if (self.dataRows == nil) {
+            // No data yet.
+            return;
+        }
+        
+        if ([searchTerm length] > 0) {
+            NSMutableArray *matchingDataRows = [NSMutableArray array];
+            for (SObjectData *data in [self.fullDataRowList copy]) {
+                SObjectDataSpec *dataSpec = [[data class] dataSpec];
+                for (SObjectDataFieldSpec *fieldSpec in dataSpec.objectFieldSpecs) {
+                    if (fieldSpec.isSearchable) {
+                        // TODO: Generalize field value type, abstract search through a search protocol.
+                        NSString *fieldValue = [data fieldValueForFieldName:fieldSpec.fieldName];
+                        if (fieldValue != nil && [fieldValue rangeOfString:searchTerm options:NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch].location != NSNotFound) {
+                            [matchingDataRows addObject:data];
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            self.dataRows = matchingDataRows;
+        }
+        
+        if (completionBlock) {
+            dispatch_async(dispatch_get_main_queue(), completionBlock);
+        }
+    });
+}
+
+- (void)resetDataRows {
+    self.dataRows = [self.fullDataRowList copy];
+    __weak SObjectDataManager *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.parentVc.tableView reloadData];
+    });
 }
 
 #pragma mark - Private methods
@@ -100,11 +147,8 @@ static NSUInteger kMaxQueryPageSize = 4000;
         return;
     }
     
-    self.dataRows = [self populateDataRows:queryResults];
-    __weak SObjectDataManager *weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.parentVc.tableView reloadData];
-    });
+    self.fullDataRowList = [self populateDataRows:queryResults];
+    [self resetDataRows];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {

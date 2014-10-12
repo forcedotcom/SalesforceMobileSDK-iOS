@@ -24,22 +24,25 @@
 
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
-#import "SObjectData.h"
+#import "SObjectDataFieldSpec.h"
 
 extern NSString * const kSObjectIdField;
+
+@class SObjectData;
 
 @interface SObjectDataSpec : NSObject
 
 @property (nonatomic, copy) NSString *objectType;
-@property (nonatomic, strong) NSArray *objectFields;
+@property (nonatomic, strong) NSArray *objectFieldSpecs;
 @property (nonatomic, strong) NSArray *indexSpecs;
 @property (nonatomic, copy) NSString *soupName;
 @property (nonatomic, copy) NSString *orderByFieldName;
 
+@property (nonatomic, readonly) NSArray *fieldNames;
 @property (nonatomic, readonly) NSArray *soupFieldNames;
 
 - (id)initWithObjectType:(NSString *)objectType
-            objectFields:(NSArray *)objectFields
+        objectFieldSpecs:(NSArray *)objectFieldSpecs
               indexSpecs:(NSArray *)indexSpecs
                 soupName:(NSString *)soupName
         orderByFieldName:(NSString *)orderByFieldName;

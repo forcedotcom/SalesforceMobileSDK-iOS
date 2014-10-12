@@ -23,18 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SObjectDataSpec.h"
-#import "SObjectData.h"
 
-@interface SObjectDataManager : NSObject
+@interface SObjectDataFieldSpec : NSObject
 
-@property (nonatomic, strong) NSArray *dataRows;
+@property (nonatomic, copy) NSString *fieldName;
+@property (nonatomic, assign) BOOL isSearchable;
 
-- (id)initWithViewController:(UITableViewController *)parentVc
-                    dataSpec:(SObjectDataSpec *)dataSpec;
-
-- (void)refreshData;
-- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
-- (void)resetDataRows;
+- (id)initWithFieldName:(NSString *)fieldName searchable:(BOOL)isSearchable;
 
 @end

@@ -23,11 +23,16 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SObjectDataSpec.h"
 
 @interface SObjectData : NSObject
 
 @property (nonatomic, strong) NSDictionary *soupDict;
 
 - (id)initWithSoupDict:(NSDictionary *)soupDict;
+
+- (id)fieldValueForFieldName:(NSString *)fieldName;
+
++ (SObjectDataSpec *)dataSpec;
 
 @end
