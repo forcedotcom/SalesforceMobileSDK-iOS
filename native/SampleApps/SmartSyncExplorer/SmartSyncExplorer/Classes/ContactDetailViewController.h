@@ -23,7 +23,10 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "ContactSObjectData.h"
 
-@interface RootViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
+
+- (id)initWithContact:(ContactSObjectData *)contact;
 
 @end

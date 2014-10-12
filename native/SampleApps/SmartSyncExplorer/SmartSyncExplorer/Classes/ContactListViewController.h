@@ -22,46 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SObjectData+Internal.h"
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <UIKit/UIKit.h>
 
-@implementation SObjectData
-
-- (id)initWithSoupDict:(NSDictionary *)soupDict {
-    self = [super init];
-    if (self) {
-        self.soupDict = soupDict;
-    }
-    return self;
-}
-
-- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue  {
-    NSMutableDictionary *mutableSoup = [self.soupDict mutableCopy];
-    if (fieldValue == nil) {
-        [mutableSoup removeObjectForKey:fieldName];
-    } else {
-        mutableSoup[fieldName] = fieldValue;
-    }
-    self.soupDict = mutableSoup;
-}
-
-- (id)fieldValueForFieldName:(NSString *)fieldName {
-    return [self nonNullFieldValue:fieldName];
-}
-
-- (id)nonNullFieldValue:(NSString *)fieldName {
-    return [self.soupDict nonNullObjectForKey:fieldName];
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<%@:%p> %@", [self class], self, self.soupDict];
-}
-
-// dataSpec is abstract.
-+ (SObjectDataSpec *)dataSpec {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:[NSString stringWithFormat:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)]
-                                 userInfo:nil];
-}
+@interface ContactListViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

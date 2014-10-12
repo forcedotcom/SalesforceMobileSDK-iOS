@@ -24,7 +24,7 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import "RootViewController.h"
+#import "ContactListViewController.h"
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -126,7 +126,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)setupRootViewController
 {
-    RootViewController *rootVC = [[RootViewController alloc] initWithStyle:UITableViewStylePlain];
+    ContactListViewController *rootVC = [[ContactListViewController alloc] initWithStyle:UITableViewStylePlain];
     UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
     self.window.rootViewController = navVC;
 }

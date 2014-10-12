@@ -71,7 +71,7 @@
 }
 
 - (NSString *)email {
-    return self.soupDict[kContactEmailField];
+    return [self nonNullFieldValue:kContactEmailField];
 }
 
 - (void)setEmail:(NSString *)email {
