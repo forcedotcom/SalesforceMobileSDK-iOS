@@ -76,9 +76,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [super loadView];
     
     self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:kNavBarTintColor];
-    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
-    tapGesture.cancelsTouchesInView = NO;
-    [self.navigationController.navigationBar addGestureRecognizer:tapGesture];
+    UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    navBarTapGesture.cancelsTouchesInView = NO;
+    [self.navigationController.navigationBar addGestureRecognizer:navBarTapGesture];
+    UITapGestureRecognizer* tableViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    tableViewTapGesture.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:tableViewTapGesture];
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -172,7 +175,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self searchResignFirstResponder];
+    
 }
 
 #pragma mark - UISearchBarDelegate methods
