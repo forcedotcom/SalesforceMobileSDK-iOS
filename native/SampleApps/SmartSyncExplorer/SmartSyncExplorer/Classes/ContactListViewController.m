@@ -26,13 +26,19 @@
 #import "SObjectDataManager.h"
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
+#import "ContactDetailViewController.h"
 
 static NSUInteger const kNavBarTintColor                = 0xf10000;
-static CGFloat    const kNavBarTitleFontSize            = 20.0;
+static CGFloat    const kNavBarTitleFontSize            = 27.0;
 static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
 static NSUInteger const kContactTitleTextColor          = 0x696969;
+static CGFloat    const kContactTitleFontSize           = 15.0;
+static CGFloat    const kContactDetailFontSize          = 13.0;
 static CGFloat    const kControlBuffer                  = 5.0;
 static CGFloat    const kSearchHeaderHeight             = 50.0;
+static CGFloat    const kTableViewRowHeight             = 60.0;
+static CGFloat    const kInitialsCircleDiameter         = 50.0;
+static CGFloat    const kInitialsFontSize               = 19.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
@@ -76,12 +82,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [super loadView];
     
     self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:kNavBarTintColor];
-    UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
-    navBarTapGesture.cancelsTouchesInView = NO;
-    [self.navigationController.navigationBar addGestureRecognizer:navBarTapGesture];
-    UITapGestureRecognizer* tableViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
-    tableViewTapGesture.cancelsTouchesInView = NO;
-    [self.tableView addGestureRecognizer:tableViewTapGesture];
+    
+    [self addTapGestureRecognizers];
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -108,9 +110,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)viewWillLayoutSubviews {
-    // TODO: Clean up, split out into methods.
-    // TODO: Coordinates cleanup.
-    self.navBarLabel.frame = self.navigationController.navigationBar.frame;
+    self.navBarLabel.frame = self.navigationController.navigationBar.bounds;
     [self layoutSearchHeader];
 }
 
@@ -128,20 +128,18 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - UITableView delegate methods
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"CellIdentifier";
+    static NSString *CellIdentifier = @"ContactListCellIdentifier";
     
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    // TODO: Circle
-    UIImage *image = [UIImage imageNamed:@"icon.png"];
-    cell.imageView.image = image;
-    
     ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     cell.textLabel.text = [self formatNameFromContact:obj];
+    cell.textLabel.font = [UIFont systemFontOfSize:kContactTitleFontSize];
     cell.detailTextLabel.text = [self formatTitle:obj.title];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:kContactDetailFontSize];
     cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:kContactTitleTextColor];
     cell.imageView.image = [self initialsBackgroundImageWithColor:[self colorFromContact:obj] initials:[self formatInitialsFromContact:obj]];
     
@@ -175,7 +173,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact];
+    [self.navigationController pushViewController:detailVc animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return kTableViewRowHeight;
 }
 
 #pragma mark - UISearchBarDelegate methods
@@ -198,6 +202,16 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 #pragma mark - Private methods
+
+- (void)addTapGestureRecognizers {
+    UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    navBarTapGesture.cancelsTouchesInView = NO;
+    [self.navigationController.navigationBar addGestureRecognizer:navBarTapGesture];
+    
+    UITapGestureRecognizer* tableViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
+    tableViewTapGesture.cancelsTouchesInView = NO;
+    [self.tableView addGestureRecognizer:tableViewTapGesture];
+}
 
 - (void)searchResignFirstResponder {
     if ([self.searchBar isFirstResponder]) {
@@ -293,22 +307,20 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (UIImage *)initialsBackgroundImageWithColor:(UIColor *)circleColor initials:(NSString *)initials {
-    CGFloat circleWidth = 35.0;
-    CGFloat circleHeight = 35.0;
     
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(circleWidth, circleHeight), NO, [UIScreen mainScreen].scale);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(kInitialsCircleDiameter, kInitialsCircleDiameter), NO, [UIScreen mainScreen].scale);
     
     // Draw the circle.
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
-    CGPoint circleCenter = CGPointMake(circleWidth / 2.0, circleHeight / 2.0);
+    CGPoint circleCenter = CGPointMake(kInitialsCircleDiameter / 2.0, kInitialsCircleDiameter / 2.0);
     CGContextSetFillColorWithColor(context, [circleColor CGColor]);
     CGContextBeginPath(context);
-    CGContextAddArc(context, circleCenter.x, circleCenter.y, circleWidth / 2.0, 0, 2*M_PI, 0);
+    CGContextAddArc(context, circleCenter.x, circleCenter.y, kInitialsCircleDiameter / 2.0, 0, 2*M_PI, 0);
     CGContextFillPath(context);
     
     // Draw the initials.
-    NSDictionary *initialsAttrs = @{ NSForegroundColorAttributeName: [UIColor whiteColor] };
+    NSDictionary *initialsAttrs = @{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont systemFontOfSize:kInitialsFontSize] };
     CGSize initialsTextSize = [initials sizeWithAttributes:initialsAttrs];
     CGRect initialsRect = CGRectMake(circleCenter.x - (initialsTextSize.width / 2.0), circleCenter.y - (initialsTextSize.height / 2.0), initialsTextSize.width, initialsTextSize.height);
     [initials drawInRect:initialsRect withAttributes:initialsAttrs];
