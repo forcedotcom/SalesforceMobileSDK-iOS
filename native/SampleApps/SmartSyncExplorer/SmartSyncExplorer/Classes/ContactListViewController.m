@@ -28,6 +28,7 @@
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
 
+static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
 static CGFloat    const kNavBarTitleFontSize            = 27.0;
 static NSUInteger const kSearchHeaderBackgroundColor    = 0xafb6bb;
@@ -45,7 +46,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @interface ContactListViewController () <UISearchBarDelegate>
 
 // View / UI properties
-@property (nonatomic, copy) NSString *sobjectTitle;
 @property (nonatomic, strong) UILabel *navBarLabel;
 @property (nonatomic, strong) UIView *searchHeader;
 @property (nonatomic, strong) UIImageView *syncIconView;
@@ -66,7 +66,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.sobjectTitle = @"Contacts";
         self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
         self.isSearching = NO;
     }
@@ -75,7 +74,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.dataMgr refreshData];
+    [self.dataMgr refreshLocalData];
+    [self.dataMgr refreshRemoteData];
 }
 
 - (void)loadView {
@@ -87,7 +87,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.navBarLabel.text = self.sobjectTitle;
+    self.navBarLabel.text = kNavBarTitleText;
     self.navBarLabel.textAlignment = NSTextAlignmentLeft;
     self.navBarLabel.textColor = [UIColor whiteColor];
     self.navBarLabel.backgroundColor = [UIColor clearColor];
@@ -174,6 +174,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
     ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact];
     [self.navigationController pushViewController:detailVc animated:YES];
 }

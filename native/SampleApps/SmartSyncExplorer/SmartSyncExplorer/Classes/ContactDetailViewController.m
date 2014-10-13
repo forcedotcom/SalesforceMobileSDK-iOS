@@ -45,9 +45,7 @@
 - (void)loadView {
     [super loadView];
     
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backButtonClicked)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_chevron"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
-        self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 }
 
 - (void)viewDidLoad
@@ -103,10 +101,6 @@
                                 @[ @"Home phone", [[self class] emptyStringForNil:self.contact.homePhone] ]
                                 ];
     return dataRowsArray;
-}
-
-- (void)backButtonClicked {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 + (NSString *)emptyStringForNil:(NSString *)origValue {
