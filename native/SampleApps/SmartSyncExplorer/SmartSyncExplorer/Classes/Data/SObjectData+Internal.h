@@ -26,7 +26,6 @@
 
 @interface SObjectData ()
 
-- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue;
 - (id)nonNullFieldValue:(NSString *)fieldName;
 
 @end

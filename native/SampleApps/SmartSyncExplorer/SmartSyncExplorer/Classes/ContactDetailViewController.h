@@ -24,9 +24,10 @@
 
 #import <UIKit/UIKit.h>
 #import "ContactSObjectData.h"
+#import "SObjectDataManager.h"
 
 @interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
 
-- (id)initWithContact:(ContactSObjectData *)contact;
+- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr;
 
 @end

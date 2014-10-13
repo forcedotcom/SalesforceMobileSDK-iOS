@@ -23,6 +23,7 @@
  */
 
 #import "SObjectDataSpec.h"
+#import <SmartSync/SFSmartSyncSyncManager.h>
 
 NSString * const kSObjectIdField = @"Id";
 
@@ -89,6 +90,10 @@ NSString * const kSObjectIdField = @"Id";
 }
 
 - (NSArray *)buildSoupIndexSpecs:(NSArray *)origIndexSpecs {
+    NSMutableArray *mutableIndexSpecs = [NSMutableArray arrayWithArray:origIndexSpecs];
+    SFSoupIndex *isLocalDataIndexSpec = [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:kSyncManagerLocal];
+    [mutableIndexSpecs insertObject:isLocalDataIndexSpec atIndex:0];
+    
     BOOL foundIdSpec = NO;
     for (SFSoupIndex *indexSpec in origIndexSpecs) {
         if ([indexSpec.path isEqualToString:kSObjectIdField]) {
@@ -98,13 +103,11 @@ NSString * const kSObjectIdField = @"Id";
     }
     
     if (!foundIdSpec) {
-        NSMutableArray *indexSpecsWithId = [NSMutableArray arrayWithArray:origIndexSpecs];
         SFSoupIndex *idIndexSpec = [[SFSoupIndex alloc] initWithPath:kSObjectIdField indexType:kSoupIndexTypeString columnName:kSObjectIdField];
-        [indexSpecsWithId insertObject:idIndexSpec atIndex:0];
-        return indexSpecsWithId;
-    } else {
-        return origIndexSpecs;
+        [mutableIndexSpecs insertObject:idIndexSpec atIndex:0];
     }
+    
+    return mutableIndexSpecs;
 }
 
 @end

@@ -155,6 +155,13 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self resetDataRows];
 }
 
+- (void)updateLocalData:(SObjectData *)updatedData {
+    [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
+    [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
+    [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
+    // TODO: Immediately syncUp here?
+}
+
 - (NSArray *)populateDataRows:(NSArray *)queryResults {
     NSMutableArray *mutableDataRows = [NSMutableArray arrayWithCapacity:[queryResults count]];
     for (NSDictionary *soup in queryResults) {

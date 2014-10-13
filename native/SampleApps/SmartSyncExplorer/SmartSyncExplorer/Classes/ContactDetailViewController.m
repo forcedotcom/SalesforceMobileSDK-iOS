@@ -23,21 +23,25 @@
  */
 
 #import "ContactDetailViewController.h"
+#import "ContactSObjectDataSpec.h"
 
 @interface ContactDetailViewController ()
 
 @property (nonatomic, strong) ContactSObjectData *contact;
+@property (nonatomic, strong) SObjectDataManager *dataMgr;
 @property (nonatomic, strong) NSArray *dataRows;
+@property (nonatomic, assign) BOOL isEditing;
 
 @end
 
 @implementation ContactDetailViewController
 
-- (id)initWithContact:(ContactSObjectData *)contact {
+- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.contact = contact;
-        self.dataRows = [self dataRowsFromContact];
+        self.dataMgr = dataMgr;
+        self.isEditing = NO;
     }
     return self;
 }
@@ -45,7 +49,9 @@
 - (void)loadView {
     [super loadView];
     
+    self.dataRows = [self dataRowsFromContact];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self configureInitialBarButtonItems];
 }
 
 - (void)viewDidLoad
@@ -78,8 +84,18 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    NSString *rowValueData = self.dataRows[indexPath.section][1];
-    cell.textLabel.text = rowValueData;
+    if (self.isEditing) {
+        cell.textLabel.text = nil;
+        UITextField *editField = self.dataRows[indexPath.section][3];
+        editField.frame = cell.contentView.bounds;
+        [self contactTextFieldAddLeftMargin:editField];
+        [cell.contentView addSubview:editField];
+    } else {
+        UITextField *editField = self.dataRows[indexPath.section][3];
+        [editField removeFromSuperview];
+        NSString *rowValueData = self.dataRows[indexPath.section][2];
+        cell.textLabel.text = rowValueData;
+    }
     
     return cell;
 }
@@ -90,17 +106,94 @@
 
 #pragma mark - Private methods
 
-- (NSArray *)dataRowsFromContact {
+- (void)configureInitialBarButtonItems {
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editContact)];
+    self.navigationItem.leftBarButtonItem = nil;
+}
 
-    NSArray *dataRowsArray = @[ @[ @"First name", [[self class] emptyStringForNil:self.contact.firstName] ],
-                                @[ @"Last name", [[self class] emptyStringForNil:self.contact.lastName] ],
-                                @[ @"Title", [[self class] emptyStringForNil:self.contact.title] ],
-                                @[ @"Work phone", [[self class] emptyStringForNil:self.contact.phone] ],
-                                @[ @"Email address", [[self class] emptyStringForNil:self.contact.email] ],
-                                @[ @"Department", [[self class] emptyStringForNil:self.contact.department] ],
-                                @[ @"Home phone", [[self class] emptyStringForNil:self.contact.homePhone] ]
+- (NSArray *)dataRowsFromContact {
+    
+    NSArray *dataRowsArray = @[ @[ @"First name",
+                                   kContactFirstNameField,
+                                   [[self class] emptyStringForNil:self.contact.firstName],
+                                   [self contactTextField:self.contact.firstName] ],
+                                @[ @"Last name",
+                                   kContactLastNameField,
+                                   [[self class] emptyStringForNil:self.contact.lastName],
+                                   [self contactTextField:self.contact.lastName] ],
+                                @[ @"Title",
+                                   kContactTitleField,
+                                   [[self class] emptyStringForNil:self.contact.title],
+                                   [self contactTextField:self.contact.title] ],
+                                @[ @"Work phone",
+                                   kContactPhoneField,
+                                   [[self class] emptyStringForNil:self.contact.phone],
+                                   [self contactTextField:self.contact.phone] ],
+                                @[ @"Email address",
+                                   kContactEmailField,
+                                   [[self class] emptyStringForNil:self.contact.email],
+                                   [self contactTextField:self.contact.email] ],
+                                @[ @"Department",
+                                   kContactDepartmentField,
+                                   [[self class] emptyStringForNil:self.contact.department],
+                                   [self contactTextField:self.contact.department] ],
+                                @[ @"Home phone",
+                                   kContactHomePhoneField,
+                                   [[self class] emptyStringForNil:self.contact.homePhone],
+                                   [self contactTextField:self.contact.homePhone] ]
                                 ];
     return dataRowsArray;
+}
+
+- (void)editContact {
+    self.isEditing = YES;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelEditContact)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
+    [self.tableView reloadData];
+    __weak ContactDetailViewController *weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.dataRows[0][3] becomeFirstResponder];
+    });
+}
+
+- (void)cancelEditContact {
+    self.isEditing = NO;
+    [self configureInitialBarButtonItems];
+    [self.tableView reloadData];
+}
+
+- (void)saveContact {
+    [self configureInitialBarButtonItems];
+    
+    BOOL contactUpdated = NO;
+    for (NSArray *fieldArray in self.dataRows) {
+        NSString *fieldName = fieldArray[1];
+        NSString *origFieldData = fieldArray[2];
+        NSString *newFieldData = ((UITextField *)fieldArray[3]).text;
+        if (![newFieldData isEqualToString:origFieldData]) {
+            [self.contact updateSoupForFieldName:fieldName fieldValue:newFieldData];
+            contactUpdated = YES;
+        }
+    }
+    
+    if (contactUpdated) {
+        [self.dataMgr updateLocalData:self.contact];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+}
+
+- (UITextField *)contactTextField:(NSString *)propertyValue {
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
+    textField.text = propertyValue;
+    return textField;
+}
+
+- (void)contactTextFieldAddLeftMargin:(UITextField *)textField {
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, textField.frame.size.height)];
+    leftView.backgroundColor = textField.backgroundColor;
+    textField.leftView = leftView;
+    textField.leftViewMode = UITextFieldViewModeAlways;
 }
 
 + (NSString *)emptyStringForNil:(NSString *)origValue {
