@@ -62,12 +62,12 @@
     [self updateSoupForFieldName:kContactTitleField fieldValue:title];
 }
 
-- (NSString *)phone {
-    return [self nonNullFieldValue:kContactPhoneField];
+- (NSString *)mobilePhone {
+    return [self nonNullFieldValue:kContactMobilePhoneField];
 }
 
 - (void)setPhone:(NSString *)phone {
-    [self updateSoupForFieldName:kContactPhoneField fieldValue:phone];
+    [self updateSoupForFieldName:kContactMobilePhoneField fieldValue:phone];
 }
 
 - (NSString *)email {
