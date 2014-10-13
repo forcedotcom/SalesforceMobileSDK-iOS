@@ -32,6 +32,7 @@
 - (id)initWithSoupDict:(NSDictionary *)soupDict;
 
 - (id)fieldValueForFieldName:(NSString *)fieldName;
+- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(id)fieldValue;
 
 + (SObjectDataSpec *)dataSpec;
 

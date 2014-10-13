@@ -83,7 +83,7 @@ char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.Q
 // block type
 typedef void (^SFSyncManagerUpdateBlock) (NSInteger progress, NSInteger totalSize);
 
-// action tyoe
+// action type
 typedef enum {
     kSyncManagerActionNone,
     kSyncManagerActionCreate,

@@ -43,6 +43,11 @@ extern NSString * const kSyncManagerQueryTypeMru;
 extern NSString * const kSyncManagerQueryTypeSoql;
 extern NSString * const kSyncManagerQueryTypeSosl;
 
+extern NSString * const kSyncManagerLocal;
+extern NSString * const kSyncManagerLocallyCreated;
+extern NSString * const kSyncManagerLocallyUpdated;
+extern NSString * const kSyncManagerLocallyDeleted;
+
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */

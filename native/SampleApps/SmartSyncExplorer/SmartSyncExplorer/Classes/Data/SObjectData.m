@@ -35,13 +35,12 @@
     return self;
 }
 
-- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(NSString *)fieldValue  {
+- (void)updateSoupForFieldName:(NSString *)fieldName fieldValue:(id)fieldValue  {
     NSMutableDictionary *mutableSoup = [self.soupDict mutableCopy];
-    if (fieldValue == nil) {
-        [mutableSoup removeObjectForKey:fieldName];
-    } else {
-        mutableSoup[fieldName] = fieldValue;
-    }
+    if (fieldValue == nil)
+        fieldValue = [NSNull null];
+    
+    mutableSoup[fieldName] = fieldValue;
     self.soupDict = mutableSoup;
 }
 
