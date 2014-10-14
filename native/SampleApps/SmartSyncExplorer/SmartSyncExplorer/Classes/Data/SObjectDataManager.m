@@ -146,12 +146,14 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
+    [self log:SFLogLevelDebug msg:@"Got local query results.  Populating data rows."];
     if (queryError) {
         [self log:SFLogLevelError format:@"Error retrieving '%@' data from SmartStore: %@", self.dataSpec.objectType, [queryError localizedDescription]];
         return;
     }
     
     self.fullDataRowList = [self populateDataRows:queryResults];
+    [self log:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
     [self resetDataRows];
 }
 
@@ -160,6 +162,10 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
     // TODO: Immediately syncUp here?
+}
+
+- (BOOL)dataHasLocalUpdates:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocal] boolValue];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {

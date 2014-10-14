@@ -144,8 +144,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:kContactTitleTextColor];
     cell.imageView.image = [self initialsBackgroundImageWithColor:[self colorFromContact:obj] initials:[self formatInitialsFromContact:obj]];
     
-    //this adds the arrow to the right hand side.
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.accessoryView = [self accessoryViewForContact:obj];
     
     return cell;
 }
@@ -204,6 +203,72 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 #pragma mark - Private methods
+
+- (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
+    static UIImage *sLocalImage = nil;
+    static UIImage *sChevronRightImage = nil;
+    
+    if (sLocalImage == nil) {
+        sLocalImage = [UIImage imageNamed:@"local"];
+    }
+    if (sChevronRightImage == nil) {
+        sChevronRightImage = [UIImage imageNamed:@"chevron-right"];
+    }
+    
+    if ([self.dataMgr dataHasLocalUpdates:contact]) {
+        //
+        // Uber view
+        //
+        CGFloat accessoryViewWidth = sLocalImage.size.width + kControlBuffer + sChevronRightImage.size.width;
+        CGRect accessoryViewRect = CGRectMake(0, 0, accessoryViewWidth, self.tableView.rowHeight);
+        UIView *accessoryView = [[UIView alloc] initWithFrame:accessoryViewRect];
+        //
+        // "local" view
+        //
+        CGRect localImageViewRect = CGRectMake(0,
+                                               CGRectGetMidY(accessoryView.bounds) - (sLocalImage.size.height / 2.0),
+                                               sLocalImage.size.width,
+                                               sLocalImage.size.height);
+        UIImageView *localImageView = [[UIImageView alloc] initWithFrame:localImageViewRect];
+        localImageView.image = sLocalImage;
+        [accessoryView addSubview:localImageView];
+        //
+        // spacer view
+        //
+        UIView *spacerView = [[UIView alloc] initWithFrame:CGRectMake(localImageView.frame.size.width, 0, kControlBuffer, self.tableView.rowHeight)];
+        [accessoryView addSubview:spacerView];
+        //
+        // chevron view
+        //
+        CGRect chevronViewRect = CGRectMake(localImageView.frame.size.width + spacerView.frame.size.width,
+                                            CGRectGetMidY(accessoryView.bounds) - (sChevronRightImage.size.height / 2.0),
+                                            sChevronRightImage.size.width,
+                                            sChevronRightImage.size.height);
+        UIImageView *chevronView = [[UIImageView alloc] initWithFrame:chevronViewRect];
+        chevronView.image = sChevronRightImage;
+        [accessoryView addSubview:chevronView];
+        
+        return accessoryView;
+    } else {
+        //
+        // Uber view
+        //
+        CGRect accessoryViewRect = CGRectMake(0, 0, sChevronRightImage.size.width, self.tableView.rowHeight);
+        UIView *accessoryView = [[UIView alloc] initWithFrame:accessoryViewRect];
+        //
+        // chevron view
+        //
+        CGRect chevronViewRect = CGRectMake(0,
+                                            CGRectGetMidY(accessoryView.bounds) - (sChevronRightImage.size.height / 2.0),
+                                            sChevronRightImage.size.width,
+                                            sChevronRightImage.size.height);
+        UIImageView *chevronView = [[UIImageView alloc] initWithFrame:chevronViewRect];
+        chevronView.image = sChevronRightImage;
+        [accessoryView addSubview:chevronView];
+        
+        return accessoryView;
+    }
+}
 
 - (void)addTapGestureRecognizers {
     UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
