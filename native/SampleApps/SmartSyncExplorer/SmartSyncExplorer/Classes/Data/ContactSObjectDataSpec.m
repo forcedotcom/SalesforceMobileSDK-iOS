@@ -28,7 +28,7 @@
 NSString * const kContactFirstNameField    = @"FirstName";
 NSString * const kContactLastNameField     = @"LastName";
 NSString * const kContactTitleField        = @"Title";
-NSString * const kContactPhoneField        = @"Phone";
+NSString * const kContactMobilePhoneField  = @"MobilePhone";
 NSString * const kContactEmailField        = @"Email";
 NSString * const kContactDepartmentField   = @"Department";
 NSString * const kContactHomePhoneField    = @"HomePhone";
@@ -40,7 +40,7 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
     NSArray *objectFieldSpecs = @[ [[SObjectDataFieldSpec alloc] initWithFieldName:kContactFirstNameField searchable:YES],
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactLastNameField searchable:YES],
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactTitleField searchable:YES],
-                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactPhoneField searchable:NO],
+                                   [[SObjectDataFieldSpec alloc] initWithFieldName:kContactMobilePhoneField searchable:NO],
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactEmailField searchable:NO],
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactDepartmentField searchable:NO],
                                    [[SObjectDataFieldSpec alloc] initWithFieldName:kContactHomePhoneField searchable:NO]

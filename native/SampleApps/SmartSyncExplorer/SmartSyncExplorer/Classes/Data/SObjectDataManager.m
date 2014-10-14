@@ -28,7 +28,8 @@
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
-static NSUInteger kMaxQueryPageSize = 4000;
+static NSUInteger kMaxQueryPageSize = 1000;
+static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
 
 @interface SObjectDataManager ()
@@ -70,7 +71,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self registerSoup];
     }
     
-    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType];
+    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
     self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
     NSNumber *syncId = self.sync[kSyncManagerSyncId];

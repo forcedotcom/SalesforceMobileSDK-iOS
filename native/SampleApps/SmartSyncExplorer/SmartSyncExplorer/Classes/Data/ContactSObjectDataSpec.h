@@ -27,7 +27,7 @@
 extern NSString * const kContactFirstNameField;
 extern NSString * const kContactLastNameField;
 extern NSString * const kContactTitleField;
-extern NSString * const kContactPhoneField;
+extern NSString * const kContactMobilePhoneField;
 extern NSString * const kContactEmailField;
 extern NSString * const kContactDepartmentField;
 extern NSString * const kContactHomePhoneField;
