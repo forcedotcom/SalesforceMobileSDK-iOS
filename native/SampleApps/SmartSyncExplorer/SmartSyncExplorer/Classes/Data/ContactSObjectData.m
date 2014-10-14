@@ -66,8 +66,8 @@
     return [self nonNullFieldValue:kContactMobilePhoneField];
 }
 
-- (void)setPhone:(NSString *)phone {
-    [self updateSoupForFieldName:kContactMobilePhoneField fieldValue:phone];
+- (void)setMobilePhone:(NSString *)mobilePhone {
+    [self updateSoupForFieldName:kContactMobilePhoneField fieldValue:mobilePhone];
 }
 
 - (NSString *)email {
