@@ -29,18 +29,21 @@
 
 @property (nonatomic, strong) ContactSObjectData *contact;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+@property (nonatomic, copy) void (^saveBlock)(void);
 @property (nonatomic, strong) NSArray *dataRows;
 @property (nonatomic, assign) BOOL isEditing;
+@property (nonatomic, assign) BOOL contactUpdated;
 
 @end
 
 @implementation ContactDetailViewController
 
-- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr {
+- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.contact = contact;
         self.dataMgr = dataMgr;
+        self.saveBlock = saveBlock;
         self.isEditing = NO;
     }
     return self;
@@ -58,6 +61,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.contactUpdated && self.saveBlock != NULL) {
+        dispatch_async(dispatch_get_main_queue(), self.saveBlock);
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,20 +175,22 @@
 - (void)saveContact {
     [self configureInitialBarButtonItems];
     
-    BOOL contactUpdated = NO;
+    self.contactUpdated = NO;
     for (NSArray *fieldArray in self.dataRows) {
         NSString *fieldName = fieldArray[1];
         NSString *origFieldData = fieldArray[2];
         NSString *newFieldData = ((UITextField *)fieldArray[3]).text;
         if (![newFieldData isEqualToString:origFieldData]) {
             [self.contact updateSoupForFieldName:fieldName fieldValue:newFieldData];
-            contactUpdated = YES;
+            self.contactUpdated = YES;
         }
     }
     
-    if (contactUpdated) {
+    if (self.contactUpdated) {
         [self.dataMgr updateLocalData:self.contact];
         [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        [self.tableView reloadData];
     }
     
 }

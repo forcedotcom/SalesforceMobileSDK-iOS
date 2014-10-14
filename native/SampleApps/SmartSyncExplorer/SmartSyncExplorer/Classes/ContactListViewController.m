@@ -74,7 +74,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.dataMgr refreshRemoteData];
+    [self.dataMgr refreshLocalData];
+    if ([self.dataMgr.dataRows count] == 0)
+        [self.dataMgr refreshRemoteData];
 }
 
 - (void)loadView {
@@ -116,8 +118,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    if ([self.searchBar.text length] == 0)
-        [self.dataMgr refreshLocalData];
     
 }
 
@@ -175,7 +175,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
-    ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact dataManager:self.dataMgr];
+    ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact
+                                                                                     dataManager:self.dataMgr
+                                                                                       saveBlock:^{
+                                                                                           [self.tableView beginUpdates];
+                                                                                           [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationNone];
+                                                                                           [self.tableView endUpdates];
+                                                                                       }];
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
