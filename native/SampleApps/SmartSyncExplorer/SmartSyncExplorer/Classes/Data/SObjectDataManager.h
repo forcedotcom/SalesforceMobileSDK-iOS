@@ -34,6 +34,7 @@
                     dataSpec:(SObjectDataSpec *)dataSpec;
 
 - (void)refreshLocalData;
+- (void)updateLocalData:(SObjectData *)updatedData;
 - (void)refreshRemoteData;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;

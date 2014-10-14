@@ -28,7 +28,7 @@
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
-static NSUInteger kMaxQueryPageSize = 10000;
+static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
 
@@ -154,6 +154,13 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     self.fullDataRowList = [self populateDataRows:queryResults];
     [self resetDataRows];
+}
+
+- (void)updateLocalData:(SObjectData *)updatedData {
+    [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
+    [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
+    [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
+    // TODO: Immediately syncUp here?
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {
