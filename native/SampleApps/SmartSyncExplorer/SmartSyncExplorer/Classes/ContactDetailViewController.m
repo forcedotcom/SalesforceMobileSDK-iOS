@@ -95,7 +95,7 @@
     NSArray *dataRowsArray = @[ @[ @"First name", [[self class] emptyStringForNil:self.contact.firstName] ],
                                 @[ @"Last name", [[self class] emptyStringForNil:self.contact.lastName] ],
                                 @[ @"Title", [[self class] emptyStringForNil:self.contact.title] ],
-                                @[ @"Work phone", [[self class] emptyStringForNil:self.contact.phone] ],
+                                @[ @"Mobile phone", [[self class] emptyStringForNil:self.contact.mobilePhone] ],
                                 @[ @"Email address", [[self class] emptyStringForNil:self.contact.email] ],
                                 @[ @"Department", [[self class] emptyStringForNil:self.contact.department] ],
                                 @[ @"Home phone", [[self class] emptyStringForNil:self.contact.homePhone] ]
