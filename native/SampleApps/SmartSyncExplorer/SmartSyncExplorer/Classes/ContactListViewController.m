@@ -40,6 +40,7 @@ static CGFloat    const kSearchHeaderHeight             = 50.0;
 static CGFloat    const kTableViewRowHeight             = 60.0;
 static CGFloat    const kInitialsCircleDiameter         = 50.0;
 static CGFloat    const kInitialsFontSize               = 19.0;
+static CGFloat    const kToastMessageFontSize           = 16.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
@@ -54,6 +55,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @property (nonatomic, strong) UIImageView *searchIconView;
 @property (nonatomic, strong) UILabel *searchTextFieldLabel;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIView *toastView;
+@property (nonatomic, strong) UILabel *toastViewMessageLabel;
+@property (nonatomic, copy) NSString *toastMessage;
 
 // Data properties
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
@@ -108,6 +112,18 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.searchBar.placeholder = @"Search";
     self.searchBar.delegate = self;
     [self.searchHeader addSubview:self.searchBar];
+    
+    // Toast view
+    self.toastView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.toastView.backgroundColor = [UIColor colorWithRed:(38.0 / 255.0) green:(38.0 / 255.0) blue:(38.0 / 255.0) alpha:0.7];
+    self.toastView.layer.cornerRadius = 10.0;
+    self.toastView.alpha = 0.0;
+    
+    self.toastViewMessageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.toastViewMessageLabel.font = [UIFont systemFontOfSize:kToastMessageFontSize];
+    self.toastViewMessageLabel.textColor = [UIColor whiteColor];
+    [self.toastView addSubview:self.toastViewMessageLabel];
+    [self.view addSubview:self.toastView];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -119,6 +135,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
                                          navBarFrame.size.height);
     self.navBarLabel.frame = navBarLabelFrame;
     [self layoutSearchHeader];
+    
+    [self layoutToastView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -297,54 +315,47 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.dataMgr updateRemoteData];
 }
 
-- (void)showToast:(NSString *)message {
-    CGFloat toastWidth = 200.0;
-    CGFloat toastHeight = 30.0;
+- (void)layoutToastView {
+    CGFloat toastWidth = 250.0;
+    CGFloat toastHeight = 50.0;
     CGFloat bottomScreenPadding = 40.0;
-    UIFont *messageLabelFont = [UIFont systemFontOfSize:12.0];
-    UIColor *messageLabelColor = [UIColor whiteColor];
-    NSInteger toastViewTag = 866;
-    NSTimeInterval toastDisplayTimeSecs = 2.0;
     
-    UIView *toastView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMidX([self.view superview].bounds) - (toastWidth / 2.0),
-                                                                 CGRectGetMaxY([self.view superview].bounds) - bottomScreenPadding - toastHeight,
-                                                                 toastWidth,
-                                                                 toastHeight)];
-    toastView.backgroundColor = [UIColor colorWithRed:(38.0 / 255.0) green:(38.0 / 255.0) blue:(38.0 / 255.0) alpha:0.7];
-    toastView.layer.cornerRadius = 10.0;
-    toastView.tag = toastViewTag;
-    [[[self.view superview] viewWithTag:toastViewTag] removeFromSuperview];
+    self.toastView.frame = CGRectMake(CGRectGetMidX([self.toastView superview].bounds) - (toastWidth / 2.0),
+                                      CGRectGetMaxY([self.toastView superview].bounds) - bottomScreenPadding - toastHeight,
+                                      toastWidth,
+                                      toastHeight);
     
     //
     // messageLabel
     //
-    NSDictionary *messageAttrs = @{ NSForegroundColorAttributeName: messageLabelColor, NSFontAttributeName: messageLabelFont };
-    CGSize messageTextSize = [message sizeWithAttributes:messageAttrs];
-    CGRect messageRect = CGRectMake(CGRectGetMidX(toastView.bounds) - (messageTextSize.width / 2.0),
-                                    CGRectGetMidY(toastView.bounds) - (messageTextSize.height / 2.0),
+    NSDictionary *messageAttrs = @{ NSForegroundColorAttributeName: self.toastViewMessageLabel.textColor, NSFontAttributeName: self.toastViewMessageLabel.font };
+    if (self.toastMessage == nil) {
+        self.toastMessage = @" ";
+    }
+    CGSize messageTextSize = [self.toastMessage sizeWithAttributes:messageAttrs];
+    CGRect messageRect = CGRectMake(CGRectGetMidX(self.toastView.bounds) - (messageTextSize.width / 2.0),
+                                    CGRectGetMidY(self.toastView.bounds) - (messageTextSize.height / 2.0),
                                     messageTextSize.width, messageTextSize.height);
-    UILabel *messageLabel = [[UILabel alloc] initWithFrame:messageRect];
-    messageLabel.text = message;
-    messageLabel.font = messageLabelFont;
-    messageLabel.textColor = messageLabelColor;
-    [toastView addSubview: messageLabel];
+    self.toastViewMessageLabel.frame = messageRect;
+    self.toastViewMessageLabel.text = self.toastMessage;
+}
+
+- (void)showToast:(NSString *)message {
+    NSTimeInterval const toastDisplayTimeSecs = 2.0;
     
-    toastView.alpha = 0.0;
-    [[self.view superview] addSubview:toastView];
-    toastView.layer.zPosition = 1.0;
+    self.toastMessage = message;
+    [self layoutToastView];
+    self.toastView.alpha = 0.0;
     [UIView beginAnimations:@"toastFadeIn" context:NULL];
     [UIView setAnimationDuration:0.3];
-    toastView.alpha = 1.0;
+    self.toastView.alpha = 1.0;
     [UIView commitAnimations];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, toastDisplayTimeSecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:@"toastFadeOut" context:NULL];
         [UIView setAnimationDuration:0.3];
-        toastView.alpha = 0.0;
+        self.toastView.alpha = 0.0;
         [UIView commitAnimations];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (toastDisplayTimeSecs + 0.3) * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-            [toastView removeFromSuperview];
-        });
     });
 }
 
