@@ -78,6 +78,13 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self.syncMgr runSync:syncId];
 }
 
+- (void)updateRemoteData {
+    NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
+    NSDictionary *sync = [self.syncMgr recordSync:kSyncManagerSyncTypeUp target:nil soupName:self.dataSpec.soupName options:fieldListOptions];
+    NSNumber *syncId = sync[kSyncManagerSyncId];
+    [self.syncMgr runSync:syncId];
+}
+
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock {
     dispatch_async(_searchFilterQueue, ^{
         self.dataRows = self.fullDataRowList;
@@ -162,7 +169,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
     [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
-    // TODO: Immediately syncUp here?
 }
 
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data {

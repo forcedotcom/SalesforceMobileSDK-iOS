@@ -48,6 +48,8 @@ extern NSString * const kSyncManagerLocallyCreated;
 extern NSString * const kSyncManagerLocallyUpdated;
 extern NSString * const kSyncManagerLocallyDeleted;
 
+extern NSString * const kSyncManagerOptionsFieldlist;
+
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */

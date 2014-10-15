@@ -37,6 +37,7 @@
 - (void)updateLocalData:(SObjectData *)updatedData;
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data;
 - (void)refreshRemoteData;
+- (void)updateRemoteData;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;
 
