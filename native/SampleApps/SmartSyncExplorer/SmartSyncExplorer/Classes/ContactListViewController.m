@@ -27,6 +27,7 @@
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
+#import <SmartSync/SFSmartSyncSyncManager.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
@@ -49,11 +50,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 // View / UI properties
 @property (nonatomic, strong) UILabel *navBarLabel;
 @property (nonatomic, strong) UIView *searchHeader;
-@property (nonatomic, strong) UIImageView *syncIconView;
-@property (nonatomic, strong) UITextField *searchTextField;
-@property (nonatomic, strong) UIView *searchTextFieldLeftView;
-@property (nonatomic, strong) UIImageView *searchIconView;
-@property (nonatomic, strong) UILabel *searchTextFieldLabel;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIView *toastView;
 @property (nonatomic, strong) UILabel *toastViewMessageLabel;
@@ -221,9 +217,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.dataMgr filterOnSearchTerm:searchText completion:^{
         [weakSelf.tableView reloadData];
         if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.searchBar becomeFirstResponder];
-            });
+            [weakSelf.searchBar becomeFirstResponder];
         }
     }];
 }
@@ -311,8 +305,24 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)syncUpDown {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showToast:@"Syncing with Salesforce"];
-    [self.dataMgr updateRemoteData];
+    __weak ContactListViewController *weakSelf = self;
+    [self.dataMgr updateRemoteData:^(NSDictionary *syncProgressDetails) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            NSString *syncStatus = syncProgressDetails[kSyncManagerSyncStatus];
+            if ([syncStatus isEqualToString:kSyncManagerStatusDone]) {
+                [weakSelf.dataMgr refreshLocalData];
+                [weakSelf showToast:@"Sync complete!"];
+                [weakSelf.dataMgr refreshRemoteData];
+            } else if ([syncStatus isEqualToString:kSyncManagerStatusFailed]) {
+                [weakSelf showToast:@"Sync failed."];
+            } else {
+                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", syncStatus]];
+            }
+        });
+    }];
 }
 
 - (void)layoutToastView {

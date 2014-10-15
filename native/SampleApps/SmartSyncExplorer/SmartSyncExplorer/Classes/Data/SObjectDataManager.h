@@ -26,6 +26,8 @@
 #import "SObjectDataSpec.h"
 #import "SObjectData.h"
 
+typedef void (^SObjectSyncProgressAction)(NSDictionary *syncProgressDetails);
+
 @interface SObjectDataManager : NSObject
 
 @property (nonatomic, strong) NSArray *dataRows;
@@ -37,7 +39,7 @@
 - (void)updateLocalData:(SObjectData *)updatedData;
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data;
 - (void)refreshRemoteData;
-- (void)updateRemoteData;
+- (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;
 
