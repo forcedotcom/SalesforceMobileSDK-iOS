@@ -372,6 +372,14 @@ dispatch_queue_t queue;
     // Call smartstore
     NSArray* records = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     NSUInteger totalSize = [records count];
+    
+    if (totalSize == 0) {
+        // Nothing to do.
+        [self updateSync:sync status:kSyncManagerStatusDone progress:0 totalSize:0];
+        return;
+    }
+    
+    // Otherwise, there's work to do.
     [self updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:totalSize];
 
     SFSyncManagerUpdateBlock updateBlock = ^(NSInteger progress, NSInteger totalSize) {

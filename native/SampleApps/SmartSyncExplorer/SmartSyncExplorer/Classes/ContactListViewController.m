@@ -27,6 +27,7 @@
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
+#import <SmartSync/SFSmartSyncSyncManager.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
@@ -40,6 +41,7 @@ static CGFloat    const kSearchHeaderHeight             = 50.0;
 static CGFloat    const kTableViewRowHeight             = 60.0;
 static CGFloat    const kInitialsCircleDiameter         = 50.0;
 static CGFloat    const kInitialsFontSize               = 19.0;
+static CGFloat    const kToastMessageFontSize           = 16.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
@@ -48,12 +50,10 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 // View / UI properties
 @property (nonatomic, strong) UILabel *navBarLabel;
 @property (nonatomic, strong) UIView *searchHeader;
-@property (nonatomic, strong) UIImageView *syncIconView;
-@property (nonatomic, strong) UITextField *searchTextField;
-@property (nonatomic, strong) UIView *searchTextFieldLeftView;
-@property (nonatomic, strong) UIImageView *searchIconView;
-@property (nonatomic, strong) UILabel *searchTextFieldLabel;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIView *toastView;
+@property (nonatomic, strong) UILabel *toastViewMessageLabel;
+@property (nonatomic, copy) NSString *toastMessage;
 
 // Data properties
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
@@ -95,24 +95,44 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navBarLabel.font = [UIFont systemFontOfSize:kNavBarTitleFontSize];
     self.navigationItem.titleView = self.navBarLabel;
     
+    // Sync down / Sync up button
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
     self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
-    
-//    UIImage *syncIcon = [UIImage imageNamed:@"sync"];
-//    self.syncIconView = [[UIImageView alloc] initWithImage:syncIcon];
-//    [self.searchHeader addSubview:self.syncIconView];
     
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
     self.searchBar.barTintColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
     self.searchBar.placeholder = @"Search";
     self.searchBar.delegate = self;
     [self.searchHeader addSubview:self.searchBar];
+    
+    // Toast view
+    self.toastView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.toastView.backgroundColor = [UIColor colorWithRed:(38.0 / 255.0) green:(38.0 / 255.0) blue:(38.0 / 255.0) alpha:0.7];
+    self.toastView.layer.cornerRadius = 10.0;
+    self.toastView.alpha = 0.0;
+    
+    self.toastViewMessageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.toastViewMessageLabel.font = [UIFont systemFontOfSize:kToastMessageFontSize];
+    self.toastViewMessageLabel.textColor = [UIColor whiteColor];
+    [self.toastView addSubview:self.toastViewMessageLabel];
+    [self.view addSubview:self.toastView];
 }
 
 - (void)viewWillLayoutSubviews {
-    self.navBarLabel.frame = self.navigationController.navigationBar.bounds;
+    CGRect navBarFrame = self.navigationController.navigationBar.frame;
+    UIImage *rightButtonImage = self.navigationItem.rightBarButtonItem.image;
+    CGRect navBarLabelFrame = CGRectMake(0,
+                                         0,
+                                         navBarFrame.size.width - rightButtonImage.size.width,
+                                         navBarFrame.size.height);
+    self.navBarLabel.frame = navBarLabelFrame;
     [self layoutSearchHeader];
+    
+    [self layoutToastView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -197,9 +217,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.dataMgr filterOnSearchTerm:searchText completion:^{
         [weakSelf.tableView reloadData];
         if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.searchBar becomeFirstResponder];
-            });
+            [weakSelf.searchBar becomeFirstResponder];
         }
     }];
 }
@@ -286,6 +304,71 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.tableView addGestureRecognizer:tableViewTapGesture];
 }
 
+- (void)syncUpDown {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self showToast:@"Syncing with Salesforce"];
+    __weak ContactListViewController *weakSelf = self;
+    [self.dataMgr updateRemoteData:^(NSDictionary *syncProgressDetails) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            NSString *syncStatus = syncProgressDetails[kSyncManagerSyncStatus];
+            if ([syncStatus isEqualToString:kSyncManagerStatusDone]) {
+                [weakSelf.dataMgr refreshLocalData];
+                [weakSelf showToast:@"Sync complete!"];
+                [weakSelf.dataMgr refreshRemoteData];
+            } else if ([syncStatus isEqualToString:kSyncManagerStatusFailed]) {
+                [weakSelf showToast:@"Sync failed."];
+            } else {
+                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", syncStatus]];
+            }
+        });
+    }];
+}
+
+- (void)layoutToastView {
+    CGFloat toastWidth = 250.0;
+    CGFloat toastHeight = 50.0;
+    CGFloat bottomScreenPadding = 40.0;
+    
+    self.toastView.frame = CGRectMake(CGRectGetMidX([self.toastView superview].bounds) - (toastWidth / 2.0),
+                                      CGRectGetMaxY([self.toastView superview].bounds) - bottomScreenPadding - toastHeight,
+                                      toastWidth,
+                                      toastHeight);
+    
+    //
+    // messageLabel
+    //
+    NSDictionary *messageAttrs = @{ NSForegroundColorAttributeName: self.toastViewMessageLabel.textColor, NSFontAttributeName: self.toastViewMessageLabel.font };
+    if (self.toastMessage == nil) {
+        self.toastMessage = @" ";
+    }
+    CGSize messageTextSize = [self.toastMessage sizeWithAttributes:messageAttrs];
+    CGRect messageRect = CGRectMake(CGRectGetMidX(self.toastView.bounds) - (messageTextSize.width / 2.0),
+                                    CGRectGetMidY(self.toastView.bounds) - (messageTextSize.height / 2.0),
+                                    messageTextSize.width, messageTextSize.height);
+    self.toastViewMessageLabel.frame = messageRect;
+    self.toastViewMessageLabel.text = self.toastMessage;
+}
+
+- (void)showToast:(NSString *)message {
+    NSTimeInterval const toastDisplayTimeSecs = 2.0;
+    
+    self.toastMessage = message;
+    [self layoutToastView];
+    self.toastView.alpha = 0.0;
+    [UIView beginAnimations:@"toastFadeIn" context:NULL];
+    [UIView setAnimationDuration:0.3];
+    self.toastView.alpha = 1.0;
+    [UIView commitAnimations];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, toastDisplayTimeSecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [UIView beginAnimations:@"toastFadeOut" context:NULL];
+        [UIView setAnimationDuration:0.3];
+        self.toastView.alpha = 0.0;
+        [UIView commitAnimations];
+    });
+}
+
 - (void)searchResignFirstResponder {
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
@@ -300,15 +383,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     //
     CGRect searchHeaderFrame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, kSearchHeaderHeight);
     self.searchHeader.frame = searchHeaderFrame;
-    
-//    //
-//    // syncIconView
-//    //
-//    CGRect iconViewFrame = CGRectMake(kControlBuffer,
-//                                      CGRectGetMidY(self.searchHeader.bounds) - (self.syncIconView.image.size.height / 2.0),
-//                                      self.syncIconView.image.size.width,
-//                                      self.syncIconView.image.size.height);
-//    self.syncIconView.frame = iconViewFrame;
     
     //
     // searchBar

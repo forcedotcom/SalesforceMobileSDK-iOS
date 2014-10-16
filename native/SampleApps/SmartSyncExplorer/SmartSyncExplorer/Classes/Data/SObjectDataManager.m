@@ -43,6 +43,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSDictionary *sync;
 @property (nonatomic, strong) NSArray *fullDataRowList;
+@property (nonatomic, copy) SObjectSyncProgressAction syncCompletionBlock;
 
 @end
 
@@ -75,6 +76,18 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
     self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
     NSNumber *syncId = self.sync[kSyncManagerSyncId];
+    __weak SObjectDataManager *weakSelf = self;
+    self.syncCompletionBlock = ^(NSDictionary *completionData) {
+        [weakSelf refreshLocalData];
+    };
+    [self.syncMgr runSync:syncId];
+}
+
+- (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock {
+    NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
+    self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeUp target:nil soupName:self.dataSpec.soupName options:fieldListOptions];
+    NSNumber *syncId = self.sync[kSyncManagerSyncId];
+    self.syncCompletionBlock = completionBlock;
     [self.syncMgr runSync:syncId];
 }
 
@@ -133,9 +146,11 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         return;
     }
     
-    if ([updatedSync[kSyncManagerSyncStatus] isEqualToString:kSyncManagerStatusDone]) {
+    NSString *syncStatus = updatedSync[kSyncManagerSyncStatus];
+    if ([syncStatus isEqualToString:kSyncManagerStatusDone] || [syncStatus isEqualToString:kSyncManagerStatusFailed]) {
         self.sync = nil;
-        [self refreshLocalData];
+        if (self.syncCompletionBlock != NULL)
+            self.syncCompletionBlock(updatedSync);
     }
 }
 
@@ -162,7 +177,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
     [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
-    // TODO: Immediately syncUp here?
 }
 
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data {
