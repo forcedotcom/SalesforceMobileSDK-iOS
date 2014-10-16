@@ -61,6 +61,9 @@
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:hybrid/SampleApps/UserList/UserList.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
       </FileRef>
    </Group>
