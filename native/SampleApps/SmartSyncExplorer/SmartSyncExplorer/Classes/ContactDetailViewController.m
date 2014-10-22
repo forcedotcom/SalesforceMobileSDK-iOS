@@ -27,7 +27,7 @@
 
 @interface ContactDetailViewController ()
 
-@property (nonatomic, strong) ContactSObjectData *contact;
+@property (nonatomic, strong) ContactSFObject *contact;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
 @property (nonatomic, copy) void (^saveBlock)(void);
 @property (nonatomic, strong) NSArray *dataRows;
@@ -38,7 +38,7 @@
 
 @implementation ContactDetailViewController
 
-- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock {
+- (id)initWithContact:(ContactSFObject *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.contact = contact;

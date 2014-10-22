@@ -22,11 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "ContactSObjectData.h"
+#import "ContactSFObject.h"
 #import "ContactSObjectDataSpec.h"
 #import "SObjectData+Internal.h"
 
-@implementation ContactSObjectData
+@implementation ContactSFObject
 
 + (SObjectDataSpec *)dataSpec {
     static ContactSObjectDataSpec *sDataSpec = nil;

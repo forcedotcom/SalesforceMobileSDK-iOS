@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "SObjectData.h"
 
-@interface ContactSObjectData : SObjectData
+@interface ContactSFObject : SObjectData
 
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;

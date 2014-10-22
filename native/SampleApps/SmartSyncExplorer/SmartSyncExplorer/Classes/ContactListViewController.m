@@ -25,7 +25,7 @@
 #import "ContactListViewController.h"
 #import "SObjectDataManager.h"
 #import "ContactSObjectDataSpec.h"
-#import "ContactSObjectData.h"
+#import "ContactSFObject.h"
 #import "ContactDetailViewController.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
@@ -52,6 +52,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @property (nonatomic, strong) UILabel *navBarLabel;
 @property (nonatomic, strong) UIView *searchHeader;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIBarButtonItem *syncButton;
+@property (nonatomic, strong) UIBarButtonItem *addButton;
 @property (nonatomic, strong) UIView *toastView;
 @property (nonatomic, strong) UILabel *toastViewMessageLabel;
 @property (nonatomic, copy) NSString *toastMessage;
@@ -67,7 +69,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSFObject dataSpec]];
         self.isSearching = NO;
     }
     return self;
@@ -97,8 +99,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navigationItem.titleView = self.navBarLabel;
     
     // Sync down / Sync up button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addContact)];
+    self.syncButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
+    self.addButton.imageInsets = UIEdgeInsetsMake(0.0, 0.0, 0, -65);
+    self.navigationItem.rightBarButtonItems = @[ self.syncButton, self.addButton ];
+    for (UIBarButtonItem *bbi in self.navigationItem.rightBarButtonItems) {
+        bbi.tintColor = [UIColor whiteColor];
+    }
     
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
@@ -157,7 +164,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    ContactSFObject *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     cell.textLabel.text = [self formatNameFromContact:obj];
     cell.textLabel.font = [UIFont systemFontOfSize:kContactTitleFontSize];
     cell.detailTextLabel.text = [self formatTitle:obj.title];
@@ -194,7 +201,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    ContactSFObject *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
     ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact
                                                                                      dataManager:self.dataMgr
@@ -229,7 +236,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 #pragma mark - Private methods
 
-- (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
+- (UIView *)accessoryViewForContact:(ContactSFObject *)contact {
     static UIImage *sLocalImage = nil;
     static UIImage *sChevronRightImage = nil;
     
@@ -325,6 +332,18 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }];
 }
 
+- (void)addContact {
+//    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
+//    ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact
+//                                                                                     dataManager:self.dataMgr
+//                                                                                       saveBlock:^{
+//                                                                                           [self.tableView beginUpdates];
+//                                                                                           [self.tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationNone];
+//                                                                                           [self.tableView endUpdates];
+//                                                                                       }];
+//    [self.navigationController pushViewController:detailVc animated:YES];
+}
+
 - (void)layoutToastView {
     CGFloat toastWidth = 250.0;
     CGFloat toastHeight = 50.0;
@@ -394,7 +413,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.searchBar.frame = searchBarFrame;
 }
 
-- (NSString *)formatNameFromContact:(ContactSObjectData *)contact {
+- (NSString *)formatNameFromContact:(ContactSFObject *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (firstName == nil && lastName == nil) {
@@ -408,7 +427,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
 }
 
-- (NSString *)formatInitialsFromContact:(ContactSObjectData *)contact {
+- (NSString *)formatInitialsFromContact:(ContactSFObject *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -432,7 +451,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     return (title != nil ? title : @"");
 }
 
-- (UIColor *)colorFromContact:(ContactSObjectData *)contact {
+- (UIColor *)colorFromContact:(ContactSFObject *)contact {
     
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSUInteger codeSeedFromName = 0;
