@@ -15,7 +15,7 @@ static NSString * const kSecurityIsLockedLegacyKey = @"security.islocked";
 /**
  * Presents the passcode controller when it's time to create or verify the passcode.
  */
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue;
++ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData;
 
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.

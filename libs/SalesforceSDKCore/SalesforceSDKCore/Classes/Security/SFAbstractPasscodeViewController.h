@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSecurityLockout.h"
+#import "SFPasscodeViewControllerTypes.h"
 
 /**
  * Key associated with the storage and retrieval of remaining passcode validation attempts.
@@ -35,18 +37,14 @@ extern NSString * const kRemainingAttemptsKey;
 extern const NSUInteger kMaxNumberofAttempts;
 
 /**
- Mode constants indicating whether to create or verify an existing passcode.
- */
-typedef enum {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange
-} SFPasscodeControllerMode;
-
-/**
  * Base class for passcode screen view controllers.
  */
 @interface SFAbstractPasscodeViewController : UIViewController
+
+/**
+ * The configuration data used to create or update the passcode.
+ */
+@property (readonly) SFPasscodeConfigurationData configData;
 
 /**
  * The minimum passcode length, which this view controller will enforce.
@@ -66,9 +64,9 @@ typedef enum {
 /**
  * Designated initializer for SFAbstractPasscodeViewController.
  * @param mode The mode of the passcode screen, either passcode creation or passcode verification.
- * @param minPasscodeLength The minimum number of characters the passcode must contain.
+ * @param configData The passcode configuration data used to create or update the passcode.
  */
-- (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength;
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData;
 
 /**
  * Method to be called after the creation of the passcode is confirmed to be successful.
