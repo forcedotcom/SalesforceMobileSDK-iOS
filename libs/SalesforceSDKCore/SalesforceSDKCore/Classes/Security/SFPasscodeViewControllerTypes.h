@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,29 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFAbstractPasscodeViewController.h"
+#import <Foundation/Foundation.h>
 
 /**
- * The view controller for managing the passcode screen.
+ Mode constants indicating whether to create or verify an existing passcode.
  */
-@interface SFPasscodeViewController : SFAbstractPasscodeViewController <UITextFieldDelegate, UIAlertViewDelegate>
+typedef enum {
+    SFPasscodeControllerModeCreate,
+    SFPasscodeControllerModeVerify,
+    SFPasscodeControllerModeChange
+} SFPasscodeControllerMode;
 
-/**
- * Initializes the controller for verifying an existing passcode.
- */
-- (id)initForPasscodeVerification;
-
-/**
- * Initializes the controller for creating a new passcode.
- * @param minPasscodeLength The minimum passcode length for the new passcode.
- */
-- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData;
-
-/**
- * Initializes the controller for changing the existing passcode.
- * @param minPasscodeLength The minimum passcode length for the new passcode.
- */
-- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
-
-@end

@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFAbstractPasscodeViewController.h"
+#import "SFPasscodeViewControllerTypes.h"
 
 /**
  The action that was taken as the result of calling into the security lockout functionality.
@@ -57,6 +57,22 @@ typedef NS_ENUM(NSUInteger, SFSecurityLockoutAction) {
     SFSecurityLockoutActionPasscodeRemoved
 };
 
+/**
+ Struct containing passcode configuration data, including passcode length and lockout time.
+ This information will generally be passed through the passcode creation/update process, to
+ allow the settings to ultimately be persisted once creation/update successfully completes.
+ */
+typedef struct {
+    NSInteger passcodeLength;
+    NSUInteger lockoutTime;
+} SFPasscodeConfigurationData;
+
+/**
+ Special value for an empty SFPasscodeConfigurationData object, used when configuration data
+ is not necessary.
+ */
+extern SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull;
+
 /** Notification sent when the passcode screen will be displayed.
  */
 extern NSString * const kSFPasscodeFlowWillBegin;
@@ -78,7 +94,7 @@ typedef void (^SFLockScreenFailureCallbackBlock)(void);
 /**
  Block typedef for creating the passcode view controller.
  */
-typedef UIViewController* (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode, NSInteger);
+typedef UIViewController* (^SFPasscodeViewControllerCreationBlock)(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData);
 
 /**
  Block typedef for displaying and dismissing the passcode view controller.
@@ -195,8 +211,9 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
  @param success Whether the device is being unlocked as the result of a successful passcode
  challenge, as opposed to unlocking to reset the application to to a failed challenge.
  @param action In a successful challenge, what was the action taken?
+ @param configData The round-trip passcode configuration data used to create or update the passcode.
  */
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action;
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFPasscodeConfigurationData)configData;
 
 /** Toggle the locked state
  @param locked Locks the device if `YES`, otherwise unlocks the device.

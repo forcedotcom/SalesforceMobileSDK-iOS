@@ -49,17 +49,17 @@ NSUInteger const kMaxNumberofAttempts = 10;
 
 @implementation SFAbstractPasscodeViewController
 
-@synthesize minPasscodeLength = _minPasscodeLength;
+@synthesize configData = _configData;
 @synthesize mode = _mode;
 
-- (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData
 {
     self = [super init];
     if (self) {
         _mode = mode;
-        _minPasscodeLength = minPasscodeLength;
+        _configData = configData;
         if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
-            NSAssert(_minPasscodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
+            NSAssert(_configData.passcodeLength > 0, @"You must specify a positive pin code length when creating a pin code.");
         } else {
             if (0 == self.remainingAttempts) {
                 self.remainingAttempts = kMaxNumberofAttempts;
@@ -67,6 +67,10 @@ NSUInteger const kMaxNumberofAttempts = 10;
         }
     }
     return self;
+}
+
+- (NSInteger)minPasscodeLength {
+    return _configData.passcodeLength;
 }
 
 - (void)createPasscodeConfirmed:(NSString *)newPasscode
@@ -96,7 +100,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
     dispatch_async(dispatch_get_main_queue(), ^{
         self.remainingAttempts = kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] resetPasscode];
-        [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone];
+        [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone passcodeConfig:self.configData];
     });
 }
 
@@ -121,7 +125,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
         [SFSecurityLockout setupTimer];
         [SFInactivityTimerCenter updateActivityTimestamp];
         SFSecurityLockoutAction action = [self controllerModeToLockoutAction];
-        [SFSecurityLockout unlock:YES action:action];
+        [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
     });
 }
 

@@ -48,6 +48,7 @@ static NSString * const kKeychainIdentifierIsLocked          = @"com.salesforce.
 
 NSString * const kSFPasscodeFlowWillBegin = @"SFPasscodeFlowWillBegin";
 NSString * const kSFPasscodeFlowCompleted = @"SFPasscodeFlowCompleted";
+SFPasscodeConfigurationData const SFPasscodeConfigurationDataNull = { -1, NSUIntegerMax };
 
 // Static vars
 
@@ -75,12 +76,12 @@ static BOOL _showPasscode = YES;
     
     sDelegates = [NSMutableOrderedSet orderedSet];
     
-    [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, NSInteger passcodeLength) {
+    [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData) {
         SFPasscodeViewController *pvc = nil;
         if (mode == SFPasscodeControllerModeCreate) {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:passcodeLength];
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:configData];
         } else if (mode == SFPasscodeControllerModeChange) {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:passcodeLength];
+            pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:configData];
         } else {
             pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
         }
@@ -187,6 +188,10 @@ static BOOL _showPasscode = YES;
 
 + (void)setPasscodeLength:(NSInteger)newPasscodeLength lockoutTime:(NSUInteger)newLockoutTime
 {
+    SFPasscodeConfigurationData configData;
+    configData.lockoutTime = securityLockoutTime;
+    configData.passcodeLength = [self passcodeLength];
+    
     // Cases where there's initially no passcode configured.
     if (securityLockoutTime == 0) {
         if (newLockoutTime == 0) {
@@ -194,9 +199,9 @@ static BOOL _showPasscode = YES;
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];
         } else {
             // Passcode off -> on.  Trigger passcode creation.
-            [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
-            [SFSecurityLockout setPasscodeLength:newPasscodeLength];
-            [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
+            configData.lockoutTime = newLockoutTime;
+            configData.passcodeLength = newPasscodeLength;
+            [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate passcodeConfig:configData];
         }
         return;
     }
@@ -210,6 +215,7 @@ static BOOL _showPasscode = YES;
         if (newLockoutTime > 0) {
             [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %d seconds.", newLockoutTime];
             [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
+            configData.lockoutTime = newLockoutTime;
             [SFInactivityTimerCenter removeTimer:kTimerSecurity];
             [SFSecurityLockout setupTimer];
         } else {
@@ -217,7 +223,7 @@ static BOOL _showPasscode = YES;
             // are also off.
             if (![SFSecurityLockout nonCurrentUsersHavePasscodePolicy]) {
                 [SFSecurityLockout clearAllPasscodeState];
-                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved];
+                [SFSecurityLockout unlock:YES action:SFSecurityLockoutActionPasscodeRemoved passcodeConfig:SFPasscodeConfigurationDataNull];  // config values already cleared.
                 return;
             }
         }
@@ -226,8 +232,8 @@ static BOOL _showPasscode = YES;
     // Passcode lengths can only go up; same reason as lockout times only going down.
     NSInteger currentPasscodeLength = [self passcodeLength];
     if (newPasscodeLength > currentPasscodeLength) {
-        [SFSecurityLockout setPasscodeLength:newPasscodeLength];
-        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange];
+        configData.passcodeLength = newPasscodeLength;
+        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeChange passcodeConfig:configData];
         return;
     }
     
@@ -347,11 +353,11 @@ static BOOL _showPasscode = YES;
 
 static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
-+ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action
++ (void)unlock:(BOOL)success action:(SFSecurityLockoutAction)action passcodeConfig:(SFPasscodeConfigurationData)configData
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self unlock:success action:action];
+            [self unlock:success action:action passcodeConfig:configData];
         });
         return;
     }
@@ -365,6 +371,12 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
     
     if (success) {
+        if (action == SFSecurityLockoutActionPasscodeCreated || action == SFSecurityLockoutActionPasscodeChanged) {
+            if (&configData != &SFPasscodeConfigurationDataNull) {
+                [SFSecurityLockout setSecurityLockoutTime:configData.lockoutTime];
+                [SFSecurityLockout setPasscodeLength:configData.passcodeLength];
+            }
+        }
         [SFSecurityLockout unlockSuccessPostProcessing:action];
     } else {
         // Clear the SFSecurityLockout passcode state, as it's no longer valid.
@@ -416,11 +428,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         }
     }
     
-	if(![[SFPasscodeManager sharedManager] passcodeIsSet]) {
-		[SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeCreate];
-	} else {
-        [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify];
-    }
+    [SFSecurityLockout presentPasscodeController:SFPasscodeControllerModeVerify passcodeConfig:SFPasscodeConfigurationDataNull];
     [self log:SFLogLevelInfo msg:@"Device locked."];
     sForcePasscodeDisplay = NO;
 }
@@ -461,11 +469,11 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
     }
 }
 
-+ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue
++ (void)presentPasscodeController:(SFPasscodeControllerMode)modeValue passcodeConfig:(SFPasscodeConfigurationData)configData
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentPasscodeController:modeValue];
+            [self presentPasscodeController:modeValue passcodeConfig:configData];
         });
         return;
     }
@@ -484,7 +492,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
             }
         }];
         SFPasscodeViewControllerCreationBlock passcodeVcCreationBlock = [SFSecurityLockout passcodeViewControllerCreationBlock];
-        UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, [SFSecurityLockout passcodeLength]);
+        UIViewController *passcodeViewController = passcodeVcCreationBlock(modeValue, configData);
         [SFSecurityLockout setPasscodeViewController:passcodeViewController];
         SFPasscodeViewControllerPresentationBlock presentBlock = [SFSecurityLockout presentPasscodeViewControllerBlock];
         presentBlock(passcodeViewController);

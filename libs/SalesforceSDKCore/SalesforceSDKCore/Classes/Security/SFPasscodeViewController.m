@@ -76,13 +76,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 @property (nonatomic, copy) NSString *initialPasscode;
 
 /**
- * Initializes the object with the given mode and minimum passcode length.
- * @param mode The passcode mode of the controller (create, verify).
- * @param minPasscodeLength For creation, the minimum passcode length required for the passcode.
- */
-- (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength;
-
-/**
  * Utility method to return a random string with the given length, for text field sizing.
  */
 + (NSString *)stringWithLength:(NSUInteger)length;
@@ -176,22 +169,22 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 - (id)initForPasscodeVerification
 {
-    return [self initWithMode:SFPasscodeControllerModeVerify minPasscodeLength:-1];
+    return [self initWithMode:SFPasscodeControllerModeVerify passcodeConfig:SFPasscodeConfigurationDataNull];
 }
 
-- (id)initForPasscodeCreation:(NSInteger)minPasscodeLength
+- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData
 {
-    return [self initWithMode:SFPasscodeControllerModeCreate minPasscodeLength:minPasscodeLength];
+    return [self initWithMode:SFPasscodeControllerModeCreate passcodeConfig:configData];
 }
 
-- (id)initForPasscodeChange:(NSInteger)minPasscodeLength
+- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData
 {
-    return [self initWithMode:SFPasscodeControllerModeChange minPasscodeLength:minPasscodeLength];
+    return [self initWithMode:SFPasscodeControllerModeChange passcodeConfig:configData];
 }
 
-- (id)initWithMode:(SFPasscodeControllerMode)mode minPasscodeLength:(NSInteger)minPasscodeLength
+- (id)initWithMode:(SFPasscodeControllerMode)mode passcodeConfig:(SFPasscodeConfigurationData)configData
 {
-    self = [super initWithMode:mode minPasscodeLength:minPasscodeLength];
+    self = [super initWithMode:mode passcodeConfig:configData];
     if (self) {
         if (mode == SFPasscodeControllerModeCreate || mode == SFPasscodeControllerModeChange) {
             _firstPasscodeValidated = NO;
