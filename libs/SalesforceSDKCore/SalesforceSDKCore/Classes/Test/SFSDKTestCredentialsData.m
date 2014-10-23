@@ -53,6 +53,11 @@
     return _credentialsDict[@"refresh_token"];
 }
 
+- (NSString *)identityUrl
+{
+    return _credentialsDict[@"identity_url"];
+}
+
 - (NSString *)instanceUrl
 {
     return _credentialsDict[@"instance_url"];

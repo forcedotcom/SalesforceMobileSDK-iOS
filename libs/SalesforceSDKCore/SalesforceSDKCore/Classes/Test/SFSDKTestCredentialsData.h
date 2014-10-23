@@ -30,6 +30,7 @@
 
 @property (nonatomic, readonly) NSString *accessToken;
 @property (nonatomic, readonly) NSString *refreshToken;
+@property (nonatomic, readonly) NSString *identityUrl;
 @property (nonatomic, readonly) NSString *instanceUrl;
 @property (nonatomic, readonly) NSString *clientId;
 @property (nonatomic, readonly) NSString *redirectUri;
