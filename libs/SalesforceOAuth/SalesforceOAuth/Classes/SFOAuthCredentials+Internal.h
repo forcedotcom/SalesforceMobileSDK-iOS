@@ -40,8 +40,6 @@ extern NSString * const kSFOAuthServiceActivation;
 
 @interface SFOAuthCredentials ()
 
-- (NSMutableDictionary *)keychainItemWithConvertedTokenForMatchingItem:(NSDictionary *)matchDict;
-- (NSMutableDictionary *)modelKeychainDictionaryForKey:(NSString *)key;
 - (NSData *)keyMacForService:(NSString *)service;
 - (NSData *)keyVendorIdForService:(NSString *)service;
 - (NSData *)keyBaseAppIdForService:(NSString*)service;
@@ -54,15 +52,10 @@ extern NSString * const kSFOAuthServiceActivation;
 - (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
 - (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
 - (void)updateTokenEncryption;
-- (NSData *)tokenForKey:(NSString *)key;
-- (NSMutableDictionary *)tokenQuery;
-- (OSStatus)writeToKeychain:(NSMutableDictionary *)dictionary;
 
 // These are only for unit tests of legacy functionality.  Do not use in app code!
 - (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
 - (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
-
-+ (NSString *)stringForKeychainResultCode:(OSStatus)code;
 
 @end
 
