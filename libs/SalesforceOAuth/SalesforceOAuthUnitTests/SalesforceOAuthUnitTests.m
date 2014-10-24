@@ -302,8 +302,8 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
             retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
             retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
         }
-        STAssertEqualObjects(retrievedAccessToken, @"", @"Access token should be an empty string if it couldn't be decrypted.");
-        STAssertEqualObjects(retrievedRefreshToken, @"", @"Refresh token should be an empty string if it couldn't be decrypted.");
+        STAssertNil(retrievedAccessToken, @"For encType '%@', access token should be nil if it couldn't be decrypted.", encTypeKey);
+        STAssertNil(retrievedRefreshToken, @"For encType '%@', refresh token should be nil if it couldn't be decrypted.", encTypeKey);
     }
     
     [credentials revoke];

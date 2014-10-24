@@ -184,7 +184,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         joinString = @"|";
     }
     if (launchActions & SFSDKLaunchActionAlreadyAuthenticated) {
-        [launchActionString appendString:@"SFSDKLaunchActionAlreadyAuthenticated"];
+        [launchActionString appendFormat:@"%@%@", joinString, @"SFSDKLaunchActionAlreadyAuthenticated"];
         joinString = @"|";
     }
     
