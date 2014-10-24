@@ -30,6 +30,7 @@
 #import "SFTestRunnerPlugin.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
+#import "SFSmartSyncPlugin.h"
 #import "SFHybridViewController.h"
 
 @implementation SmartSyncTestSuite
@@ -42,8 +43,10 @@
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetSharedStore];
+        SFSmartStorePlugin *smartstorePlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
+        [smartstorePlugin resetSharedStore];
+        SFSmartSyncPlugin *smartsyncPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartSyncPluginIdentifier];
+        [smartsyncPlugin resetSyncManager];
     }
     
 }

@@ -64,6 +64,15 @@ NSString * const kSyncDetail = @"detail";
 {
 }
 
+- (void)resetSyncManager
+{
+    self.syncManager = nil;
+    SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
+    [SFSmartSyncSyncManager removeSharedInstance:user];
+    self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
+}
+
+
 - (void)handleSyncNotification:(NSNotification*)notification
 {
     dispatch_async(dispatch_get_main_queue(), ^{
