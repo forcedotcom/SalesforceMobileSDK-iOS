@@ -388,102 +388,109 @@ dispatch_queue_t queue;
  */
 - (void) syncUp:(NSDictionary*)sync{
     NSString* soupName = sync[kSyncManagerSyncSoupName];
-    NSDictionary* options = sync[kSyncManagerSyncOptions];
-    NSArray* fieldlist = (NSArray*) options[kSyncManagerOptionsFieldlist];
     SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2000];
     
     // Call smartstore
     NSArray* records = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    NSUInteger totalSize = [records count];
-    
-    if (totalSize == 0) {
-        // Nothing to do.
+
+    // No records, we are done
+    if (records.count == 0) {
         [self updateSync:sync status:kSyncManagerStatusDone progress:0 totalSize:0];
         return;
     }
     
     // Otherwise, there's work to do.
-    [self updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:totalSize];
+    [self syncUpOneEntry:sync records:records index:0];
+}
 
-    SFSyncManagerUpdateBlock updateBlock = ^(NSInteger progress, NSInteger totalSize) {
-        [self updateSync:sync status:(progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning) progress:progress totalSize:totalSize];
+- (void) syncUpOneEntry:(NSDictionary*)sync records:(NSArray*)records index:(NSUInteger)i {
+    NSString* soupName = sync[kSyncManagerSyncSoupName];
+    NSDictionary* options = sync[kSyncManagerSyncOptions];
+    NSArray* fieldlist = (NSArray*) options[kSyncManagerOptionsFieldlist];
+    NSUInteger totalSize = records.count;
+    NSUInteger progress = i*100 / totalSize;
+    NSString* status = (progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning);
+    [self updateSync:sync status:status progress:progress totalSize:totalSize];
+    
+    if (progress == 100) {
+        // Done
+        return;
+    }
+    
+    NSMutableDictionary* record = [records[i] mutableCopy];
+
+    // Do we need to do a create, update or delete
+    SFSyncManagerAction action = kSyncManagerActionNone;
+    if ([record[kSyncManagerLocallyDeleted] boolValue])
+        action = kSyncManagerActionDelete;
+    else if ([record[kSyncManagerLocallyCreated] boolValue])
+        action = kSyncManagerActionCreate;
+    else if ([record[kSyncManagerLocallyUpdated] boolValue])
+        action = kSyncManagerActionUpdate;
+    
+    if (action == kSyncManagerActionNone) {
+        // Next
+        [self syncUpOneEntry:sync records:records index:i+1];
+    }
+    
+    // Getting type and id
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
+    NSString* objectId = record[kSyncManagerObjectId];
+    NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
+    
+    // Fields to save (in the case of create or update)
+    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
+        for (NSString* fieldName in fieldlist) {
+            if (![fieldName isEqualToString:kSyncManagerObjectId]) {
+                fields[fieldName] = record[fieldName];
+            }
+        }
+    }
+    
+    // Delete handler
+    SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
+        // Remove entry on delete
+        [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
+        
+        // Next
+        [self syncUpOneEntry:sync records:records index:i+1];
     };
     
+    // Update handler
+    SFRestDictionaryResponseBlock completeBlockUpdate = ^(NSDictionary *d) {
+        // Set local flags to false
+        record[kSyncManagerLocal] = @NO;
+        record[kSyncManagerLocallyCreated] = @NO;
+        record[kSyncManagerLocallyUpdated] = @NO;
+        record[kSyncManagerLocallyDeleted] = @NO;
+        
+        // Update smartstore
+        [self.store upsertEntries:@[record] toSoup:soupName];
+        
+        // Next
+        [self syncUpOneEntry:sync records:records index:i+1];
+    };
+    
+    // Create handler
+    SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
+        // Replace id with server id during create
+        record[kSyncManagerObjectId] = d[kSyncManagerLObjectId];
+        completeBlockUpdate(d);
+    };
+
+    // Fail block for rest call
     SFRestFailBlock failBlock = ^(NSError *error) {
         [self updateSyncFailed:sync message:@"REST call failed" error:error];
     };
     
-    for (NSUInteger i=0; i<totalSize; i++) {
-        NSUInteger progress = (i+1)*100 / totalSize;
-        NSMutableDictionary* record = [records[i] mutableCopy];
-        
-        // Do we need to do a create, update or delete
-        SFSyncManagerAction action = kSyncManagerActionNone;
-        if ([record[kSyncManagerLocallyDeleted] boolValue])
-            action = kSyncManagerActionDelete;
-        else if ([record[kSyncManagerLocallyCreated] boolValue])
-            action = kSyncManagerActionCreate;
-        else if ([record[kSyncManagerLocallyUpdated] boolValue])
-            action = kSyncManagerActionUpdate;
-        
-        if (action == kSyncManagerActionNone) {
-            // Nothing to do for this record
-            continue;
-        }
-        
-        // Getting type and id
-        NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
-        NSString* objectId = record[kSyncManagerObjectId];
-        NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
-        
-        // Fields to save (in the case of create or update)
-        NSMutableDictionary* fields = [NSMutableDictionary dictionary];
-        if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
-            for (NSString* fieldName in fieldlist) {
-                if (![fieldName isEqualToString:kSyncManagerObjectId]) {
-                    fields[fieldName] = record[fieldName];
-                }
-            }
-        }
-        
-        // Delete handler
-        SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
-            // Remove entry on delete
-            [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
-            
-            // Update sync status
-            updateBlock(progress, totalSize);
-        };
-        
-        // Update handler
-        SFRestDictionaryResponseBlock completeBlockUpdate = ^(NSDictionary *d) {
-            // Set local flags to false
-            record[kSyncManagerLocal] = @NO;
-            record[kSyncManagerLocallyCreated] = @NO;
-            record[kSyncManagerLocallyUpdated] = @NO;
-            record[kSyncManagerLocallyDeleted] = @NO;
-
-            // Update smartstore
-            [self.store upsertEntries:@[record] toSoup:soupName];
-            
-            // Update sync status
-            updateBlock(progress, totalSize);
-        };
-        
-        // Create handler
-        SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
-            // Replace id with server id during create
-            record[kSyncManagerObjectId] = d[kSyncManagerLObjectId];
-            completeBlockUpdate(d);
-        };
-        
-        switch(action) {
-            case kSyncManagerActionCreate: [self.restClient performCreateWithObjectType:objectType fields:fields failBlock:failBlock completeBlock:completeBlockCreate]; break;
-            case kSyncManagerActionUpdate: [self.restClient performUpdateWithObjectType:objectType objectId:objectId fields:fields failBlock:failBlock completeBlock:completeBlockUpdate]; break;
-            case kSyncManagerActionDelete: [self.restClient performDeleteWithObjectType:objectType objectId:objectId failBlock:failBlock completeBlock:completeBlockDelete]; break;
-            case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
-        }
+    switch(action) {
+        case kSyncManagerActionCreate: [self.restClient performCreateWithObjectType:objectType fields:fields failBlock:failBlock completeBlock:completeBlockCreate]; break;
+        case kSyncManagerActionUpdate: [self.restClient performUpdateWithObjectType:objectType objectId:objectId fields:fields failBlock:failBlock completeBlock:completeBlockUpdate]; break;
+        case kSyncManagerActionDelete: [self.restClient performDeleteWithObjectType:objectType objectId:objectId failBlock:failBlock completeBlock:completeBlockDelete]; break;
+        case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
     }
+    
 }
 
 - (void) updateSyncFailed:(NSDictionary*)sync message:(NSString*)message error:(NSError*)error {
