@@ -163,7 +163,14 @@ dispatch_queue_t queue;
  */
 - (NSDictionary*)getSyncStatus:(NSNumber*)syncId {
     NSArray* syncs = [self.store retrieveEntries:@[syncId] fromSoup:kSyncManagerSyncsSoupName];
-    return (syncs == nil || [syncs count]) == 0 ? nil : syncs[0];
+
+    if (syncs==nil || [syncs count] == 0) {
+        [self log:SFLogLevelError format:@"Sync %@ not found", syncId];
+        return nil;
+    }
+    else {
+        return syncs[0];
+    }
 }
 
 /** Create/record a sync but don't start it yet
@@ -185,18 +192,15 @@ dispatch_queue_t queue;
 /** Run a previously created sync
  */
 - (void) runSync:(NSNumber*)syncId {
-    NSArray* syncs = [self.store retrieveEntries:@[syncId] fromSoup:kSyncManagerSyncsSoupName];
-    if (syncs==nil || [syncs count] == 0) {
-        [self log:SFLogLevelError format:@"Sync %@ not found", syncId];
+    NSDictionary* sync = [self getSyncStatus:syncId];
+    if (sync == nil) {
         return;
     }
     
-    NSDictionary* sync = syncs[0];
-    
+    [self updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:-1];
     // Run on background thread
     __weak SFSmartSyncSyncManager *weakSelf = self;
     dispatch_async(queue, ^{
-        [weakSelf updateSync:sync status:kSyncManagerStatusRunning progress:0 totalSize:-1];
         NSString* syncType = sync[kSyncManagerSyncType];
         if ([syncType isEqualToString:kSyncManagerSyncTypeDown]) {
             [weakSelf syncDown:sync];
@@ -209,6 +213,25 @@ dispatch_queue_t queue;
         }
     });
 }
+
+/** Create and run a sync down
+ */
+- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName {
+    NSDictionary* sync = [self recordSync:kSyncManagerSyncTypeDown target:target soupName:soupName options:nil];
+    NSNumber* syncId = sync[kSyncManagerSyncId];
+    [self runSync:syncId];
+    return [self getSyncStatus:syncId];
+}
+
+/** Create and run a sync up
+ */
+- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName {
+    NSDictionary* sync = [self recordSync:kSyncManagerSyncTypeUp target:nil soupName:soupName options:options];
+    NSNumber* syncId = sync[kSyncManagerSyncId];
+    [self runSync:syncId];
+    return [self getSyncStatus:syncId];
+}
+
 
 /** Create master syncs soup if needed
  */
@@ -411,6 +434,7 @@ dispatch_queue_t queue;
         // Getting type and id
         NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
         NSString* objectId = record[kSyncManagerObjectId];
+        NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
         
         // Fields to save (in the case of create or update)
         NSMutableDictionary* fields = [NSMutableDictionary dictionary];
@@ -425,7 +449,7 @@ dispatch_queue_t queue;
         // Delete handler
         SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
             // Remove entry on delete
-            [self.store removeEntries:@[record] fromSoup:soupName];
+            [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
             
             // Update sync status
             updateBlock(progress, totalSize);
