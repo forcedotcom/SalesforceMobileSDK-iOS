@@ -176,11 +176,12 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //collect credentials and copy to pasteboard
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSDictionary *configDict = @{@"test_client_id": RemoteAccessConsumerKey,
-                                @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
-                                @"test_redirect_uri": OAuthRedirectURI,
-                                @"refresh_token": creds.refreshToken,
-                                @"instance_url": [creds.instanceUrl absoluteString],
-                                @"access_token": @"__NOT_REQUIRED__"};
+                                 @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
+                                 @"test_redirect_uri": OAuthRedirectURI,
+                                 @"refresh_token": creds.refreshToken,
+                                 @"instance_url": [creds.instanceUrl absoluteString],
+                                 @"identity_url": [creds.identityUrl absoluteString],
+                                 @"access_token": @"__NOT_REQUIRED__"};
     
     NSString *configJSON = [SFJsonUtils JSONRepresentation:configDict];
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];

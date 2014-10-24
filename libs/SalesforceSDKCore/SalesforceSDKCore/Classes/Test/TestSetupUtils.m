@@ -53,6 +53,7 @@ static BOOL sPopulatedAuthCredentials = NO;
               nil != credsData.clientId &&
               nil != credsData.redirectUri &&
               nil != credsData.loginHost &&
+              nil != credsData.identityUrl &&
               nil != credsData.instanceUrl, @"config credentials are missing! %@",
               dictResponse);
 
@@ -70,6 +71,7 @@ static BOOL sPopulatedAuthCredentials = NO;
     accountMgr.currentUser = account;
     SFOAuthCredentials *credentials = accountMgr.currentUser.credentials;
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
+    credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
     

@@ -34,6 +34,11 @@ extern NSString * const kSmartSyncPluginIdentifier;
 @interface SFSmartSyncPlugin : SFForcePlugin
 
 /**
+ Used for unit testing purposes only: allows the shared sync manager instance to be reset.
+ */
+- (void)resetSyncManager;
+
+/**
  * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
  * @param command Cordova arguments object containing "syncId".
  *

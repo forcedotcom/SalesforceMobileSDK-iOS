@@ -30,6 +30,7 @@
 #import "SFTestRunnerPlugin.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
+#import "SFSmartSyncPlugin.h"
 #import "SFHybridViewController.h"
 
 @implementation SmartSyncTestSuite
@@ -42,8 +43,10 @@
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
         AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetSharedStore];
+        SFSmartStorePlugin *smartstorePlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
+        [smartstorePlugin resetSharedStore];
+        SFSmartSyncPlugin *smartsyncPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartSyncPluginIdentifier];
+        [smartsyncPlugin resetSyncManager];
     }
     
 }
@@ -54,7 +57,6 @@
     
     [super tearDown];
 }
-
 
 - (void)testStoreCacheInit {
     [self runTest:@"testStoreCacheInit"];
@@ -96,6 +98,10 @@
     [self runTest:@"testSObjectTypeDescribeLayout"];
 }
 
+- (void)testSObjectTypeCacheOnlyMode {
+    [self runTest:@"testSObjectTypeCacheOnlyMode"];
+}
+
 - (void)testSObjectTypeCacheMerge {
     [self runTest:@"testSObjectTypeCacheMerge"];
 }
@@ -104,7 +110,7 @@
     [self runTest:@"testMultiSObjectTypes"];
 }
 
-- (void) testSObjectTypeReset {
+- (void)testSObjectTypeReset {
     [self runTest:@"testSObjectTypeReset"];
 }
 
@@ -172,6 +178,18 @@
     [self runTest:@"testSyncSObjectDetectConflictDelete"];
 }
 
+- (void)testSObjectFetch {
+    [self runTest:@"testSObjectFetch"];
+}
+
+- (void)testSObjectSave {
+    [self runTest:@"testSObjectSave"];
+}
+
+- (void)testSObjectDestroy {
+    [self runTest:@"testSObjectDestroy"];
+}
+
 - (void)testSyncApexRestObjectWithServerCreate {
     [self runTest:@"testSyncApexRestObjectWithServerCreate"];
 }
@@ -192,18 +210,6 @@
     [self runTest:@"testFetchApexRestObjectsFromServer"];
 }
 
-- (void)testSObjectFetch {
-    [self runTest:@"testSObjectFetch"];
-}
-
-- (void)testSObjectSave {
-    [self runTest:@"testSObjectSave"];
-}
-
-- (void)testSObjectDestroy {
-    [self runTest:@"testSObjectDestroy"];
-}
-
 - (void)testFetchSObjectsFromServer {
     [self runTest:@"testFetchSObjectsFromServer"];
 }
@@ -214,6 +220,22 @@
 
 - (void)testSObjectCollectionFetch {
     [self runTest:@"testSObjectCollectionFetch"];
+}
+
+- (void)testSyncDown {
+    [self runTest:@"testSyncDown"];
+}
+
+- (void)testSyncUpLocallyUpdated {
+    [self runTest:@"testSyncUpLocallyUpdated"];
+}
+
+- (void)testSyncUpLocallyDeleted {
+    [self runTest:@"testSyncUpLocallyDeleted"];
+}
+
+- (void)testSyncUpLocallyCreated {
+    [self runTest:@"testSyncUpLocallyCreated"];
 }
 
 @end

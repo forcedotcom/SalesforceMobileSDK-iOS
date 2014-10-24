@@ -78,4 +78,13 @@ extern NSString * const kSyncManagerOptionsFieldlist;
  */
 - (void) runSync:(NSNumber*)syncId;
 
+/** Create and run a sync down
+ */
+- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName;
+
+/** Create and run a sync up
+ */
+- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName;
+
+
 @end

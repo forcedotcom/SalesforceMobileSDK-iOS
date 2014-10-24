@@ -64,6 +64,15 @@ NSString * const kSyncDetail = @"detail";
 {
 }
 
+- (void)resetSyncManager
+{
+    self.syncManager = nil;
+    SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
+    [SFSmartSyncSyncManager removeSharedInstance:user];
+    self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
+}
+
+
 - (void)handleSyncNotification:(NSNotification*)notification
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -110,17 +119,10 @@ NSString * const kSyncDetail = @"detail";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *target = [argsDict nonNullObjectForKey:kSyncTargetArg];
-        NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
-        // Record sync
-        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeDown target:target soupName:soupName options:options];
-        
+        NSDictionary* sync = [self.syncManager syncDownWithTarget:target soupName:soupName];
         NSNumber* syncId = sync[kSyncManagerSyncId];
-        
         [self log:SFLogLevelDebug format:@"syncDown # %@ from soup: %@", syncId, soupName];
-        
-        // Run sync (async)
-        [self.syncManager runSync:syncId];
         
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:sync];
     } command:command];
@@ -132,15 +134,9 @@ NSString * const kSyncDetail = @"detail";
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
-        // Record sync
-        NSDictionary* sync = [self.syncManager recordSync:kSyncManagerSyncTypeUp target:nil soupName:soupName options:options];
-        
+        NSDictionary* sync = [self.syncManager syncUpWithOptions:options soupName:soupName];
         NSNumber* syncId = sync[kSyncManagerSyncId];
-
         [self log:SFLogLevelDebug format:@"syncUp # %@ from soup: %@", syncId, soupName];
-        
-        // Run sync (async)
-        [self.syncManager runSync:syncId];
         
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:sync];
     } command:command];
