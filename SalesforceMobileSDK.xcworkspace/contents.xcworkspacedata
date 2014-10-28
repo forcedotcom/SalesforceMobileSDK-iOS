@@ -156,6 +156,9 @@
                   location = "group:SFPickListViewController.h">
                </FileRef>
                <FileRef
+                  location = "group:SFQueryNetworkScopeHelper.h">
+               </FileRef>
+               <FileRef
                   location = "group:SFSoqlBuilder.h">
                </FileRef>
                <FileRef
