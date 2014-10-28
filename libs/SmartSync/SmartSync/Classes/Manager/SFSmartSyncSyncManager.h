@@ -27,7 +27,6 @@
 extern NSString * const kSyncManagerSyncId;
 extern NSString * const kSyncManagerSyncTypeDown;
 extern NSString * const kSyncManagerSyncTypeUp;
-extern NSString * const kSyncManagerNotification;
 
 extern NSString * const kSyncManagerSyncStatus;
 extern NSString * const kSyncManagerStatusNew;
@@ -50,6 +49,8 @@ extern NSString * const kSyncManagerLocallyDeleted;
 
 extern NSString * const kSyncManagerOptionsFieldlist;
 
+// block type
+typedef void (^SFSyncSyncManagerUpdateBlock) (NSDictionary* sync);
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
@@ -76,15 +77,15 @@ extern NSString * const kSyncManagerOptionsFieldlist;
 
 /** Run a previously created sync
  */
-- (void) runSync:(NSNumber*)syncId;
+- (void) runSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync down
  */
-- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName;
+- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync up
  */
-- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName;
+- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 
 @end

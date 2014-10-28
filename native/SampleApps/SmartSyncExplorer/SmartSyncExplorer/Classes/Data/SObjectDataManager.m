@@ -57,14 +57,12 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
         self.dataSpec = dataSpec;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncProgress:) name:kSyncManagerNotification object:nil];
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSyncManagerNotification object:nil];
 }
 
 - (void)refreshRemoteData {
@@ -75,20 +73,19 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
     self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
-    NSNumber *syncId = self.sync[kSyncManagerSyncId];
     __weak SObjectDataManager *weakSelf = self;
-    self.syncCompletionBlock = ^(NSDictionary *completionData) {
+    [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(NSDictionary* sync) {
+        // TODO refresh only on done
         [weakSelf refreshLocalData];
-    };
-    [self.syncMgr runSync:syncId];
+    }];
 }
 
 - (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock {
     NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
-    self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeUp target:nil soupName:self.dataSpec.soupName options:fieldListOptions];
-    NSNumber *syncId = self.sync[kSyncManagerSyncId];
-    self.syncCompletionBlock = completionBlock;
-    [self.syncMgr runSync:syncId];
+    [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(NSDictionary* sync) {
+        // TODO refresh only on done
+        completionBlock(sync);
+    }];
 }
 
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock {

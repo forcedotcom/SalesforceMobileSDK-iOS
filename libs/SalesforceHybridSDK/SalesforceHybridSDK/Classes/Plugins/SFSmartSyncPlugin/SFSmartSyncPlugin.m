@@ -55,7 +55,6 @@ NSString * const kSyncDetail = @"detail";
     if (nil != self)  {
         SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
         self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncNotification:) name:kSyncManagerNotification object:nil];
     }
     return self;
 }
@@ -73,11 +72,11 @@ NSString * const kSyncDetail = @"detail";
 }
 
 
-- (void)handleSyncNotification:(NSNotification*)notification
+- (void)handleSyncUpdate:(NSDictionary*)sync
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        NSData *syncData = [NSJSONSerialization dataWithJSONObject:notification.object
+        NSData *syncData = [NSJSONSerialization dataWithJSONObject:sync
                                                        options:0 // non-pretty printing
                                                          error:&error];
         if(error) {
@@ -120,7 +119,10 @@ NSString * const kSyncDetail = @"detail";
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *target = [argsDict nonNullObjectForKey:kSyncTargetArg];
         
-        NSDictionary* sync = [self.syncManager syncDownWithTarget:target soupName:soupName];
+        __weak SFSmartSyncPlugin *weakSelf = self;
+        NSDictionary* sync = [self.syncManager syncDownWithTarget:target soupName:soupName updateBlock:^(NSDictionary* sync) {
+            [weakSelf handleSyncUpdate:sync];
+        }];
         NSNumber* syncId = sync[kSyncManagerSyncId];
         [self log:SFLogLevelDebug format:@"syncDown # %@ from soup: %@", syncId, soupName];
         
@@ -134,7 +136,11 @@ NSString * const kSyncDetail = @"detail";
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
-        NSDictionary* sync = [self.syncManager syncUpWithOptions:options soupName:soupName];
+        __weak SFSmartSyncPlugin *weakSelf = self;
+        NSDictionary* sync = [self.syncManager syncUpWithOptions:options soupName:soupName updateBlock:^(NSDictionary* sync) {
+            [weakSelf handleSyncUpdate:sync];
+        }];
+        
         NSNumber* syncId = sync[kSyncManagerSyncId];
         [self log:SFLogLevelDebug format:@"syncUp # %@ from soup: %@", syncId, soupName];
         
