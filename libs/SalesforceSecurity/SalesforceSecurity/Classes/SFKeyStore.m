@@ -40,7 +40,7 @@
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
+        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
         NSData *keyStoreData = [keychainItem valueData];
         // NB: We will return an empty dictionary if one doesn't exist, and nil if an existing dictionary
         // couldn't be decrypted.  This allows us to differentiate between a non-existent key store dictionary
@@ -63,7 +63,7 @@
 {
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
+        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
         if (keyStoreDictionary == nil) {
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
