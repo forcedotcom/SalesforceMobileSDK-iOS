@@ -151,8 +151,6 @@ dispatch_queue_t queue;
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize) {
-        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status: %@ progress:%d totalSize:%d", sync.type, sync.syncId, status, progress, totalSize];
-
         if (status == nil) {
             status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
         }
@@ -160,6 +158,8 @@ dispatch_queue_t queue;
         if (progress>=0)  sync.progress = progress;
         if (totalSize>=0) sync.totalSize = totalSize;
         [sync save:self.store];
+        
+        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status: %@ progress:%d totalSize:%d", sync.type, sync.syncId, sync.status, sync.progress, sync.totalSize];
         
         if (updateBlock)
             updateBlock(sync);

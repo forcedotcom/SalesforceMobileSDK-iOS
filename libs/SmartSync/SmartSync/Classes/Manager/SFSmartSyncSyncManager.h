@@ -22,8 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "SFSyncState.h"
+
 @class SFUserAccount;
-@class SFSyncState;
 
 extern NSString * const kSyncManagerTargetQueryType;
 extern NSString * const kSyncManagerTargetQuery;

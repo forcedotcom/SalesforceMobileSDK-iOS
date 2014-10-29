@@ -23,8 +23,6 @@
  */
 
 #import "SObjectDataManager.h"
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSyncState.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -43,7 +41,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
-@property (nonatomic, copy) SObjectSyncProgressAction syncCompletionBlock;
+@property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
 
 @end
 
@@ -80,7 +78,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     }];
 }
 
-- (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock {
+- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
     NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
     [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {

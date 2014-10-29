@@ -23,12 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SmartSync/SFSmartSyncSyncManager.h>
 #import "SObjectDataSpec.h"
 #import "SObjectData.h"
-
-@class SFSyncState;
-
-typedef void (^SObjectSyncProgressAction)(SFSyncState *syncProgressDetails);
 
 @interface SObjectDataManager : NSObject
 
@@ -41,7 +38,7 @@ typedef void (^SObjectSyncProgressAction)(SFSyncState *syncProgressDetails);
 - (void)updateLocalData:(SObjectData *)updatedData;
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data;
 - (void)refreshRemoteData;
-- (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock;
+- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;
 
