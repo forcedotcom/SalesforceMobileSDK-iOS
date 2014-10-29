@@ -23,7 +23,6 @@
  */
 
 #import "SObjectDataManager.h"
-#import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -41,9 +40,8 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
-@property (nonatomic, strong) NSDictionary *sync;
 @property (nonatomic, strong) NSArray *fullDataRowList;
-@property (nonatomic, copy) SObjectSyncProgressAction syncCompletionBlock;
+@property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
 
 @end
 
@@ -57,14 +55,12 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
         self.dataSpec = dataSpec;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncProgress:) name:kSyncManagerNotification object:nil];
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
     return self;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSyncManagerNotification object:nil];
 }
 
 - (void)refreshRemoteData {
@@ -74,21 +70,21 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
-    self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
-    NSNumber *syncId = self.sync[kSyncManagerSyncId];
     __weak SObjectDataManager *weakSelf = self;
-    self.syncCompletionBlock = ^(NSDictionary *completionData) {
-        [weakSelf refreshLocalData];
-    };
-    [self.syncMgr runSync:syncId];
+    [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+        if ([sync isDone] || [sync hasFailed]) {
+            [weakSelf refreshLocalData];
+        }
+    }];
 }
 
-- (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock {
+- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
     NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
-    self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeUp target:nil soupName:self.dataSpec.soupName options:fieldListOptions];
-    NSNumber *syncId = self.sync[kSyncManagerSyncId];
-    self.syncCompletionBlock = completionBlock;
-    [self.syncMgr runSync:syncId];
+    [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+        if ([sync isDone] || [sync hasFailed]) {
+            completionBlock(sync);
+        }
+    }];
 }
 
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock {
@@ -138,20 +134,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     NSString *soupName = self.dataSpec.soupName;
     NSArray *indexSpecs = self.dataSpec.indexSpecs;
     [self.store registerSoup:soupName withIndexSpecs:indexSpecs];
-}
-
-- (void)handleSyncProgress:(NSNotification *)notification {
-    NSDictionary *updatedSync = notification.object;
-    if (![updatedSync[kSyncManagerSyncId] isEqual:self.sync[kSyncManagerSyncId]]) {
-        return;
-    }
-    
-    NSString *syncStatus = updatedSync[kSyncManagerSyncStatus];
-    if ([syncStatus isEqualToString:kSyncManagerStatusDone] || [syncStatus isEqualToString:kSyncManagerStatusFailed]) {
-        self.sync = nil;
-        if (self.syncCompletionBlock != NULL)
-            self.syncCompletionBlock(updatedSync);
-    }
 }
 
 - (void)refreshLocalData {

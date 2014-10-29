@@ -28,6 +28,7 @@
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
+#import <SmartSync/SFSyncState.h>
 
 static NSString * const kNavBarTitleText                = @"Contacts";
 static NSUInteger const kNavBarTintColor                = 0xf10000;
@@ -308,18 +309,17 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showToast:@"Syncing with Salesforce"];
     __weak ContactListViewController *weakSelf = self;
-    [self.dataMgr updateRemoteData:^(NSDictionary *syncProgressDetails) {
+    [self.dataMgr updateRemoteData:^(SFSyncState *syncProgressDetails) {
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-            NSString *syncStatus = syncProgressDetails[kSyncManagerSyncStatus];
-            if ([syncStatus isEqualToString:kSyncManagerStatusDone]) {
+            if ([syncProgressDetails isDone]) {
                 [weakSelf.dataMgr refreshLocalData];
                 [weakSelf showToast:@"Sync complete!"];
                 [weakSelf.dataMgr refreshRemoteData];
-            } else if ([syncStatus isEqualToString:kSyncManagerStatusFailed]) {
+            } else if ([syncProgressDetails hasFailed]) {
                 [weakSelf showToast:@"Sync failed."];
             } else {
-                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", syncStatus]];
+                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", syncProgressDetails.status]];
             }
         });
     }];

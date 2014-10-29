@@ -27,6 +27,7 @@
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
+#import <SmartSync/SFSyncState.h>
 
 //NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartSyncPluginIdentifier = @"com.salesforce.smartsync";
@@ -55,7 +56,6 @@ NSString * const kSyncDetail = @"detail";
     if (nil != self)  {
         SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
         self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleSyncNotification:) name:kSyncManagerNotification object:nil];
     }
     return self;
 }
@@ -73,11 +73,11 @@ NSString * const kSyncDetail = @"detail";
 }
 
 
-- (void)handleSyncNotification:(NSNotification*)notification
+- (void)handleSyncUpdate:(SFSyncState*)sync
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        NSData *syncData = [NSJSONSerialization dataWithJSONObject:notification.object
+        NSData *syncData = [NSJSONSerialization dataWithJSONObject:[sync asDict]
                                                        options:0 // non-pretty printing
                                                          error:&error];
         if(error) {
@@ -109,8 +109,8 @@ NSString * const kSyncDetail = @"detail";
         
         [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
         
-        NSDictionary* sync = [self.syncManager getSyncStatus:syncId];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:sync];
+        SFSyncState* sync = [self.syncManager getSyncStatus:syncId];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }
 
@@ -120,11 +120,13 @@ NSString * const kSyncDetail = @"detail";
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *target = [argsDict nonNullObjectForKey:kSyncTargetArg];
         
-        NSDictionary* sync = [self.syncManager syncDownWithTarget:target soupName:soupName];
-        NSNumber* syncId = sync[kSyncManagerSyncId];
-        [self log:SFLogLevelDebug format:@"syncDown # %@ from soup: %@", syncId, soupName];
+        __weak SFSmartSyncPlugin *weakSelf = self;
+        SFSyncState* sync = [self.syncManager syncDownWithTarget:target soupName:soupName updateBlock:^(SFSyncState* sync) {
+            [weakSelf handleSyncUpdate:sync];
+        }];
+        [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:sync];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }
 
@@ -134,11 +136,14 @@ NSString * const kSyncDetail = @"detail";
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
         NSDictionary *options = [argsDict nonNullObjectForKey:kSyncOptionsArg];
         
-        NSDictionary* sync = [self.syncManager syncUpWithOptions:options soupName:soupName];
-        NSNumber* syncId = sync[kSyncManagerSyncId];
-        [self log:SFLogLevelDebug format:@"syncUp # %@ from soup: %@", syncId, soupName];
+        __weak SFSmartSyncPlugin *weakSelf = self;
+        SFSyncState* sync = [self.syncManager syncUpWithOptions:options soupName:soupName updateBlock:^(SFSyncState* sync) {
+            [weakSelf handleSyncUpdate:sync];
+        }];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:sync];
+        [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
+        
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }
 
