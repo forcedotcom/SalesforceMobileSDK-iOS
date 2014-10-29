@@ -24,6 +24,7 @@
 
 #import "SObjectDataManager.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
+#import <SmartSync/SFSyncState.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
@@ -41,7 +42,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
-@property (nonatomic, strong) NSDictionary *sync;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SObjectSyncProgressAction syncCompletionBlock;
 
@@ -72,19 +72,20 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
     NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
-    self.sync = [self.syncMgr recordSync:kSyncManagerSyncTypeDown target:syncTarget soupName:self.dataSpec.soupName options:nil];
     __weak SObjectDataManager *weakSelf = self;
-    [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(NSDictionary* sync) {
-        // TODO refresh only on done
-        [weakSelf refreshLocalData];
+    [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+        if ([sync isDone] || [sync hasFailed]) {
+            [weakSelf refreshLocalData];
+        }
     }];
 }
 
 - (void)updateRemoteData:(SObjectSyncProgressAction)completionBlock {
     NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
-    [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(NSDictionary* sync) {
-        // TODO refresh only on done
-        completionBlock(sync);
+    [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+        if ([sync isDone] || [sync hasFailed]) {
+            completionBlock(sync);
+        }
     }];
 }
 
@@ -135,20 +136,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     NSString *soupName = self.dataSpec.soupName;
     NSArray *indexSpecs = self.dataSpec.indexSpecs;
     [self.store registerSoup:soupName withIndexSpecs:indexSpecs];
-}
-
-- (void)handleSyncProgress:(NSNotification *)notification {
-    NSDictionary *updatedSync = notification.object;
-    if (![updatedSync[kSyncManagerSyncId] isEqual:self.sync[kSyncManagerSyncId]]) {
-        return;
-    }
-    
-    NSString *syncStatus = updatedSync[kSyncManagerSyncStatus];
-    if ([syncStatus isEqualToString:kSyncManagerStatusDone] || [syncStatus isEqualToString:kSyncManagerStatusFailed]) {
-        self.sync = nil;
-        if (self.syncCompletionBlock != NULL)
-            self.syncCompletionBlock(updatedSync);
-    }
 }
 
 - (void)refreshLocalData {

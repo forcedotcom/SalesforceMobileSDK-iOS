@@ -23,16 +23,7 @@
  */
 
 @class SFUserAccount;
-
-extern NSString * const kSyncManagerSyncId;
-extern NSString * const kSyncManagerSyncTypeDown;
-extern NSString * const kSyncManagerSyncTypeUp;
-
-extern NSString * const kSyncManagerSyncStatus;
-extern NSString * const kSyncManagerStatusNew;
-extern NSString * const kSyncManagerStatusRunning;
-extern NSString * const kSyncManagerStatusDone;
-extern NSString * const kSyncManagerStatusFailed;
+@class SFSyncState;
 
 extern NSString * const kSyncManagerTargetQueryType;
 extern NSString * const kSyncManagerTargetQuery;
@@ -50,7 +41,7 @@ extern NSString * const kSyncManagerLocallyDeleted;
 extern NSString * const kSyncManagerOptionsFieldlist;
 
 // block type
-typedef void (^SFSyncSyncManagerUpdateBlock) (NSDictionary* sync);
+typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */
@@ -69,23 +60,15 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (NSDictionary* sync);
 /** Return details about a sync
  @param syncId
  */
-- (NSDictionary*)getSyncStatus:(NSNumber*)syncId;
-
-/** Create/record a sync but don't start it yet
- */
-- (NSDictionary*) recordSync:(NSString*)type target:(NSDictionary*)target soupName:(NSString*)soupName options:(NSDictionary*)options;
-
-/** Run a previously created sync
- */
-- (void) runSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*)getSyncStatus:(NSNumber*)syncId;
 
 /** Create and run a sync down
  */
-- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync up
  */
-- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 
 @end

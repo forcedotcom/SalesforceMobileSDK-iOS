@@ -26,7 +26,9 @@
 #import "SObjectDataSpec.h"
 #import "SObjectData.h"
 
-typedef void (^SObjectSyncProgressAction)(NSDictionary *syncProgressDetails);
+@class SFSyncState;
+
+typedef void (^SObjectSyncProgressAction)(SFSyncState *syncProgressDetails);
 
 @interface SObjectDataManager : NSObject
 

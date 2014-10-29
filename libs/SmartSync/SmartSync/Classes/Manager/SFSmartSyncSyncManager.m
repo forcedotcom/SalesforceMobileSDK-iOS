@@ -26,6 +26,7 @@
 #import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
+#import "SFSyncState.h"
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
@@ -34,22 +35,10 @@
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 // soups and soup fields
-NSString * const kSyncManagerSyncsSoupName = @"syncs_soup";
-NSString * const kSyncManagerSyncsSoupType = @"type";
 NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
 NSString * const kSyncManagerLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncManagerLocallyDeleted = @"__locally_deleted__";
-
-// sync attributes
-NSString * const kSyncManagerSyncId = @"_soupEntryId";
-NSString * const kSyncManagerSyncType = @"type";
-NSString * const kSyncManagerSyncTarget = @"target";
-NSString * const kSyncManagerSyncSoupName = @"soupName";
-NSString * const kSyncManagerSyncOptions = @"options";
-NSString * const kSyncManagerSyncStatus = @"status";
-NSString * const kSyncManagerSyncProgress = @"progress";
-NSString * const kSyncManagerSyncTotalSize = @"totalSize";
 
 // in options
 NSString * const kSyncManagerOptionsFieldlist = @"fieldlist";
@@ -89,18 +78,6 @@ typedef enum {
     kSyncManagerActionUpdate,
     kSyncManagerActionDelete
 } SFSyncManagerAction;
-
-/** Types of sync
- */
-NSString * const kSyncManagerSyncTypeDown = @"syncDown";
-NSString * const kSyncManagerSyncTypeUp = @"syncUp";
-
-/** Possible status for a sync
- */
-NSString * const kSyncManagerStatusNew = @"NEW";
-NSString * const kSyncManagerStatusRunning = @"RUNNING";
-NSString * const kSyncManagerStatusDone = @"DONE";
-NSString * const kSyncManagerStatusFailed = @"FAILED";
 
 @interface SFSmartSyncSyncManager ()
 
@@ -152,7 +129,7 @@ dispatch_queue_t queue;
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
         self.restClient = [SFRestAPI sharedInstance];
         queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
-        [self setupSyncsSoupIfNeeded];
+        [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
 }
@@ -160,73 +137,47 @@ dispatch_queue_t queue;
 /** Return details about a sync
  @param syncId
  */
-- (NSDictionary*)getSyncStatus:(NSNumber*)syncId {
-    NSArray* syncs = [self.store retrieveEntries:@[syncId] fromSoup:kSyncManagerSyncsSoupName];
+- (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
+    SFSyncState* sync = [SFSyncState byId:syncId store:self.store];
     
-    if (syncs==nil || [syncs count] == 0) {
+    if (sync == nil) {
         [self log:SFLogLevelError format:@"Sync %@ not found", syncId];
-        return nil;
     }
-    else {
-        return syncs[0];
-    }
-}
-
-/** Create/record a sync but don't start it yet
- */
-- (NSDictionary*) recordSync:(NSString*)type target:(NSDictionary*)target soupName:(NSString*)soupName options:(NSDictionary*)options {
-    
-    NSDictionary* sync = @{
-                           kSyncManagerSyncType: type,
-                           kSyncManagerSyncTarget: target == nil ? @{} : target,
-                           kSyncManagerSyncSoupName: soupName,
-                           kSyncManagerSyncOptions: options == nil ? @{} : options,
-                           kSyncManagerSyncStatus: kSyncManagerStatusNew };
-    
-    NSArray* syncs = [self.store upsertEntries:@[ sync ] toSoup:kSyncManagerSyncsSoupName];
-    
-    return syncs[0];
+    return sync;
 }
 
 /** Run a previously created sync
  */
-- (void) runSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    NSDictionary* sync = [self getSyncStatus:syncId];
-    if (sync == nil) {
-        return;
-    }
-    
+- (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize) {
-        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%@ status: %@ progress:%d totalSize:%d", sync[kSyncManagerSyncType], sync[kSyncManagerSyncId], status, progress, totalSize];
+        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status: %@ progress:%d totalSize:%d", sync.type, sync.syncId, status, progress, totalSize];
 
-        NSMutableDictionary* modifiedSync = [sync mutableCopy];
         if (status == nil) {
-            status = (progress == 100 ? kSyncManagerStatusDone : kSyncManagerStatusRunning);
+            status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
         }
-        modifiedSync[kSyncManagerSyncStatus] = status;
-        if (progress>=0)  modifiedSync[kSyncManagerSyncProgress] = [NSNumber numberWithInt:progress];
-        if (totalSize>=0) modifiedSync[kSyncManagerSyncTotalSize] = [NSNumber numberWithInt:totalSize];
-        NSArray* savedSyncs = [weakSelf.store upsertEntries:@[ modifiedSync ] toSoup:kSyncManagerSyncsSoupName];
+        sync.status = status;
+        if (progress>=0)  sync.progress = progress;
+        if (totalSize>=0) sync.totalSize = totalSize;
+        [sync save:self.store];
         
-        if (updateBlock && savedSyncs.count > 0) {
-            updateBlock(savedSyncs[0]);
-        }
+        if (updateBlock)
+            updateBlock(sync);
     };
     
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
-        [weakSelf log:SFLogLevelError format:@"Sync type:%@ id:%@ FAILED cause:%@ error:%@", sync[kSyncManagerSyncType], sync[kSyncManagerSyncId], message, error];
-        updateSync(kSyncManagerStatusFailed, -1, -1);
+        [weakSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", sync.type, sync.syncId, message, error];
+        updateSync(kSFSyncStateStatusFailed, -1, -1);
     };
     
-    updateSync(kSyncManagerStatusRunning, 0, -1);
+    updateSync(kSFSyncStateStatusRunning, 0, -1);
     // Run on background thread
     dispatch_async(queue, ^{
-        NSString* syncType = sync[kSyncManagerSyncType];
-        if ([syncType isEqualToString:kSyncManagerSyncTypeDown]) {
+        NSString* syncType = sync.type;
+        if ([syncType isEqualToString:kSFSyncStateTypeDown]) {
             [weakSelf syncDown:sync updateSync:updateSync failSync:failSync];
         }
-        else if ([syncType isEqualToString:kSyncManagerSyncTypeUp]) {
+        else if ([syncType isEqualToString:kSFSyncStateTypeUp]) {
             [weakSelf syncUp:sync updateSync:updateSync failSync:failSync];
         }
         else {
@@ -237,40 +188,26 @@ dispatch_queue_t queue;
 
 /** Create and run a sync down
  */
-- (NSDictionary*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    NSDictionary* sync = [self recordSync:kSyncManagerSyncTypeDown target:target soupName:soupName options:nil];
-    NSNumber* syncId = sync[kSyncManagerSyncId];
-    [self runSync:syncId updateBlock:updateBlock];
-    return [self getSyncStatus:syncId];
+- (SFSyncState*) syncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncDownWithTarget:target soupName:soupName store:self.store];
+    [self runSync:sync updateBlock:updateBlock];
+    return sync;
 }
 
 /** Create and run a sync up
  */
-- (NSDictionary*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    NSDictionary* sync = [self recordSync:kSyncManagerSyncTypeUp target:nil soupName:soupName options:options];
-    NSNumber* syncId = sync[kSyncManagerSyncId];
-    [self runSync:syncId updateBlock:updateBlock];
-    return [self getSyncStatus:syncId];
+- (SFSyncState*) syncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+    [self runSync:sync updateBlock:updateBlock];
+    return sync;
 }
 
-
-/** Create master syncs soup if needed
- */
-- (void) setupSyncsSoupIfNeeded {
-    if ([self.store soupExists:kSyncManagerSyncsSoupName])
-        return;
-    NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:kSyncManagerSyncsSoupType indexType:kSoupIndexTypeString columnName:nil]
-                            ];
-    
-    [self.store registerSoup:kSyncManagerSyncsSoupName withIndexSpecs:indexSpecs];
-}
 
 /** Run a sync down
  */
-- (void) syncDown:(NSDictionary*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
-    NSString* soupName = sync[kSyncManagerSyncSoupName];
-    NSDictionary* target = sync[kSyncManagerSyncTarget];
+- (void) syncDown:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
+    NSString* soupName = sync.soupName;
+    NSDictionary* target = sync.target;
     NSString* queryType = target[kSyncManagerTargetQueryType];
     NSString* query = target[kSyncManagerTargetQuery];
     
@@ -367,7 +304,7 @@ dispatch_queue_t queue;
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName];
         // Update status
-        updateSync(kSyncManagerStatusRunning, 100, totalSize);
+        updateSync(kSFSyncStateStatusRunning, 100, totalSize);
     };
     
     [self.restClient performSOSLSearch:query failBlock:failRest completeBlock:completeBlockSOSL];
@@ -392,8 +329,8 @@ dispatch_queue_t queue;
 
 /** Run a sync up
  */
-- (void) syncUp:(NSDictionary*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
-    NSString* soupName = sync[kSyncManagerSyncSoupName];
+- (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
+    NSString* soupName = sync.soupName;
     SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2000];
     
     // Call smartstore
@@ -413,9 +350,9 @@ dispatch_queue_t queue;
     [self syncUpOneEntry:sync records:records index:0 updateSync:updateSync failRest:failRest];
 }
 
-- (void) syncUpOneEntry:(NSDictionary*)sync records:(NSArray*)records index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
-    NSString* soupName = sync[kSyncManagerSyncSoupName];
-    NSDictionary* options = sync[kSyncManagerSyncOptions];
+- (void) syncUpOneEntry:(SFSyncState*)sync records:(NSArray*)records index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+    NSString* soupName = sync.soupName;
+    NSDictionary* options = sync.options;
     NSArray* fieldlist = (NSArray*) options[kSyncManagerOptionsFieldlist];
     NSUInteger totalSize = records.count;
     NSUInteger progress = i*100 / totalSize;
