@@ -69,7 +69,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     }
     
     NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
-    NSDictionary *syncTarget = @{ kSyncManagerTargetQueryType: kSyncManagerQueryTypeSoql, kSyncManagerTargetQuery: soqlQuery };
+    SFSyncTarget *syncTarget = [SFSyncTarget newSyncTargetForSOQLSyncDown:soqlQuery];
     __weak SObjectDataManager *weakSelf = self;
     [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
@@ -79,8 +79,8 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
-    NSDictionary *fieldListOptions = @{ kSyncManagerOptionsFieldlist: self.dataSpec.fieldNames };
-    [self.syncMgr syncUpWithOptions:fieldListOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames];
+    [self.syncMgr syncUpWithOptions:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
         }
