@@ -51,7 +51,13 @@ NSString * const kSFSyncStateStatusDone = @"DONE";
 NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
 @interface SFSyncState ()
-    @property (atomic, readwrite) NSInteger syncId;
+
+@property (atomic, readwrite) NSInteger syncId;
+@property (atomic, readwrite) SFSyncStateSyncType type;
+@property (nonatomic, strong, readwrite) NSString* soupName;
+@property (nonatomic, strong, readwrite) SFSyncTarget* target;
+@property (nonatomic, strong, readwrite) SFSyncOptions* options;
+
 @end
 
 @implementation SFSyncState
@@ -70,10 +76,10 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
 #pragma mark - Factory methods
 
-+ (SFSyncState*) newSyncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*) newSyncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeDown,
-                           kSFSyncStateTarget: target,
+                           kSFSyncStateTarget: [target asDict],
                            kSFSyncStateSoupName: soupName,
                            kSFSyncStateOptions: @{},
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
@@ -81,16 +87,16 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1]
                            };
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
-    SFSyncState* sync = [[[SFSyncState alloc] init] fromDict:savedDicts[0]];
+    SFSyncState* sync = [SFSyncState newFromDict:savedDicts[0]];
     return sync;
 }
 
-+ (SFSyncState*) newSyncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeUp,
                            kSFSyncStateTarget: @{},
                            kSFSyncStateSoupName: soupName,
-                           kSFSyncStateOptions: options,
+                           kSFSyncStateOptions: [options asDict],
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
                            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1]
@@ -98,50 +104,53 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
     NSArray* savedDicts = [store upsertEntries:@[ dict ] toSoup:kSFSyncStateSyncsSoupName];
     if (savedDicts == nil || savedDicts.count == 0)
         return nil;
-    SFSyncState* sync = [[[SFSyncState alloc] init] fromDict:savedDicts[0]];
+    SFSyncState* sync = [SFSyncState newFromDict:savedDicts[0]];
     return sync;
 }
 
 #pragma mark - Save/retrieve to/from smartstore
 
-+ (SFSyncState*) byId:(NSNumber*)syncId store:(SFSmartStore*)store {
++ (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store {
     NSArray* retrievedDicts = [store retrieveEntries:@ [ syncId ] fromSoup:kSFSyncStateSyncsSoupName];
     if (retrievedDicts == nil || retrievedDicts.count == 0)
         return nil;
-    SFSyncState* sync = [[[SFSyncState alloc] init] fromDict:retrievedDicts[0]];
+    SFSyncState* sync = [SFSyncState newFromDict:retrievedDicts[0]];
     return sync;
 }
 
-- (SFSyncState*) save:(SFSmartStore*) store {
+- (void) save:(SFSmartStore*) store {
     NSArray* savedDicts = [store upsertEntries:@[ [self asDict] ] toSoup:kSFSyncStateSyncsSoupName];
     [self fromDict:savedDicts[0]];
-    return self;
 }
 
 #pragma mark - From/to dictionary
 
-- (SFSyncState*) fromDict:(NSDictionary*)dict {
-    self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
-    self.type = dict[kSFSyncStateType];
-    self.target = dict[kSFSyncStateTarget];
-    self.soupName = dict[kSFSyncStateSoupName];
-    self.options = dict[kSFSyncStateOptions];
-    self.status = dict[kSFSyncStateStatus];
-    self.progress = [(NSNumber*) dict[kSFSyncStateProgress] integerValue];
-    self.totalSize = [(NSNumber*) dict[kSFSyncStateTotalSize] integerValue];
-    
-    return self;
++ (SFSyncState*) newFromDict:(NSDictionary*)dict {
+    SFSyncState* syncState = [[SFSyncState alloc] init];
+    if (syncState) {
+        [syncState fromDict:dict];
+    }
+    return syncState;
 }
 
-
+- (void) fromDict:(NSDictionary*) dict {
+    self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
+    self.type = [SFSyncState syncTypeFromString:dict[kSFSyncStateType]];
+    self.target = [SFSyncTarget newFromDict:dict[kSFSyncStateTarget]];
+    self.soupName = dict[kSFSyncStateSoupName];
+    self.options = [SFSyncOptions newFromDict:dict[kSFSyncStateOptions]];
+    self.status = [SFSyncState syncStatusFromString:dict[kSFSyncStateStatus]];
+    self.progress = [(NSNumber*) dict[kSFSyncStateProgress] integerValue];
+    self.totalSize = [(NSNumber*) dict[kSFSyncStateTotalSize] integerValue];
+}
 
 - (NSDictionary*) asDict {
     NSDictionary* dict = @{
-                           kSFSyncStateType: self.type,
-                           kSFSyncStateTarget: self.target,
+                           kSFSyncStateType: [SFSyncState syncTypeToString:self.type],
+                           kSFSyncStateTarget: [self.target asDict],
                            kSFSyncStateSoupName: self.soupName,
-                           kSFSyncStateOptions: self.options,
-                           kSFSyncStateStatus: self.status,
+                           kSFSyncStateOptions: [self.options asDict],
+                           kSFSyncStateStatus: [SFSyncState syncStatusToString:self.status],
                            kSFSyncStateProgress: [NSNumber numberWithInteger:self.progress],
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:self.totalSize]
                            };
@@ -150,11 +159,57 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
 #pragma mark - Easy status check
 - (BOOL) isDone {
-    return [self.status isEqualToString:kSFSyncStateStatusDone];
+    return self.status == SFSyncStateStatusDone;
 }
 
 - (BOOL) hasFailed {
-    return [self.status isEqualToString:kSFSyncStateStatusFailed];
+    return self.status == SFSyncStateStatusFailed;
+}
+
+- (BOOL) isRunning {
+    return self.status == SFSyncStateStatusRunning;
+}
+
+#pragma mark - string to/from enum for sync type
+
++ (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType {
+    if ([syncType isEqualToString:kSFSyncStateTypeDown]) {
+        return SFSyncStateSyncTypeDown;
+    }
+    // Must be up
+    return SFSyncStateSyncTypeUp;
+}
+
++ (NSString*) syncTypeToString:(SFSyncStateSyncType)syncType {
+    switch(syncType) {
+        case SFSyncStateSyncTypeDown: return kSFSyncStateTypeDown;
+        case SFSyncStateSyncTypeUp: return kSFSyncStateTypeUp;
+    }
+}
+
+#pragma mark - string to/from enum for sync status
+
++ (SFSyncStateStatus) syncStatusFromString:(NSString*)syncStatus {
+    if ([syncStatus isEqualToString:kSFSyncStateStatusNew]) {
+        return SFSyncStateStatusNew;
+    }
+    if ([syncStatus isEqualToString:kSFSyncStateStatusRunning]) {
+        return SFSyncStateStatusRunning;
+    }
+    if ([syncStatus isEqualToString:kSFSyncStateStatusDone]) {
+        return SFSyncStateStatusDone;
+    }
+    // Must be failed // if ([syncStatus isEqualToString:kSFSyncStateStatusFailed]) {
+    return SFSyncStateStatusFailed;
+}
+
++ (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus {
+    switch (syncStatus) {
+        case SFSyncStateStatusNew: return kSFSyncStateStatusNew;
+        case SFSyncStateStatusRunning: return kSFSyncStateStatusRunning;
+        case SFSyncStateStatusDone: return kSFSyncStateStatusDone;
+        case SFSyncStateStatusFailed: return kSFSyncStateStatusFailed;
+    }
 }
 
 @end

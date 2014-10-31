@@ -319,7 +319,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
             } else if ([syncProgressDetails hasFailed]) {
                 [weakSelf showToast:@"Sync failed."];
             } else {
-                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", syncProgressDetails.status]];
+                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", [SFSyncState syncStatusToString:syncProgressDetails.status]]];
             }
         });
     }];

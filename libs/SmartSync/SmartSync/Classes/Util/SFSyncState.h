@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSyncTarget.h"
+#import "SFSyncOptions.h"
 
 @class SFSmartStore;
 
@@ -40,11 +42,23 @@ extern NSString * const kSFSyncStateStatus;
 extern NSString * const kSFSyncStateProgress;
 extern NSString * const kSFSyncStateTotalSize;
 
-// Possible value for sync type
+// Possible values for sync type
+typedef enum {
+    SFSyncStateSyncTypeDown,
+    SFSyncStateSyncTypeUp,
+} SFSyncStateSyncType;
+
 extern NSString * const kSFSyncStateTypeDown;
 extern NSString * const kSFSyncStateTypeUp;
 
 // Possible value for sync status
+typedef enum {
+    SFSyncStateStatusNew,
+    SFSyncStateStatusRunning,
+    SFSyncStateStatusDone,
+    SFSyncStateStatusFailed
+} SFSyncStateStatus;
+
 extern NSString * const kSFSyncStateStatusNew;
 extern NSString * const kSFSyncStateStatusRunning;
 extern NSString * const kSFSyncStateStatusDone;
@@ -53,22 +67,44 @@ extern NSString * const kSFSyncStateStatusFailed;
 @interface SFSyncState : NSObject
 
 @property (atomic, readonly) NSInteger syncId;
-@property (nonatomic, strong) NSString* type;
-@property (nonatomic, strong) NSDictionary* target;
-@property (nonatomic, strong) NSString* soupName;
-@property (nonatomic, strong) NSDictionary* options;
-@property (nonatomic, strong) NSString* status;
+@property (atomic, readonly) SFSyncStateSyncType type;
+@property (nonatomic, strong, readonly) NSString* soupName;
+@property (nonatomic, strong, readonly) SFSyncTarget* target;
+@property (nonatomic, strong, readonly) SFSyncOptions* options;
+@property (atomic) SFSyncStateStatus status;
 @property (atomic) NSInteger progress;
 @property (atomic) NSInteger totalSize;
 
+/** Setup soup that keeps track of sync operations
+ */
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store;
-+ (SFSyncState*) newSyncDownWithTarget:(NSDictionary*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
-+ (SFSyncState*) newSyncUpWithOptions:(NSDictionary*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
-+ (SFSyncState*) byId:(NSNumber*)syncId store:(SFSmartStore*)store;
-- (SFSyncState*) save:(SFSmartStore*)store;
-- (SFSyncState*) fromDict:(NSDictionary *)dict;
+
+/** Factory methods
+ */
++ (SFSyncState*) newSyncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
+
+/** Methods to save/retrieve from smartstore
+ */
++ (SFSyncState*) newById:(NSNumber*)syncId store:(SFSmartStore*)store;
+- (void) save:(SFSmartStore*)store;
+
+/** Methods to translate to/from dictionary
+ */
++ (SFSyncState*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
+
+/** Method for easy status check
+ */
 - (BOOL)isDone;
 - (BOOL)hasFailed;
+- (BOOL) isRunning;
+
+/** Enum to/from string helper methods
+ */
++ (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType;
++ (NSString*) syncTypeToString:(SFSyncStateSyncType)syncType;
++ (SFSyncStateStatus) syncStatusFromString:(NSString*)syncStatus;
++ (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
 
 @end
