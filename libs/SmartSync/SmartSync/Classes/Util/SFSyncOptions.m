@@ -31,7 +31,7 @@ NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
 
 // true when initiazed from empty dictionary
-@property (atomic) BOOL isUndefined;
+@property (nonatomic) BOOL isUndefined;
 
 @end
 

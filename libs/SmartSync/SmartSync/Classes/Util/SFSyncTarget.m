@@ -36,13 +36,13 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 
 @interface SFSyncTarget ()
 
-@property (atomic, readwrite)            SFSyncTargetQueryType queryType;
+@property (nonatomic, readwrite)            SFSyncTargetQueryType queryType;
 @property (nonatomic, strong, readwrite) NSString* query;
 @property (nonatomic, strong, readwrite) NSString* objectType;
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
 
 // true when initiazed from empty dictionary
-@property (atomic) BOOL isUndefined;
+@property (nonatomic) BOOL isUndefined;
 
 @end
 

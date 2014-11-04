@@ -52,8 +52,8 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
 @interface SFSyncState ()
 
-@property (atomic, readwrite) NSInteger syncId;
-@property (atomic, readwrite) SFSyncStateSyncType type;
+@property (nonatomic, readwrite) NSInteger syncId;
+@property (nonatomic, readwrite) SFSyncStateSyncType type;
 @property (nonatomic, strong, readwrite) NSString* soupName;
 @property (nonatomic, strong, readwrite) SFSyncTarget* target;
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;

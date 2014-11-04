@@ -37,7 +37,7 @@ extern NSString * const kSFSyncTargetFieldlist;
 
 @interface SFSyncTarget : NSObject
 
-@property (atomic, readonly)            SFSyncTargetQueryType queryType;
+@property (nonatomic, readonly)            SFSyncTargetQueryType queryType;
 @property (nonatomic, strong, readonly) NSString* query;
 @property (nonatomic, strong, readonly) NSString* objectType;
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;
