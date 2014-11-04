@@ -66,14 +66,14 @@ extern NSString * const kSFSyncStateStatusFailed;
 
 @interface SFSyncState : NSObject
 
-@property (atomic, readonly) NSInteger syncId;
-@property (atomic, readonly) SFSyncStateSyncType type;
+@property (nonatomic, readonly) NSInteger syncId;
+@property (nonatomic, readonly) SFSyncStateSyncType type;
 @property (nonatomic, strong, readonly) NSString* soupName;
 @property (nonatomic, strong, readonly) SFSyncTarget* target;
 @property (nonatomic, strong, readonly) SFSyncOptions* options;
-@property (atomic) SFSyncStateStatus status;
-@property (atomic) NSInteger progress;
-@property (atomic) NSInteger totalSize;
+@property (nonatomic) SFSyncStateStatus status;
+@property (nonatomic) NSInteger progress;
+@property (nonatomic) NSInteger totalSize;
 
 /** Setup soup that keeps track of sync operations
  */
