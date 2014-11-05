@@ -276,7 +276,6 @@
 				8201678916E17D65002F4066 /* Resources */,
 				82C0C73416E076DE0006B3C0 /* Supporting Files */,
 			);
-			name = SalesforceRestAPI;
 			path = SalesforceRestAPI;
 			sourceTree = "<group>";
 		};
@@ -297,7 +296,6 @@
 				4FDA6D5619DB7BF2005AF96F /* SFNativeRestRequestListener.m */,
 				82C0C74916E076DF0006B3C0 /* Supporting Files */,
 			);
-			name = SalesforceRestAPITests;
 			path = SalesforceRestAPITests;
 			sourceTree = "<group>";
 		};
@@ -322,7 +320,6 @@
 				4FDA6D5E19DB7C22005AF96F /* ViewController.m */,
 				82C0C76316E07DEB0006B3C0 /* Supporting Files */,
 			);
-			name = SalesforceRestAPIUnitTestApp;
 			path = SalesforceRestAPIUnitTestApp;
 			sourceTree = "<group>";
 		};
@@ -414,7 +411,7 @@
 			name = SalesforceRestAPITests;
 			productName = SalesforceRestAPITests;
 			productReference = 82C0C73F16E076DE0006B3C0 /* SalesforceRestAPITests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPIUnitTestApp */ = {
 			isa = PBXNativeTarget;
@@ -647,7 +644,7 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -681,7 +678,7 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -699,6 +696,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
 				INSTALL_PATH = /;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SalesforceRestAPI;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -713,6 +711,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
 				INSTALL_PATH = /;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SalesforceRestAPI;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";

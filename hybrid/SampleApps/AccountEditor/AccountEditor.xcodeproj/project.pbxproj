@@ -560,7 +560,7 @@
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
@@ -597,7 +597,7 @@
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
@@ -620,7 +620,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -637,7 +637,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
