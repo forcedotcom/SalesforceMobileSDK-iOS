@@ -170,7 +170,9 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             }
         }
         
-        
+        if (self != nil) {
+            [[SFAuthenticationManager sharedManager] addDelegate:self];
+        }
     }
     return self;
 }
@@ -181,6 +183,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     SFRelease(_soupNameToTableName);
     SFRelease(_indexSpecsBySoup);
     SFRelease(_smartSqlToSql);
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
     
     //remove data protection observer
     [[NSNotificationCenter defaultCenter] removeObserver:_dataProtectAvailObserverToken];
@@ -1451,5 +1454,11 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
 }
 
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
+{
+    [[self class] removeAllStoresForUser:user];
+}
 
 @end

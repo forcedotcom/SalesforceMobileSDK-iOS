@@ -26,11 +26,12 @@
 #import "SFSmartStore.h"
 #import "SFUserAccount.h"
 #import "SFSmartStoreDatabaseManager.h"
+#import "SFAuthenticationManager.h"
 
 @class FMDatabase;
 @class FMResultSet;
 
-@interface SFSmartStore ()
+@interface SFSmartStore () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
 @property (nonatomic, strong) SFUserAccount *user;

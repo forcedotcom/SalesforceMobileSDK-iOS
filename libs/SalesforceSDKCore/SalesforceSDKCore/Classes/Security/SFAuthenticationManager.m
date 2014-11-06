@@ -41,7 +41,6 @@
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
 #import "SFPushNotificationManager.h"
-#import "SFSmartStore.h"
 
 #import <SalesforceOAuth/SFOAuthCredentials.h>
 #import <SalesforceOAuth/SFOAuthInfo.h>
@@ -430,6 +429,17 @@ static Class InstanceClass = nil;
     
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     
+    NSDictionary *userInfo = @{ @"account": user };
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+    __weak SFAuthenticationManager *weakSelf = self;
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManager:willLogoutUser:)]) {
+            [delegate authManager:weakSelf willLogoutUser:user];
+        }
+    }];
+    
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     
     [self revokeRefreshToken:user];
@@ -437,9 +447,6 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
-        // NB: SmartStores need to be cleared before user account info is removed.
-        if (![user isEqual:userAccountManager.temporaryUser])
-            [SFSmartStore removeAllStoresForUser:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [user.credentials revoke];
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
@@ -449,15 +456,6 @@ static Class InstanceClass = nil;
     // Otherwise, the current user is being logged out.  Supply the user account to the
     // "Will Logout" notification before the credentials are revoked.  This will ensure
     // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-    SFUserAccount *userAccount = user;
-
-	NSDictionary *userInfo = nil;
-    if (userAccount) {
-        userInfo = @{ @"account": userAccount };
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
-														object:self
-													  userInfo:userInfo];
     
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
@@ -467,9 +465,9 @@ static Class InstanceClass = nil;
     [self clearAccountState:YES];
     
     [self willChangeValueForKey:@"haveValidSession"];
-    [userAccountManager deleteAccountForUser:userAccount error:nil];
+    [userAccountManager deleteAccountForUser:user error:nil];
     [userAccountManager saveAccounts:nil];
-    [userAccount.credentials revoke];
+    [user.credentials revoke];
     userAccountManager.currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
     
@@ -477,7 +475,7 @@ static Class InstanceClass = nil;
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
-            [delegate authManagerDidLogout:self];
+            [delegate authManagerDidLogout:weakSelf];
         }
     }];
 }
@@ -799,7 +797,6 @@ static Class InstanceClass = nil;
  */
 - (void)clearAccountState:(BOOL)clearAccountData {
     if (clearAccountData) {
-        [SFSmartStore removeAllStores];
         [SFSecurityLockout clearPasscodeState];
     }
     

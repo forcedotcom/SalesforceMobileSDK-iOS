@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartSyncCacheManager.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
@@ -39,7 +40,7 @@ static NSString * const kSmartStoreSoupNamesPath       = @"soup_names";
 static NSString * const kSmartStoreCacheKeyPath        = @"cache_key";
 static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
 
-@interface SFSmartSyncCacheManager ()
+@interface SFSmartSyncCacheManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) SFSmartStore *store;
@@ -93,8 +94,13 @@ static NSMutableDictionary *cacheMgrList = nil;
         self.enableInMemoryCache = YES;
         self.user = user;
         self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 #pragma mark - Private Methods
@@ -271,6 +277,12 @@ static NSMutableDictionary *cacheMgrList = nil;
     // Write to SmartStore.
     NSString *cacheSoupName = cacheType;
     [self upsertData:cacheSoupEntry toSoup:cacheSoupName];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
 }
 
 #pragma mark - SmartStore management
