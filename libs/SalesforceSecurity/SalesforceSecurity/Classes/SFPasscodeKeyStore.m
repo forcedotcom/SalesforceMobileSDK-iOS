@@ -108,9 +108,9 @@ static NSString * const kPasscodeKeyStoreEncryptionKeyDataArchiveKey = @"com.sal
         NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey.encryptionKey];  // Old key.
         if (origKeyStoreDict == nil) {
             [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-            self.keyStoreDictionary = nil;
+            [self setKeyStoreDictionary:nil withKey:keyStoreKey.encryptionKey];
         } else {
-            self.keyStoreDictionary = origKeyStoreDict;
+            [self setKeyStoreDictionary:origKeyStoreDict withKey:keyStoreKey.encryptionKey];
         }
         
         // Store the key store key in the keychain.
