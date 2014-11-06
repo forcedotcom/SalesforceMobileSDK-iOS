@@ -90,7 +90,6 @@ static NSUInteger   const kLabelTag              = 99;
 
 + (void) present
 {
-    [[SFSmartStoreInspectorViewController sharedInstance] clearButtonClicked];
     [[SFRootViewManager sharedManager] pushViewController:[SFSmartStoreInspectorViewController sharedInstance]];
 }
 
