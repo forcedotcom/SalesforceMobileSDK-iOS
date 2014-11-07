@@ -44,7 +44,7 @@
     
     // When passed @"" returned full path to www directory
     if ([resourcepath length] == 0) {
-        return [[mainBundle bundlePath] stringByAppendingPathComponent:WWW_DIR];
+        return [[[mainBundle bundlePath] stringByAppendingPathComponent:WWW_DIR] stringByStandardizingPath];
     }
     
     // Otherwise
