@@ -43,7 +43,7 @@ static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
 @interface SFSmartSyncCacheManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
-@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) NSCache *inMemCache;
 @property (nonatomic, assign) BOOL enableInMemoryCache;
 
@@ -93,10 +93,13 @@ static NSMutableDictionary *cacheMgrList = nil;
         self.inMemCache = [[NSCache alloc] init];
         self.enableInMemoryCache = YES;
         self.user = user;
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (SFSmartStore *)store {
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.user];
 }
 
 - (void)dealloc {
