@@ -38,7 +38,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 @property (nonatomic, weak) UITableViewController *parentVc;
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
-@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
@@ -53,7 +53,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     if (self) {
         self.parentVc = parentVc;
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
@@ -61,6 +60,10 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)dealloc {
+}
+
+- (SFSmartStore *)store {
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
 - (void)refreshRemoteData {

@@ -71,8 +71,11 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)resetSharedStore
 {
     [[self cursorCache] removeAllObjects];
-    self.store = nil;
-    self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+}
+
+- (SFSmartStore *)store
+{
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
 - (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
@@ -82,7 +85,6 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     if (nil != self)  {
         [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
         _cursorCache = [[NSMutableDictionary alloc] init];
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     }
     return self;
 }

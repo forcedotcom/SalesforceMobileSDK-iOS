@@ -44,9 +44,14 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 {
     self = [super init];
     if (nil != self)  {
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+        
     }
     return self;
+}
+
+- (SFSmartStore *)store
+{
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
 - (void)createAccountsSoup
