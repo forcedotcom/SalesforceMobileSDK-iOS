@@ -18,7 +18,6 @@
 		827B31AF19F059D600488A75 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 827B31AB19F059D600488A75 /* UIApplication+SalesforceHybridSDK.m */; };
 		827B31E619F05BF400488A75 /* bootconfig.json in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 827B31CB19F05AFE00488A75 /* bootconfig.json */; };
 		827B31E719F05BF400488A75 /* cordova.js in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 827B31C919F05ADB00488A75 /* cordova.js */; };
-		827B31E819F05BF400488A75 /* cordova_plugins.js in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 827B31B119F05A1100488A75 /* cordova_plugins.js */; };
 		827B31E919F05BF400488A75 /* error.html in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 827B31E119F05B4C00488A75 /* error.html */; };
 		827B31EA19F05BF400488A75 /* index.html in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 827B31E219F05B4C00488A75 /* index.html */; };
 		827B31EC19F05C4700488A75 /* ratchet-theme-android.css in Copy css files */ = {isa = PBXBuildFile; fileRef = 827B31CE19F05B2100488A75 /* ratchet-theme-android.css */; };
@@ -64,6 +63,10 @@
 		827B322D19F06A4E00488A75 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322C19F06A4E00488A75 /* SystemConfiguration.framework */; };
 		827B322F19F06A7800488A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322E19F06A7800488A75 /* MobileCoreServices.framework */; };
 		827B323119F06A9400488A75 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B323019F06A9400488A75 /* libz.dylib */; };
+		82AF5AAD1A0DAA25006C7A4B /* cordova_plugins.js in Copy shared www files */ = {isa = PBXBuildFile; fileRef = 82AF5AAB1A0DAA05006C7A4B /* cordova_plugins.js */; };
+		82AF5B041A0DAF1C006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AFE1A0DAF1C006C7A4B /* CDVLogger.m */; };
+		82AF5B081A0DAF49006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5B021A0DAF1C006C7A4B /* console-via-logger.js */; };
+		82AF5B091A0DAF49006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5B031A0DAF1C006C7A4B /* logger.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -73,9 +76,9 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
+				82AF5AAD1A0DAA25006C7A4B /* cordova_plugins.js in Copy shared www files */,
 				827B31E619F05BF400488A75 /* bootconfig.json in Copy shared www files */,
 				827B31E719F05BF400488A75 /* cordova.js in Copy shared www files */,
-				827B31E819F05BF400488A75 /* cordova_plugins.js in Copy shared www files */,
 				827B31E919F05BF400488A75 /* error.html in Copy shared www files */,
 				827B31EA19F05BF400488A75 /* index.html in Copy shared www files */,
 			);
@@ -131,6 +134,18 @@
 			name = "Copy plugins files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82AF5B071A0DAF29006C7A4B /* Copy cordova-plugin-console plugin */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/org.apache.cordova.console/www;
+			dstSubfolderSpec = 7;
+			files = (
+				82AF5B081A0DAF49006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */,
+				82AF5B091A0DAF49006C7A4B /* logger.js in Copy cordova-plugin-console plugin */,
+			);
+			name = "Copy cordova-plugin-console plugin";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -151,7 +166,6 @@
 		827B31A919F059D600488A75 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ../../../../shared/hybrid/InitialViewController.m; sourceTree = "<group>"; };
 		827B31AA19F059D600488A75 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		827B31AB19F059D600488A75 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
-		827B31B119F05A1100488A75 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../external/shared/gen/cordova_plugins.js; sourceTree = "<group>"; };
 		827B31B519F05A8B00488A75 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = com.salesforce.plugin.oauth.js; path = ../../../../external/shared/gen/plugins_with_define/com.salesforce/com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		827B31B619F05A8B00488A75 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = com.salesforce.plugin.sdkinfo.js; path = ../../../../external/shared/gen/plugins_with_define/com.salesforce/com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
 		827B31B719F05A8B00488A75 /* com.salesforce.plugin.sfaccountmanager.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = com.salesforce.plugin.sfaccountmanager.js; path = ../../../../external/shared/gen/plugins_with_define/com.salesforce/com.salesforce.plugin.sfaccountmanager.js; sourceTree = "<group>"; };
@@ -199,6 +213,11 @@
 		827B322C19F06A4E00488A75 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		827B322E19F06A7800488A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		827B323019F06A9400488A75 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82AF5AAB1A0DAA05006C7A4B /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../shared/hybrid/cordova_plugins.js; sourceTree = "<group>"; };
+		82AF5AFD1A0DAF1C006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
+		82AF5AFE1A0DAF1C006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
+		82AF5B021A0DAF1C006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
+		82AF5B031A0DAF1C006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +257,7 @@
 		827B315F19F0595B00488A75 = {
 			isa = PBXGroup;
 			children = (
+				82AF5AFB1A0DAF1C006C7A4B /* cordova-plugin-console */,
 				827B317119F0595B00488A75 /* UserList */,
 				827B316A19F0595B00488A75 /* Frameworks */,
 				827B316919F0595B00488A75 /* Products */,
@@ -329,7 +349,7 @@
 				827B31B319F05A3B00488A75 /* plugins */,
 				827B31CB19F05AFE00488A75 /* bootconfig.json */,
 				827B31C919F05ADB00488A75 /* cordova.js */,
-				827B31B119F05A1100488A75 /* cordova_plugins.js */,
+				82AF5AAB1A0DAA05006C7A4B /* cordova_plugins.js */,
 				827B31E119F05B4C00488A75 /* error.html */,
 				827B31E219F05B4C00488A75 /* index.html */,
 			);
@@ -396,6 +416,50 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		82AF5AFB1A0DAF1C006C7A4B /* cordova-plugin-console */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AFC1A0DAF1C006C7A4B /* Classes */,
+				82AF5AFF1A0DAF1C006C7A4B /* www */,
+			);
+			name = "cordova-plugin-console";
+			path = "../../../shared/hybrid/dependencies/plugins/cordova-plugin-console";
+			sourceTree = "<group>";
+		};
+		82AF5AFC1A0DAF1C006C7A4B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AFD1A0DAF1C006C7A4B /* CDVLogger.h */,
+				82AF5AFE1A0DAF1C006C7A4B /* CDVLogger.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		82AF5AFF1A0DAF1C006C7A4B /* www */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5B001A0DAF1C006C7A4B /* org.apache.cordova.console */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
+		82AF5B001A0DAF1C006C7A4B /* org.apache.cordova.console */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5B011A0DAF1C006C7A4B /* www */,
+			);
+			path = org.apache.cordova.console;
+			sourceTree = "<group>";
+		};
+		82AF5B011A0DAF1C006C7A4B /* www */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5B021A0DAF1C006C7A4B /* console-via-logger.js */,
+				82AF5B031A0DAF1C006C7A4B /* logger.js */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -410,6 +474,7 @@
 				827B31EB19F05C2A00488A75 /* Copy css files */,
 				827B31F219F05C5200488A75 /* Copy js files */,
 				827B31F619F05C8600488A75 /* Copy plugins files */,
+				82AF5B071A0DAF29006C7A4B /* Copy cordova-plugin-console plugin */,
 			);
 			buildRules = (
 			);
@@ -468,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				827B31AD19F059D600488A75 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
+				82AF5B041A0DAF1C006C7A4B /* CDVLogger.m in Sources */,
 				827B31AF19F059D600488A75 /* UIApplication+SalesforceHybridSDK.m in Sources */,
 				827B31AC19F059D600488A75 /* AppDelegate.m in Sources */,
 				827B317819F0595B00488A75 /* main.m in Sources */,

@@ -116,6 +116,13 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
 - (BOOL)authManagerIsNetworkAvailable:(SFAuthenticationManager*)manager;
 
 /**
+ Called before the auth manager logs out the given user.
+ @param manager The instance of SFAuthenticationManager making the call.
+ @param user The user that will be logged out.
+ */
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user;
+
+/**
  Called after the auth manager logs out.
  @param manager The instance of SFAuthenticationManager making the call.
  */

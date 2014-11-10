@@ -23,11 +23,12 @@
  */
 
 #import "SFSmartSyncNetworkManager.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceNetworkSDK/SFNetworkEngine.h>
 #import <SalesforceNetworkSDK/SFNetworkUtils.h>
 
-@interface SFSmartSyncNetworkManager ()
+@interface SFSmartSyncNetworkManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) NSURL *serverRootUrl;
@@ -73,8 +74,13 @@ static NSMutableDictionary *networkMgrList = nil;
     self = [super init];
     if (self) {
         self.user = user;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 - (NSString *)accessToken {
@@ -142,6 +148,12 @@ static NSMutableDictionary *networkMgrList = nil;
     // Enqueues operation now.
     [networkEngine enqueueOperation:operation];
     return  operation;
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
 }
 
 @end

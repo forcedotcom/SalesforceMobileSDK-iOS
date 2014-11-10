@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartSyncMetadataManager.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
@@ -57,7 +58,7 @@ NSString * const kSFObjectLayoutByType = @"object_layout_%@";
 // REST request constants.
 static NSString *const kSFMetadataRestApiPath = @"services/data";
 
-@interface SFSmartSyncMetadataManager ()
+@interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, assign) BOOL cacheEnabled;
@@ -123,8 +124,13 @@ static NSMutableDictionary *metadataMgrList = nil;
         self.apiVersion = kDefaultApiVersion;
         self.cacheEnabled = YES;
         self.encryptCache = YES;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 - (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy
@@ -1036,6 +1042,12 @@ containedObjectClass:(Class)containedObjectClass
     NSString *cacheType = kSFMetadataCacheType;
     NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, objectType.name];
     return (SFObjectTypeLayout *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] containedObjectClass:[SFObjectTypeLayout class] cachedTime:cachedTime];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
 }
 
 @end

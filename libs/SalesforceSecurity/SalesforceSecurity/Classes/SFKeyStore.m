@@ -56,6 +56,11 @@
 
 - (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary
 {
+    [self setKeyStoreDictionary:keyStoreDictionary withKey:self.keyStoreKey.encryptionKey];
+}
+
+- (void)setKeyStoreDictionary:(NSDictionary *)keyStoreDictionary withKey:(SFEncryptionKey *)theEncryptionKey
+{
     @synchronized (self) {
         NSString *keychainId = self.storeKeychainIdentifier;
         SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
@@ -65,7 +70,7 @@
                 [self log:SFLogLevelError msg:@"Error removing key store from the keychain."];
             }
         } else {
-            NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary];
+            NSData *keyStoreData = [self encryptDictionary:keyStoreDictionary withKey:theEncryptionKey];
             OSStatus saveKeyResult = [keychainItem setValueData:keyStoreData];
             if (saveKeyResult != noErr) {
                 [self log:SFLogLevelError msg:@"Error saving key store to the keychain."];
@@ -74,7 +79,7 @@
     }
 }
 
-- (NSData *)encryptDictionary:(NSDictionary *)dictionary
+- (NSData *)encryptDictionary:(NSDictionary *)dictionary withKey:(SFEncryptionKey *)theEncryptionKey
 {
     NSMutableData *dictionaryData = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:dictionaryData];
@@ -82,10 +87,10 @@
     [archiver finishEncoding];
     
     NSData *encryptedData = dictionaryData;
-    if (self.keyStoreKey.encryptionKey != nil) {
+    if (theEncryptionKey != nil) {
         encryptedData = [SFSDKCryptoUtils aes256EncryptData:dictionaryData
-                                                    withKey:self.keyStoreKey.encryptionKey.key
-                                                         iv:self.keyStoreKey.encryptionKey.initializationVector];
+                                                    withKey:theEncryptionKey.key
+                                                         iv:theEncryptionKey.initializationVector];
     }
     
     return encryptedData;

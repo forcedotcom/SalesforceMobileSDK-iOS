@@ -27,6 +27,7 @@
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSyncState.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
@@ -79,10 +80,10 @@ typedef enum {
     kSyncManagerActionDelete
 } SFSyncManagerAction;
 
-@interface SFSmartSyncSyncManager ()
+@interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
-@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) SFRestAPI *restClient;
 
 @end
@@ -126,12 +127,20 @@ dispatch_queue_t queue;
     self = [super init];
     if (self) {
         self.user = user;
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
         self.restClient = [SFRestAPI sharedInstance];
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
         queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
+}
+
+- (SFSmartStore *)store {
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.user];
 }
 
 /** Return details about a sync
@@ -424,4 +433,11 @@ dispatch_queue_t queue;
     }
     
 }
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
+}
+
 @end

@@ -101,12 +101,11 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
         
         // Update the key store dictionary as part of the key update process.
         NSDictionary *origKeyStoreDict = [self keyStoreDictionaryWithKey:_keyStoreKey.encryptionKey];  // Old key.
-        _keyStoreKey = [keyStoreKey copy];
         if (origKeyStoreDict == nil) {
             [self log:SFLogLevelError msg:kKeyStoreDecryptionFailedMessage];
-            self.keyStoreDictionary = nil;
+            [self setKeyStoreDictionary:nil withKey:keyStoreKey.encryptionKey];
         } else {
-            self.keyStoreDictionary = origKeyStoreDict;
+            [self setKeyStoreDictionary:origKeyStoreDict withKey:keyStoreKey.encryptionKey];
         }
         
         // Store the key store key in the keychain.
@@ -128,6 +127,8 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
                 [self log:SFLogLevelError msg:@"Error saving key store key to the keychain."];
             }
         }
+        
+        _keyStoreKey = [keyStoreKey copy];
     }
 }
 
