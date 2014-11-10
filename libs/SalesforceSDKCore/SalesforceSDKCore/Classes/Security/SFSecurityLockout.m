@@ -664,7 +664,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (NSNumber *)readLockoutTimeFromKeychain
 {
     NSNumber *time = nil;
-    SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
     NSData *valueData = [keychainWrapper valueData];
     if (valueData) {
         NSUInteger i = 0;
@@ -676,7 +676,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)writeLockoutTimeToKeychain:(NSNumber *)time
 {
-    SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierLockoutTime account:nil];
     NSData *data = nil;
     if (time != nil) {
         NSUInteger i = [time unsignedIntegerValue];
@@ -691,7 +691,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (NSNumber *)readIsLockedFromKeychain
 {
     NSNumber *locked = nil;
-    SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierIsLocked account:nil];
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierIsLocked account:nil];
     NSData *valueData = [keychainWrapper valueData];
     if (valueData) {
         BOOL b = NO;
@@ -703,7 +703,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)writeIsLockedToKeychain:(NSNumber *)locked
 {
-    SFKeychainItemWrapper *keychainWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierIsLocked account:nil];
+    SFKeychainItemWrapper *keychainWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierIsLocked account:nil];
     NSData *data = nil;
     if (locked != nil) {
         BOOL b = [locked boolValue];

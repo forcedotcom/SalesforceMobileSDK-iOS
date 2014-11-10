@@ -294,7 +294,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 - (NSData *)tokenForService:(NSString *)service
 {
     if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
-    SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:service account:self.identifier];
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:service account:self.identifier];
     NSData *tokenData = [keychainItem valueData];
     return tokenData;
 }
@@ -443,7 +443,7 @@ static NSException * kSFOAuthExceptionNilIdentifier;
 {
     if (!([self.identifier length] > 0)) @throw kSFOAuthExceptionNilIdentifier;
     
-    SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:service account:self.identifier];
+    SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:service account:self.identifier];
     BOOL keychainOperationSuccessful;
     if (tokenData != nil) {
         OSStatus result = [keychainItem setValueData:tokenData];

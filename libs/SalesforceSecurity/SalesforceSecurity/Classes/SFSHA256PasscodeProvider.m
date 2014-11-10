@@ -46,25 +46,25 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 
 - (void)resetPasscodeData
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
     [passcodeWrapper resetKeychainItem];
 }
 
 - (BOOL)verifyPasscode:(NSString *)passcode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
     return [passcodeWrapper verifyPasscode:passcode];
 }
 
 - (NSString *)hashedVerificationPasscode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
     return [passcodeWrapper passcode];
 }
 
 - (void)setVerificationPasscode:(NSString *)newPasscode
 {
-    SFKeychainItemWrapper *passcodeWrapper = [[SFKeychainItemWrapper alloc] initWithIdentifier:kKeychainIdentifierPasscode account:nil];
+    SFKeychainItemWrapper *passcodeWrapper = [SFKeychainItemWrapper itemWithIdentifier:kKeychainIdentifierPasscode account:nil];
     [passcodeWrapper setPasscode:newPasscode];
 }
 

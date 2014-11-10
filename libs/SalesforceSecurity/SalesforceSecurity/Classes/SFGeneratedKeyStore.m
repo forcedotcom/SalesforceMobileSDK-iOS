@@ -79,7 +79,7 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
             return _keyStoreKey;
         
         NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
+        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
         NSData *keyStoreKeyData = [keychainItem valueData];
         if (keyStoreKeyData == nil) {
             return nil;
@@ -110,7 +110,7 @@ static NSString * const kGeneratedKeyStoreEncryptionKeyDataArchiveKey = @"com.sa
         
         // Store the key store key in the keychain.
         NSString *keychainId = self.encryptionKeyKeychainIdentifier;
-        SFKeychainItemWrapper *keychainItem = [[SFKeychainItemWrapper alloc] initWithIdentifier:keychainId account:nil];
+        SFKeychainItemWrapper *keychainItem = [SFKeychainItemWrapper itemWithIdentifier:keychainId account:nil];
         if (keyStoreKey == nil) {
             BOOL resetItemResult = [keychainItem resetKeychainItem];
             if (!resetItemResult) {
