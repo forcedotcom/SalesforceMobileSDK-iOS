@@ -114,6 +114,11 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 @property (nonatomic, readonly) BOOL isLaunching;
 
 /**
+ Whether or not the SDK is currently in the middle of a launch process.
+ */
+@property (nonatomic, assign) BOOL isNative;
+
+/**
  The Connected App ID configured for this application.
  */
 @property (nonatomic, copy) NSString *connectedAppId;
