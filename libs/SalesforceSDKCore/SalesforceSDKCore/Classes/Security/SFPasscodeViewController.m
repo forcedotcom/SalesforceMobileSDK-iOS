@@ -332,7 +332,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)layoutPasscodeField
 {
     NSString *maxText = [[self class] stringWithLength:kMaxPasscodeLength];
-    CGRect boundRect = [maxText boundingRectWithSize:CGSizeMake(300.f, CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.passcodeField.font} context:nil];
+    CGRect boundRect = [maxText boundingRectWithSize:self.view.bounds.size options:NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.passcodeField.font} context:nil];
     CGSize passcodeFieldSize = boundRect.size;
     
     passcodeFieldSize.width += kTextFieldWidthPadding;
