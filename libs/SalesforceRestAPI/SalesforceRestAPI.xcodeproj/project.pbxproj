@@ -411,7 +411,7 @@
 			name = SalesforceRestAPITests;
 			productName = SalesforceRestAPITests;
 			productReference = 82C0C73F16E076DE0006B3C0 /* SalesforceRestAPITests.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productType = "com.apple.product-type.bundle";
 		};
 		82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPIUnitTestApp */ = {
 			isa = PBXNativeTarget;
