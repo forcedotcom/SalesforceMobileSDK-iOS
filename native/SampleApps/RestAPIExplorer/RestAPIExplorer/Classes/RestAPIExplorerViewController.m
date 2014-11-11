@@ -178,9 +178,8 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 700);
-    
-    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
+    popoverContent.preferredContentSize = CGSizeMake(500,700);
+    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
     self.popoverController = myPopover;
     
     [self.popoverController presentPopoverFromBarButtonItem:sender
