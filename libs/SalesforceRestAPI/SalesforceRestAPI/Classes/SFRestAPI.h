@@ -333,5 +333,8 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 + (NSString *)userAgentString;
 
++ (NSString *)userAgentString:(NSString*)qualifier;
+
+
 
 @end

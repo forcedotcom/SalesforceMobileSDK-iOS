@@ -35,6 +35,10 @@
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
+// For user agent
+NSString * const kUserAgent = @"User-Agent";
+NSString * const kSmartSync = @"SmartSync";
+
 // soups and soup fields
 NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
@@ -237,7 +241,8 @@ dispatch_queue_t queue;
 - (void) syncDownMru:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     
-    [self.restClient performMetadataWithObjectType:sobjectType failBlock:failRest completeBlock:^(NSDictionary* d) {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:sobjectType];
+    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:^(NSDictionary* d) {
         NSArray* recentItems = [weakSelf pluck:d[kSyncManagerRecentItems] key:kSyncManagerObjectId];
         NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
@@ -283,13 +288,16 @@ dispatch_queue_t queue;
         // Fetch next records if any
         NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
         if (nextRecordsUrl) {
-            [weakSelf.restClient performRequestWithMethod:SFRestMethodGET path:nextRecordsUrl queryParams:nil failBlock:failRest completeBlock:completeBlockRecurse];
+            SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:nextRecordsUrl queryParams:nil];
+            [weakSelf sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockRecurse];
         }
     };
     // initialize the alias
     completeBlockRecurse = completeBlockSOQL;
-    
-    [self.restClient performSOQLQuery:query failBlock:failRest completeBlock:completeBlockSOQL];
+
+    // Send request
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:query];
+    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockSOQL];
 }
 
 /** Run a sync down for a sosl target
@@ -308,7 +316,9 @@ dispatch_queue_t queue;
         updateSync(kSFSyncStateStatusRunning, 100, totalSize);
     };
     
-    [self.restClient performSOSLSearch:query failBlock:failRest completeBlock:completeBlockSOSL];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:query];
+    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockSOSL];
+
 }
 
 - (void) saveRecords:(NSArray*)records soup:(NSString*)soupName {
@@ -425,13 +435,32 @@ dispatch_queue_t queue;
         completeBlockUpdate(d);
     };
     
+    SFRestRequest* request;
+    id completeBlock;
     switch(action) {
-        case kSyncManagerActionCreate: [self.restClient performCreateWithObjectType:objectType fields:fields failBlock:failRest completeBlock:completeBlockCreate]; break;
-        case kSyncManagerActionUpdate: [self.restClient performUpdateWithObjectType:objectType objectId:objectId fields:fields failBlock:failRest completeBlock:completeBlockUpdate]; break;
-        case kSyncManagerActionDelete: [self.restClient performDeleteWithObjectType:objectType objectId:objectId failBlock:failRest completeBlock:completeBlockDelete]; break;
+        case kSyncManagerActionCreate:
+            request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+            completeBlock = completeBlockCreate;
+            break;
+        case kSyncManagerActionUpdate:
+            request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+            completeBlock = completeBlockUpdate;
+            break;
+        case kSyncManagerActionDelete:
+            request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+            completeBlock = completeBlockDelete;
+            break;
         case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
     }
     
+    // Send request
+    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlock];
+    
+}
+
+- (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {
+    [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
+    [self.restClient sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

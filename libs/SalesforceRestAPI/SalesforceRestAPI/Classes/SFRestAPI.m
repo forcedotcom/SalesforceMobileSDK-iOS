@@ -150,6 +150,10 @@ static BOOL kIsTestRun;
  SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion Native [Current User Agent]
  */
 + (NSString *)userAgentString {
+    return [SFRestAPI userAgentString:@""];
+}
+
++ (NSString *)userAgentString:(NSString*)qualifier {
     
     // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
     // really doesn't want you to know about its HTTP headers.
@@ -160,7 +164,7 @@ static BOOL kIsTestRun;
     NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
 
     NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@ %@",
+                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ %@",
                              SALESFORCE_SDK_VERSION,
                              [curDevice systemName],
                              [curDevice systemVersion],
@@ -168,6 +172,7 @@ static BOOL kIsTestRun;
                              appName,
                              appVersion,
                              kSFMobileSDKNativeDesignator,
+                             qualifier,
                              currentUserAgent
                              ];
     
