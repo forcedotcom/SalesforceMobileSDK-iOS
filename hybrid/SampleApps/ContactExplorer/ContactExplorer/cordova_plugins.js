@@ -142,6 +142,7 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "org.apache.cordova.statusbar": "0.1.9-dev",
     "com.salesforce": "3.0.0",
     "org.apache.cordova.contacts": "0.2.13-dev",
     "org.apache.cordova.console": "0.2.11"
