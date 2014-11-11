@@ -276,6 +276,7 @@
 				8201678916E17D65002F4066 /* Resources */,
 				82C0C73416E076DE0006B3C0 /* Supporting Files */,
 			);
+			name = SalesforceRestAPI;
 			path = SalesforceRestAPI;
 			sourceTree = "<group>";
 		};
@@ -296,6 +297,7 @@
 				4FDA6D5619DB7BF2005AF96F /* SFNativeRestRequestListener.m */,
 				82C0C74916E076DF0006B3C0 /* Supporting Files */,
 			);
+			name = SalesforceRestAPITests;
 			path = SalesforceRestAPITests;
 			sourceTree = "<group>";
 		};
@@ -320,6 +322,7 @@
 				4FDA6D5E19DB7C22005AF96F /* ViewController.m */,
 				82C0C76316E07DEB0006B3C0 /* Supporting Files */,
 			);
+			name = SalesforceRestAPIUnitTestApp;
 			path = SalesforceRestAPIUnitTestApp;
 			sourceTree = "<group>";
 		};
