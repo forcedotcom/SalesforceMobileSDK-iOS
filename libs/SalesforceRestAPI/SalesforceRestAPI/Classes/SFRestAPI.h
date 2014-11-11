@@ -333,6 +333,9 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 + (NSString *)userAgentString;
 
+/**
+ * Returns the User-Agent string used by the SDK adding the qualifier after the app type
+ */
 + (NSString *)userAgentString:(NSString*)qualifier;
 
 

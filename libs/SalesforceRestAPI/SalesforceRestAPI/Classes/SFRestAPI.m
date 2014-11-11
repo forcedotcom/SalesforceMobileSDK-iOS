@@ -29,11 +29,13 @@
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
 
 NSString* const kSFRestDefaultAPIVersion = @"v31.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 NSString * const kSFMobileSDKNativeDesignator = @"Native";
+NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 
 
 // singleton instance
@@ -171,7 +173,7 @@ static BOOL kIsTestRun;
                              [curDevice model],
                              appName,
                              appVersion,
-                             kSFMobileSDKNativeDesignator,
+                             [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
                              qualifier,
                              currentUserAgent
                              ];
