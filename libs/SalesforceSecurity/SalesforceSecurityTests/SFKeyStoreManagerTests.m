@@ -12,7 +12,9 @@
 #import "SFKeyStoreManager+Internal.h"
 
 @interface SFKeyStoreManagerTests : XCTestCase
-
+{
+    SFKeyStoreManager *mgr;
+}
 @end
 
 @implementation SFKeyStoreManagerTests
@@ -23,6 +25,8 @@
     
     // initialize passcode mgr
     [[SFPasscodeManager sharedManager] changePasscode: nil];
+    
+    mgr = [SFKeyStoreManager sharedInstance];
 }
 
 - (void)tearDown {
@@ -38,6 +42,23 @@
     XCTAssertTrue(mgr1 == mgr2, @"References should be the same.");
 }
 
+// ensure storing a key, we can check to see if the key exists
+- (void)testStoreKeyGetsBackOriginal {
+    SFEncryptionKey *key =  [mgr keyWithRandomValue];
+    [mgr storeKey:key withKeyType:SFKeyStoreKeyTypeGenerated label:@"key"];
+    
+    XCTAssertTrue([mgr keyWithLabelAndKeyTypeExists:@"key" keyType:SFKeyStoreKeyTypeGenerated], @"Key type should exist.");
+}
+
+// ensure removnig a key works
+- (void)testRemoveKey {
+    SFEncryptionKey *key =  [mgr keyWithRandomValue];
+    [mgr storeKey:key withKeyType:SFKeyStoreKeyTypeGenerated label:@"key"];
+    [mgr removeKeyWithLabel:@"key" keyType:SFKeyStoreKeyTypeGenerated];
+    
+    XCTAssertFalse([mgr keyWithLabelAndKeyTypeExists:@"key" keyType:SFKeyStoreKeyTypeGenerated], @"Key type should no longer exist.");
+}
+
 // ensure we handle nil values
 - (void)testRetrieveKeyWithNilValues {
     SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel: nil autoCreate: false];
@@ -46,26 +67,26 @@
 
 // retrieve key with label, do not create one by default.
 - (void)testRetrieveKeyButDontCreateForGeneratedStore {
-    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
-    SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: false];
+    [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: false];
     XCTAssertNil(key, @"Should not have created key");
 }
 
 // retrieve key with label, do not create one by default.
 - (void)testRetrieveKeyButDontCreateForPasscodeStore {
-    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode];
-    SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: false];
+    [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode];
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: false];
     XCTAssertNil(key, @"Should not have created key");
 }
 
 // retrieve key with label, create one if it does not exist for generated key store
 - (void)testRetrieveKeyCreateNewForGenerated {
-    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
-    SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: true];
+    [mgr removeKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated];
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated autoCreate: true];
     XCTAssertNotNil(key, @"Should have created key");
     
     // get it again to ensure it exists for real
-    SFEncryptionKey *existingKey =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated  autoCreate: false];
+    SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated  autoCreate: false];
     NSLog(@"KEY: %@", key.keyAsString);
     NSLog(@"KE2: %@", existingKey.keyAsString);
     XCTAssertEqualObjects(key.keyAsString, existingKey.keyAsString, @"Keys should be the same");
@@ -75,23 +96,14 @@
 - (void)testRetrieveKeyCreateNewForPasscode {
     // first, we set up the passcode store
     [[SFPasscodeManager sharedManager] resetPasscode];
-    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:@"myLabel"  keyType:SFKeyStoreKeyTypePasscode];
-    SFEncryptionKey *key =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: true];
+    [mgr removeKeyWithLabel:@"myLabel"  keyType:SFKeyStoreKeyTypePasscode];
+    SFEncryptionKey *key =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode autoCreate: true];
     XCTAssertNotNil(key, @"Should have created key");
     
     // get it again to ensure it exists for real
-    SFEncryptionKey *existingKey =[[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode  autoCreate: false];
+    SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode  autoCreate: false];
     NSLog(@"KEY: %@", key.keyAsString);
     NSLog(@"KE2: %@", existingKey.keyAsString);
     XCTAssertEqualObjects(key.keyAsString, existingKey.keyAsString, @"Keys should be the same");
 }
-
-/*
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
-*/
 @end
