@@ -70,13 +70,13 @@ static NSString * const kInitializationVectorCodingValue = @"com.salesforce.encr
 - (NSString *)keyAsString
 {
     if (!self.key) return nil;
-    return [self.key base64EncodedStringWithOptions: kNilOptions];
+    return [self.key base64EncodedStringWithOptions: 0];
 }
 
 - (NSString *)initializationVectorAsString
 {
     if (!self.initializationVector) return nil;
-    return [self.initializationVector base64EncodedStringWithOptions: kNilOptions];
+    return [self.initializationVector base64EncodedStringWithOptions: 0];
 }
 
 - (BOOL)isEqual:(id)object
