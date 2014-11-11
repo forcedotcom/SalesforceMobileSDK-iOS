@@ -291,12 +291,12 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
 
 - (void) styleBlackTranslucent:(CDVInvokedUrlCommand*)command
 {
-    [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    [self setStyleForStatusBar:UIStatusBarStyleBlackTranslucent];
 }
 
 - (void) styleBlackOpaque:(CDVInvokedUrlCommand*)command
 {
-    [self setStyleForStatusBar:UIStatusBarStyleLightContent];
+    [self setStyleForStatusBar:UIStatusBarStyleBlackOpaque];
 }
 
 - (void) backgroundColorByName:(CDVInvokedUrlCommand*)command
@@ -356,7 +356,7 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
 
     if (!app.isStatusBarHidden)
     {
-        self.viewController.edgesForExtendedLayout = UIRectEdgeAll;
+        self.viewController.wantsFullScreenLayout = YES;
         CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
 
         [self hideStatusBar];
@@ -403,12 +403,12 @@ static const void *kStatusBarStyle = &kStatusBarStyle;
 
     if (app.isStatusBarHidden)
     {
+        BOOL isIOS7 = (IsAtLeastiOSVersion(@"7.0"));
+        self.viewController.wantsFullScreenLayout = isIOS7;
+
         [self showStatusBar];
 
-        BOOL isIOS7 = (IsAtLeastiOSVersion(@"7.0"));
         if (isIOS7) {
-            self.viewController.edgesForExtendedLayout = UIRectEdgeAll;
-
             CGRect frame = self.webView.frame;
             self.viewController.view.frame = [[UIScreen mainScreen] bounds];
 
