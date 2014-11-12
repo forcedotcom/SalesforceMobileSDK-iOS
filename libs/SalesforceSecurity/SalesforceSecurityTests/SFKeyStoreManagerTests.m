@@ -87,8 +87,6 @@
     
     // get it again to ensure it exists for real
     SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypeGenerated  autoCreate: false];
-    NSLog(@"KEY: %@", key.keyAsString);
-    NSLog(@"KE2: %@", existingKey.keyAsString);
     XCTAssertEqualObjects(key.keyAsString, existingKey.keyAsString, @"Keys should be the same");
 }
 
@@ -102,8 +100,25 @@
     
     // get it again to ensure it exists for real
     SFEncryptionKey *existingKey =[mgr retrieveKeyWithLabel:@"myLabel" keyType:SFKeyStoreKeyTypePasscode  autoCreate: false];
-    NSLog(@"KEY: %@", key.keyAsString);
-    NSLog(@"KE2: %@", existingKey.keyAsString);
     XCTAssertEqualObjects(key.keyAsString, existingKey.keyAsString, @"Keys should be the same");
+}
+
+// when nil values for old and new are observed, keystore info should be cleared.
+- (void)testObserveKeyChangesOldAndNewKeyNil {
+    SFPasscodeKeyStore *store = [mgr passcodeKeyStore];
+
+    // make sure the keystore key is set so we can verify it is nil'ed
+    SFEncryptionKey *key =  [mgr keyWithRandomValue];
+    SFKeyStoreKey *ksKey = [[SFKeyStoreKey alloc] initWithKey:key type:SFKeyStoreKeyTypePasscode];
+    [store setKeyStoreKey:ksKey];
+    [store setKeyStoreDictionary: [NSDictionary dictionaryWithObject:@"someobj" forKey:@"somekey"]];
+    XCTAssertNotNil([[mgr passcodeKeyStore] keyStoreKey], @"Key store key should be available");
+    XCTAssertEqual(1, [[[mgr passcodeKeyStore] keyStoreDictionary] count], @"Key store dictionary should be available");
+
+    // when we invoke, key store key and dictionary should be nil'ed
+    NSDictionary *change = [NSDictionary dictionaryWithObjectsAndKeys:[NSNull null], NSKeyValueChangeOldKey, [NSNull null], NSKeyValueChangeNewKey, nil];
+    [mgr observeValueForKeyPath:@"encryptionKey" ofObject:[SFPasscodeManager sharedManager] change:change context:nil];
+    XCTAssertNil(mgr.passcodeKeyStore.keyStoreKey, @"Key store key should have been reset");
+    XCTAssertEqual(0, [[[mgr passcodeKeyStore] keyStoreDictionary] count], @"Key store dictionary should be empty");
 }
 @end
