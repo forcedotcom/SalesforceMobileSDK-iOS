@@ -116,7 +116,7 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 /**
  Whether or not the SDK is currently in the middle of a launch process.
  */
-@property (nonatomic, assign) BOOL isNative;
+@property (nonatomic, readonly) BOOL isNative;
 
 /**
  The Connected App ID configured for this application.

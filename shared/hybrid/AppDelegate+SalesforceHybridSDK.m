@@ -55,7 +55,6 @@
 #endif
     
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
-    [SalesforceSDKManager sharedManager].isNative = false;
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
     __weak AppDelegate *weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
