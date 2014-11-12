@@ -67,6 +67,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
+        self.isNative = NSClassFromString(@"SFHybridViewController") == nil;
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
         
