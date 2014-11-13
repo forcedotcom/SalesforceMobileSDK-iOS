@@ -19,6 +19,7 @@
 
 - (void)setUp {
     [super setUp];
+    [SFLogger setLogLevel:SFLogLevelDebug];
 }
 
 - (void)tearDown {
