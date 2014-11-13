@@ -121,4 +121,11 @@
     XCTAssertNil(mgr.passcodeKeyStore.keyStoreKey, @"Key store key should have been reset");
     XCTAssertEqual(0, [[[mgr passcodeKeyStore] keyStoreDictionary] count], @"Key store dictionary should be empty");
 }
+
+// default key should be a generated type
+- (void)testDefaultKeyIsGeneratedType
+{
+    SFKeyStoreKey *origKeyStoreKey = [[SFKeyStoreManager sharedInstance] createDefaultKey];
+    XCTAssertEqual(origKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Key store key should be the default generated key.");
+}
 @end

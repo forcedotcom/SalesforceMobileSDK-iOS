@@ -16,81 +16,91 @@
 #import "SFKeyStore+Internal.h"
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 
-static NSUInteger const kNumThreadsInSafetyTest = 50;
+static NSUInteger const kNumThreadsInSafetyTest = 100;
 
 @interface SFSecurityTests : XCTestCase
 {
+    SFKeyStoreManager *mgr;
     BOOL _threadSafetyTestCompleted;
     NSMutableArray *_completedThreads;
 }
 - (void)keyStoreThreadSafeHelper;
 @end
 
-// high level test scenarios will go in this class
-// WORK IN PROGRESS.... 
+// high level test scenarios (ie, more than a unit test)
 @implementation SFSecurityTests
 
 - (void)setUp {
     [super setUp];
-
+    
     [SFLogger setLogLevel:SFLogLevelDebug];
     
     // No passcode, to start.
     [[SFPasscodeManager sharedManager] changePasscode:nil];
+    mgr = [SFKeyStoreManager sharedInstance];
 }
 
 - (void)tearDown {
     [super tearDown];
 }
 
-//Kick off a bunch of threads and, while threads are still doing things, randomly change passcodes.
-/*
- - (void)testKeyStoreThreadSafety
- {
- // start threads
- _threadSafetyTestCompleted = NO;
- _completedThreads = [NSMutableArray array];
- for (NSInteger i = 0; i < kNumThreadsInSafetyTest; i++) {
- [self performSelectorInBackground:@selector(keyStoreThreadSafeHelper) withObject:nil];
- }
- 
- // randomly change passcodes
- 
- while (!_threadSafetyTestCompleted) {
- // Passcode change chaos.
- NSUInteger randomInt = arc4random() % 10;
- if (randomInt > 4) {
- [self log:SFLogLevelDebug msg:@"Passcode change chaos: changing passcode."];
- NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
- [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
- }
- [self log:SFLogLevelDebug msg:@"## Thread safety test sleeping..."];
- [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
- }
- NSLog(@"Test completed");
- }
- */
+// Kick off a bunch of threads and, while threads are still doing things, randomly change passcodes.
+- (void)testKeyStoreThreadSafety
+{
+    // set up passcode mgr
+    [[SFPasscodeManager sharedManager] changePasscode:@"12345"];
+
+    // start threads
+    _threadSafetyTestCompleted = NO;
+    _completedThreads = [NSMutableArray array];
+    for (NSInteger i = 0; i < kNumThreadsInSafetyTest; i++) {
+        [self performSelectorInBackground:@selector(keyStoreThreadSafeHelper) withObject:nil];
+    }
+    
+    // randomly change passcodes
+    
+    while (!_threadSafetyTestCompleted) {
+        // Passcode change chaos.
+        NSUInteger randomInt = arc4random() % 10;
+        if (randomInt > 4) {
+            [self log:SFLogLevelDebug msg:@"Passcode change chaos: changing passcode."];
+            NSString *newPasscode = [[SFSDKCryptoUtils randomByteDataWithLength:32] base64Encode];
+            [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
+        }
+        [self log:SFLogLevelDebug msg:@"## Thread safety test sleeping..."];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    }
+    NSLog(@"Test completed");
+}
+
 
 #pragma mark - Passcode change tests
+- (void)testNoPasscodeToPasscode
+{
+    // set up the generated keystore
+    SFKeyStoreKey *origKeyStoreKey = [mgr createDefaultKey];
+    XCTAssertEqual(origKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Key store key should be the default generated key.");
+    SFEncryptionKey *origEncKey = [mgr keyWithRandomValue];
+    [mgr storeKey:origEncKey withKeyType:SFKeyStoreKeyTypeGenerated label:@"origKey"];
+
+    // add a passcode key to the dictionary so that it is migrated over
+    SFEncryptionKey *passcodeEncKey = [mgr keyWithRandomValue];
+    [mgr storeKey:passcodeEncKey withKeyType:SFKeyStoreKeyTypePasscode label:@"aPasscodeKey"];
+    
+    // now set a passcode
+    NSString *newPasscode = @"IAddedAPasscode!";
+    [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
+    
+    // data should have been migrated to passcode keystore
+    SFPasscodeKeyStore *passcodeKeyStore = [mgr passcodeKeyStore];
+    NSDictionary *passcodeDictionary = [passcodeKeyStore keyStoreDictionary];
+    NSString *label = [passcodeKeyStore keyLabelForString:@"aPasscodeKey"];
+    SFKeyStoreKey *key = [passcodeDictionary valueForKey:label];
+
+    XCTAssertEqual(key.keyType, SFKeyStoreKeyTypePasscode, @"Key was not migrated correctly");
+}
+
 /*
- - (void)testNoPasscodeToPasscode
- {
- SFKeyStoreKey *origKeyStoreKey = [[SFKeyStoreManager sharedInstance]
- XCTAssertEqual(origKeyStoreKey.keyType, SFKeyStoreKeyTypeGenerated, @"Key store key should be the default generated key.");
- SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
- NSString *origKeyLabel = @"origKey";
- [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:origKeyLabel];
- 
- NSString *newPasscode = @"IAddedAPasscode!";
- [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
- 
- SFKeyStoreKey *updatedKeyStoreKey = [SFKeyStoreManager sharedInstance].keyStoreKey;
- XCTAssertEqual(updatedKeyStoreKey.keyType, SFKeyStoreKeyTypePasscode, @"Key store key should be passcode-based.");
- XCTAssertNotEqualObjects(origKeyStoreKey.encryptionKey, updatedKeyStoreKey.encryptionKey, @"Key store key should have changed with passcode change.");
- SFEncryptionKey *updatedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:origKeyLabel autoCreate:NO];
- XCTAssertEqualObjects(origKey, updatedKey, @"Keys should be equal after passcode change.");
- }
- 
  - (void)testPasscodeToNoPasscode
  {
  NSString *origPasscode = @"My orig passcode";
@@ -140,16 +150,23 @@ static NSUInteger const kNumThreadsInSafetyTest = 50;
 {
     static NSUInteger keyId = 1;
     
+    // generate a new key
     NSString *keyName = [NSString stringWithFormat:@"%@%ld", @"threadSafeKeyName", (unsigned long)keyId++];
     SFEncryptionKey *origKey = [[SFKeyStoreManager sharedInstance] keyWithRandomValue];
-    [[SFKeyStoreManager sharedInstance] storeKey:origKey withLabel:keyName];
-    XCTAssertTrue([[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyName], @"Key '%@' should exist in the key store.", keyName);
-    SFEncryptionKey *retrievedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyName autoCreate:NO];
-    XCTAssertEqualObjects(origKey, retrievedKey, @"Keys with label '%@' are not equal", keyName);
-    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:keyName];
-    XCTAssertFalse([[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyName], @"Key '%@' should no longer exist in key store after removal.", keyName);
-    NSLog(@"KEY CREATED %@", keyName);
     
+    // store it
+    [[SFKeyStoreManager sharedInstance] storeKey:origKey withKeyType:SFKeyStoreKeyTypePasscode label:keyName];
+    XCTAssertTrue([[SFKeyStoreManager sharedInstance] keyWithLabelAndKeyTypeExists:keyName keyType:SFKeyStoreKeyTypePasscode], @"Key '%@' should exist in the key store.", keyName);
+    
+    // get it back
+    SFEncryptionKey *retrievedKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:keyName keyType:SFKeyStoreKeyTypePasscode autoCreate:NO];
+    XCTAssertEqualObjects(origKey, retrievedKey, @"Keys with label '%@' are not equal", keyName);
+    
+    // remove it
+    [[SFKeyStoreManager sharedInstance] removeKeyWithLabel:keyName keyType:SFKeyStoreKeyTypePasscode];
+    XCTAssertFalse([[SFKeyStoreManager sharedInstance] keyWithLabelExists:keyName], @"Key '%@' should no longer exist in key store after removal.", keyName);
+    
+    // update state so main loop will know when all threads are done
     @synchronized (self) {
         [_completedThreads addObject:keyName];
         if ([_completedThreads count] == kNumThreadsInSafetyTest) {
