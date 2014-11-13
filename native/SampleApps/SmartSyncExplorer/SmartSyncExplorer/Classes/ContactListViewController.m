@@ -25,7 +25,7 @@
 #import "ContactListViewController.h"
 #import "SObjectDataManager.h"
 #import "ContactSObjectDataSpec.h"
-#import "ContactSFObject.h"
+#import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
@@ -69,7 +69,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSFObject dataSpec]];
+        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
         self.isSearching = NO;
     }
     return self;
@@ -164,7 +164,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    ContactSFObject *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     cell.textLabel.text = [self formatNameFromContact:obj];
     cell.textLabel.font = [UIFont systemFontOfSize:kContactTitleFontSize];
     cell.detailTextLabel.text = [self formatTitle:obj.title];
@@ -201,7 +201,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ContactSFObject *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
+    ContactSObjectData *contact = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
     ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initWithContact:contact
                                                                                      dataManager:self.dataMgr
@@ -236,7 +236,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 #pragma mark - Private methods
 
-- (UIView *)accessoryViewForContact:(ContactSFObject *)contact {
+- (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
     static UIImage *sLocalImage = nil;
     static UIImage *sChevronRightImage = nil;
     
@@ -413,7 +413,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.searchBar.frame = searchBarFrame;
 }
 
-- (NSString *)formatNameFromContact:(ContactSFObject *)contact {
+- (NSString *)formatNameFromContact:(ContactSObjectData *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     if (firstName == nil && lastName == nil) {
@@ -427,7 +427,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
 }
 
-- (NSString *)formatInitialsFromContact:(ContactSFObject *)contact {
+- (NSString *)formatInitialsFromContact:(ContactSObjectData *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
@@ -451,7 +451,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     return (title != nil ? title : @"");
 }
 
-- (UIColor *)colorFromContact:(ContactSFObject *)contact {
+- (UIColor *)colorFromContact:(ContactSObjectData *)contact {
     
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSUInteger codeSeedFromName = 0;

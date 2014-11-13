@@ -23,7 +23,7 @@
  */
 
 #import "ContactSObjectDataSpec.h"
-#import "ContactSFObject.h"
+#import "ContactSObjectData.h"
 
 NSString * const kContactFirstNameField    = @"FirstName";
 NSString * const kContactLastNameField     = @"LastName";
@@ -59,7 +59,7 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
 #pragma mark - Abstract overrides
 
 + (SObjectData *)createSObjectData:(NSDictionary *)soupDict {
-    return [[ContactSFObject alloc] initWithSoupDict:soupDict];
+    return [[ContactSObjectData alloc] initWithSoupDict:soupDict];
 }
 
 @end

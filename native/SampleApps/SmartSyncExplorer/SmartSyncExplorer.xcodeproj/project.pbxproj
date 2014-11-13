@@ -31,7 +31,7 @@
 		820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */; };
 		820C8B4119E71C3F00E9BE5C /* ContactSObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */; };
 		820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4319E75CFB00E9BE5C /* SObjectData.m */; };
-		820C8B4719E75DAE00E9BE5C /* ContactSFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4619E75DAE00E9BE5C /* ContactSFObject.m */; };
+		820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */; };
 		820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */; };
 		8260403B19ECBC50005A7482 /* local.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403919ECBC50005A7482 /* local.png */; };
 		8260403C19ECBC50005A7482 /* local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403A19ECBC50005A7482 /* local@2x.png */; };
@@ -81,8 +81,8 @@
 		820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactSObjectDataSpec.m; path = Data/ContactSObjectDataSpec.m; sourceTree = "<group>"; };
 		820C8B4219E75CFB00E9BE5C /* SObjectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectData.h; path = Data/SObjectData.h; sourceTree = "<group>"; };
 		820C8B4319E75CFB00E9BE5C /* SObjectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectData.m; path = Data/SObjectData.m; sourceTree = "<group>"; };
-		820C8B4519E75DAE00E9BE5C /* ContactSFObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactSFObject.h; path = Data/ContactSFObject.h; sourceTree = "<group>"; };
-		820C8B4619E75DAE00E9BE5C /* ContactSFObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactSFObject.m; path = Data/ContactSFObject.m; sourceTree = "<group>"; };
+		820C8B4519E75DAE00E9BE5C /* ContactSObjectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ContactSObjectData.h; path = Data/ContactSObjectData.h; sourceTree = "<group>"; };
+		820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ContactSObjectData.m; path = Data/ContactSObjectData.m; sourceTree = "<group>"; };
 		820C8B4819E78E1B00E9BE5C /* SObjectData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SObjectData+Internal.h"; path = "Data/SObjectData+Internal.h"; sourceTree = "<group>"; };
 		820C8B4919E7936100E9BE5C /* SObjectDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataManager.h; path = Data/SObjectDataManager.h; sourceTree = "<group>"; };
 		820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectDataManager.m; path = Data/SObjectDataManager.m; sourceTree = "<group>"; };
@@ -174,8 +174,8 @@
 		820C8B3B19E71A1600E9BE5C /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				820C8B4519E75DAE00E9BE5C /* ContactSFObject.h */,
-				820C8B4619E75DAE00E9BE5C /* ContactSFObject.m */,
+				820C8B4519E75DAE00E9BE5C /* ContactSObjectData.h */,
+				820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */,
 				820C8B3F19E71C3F00E9BE5C /* ContactSObjectDataSpec.h */,
 				820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */,
 				820C8B4219E75CFB00E9BE5C /* SObjectData.h */,
@@ -333,7 +333,7 @@
 				820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */,
 				820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */,
 				8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */,
-				820C8B4719E75DAE00E9BE5C /* ContactSFObject.m in Sources */,
+				820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */,
 				820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */,
 				820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */,
 				827C632119E6018C00027484 /* main.m in Sources */,
