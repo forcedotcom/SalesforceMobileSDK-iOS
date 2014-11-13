@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SmartSync/SFObject.h>
+#import "SObjectData.h"
 
-@interface ContactSFObject : SFObject
+@interface ContactSObjectData : SObjectData
 
 @property (nonatomic, copy) NSString *firstName;
 @property (nonatomic, copy) NSString *lastName;
