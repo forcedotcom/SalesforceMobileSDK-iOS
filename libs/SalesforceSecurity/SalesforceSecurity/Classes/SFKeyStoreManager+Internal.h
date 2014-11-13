@@ -45,8 +45,6 @@
  */
 - (SFKeyStoreKey *)createNewPasscodeKey;
 
-- (void)initializeKeyStores;
-
 /**
  Converts an NSString-based key into NSData.
  @param keyString The key to convert.
