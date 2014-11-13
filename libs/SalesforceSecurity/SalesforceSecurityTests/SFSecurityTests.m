@@ -70,7 +70,6 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
         [self log:SFLogLevelDebug msg:@"## Thread safety test sleeping..."];
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
     }
-    NSLog(@"Test completed");
 }
 
 
