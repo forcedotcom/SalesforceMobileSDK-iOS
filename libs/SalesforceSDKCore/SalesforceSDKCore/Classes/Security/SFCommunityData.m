@@ -45,7 +45,7 @@ static NSString * const kSendWelcomeEmailKey = @"sendWelcomeEmail";
 - (void)encodeWithCoder:(NSCoder*)encoder {
     [encoder encodeObject:self.entityId forKey:kIdentifierKey];
     [encoder encodeObject:self.name forKey:kNameKey];
-    [encoder encodeObject:self.description forKey:kDescriptionKey];
+    [encoder encodeObject:self.descriptionText forKey:kDescriptionKey];
     [encoder encodeObject:self.siteUrl forKey:kSiteUrlKey];
     [encoder encodeObject:self.url forKey:kUrlKey];
     [encoder encodeObject:self.urlPathPrefix forKey:kUrlPathPrefixKey];
@@ -59,7 +59,7 @@ static NSString * const kSendWelcomeEmailKey = @"sendWelcomeEmail";
 	if (self) {
         self.entityId = [decoder decodeObjectForKey:kIdentifierKey];
         self.name = [decoder decodeObjectForKey:kNameKey];
-        self.description = [decoder decodeObjectForKey:kDescriptionKey];
+        self.descriptionText = [decoder decodeObjectForKey:kDescriptionKey];
         self.url = [decoder decodeObjectForKey:kUrlKey];
         self.urlPathPrefix = [decoder decodeObjectForKey:kUrlPathPrefixKey];
         self.siteUrl = [decoder decodeObjectForKey:kSiteUrlKey];
