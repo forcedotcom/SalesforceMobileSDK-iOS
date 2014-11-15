@@ -158,6 +158,12 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self resetDataRows];
 }
 
+- (void)createLocalData:(SObjectData *)newData {
+    [newData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
+    [newData updateSoupForFieldName:kSyncManagerLocallyCreated fieldValue:@YES];
+    [self.store upsertEntries:@[ newData.soupDict ] toSoup:[[newData class] dataSpec].soupName];
+}
+
 - (void)updateLocalData:(SObjectData *)updatedData {
     [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
     [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];

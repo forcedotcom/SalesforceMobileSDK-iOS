@@ -33,15 +33,26 @@
 @property (nonatomic, strong) NSArray *dataRows;
 @property (nonatomic, assign) BOOL isEditing;
 @property (nonatomic, assign) BOOL contactUpdated;
+@property (nonatomic, assign) BOOL isNewContact;
 
 @end
 
 @implementation ContactDetailViewController
 
+- (id)initForNewContactWithDataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock {
+    return [self initWithContact:nil dataManager:dataMgr saveBlock:saveBlock];
+}
+
 - (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        self.contact = contact;
+        if (contact == nil) {
+            self.isNewContact = YES;
+            self.contact = [[ContactSObjectData alloc] initWithSoupDict:@{ }];
+        } else {
+            self.isNewContact = NO;
+            self.contact = contact;
+        }
         self.dataMgr = dataMgr;
         self.saveBlock = saveBlock;
         self.isEditing = NO;
@@ -55,6 +66,9 @@
     self.dataRows = [self dataRowsFromContact];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self configureInitialBarButtonItems];
+    if (self.isNewContact) {
+        [self editContact];
+    }
 }
 
 - (void)viewDidLoad
@@ -117,7 +131,11 @@
 #pragma mark - Private methods
 
 - (void)configureInitialBarButtonItems {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editContact)];
+    if (self.isNewContact) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editContact)];
+    }
     self.navigationItem.leftBarButtonItem = nil;
 }
 
@@ -125,31 +143,31 @@
     
     NSArray *dataRowsArray = @[ @[ @"First name",
                                    kContactFirstNameField,
-                                   [[self class] emptyStringForNil:self.contact.firstName],
+                                   [[self class] emptyStringForNullValue:self.contact.firstName],
                                    [self contactTextField:self.contact.firstName] ],
                                 @[ @"Last name",
                                    kContactLastNameField,
-                                   [[self class] emptyStringForNil:self.contact.lastName],
+                                   [[self class] emptyStringForNullValue:self.contact.lastName],
                                    [self contactTextField:self.contact.lastName] ],
                                 @[ @"Title",
                                    kContactTitleField,
-                                   [[self class] emptyStringForNil:self.contact.title],
+                                   [[self class] emptyStringForNullValue:self.contact.title],
                                    [self contactTextField:self.contact.title] ],
                                 @[ @"Mobile phone",
                                    kContactMobilePhoneField,
-                                   [[self class] emptyStringForNil:self.contact.mobilePhone],
+                                   [[self class] emptyStringForNullValue:self.contact.mobilePhone],
                                    [self contactTextField:self.contact.mobilePhone] ],
                                 @[ @"Email address",
                                    kContactEmailField,
-                                   [[self class] emptyStringForNil:self.contact.email],
+                                   [[self class] emptyStringForNullValue:self.contact.email],
                                    [self contactTextField:self.contact.email] ],
                                 @[ @"Department",
                                    kContactDepartmentField,
-                                   [[self class] emptyStringForNil:self.contact.department],
+                                   [[self class] emptyStringForNullValue:self.contact.department],
                                    [self contactTextField:self.contact.department] ],
                                 @[ @"Home phone",
                                    kContactHomePhoneField,
-                                   [[self class] emptyStringForNil:self.contact.homePhone],
+                                   [[self class] emptyStringForNullValue:self.contact.homePhone],
                                    [self contactTextField:self.contact.homePhone] ]
                                 ];
     return dataRowsArray;
@@ -157,8 +175,11 @@
 
 - (void)editContact {
     self.isEditing = YES;
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelEditContact)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
+    if (!self.isNewContact) {
+        // Buttons will already be set for new contact case.
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelEditContact)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
+    }
     [self.tableView reloadData];
     __weak ContactDetailViewController *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -187,7 +208,11 @@
     }
     
     if (self.contactUpdated) {
-        [self.dataMgr updateLocalData:self.contact];
+        if (self.isNewContact) {
+            [self.dataMgr createLocalData:self.contact];
+        } else {
+            [self.dataMgr updateLocalData:self.contact];
+        }
         [self.navigationController popViewControllerAnimated:YES];
     } else {
         [self.tableView reloadData];
@@ -208,8 +233,8 @@
     textField.leftViewMode = UITextFieldViewModeAlways;
 }
 
-+ (NSString *)emptyStringForNil:(NSString *)origValue {
-    if (origValue == nil) {
++ (NSString *)emptyStringForNullValue:(id)origValue {
+    if (origValue == nil || origValue == [NSNull null]) {
         return @"";
     } else {
         return origValue;

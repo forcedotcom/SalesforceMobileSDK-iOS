@@ -35,6 +35,7 @@
                     dataSpec:(SObjectDataSpec *)dataSpec;
 
 - (void)refreshLocalData;
+- (void)createLocalData:(SObjectData *)newData;
 - (void)updateLocalData:(SObjectData *)updatedData;
 - (BOOL)dataHasLocalUpdates:(SObjectData *)data;
 - (void)refreshRemoteData;
