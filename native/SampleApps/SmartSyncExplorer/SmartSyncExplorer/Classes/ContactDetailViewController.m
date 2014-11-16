@@ -25,12 +25,14 @@
 #import "ContactDetailViewController.h"
 #import "ContactSObjectDataSpec.h"
 
-@interface ContactDetailViewController ()
+@interface ContactDetailViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) ContactSObjectData *contact;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
 @property (nonatomic, copy) void (^saveBlock)(void);
 @property (nonatomic, strong) NSArray *dataRows;
+@property (nonatomic, strong) NSArray *contactDataRows;
+@property (nonatomic, strong) NSArray *deleteButtonDataRow;
 @property (nonatomic, assign) BOOL isEditing;
 @property (nonatomic, assign) BOOL contactUpdated;
 @property (nonatomic, assign) BOOL isNewContact;
@@ -66,6 +68,7 @@
     self.dataRows = [self dataRowsFromContact];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self configureInitialBarButtonItems];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     if (self.isNewContact) {
         [self editContact];
     }
@@ -108,17 +111,23 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    if (self.isEditing) {
-        cell.textLabel.text = nil;
-        UITextField *editField = self.dataRows[indexPath.section][3];
-        editField.frame = cell.contentView.bounds;
-        [self contactTextFieldAddLeftMargin:editField];
-        [cell.contentView addSubview:editField];
+    if (indexPath.section < [self.contactDataRows count]) {
+        if (self.isEditing) {
+            cell.textLabel.text = nil;
+            UITextField *editField = self.dataRows[indexPath.section][3];
+            editField.frame = cell.contentView.bounds;
+            [self contactTextFieldAddLeftMargin:editField];
+            [cell.contentView addSubview:editField];
+        } else {
+            UITextField *editField = self.dataRows[indexPath.section][3];
+            [editField removeFromSuperview];
+            NSString *rowValueData = self.dataRows[indexPath.section][2];
+            cell.textLabel.text = rowValueData;
+        }
     } else {
-        UITextField *editField = self.dataRows[indexPath.section][3];
-        [editField removeFromSuperview];
-        NSString *rowValueData = self.dataRows[indexPath.section][2];
-        cell.textLabel.text = rowValueData;
+        UIButton *deleteButton = self.dataRows[indexPath.section][1];
+        deleteButton.frame = cell.contentView.bounds;
+        [cell.contentView addSubview:deleteButton];
     }
     
     return cell;
@@ -126,6 +135,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     return self.dataRows[section][0];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self deleteContact];
+    }
 }
 
 #pragma mark - Private methods
@@ -141,36 +158,43 @@
 
 - (NSArray *)dataRowsFromContact {
     
-    NSArray *dataRowsArray = @[ @[ @"First name",
-                                   kContactFirstNameField,
-                                   [[self class] emptyStringForNullValue:self.contact.firstName],
-                                   [self contactTextField:self.contact.firstName] ],
-                                @[ @"Last name",
-                                   kContactLastNameField,
-                                   [[self class] emptyStringForNullValue:self.contact.lastName],
-                                   [self contactTextField:self.contact.lastName] ],
-                                @[ @"Title",
-                                   kContactTitleField,
-                                   [[self class] emptyStringForNullValue:self.contact.title],
-                                   [self contactTextField:self.contact.title] ],
-                                @[ @"Mobile phone",
-                                   kContactMobilePhoneField,
-                                   [[self class] emptyStringForNullValue:self.contact.mobilePhone],
-                                   [self contactTextField:self.contact.mobilePhone] ],
-                                @[ @"Email address",
-                                   kContactEmailField,
-                                   [[self class] emptyStringForNullValue:self.contact.email],
-                                   [self contactTextField:self.contact.email] ],
-                                @[ @"Department",
-                                   kContactDepartmentField,
-                                   [[self class] emptyStringForNullValue:self.contact.department],
-                                   [self contactTextField:self.contact.department] ],
-                                @[ @"Home phone",
-                                   kContactHomePhoneField,
-                                   [[self class] emptyStringForNullValue:self.contact.homePhone],
-                                   [self contactTextField:self.contact.homePhone] ]
-                                ];
-    return dataRowsArray;
+    self.contactDataRows = @[ @[ @"First name",
+                                 kContactFirstNameField,
+                                 [[self class] emptyStringForNullValue:self.contact.firstName],
+                                 [self contactTextField:self.contact.firstName] ],
+                              @[ @"Last name",
+                                 kContactLastNameField,
+                                 [[self class] emptyStringForNullValue:self.contact.lastName],
+                                 [self contactTextField:self.contact.lastName] ],
+                              @[ @"Title",
+                                 kContactTitleField,
+                                 [[self class] emptyStringForNullValue:self.contact.title],
+                                 [self contactTextField:self.contact.title] ],
+                              @[ @"Mobile phone",
+                                 kContactMobilePhoneField,
+                                 [[self class] emptyStringForNullValue:self.contact.mobilePhone],
+                                 [self contactTextField:self.contact.mobilePhone] ],
+                              @[ @"Email address",
+                                 kContactEmailField,
+                                 [[self class] emptyStringForNullValue:self.contact.email],
+                                 [self contactTextField:self.contact.email] ],
+                              @[ @"Department",
+                                 kContactDepartmentField,
+                                 [[self class] emptyStringForNullValue:self.contact.department],
+                                 [self contactTextField:self.contact.department] ],
+                              @[ @"Home phone",
+                                 kContactHomePhoneField,
+                                 [[self class] emptyStringForNullValue:self.contact.homePhone],
+                                 [self contactTextField:self.contact.homePhone] ]
+                              ];
+    self.deleteButtonDataRow = @[ @"", [self deleteButtonView] ];
+    
+    NSMutableArray *workingDataRows = [NSMutableArray array];
+    [workingDataRows addObjectsFromArray:self.contactDataRows];
+    if (!self.isNewContact) {
+        [workingDataRows addObject:self.deleteButtonDataRow];
+    }
+    return workingDataRows;
 }
 
 - (void)editContact {
@@ -197,7 +221,7 @@
     [self configureInitialBarButtonItems];
     
     self.contactUpdated = NO;
-    for (NSArray *fieldArray in self.dataRows) {
+    for (NSArray *fieldArray in self.contactDataRows) {
         NSString *fieldName = fieldArray[1];
         NSString *origFieldData = fieldArray[2];
         NSString *newFieldData = ((UITextField *)fieldArray[3]).text;
@@ -220,10 +244,32 @@
     
 }
 
+- (void)deleteContactConfirm {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Confirm Delete" message:@"Are you sure you want to delete this contact?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    [alertView show];
+}
+
+- (void)deleteContact {
+    [self.dataMgr deleteLocalData:self.contact];
+    self.contactUpdated = YES;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (UITextField *)contactTextField:(NSString *)propertyValue {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.text = propertyValue;
     return textField;
+}
+
+- (UIButton *)deleteButtonView {
+    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [deleteButton setTitle:@"Delete Contact" forState:UIControlStateNormal];
+    [deleteButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    deleteButton.titleLabel.font = [UIFont systemFontOfSize:18.0];
+    deleteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    deleteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+    [deleteButton addTarget:self action:@selector(deleteContactConfirm) forControlEvents:UIControlEventTouchUpInside];
+    return deleteButton;
 }
 
 - (void)contactTextFieldAddLeftMargin:(UITextField *)textField {

@@ -101,7 +101,6 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     // Sync down / Sync up button
     self.addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addContact)];
     self.syncButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
-    self.addButton.imageInsets = UIEdgeInsetsMake(0.0, 0.0, 0, -65);
     self.navigationItem.rightBarButtonItems = @[ self.syncButton, self.addButton ];
     for (UIBarButtonItem *bbi in self.navigationItem.rightBarButtonItems) {
         bbi.tintColor = [UIColor whiteColor];
@@ -239,6 +238,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
     static UIImage *sLocalAddImage = nil;
     static UIImage *sLocalUpdateImage = nil;
+    static UIImage *sLocalDeleteImage = nil;
     static UIImage *sChevronRightImage = nil;
     
     if (sLocalAddImage == nil) {
@@ -246,6 +246,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
     if (sLocalUpdateImage == nil) {
         sLocalUpdateImage = [UIImage imageNamed:@"local-update"];
+    }
+    if (sLocalDeleteImage == nil) {
+        sLocalDeleteImage = [UIImage imageNamed:@"local-delete"];
     }
     if (sChevronRightImage == nil) {
         sChevronRightImage = [UIImage imageNamed:@"chevron-right"];
@@ -255,8 +258,10 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         UIImage *localImage;
         if ([self.dataMgr dataLocallyCreated:contact])
             localImage = sLocalAddImage;
-        else /*if ([self.dataMgr dataLocallyUpdated:contact])*/
+        else if ([self.dataMgr dataLocallyUpdated:contact])
             localImage = sLocalUpdateImage;
+        else
+            localImage = sLocalDeleteImage;
         
         //
         // Uber view

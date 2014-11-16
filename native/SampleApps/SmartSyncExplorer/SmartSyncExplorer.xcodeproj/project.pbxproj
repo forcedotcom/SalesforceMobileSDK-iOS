@@ -37,6 +37,8 @@
 		8210BD861A182D2A000AA897 /* local-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD821A182D2A000AA897 /* local-add@2x.png */; };
 		8210BD871A182D2A000AA897 /* local-update.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD831A182D2A000AA897 /* local-update.png */; };
 		8210BD881A182D2A000AA897 /* local-update@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD841A182D2A000AA897 /* local-update@2x.png */; };
+		8210BD8B1A183215000AA897 /* local-delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD891A183215000AA897 /* local-delete.png */; };
+		8210BD8C1A183215000AA897 /* local-delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD8A1A183215000AA897 /* local-delete@2x.png */; };
 		8260403F19ECBE74005A7482 /* chevron-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403D19ECBE74005A7482 /* chevron-right.png */; };
 		8260404019ECBE74005A7482 /* chevron-right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403E19ECBE74005A7482 /* chevron-right@2x.png */; };
 		827C631519E6018C00027484 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631419E6018C00027484 /* Foundation.framework */; };
@@ -92,6 +94,8 @@
 		8210BD821A182D2A000AA897 /* local-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-add@2x.png"; sourceTree = "<group>"; };
 		8210BD831A182D2A000AA897 /* local-update.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-update.png"; sourceTree = "<group>"; };
 		8210BD841A182D2A000AA897 /* local-update@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-update@2x.png"; sourceTree = "<group>"; };
+		8210BD891A183215000AA897 /* local-delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-delete.png"; sourceTree = "<group>"; };
+		8210BD8A1A183215000AA897 /* local-delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-delete@2x.png"; sourceTree = "<group>"; };
 		8260403D19ECBE74005A7482 /* chevron-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-right.png"; sourceTree = "<group>"; };
 		8260403E19ECBE74005A7482 /* chevron-right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-right@2x.png"; sourceTree = "<group>"; };
 		827C631119E6018C00027484 /* SmartSyncExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -169,6 +173,8 @@
 				8260403E19ECBE74005A7482 /* chevron-right@2x.png */,
 				8210BD811A182D2A000AA897 /* local-add.png */,
 				8210BD821A182D2A000AA897 /* local-add@2x.png */,
+				8210BD891A183215000AA897 /* local-delete.png */,
+				8210BD8A1A183215000AA897 /* local-delete@2x.png */,
 				8210BD831A182D2A000AA897 /* local-update.png */,
 				8210BD841A182D2A000AA897 /* local-update@2x.png */,
 				820C8B3419E639E400E9BE5C /* sync.png */,
@@ -322,6 +328,8 @@
 				8210BD881A182D2A000AA897 /* local-update@2x.png in Resources */,
 				8210BD851A182D2A000AA897 /* local-add.png in Resources */,
 				820C8B3519E639E400E9BE5C /* sync.png in Resources */,
+				8210BD8B1A183215000AA897 /* local-delete.png in Resources */,
+				8210BD8C1A183215000AA897 /* local-delete@2x.png in Resources */,
 				8284055819EAFB610079AB60 /* Settings.bundle in Resources */,
 				820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */,
 				8210BD861A182D2A000AA897 /* local-add@2x.png in Resources */,

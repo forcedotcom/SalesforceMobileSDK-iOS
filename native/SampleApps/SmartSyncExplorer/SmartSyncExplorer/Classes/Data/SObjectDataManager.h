@@ -37,6 +37,7 @@
 - (void)refreshLocalData;
 - (void)createLocalData:(SObjectData *)newData;
 - (void)updateLocalData:(SObjectData *)updatedData;
+- (void)deleteLocalData:(SObjectData *)dataToDelete;
 - (BOOL)dataHasLocalChanges:(SObjectData *)data;
 - (BOOL)dataLocallyCreated:(SObjectData *)data;
 - (BOOL)dataLocallyUpdated:(SObjectData *)data;
