@@ -170,8 +170,20 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
 }
 
-- (BOOL)dataHasLocalUpdates:(SObjectData *)data {
+- (BOOL)dataHasLocalChanges:(SObjectData *)data {
     return [[data fieldValueForFieldName:kSyncManagerLocal] boolValue];
+}
+
+- (BOOL)dataLocallyCreated:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyCreated] boolValue];
+}
+
+- (BOOL)dataLocallyUpdated:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyUpdated] boolValue];
+}
+
+- (BOOL)dataLocallyDeleted:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyUpdated] boolValue];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {

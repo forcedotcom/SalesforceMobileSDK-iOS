@@ -237,32 +237,42 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - Private methods
 
 - (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
-    static UIImage *sLocalImage = nil;
+    static UIImage *sLocalAddImage = nil;
+    static UIImage *sLocalUpdateImage = nil;
     static UIImage *sChevronRightImage = nil;
     
-    if (sLocalImage == nil) {
-        sLocalImage = [UIImage imageNamed:@"local"];
+    if (sLocalAddImage == nil) {
+        sLocalAddImage = [UIImage imageNamed:@"local-add"];
+    }
+    if (sLocalUpdateImage == nil) {
+        sLocalUpdateImage = [UIImage imageNamed:@"local-update"];
     }
     if (sChevronRightImage == nil) {
         sChevronRightImage = [UIImage imageNamed:@"chevron-right"];
     }
     
-    if ([self.dataMgr dataHasLocalUpdates:contact]) {
+    if ([self.dataMgr dataHasLocalChanges:contact]) {
+        UIImage *localImage;
+        if ([self.dataMgr dataLocallyCreated:contact])
+            localImage = sLocalAddImage;
+        else /*if ([self.dataMgr dataLocallyUpdated:contact])*/
+            localImage = sLocalUpdateImage;
+        
         //
         // Uber view
         //
-        CGFloat accessoryViewWidth = sLocalImage.size.width + kControlBuffer + sChevronRightImage.size.width;
+        CGFloat accessoryViewWidth = localImage.size.width + kControlBuffer + sChevronRightImage.size.width;
         CGRect accessoryViewRect = CGRectMake(0, 0, accessoryViewWidth, self.tableView.rowHeight);
         UIView *accessoryView = [[UIView alloc] initWithFrame:accessoryViewRect];
         //
         // "local" view
         //
         CGRect localImageViewRect = CGRectMake(0,
-                                               CGRectGetMidY(accessoryView.bounds) - (sLocalImage.size.height / 2.0),
-                                               sLocalImage.size.width,
-                                               sLocalImage.size.height);
+                                               CGRectGetMidY(accessoryView.bounds) - (localImage.size.height / 2.0),
+                                               localImage.size.width,
+                                               localImage.size.height);
         UIImageView *localImageView = [[UIImageView alloc] initWithFrame:localImageViewRect];
-        localImageView.image = sLocalImage;
+        localImageView.image = localImage;
         [accessoryView addSubview:localImageView];
         //
         // spacer view
