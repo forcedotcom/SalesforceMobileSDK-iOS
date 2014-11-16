@@ -48,7 +48,7 @@
     if (self) {
         if (contact == nil) {
             self.isNewContact = YES;
-            self.contact = [[ContactSObjectData alloc] initWithSoupDict:@{ }];
+            self.contact = [[ContactSObjectData alloc] init];
         } else {
             self.isNewContact = NO;
             self.contact = contact;
