@@ -28,6 +28,7 @@
 
 @interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
 
+- (id)initForNewContactWithDataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
 - (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
 
 @end

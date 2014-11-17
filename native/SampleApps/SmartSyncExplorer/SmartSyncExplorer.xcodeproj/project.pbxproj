@@ -33,8 +33,12 @@
 		820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4319E75CFB00E9BE5C /* SObjectData.m */; };
 		820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4619E75DAE00E9BE5C /* ContactSObjectData.m */; };
 		820C8B4B19E7936100E9BE5C /* SObjectDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */; };
-		8260403B19ECBC50005A7482 /* local.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403919ECBC50005A7482 /* local.png */; };
-		8260403C19ECBC50005A7482 /* local@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403A19ECBC50005A7482 /* local@2x.png */; };
+		8210BD851A182D2A000AA897 /* local-add.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD811A182D2A000AA897 /* local-add.png */; };
+		8210BD861A182D2A000AA897 /* local-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD821A182D2A000AA897 /* local-add@2x.png */; };
+		8210BD871A182D2A000AA897 /* local-update.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD831A182D2A000AA897 /* local-update.png */; };
+		8210BD881A182D2A000AA897 /* local-update@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD841A182D2A000AA897 /* local-update@2x.png */; };
+		8210BD8B1A183215000AA897 /* local-delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD891A183215000AA897 /* local-delete.png */; };
+		8210BD8C1A183215000AA897 /* local-delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8210BD8A1A183215000AA897 /* local-delete@2x.png */; };
 		8260403F19ECBE74005A7482 /* chevron-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403D19ECBE74005A7482 /* chevron-right.png */; };
 		8260404019ECBE74005A7482 /* chevron-right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8260403E19ECBE74005A7482 /* chevron-right@2x.png */; };
 		827C631519E6018C00027484 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C631419E6018C00027484 /* Foundation.framework */; };
@@ -46,6 +50,8 @@
 		8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8284055519EA09E40079AB60 /* ContactDetailViewController.m */; };
 		8284055819EAFB610079AB60 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8284055719EAFB610079AB60 /* Settings.bundle */; };
 		8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8284055919EAFD9C0079AB60 /* Images.xcassets */; };
+		82D17C9119EF49FB00411734 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D17C8F19EF49FB00411734 /* add.png */; };
+		82D17C9219EF49FB00411734 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D17C9019EF49FB00411734 /* add@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,8 +90,12 @@
 		820C8B4819E78E1B00E9BE5C /* SObjectData+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SObjectData+Internal.h"; path = "Data/SObjectData+Internal.h"; sourceTree = "<group>"; };
 		820C8B4919E7936100E9BE5C /* SObjectDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataManager.h; path = Data/SObjectDataManager.h; sourceTree = "<group>"; };
 		820C8B4A19E7936100E9BE5C /* SObjectDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SObjectDataManager.m; path = Data/SObjectDataManager.m; sourceTree = "<group>"; };
-		8260403919ECBC50005A7482 /* local.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = local.png; sourceTree = "<group>"; };
-		8260403A19ECBC50005A7482 /* local@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local@2x.png"; sourceTree = "<group>"; };
+		8210BD811A182D2A000AA897 /* local-add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-add.png"; sourceTree = "<group>"; };
+		8210BD821A182D2A000AA897 /* local-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-add@2x.png"; sourceTree = "<group>"; };
+		8210BD831A182D2A000AA897 /* local-update.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-update.png"; sourceTree = "<group>"; };
+		8210BD841A182D2A000AA897 /* local-update@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-update@2x.png"; sourceTree = "<group>"; };
+		8210BD891A183215000AA897 /* local-delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-delete.png"; sourceTree = "<group>"; };
+		8210BD8A1A183215000AA897 /* local-delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-delete@2x.png"; sourceTree = "<group>"; };
 		8260403D19ECBE74005A7482 /* chevron-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-right.png"; sourceTree = "<group>"; };
 		8260403E19ECBE74005A7482 /* chevron-right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chevron-right@2x.png"; sourceTree = "<group>"; };
 		827C631119E6018C00027484 /* SmartSyncExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -102,6 +112,8 @@
 		8284055519EA09E40079AB60 /* ContactDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailViewController.m; sourceTree = "<group>"; };
 		8284055719EAFB610079AB60 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		8284055919EAFD9C0079AB60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
+		82D17C8F19EF49FB00411734 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		82D17C9019EF49FB00411734 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,10 +167,16 @@
 				8284055919EAFD9C0079AB60 /* Images.xcassets */,
 				820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */,
 				8284055719EAFB610079AB60 /* Settings.bundle */,
+				82D17C8F19EF49FB00411734 /* add.png */,
+				82D17C9019EF49FB00411734 /* add@2x.png */,
 				8260403D19ECBE74005A7482 /* chevron-right.png */,
 				8260403E19ECBE74005A7482 /* chevron-right@2x.png */,
-				8260403919ECBC50005A7482 /* local.png */,
-				8260403A19ECBC50005A7482 /* local@2x.png */,
+				8210BD811A182D2A000AA897 /* local-add.png */,
+				8210BD821A182D2A000AA897 /* local-add@2x.png */,
+				8210BD891A183215000AA897 /* local-delete.png */,
+				8210BD8A1A183215000AA897 /* local-delete@2x.png */,
+				8210BD831A182D2A000AA897 /* local-update.png */,
+				8210BD841A182D2A000AA897 /* local-update@2x.png */,
 				820C8B3419E639E400E9BE5C /* sync.png */,
 				820C8B3619E63DCC00E9BE5C /* sync@2x.png */,
 			);
@@ -301,15 +319,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
-				8260403C19ECBC50005A7482 /* local@2x.png in Resources */,
-				8260403B19ECBC50005A7482 /* local.png in Resources */,
+				82D17C9119EF49FB00411734 /* add.png in Resources */,
+				8210BD871A182D2A000AA897 /* local-update.png in Resources */,
 				820C8B3719E63DCC00E9BE5C /* sync@2x.png in Resources */,
 				8260403F19ECBE74005A7482 /* chevron-right.png in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				8260404019ECBE74005A7482 /* chevron-right@2x.png in Resources */,
+				8210BD881A182D2A000AA897 /* local-update@2x.png in Resources */,
+				8210BD851A182D2A000AA897 /* local-add.png in Resources */,
 				820C8B3519E639E400E9BE5C /* sync.png in Resources */,
+				8210BD8B1A183215000AA897 /* local-delete.png in Resources */,
+				8210BD8C1A183215000AA897 /* local-delete@2x.png in Resources */,
 				8284055819EAFB610079AB60 /* Settings.bundle in Resources */,
 				820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */,
+				8210BD861A182D2A000AA897 /* local-add@2x.png in Resources */,
+				82D17C9219EF49FB00411734 /* add@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

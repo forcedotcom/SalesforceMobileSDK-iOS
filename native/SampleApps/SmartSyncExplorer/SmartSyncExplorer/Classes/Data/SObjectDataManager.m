@@ -158,14 +158,38 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self resetDataRows];
 }
 
+- (void)createLocalData:(SObjectData *)newData {
+    [newData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
+    [newData updateSoupForFieldName:kSyncManagerLocallyCreated fieldValue:@YES];
+    [self.store upsertEntries:@[ newData.soupDict ] toSoup:[[newData class] dataSpec].soupName];
+}
+
 - (void)updateLocalData:(SObjectData *)updatedData {
     [updatedData updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
     [updatedData updateSoupForFieldName:kSyncManagerLocallyUpdated fieldValue:@YES];
     [self.store upsertEntries:@[ updatedData.soupDict ] toSoup:[[updatedData class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
 }
 
-- (BOOL)dataHasLocalUpdates:(SObjectData *)data {
+- (void)deleteLocalData:(SObjectData *)dataToDelete {
+    [dataToDelete updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
+    [dataToDelete updateSoupForFieldName:kSyncManagerLocallyDeleted fieldValue:@YES];
+    [self.store upsertEntries:@[ dataToDelete.soupDict ] toSoup:[[dataToDelete class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
+}
+
+- (BOOL)dataHasLocalChanges:(SObjectData *)data {
     return [[data fieldValueForFieldName:kSyncManagerLocal] boolValue];
+}
+
+- (BOOL)dataLocallyCreated:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyCreated] boolValue];
+}
+
+- (BOOL)dataLocallyUpdated:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyUpdated] boolValue];
+}
+
+- (BOOL)dataLocallyDeleted:(SObjectData *)data {
+    return [[data fieldValueForFieldName:kSyncManagerLocallyDeleted] boolValue];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {
