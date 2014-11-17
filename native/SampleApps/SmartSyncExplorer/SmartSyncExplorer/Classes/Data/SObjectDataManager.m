@@ -189,7 +189,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (BOOL)dataLocallyDeleted:(SObjectData *)data {
-    return [[data fieldValueForFieldName:kSyncManagerLocallyUpdated] boolValue];
+    return [[data fieldValueForFieldName:kSyncManagerLocallyDeleted] boolValue];
 }
 
 - (NSArray *)populateDataRows:(NSArray *)queryResults {
