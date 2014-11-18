@@ -333,5 +333,15 @@ static BOOL kIsTestRun;
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }
 
+- (SFRestRequest *)requestForSearchScopeAndOrder {
+    NSString *path = [NSString stringWithFormat:@"/%@/search/scopeOrder", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:nil];
+}
+
+- (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList {
+    NSDictionary *queryParams = @{@"q": objectList};
+    NSString *path = [NSString stringWithFormat:@"/%@/search/layout", self.apiVersion];
+    return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
+}
 
 @end
