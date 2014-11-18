@@ -32,7 +32,6 @@
 		4F3A72EF19DB89CF00E6F468 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */; };
 		82722FFF19D4FD170066A350 /* SFSmartSyncMetadataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300019D4FD170066A350 /* SFSmartSyncCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8272300119D4FD170066A350 /* SFSmartSyncNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300219D4FD170066A350 /* SFObject.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7C196B3EB60076264C /* SFObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300319D4FD170066A350 /* SFObjectType.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7F196B3EB60076264C /* SFObjectType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300419D4FD170066A350 /* SFObjectTypeLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,7 +77,6 @@
 		CECDF84C19ABF9B3007A29E5 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */; };
 		CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */; };
 		CECDF84E19ABF9B3007A29E5 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */; };
-		CEDA4EDF19745B870009D865 /* SFSmartSyncNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */; };
 		CEDA4EE319747AC30009D865 /* SFSmartSyncCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */; };
 		CEF50A87196B3EB60076264C /* SFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A7D196B3EB60076264C /* SFObject.m */; };
 		CEF50A88196B3EB60076264C /* SFObjectType.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A80196B3EB60076264C /* SFObjectType.m */; };
@@ -151,8 +149,6 @@
 		CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CECDF84F19ABF9BE007A29E5 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncNetworkManager.h; path = Manager/SFSmartSyncNetworkManager.h; sourceTree = "<group>"; };
-		CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncNetworkManager.m; path = Manager/SFSmartSyncNetworkManager.m; sourceTree = "<group>"; };
 		CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncCacheManager.h; path = Manager/SFSmartSyncCacheManager.h; sourceTree = "<group>"; };
 		CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncCacheManager.m; path = Manager/SFSmartSyncCacheManager.m; sourceTree = "<group>"; };
 		CEF50A7B196B3EB60076264C /* SFObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFObject+Internal.h"; sourceTree = "<group>"; };
@@ -318,8 +314,6 @@
 				CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */,
 				CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */,
 				CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */,
-				CEDA4EDD19745B870009D865 /* SFSmartSyncNetworkManager.h */,
-				CEDA4EDE19745B870009D865 /* SFSmartSyncNetworkManager.m */,
 			);
 			name = Manager;
 			sourceTree = "<group>";
@@ -382,7 +376,6 @@
 			files = (
 				82722FFF19D4FD170066A350 /* SFSmartSyncMetadataManager.h in Headers */,
 				8272300019D4FD170066A350 /* SFSmartSyncCacheManager.h in Headers */,
-				8272300119D4FD170066A350 /* SFSmartSyncNetworkManager.h in Headers */,
 				4F22155C19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h in Headers */,
 				8272300219D4FD170066A350 /* SFObject.h in Headers */,
 				4F1283741A018ED9007F87EC /* SFSyncOptions.h in Headers */,
@@ -511,7 +504,6 @@
 				4F1283731A018ED9007F87EC /* SFSyncTarget.m in Sources */,
 				4F22155D19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m in Sources */,
 				CEDA4EE319747AC30009D865 /* SFSmartSyncCacheManager.m in Sources */,
-				CEDA4EDF19745B870009D865 /* SFSmartSyncNetworkManager.m in Sources */,
 				4F1283721A018ED9007F87EC /* SFSyncOptions.m in Sources */,
 				CEF50A89196B3EB60076264C /* SFObjectTypeLayout.m in Sources */,
 				CEF50A92196B57190076264C /* SFSmartSyncSoslBuilder.m in Sources */,

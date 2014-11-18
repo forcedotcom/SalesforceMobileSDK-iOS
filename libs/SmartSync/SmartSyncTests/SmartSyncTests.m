@@ -25,7 +25,6 @@
 #import <XCTest/XCTest.h>
 #import "SFSmartSyncMetadataManager.h"
 #import "SFSmartSyncCacheManager.h"
-#import "SFSmartSyncNetworkManager.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -350,7 +349,7 @@ static NSString* const kCaseTwoId = @"500S0000004O7fd";
     SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
     [cacheMgr removeCache:@"recent_objects" cacheKey:@"mru_for_global"];
     NSDate *cachedTime = nil;
-    NSArray *cachedObjects = [cacheMgr readArchivableObjectWithCacheType:@"recent_objects" cacheKey:@"mru_for_global" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:YES cachedTime:&cachedTime];
+    NSArray *cachedObjects = [cacheMgr readDataWithCacheType:@"recent_objects" cacheKey:@"mru_for_global" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload cachedTime:&cachedTime];
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
@@ -376,7 +375,7 @@ static NSString* const kCaseTwoId = @"500S0000004O7fd";
     SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
     [cacheMgr cleanCache];
     NSDate *cachedTime = nil;
-    NSArray *cachedObjects = [cacheMgr readArchivableObjectWithCacheType:@"recent_objects" cacheKey:@"mru_for_global" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:YES cachedTime:&cachedTime];
+    NSArray *cachedObjects = [cacheMgr readDataWithCacheType:@"recent_objects" cacheKey:@"mru_for_global" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload cachedTime:&cachedTime];
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
@@ -400,7 +399,7 @@ static NSString* const kCaseTwoId = @"500S0000004O7fd";
     XCTAssertNotEqualObjects(objResults, nil, @"All objects list should not be nil");
     SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
     NSDate *cachedTime = nil;
-    NSArray *cachedObjects = [cacheMgr readArchivableObjectWithCacheType:@"metadata" cacheKey:@"all_objects" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload encrypted:YES cachedTime:&cachedTime];
+    NSArray *cachedObjects = [cacheMgr readDataWithCacheType:@"metadata" cacheKey:@"all_objects" cachePolicy:SFDataCachePolicyReturnCacheDataDontReload cachedTime:&cachedTime];
     XCTAssertNotEqualObjects(cachedObjects, nil, @"Cached objects list should not be nil");
     XCTAssertNotEqual([cachedObjects count], 0, @"Cached objects list should not be empty");
 }

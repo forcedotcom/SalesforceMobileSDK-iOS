@@ -23,7 +23,6 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSyncState.h"

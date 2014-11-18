@@ -25,6 +25,7 @@
 #import "SFSmartSyncMetadataManager.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
 #import "SFObjectType+Internal.h"
@@ -61,6 +62,7 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 @interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, strong) SFRestAPI *restClient;
 @property (nonatomic, assign) BOOL cacheEnabled;
 @property (nonatomic, assign) BOOL encryptCache;
 
@@ -119,7 +121,7 @@ static NSMutableDictionary *metadataMgrList = nil;
     self = [super init];
     if (self) {
         self.user = user;
-        self.networkManager = [SFSmartSyncNetworkManager sharedInstance:user];
+        self.restClient = [SFRestAPI sharedInstance];
         self.cacheManager = [SFSmartSyncCacheManager sharedInstance:user];
         self.apiVersion = kDefaultApiVersion;
         self.cacheEnabled = YES;
@@ -137,18 +139,6 @@ static NSMutableDictionary *metadataMgrList = nil;
           refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                   completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock
                             error:(void(^)(NSError *error))errorBlock {
-    NSString *errorMessage = nil;
-    if (!self.networkManager) {
-        errorMessage = @"Unable to load recently searched object types [NetworkManager not specified]";
-        [self log:SFLogLevelError msg:errorMessage];
-        if (errorBlock) {
-            NSError *error = [self errorWithDescription:errorMessage];
-            if (errorBlock) {
-                errorBlock(error);
-            }
-        }
-        return;
-    }
     NSString *cacheType = kSFMRUCacheType;
     NSString *cacheKey = kSFSmartScopeObjectTypes;
     if (cachePolicy == SFDataCachePolicyInvalidateCacheDontReload) {
@@ -250,30 +240,31 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Loads the smart scopes.
     void (^loadSearchScope)(NSArray *searchableObjects) = ^ (NSArray *searchableObjects){
-        NSString *path =[NSString stringWithFormat:@"%@/%@/search/scopeOrder", kSFMetadataRestApiPath, self.apiVersion];
-        [self.networkManager remoteJSONGetRequest:path params:nil requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
+        SFRestArrayResponseBlock completeBlock = ^(NSArray* returnedItems) {
             NSArray *recentItems = nil;
-            if (nil != responseAsJson) {
-                NSArray *returnedItems = (NSArray *)responseAsJson;
-                if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
-                    NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:returnedItems.count];
-                    for (NSDictionary *item in returnedItems) {
-                        if (item[@"type"]) {
-                            [returnList addObject:item[@"type"]];
-                        }
+            if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
+                NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:returnedItems.count];
+                for (NSDictionary *item in returnedItems) {
+                    if (item[@"type"]) {
+                        [returnList addObject:item[@"type"]];
                     }
-                    recentItems = returnList;
                 }
+                recentItems = returnList;
             }
             processSmartScopes(recentItems, searchableObjects);
-        } error:^(NSError *error) {
-            if ([self.networkManager isNetworkError:error]) {
+        };
+        
+        SFRestFailBlock failBlock = ^(NSError *error) {
+            if ([SFRestRequest isNetworkError:error]) {
                 invokeErrorBlock(error);
             } else {
                 [self log:SFLogLevelError format:@"Unable to load smart scopes, %@", error];
                 processSmartScopes(nil, searchableObjects);
             }
-        }];
+        };
+        
+        // Send request.
+        [self.restClient performRequestForSearchScopeAndOrderWithFailBlock:failBlock completeBlock:completeBlock];
     };
 
     // Loads all searchable objects.
@@ -292,18 +283,6 @@ static NSMutableDictionary *metadataMgrList = nil;
                 networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry
                     completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
                         error:(void(^)(NSError *error))errorBlock {
-    NSString *errorMessage = nil;
-    if (!self.networkManager) {
-        errorMessage = @"Unable to load recently accessed objects by type [NetworkManager not specified]";
-        [self log:SFLogLevelError msg:errorMessage];
-        if (errorBlock) {
-            NSError *error = [self errorWithDescription:errorMessage];
-            if (errorBlock) {
-                errorBlock(error);
-            }
-        }
-        return;
-    }
     if (limit > kSFMetadataMaximumLimit || limit < 0) {
         limit = kSFMetadataMaximumLimit;
     }
@@ -370,8 +349,6 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Loads the MRU objects.
     void (^loadRecentsBlock)(SFObjectType *objectType) = ^(SFObjectType *objectType){
-        NSString *path = nil;
-        NSDictionary *queryParams = nil;
         SFSmartSyncSoqlBuilder *queryBuilder = nil;
         if (globalMRU) {
             queryBuilder = [SFSmartSyncSoqlBuilder withFields:@"Id, Name, Type"];
@@ -415,50 +392,45 @@ static NSMutableDictionary *metadataMgrList = nil;
             [queryBuilder where:whereClause];
         }
         NSString * queryString = [queryBuilder build];
-        queryParams = @{@"q": queryString};
-        path =[NSString stringWithFormat:@"%@/%@/query/", kSFMetadataRestApiPath, self.apiVersion];
 
-        // Executes the query.
-        [self.networkManager remoteJSONGetRequest:path params:queryParams requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
-            if (nil != responseAsJson) {
-                if ([responseAsJson isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *returnDict = (NSDictionary *)responseAsJson;
-                    NSArray *returnedItems = returnDict[@"records"];
-                    if (!returnedItems && [objectTypeName isEqualToString:kContent]) {
-                        returnedItems = returnDict[@"recentItems"];
+        
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict) {
+            NSArray *returnedItems = returnDict[@"records"];
+            if (!returnedItems && [objectTypeName isEqualToString:kContent]) {
+                returnedItems = returnDict[@"recentItems"];
+            }
+            if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
+                recentItems = returnedItems;
+            }
+            NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:recentItems.count];
+            for (NSDictionary *item in recentItems) {
+                SFObject *object = [[SFObject alloc] initWithDictionary:item];
+                if (globalMRU) {
+                    if ([object.objectType isEqualToString:kContent]) {
+                        object.objectType = kContentVersion;
                     }
-                    if (returnedItems && [returnedItems isKindOfClass:[NSArray class]]) {
-                        recentItems = returnedItems;
-                    }
-                }
-                NSMutableArray *returnList = [NSMutableArray arrayWithCapacity:recentItems.count];
-                for (NSDictionary *item in recentItems) {
-                    SFObject *object = [[SFObject alloc] initWithDictionary:item];
-                    if (globalMRU) {
-                        if ([object.objectType isEqualToString:kContent]) {
-                            object.objectType = kContentVersion;
-                        }
-                        SFObjectType *objectDef = [self cachedObjectType:object.objectType cachedTime:nil];
-                        if ([self isObjectTypeSearchable:objectDef]) {
-                            [returnList addObject:object];
-                        }
-                    } else {
+                    SFObjectType *objectDef = [self cachedObjectType:object.objectType cachedTime:nil];
+                    if ([self isObjectTypeSearchable:objectDef]) {
                         [returnList addObject:object];
                     }
-                }
-                recentItems = returnList;
-                if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-                    completionBlock(recentItems, NO, needToReloadCache);
-                }
-
-                // Save data to the cache.
-                if ([self shouldCacheData:cachePolicy]) {
-                    [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
+                } else {
+                    [returnList addObject:object];
                 }
             }
-        } error:^(NSError *error) {
+            recentItems = returnList;
+            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                completionBlock(recentItems, NO, needToReloadCache);
+            }
+            
+            // Save data to the cache.
+            if ([self shouldCacheData:cachePolicy]) {
+                [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
+            }
+        };
+    
+        SFRestFailBlock failBlock = ^(NSError *error) {
             if (error.code == 400) {
-
+                
                 // 400 error could be due to cached search layout, so retry it at least once.
                 [self log:SFLogLevelError format:@"Load MRU failed with %@, retry with updated search layout ", [error localizedDescription]];
                 [self removeObjectTypesLayout:@[objectType]];
@@ -466,7 +438,11 @@ static NSMutableDictionary *metadataMgrList = nil;
             } else {
                 callErrorBlock(error);
             }
-        }];
+        };
+
+        
+        // Send request.
+        [self.restClient performSOQLQuery:queryString failBlock:failBlock completeBlock:completeBlock];
     };
 
     // Loads the object layouts.
@@ -501,18 +477,6 @@ static NSMutableDictionary *metadataMgrList = nil;
 - (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                 completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock
                      error:(void(^)(NSError *error))errorBlock {
-    NSString *errorMessage = nil;
-    if (!self.networkManager) {
-        errorMessage = @"Unable to load all objects [NetworkManager not specified]";
-        [self log:SFLogLevelError msg:errorMessage];
-        if (errorBlock) {
-            NSError *error = [self errorWithDescription:errorMessage];
-            if (errorBlock) {
-                errorBlock(error);
-            }
-        }
-        return;
-    }
     NSString *cacheType = kSFMetadataCacheType;
     NSString *cacheKey = kSFAllObjects;
 
@@ -536,31 +500,29 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
         return;
     }
-    NSString *path =[NSString stringWithFormat:@"%@/%@/sobjects", kSFMetadataRestApiPath, self.apiVersion];
-    [self.networkManager remoteJSONGetRequest:path params:nil requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
+    
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
         NSMutableArray *returnList = nil;
-        if (nil != responseAsJson) {
-            if ([responseAsJson isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *data = (NSDictionary *)responseAsJson;
-                NSArray *objectTypes = data[@"sobjects"];
-                returnList = [NSMutableArray arrayWithCapacity:objectTypes.count];
-                for (NSDictionary *item in objectTypes) {
-                    if (![item[kHiddenField] boolValue]) {
-                        SFObjectType *objectType = [[SFObjectType alloc] initWithDictionary:item];
-                        [returnList addObject:objectType];
-                    }
-                }
+        NSArray *objectTypes = data[@"sobjects"];
+        returnList = [NSMutableArray arrayWithCapacity:objectTypes.count];
+        for (NSDictionary *item in objectTypes) {
+            if (![item[kHiddenField] boolValue]) {
+                SFObjectType *objectType = [[SFObjectType alloc] initWithDictionary:item];
+                [returnList addObject:objectType];
             }
         }
+
         if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
             completionBlock(returnList, NO);
         }
-
+        
         // Save data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
         }
-    } error:^(NSError *error) {
+    };
+    
+    SFRestFailBlock failBlock = ^(NSError *error) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [self log:SFLogLevelError format:@"failed to get get all searchable objects, [%@]", [error localizedDescription]];
         }
@@ -575,7 +537,10 @@ static NSMutableDictionary *metadataMgrList = nil;
         } else if (errorBlock && !completionBlockInvoked) {
             errorBlock(error);
         }
-    }];
+    };
+    
+    // Send request.
+    [self.restClient performDescribeGlobalWithFailBlock:failBlock completeBlock:completeBlock];
 }
 
 - (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy
@@ -585,8 +550,6 @@ static NSMutableDictionary *metadataMgrList = nil;
     NSString *errorMessage = nil;
     if (objectTypeName == nil) {
         errorMessage = @"Object type name is nil";
-    } else if (!self.networkManager) {
-        errorMessage = @"NetworkManager not specified";
     }
     if (nil != errorMessage) {
         errorMessage = [NSString stringWithFormat:@"Unable to load objectTypeInfo, [%@]", errorMessage];
@@ -622,24 +585,22 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
         return;
     }
-    NSString *path =[NSString stringWithFormat:@"%@/%@/sobjects/%@/describe", kSFMetadataRestApiPath, self.apiVersion, objectTypeName];
-    [self.networkManager remoteJSONGetRequest:path params:nil requestHeaders:[self requestHeader:cachedTime] completion:^(id responseAsJson, NSInteger statusCode) {
+    
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
         SFObjectType *objectType = nil;
-        if (nil != responseAsJson) {
-            if ([responseAsJson isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *data = (NSDictionary *)responseAsJson;
-                objectType = [[SFObjectType alloc] initWithDictionary:data];
-            }
-        }
+        objectType = [[SFObjectType alloc] initWithDictionary:data];
+
         if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
             completionBlock(objectType, NO);
         }
-
+        
         // Saves data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObject:objectType cacheType:cacheType cacheKey:cacheKey];
         }
-    } error:^(NSError *error) {
+    };
+    
+    SFRestFailBlock failBlock = ^(NSError *error) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [self log:SFLogLevelError format:@"Failed to get get object information for %@, [%@]", objectTypeName, [error localizedDescription]];
         }
@@ -654,7 +615,10 @@ static NSMutableDictionary *metadataMgrList = nil;
         } else  if (errorBlock && !completionBlockInvoked) {
             errorBlock(error);
         }
-    }];
+    };
+    
+    // Send request.
+    [self.restClient performDescribeWithObjectType:objectTypeName failBlock:failBlock completeBlock:completeBlock];
 }
 
 - (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy
@@ -664,8 +628,6 @@ static NSMutableDictionary *metadataMgrList = nil;
     NSString *errorMessage = nil;
     if (objectTypesToLoad == nil || objectTypesToLoad.count == 0) {
         errorMessage = @"Object types to load is empty";
-    } else if (!self.networkManager) {
-        errorMessage = @"NetworkManager not specified";
     }
     if (nil != errorMessage) {
         errorMessage = [NSString stringWithFormat:@"Unable to load object layout, [%@]", errorMessage];
@@ -755,30 +717,26 @@ static NSMutableDictionary *metadataMgrList = nil;
         completionBlock(nil, NO);
         return;
     }
-    NSString *path =[NSString stringWithFormat:@"%@/%@/search/layout/", kSFMetadataRestApiPath, self.apiVersion];
-    NSDictionary *params = @{@"q": objectsString};
-    [self.networkManager remoteJSONGetRequest:path params:params requestHeaders:[self requestHeader:oldestCacheTime] completion:^(id responseAsJson, NSInteger statusCode) {
-        if (nil != responseAsJson) {
-            if ([responseAsJson isKindOfClass:[NSArray class]]) {
-                NSArray *data = (NSArray *)responseAsJson;
-                for (NSUInteger idx = 0; idx < data.count; idx++) {
-                    NSDictionary *layoutDict = data[idx];
-                    SFObjectType *typeModel = layoutObjectsToLoad[idx];
-                    NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, typeModel.name];
-                    SFObjectTypeLayout *layoutObj = [[SFObjectTypeLayout alloc] initWithDictionary:layoutDict forObjectType:typeModel.name];
-                    [layouts addObject:layoutObj];
 
-                    // Saves data to the cache.
-                    if ([self shouldCacheData:cachePolicy]) {
-                        [self cacheObject:layoutObj cacheType:cacheType cacheKey:cacheKey];
-                    }
-                }
+    SFRestArrayResponseBlock completeBlock = ^(NSArray* data) {
+        for (NSUInteger idx = 0; idx < data.count; idx++) {
+            NSDictionary *layoutDict = data[idx];
+            SFObjectType *typeModel = layoutObjectsToLoad[idx];
+            NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, typeModel.name];
+            SFObjectTypeLayout *layoutObj = [[SFObjectTypeLayout alloc] initWithDictionary:layoutDict forObjectType:typeModel.name];
+            [layouts addObject:layoutObj];
+            
+            // Saves data to the cache.
+            if ([self shouldCacheData:cachePolicy]) {
+                [self cacheObject:layoutObj cacheType:cacheType cacheKey:cacheKey];
             }
         }
         if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
             completionBlock(layouts, NO);
         }
-    } error:^(NSError *error) {
+    };
+    
+    SFRestFailBlock failBlock = ^(NSError *error) {
         if (error.code != kSFNetworkRequestFailedDueToNoModification) {
             [self log:SFLogLevelError format:@"failed to get get objects layout, [%@]", [error localizedDescription]];
         }
@@ -793,7 +751,10 @@ static NSMutableDictionary *metadataMgrList = nil;
         } else  if (errorBlock && !completionBlockInvoked) {
             errorBlock(error);
         }
-    }];
+    };
+    
+    // Send request.
+    [self.restClient performRequestForSearchResultLayout:objectsString failBlock:failBlock completeBlock:completeBlock];
 }
 
 - (UIColor *)colorForObjectType:(NSString *)objectTypeName {
@@ -857,12 +818,12 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
         queryBuilder = [queryBuilder where:whereClause];
         NSString *queryString = [[queryBuilder where:whereClause] build];
-        NSString *path =[NSString stringWithFormat:@"%@/%@/query/", kSFMetadataRestApiPath, self.apiVersion];
-        [self.networkManager remoteJSONGetRequest:path params:@{@"q": queryString} autoRetryOnNetworkError:YES requestHeaders:nil completion:^(id responseAsJson, NSInteger statusCode) {
+        
+        SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
             NSArray *records = responseAsJson[@"records"];
             if (records && [records isKindOfClass:[NSArray class]]) {
                 if (records.count == 0) {
-
+                    
                     // Object no longer exists.
                     NSError *error = [self errorWithDescription:@"Object no longer exists"];
                     [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, error];
@@ -873,10 +834,17 @@ static NSMutableDictionary *metadataMgrList = nil;
                     }
                 }
             }
-        } error:^(NSError *error) {
+        };
+        
+        SFRestFailBlock failBlock = ^(NSError *error) {
             [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
             callErrorBlock(error);
-        }];
+        };
+        
+        
+        // Send request.
+        [self.restClient performSOQLQuery:queryString failBlock:failBlock completeBlock:completeBlock];
+
     } error:^(NSError *error) {
         [self log:SFLogLevelError format:@"Failed to mark %@ as being viewed, error %@", objectId, [error localizedDescription]];
         callErrorBlock(error);
