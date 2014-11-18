@@ -28,9 +28,25 @@
 @implementation SObjectData
 
 - (id)initWithSoupDict:(NSDictionary *)soupDict {
+    self = [self init];
+    if (self) {
+        if (soupDict != nil) {
+            for (NSString *fieldName in [soupDict allKeys]) {
+                [self updateSoupForFieldName:fieldName fieldValue:soupDict[fieldName]];
+            }
+        }
+    }
+    return self;
+}
+
+- (id)init {
     self = [super init];
     if (self) {
-        self.soupDict = soupDict;
+        self.soupDict = @{ };
+        for (NSString *fieldName in [[self class] dataSpec].fieldNames) {
+            [self updateSoupForFieldName:fieldName fieldValue:[NSNull null]];
+        }
+        [self updateSoupForFieldName:@"attributes" fieldValue:@{ @"type": [[self class] dataSpec].objectType }];
     }
     return self;
 }

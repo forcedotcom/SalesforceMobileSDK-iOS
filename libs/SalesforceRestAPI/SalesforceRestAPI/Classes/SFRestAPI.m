@@ -316,7 +316,10 @@ static BOOL kIsTestRun;
 }
 
 - (SFRestRequest *)requestForQuery:(NSString *)soql {
-    NSDictionary *queryParams = @{@"q": soql};
+    NSDictionary *queryParams = nil;
+    if (soql) {
+        queryParams = @{@"q": soql};
+    }
     NSString *path = [NSString stringWithFormat:@"/%@/query", self.apiVersion];
     return [SFRestRequest requestWithMethod:SFRestMethodGET path:path queryParams:queryParams];
 }

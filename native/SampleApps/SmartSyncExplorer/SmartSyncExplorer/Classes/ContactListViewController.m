@@ -52,6 +52,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @property (nonatomic, strong) UILabel *navBarLabel;
 @property (nonatomic, strong) UIView *searchHeader;
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIBarButtonItem *syncButton;
+@property (nonatomic, strong) UIBarButtonItem *addButton;
 @property (nonatomic, strong) UIView *toastView;
 @property (nonatomic, strong) UILabel *toastViewMessageLabel;
 @property (nonatomic, copy) NSString *toastMessage;
@@ -97,8 +99,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navigationItem.titleView = self.navBarLabel;
     
     // Sync down / Sync up button
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addContact)];
+    self.syncButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
+    self.navigationItem.rightBarButtonItems = @[ self.syncButton, self.addButton ];
+    for (UIBarButtonItem *bbi in self.navigationItem.rightBarButtonItems) {
+        bbi.tintColor = [UIColor whiteColor];
+    }
     
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
@@ -230,32 +236,48 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 #pragma mark - Private methods
 
 - (UIView *)accessoryViewForContact:(ContactSObjectData *)contact {
-    static UIImage *sLocalImage = nil;
+    static UIImage *sLocalAddImage = nil;
+    static UIImage *sLocalUpdateImage = nil;
+    static UIImage *sLocalDeleteImage = nil;
     static UIImage *sChevronRightImage = nil;
     
-    if (sLocalImage == nil) {
-        sLocalImage = [UIImage imageNamed:@"local"];
+    if (sLocalAddImage == nil) {
+        sLocalAddImage = [UIImage imageNamed:@"local-add"];
+    }
+    if (sLocalUpdateImage == nil) {
+        sLocalUpdateImage = [UIImage imageNamed:@"local-update"];
+    }
+    if (sLocalDeleteImage == nil) {
+        sLocalDeleteImage = [UIImage imageNamed:@"local-delete"];
     }
     if (sChevronRightImage == nil) {
         sChevronRightImage = [UIImage imageNamed:@"chevron-right"];
     }
     
-    if ([self.dataMgr dataHasLocalUpdates:contact]) {
+    if ([self.dataMgr dataHasLocalChanges:contact]) {
+        UIImage *localImage;
+        if ([self.dataMgr dataLocallyCreated:contact])
+            localImage = sLocalAddImage;
+        else if ([self.dataMgr dataLocallyUpdated:contact])
+            localImage = sLocalUpdateImage;
+        else
+            localImage = sLocalDeleteImage;
+        
         //
         // Uber view
         //
-        CGFloat accessoryViewWidth = sLocalImage.size.width + kControlBuffer + sChevronRightImage.size.width;
+        CGFloat accessoryViewWidth = localImage.size.width + kControlBuffer + sChevronRightImage.size.width;
         CGRect accessoryViewRect = CGRectMake(0, 0, accessoryViewWidth, self.tableView.rowHeight);
         UIView *accessoryView = [[UIView alloc] initWithFrame:accessoryViewRect];
         //
         // "local" view
         //
         CGRect localImageViewRect = CGRectMake(0,
-                                               CGRectGetMidY(accessoryView.bounds) - (sLocalImage.size.height / 2.0),
-                                               sLocalImage.size.width,
-                                               sLocalImage.size.height);
+                                               CGRectGetMidY(accessoryView.bounds) - (localImage.size.height / 2.0),
+                                               localImage.size.width,
+                                               localImage.size.height);
         UIImageView *localImageView = [[UIImageView alloc] initWithFrame:localImageViewRect];
-        localImageView.image = sLocalImage;
+        localImageView.image = localImage;
         [accessoryView addSubview:localImageView];
         //
         // spacer view
@@ -323,6 +345,14 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
             }
         });
     }];
+}
+
+- (void)addContact {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
+    ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initForNewContactWithDataManager:self.dataMgr saveBlock:^{
+        [self.dataMgr refreshLocalData];
+    }];
+    [self.navigationController pushViewController:detailVc animated:YES];
 }
 
 - (void)layoutToastView {

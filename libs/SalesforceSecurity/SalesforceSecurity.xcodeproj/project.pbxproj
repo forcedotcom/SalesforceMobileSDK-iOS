@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		00AB96A41A1444AF0029E119 /* SFEncryptionKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */; };
+		00AB96A61A1445C40029E119 /* SFSecurityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AB96A51A1445C40029E119 /* SFSecurityTests.m */; };
+		00D46DCF1A12C74C000C1008 /* SFKeyStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */; };
 		820AB72818E230EC00E25E1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72718E230EC00E25E1D /* Foundation.framework */; };
 		820AB73618E230EC00E25E1D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB73518E230EC00E25E1D /* XCTest.framework */; };
 		820AB73718E230EC00E25E1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72718E230EC00E25E1D /* Foundation.framework */; };
@@ -75,6 +78,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFEncryptionKeyTests.m; sourceTree = "<group>"; };
+		00AB96A51A1445C40029E119 /* SFSecurityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityTests.m; sourceTree = "<group>"; };
+		00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFKeyStoreManagerTests.m; sourceTree = "<group>"; };
 		820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820AB72718E230EC00E25E1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		820AB72B18E230EC00E25E1D /* SalesforceSecurity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSecurity-Prefix.pch"; sourceTree = "<group>"; };
@@ -200,6 +206,9 @@
 		820AB73D18E230EC00E25E1D /* SalesforceSecurityTests */ = {
 			isa = PBXGroup;
 			children = (
+				00AB96A51A1445C40029E119 /* SFSecurityTests.m */,
+				00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */,
+				00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */,
 				82E0D87B1912F01300A8FC23 /* SFKeyStoreTests.m */,
 				82AA405318E3AA0000BD34D8 /* SFPasscodeTests.m */,
 				82AA404F18E3A67F00BD34D8 /* SFSDKCryptoUtilsTests.m */,
@@ -395,6 +404,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00AB96A61A1445C40029E119 /* SFSecurityTests.m in Sources */,
+				00AB96A41A1444AF0029E119 /* SFEncryptionKeyTests.m in Sources */,
+				00D46DCF1A12C74C000C1008 /* SFKeyStoreManagerTests.m in Sources */,
 				82AA405418E3AA0000BD34D8 /* SFPasscodeTests.m in Sources */,
 				82E0D87C1912F01300A8FC23 /* SFKeyStoreTests.m in Sources */,
 				82AA405018E3A67F00BD34D8 /* SFSDKCryptoUtilsTests.m in Sources */,
