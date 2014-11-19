@@ -26,15 +26,11 @@
 
 @interface SFObject ()
 
-@property (nonatomic, strong, readwrite) NSDictionary *rawData;
-@property (nonatomic, strong, readwrite) NSString *objectType;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSString *objectId;
 
 - (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
 
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction;
-
-- (id)initWithDictionary:(NSDictionary *)dataDiction;
 
 @end

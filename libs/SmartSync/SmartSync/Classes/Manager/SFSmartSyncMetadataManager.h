@@ -31,6 +31,11 @@
 extern NSString * const SFMetadataManagerErrorDomain;
 extern NSInteger  const SFMetadataManagerErrorCode;
 
+// Cache constants
+extern NSString * const kSFMRUCacheType;
+extern NSString * const kSFMetadataCacheType;
+extern NSString * const kSFAllObjectsCacheKey;
+
 @class SFUserAccount;
 
 /** This class defines APIs required to interact with metadata.
@@ -62,6 +67,8 @@ extern NSInteger  const SFMetadataManagerErrorCode;
  @param user The user
  */
 + (void)removeSharedInstance:(SFUserAccount*)user;
+
++ (NSString *)globalMruCacheKey;
 
 /** Get a list of smart scope object types
  

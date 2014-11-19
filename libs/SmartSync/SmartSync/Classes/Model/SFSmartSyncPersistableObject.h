@@ -22,33 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSmartSyncPersistableObject.h"
+@interface SFSmartSyncPersistableObject : NSObject
 
-@interface SFObjectType : SFSmartSyncPersistableObject <NSCoding>
+@property (nonatomic, strong) NSDictionary *rawData;
+@property (nonatomic, readonly, copy) NSString *objectType;
 
-/** Object type key prefix */
-@property (nonatomic, strong, readonly) NSString *keyPrefix;
-
-/** Object name */
-@property (nonatomic, strong, readonly) NSString *name;
-
-/** Object label */
-@property (nonatomic, strong, readonly) NSString *label;
-
-/** Object plural label */
-@property (nonatomic, strong, readonly) NSString *labelPlural;
-
-/** Object name field */
-@property (nonatomic, strong, readonly) NSString *nameField;
-
-/** Fields, array of NSDictionary objects */
-@property (nonatomic, strong, readonly) NSArray *fields;
-
-/** Searchable */
-- (BOOL)isSearchable;
-
-/** Layoutable */
-- (BOOL)isLayoutable;
+- (id)initWithDictionary:(NSDictionary *)data;
+- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType;
 
 @end

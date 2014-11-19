@@ -23,15 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSmartSyncPersistableObject.h"
 
-@interface SFObjectTypeLayout : NSObject <NSCoding>
+@interface SFObjectTypeLayout : SFSmartSyncPersistableObject <NSCoding>
 
-@property (nonatomic, strong, readonly) NSString *objectType;
 @property (nonatomic, strong, readonly) NSNumber *limit;
 @property (nonatomic, strong, readonly) NSArray *columns;
-
-/** Complete metadata */
-@property (nonatomic, strong, readonly) NSDictionary *rawData;
 
 + (NSString *)parseColumnName:(NSString *)columnName;
 
