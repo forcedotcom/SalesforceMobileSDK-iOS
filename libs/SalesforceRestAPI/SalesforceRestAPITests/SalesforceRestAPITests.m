@@ -194,6 +194,21 @@ static NSException *authException = nil;
     STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+// simple: just invoke requestForSearchScopeAndOrder
+- (void)testGetSearchScopeAndOrder {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+// simple: just invoke requestForSearchResultLayout:@"Account"
+- (void)testGetSearchResultLayout {
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:@"Account"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+}
+
+
 
 // attempt to create a Contact with none of the required fields (should fail)
 - (void)testCreateBogusContact {
