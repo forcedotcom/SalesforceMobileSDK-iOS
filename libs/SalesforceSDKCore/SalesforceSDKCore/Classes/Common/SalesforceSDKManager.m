@@ -562,7 +562,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
                                  appName,
                                  appVersion,
                                  [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
-                                 qualifier,
+                                 (qualifier != nil ? qualifier : @""),
                                  currentUserAgent
                                  ];
         
