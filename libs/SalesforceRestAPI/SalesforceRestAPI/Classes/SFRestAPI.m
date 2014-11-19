@@ -34,8 +34,6 @@
 NSString* const kSFRestDefaultAPIVersion = @"v31.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
-NSString * const kSFMobileSDKNativeDesignator = @"Native";
-NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 
 
 // singleton instance
@@ -157,28 +155,11 @@ static BOOL kIsTestRun;
 
 + (NSString *)userAgentString:(NSString*)qualifier {
     
-    // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-    // really doesn't want you to know about its HTTP headers.
-    NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
-    
-    UIDevice *curDevice = [UIDevice currentDevice];
-    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-
-    NSString *myUserAgent = [NSString stringWithFormat:
-                             @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ %@",
-                             SALESFORCE_SDK_VERSION,
-                             [curDevice systemName],
-                             [curDevice systemVersion],
-                             [curDevice model],
-                             appName,
-                             appVersion,
-                             [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
-                             qualifier,
-                             currentUserAgent
-                             ];
-    
-    return myUserAgent;
+    NSString *returnString = @"";
+    if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
+        returnString = [SalesforceSDKManager sharedManager].userAgentString(qualifier);
+    }
+    return returnString;
 }
 
 #pragma mark - SFNetworkEngine Delegate

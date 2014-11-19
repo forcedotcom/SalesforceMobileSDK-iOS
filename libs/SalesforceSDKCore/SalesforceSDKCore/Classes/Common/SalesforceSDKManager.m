@@ -26,6 +26,7 @@
 #import "SFAuthenticationManager+Internal.h"
 #import "SFSecurityLockout+Internal.h"
 #import "SFRootViewManager.h"
+#import "SFSDKWebUtils.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
@@ -34,6 +35,10 @@
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
+
+// User agent constants
+static NSString * const kSFMobileSDKNativeDesignator = @"Native";
+static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 
 // Key for whether or not the user has chosen the app setting to logout of the
 // app when it is re-opened.
@@ -70,6 +75,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         self.isNative = NSClassFromString(@"SFHybridViewController") == nil;
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
+        self.userAgentString = [self defaultUserAgentString];
         
         // Make sure the login host settings and dependent data are synced at pre-auth app startup.
         // Note: No event generation necessary here.  This will happen before the first authentication
@@ -535,6 +541,33 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     self.launchActions |= launchAction;
     [self sendPostLaunch];
+}
+
+- (SFSDKUserAgentCreationBlock)defaultUserAgentString {
+    return ^NSString *(NSString *qualifier) {
+        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+        // really doesn't want you to know about its HTTP headers.
+        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
+        
+        UIDevice *curDevice = [UIDevice currentDevice];
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+        
+        NSString *myUserAgent = [NSString stringWithFormat:
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ %@",
+                                 SALESFORCE_SDK_VERSION,
+                                 [curDevice systemName],
+                                 [curDevice systemVersion],
+                                 [curDevice model],
+                                 appName,
+                                 appVersion,
+                                 [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
+                                 (qualifier != nil ? qualifier : @""),
+                                 currentUserAgent
+                                 ];
+        
+        return myUserAgent;
+    };
 }
 
 - (void)addDelegate:(id<SalesforceSDKManagerDelegate>)delegate

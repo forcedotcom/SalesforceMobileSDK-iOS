@@ -124,6 +124,11 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 + (NSDictionary *)credentialsAsDictionary;
 
 /**
+ @return The user agent string for SF hybrid apps.  @see [SalesforceSDKManager sharedManager].userAgentString @/see
+ */
++ (NSString *)sfHybridViewUserAgentString;
+
+/**
  Determines whether an error that occurs during the web view load is fatal or not.  For example,
  redirects can sometimes generate an NSURLErrorCancelled error in the web view, which shouldn't
  otherwise halt the progress of the app.

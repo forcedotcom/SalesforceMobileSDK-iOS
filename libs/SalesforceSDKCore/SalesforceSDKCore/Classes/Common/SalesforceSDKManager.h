@@ -68,6 +68,11 @@ typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
  */
 typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 
+/**
+ Block to return a user agent string, with an optional qualifier.
+ */
+typedef NSString* (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -184,6 +189,13 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
          [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
  */
 @property (nonatomic, copy) NSString *preferredPasscodeProvider;
+
+/**
+ Gets or sets a block that will return a user agent string, created with an optional qualifier.
+ Default implementation, when executed, will return a user agent of the form:
+ SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion *Native or Hybrid with optional qualifier* *Web-based user agent string*
+ */
+@property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString;
 
 /**
  Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
