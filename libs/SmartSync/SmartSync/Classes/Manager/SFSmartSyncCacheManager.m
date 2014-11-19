@@ -25,7 +25,7 @@
 #import "SFSmartSyncCacheManager.h"
 #import "SFObject.h"
 #import "SFObjectType.h"
-#import "SmartSyncPersistableObject.h"
+#import "SFSmartSyncPersistableObject.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
@@ -242,7 +242,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     // Check SmartStore if in-memory cache not found.
-    if (![objectClass isSubclassOfClass:[SmartSyncPersistableObject class]]) {
+    if (![objectClass isSubclassOfClass:[SFSmartSyncPersistableObject class]]) {
         [self log:SFLogLevelError format:@"%@: Object type class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), objectClass];
         return nil;
     }
@@ -316,7 +316,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     
     Class inputDataClass = [inputData[0] class];
     for (id arrayItem in inputData) {
-        if (![arrayItem isKindOfClass:[SmartSyncPersistableObject class]]) {
+        if (![arrayItem isKindOfClass:[SFSmartSyncPersistableObject class]]) {
             [self log:SFLogLevelError format:@"%@: Data with class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
             return NO;
         }
@@ -324,7 +324,7 @@ static NSMutableDictionary *cacheMgrList = nil;
             [self log:SFLogLevelError format:@"%@: Input data items should all be the same class.  Current mixture of '%@' and '%@'.", NSStringFromSelector(_cmd), NSStringFromClass(inputDataClass), NSStringFromClass([arrayItem class])];
             return NO;
         }
-        if (((SmartSyncPersistableObject *)arrayItem).rawData == nil) {
+        if (((SFSmartSyncPersistableObject *)arrayItem).rawData == nil) {
             [self log:SFLogLevelError format:@"%@: Raw data of '%@' item should not be nil.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
             return NO;
         }
@@ -336,7 +336,7 @@ static NSMutableDictionary *cacheMgrList = nil;
 - (NSArray *)convertToPersistable:(NSArray *)dataObjectsToPersist {
     // NB: Assumes isValidStoreCacheData: has already validated this data.
     NSMutableArray *returnData = [NSMutableArray array];
-    for (SmartSyncPersistableObject *objectToPersist in dataObjectsToPersist) {
+    for (SFSmartSyncPersistableObject *objectToPersist in dataObjectsToPersist) {
         NSMutableDictionary *persistDict = [NSMutableDictionary dictionary];
         persistDict[kRawDataKey] = objectToPersist.rawData;
         if (objectToPersist.objectType != nil) {
@@ -358,11 +358,11 @@ static NSMutableDictionary *cacheMgrList = nil;
         }
         NSString *objectType = persistedObjectDict[kTypeKey];
         
-        SmartSyncPersistableObject *convertedObject;
+        SFSmartSyncPersistableObject *convertedObject;
         if (objectType == nil) {
-            convertedObject = [(SmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict];
+            convertedObject = [(SFSmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict];
         } else {
-            convertedObject = [(SmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict forObjectType:objectType];
+            convertedObject = [(SFSmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict forObjectType:objectType];
         }
         [convertedDataObjects addObject:convertedObject];
     }

@@ -23,7 +23,7 @@
  */
 
 #import "SFObject+Internal.h"
-#import "SmartSyncPersistableObject+Internal.h"
+#import "SFSmartSyncPersistableObject+Internal.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 

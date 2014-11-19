@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SmartSyncPersistableObject.h"
+#import "SFSmartSyncPersistableObject.h"
 
-@interface SFObjectTypeLayout : SmartSyncPersistableObject <NSCoding>
+@interface SFObjectTypeLayout : SFSmartSyncPersistableObject <NSCoding>
 
 @property (nonatomic, strong, readonly) NSNumber *limit;
 @property (nonatomic, strong, readonly) NSArray *columns;

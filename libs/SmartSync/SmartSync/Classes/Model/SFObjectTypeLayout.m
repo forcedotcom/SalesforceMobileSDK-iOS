@@ -23,7 +23,7 @@
  */
 
 #import "SFObjectTypeLayout+Internal.h"
-#import "SmartSyncPersistableObject+Internal.h"
+#import "SFSmartSyncPersistableObject+Internal.h"
 #import "SFSmartSyncConstants.h"
 
 @implementation SFObjectTypeLayout

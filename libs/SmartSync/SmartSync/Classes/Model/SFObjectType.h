@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SmartSyncPersistableObject.h"
+#import "SFSmartSyncPersistableObject.h"
 
-@interface SFObjectType : SmartSyncPersistableObject <NSCoding>
+@interface SFObjectType : SFSmartSyncPersistableObject <NSCoding>
 
 /** Object type key prefix */
 @property (nonatomic, strong, readonly) NSString *keyPrefix;

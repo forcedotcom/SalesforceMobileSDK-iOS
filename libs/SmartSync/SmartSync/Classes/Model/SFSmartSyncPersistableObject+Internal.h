@@ -22,12 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SmartSyncPersistableObject : NSObject
+#import "SFSmartSyncPersistableObject.h"
 
-@property (nonatomic, strong) NSDictionary *rawData;
-@property (nonatomic, readonly, copy) NSString *objectType;
+@interface SFSmartSyncPersistableObject ()
 
-- (id)initWithDictionary:(NSDictionary *)data;
-- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType;
+@property (nonatomic, readwrite, copy) NSString *objectType;
 
 @end

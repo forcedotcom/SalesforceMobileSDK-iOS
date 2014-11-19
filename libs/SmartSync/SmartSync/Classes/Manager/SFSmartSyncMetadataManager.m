@@ -31,7 +31,7 @@
 #import "SFObjectType+Internal.h"
 #import "SFObject+Internal.h"
 #import "SFObjectTypeLayout+Internal.h"
-#import "SmartSyncPersistableObject+Internal.h"
+#import "SFSmartSyncPersistableObject+Internal.h"
 
 // Default API version.
 static NSString * kDefaultApiVersion = @"v31.0";

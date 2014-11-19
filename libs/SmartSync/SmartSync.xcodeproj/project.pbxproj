@@ -30,9 +30,9 @@
 		4F22155C19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F22155D19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */; };
 		4F3A72EF19DB89CF00E6F468 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */; };
-		8207891E1A1BBC56009E9831 /* SmartSyncPersistableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207891D1A1BBC56009E9831 /* SmartSyncPersistableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		820789221A1D2555009E9831 /* SmartSyncPersistableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 820789211A1D2555009E9831 /* SmartSyncPersistableObject.m */; };
-		820789241A1D26D9009E9831 /* SmartSyncPersistableObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 820789231A1D26D9009E9831 /* SmartSyncPersistableObject+Internal.h */; };
+		8207891E1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		820789221A1D2555009E9831 /* SFSmartSyncPersistableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */; };
+		820789241A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */; };
 		82722FFF19D4FD170066A350 /* SFSmartSyncMetadataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300019D4FD170066A350 /* SFSmartSyncCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300219D4FD170066A350 /* SFObject.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7C196B3EB60076264C /* SFObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -109,9 +109,9 @@
 		4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncSyncManager.h; path = Manager/SFSmartSyncSyncManager.h; sourceTree = "<group>"; };
 		4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncSyncManager.m; path = Manager/SFSmartSyncSyncManager.m; sourceTree = "<group>"; };
 		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8207891D1A1BBC56009E9831 /* SmartSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSyncPersistableObject.h; sourceTree = "<group>"; };
-		820789211A1D2555009E9831 /* SmartSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncPersistableObject.m; sourceTree = "<group>"; };
-		820789231A1D26D9009E9831 /* SmartSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SmartSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
+		8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncPersistableObject.h; sourceTree = "<group>"; };
+		820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncPersistableObject.m; sourceTree = "<group>"; };
+		820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSmartSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
 		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -346,9 +346,9 @@
 				CEF50A81196B3EB60076264C /* SFObjectTypeLayout+Internal.h */,
 				CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */,
 				CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */,
-				820789231A1D26D9009E9831 /* SmartSyncPersistableObject+Internal.h */,
-				8207891D1A1BBC56009E9831 /* SmartSyncPersistableObject.h */,
-				820789211A1D2555009E9831 /* SmartSyncPersistableObject.m */,
+				820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */,
+				8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */,
+				820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -394,10 +394,10 @@
 				8272300619D4FD170066A350 /* SFSmartSyncConstants.h in Headers */,
 				4F1283751A018ED9007F87EC /* SFSyncTarget.h in Headers */,
 				8272300719D4FD170066A350 /* SFSmartSyncSoqlBuilder.h in Headers */,
-				820789241A1D26D9009E9831 /* SmartSyncPersistableObject+Internal.h in Headers */,
+				820789241A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h in Headers */,
 				8272300819D4FD170066A350 /* SFSmartSyncSoslBuilder.h in Headers */,
 				4F12836C1A004A1B007F87EC /* SFSyncState.h in Headers */,
-				8207891E1A1BBC56009E9831 /* SmartSyncPersistableObject.h in Headers */,
+				8207891E1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h in Headers */,
 				8272300919D4FD170066A350 /* SFSmartSyncSoslReturningBuilder.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -507,7 +507,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				820789221A1D2555009E9831 /* SmartSyncPersistableObject.m in Sources */,
+				820789221A1D2555009E9831 /* SFSmartSyncPersistableObject.m in Sources */,
 				4F12836D1A004A1B007F87EC /* SFSyncState.m in Sources */,
 				CECDF84119A5468E007A29E5 /* SFSmartSyncObjectUtils.m in Sources */,
 				CEF50A91196B57190076264C /* SFSmartSyncSoqlBuilder.m in Sources */,
