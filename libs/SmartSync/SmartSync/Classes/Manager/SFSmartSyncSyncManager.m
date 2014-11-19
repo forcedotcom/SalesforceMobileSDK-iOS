@@ -87,7 +87,7 @@ typedef enum {
 
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, strong) SFRestAPI *restClient;
+@property (nonatomic, readonly) SFRestAPI *restClient;
 
 @end
 
@@ -130,7 +130,6 @@ dispatch_queue_t queue;
     self = [super init];
     if (self) {
         self.user = user;
-        self.restClient = [SFRestAPI sharedInstance];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
@@ -140,6 +139,10 @@ dispatch_queue_t queue;
 
 - (void)dealloc {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+}
+
+- (SFRestAPI *) restClient {
+    return [SFRestAPI sharedInstance];
 }
 
 - (SFSmartStore *)store {

@@ -62,7 +62,7 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 @interface SFSmartSyncMetadataManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
-@property (nonatomic, strong) SFRestAPI *restClient;
+@property (nonatomic, readonly) SFRestAPI *restClient;
 @property (nonatomic, assign) BOOL cacheEnabled;
 @property (nonatomic, assign) BOOL encryptCache;
 
@@ -121,7 +121,6 @@ static NSMutableDictionary *metadataMgrList = nil;
     self = [super init];
     if (self) {
         self.user = user;
-        self.restClient = [SFRestAPI sharedInstance];
         self.cacheManager = [SFSmartSyncCacheManager sharedInstance:user];
         self.apiVersion = kDefaultApiVersion;
         self.cacheEnabled = YES;
@@ -133,6 +132,10 @@ static NSMutableDictionary *metadataMgrList = nil;
 
 - (void)dealloc {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+}
+
+- (SFRestAPI *) restClient {
+    return [SFRestAPI sharedInstance];
 }
 
 - (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy
