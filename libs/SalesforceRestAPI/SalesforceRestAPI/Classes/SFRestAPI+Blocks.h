@@ -222,6 +222,28 @@ typedef void (^SFRestDataResponseBlock) (NSData* data);
                                      completeBlock:(SFRestDataResponseBlock)completeBlock;
 
 /**
+ * Executes a request to get search scope and order
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
+ */
+
+- (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
+                                     completeBlock:(SFRestArrayResponseBlock)completeBlock;
+
+/**
+ * Executes a request to get search result layout
+ * @param fieldList comma-separated list of objects for which
+ *               to return values; for example, "Account,Contact".
+ * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
+ * @param completeBlock the block to be executed when the request successfully completes
+ * @return the newly sent SFRestRequest
+ */
+- (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
+                                              failBlock:(SFRestFailBlock)failBlock
+                                          completeBlock:(SFRestArrayResponseBlock)completeBlock;
+
+/**
  * Executes a request that returns json
  * @param method the HTTP method
  * @param path the request path

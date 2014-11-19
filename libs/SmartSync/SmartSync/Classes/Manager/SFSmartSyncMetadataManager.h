@@ -23,7 +23,6 @@
  */
 
 #import <UIKit/UIColor.h>
-#import "SFSmartSyncNetworkManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFObjectType.h"
@@ -49,10 +48,6 @@ extern NSInteger  const SFMetadataManagerErrorCode;
 /** API version being used.
  */
 @property (nonatomic, copy) NSString *apiVersion;
-
-/** Network manager being used.
- */
-@property (nonatomic, strong) SFSmartSyncNetworkManager *networkManager;
 
 /** Cache manager being used.
  */

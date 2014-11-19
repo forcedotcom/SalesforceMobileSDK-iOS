@@ -67,7 +67,6 @@
 		4FC109681A0C4FA300AC6284 /* SFSmartSyncCacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncCacheManager.h; sourceTree = "<group>"; };
 		4FC109691A0C4FA300AC6284 /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		4FC1096A1A0C4FA300AC6284 /* SFSmartSyncMetadataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncMetadataManager.h; sourceTree = "<group>"; };
-		4FC1096B1A0C4FA300AC6284 /* SFSmartSyncNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncNetworkManager.h; sourceTree = "<group>"; };
 		4FC1096C1A0C4FA300AC6284 /* SFSmartSyncObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncObjectUtils.h; sourceTree = "<group>"; };
 		4FC1096D1A0C4FA300AC6284 /* SFSmartSyncSoqlBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncSoqlBuilder.h; sourceTree = "<group>"; };
 		4FC1096E1A0C4FA300AC6284 /* SFSmartSyncSoslBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncSoslBuilder.h; sourceTree = "<group>"; };
@@ -318,7 +317,6 @@
 				4FC109681A0C4FA300AC6284 /* SFSmartSyncCacheManager.h */,
 				4FC109691A0C4FA300AC6284 /* SFSmartSyncConstants.h */,
 				4FC1096A1A0C4FA300AC6284 /* SFSmartSyncMetadataManager.h */,
-				4FC1096B1A0C4FA300AC6284 /* SFSmartSyncNetworkManager.h */,
 				4FC1096C1A0C4FA300AC6284 /* SFSmartSyncObjectUtils.h */,
 				4FC1096D1A0C4FA300AC6284 /* SFSmartSyncSoqlBuilder.h */,
 				4FC1096E1A0C4FA300AC6284 /* SFSmartSyncSoslBuilder.h */,

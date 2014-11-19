@@ -221,7 +221,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 - (SFRestRequest *)requestForDescribeGlobal;
 
 /**
- * Returns an `SFRestRequest` which Describes the individual metadata for the
+ * Returns an `SFRestRequest` which describes the individual metadata for the
  * specified object.
  * @param objectType object type; for example, "Account"
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_basic_info.htm
@@ -322,6 +322,21 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search.htm
  */
 - (SFRestRequest *)requestForSearch:(NSString *)sosl;
+
+/**
+ * Returns an `SFRestRequest` which returns an ordered list of objects in the default global search scope of a logged-in user.
+ * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_scope_order.htm
+ */
+- (SFRestRequest *)requestForSearchScopeAndOrder;
+
+
+/**
+ * Returns an `SFRestRequest` which returns search result layout information for the objects in the query string.
+ * @param fieldList comma-separated list of objects for which
+ *               to return values; for example, "Account,Contact".
+ * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_layouts.htm
+ */
+- (SFRestRequest *)requestForSearchResultLayout:(NSString*)objectList;
 
 
 ///---------------------------------------------------------------------------------------

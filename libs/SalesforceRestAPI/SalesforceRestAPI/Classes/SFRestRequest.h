@@ -167,6 +167,11 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
+/**
+ * Returns YES if error is a network error
+ */
++ (BOOL)isNetworkError:(NSError *)error;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

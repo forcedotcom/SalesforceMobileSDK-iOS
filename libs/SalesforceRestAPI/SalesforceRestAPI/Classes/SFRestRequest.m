@@ -26,6 +26,7 @@
 #import "SFRestAPI+Internal.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceNetworkSDK/SFNetworkUtils.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
@@ -244,5 +245,11 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     [[SFRestAPI sharedInstance] removeActiveRequestObject:self];
 }
 
+#pragma mark - Util method
+
++ (BOOL)isNetworkError:(NSError *)error {
+    SFNetworkOperationErrorType typeOfError = [SFNetworkUtils typeOfError:error];
+    return (typeOfError == SFNetworkOperationErrorTypeNetworkError);
+}
 
 @end

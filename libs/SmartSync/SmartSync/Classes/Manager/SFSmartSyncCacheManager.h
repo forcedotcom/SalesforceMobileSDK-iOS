@@ -64,7 +64,7 @@ typedef  enum {
 - (void)removeCache:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
 
 /** Reurn YES if need to reload cache.
- Before calling this method, user should use `[SFDataCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime]`, `[SFDataCacheManager readArchivableObjectWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime]` or `[SFDataCacheManager readDictionaryObjectWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime]` to find out whether cache exists or not and what is the last time cache is updated
+ Before calling this method, user should use `[SFSmartSyncCacheManager readDataWithCacheType:cacheKey:cachePolicy:encrypted:cachedTime]` to find out whether cache exists or not and what is the last time cache is updated
  @param cacheExists YES if cache already exists.
  @param cachePolicy `SFDataCachePolicy` used to decide
  @param cacheTime Last time cache is updated

@@ -202,6 +202,24 @@ static char CompleteBlockKey;
     return request;
 }
 
+- (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
+                                           completeBlock:(SFRestArrayResponseBlock)completeBlock {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
+    [self sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
+    return request;
+}
+
+- (SFRestRequest *) performRequestForSearchResultLayout:(NSString*)objectList
+                                              failBlock:(SFRestFailBlock)failBlock
+                                          completeBlock:(SFRestArrayResponseBlock)completeBlock {
+    
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:objectList];
+    [self sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
+    return request;
+}
+
+
+
 - (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method path:(NSString*)path queryParams:(NSDictionary*)queryParams failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
     [self sendRESTRequest:request
