@@ -149,7 +149,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         
         [self.store removeSoup:soupName];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
 
@@ -237,7 +237,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         
         [self.store removeEntries:entryIds fromSoup:soupName];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
 
@@ -249,7 +249,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         
         [self closeCursorWithId:cursorId];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
 
@@ -275,7 +275,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         
         [self.store clearSoup:soupName];
         
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
 
@@ -324,7 +324,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         [SFSmartStoreInspectorViewController present];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
     

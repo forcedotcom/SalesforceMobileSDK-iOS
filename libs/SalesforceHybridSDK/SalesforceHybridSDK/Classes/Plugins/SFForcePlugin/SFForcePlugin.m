@@ -36,10 +36,11 @@
     
     [self log:SFLogLevelDebug format:@"%@ called.", command.methodName];
  
+    __weak SFForcePlugin* weakSelf = self;
     [self.commandDelegate runInBackground:^{
         CDVPluginResult* result = block(argsDict);
-        [self log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
-        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
+        [weakSelf log:SFLogLevelDebug format:@"%@ returning after %f secs.", command.methodName, -[startTime timeIntervalSinceNow]];
+        [weakSelf.commandDelegate sendPluginResult:result callbackId:callbackId];
     }];
 }
 
