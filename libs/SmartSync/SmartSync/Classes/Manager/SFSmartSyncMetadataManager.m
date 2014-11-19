@@ -31,6 +31,7 @@
 #import "SFObjectType+Internal.h"
 #import "SFObject+Internal.h"
 #import "SFObjectTypeLayout+Internal.h"
+#import "SmartSyncPersistableObject+Internal.h"
 
 // Default API version.
 static NSString * kDefaultApiVersion = @"v31.0";
@@ -51,7 +52,7 @@ NSString * const kSFMRUCacheType= @"recent_objects";
 NSString * const kSFMetadataCacheType= @"metadata";
 NSString * const kSFSmartScopeObjectTypes = @"smart_search_scopes";
 NSString * const kSFMRUObjectsByObjectType = @"mru_for_%@";
-NSString * const kSFAllObjects = @"all_objects";
+NSString * const kSFAllObjectsCacheKey = @"all_objects";
 NSString * const kSFAllSearchableObjects = @"all_searchable_objects";
 NSString * const kSFObjectByType = @"object_info_%@";
 NSString * const kSFObjectLayoutByType = @"object_layout_%@";
@@ -77,9 +78,13 @@ static NSString *const kSFMetadataRestApiPath = @"services/data";
 - (SFObjectType *)cachedObjectType:(NSString *)objectTypeName cachedTime:(out NSDate **)cachedTime;
 - (void)removeObjectTypesLayout:(NSArray *)objectTypesToLoad;
 - (BOOL)canLoadLayoutForObjectType:(SFObjectType *)objectType;
-- (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
-- (id)cachedObject:(SFDataCachePolicy)cachePolicy cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey
-                objectClass:(Class)objectClass containedObjectClass:(Class)objectClass cachedTime:(out NSDate **)cachedTime;
+- (void)cacheObjects:(NSArray *)objects cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey;
+- (NSArray *)cachedObjects:(SFDataCachePolicy)cachePolicy
+                 cacheType:(NSString *)cacheType
+                  cacheKey:(NSString *)cacheKey
+               objectClass:(Class)objectClass
+                cachedTime:(out NSDate **)cachedTime;
+
 - (NSString *)returnFieldsForObjectType:(SFObjectType *)objectType;
 
 @end
@@ -138,6 +143,10 @@ static NSMutableDictionary *metadataMgrList = nil;
     return [SFRestAPI sharedInstance];
 }
 
++ (NSString *)globalMruCacheKey {
+    return [NSString stringWithFormat:kSFMRUObjectsByObjectType, @"global"];
+}
+
 - (void)loadSmartScopeObjectTypes:(SFDataCachePolicy)cachePolicy
           refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                   completionBlock:(void(^)(NSArray *results, BOOL isDataFromCache))completionBlock
@@ -153,7 +162,7 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Checks the cache first.
     NSDate *cachedTime = nil;
-    NSArray *cachedData = (NSArray *)[self cachedObject:cachePolicy cacheType:cacheType cacheKey:cacheKey objectClass:[NSArray class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+    NSArray *cachedData = [self cachedObjects:cachePolicy cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] cachedTime:&cachedTime];
     __block BOOL completionBlockInvoked = NO;
     if (cachedData && cachedData.count > 0 && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
         completionBlockInvoked = YES;
@@ -198,7 +207,7 @@ static NSMutableDictionary *metadataMgrList = nil;
 
             // Caches the data.
             if ([self shouldCacheData:cachePolicy]) {
-                [self cacheObject:objectTypes cacheType:cacheType cacheKey:cacheKey];
+                [self cacheObjects:objectTypes cacheType:cacheType cacheKey:cacheKey];
             }
             if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
                 completionBlock(objectTypes, NO);
@@ -282,10 +291,10 @@ static NSMutableDictionary *metadataMgrList = nil;
 }
 
 - (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy
-            refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
-                networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry
-                    completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
-                        error:(void(^)(NSError *error))errorBlock {
+refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
+      networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry
+            completion:(void(^)(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache))completionBlock
+                 error:(void(^)(NSError *error))errorBlock {
     if (limit > kSFMetadataMaximumLimit || limit < 0) {
         limit = kSFMetadataMaximumLimit;
     }
@@ -293,27 +302,27 @@ static NSMutableDictionary *metadataMgrList = nil;
     NSString *cacheKey = nil;
     BOOL globalMRU = NO;
     if ([SFSmartSyncObjectUtils isEmpty:objectTypeName]) {
-
+        
         // Gets global MRU objects.
         globalMRU = YES;
-        cacheKey = [NSString stringWithFormat:kSFMRUObjectsByObjectType, @"global"];
+        cacheKey = [[self class] globalMruCacheKey];
     } else {
         cacheKey = [NSString stringWithFormat:kSFMRUObjectsByObjectType, objectTypeName];
     }
-
+    
     // Checks the cache first.
     NSDate *cachedTime = nil;
-    NSArray *cachedData = (NSArray *)[self cachedObject:cachePolicy cacheType:cacheType cacheKey:cacheKey objectClass:[NSArray class] containedObjectClass:[SFObject class] cachedTime:&cachedTime];
+    NSArray *cachedData = [self cachedObjects:cachePolicy cacheType:cacheType cacheKey:cacheKey objectClass:[SFObject class] cachedTime:&cachedTime];
     __block BOOL completionBlockInvoked = NO;
     if (cachedData && limit > 0 && limit < cachedData.count) {
-
+        
         // Removes items based on the limit passed in.
         NSMutableArray *updatedItems = [NSMutableArray arrayWithArray:cachedData];
         [updatedItems removeObjectsInRange:NSMakeRange(limit, cachedData.count - limit)];
         cachedData = updatedItems;
     }
     BOOL needToReloadCache = YES;
-
+    
     // Checks to see if we need to refresh the cache.
     if (![self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
         needToReloadCache = NO;
@@ -324,10 +333,10 @@ static NSMutableDictionary *metadataMgrList = nil;
             completionBlock(cachedData, YES, needToReloadCache);
         }
     }
-
+    
     // Checks to see if need to refresh the cache.
     if (!needToReloadCache) {
-
+        
         // No need to refresh the cache, hence returns directly.
         if (!completionBlockInvoked && completionBlock) {
             completionBlock(cachedData, YES, needToReloadCache);
@@ -349,7 +358,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             errorBlock(error);
         }
     };
-
+    
     // Loads the MRU objects.
     void (^loadRecentsBlock)(SFObjectType *objectType) = ^(SFObjectType *objectType){
         SFSmartSyncSoqlBuilder *queryBuilder = nil;
@@ -395,7 +404,6 @@ static NSMutableDictionary *metadataMgrList = nil;
             [queryBuilder where:whereClause];
         }
         NSString * queryString = [queryBuilder build];
-
         
         SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* returnDict) {
             NSArray *returnedItems = returnDict[@"records"];
@@ -412,13 +420,8 @@ static NSMutableDictionary *metadataMgrList = nil;
                     if ([object.objectType isEqualToString:kContent]) {
                         object.objectType = kContentVersion;
                     }
-                    SFObjectType *objectDef = [self cachedObjectType:object.objectType cachedTime:nil];
-                    if ([self isObjectTypeSearchable:objectDef]) {
-                        [returnList addObject:object];
-                    }
-                } else {
-                    [returnList addObject:object];
                 }
+                [returnList addObject:object];
             }
             recentItems = returnList;
             if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
@@ -427,10 +430,10 @@ static NSMutableDictionary *metadataMgrList = nil;
             
             // Save data to the cache.
             if ([self shouldCacheData:cachePolicy]) {
-                [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
+                [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
             }
         };
-    
+        
         SFRestFailBlock failBlock = ^(NSError *error) {
             if (error.code == 400) {
                 
@@ -442,12 +445,12 @@ static NSMutableDictionary *metadataMgrList = nil;
                 callErrorBlock(error);
             }
         };
-
+        
         
         // Send request.
         [self.restClient performSOQLQuery:queryString failBlock:failBlock completeBlock:completeBlock];
     };
-
+    
     // Loads the object layouts.
     void(^loadObjectLayoutBlock)(SFObjectType *objectType)=^(SFObjectType *objectType) {
         SFDataCachePolicy layoutCachePolicy = SFDataCachePolicyReloadAndReturnCacheOnFailure;
@@ -457,7 +460,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             callErrorBlock(error);
         }];
     };
-
+    
     // Loads the object definition.
     void(^loadCompleteObjectDefBlock)(NSString *objectType)=^(NSString *objectType) {
         [self loadObjectType:objectType cachePolicy:SFDataCachePolicyReturnCacheDataAndReloadIfExpired refreshCacheIfOlderThan:kSFMetadataRefreshInterval completion:^(SFObjectType *result, BOOL isDataFromCache) {
@@ -481,11 +484,11 @@ static NSMutableDictionary *metadataMgrList = nil;
                 completion:(void(^)(NSArray * results, BOOL isDataFromCache))completionBlock
                      error:(void(^)(NSError *error))errorBlock {
     NSString *cacheType = kSFMetadataCacheType;
-    NSString *cacheKey = kSFAllObjects;
+    NSString *cacheKey = kSFAllObjectsCacheKey;
 
     // Checks the cache first.
     NSDate *cachedTime = nil;
-    NSArray *cachedData = (NSArray *)[self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[NSArray class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+    NSArray *cachedData = [self cachedObjects:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] cachedTime:&cachedTime];
     BOOL completionBlockInvoked = NO;
     if (cachedData && cachedData.count > 0 && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
         completionBlockInvoked = YES;
@@ -521,7 +524,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         
         // Save data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
-            [self cacheObject:returnList cacheType:cacheType cacheKey:cacheKey];
+            [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
         }
     };
     
@@ -570,21 +573,22 @@ static NSMutableDictionary *metadataMgrList = nil;
 
     // Checks the cache first.
     NSDate *cachedTime = nil;
-    SFObjectType *cachedData = (SFObjectType *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+    NSArray *cachedData = [self cachedObjects:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] cachedTime:&cachedTime];
+    SFObjectType *cachedObjectTypeData = (cachedData.count > 0 ? cachedData[0] : nil);
     BOOL completionBlockInvoked = NO;
-    if (cachedData && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
+    if (cachedObjectTypeData && cachePolicy != SFDataCachePolicyReloadAndReturnCacheOnFailure) {
         completionBlockInvoked = YES;
         if (completionBlock) {
-            completionBlock(cachedData, YES);
+            completionBlock(cachedObjectTypeData, YES);
         }
     }
 
     // Checks to see if we need to refresh the cache.
-    if (![self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
+    if (![self.cacheManager needToReloadCache:(nil != cachedObjectTypeData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
 
         // No need to refresh the cache, hence returns directly.
         if (!completionBlockInvoked && completionBlock) {
-            completionBlock(cachedData, YES);
+            completionBlock(cachedObjectTypeData, YES);
         }
         return;
     }
@@ -599,7 +603,7 @@ static NSMutableDictionary *metadataMgrList = nil;
         
         // Saves data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
-            [self cacheObject:objectType cacheType:cacheType cacheKey:cacheKey];
+            [self cacheObjects:@[ objectType ] cacheType:cacheType cacheKey:cacheKey];
         }
     };
     
@@ -609,11 +613,11 @@ static NSMutableDictionary *metadataMgrList = nil;
         }
         if (error.code == kSFNetworkRequestFailedDueToNoModification) {
             if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-                completionBlock(cachedData, YES);
+                completionBlock(cachedObjectTypeData, YES);
             }
         } else if (!completionBlockInvoked && cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
             if (completionBlock) {
-                completionBlock(cachedData, YES);
+                completionBlock(cachedObjectTypeData, YES);
             }
         } else  if (errorBlock && !completionBlockInvoked) {
             errorBlock(error);
@@ -660,7 +664,8 @@ static NSMutableDictionary *metadataMgrList = nil;
 
         // Checks the cache first.
         NSDate *cachedTime = nil;
-        SFObjectTypeLayout *cachedData = (SFObjectTypeLayout *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] containedObjectClass:[SFObjectType class] cachedTime:&cachedTime];
+        NSArray *cachedData = [self cachedObjects:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] cachedTime:&cachedTime];
+        SFObjectTypeLayout *cachedObjectTypeLayoutData = (cachedData.count > 0 ? cachedData[0] : nil);
         if (cachedTime) {
             if (nil == oldestCacheTime) {
                 oldestCacheTime = cachedTime;
@@ -668,11 +673,11 @@ static NSMutableDictionary *metadataMgrList = nil;
                 oldestCacheTime = cachedTime;
             }
         }
-        if (nil != cachedData) {
-            [layouts addObject:cachedData];
+        if (nil != cachedObjectTypeLayoutData) {
+            [layouts addObject:cachedObjectTypeLayoutData];
 
             // Checks to see if we need to refresh the cache for the specified object type.
-            if ([self.cacheManager needToReloadCache:(nil != cachedData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
+            if ([self.cacheManager needToReloadCache:(nil != cachedObjectTypeLayoutData) cachePolicy:cachePolicy lastCachedTime:cachedTime refreshIfOlderThan:refreshCacheIfOlderThan]) {
                 if (cachePolicy == SFDataCachePolicyReloadAndReturnCacheOnFailure) {
                     if (!needToLoadDataFromServer) {
                         needToLoadDataFromServer = YES;
@@ -731,7 +736,7 @@ static NSMutableDictionary *metadataMgrList = nil;
             
             // Saves data to the cache.
             if ([self shouldCacheData:cachePolicy]) {
-                [self cacheObject:layoutObj cacheType:cacheType cacheKey:cacheKey];
+                [self cacheObjects:@[ layoutObj ] cacheType:cacheType cacheKey:cacheKey];
             }
         }
         if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
@@ -931,7 +936,8 @@ static NSMutableDictionary *metadataMgrList = nil;
 - (SFObjectType *)cachedObjectType:(NSString *)objectTypeName cachedTime:(out NSDate **)cachedTime {
     NSString *cacheType = kSFMetadataCacheType;
     NSString *cacheKey = [NSString stringWithFormat:kSFObjectByType, objectTypeName];
-    SFObjectType *typeModel = (SFObjectType *)[self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] containedObjectClass:[SFObjectType class] cachedTime:cachedTime];
+    NSArray *cachedData = [self cachedObjects:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectType class] cachedTime:cachedTime];
+    SFObjectType *typeModel = (cachedData.count > 0 ? cachedData[0] : nil);
     return typeModel;
 }
 
@@ -954,21 +960,20 @@ static NSMutableDictionary *metadataMgrList = nil;
     return ([objectType isLayoutable] && [objectType isSearchable]);
 }
 
-- (void)cacheObject:(id)object cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
-    [self.cacheManager writeDataToCache:object cacheType:cacheType cacheKey:cacheKey];
+- (void)cacheObjects:(NSArray *)objects cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    [self.cacheManager writeDataToCache:objects cacheType:cacheType cacheKey:cacheKey];
 }
 
-- (id)cachedObject:(SFDataCachePolicy)cachePolicy
-         cacheType:(NSString *)cacheType
-          cacheKey:(NSString *)cacheKey
-       objectClass:(Class)objectClass
-containedObjectClass:(Class)containedObjectClass
-        cachedTime:(out NSDate **)cachedTime {
-    id cachedData = [self.cacheManager readDataWithCacheType:cacheType cacheKey:cacheKey cachePolicy:SFDataCachePolicyReturnCacheDataDontReload cachedTime:cachedTime];
-    if (cachedData && ![cachedData isKindOfClass:objectClass]) {
-        [self.cacheManager removeCache:cacheType cacheKey:cacheKey];
-        cachedData = nil;
-    }
+- (NSArray *)cachedObjects:(SFDataCachePolicy)cachePolicy
+                 cacheType:(NSString *)cacheType
+                  cacheKey:(NSString *)cacheKey
+               objectClass:(Class)objectClass
+                cachedTime:(out NSDate **)cachedTime {
+    NSArray *cachedData = [self.cacheManager readDataWithCacheType:cacheType
+                                                          cacheKey:cacheKey
+                                                       cachePolicy:cachePolicy
+                                                       objectClass:objectClass
+                                                        cachedTime:cachedTime];
     return cachedData;
 }
 
@@ -1012,7 +1017,8 @@ containedObjectClass:(Class)containedObjectClass
 - (SFObjectTypeLayout *)cachedObjectTypeLayout:(SFObjectType *)objectType cachedTime:(out NSDate **)cachedTime {
     NSString *cacheType = kSFMetadataCacheType;
     NSString *cacheKey = [NSString stringWithFormat:kSFObjectLayoutByType, objectType.name];
-    return (SFObjectTypeLayout *) [self cachedObject:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] containedObjectClass:[SFObjectTypeLayout class] cachedTime:cachedTime];
+    NSArray *cachedData = [self cachedObjects:SFDataCachePolicyReturnCacheDataDontReload cacheType:cacheType cacheKey:cacheKey objectClass:[SFObjectTypeLayout class] cachedTime:cachedTime];
+    return (cachedData.count > 0 ? cachedData[0] : nil);
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

@@ -23,19 +23,14 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SmartSyncPersistableObject.h"
 
-@interface SFObject : NSObject <NSCoding>
+@interface SFObject : SmartSyncPersistableObject <NSCoding>
 
 /** Object Id */
 @property (nonatomic, strong, readonly) NSString *objectId;
 
-/** Object type */
-@property (nonatomic, strong, readonly) NSString *objectType;
-
 /** Object name */
 @property (nonatomic, strong, readonly) NSString *name;
-
-/** Complete metadata */
-@property (nonatomic, strong, readonly) NSDictionary *rawData;
 
 @end

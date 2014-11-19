@@ -23,24 +23,23 @@
  */
 
 #import "SFObjectTypeLayout+Internal.h"
+#import "SmartSyncPersistableObject+Internal.h"
 #import "SFSmartSyncConstants.h"
 
 @implementation SFObjectTypeLayout
 
-- (id)initWithDictionary:(NSDictionary *)dataDiction {
-    self = [super init];
+- (id)initWithDictionary:(NSDictionary *)data {
+    self = [super initWithDictionary:data];
     if (self) {
-        self.rawData = dataDiction;
-        [self configureDataWithDictionary:dataDiction];
+        [self configureDataWithDictionary:data];
     }
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dataDiction forObjectType:(NSString *)objectType {
-    self = [self initWithDictionary:dataDiction];
+- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)theObjectType {
+    self = [self initWithDictionary:data forObjectType:theObjectType];
     if (self) {
-        self.objectType = objectType;
-        [self configureDataWithDictionary:dataDiction];
+        [self configureDataWithDictionary:data];
     }
     return self;
 }

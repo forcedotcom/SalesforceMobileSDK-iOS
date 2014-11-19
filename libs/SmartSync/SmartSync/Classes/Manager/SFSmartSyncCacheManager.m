@@ -23,6 +23,9 @@
  */
 
 #import "SFSmartSyncCacheManager.h"
+#import "SFObject.h"
+#import "SFObjectType.h"
+#import "SmartSyncPersistableObject.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
@@ -39,6 +42,10 @@ static NSString * const kSmartStoreSoupMappingSoupName = @"master_soup";
 static NSString * const kSmartStoreSoupNamesPath       = @"soup_names";
 static NSString * const kSmartStoreCacheKeyPath        = @"cache_key";
 static NSString * const kSmartStoreCacheDataPath       = @"cache_data";
+
+// Store data keys
+static NSString * const kRawDataKey = @"rawData";
+static NSString * const kTypeKey    = @"type";
 
 @interface SFSmartSyncCacheManager () <SFAuthenticationManagerDelegate>
 
@@ -206,7 +213,11 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
 }
 
-- (id)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy cachedTime:(out NSDate **)lastCachedTime {
+- (NSArray *)readDataWithCacheType:(NSString *)cacheType
+                          cacheKey:(NSString *)cacheKey
+                       cachePolicy:(SFDataCachePolicy)cachePolicy
+                        objectClass:(Class)objectClass
+                        cachedTime:(out NSDate **)lastCachedTime {
     BOOL bypassCache = [self shouldBypassCache:cachePolicy];
     if (bypassCache) {
         return nil;
@@ -218,7 +229,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     // Check in-memory cache first.
-    id cachedData = nil;
+    NSArray *cachedData = nil;
     if (self.enableInMemoryCache) {
         NSDictionary *inMemoryCacheInfo = [self.inMemCache objectForKey:compositeCacheKey];
         if (inMemoryCacheInfo) {
@@ -231,11 +242,16 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     // Check SmartStore if in-memory cache not found.
+    if (![objectClass isSubclassOfClass:[SmartSyncPersistableObject class]]) {
+        [self log:SFLogLevelError format:@"%@: Object type class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), objectClass];
+        return nil;
+    }
+    
     NSDictionary *soupEntry = [self retrieveDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
+    cachedData = [self convertFromPersistable:soupEntry[kSmartStoreCacheDataPath] objectType:objectClass];
     
     // Save to in-memory cache, if there's data to save.
-    if (soupEntry && self.enableInMemoryCache) {
-        cachedData = soupEntry[kSmartStoreCacheDataPath];
+    if ([cachedData count] > 0 && self.enableInMemoryCache) {
         NSDate *dbLastCachedTime = [SFSmartStore dateFromLastModifiedValue:soupEntry[SOUP_LAST_MODIFIED_DATE]];
         [self.inMemCache setObject:@{ kCacheDataKey : cachedData, kCacheTimeKey : dbLastCachedTime } forKey:compositeCacheKey];
         if (lastCachedTime) {
@@ -247,7 +263,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     return cachedData;
 }
 
-- (void)writeDataToCache:(id)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+- (void)writeDataToCache:(NSArray *)data cacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
     NSString *compositeCacheKey = [self compositeCacheKeyForCacheType:cacheType cacheKey:cacheKey];
     if (compositeCacheKey == nil) {
         // Invalid/empty cache key or cache type.
@@ -264,8 +280,8 @@ static NSMutableDictionary *cacheMgrList = nil;
     
     // Otherwise, we have data to write to the cache.
     
-    if (![self isValidSmartStoreData:data]) {
-        [self log:SFLogLevelError msg:@"Data is not in a valid serializable format.  Should be a dictionary or an array of dictionaries."];
+    if (![self isValidStoreCacheData:data]) {
+        [self log:SFLogLevelError msg:@"Data array is not valid for storage."];
         return;
     }
 
@@ -275,7 +291,8 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     // Build SmartStore data entry.
-    NSDictionary *cacheSoupEntry = @{ kSmartStoreCacheKeyPath: cacheKey, kSmartStoreCacheDataPath: data };
+    NSArray *persistableData = [self convertToPersistable:data];
+    NSDictionary *cacheSoupEntry = @{ kSmartStoreCacheKeyPath: cacheKey, kSmartStoreCacheDataPath: persistableData };
 
     // Write to SmartStore.
     NSString *cacheSoupName = cacheType;
@@ -290,24 +307,66 @@ static NSMutableDictionary *cacheMgrList = nil;
 
 #pragma mark - SmartStore management
 
-- (BOOL)isValidSmartStoreData:(id)inputData
+- (BOOL)isValidStoreCacheData:(NSArray *)inputData
 {
-    if (![inputData isKindOfClass:[NSArray class]] && ![inputData isKindOfClass:[NSDictionary class]]) {
+    if ([inputData count] == 0) {
+        [self log:SFLogLevelError format:@"%@: No entries to cache.", NSStringFromSelector(_cmd)];
         return NO;
     }
     
-    if ([inputData isKindOfClass:[NSDictionary class]]) {
-        return YES;
-    }
-    
-    // It's an array.  Is it an array of dictionaries?
-    for (id arrayItem in (NSArray *)inputData) {
-        if (![arrayItem isKindOfClass:[NSDictionary class]]) {
+    Class inputDataClass = [inputData[0] class];
+    for (id arrayItem in inputData) {
+        if (![arrayItem isKindOfClass:[SmartSyncPersistableObject class]]) {
+            [self log:SFLogLevelError format:@"%@: Data with class '%@' should be an instance of SmartSyncPersistableObject.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
+            return NO;
+        }
+        if ([arrayItem class] != inputDataClass) {
+            [self log:SFLogLevelError format:@"%@: Input data items should all be the same class.  Current mixture of '%@' and '%@'.", NSStringFromSelector(_cmd), NSStringFromClass(inputDataClass), NSStringFromClass([arrayItem class])];
+            return NO;
+        }
+        if (((SmartSyncPersistableObject *)arrayItem).rawData == nil) {
+            [self log:SFLogLevelError format:@"%@: Raw data of '%@' item should not be nil.", NSStringFromSelector(_cmd), NSStringFromClass([arrayItem class])];
             return NO;
         }
     }
     
     return YES;
+}
+
+- (NSArray *)convertToPersistable:(NSArray *)dataObjectsToPersist {
+    // NB: Assumes isValidStoreCacheData: has already validated this data.
+    NSMutableArray *returnData = [NSMutableArray array];
+    for (SmartSyncPersistableObject *objectToPersist in dataObjectsToPersist) {
+        NSMutableDictionary *persistDict = [NSMutableDictionary dictionary];
+        persistDict[kRawDataKey] = objectToPersist.rawData;
+        if (objectToPersist.objectType != nil) {
+            persistDict[kTypeKey] = objectToPersist.objectType;
+        }
+        [returnData addObject:persistDict];
+    }
+    
+    return returnData;
+}
+
+- (NSArray *)convertFromPersistable:(NSArray *)persistableDataObjects objectType:(Class)objectTypeClass {
+    NSMutableArray *convertedDataObjects = [NSMutableArray array];
+    for (NSDictionary *persistedObjectDict in persistableDataObjects) {
+        NSDictionary *rawDataDict = persistedObjectDict[kRawDataKey];
+        if (rawDataDict == nil) {
+            [self log:SFLogLevelError format:@"Cache data for '%@' class has no raw data.", NSStringFromClass(objectTypeClass)];
+            continue;
+        }
+        NSString *objectType = persistedObjectDict[kTypeKey];
+        
+        SmartSyncPersistableObject *convertedObject;
+        if (objectType == nil) {
+            convertedObject = [(SmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict];
+        } else {
+            convertedObject = [(SmartSyncPersistableObject *)[objectTypeClass alloc] initWithDictionary:rawDataDict forObjectType:objectType];
+        }
+        [convertedDataObjects addObject:convertedObject];
+    }
+    return convertedDataObjects;
 }
 
 - (void)upsertData:(NSDictionary *)data toSoup:(NSString *)soupName {

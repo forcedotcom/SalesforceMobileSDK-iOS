@@ -23,6 +23,7 @@
  */
 
 #import "SFObject+Internal.h"
+#import "SmartSyncPersistableObject+Internal.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncConstants.h"
 
@@ -30,11 +31,10 @@
 
 #pragma mark - Init Methods
 
-- (id)initWithDictionary:(NSDictionary *)dataDiction {
-    self = [super init];
+- (id)initWithDictionary:(NSDictionary *)data {
+    self = [super initWithDictionary:data];
     if (self) {
-        self.rawData = dataDiction;
-        [self configureDataWithDictionary:dataDiction];
+        [self configureDataWithDictionary:data];
     }
     return self;
 }

@@ -79,7 +79,11 @@ typedef  enum {
  @param encrypted Yes if cache to read is encrypted
  @cachedTime Return time the data was last updated in cache
  */
-- (id)readDataWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey cachePolicy:(SFDataCachePolicy)cachePolicy cachedTime:(out NSDate **)lastCachedTime;
+- (NSArray *)readDataWithCacheType:(NSString *)cacheType
+                          cacheKey:(NSString *)cacheKey
+                       cachePolicy:(SFDataCachePolicy)cachePolicy
+                        objectClass:(Class)objectClass
+                        cachedTime:(out NSDate **)lastCachedTime;
 
 /** Write data to cache.
  @param data Data to cache

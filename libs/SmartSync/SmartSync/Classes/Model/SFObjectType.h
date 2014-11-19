@@ -23,8 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SmartSyncPersistableObject.h"
 
-@interface SFObjectType : NSObject <NSCoding>
+@interface SFObjectType : SmartSyncPersistableObject <NSCoding>
 
 /** Object type key prefix */
 @property (nonatomic, strong, readonly) NSString *keyPrefix;
@@ -43,9 +44,6 @@
 
 /** Fields, array of NSDictionary objects */
 @property (nonatomic, strong, readonly) NSArray *fields;
-
-/** Complete metadata */
-@property (nonatomic, strong, readonly) NSDictionary *rawData;
 
 /** Searchable */
 - (BOOL)isSearchable;

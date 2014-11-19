@@ -27,25 +27,17 @@
 
 @implementation SFObjectType
 
-- (id)initWithName:(NSString *)name {
-    self = [super init];
-    if (self) {
-        self.name = name;
-    }
-    return self;
-}
+@synthesize rawData;
 
-- (id)initWithDictionary:(NSDictionary *)dataDiction {
-    self = [super init];
+- (id)initWithDictionary:(NSDictionary *)data {
+    self = [super initWithDictionary:data];
     if (self) {
-        self.rawData = dataDiction;
-        [self configureDataWithDictionary:dataDiction];
+        [self configureDataWithDictionary:data];
     }
     return self;
 }
 
 - (void)configureDataWithDictionary:(NSDictionary *)dataDiction {
-    self.rawData = dataDiction;
     self.keyPrefix = dataDiction[kKeyPrefixField];
     self.name = dataDiction[kNameField];
     self.label = dataDiction[kLabelField];

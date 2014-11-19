@@ -26,17 +26,8 @@
 
 @interface SFObjectTypeLayout ()
 
-@property (nonatomic, strong, readwrite) NSString *objectType;
 @property (nonatomic, strong, readwrite) NSNumber *limit;
 @property (nonatomic, strong, readwrite) NSArray *columns;
-@property (nonatomic, strong, readwrite) NSDictionary *rawData;
-
-/** Create a new SFObjectLayoutModel from JSON object
- 
- @param dataDiction Data in NSDictionary format
- @param objectType Object type for the layout
- */
-- (id)initWithDictionary:(NSDictionary *)dataDiction forObjectType:(NSString *)objectType;
 
 - (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder;
 
