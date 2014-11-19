@@ -37,7 +37,7 @@
 }
 
 - (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)theObjectType {
-    self = [self initWithDictionary:data forObjectType:theObjectType];
+    self = [super initWithDictionary:data forObjectType:theObjectType];
     if (self) {
         [self configureDataWithDictionary:data];
     }
