@@ -313,7 +313,12 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         }
     }];
     
-    [self removeSnapshotView];
+    @try {
+        [self removeSnapshotView];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
+    }
     
     BOOL shouldLogout = [[self class] logoutSettingEnabled];
     SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
@@ -377,7 +382,12 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         }
     }];
     
-    [self removeSnapshotView];
+    @try {
+        [self removeSnapshotView];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
+    }
 }
 
 - (void)handleAppWillResignActive:(NSNotification *)notification
@@ -391,7 +401,12 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     }];
     
     // Set up snapshot security view, if it's configured.
-    [self setupSnapshotView];
+    @try {
+        [self setupSnapshotView];
+    }
+    @catch (NSException *exception) {
+        [self log:SFLogLevelWarning format:@"Exception thrown while setting up security snapshot view: '%@'. Continuing resign active.", [exception reason]];
+    }
 }
 
 - (void)handleAuthCompleted:(NSNotification *)notification
