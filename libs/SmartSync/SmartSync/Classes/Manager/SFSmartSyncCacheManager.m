@@ -349,6 +349,10 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (NSArray *)convertFromPersistable:(NSArray *)persistableDataObjects objectType:(Class)objectTypeClass {
+    if (persistableDataObjects == nil) {
+        return nil;
+    }
+    
     NSMutableArray *convertedDataObjects = [NSMutableArray array];
     for (NSDictionary *persistedObjectDict in persistableDataObjects) {
         NSDictionary *rawDataDict = persistedObjectDict[kRawDataKey];
@@ -379,6 +383,10 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (NSDictionary *)retrieveDataFromStoreWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    if (![self.store soupExists:cacheType]) {
+        return nil;
+    }
+    
     SFQuerySpec *querySpec = [SFQuerySpec newExactQuerySpec:cacheType withPath:kSmartStoreCacheKeyPath withMatchKey:cacheKey withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSError *queryError = nil;
     
@@ -391,8 +399,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     if ([results count] == 0) {
         return nil;
     } else {
-        NSArray *result = results[0];
-        NSDictionary *retData = result[0];
+        NSDictionary *retData = results[0];
         return retData;
     }
 }
@@ -407,6 +414,10 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (void)removeDataFromStoreWithCacheType:(NSString *)cacheType cacheKey:(NSString *)cacheKey {
+    if (![self.store soupExists:cacheType]) {
+        return;
+    }
+    
     NSDictionary *storeEntry = [self retrieveDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
     if (storeEntry != nil) {
         [self.store removeEntries:@[ storeEntry[SOUP_ENTRY_ID] ] fromSoup:cacheType];
@@ -447,6 +458,11 @@ static NSMutableDictionary *cacheMgrList = nil;
 }
 
 - (NSArray *)allCacheSoupNames {
+    if (![self.store soupExists:kSmartStoreSoupMappingSoupName]) {
+        // No master soup table, so no soups.
+        return nil;
+    }
+    
     NSString *allCacheSoupsSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@}", kSmartStoreSoupMappingSoupName, kSmartStoreSoupNamesPath, kSmartStoreSoupMappingSoupName];
     SFQuerySpec *querySpec = [SFQuerySpec newSmartQuerySpec:allCacheSoupsSql withPageSize:25];
     NSError *queryError = nil;

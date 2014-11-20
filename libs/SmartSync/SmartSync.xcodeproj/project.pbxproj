@@ -61,12 +61,6 @@
 		CE1F0B1719ACFA1A0007F22F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1519ACFA1A0007F22F /* libssl.a */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
 		CE617399196F469A00C63BDE /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
-		CE63E7BE19AD3EF800953176 /* account_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7B819AD3EF800953176 /* account_layout.json */; };
-		CE63E7BF19AD3EF800953176 /* account_metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7B919AD3EF800953176 /* account_metadata.json */; };
-		CE63E7C019AD3EF800953176 /* all_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7BA19AD3EF800953176 /* all_objects.json */; };
-		CE63E7C119AD3EF800953176 /* case_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7BB19AD3EF800953176 /* case_layout.json */; };
-		CE63E7C219AD3EF800953176 /* case_metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7BC19AD3EF800953176 /* case_metadata.json */; };
-		CE63E7C319AD3EF800953176 /* opportunity_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = CE63E7BD19AD3EF800953176 /* opportunity_layout.json */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -131,12 +125,6 @@
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncConstants.m; sourceTree = "<group>"; };
-		CE63E7B819AD3EF800953176 /* account_layout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = account_layout.json; sourceTree = "<group>"; };
-		CE63E7B919AD3EF800953176 /* account_metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = account_metadata.json; sourceTree = "<group>"; };
-		CE63E7BA19AD3EF800953176 /* all_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = all_objects.json; sourceTree = "<group>"; };
-		CE63E7BB19AD3EF800953176 /* case_layout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = case_layout.json; sourceTree = "<group>"; };
-		CE63E7BC19AD3EF800953176 /* case_metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = case_metadata.json; sourceTree = "<group>"; };
-		CE63E7BD19AD3EF800953176 /* opportunity_layout.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = opportunity_layout.json; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
@@ -298,12 +286,6 @@
 		CEAAAE5F195911E600CBBFE9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CE63E7B819AD3EF800953176 /* account_layout.json */,
-				CE63E7B919AD3EF800953176 /* account_metadata.json */,
-				CE63E7BA19AD3EF800953176 /* all_objects.json */,
-				CE63E7BB19AD3EF800953176 /* case_layout.json */,
-				CE63E7BC19AD3EF800953176 /* case_metadata.json */,
-				CE63E7BD19AD3EF800953176 /* opportunity_layout.json */,
 				CE1F0B1819ACFD260007F22F /* test_credentials.json */,
 				CEAAAE60195911E600CBBFE9 /* SmartSyncTests-Info.plist */,
 				CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */,
@@ -474,13 +456,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */,
-				CE63E7C319AD3EF800953176 /* opportunity_layout.json in Resources */,
-				CE63E7BE19AD3EF800953176 /* account_layout.json in Resources */,
-				CE63E7BF19AD3EF800953176 /* account_metadata.json in Resources */,
-				CE63E7C119AD3EF800953176 /* case_layout.json in Resources */,
 				CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */,
-				CE63E7C219AD3EF800953176 /* case_metadata.json in Resources */,
-				CE63E7C019AD3EF800953176 /* all_objects.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
