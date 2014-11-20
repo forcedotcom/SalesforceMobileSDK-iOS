@@ -36,20 +36,22 @@ Introduction
 ### What's New in 3.0
 
 **SmartSync Library**
-- Salesforce Mobile SDK now has a new native library called `SmartSync`, that adds the ability to:
+- Salesforce Mobile SDK now has a new library called `SmartSync`, that adds the ability to:
 	- Fetch Salesforce records or metadata and cache them offline, by picking one of the available pre-defined cache policies.
 	- Edit records offline and save them offline in SmartStore.
 	- Synchronize a bunch of records by pushing locally modified records to the Salesforce cloud.
-- A new sample app, `SmartSyncExplorer`, has been added to demonstrate the power of the `SmartSync` library.
+- A new Cordova plugin, `SmartSyncPlugin`, has been added, to enable consumption of the `SmartSync` library in a hybrid app.
+- A new native sample app, `SmartSyncExplorer`, has been added to demonstrate the power of the `SmartSync` library.
 
-**Cocoapods**
-- Added the ability to consume the Salesforce Mobile SDK through Cocoapods.
+**CocoaPods**
+- Added the ability to consume the Salesforce Mobile SDK through CocoaPods.
 
 **Library Upgrades**
 - iOS 7 is now the minimum OS version of iOS supported.
 - Upgraded the `Cordova` library to `v3.6.3`.
 
 **Other Technical Improvements**
+- Created a new master component, `SalesforceSDKManager`, to handle all of the details of conditional authentication at startup, passcode validation, etc.
 - Various bug fixes.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials
