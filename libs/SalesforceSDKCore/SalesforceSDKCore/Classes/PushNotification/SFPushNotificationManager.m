@@ -58,6 +58,7 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
 @interface SFPushNotificationManager ()
 
 @property (nonatomic, strong) NSOperationQueue* queue;
+@property (nonatomic, assign) BOOL isSimulator;
 
 - (void)onUserLoggedIn:(NSNotification *)notification;
 - (void)onAppWillEnterForeground:(NSNotification *)notification;
@@ -75,6 +76,11 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
 {
     self = [super init];
     if (self) {
+#if TARGET_IPHONE_SIMULATOR
+        self.isSimulator = YES;
+#else
+        self.isSimulator = NO;
+#endif
         // Queue for requests
         _queue = [[NSOperationQueue alloc] init];
         
@@ -108,9 +114,11 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
 
 - (void)registerForRemoteNotifications
 {
-#if TARGET_IPHONE_SIMULATOR // remote notifications are not supported in the simulator
-    [self log:SFLogLevelInfo msg:@"Skipping push notification registration with Apple because push isn't supported on the simulator"];
-#else
+    if (self.isSimulator)  {  // remote notifications are not supported in the simulator
+        [self log:SFLogLevelInfo msg:@"Skipping push notification registration with Apple because push isn't supported on the simulator"];
+        return;
+    }
+    
     // register with Apple for remote notifications
     [self log:SFLogLevelInfo msg:@"Registering with Apple for remote push notifications"];
     
@@ -120,7 +128,6 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     } else {
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kiOS7RemoteNotificationTypes];
     }
-#endif
 }
 
 - (void)registerNotificationsForiOS8
@@ -159,6 +166,11 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
 
 - (BOOL)registerForSalesforceNotifications
 {
+    if (self.isSimulator) {  // remote notifications are not supported in the simulator
+        [self log:SFLogLevelInfo msg:@"Skipping Salesforce push notification registration because push isn't supported on the simulator"];
+        return YES;  // "Successful", from this standpoint.
+    }
+    
     SFOAuthCredentials *credentials = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot register for notifications with Salesforce: not authenticated"];
@@ -213,11 +225,19 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
 
 - (BOOL)unregisterSalesforceNotifications
 {
-    return [self unregisterSalesforceNotifications:[SFUserAccountManager sharedInstance].currentUser];
+    if (self.isSimulator) {
+        return YES;  // "Successful".  Simulator does not register/unregister for notifications.
+    } else {
+        return [self unregisterSalesforceNotifications:[SFUserAccountManager sharedInstance].currentUser];
+    }
 }
 
 - (BOOL)unregisterSalesforceNotifications:(SFUserAccount*)user
 {
+    if (self.isSimulator) {
+        return YES;  // "Successful".  Simulator does not register/unregister for notifications.
+    }
+    
     SFOAuthCredentials *credentials = user.credentials;
     if (!credentials) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: not authenticated"];
