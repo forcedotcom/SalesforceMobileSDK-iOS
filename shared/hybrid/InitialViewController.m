@@ -24,7 +24,7 @@
 
 #import "InitialViewController.h"
 
-static NSString * const kDefaultHybridAppLabel = @"SDK Hybrid App";
+static NSString * const kDefaultHybridAppLabel = @"Loading...";
 
 @implementation InitialViewController
 
