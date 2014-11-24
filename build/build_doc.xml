@@ -1,0 +1,100 @@
+<project name="SalesforceMobileSDK-iOS-docs" basedir="." default="all">
+    <property name="artifactsDir" location="artifacts" />
+    <property name="deviceBuildName" value="iphoneos" />
+    <property name="simulatorBuildName" value="iphonesimulator" />
+    <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
+
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="nativeSdkDoc, hybridSdkDoc, coreSdkDoc, networkSdkDoc, oauthSdkDoc">
+        <antcall target="buildMasterTOC" />
+    </target>
+    
+    <target name="nativeSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceNativeSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../native" />
+            <param name="PROJECT_NAME" value="SalesforceNativeSDK" />
+        </antcall>
+    </target>
+    
+    <target name="hybridSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceHybridSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../hybrid" />
+            <param name="PROJECT_NAME" value="SalesforceHybridSDK" />
+        </antcall>
+    </target>
+    
+    <target name="coreSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceSDKCore" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceSDKCore" />
+        </antcall>
+    </target>
+    
+    <target name="networkSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceNetworkSDK" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceNetworkSDK" />
+        </antcall>
+    </target>
+    
+    <target name="oauthSdkDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceOAuth" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../shared" />
+            <param name="PROJECT_NAME" value="SalesforceOAuth" />
+        </antcall>
+    </target>
+    
+    <target name="clean">
+        <property name="baseBuildOutputDir" value="${artifactsDir}/doc/${buildConfiguration}" />
+        <delete dir="${baseBuildOutputDir}" />
+    </target>
+    
+    <target name="buildDoc">
+		<exec executable="/usr/bin/headerdoc2html">
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/" />
+            <arg value="-o" />
+            <arg value="./artifacts/doc/build_out/${PROJECT_NAME}" />
+            <arg value="-j" />
+            <arg value="-C" />
+            <arg value="-L" />
+            <arg value="-N" />
+            <arg value="-Q" />
+            <arg value="-t" />
+            <arg value="--tocformat" />
+            <arg value="default" />
+        </exec>
+    </target>
+    
+    <target name="buildMasterTOC">
+        <exec executable="/usr/bin/gatherheaderdoc">
+            <arg value="./artifacts/doc/build_out" />
+        </exec>
+    </target>
+
+<!-- Not currently used (or usable in this script), but might come in handy later -->
+    <target name="compress">
+        <exec executable="ditto">
+            <arg value="-k" /> <!-- PKZip format -->
+            <arg value="-c" /> <!-- compress -->
+            <arg value="--keepParent" />
+            <arg value="--norsrc" />
+            <arg value="${baseDir}" />
+            <arg file="${destFile}" />
+        </exec>
+    </target>
+    
+</project>
