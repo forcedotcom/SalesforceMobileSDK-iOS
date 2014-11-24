@@ -7,10 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F2147B9193D213A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147B8193D213A0010F9D3 /* Settings.bundle */; };
 		4F372EE717D92A1D003E182E /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F372EE617D92A1D003E182E /* libSalesforceNetworkSDK.a */; };
 		4F473D6C17E26892000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6B17E26892000CCDF3 /* libMKNetworkKit-iOS.a */; };
 		4F473D7217E26DFF000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D7117E26DFF000CCDF3 /* ImageIO.framework */; };
 		4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */; };
+		4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFD18DD07D0006A7699 /* Images.xcassets */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
 		7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E21472E238005CE144 /* Security.framework */; };
@@ -22,19 +24,10 @@
 		7DF4D2F31472E238005CE144 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F11472E238005CE144 /* InfoPlist.strings */; };
 		7DF4D2F51472E238005CE144 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F41472E238005CE144 /* main.m */; };
 		7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */; };
-		7DF4D3971472E23A005CE144 /* icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3961472E23A005CE144 /* icon-72.png */; };
-		7DF4D3991472E23A005CE144 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3981472E23A005CE144 /* icon.png */; };
-		7DF4D39B1472E23A005CE144 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D39A1472E23A005CE144 /* icon@2x.png */; };
-		7DF4D39E1472E23A005CE144 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D39D1472E23A005CE144 /* Default-Landscape~ipad.png */; };
-		7DF4D3A01472E23A005CE144 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D39F1472E23A005CE144 /* Default-Portrait~ipad.png */; };
-		7DF4D3A21472E23A005CE144 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A11472E23A005CE144 /* Default.png */; };
-		7DF4D3A41472E23A005CE144 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A31472E23A005CE144 /* Default@2x.png */; };
-		7DF4D3A61472E23A005CE144 /* Default~iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A51472E23A005CE144 /* Default~iPad.png */; };
 		7DF4D3A81472E23A005CE144 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3A71472E23A005CE144 /* readme.txt */; };
 		7DF4D3AC1472E23A005CE144 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3AB1472E23A005CE144 /* AppDelegate.m */; };
 		7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */; };
 		7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D3B91472E23A005CE144 /* libxml2.dylib */; };
-		7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3BB1472E23B005CE144 /* Settings.bundle */; };
 		7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */; };
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C91472E3E0005CE144 /* QueryListViewController.xib */; };
@@ -45,20 +38,22 @@
 		8201679216E17FCC002F4066 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679116E17FCC002F4066 /* libsqlcipher.a */; };
 		8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */; };
 		8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679516E18052002F4066 /* libSalesforceOAuth.a */; };
-		8201679816E180BE002F4066 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */; };
-		8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679916E18112002F4066 /* libSalesforceCommonUtils.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
-		820BB88617E29A9400263F2E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 820BB88517E29A9400263F2E /* Default-568h@2x.png */; };
+		8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */; };
+		8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
+		82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F2147B8193D213A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F372EE617D92A1D003E182E /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F473D6B17E26892000CCDF3 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMKNetworkKit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F473D7117E26DFF000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4F84FDFD18DD07D0006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -72,20 +67,11 @@
 		7DF4D2F21472E238005CE144 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		7DF4D2F41472E238005CE144 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7DF4D2F61472E238005CE144 /* RestAPIExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RestAPIExplorer-Prefix.pch"; sourceTree = "<group>"; };
-		7DF4D3961472E23A005CE144 /* icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-72.png"; path = "Resources/icons/icon-72.png"; sourceTree = "<group>"; };
-		7DF4D3981472E23A005CE144 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icons/icon.png; sourceTree = "<group>"; };
-		7DF4D39A1472E23A005CE144 /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "Resources/icons/icon@2x.png"; sourceTree = "<group>"; };
-		7DF4D39D1472E23A005CE144 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/splash/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
-		7DF4D39F1472E23A005CE144 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait~ipad.png"; path = "Resources/splash/Default-Portrait~ipad.png"; sourceTree = "<group>"; };
-		7DF4D3A11472E23A005CE144 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/splash/Default.png; sourceTree = "<group>"; };
-		7DF4D3A31472E23A005CE144 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Resources/splash/Default@2x.png"; sourceTree = "<group>"; };
-		7DF4D3A51472E23A005CE144 /* Default~iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~iPad.png"; path = "Resources/splash/Default~iPad.png"; sourceTree = "<group>"; };
 		7DF4D3A71472E23A005CE144 /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		7DF4D3AA1472E23A005CE144 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		7DF4D3AB1472E23A005CE144 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
 		7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SFAuthorizingViewController.xib; path = NativeRestApp/SFAuthorizingViewController.xib; sourceTree = "<group>"; };
 		7DF4D3B91472E23A005CE144 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		7DF4D3BB1472E23B005CE144 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DF4D3C61472E3DF005CE144 /* RestAPIExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RestAPIExplorerViewController.xib; path = Classes/RestAPIExplorerViewController.xib; sourceTree = "<group>"; };
 		7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestAPIExplorerViewController.m; path = Classes/RestAPIExplorerViewController.m; sourceTree = "<group>"; };
 		7DF4D3C81472E3DF005CE144 /* RestAPIExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestAPIExplorerViewController.h; path = Classes/RestAPIExplorerViewController.h; sourceTree = "<group>"; };
@@ -98,11 +84,11 @@
 		8201679116E17FCC002F4066 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8201679516E18052002F4066 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8201679916E18112002F4066 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		820BB88517E29A9400263F2E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/splash/Default-568h@2x.png"; sourceTree = "<group>"; };
+		8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
 		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
 		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
@@ -113,13 +99,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */,
+				8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				4F473D6C17E26892000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				8201678E16E17F61002F4066 /* libcrypto.a in Frameworks */,
-				8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */,
 				4F372EE717D92A1D003E182E /* libSalesforceNetworkSDK.a in Frameworks */,
-				8201679816E180BE002F4066 /* libSalesforceNativeSDK.a in Frameworks */,
 				8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */,
 				8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */,
+				82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8201679216E17FCC002F4066 /* libsqlcipher.a in Frameworks */,
 				8201679016E17FAA002F4066 /* libssl.a in Frameworks */,
 				7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */,
@@ -161,14 +148,14 @@
 		7DF4D2DD1472E238005CE144 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4F473D7117E26DFF000CCDF3 /* ImageIO.framework */,
+				8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */,
+				8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */,
+				8201678D16E17F61002F4066 /* libcrypto.a */,
 				4F473D6B17E26892000CCDF3 /* libMKNetworkKit-iOS.a */,
 				4F372EE617D92A1D003E182E /* libSalesforceNetworkSDK.a */,
-				8201678D16E17F61002F4066 /* libcrypto.a */,
-				8201679916E18112002F4066 /* libSalesforceCommonUtils.a */,
-				8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */,
 				8201679516E18052002F4066 /* libSalesforceOAuth.a */,
 				8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */,
+				82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */,
 				8201679116E17FCC002F4066 /* libsqlcipher.a */,
 				8201678F16E17FAA002F4066 /* libssl.a */,
 				7DF4D3B91472E23A005CE144 /* libxml2.dylib */,
@@ -177,6 +164,7 @@
 				7DF4D2DE1472E238005CE144 /* CoreData.framework */,
 				7DF4D2E81472E238005CE144 /* CoreGraphics.framework */,
 				7DF4D2E61472E238005CE144 /* Foundation.framework */,
+				4F473D7117E26DFF000CCDF3 /* ImageIO.framework */,
 				820275F11651787D00DB814C /* MessageUI.framework */,
 				7DF4D2EC1472E238005CE144 /* MobileCoreServices.framework */,
 				8242E0C915AB823400E9E6AF /* QuartzCore.framework */,
@@ -213,35 +201,11 @@
 		7DF4D3941472E23A005CE144 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				7DF4D3BB1472E23B005CE144 /* Settings.bundle */,
+				4F2147B8193D213A0010F9D3 /* Settings.bundle */,
+				4F84FDFD18DD07D0006A7699 /* Images.xcassets */,
 				4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */,
-				7DF4D3951472E23A005CE144 /* icons */,
-				7DF4D39C1472E23A005CE144 /* splash */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		7DF4D3951472E23A005CE144 /* icons */ = {
-			isa = PBXGroup;
-			children = (
-				7DF4D3961472E23A005CE144 /* icon-72.png */,
-				7DF4D3981472E23A005CE144 /* icon.png */,
-				7DF4D39A1472E23A005CE144 /* icon@2x.png */,
-			);
-			name = icons;
-			sourceTree = "<group>";
-		};
-		7DF4D39C1472E23A005CE144 /* splash */ = {
-			isa = PBXGroup;
-			children = (
-				820BB88517E29A9400263F2E /* Default-568h@2x.png */,
-				7DF4D39D1472E23A005CE144 /* Default-Landscape~ipad.png */,
-				7DF4D39F1472E23A005CE144 /* Default-Portrait~ipad.png */,
-				7DF4D3A11472E23A005CE144 /* Default.png */,
-				7DF4D3A31472E23A005CE144 /* Default@2x.png */,
-				7DF4D3A51472E23A005CE144 /* Default~iPad.png */,
-			);
-			name = splash;
 			sourceTree = "<group>";
 		};
 		7DF4D3A91472E23A005CE144 /* Classes */ = {
@@ -322,22 +286,14 @@
 			files = (
 				7DF4D2F31472E238005CE144 /* InfoPlist.strings in Resources */,
 				7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */,
-				7DF4D3971472E23A005CE144 /* icon-72.png in Resources */,
-				7DF4D3991472E23A005CE144 /* icon.png in Resources */,
-				7DF4D39B1472E23A005CE144 /* icon@2x.png in Resources */,
-				7DF4D39E1472E23A005CE144 /* Default-Landscape~ipad.png in Resources */,
-				7DF4D3A01472E23A005CE144 /* Default-Portrait~ipad.png in Resources */,
-				7DF4D3A21472E23A005CE144 /* Default.png in Resources */,
-				7DF4D3A41472E23A005CE144 /* Default@2x.png in Resources */,
-				7DF4D3A61472E23A005CE144 /* Default~iPad.png in Resources */,
+				4F2147B9193D213A0010F9D3 /* Settings.bundle in Resources */,
 				7DF4D3A81472E23A005CE144 /* readme.txt in Resources */,
 				7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */,
-				7DF4D3BC1472E23B005CE144 /* Settings.bundle in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				7DF4D3CE1472E3E0005CE144 /* QueryListViewController.xib in Resources */,
+				4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */,
 				4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
-				820BB88617E29A9400263F2E /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,9 +357,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -440,9 +397,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -458,11 +416,15 @@
 		7DF4D3C01472E23B005CE144 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -473,11 +435,15 @@
 		7DF4D3C11472E23B005CE144 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

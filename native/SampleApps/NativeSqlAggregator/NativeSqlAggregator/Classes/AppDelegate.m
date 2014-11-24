@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,41 +25,16 @@
 #import "AppDelegate.h"
 #import "InitialViewController.h"
 #import "RootViewController.h"
-#import <SalesforceSDKCore/SFAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
 @interface AppDelegate ()
-
-/**
- * Success block to call when authentication completes.
- */
-@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock initialLoginSuccessBlock;
-
-/**
- * Failure block to calls if authentication fails.
- */
-@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock initialLoginFailureBlock;
-
-/**
- * Handles the notification from SFAuthenticationManager that a logout has been initiated.
- * @param notification The notification containing the details of the logout.
- */
-- (void)logoutInitiated:(NSNotification *)notification;
-
-/**
- * Handles the notification from SFAuthenticationManager that the login host has changed in
- * the Settings application for this app.
- * @param The notification whose userInfo dictionary contains:
- *        - kSFLoginHostChangedNotificationOriginalHostKey: The original host, prior to host change.
- *        - kSFLoginHostChangedNotificationUpdatedHostKey: The updated (new) login host.
- */
-- (void)loginHostChanged:(NSNotification *)notification;
 
 /**
  * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
@@ -77,8 +52,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize initialLoginSuccessBlock = _initialLoginSuccessBlock;
-@synthesize initialLoginFailureBlock = _initialLoginFailureBlock;
 
 - (id)init
 {
@@ -86,34 +59,27 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
 
-        // These SFAccountManager settings are the minimum required to identify the Connected App.
-        [SFAccountManager setClientId:RemoteAccessConsumerKey];
-        [SFAccountManager setRedirectUri:OAuthRedirectURI];
-        [SFAccountManager setScopes:[NSSet setWithObjects:@"api", nil]];
-
-        // Logout and login host change handlers.
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logoutInitiated:) name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginHostChanged:) name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
-
-        /*
-         * Blocks to execute once authentication has completed.  You could define these at the different boundaries where
-         * authentication is initiated, if you have specific logic for each case.
-         */
+        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
+        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
         __weak AppDelegate *weakSelf = self;
-        self.initialLoginSuccessBlock = ^(SFOAuthInfo *info) {
+        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [weakSelf setupRootViewController];
         };
-        self.initialLoginFailureBlock = ^(SFOAuthInfo *info, NSError *error) {
-            [[SFAuthenticationManager sharedManager] logout];
+        [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
+            [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [weakSelf initializeAppViewState];
+            [[SalesforceSDKManager sharedManager] launch];
+        };
+        [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+            [weakSelf handleSdkManagerLogout];
+        };
+        [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+            [weakSelf handleUserSwitch:fromUser toUser:toUser];
         };
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFUserLogoutNotification object:[SFAuthenticationManager sharedManager]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kSFLoginHostChangedNotification object:[SFAuthenticationManager sharedManager]];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -129,7 +95,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
     
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
 
@@ -150,6 +116,8 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     // Respond to any push notification registration errors here.
 }
 
+#pragma mark - Private methods
+
 - (void)initializeAppViewState
 {
     self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
@@ -163,16 +131,56 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self.window.rootViewController = navVC;
 }
 
-- (void)logoutInitiated:(NSNotification *)notification
+- (void)resetViewState:(void (^)(void))postResetBlock
 {
-    [self initializeAppViewState];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    if ([self.window.rootViewController presentedViewController]) {
+        [self.window.rootViewController dismissViewControllerAnimated:NO completion:^{
+            postResetBlock();
+        }];
+    } else {
+        postResetBlock();
+    }
 }
 
-- (void)loginHostChanged:(NSNotification *)notification
+- (void)handleSdkManagerLogout
 {
-    [self initializeAppViewState];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        
+        // Multi-user pattern:
+        // - If there are two or more existing accounts after logout, let the user choose the account
+        //   to switch to.
+        // - If there is one existing account, automatically switch to that account.
+        // - If there are no further authenticated accounts, present the login screen.
+        //
+        // Alternatively, you could just go straight to re-initializing your app state, if you know
+        // your app does not support multiple accounts.  The logic below will work either way.
+        NSArray *allAccounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+        if ([allAccounts count] > 1) {
+            SFDefaultUserManagementViewController *userSwitchVc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+                [self.window.rootViewController dismissViewControllerAnimated:YES completion:NULL];
+            }];
+            [self.window.rootViewController presentViewController:userSwitchVc animated:YES completion:NULL];
+        } else {
+            if ([allAccounts count] == 1) {
+                [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
+            }
+            
+            [[SalesforceSDKManager sharedManager] launch];
+        }
+    }];
+}
+
+- (void)handleUserSwitch:(SFUserAccount *)fromUser
+                  toUser:(SFUserAccount *)toUser
+{
+    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
+     fromUser.userName, toUser.userName];
+    [self resetViewState:^{
+        [self initializeAppViewState];
+        [[SalesforceSDKManager sharedManager] launch];
+    }];
 }
 
 @end

@@ -33,29 +33,28 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 2.1
+### What's New in 3.0
 
-**Push Notifications**
-- Registration and delivery of push notifications are now supported from a Salesforce org that enables push notifications.
+**SmartSync Library**
+- Salesforce Mobile SDK now has a new library called `SmartSync`, that adds the ability to:
+	- Fetch Salesforce records or metadata and cache them offline, by picking one of the available pre-defined cache policies.
+	- Edit records offline and save them offline in SmartStore.
+	- Synchronize a bunch of records by pushing locally modified records to the Salesforce cloud.
+- A new Cordova plugin, `SmartSyncPlugin`, has been added, to enable consumption of the `SmartSync` library in a hybrid app.
+- A new native sample app, `SmartSyncExplorer`, demonstrates the power of the `SmartSync` library on iOS.
 
-**Networking Enhancements**
-- The underlying networking library has been replaced with MKNetworkKit. MKNetworkKit provides the ability to configure advanced features, such as managing the network queue and cancelation of requests.
+**CocoaPods**
+- Added the ability to consume the Salesforce Mobile SDK through CocoaPods.
 
-**Files API Support**
-- The Salesforce Mobile SDK now provides convenience methods that build specialized REST requests for file upload/download and sharing operations.
-- A native sample app, `FileExplorer`, and a hybrid sample app, `HybridFileExplorer`, have been added to demonstrate these features.
-
-**SmartSync Enhancements**
-- You can now access custom endpoints using the `Force.RemoteObject` and `Force.RemoteObjectCollection` classes.
-- You can now access Apex REST endpoints using the `Force.ApexRestObject` and `Force.ApexRestObjectCollection` classes.
-- NOTE:
-	- This feature is only available on hybrid apps.
+**Library Upgrades**
+- iOS 7 is now the minimum OS version of iOS supported.
+- Upgraded the `Cordova` library to `v3.6.3`.
 
 **Other Technical Improvements**
-- OAuth error handling is now configurable.
-- Upgraded the `openssl` library to `v1.0.1e` to fix possible security concerns with older versions of `openssl`.
-- You can now add one or more delegates to SFAuthenticationManager. This gives you more granular access to the authentication process.
+- Created a new master component, `SalesforceSDKManager`, to handle all of the details of conditional authentication at startup, passcode validation, etc.
 - Various bug fixes.
+
+Check http://developer.force.com/mobilesdk for additional articles and tutorials
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
@@ -67,7 +66,7 @@ HTML5 is quickly emerging as a powerful technology for developing cross-platform
 The Mobile SDK provides the means to generate your new app from a template, to quickly construct the foundation of native and hybrid applications.  These apps come with a fully functioning demo app, as well as configurable Settings bundles that allow the user to log out of the app or switch between Production and Sandbox orgs.  See [build.md](build.md) for more information on how to generate and use the templates.
 
 **Native App Template**
-For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction. 
+For native apps that need to access the Salesforce REST API, create your app using the native template.  The template includes a default AppDelegate implementation that you can customize to perform any app-specific interaction.
 
 **Hybrid App Template**
 To create hybrid apps that use the Salesforce REST API or access Visualforce pages, create your app using the hybrid app template. By providing the SalesforceOAuthPlugin for our PhoneGap-based container, HTML5 applications can quickly leverage OAuth tokens directly from JavaScript calls.  In addition, our SFSmartStorePlugin will allow you to store your app data securely on the device.
@@ -76,12 +75,14 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
-* [Salesforce Native SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceSDK/index.html)
-* [Salesforce OAuth](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/index.html)
-* [Salesforce Hybrid SDK](http://forcedotcom.github.com/SalesforceMobileSDK-iOS/Documentation/HybridContainer/index.html)
+* [Salesforce Hybrid SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
+* [Salesforce Rest API](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceRestAPI/html/index.html)
+* [Salesforce Network SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetworkSDK/html/index.html)
+* [Salesforce OAuth](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/html/index.html)
+* [Salesforce SDK Core](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
 
 
 Discussion
 ==
 
-If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have to the [Mobile Community Discussion Board](http://boards.developerforce.com/t5/Mobile/bd-p/mobile) on developerforce.com.
+If you would like to make suggestions, have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ community](https://plus.google.com/communities/114225252149514546445).

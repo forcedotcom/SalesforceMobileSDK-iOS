@@ -39,6 +39,8 @@ NSString *const kActionDeleteObject = @"requestForDeleteWithObjectType:objectId:
 NSString *const kActionQuery = @"query:";
 NSString *const kActionSearch = @"search:";
 NSString *const kActionLogout = @"logout";
+NSString *const kActionSwitchUser = @"switch user";
+NSString *const kActionUserInfo = @"current user info";
 NSString *const kActionExportCredentialsForTesting = @"Export credentials to pasteboard";
 
 
@@ -51,8 +53,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
     self = [super init];
     if (self) {
         self.appViewController = appViewController;
-        self.actions = [NSArray arrayWithObjects:
-                        kActionVersions, @"no params",
+        self.actions = @[kActionVersions, @"no params",
                         kActionResources, @"no params",
                         kActionDescribeGlobal, @"no params",
                         kActionObjectMetadata, @"params: objectType",
@@ -64,9 +65,10 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionDeleteObject, @"params: objectType, objectId",
                         kActionQuery, @"params: query",
                         kActionSearch, @"params: search",
+                        kActionUserInfo, @"no params",
                         kActionLogout, @"no params",
-                        kActionExportCredentialsForTesting, @"no params",
-                        nil];
+                        kActionSwitchUser, @"no params",
+                        kActionExportCredentialsForTesting, @"no params"];
     }
     return self;
 }
@@ -106,8 +108,8 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    cell.textLabel.text = [_actions objectAtIndex:indexPath.row * 2];
-    cell.detailTextLabel.text = [_actions objectAtIndex:indexPath.row * 2+1];
+    cell.textLabel.text = _actions[indexPath.row * 2];
+    cell.detailTextLabel.text = _actions[indexPath.row * 2+1];
     return cell;
 }
 
@@ -115,7 +117,7 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *text = [_actions objectAtIndex:indexPath.row * 2];
+    NSString *text = _actions[indexPath.row * 2];
     [self.appViewController popoverOptionSelected:text];
 }
 

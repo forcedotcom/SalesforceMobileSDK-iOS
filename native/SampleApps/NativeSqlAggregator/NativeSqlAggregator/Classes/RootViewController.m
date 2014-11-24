@@ -24,8 +24,8 @@
 
 #import "RootViewController.h"
 
-#import <SalesforceNativeSDK/SFRestAPI.h>
-#import <SalesforceNativeSDK/SFRestRequest.h>
+#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestRequest.h>
 #import "SmartStoreInterface.h"
 #import "ResultViewController.h"
 
@@ -60,9 +60,9 @@
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse
 {
-    NSArray *records = [dataResponse objectForKey:@"records"];
+    NSArray *records = dataResponse[@"records"];
     if (nil != records) {
-        NSDictionary *firstRecord = [records objectAtIndex:0];
+        NSDictionary *firstRecord = records[0];
         if (nil != firstRecord) {
             NSDictionary *attributes = [firstRecord valueForKey:@"attributes"];
             if (nil != attributes) {
@@ -86,17 +86,17 @@
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error
 {
-    NSLog(@"REST request failed with error: %@", error);
+    [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request
 {
-    NSLog(@"REST request canceled. Request: %@", request);
+    [self log:SFLogLevelDebug format:@"REST request canceled. Request: %@", request];
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request
 {
-    NSLog(@"REST request timed out. Request: %@", request);
+    [self log:SFLogLevelDebug format:@"REST request timed out. Request: %@", request];
 }
 
 - (IBAction)btnSaveRecOfflinePressed:(id)sender

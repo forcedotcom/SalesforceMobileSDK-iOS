@@ -1,8 +1,0 @@
-//
-// Prefix header for all source files of the 'SalesforceNativeSDK' target in the 'SalesforceNativeSDK' project
-//
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-    #import <SalesforceCommonUtils/SFLogger.h>
-#endif

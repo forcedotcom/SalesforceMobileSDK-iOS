@@ -30,6 +30,7 @@
 "confirmPasscodeNavTitle" = "Confirm Passcode";
 "verifyPasscodeNavTitle" = "Verify Passcode";
 "passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
+"passcodeChangeInstructions" = "For increased security, your admininstrator requires you to change your passcode.";
 "passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
 "passcodeVerifyInstructions" = "Please enter your security passcode.";
 "minPasscodeLengthError" = "Your passcode must be at least %d characters long.";
@@ -51,4 +52,18 @@
 // Hybrid bootstrap
 
 "hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
+"hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
 
+// SmartStore Inspector
+
+"inspectorTitle" = "Inspector";
+"inspectorBackButtonTitle" = "Back";
+"inspectorRunButtonTitle" = "Run";
+"inspectorPageSizeHint" = "Page size (default: 10)";
+"inspectorPageIndexHint" = "Page index (default: 0)";
+"inspectorClearButtonTitle" = "Clear";
+"inspectorSoupsButtonTitle" = "Soups";
+"inspectorIndicesButtonTitle" = "Indices";
+"inspectorQueryFailed" = "Query failed";
+"inspectorOK" = "OK";
+"inspectorNoRowsReturned" = "No rows returned";

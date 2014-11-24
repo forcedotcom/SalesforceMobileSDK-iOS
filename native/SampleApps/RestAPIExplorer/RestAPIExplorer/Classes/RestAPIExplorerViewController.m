@@ -28,10 +28,11 @@
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceNativeSDK/SFRestAPI.h>
-#import <SalesforceNativeSDK/SFRestRequest.h>
+#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 
 @interface RestAPIExplorerViewController ()
 
@@ -161,7 +162,7 @@
                                  : (NSDictionary *)[SFJsonUtils objectFromJSONString:params]
                                  );
                                  
-    SFRestMethod method = _segmentMethod.selectedSegmentIndex;
+    SFRestMethod method = (SFRestMethod)_segmentMethod.selectedSegmentIndex;
     NSString *path = self.tfPath.text;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
@@ -177,9 +178,8 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 600);
-    
-    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
+    popoverContent.preferredContentSize = CGSizeMake(500,700);
+    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
     self.popoverController = myPopover;
     
     [self.popoverController presentPopoverFromBarButtonItem:sender
@@ -293,6 +293,19 @@
         }
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
+    else if ([text isEqualToString:kActionUserInfo]) {
+        SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
+        NSString *userInfoString = [NSString stringWithFormat:@"Name: %@\nID: %@\nEmail: %@",
+                                    currentAccount.fullName,
+                                    currentAccount.userName,
+                                    currentAccount.email];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"User Info"
+                                                            message:userInfoString
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+        [alertView show];
+    }
     else if ([text isEqualToString:kActionLogout]) {
         self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                                               delegate:self
@@ -301,7 +314,12 @@
                                                      otherButtonTitles:nil];
         [self.logoutActionSheet showFromToolbar:self.toolBar];
         return;
-    } 
+    } else if ([text isEqualToString:kActionSwitchUser]) {
+        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [self presentViewController:umvc animated:YES completion:NULL];
+    }
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         [appDelegate exportTestingCredentials];        
@@ -321,7 +339,7 @@
 
 - (void)clearPopovers:(NSNotification *)note
 {
-    NSLog(@"Passcode screen loading.  Clearing popovers.");
+    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
     if (self.popoverController) {
         [self.popoverController dismissPopoverAnimated:NO];
     }
@@ -329,7 +347,6 @@
         [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
     }
 }
-
 
 #pragma mark - UITextFieldDelegate
 

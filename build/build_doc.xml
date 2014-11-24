@@ -10,11 +10,11 @@
     
     <target name="nativeSdkDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceNativeSDK" />
+            <param name="buildConfiguration" value="SalesforceRestAPI" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../native" />
-            <param name="PROJECT_NAME" value="SalesforceNativeSDK" />
+            <param name="PROJECT_NAME" value="SalesforceRestAPI" />
         </antcall>
     </target>
     
@@ -64,19 +64,38 @@
     </target>
     
     <target name="buildDoc">
-		<exec executable="/usr/bin/headerdoc2html">
-            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/" />
-            <arg value="-o" />
-            <arg value="./artifacts/doc/build_out/${PROJECT_NAME}" />
-            <arg value="-j" />
-            <arg value="-C" />
-            <arg value="-L" />
-            <arg value="-N" />
-            <arg value="-Q" />
-            <arg value="-t" />
-            <arg value="--tocformat" />
-            <arg value="default" />
-        </exec>
+		<exec executable="/usr/local/bin/appledoc">
+            <arg value="--project-name" />
+            <arg value="SalesforceRestAPI" />
+            <arg value="--project-company" />
+            <arg value="Salesforce.com" />
+            <arg value="--company-id" />
+            <arg value="com.salesforce" />
+            <arg value="--output" />
+            <arg value="${artifactsDir}/doc/${PROJECT_NAME}" />
+            <arg value="--install-docset" />
+            <arg value="--logformat" />
+            <arg value="xcode" />
+            <arg value="--keep-undocumented-objects" />
+            <arg value="--keep-undocumented-members" />
+            <arg value="--keep-intermediate-files" />
+            <arg value="--no-repeat-first-par" />
+            <arg value="--no-warn-invalid-crossref" />
+            <arg value="--merge-categories" />
+            <arg value="--exit-threshold" />
+            <arg value="2" />
+            <arg value="--docset-platform-family" />
+            <arg value="iphoneos" />
+            <arg value="--ignore" />
+            <arg value="*.m" />
+            <arg value="--include" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images" />
+            <arg value="--ignore" />
+            <arg value="LoadableCategory.h" />
+            <arg value="--index-desc" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/readme.md" />
+            <arg file="${PROJECT_DIR}/${PROJECT_NAME}" />
+        </exec>        
     </target>
     
     <target name="buildMasterTOC">
