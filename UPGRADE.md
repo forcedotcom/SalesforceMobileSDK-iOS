@@ -53,7 +53,7 @@ Starting with the 3.0 version of the SDK, much of the SDK bootstrapping process 
 - If your app does *not* authenticate as part of your app's launch process, do the the following:
     - Set `[SalesforceSDKManager sharedManager].authenticateAtLaunch` to `NO` somewhere before calling `launch`.
     - Continue to call `[[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]` at the appropriate time in your app lifecycle.
-- Regardless of whether your app authenticates at app startup or not, your `AppDelegate` *must* call `[[SalesforceSDKManager] sharedManager] launch]` in `application:didFinishLaunchingWithOptions:`.
+- Regardless of whether your app authenticates at app startup or not, your `AppDelegate` *must* call `[[SalesforceSDKManager sharedManager] launch]` in `application:didFinishLaunchingWithOptions:`.
 - Your `AppDelegate` no longer needs to implement the `SFAuthenticationManagerDelegate` or `SFUserAccountManagerDelegate` protocols for bootstrapping events.
     - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` has been replaced by setting the `[SalesforceSDKManager sharedManager].postLogoutAction` block.
     - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` has been replaced by setting the `[SalesforceSDKManager sharedManager].switchUserAction` block.
