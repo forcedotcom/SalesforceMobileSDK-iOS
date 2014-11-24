@@ -13,7 +13,7 @@ Upgrading your hybrid app from 2.3 to 3.0 should be a simple matter of upgrading
         $ cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin
         $ cordova prepare
 
-Please see the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 3.0 SDK.
+See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 3.0 SDK.
 
 ### Native 2.3 to 3.0 upgrade
 
@@ -40,7 +40,7 @@ The easiest way to do this is to delete everything in the Dependencies folder of
 8. Click Add.
 
 #### Updating app bootstrap process to SalesforceSDKManager
-Starting with the 3.0 version of the SDK, much of the SDK bootstrapping process has been consolidated into the `SalesforceSDKManager` singleton class.  Please see the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for a detailed look at how `SalesforceSDKManager` impacts the SDK bootstrapping process of your app.  Essentially, while you can more or less reuse any custom code that handles launch events, you will have to move it to slightly different contexts. The following list outlines the main areas where bootstrapping and configuration code has moved or changed.
+Starting with the 3.0 version of the SDK, much of the SDK bootstrapping process has been consolidated into the `SalesforceSDKManager` singleton class.  See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for a detailed look at how `SalesforceSDKManager` impacts the SDK bootstrapping process of your app.  Essentially, while you can more or less reuse any custom code that handles launch events, you will have to move it to slightly different contexts. The following list outlines the main areas where bootstrapping and configuration code has moved or changed.
 
 - The configuration of your app's Connected App settings and OAuth scopes has moved:
     - `[SFUserAccountManager sharedInstance].oauthClientId` should be replaced with `[SalesforceSDKManager sharedManager].connectedAppId`.
@@ -63,5 +63,5 @@ Starting with the 3.0 version of the SDK, much of the SDK bootstrapping process 
 
 ## Upgrading from a previous version of the SDK?
 
-Please see the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for notes on upgrading from prior versions of the SDK.
+See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for notes on upgrading from prior versions of the SDK.
 
