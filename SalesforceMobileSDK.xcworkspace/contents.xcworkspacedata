@@ -456,69 +456,6 @@
       <Group
          location = "group:shared/resources"
          name = "resources">
-         <FileRef
-            location = "group:Settings.bundle">
-         </FileRef>
-         <Group
-            location = "group:ImagesHybrid.xcassets"
-            name = "ImagesHybrid.xcassets">
-            <Group
-               location = "group:AppIcon.appiconset"
-               name = "AppIcon.appiconset">
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-114.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-120.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-144.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-152.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-57.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-72.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-76.png">
-               </FileRef>
-            </Group>
-            <Group
-               location = "group:LaunchImage.launchimage"
-               name = "LaunchImage.launchimage">
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-568h@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape@2x~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait@2x~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default@2x.png">
-               </FileRef>
-            </Group>
-         </Group>
          <Group
             location = "group:Images.xcassets"
             name = "Images.xcassets">
@@ -526,28 +463,55 @@
                location = "group:AppIcon.appiconset"
                name = "AppIcon.appiconset">
                <FileRef
+                  location = "group:appicon-60@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-72.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-72@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-76.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-76@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40-iPad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40-iPad@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-50.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-50@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-iPad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-iPad@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon@2x.png">
+               </FileRef>
+               <FileRef
                   location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-114.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-120.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-144.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-152.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-57.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-72.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-76.png">
                </FileRef>
             </Group>
             <Group
@@ -560,25 +524,25 @@
                   location = "group:Default-568h@2x.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Landscape@2x~ipad.png">
+                  location = "group:Default-Landscape.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Landscape~ipad.png">
+                  location = "group:Default-Landscape@2x.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Portrait@2x~ipad.png">
+                  location = "group:Default-Portrait.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Portrait~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default.png">
+                  location = "group:Default-Portrait@2x.png">
                </FileRef>
                <FileRef
                   location = "group:Default@2x.png">
                </FileRef>
             </Group>
          </Group>
+         <FileRef
+            location = "group:Settings.bundle">
+         </FileRef>
          <FileRef
             location = "group:SalesforceSDKResources.bundle">
          </FileRef>
