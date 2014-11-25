@@ -44,9 +44,14 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
 {
     self = [super init];
     if (nil != self)  {
-        self.store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+        
     }
     return self;
+}
+
+- (SFSmartStore *)store
+{
+    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
 - (void)createAccountsSoup
@@ -134,12 +139,12 @@ NSString* const kAggregateQueryStr = @"SELECT {Account:Name}, COUNT({Opportunity
          * with '0', for aggregate queries such as 'sum' and
          * 'avg' to work properly.
          */
+        NSMutableDictionary *mutableOpportunity = [NSMutableDictionary dictionaryWithDictionary:opportunity];
         double amount = 0;
-        if (![opportunity nonNullObjectForKey:@"Amount"]) {
-            NSNumber *doubleVal = @(amount);
-            [opportunity setValue:doubleVal forKey:@"Amount"];
+        if (![mutableOpportunity nonNullObjectForKey:@"Amount"]) {
+            mutableOpportunity[@"Amount"] = @(amount);
         }
-        [self.store upsertEntries:@[opportunity] toSoup:kOpportunitySoupName];
+        [self.store upsertEntries:@[mutableOpportunity] toSoup:kOpportunitySoupName];
     }
 }
 

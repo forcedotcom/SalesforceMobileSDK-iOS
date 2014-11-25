@@ -28,8 +28,8 @@
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceNativeSDK/SFRestAPI.h>
-#import <SalesforceNativeSDK/SFRestRequest.h>
+#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
@@ -178,9 +178,8 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.contentSizeForViewInPopover = CGSizeMake(500, 700);
-    
-    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];;
+    popoverContent.preferredContentSize = CGSizeMake(500,700);
+    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
     self.popoverController = myPopover;
     
     [self.popoverController presentPopoverFromBarButtonItem:sender

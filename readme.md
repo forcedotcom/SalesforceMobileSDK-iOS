@@ -33,23 +33,26 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 2.3
+### What's New in 3.0
 
-**Push Notifications**
-- Salesforce Mobile SDK now supports the ability to register and receive push notifications from within a hybrid local or remote application.
+**SmartSync Library**
+- Salesforce Mobile SDK now has a new library called `SmartSync`, that adds the ability to:
+	- Fetch Salesforce records or metadata and cache them offline, by picking one of the available pre-defined cache policies.
+	- Edit records offline and save them offline in SmartStore.
+	- Synchronize a bunch of records by pushing locally modified records to the Salesforce cloud.
+- A new Cordova plugin, `SmartSyncPlugin`, has been added, to enable consumption of the `SmartSync` library in a hybrid app.
+- A new native sample app, `SmartSyncExplorer`, demonstrates the power of the `SmartSync` library on iOS.
 
-**SmartStore Enhancements**
-SmartStore now supports:
-- The ability to add and/or remove index specs for an existing soup.
-- A new API to return data size.
-- A new tool, `SmartStoreInspector`, that lets you easily inspect the contents of SmartStore.
+**CocoaPods**
+- Added the ability to consume the Salesforce Mobile SDK through CocoaPods.
 
 **Library Upgrades**
-- Upgraded the `Cordova` library to `v3.5`.
+- iOS 7 is now the minimum OS version of iOS supported.
+- Upgraded the `Cordova` library to `v3.6.3`.
 
 **Other Technical Improvements**
+- Created a new master component, `SalesforceSDKManager`, to handle all of the details of conditional authentication at startup, passcode validation, etc.
 - Various bug fixes.
-- Support for serving local JavaScript resources through `localhost` in a hybrid remote application.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials
 
@@ -72,11 +75,8 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
-* [Salesforce Hybrid SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
-* [Salesforce Native SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNativeSDK/html/index.html)
-* [Salesforce Network SDK](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetworkSDK/html/index.html)
-* [Salesforce OAuth](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceOAuth/html/index.html)
-* [Salesforce SDK Core](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
+* [Salesforce Mobile SDK for iOS Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/masterTOC.html)
+
 
 
 Discussion

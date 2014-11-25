@@ -20,7 +20,7 @@
     
     <target name="buildAll" depends="nativeAppTemplate" />
     
-    <target name="libPackages" depends="packageSalesforceNativeSDK, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
+    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -42,9 +42,9 @@
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceNativeSDK-Debug.zip" />
+            <arg file="${artifactsDir}/SalesforceRestAPI-Debug.zip" />
         </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceNativeSDK-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNativeSDK" />
+        <move file="${nativeTemplateDependenciesDir}/SalesforceRestAPI-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceRestAPI" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
@@ -127,29 +127,55 @@
         </antcall>
     </target>
     
-    <target name="packageSalesforceNativeSDK" depends="buildSalesforceNativeSDK" description="Builds the Salesforce Native SDK library.">
+    <target name="packageSmartSync" depends="buildSmartSync" description="Packages and builds the Salesforce SmartSync library.">
         <antcall target="packageLib">
-            <param name="projectName" value="SalesforceNativeSDK" />
-            <param name="libName" value="libSalesforceNativeSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
         </antcall>
     </target>
     
-    <target name="buildSalesforceNativeSDK">
+    <target name="buildSmartSync">
         <antcall target="buildLib">
-            <param name="projectName" value="SalesforceNativeSDK" />
-            <param name="libName" value="libSalesforceNativeSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
-            <param name="schemeName" value="SalesforceNativeSDK" />
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
+            <param name="schemeName" value="SmartSync" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceNativeSDK" description="Cleans the build artifacts and output of the Salesforce Native SDK library.">
+    <target name="cleanSmartSync" description="Cleans the build artifacts and output of the Salesforce SmartSync library.">
         <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceNativeSDK" />
-            <param name="libName" value="libSalesforceNativeSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNativeSDK" />
-            <param name="schemeName" value="SalesforceNativeSDK" />
+            <param name="projectName" value="SmartSync" />
+            <param name="libName" value="libSmartSync.a" />
+            <param name="headerDir" value="Headers/SmartSync" />
+            <param name="schemeName" value="SmartSync" />
+        </antcall>
+    </target>
+    
+    <target name="packageSalesforceRestAPI" depends="buildSalesforceRestAPI" description="Builds the Salesforce Native SDK library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceRestAPI" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="headerDir" value="Headers/SalesforceRestAPI" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceRestAPI">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceRestAPI" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="headerDir" value="Headers/SalesforceRestAPI" />
+            <param name="schemeName" value="SalesforceRestAPI" />
+        </antcall>
+    </target>
+    
+    <target name="cleanSalesforceRestAPI" description="Cleans the build artifacts and output of the Salesforce Native SDK library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceRestAPI" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="headerDir" value="Headers/SalesforceRestAPI" />
+            <param name="schemeName" value="SalesforceRestAPI" />
         </antcall>
     </target>
     
@@ -431,7 +457,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSalesforceNativeSDK, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

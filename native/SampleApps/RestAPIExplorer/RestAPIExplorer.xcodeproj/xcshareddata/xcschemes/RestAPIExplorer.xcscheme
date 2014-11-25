@@ -17,7 +17,7 @@
                BlueprintIdentifier = "820AB72318E230EC00E25E1D"
                BuildableName = "libSalesforceSecurity.a"
                BlueprintName = "SalesforceSecurity"
-               ReferencedContainer = "container:../../../shared/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+               ReferencedContainer = "container:../../../libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,21 @@
                BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
                BuildableName = "libSalesforceOAuth.a"
                BlueprintName = "SalesforceOAuth"
-               ReferencedContainer = "container:../../../shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+               ReferencedContainer = "container:../../../libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
+               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintName = "SalesforceSDKCore"
+               ReferencedContainer = "container:../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -59,21 +73,7 @@
                BlueprintIdentifier = "1090C534161275BF0054B040"
                BuildableName = "libSalesforceNetworkSDK.a"
                BlueprintName = "SalesforceNetworkSDK"
-               ReferencedContainer = "container:../../../shared/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
-               BuildableName = "libSalesforceSDKCore.a"
-               BlueprintName = "SalesforceSDKCore"
-               ReferencedContainer = "container:../../../shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+               ReferencedContainer = "container:../../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -85,9 +85,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C72D16E076DE0006B3C0"
-               BuildableName = "libSalesforceNativeSDK.a"
-               BlueprintName = "SalesforceNativeSDK"
-               ReferencedContainer = "container:../../SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
+               BuildableName = "libSalesforceRestAPI.a"
+               BlueprintName = "SalesforceRestAPI"
+               ReferencedContainer = "container:../../../libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry

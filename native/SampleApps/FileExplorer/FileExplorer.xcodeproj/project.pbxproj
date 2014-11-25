@@ -12,15 +12,15 @@
 		4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */; };
 		4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */; };
 		4F66D862193534C800625E1F /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F66D861193534C800625E1F /* SalesforceSDKResources.bundle */; };
+		4FA276AC1987197500320B46 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA276AB1987197500320B46 /* InitialViewController.swift */; };
+		4FA276AE19871C1C00320B46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA276AD19871C1C00320B46 /* AppDelegate.swift */; };
+		4FA276DD19882F8900320B46 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA276DC19882F8900320B46 /* RootViewController.swift */; };
 		4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */; };
+		8222637919DCA02A0097A09A /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637819DCA02A0097A09A /* libSalesforceRestAPI.a */; };
 		824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DD81724E16400C9BD79 /* UIKit.framework */; };
 		824A9DDB1724E16400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDA1724E16400C9BD79 /* Foundation.framework */; };
 		824A9DDD1724E16400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */; };
 		824A9DE31724E16400C9BD79 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DE11724E16400C9BD79 /* InfoPlist.strings */; };
-		824A9DE51724E16400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9DE41724E16400C9BD79 /* main.m */; };
-		824A9E331724E2A900C9BD79 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9E321724E2A900C9BD79 /* AppDelegate.m */; };
-		824A9E361724E45100C9BD79 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9E351724E45100C9BD79 /* RootViewController.m */; };
-		824A9E3A1724E58200C9BD79 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9E381724E58200C9BD79 /* InitialViewController.m */; };
 		824A9E3B1724E58200C9BD79 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E391724E58200C9BD79 /* InitialViewController.xib */; };
 		824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3C1724E9F400C9BD79 /* readme.txt */; };
 		824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FE71725098F00C9BD79 /* libxml2.dylib */; };
@@ -37,7 +37,6 @@
 		CE006E62176BD23B00411A4C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E60176BD23B00411A4C /* libssl.a */; };
 		CE006E66176BD25B00411A4C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */; };
 		CE006E68176BD26700411A4C /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E67176BD26700411A4C /* libsqlcipher.a */; };
-		CE006E6C176BD2AB00411A4C /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */; };
 		CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */; };
 		CE006E6E176BD2AB00411A4C /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */; };
 /* End PBXBuildFile section */
@@ -48,21 +47,19 @@
 		4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMKNetworkKit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F66D861193534C800625E1F /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		4FA276AA1987197400320B46 /* FileExplorer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FileExplorer-Bridging-Header.h"; sourceTree = "<group>"; };
+		4FA276AB1987197500320B46 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
+		4FA276AD19871C1C00320B46 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4FA276DC19882F8900320B46 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8222637819DCA02A0097A09A /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD51724E16400C9BD79 /* FileExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9DD81724E16400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		824A9DDA1724E16400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		824A9DDC1724E16400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		824A9DE01724E16400C9BD79 /* FileExplorer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FileExplorer-Info.plist"; sourceTree = "<group>"; };
 		824A9DE21724E16400C9BD79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		824A9DE41724E16400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		824A9DE61724E16400C9BD79 /* FileExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FileExplorer-Prefix.pch"; sourceTree = "<group>"; };
-		824A9E311724E2A900C9BD79 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		824A9E321724E2A900C9BD79 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		824A9E341724E45000C9BD79 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		824A9E351724E45100C9BD79 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		824A9E371724E58100C9BD79 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
-		824A9E381724E58200C9BD79 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
 		824A9E391724E58200C9BD79 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InitialViewController.xib; sourceTree = "<group>"; };
 		824A9E3C1724E9F400C9BD79 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		824A9FE71725098F00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -79,7 +76,6 @@
 		CE006E60176BD23B00411A4C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE006E67176BD26700411A4C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,9 +85,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8222637919DCA02A0097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */,
-				CE006E6C176BD2AB00411A4C /* libSalesforceNativeSDK.a in Frameworks */,
 				CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */,
 				CE006E6E176BD2AB00411A4C /* libSalesforceSDKCore.a in Frameworks */,
 				82F6F65818E4A1CC0033CACD /* libSalesforceSecurity.a in Frameworks */,
@@ -138,10 +134,10 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8222637819DCA02A0097A09A /* libSalesforceRestAPI.a */,
 				4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */,
 				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
 				4FC0D99517DFEC4D0031AE7D /* libSalesforceNetworkSDK.a */,
-				CE006E69176BD2AA00411A4C /* libSalesforceNativeSDK.a */,
 				CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */,
 				CE006E6B176BD2AB00411A4C /* libSalesforceSDKCore.a */,
 				82F6F65718E4A1CC0033CACD /* libSalesforceSecurity.a */,
@@ -181,7 +177,6 @@
 			children = (
 				824A9DE01724E16400C9BD79 /* FileExplorer-Info.plist */,
 				824A9DE11724E16400C9BD79 /* InfoPlist.strings */,
-				824A9DE41724E16400C9BD79 /* main.m */,
 				824A9DE61724E16400C9BD79 /* FileExplorer-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -190,13 +185,11 @@
 		824A9E301724E2A900C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				824A9E311724E2A900C9BD79 /* AppDelegate.h */,
-				824A9E321724E2A900C9BD79 /* AppDelegate.m */,
-				824A9E371724E58100C9BD79 /* InitialViewController.h */,
-				824A9E381724E58200C9BD79 /* InitialViewController.m */,
 				824A9E391724E58200C9BD79 /* InitialViewController.xib */,
-				824A9E341724E45000C9BD79 /* RootViewController.h */,
-				824A9E351724E45100C9BD79 /* RootViewController.m */,
+				4FA276AB1987197500320B46 /* InitialViewController.swift */,
+				4FA276AA1987197400320B46 /* FileExplorer-Bridging-Header.h */,
+				4FA276AD19871C1C00320B46 /* AppDelegate.swift */,
+				4FA276DC19882F8900320B46 /* RootViewController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -278,10 +271,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				824A9DE51724E16400C9BD79 /* main.m in Sources */,
-				824A9E331724E2A900C9BD79 /* AppDelegate.m in Sources */,
-				824A9E361724E45100C9BD79 /* RootViewController.m in Sources */,
-				824A9E3A1724E58200C9BD79 /* InitialViewController.m in Sources */,
+				4FA276AC1987197500320B46 /* InitialViewController.swift in Sources */,
+				4FA276AE19871C1C00320B46 /* AppDelegate.swift in Sources */,
+				4FA276DD19882F8900320B46 /* RootViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,7 +321,7 @@
 					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
@@ -364,7 +356,7 @@
 					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
@@ -383,14 +375,20 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileExplorer/FileExplorer-Prefix.pch";
 				INFOPLIST_FILE = "FileExplorer/FileExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FileExplorer/Classes/FileExplorer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -401,14 +399,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CLANG_ENABLE_MODULES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileExplorer/FileExplorer-Prefix.pch";
 				INFOPLIST_FILE = "FileExplorer/FileExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FileExplorer/Classes/FileExplorer-Bridging-Header.h";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -3,10 +3,32 @@
    version = "1.0">
    <Group
       location = "container:"
-      name = "Native SDK">
+      name = "Libs">
       <FileRef
-         location = "group:native/SalesforceNativeSDK/SalesforceNativeSDK.xcodeproj">
+         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceHybridSDK/../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SmartSync/SmartSync.xcodeproj">
+      </FileRef>
+   </Group>
+   <Group
+      location = "container:"
+      name = "NativeSamples">
       <FileRef
          location = "group:native/SampleApps/FileExplorer/FileExplorer.xcodeproj">
       </FileRef>
@@ -16,13 +38,13 @@
       <FileRef
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "container:"
-      name = "Hybrid SDK">
-      <FileRef
-         location = "group:hybrid/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-      </FileRef>
+      name = "HybridSamples">
       <FileRef
          location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
       </FileRef>
@@ -33,30 +55,28 @@
          location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:hybrid/SampleApps/UserList/UserList.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
       </FileRef>
    </Group>
-   <FileRef
-      location = "group:shared/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:shared/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:shared/SalesforceOAuth/SalesforceOAuth.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:shared/SalesforceSecurity/SalesforceSecurity.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "External">
+      <FileRef
+         location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+      </FileRef>
+   </Group>
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
@@ -134,6 +154,9 @@
                </FileRef>
                <FileRef
                   location = "group:SFPickListViewController.h">
+               </FileRef>
+               <FileRef
+                  location = "group:SFQueryNetworkScopeHelper.h">
                </FileRef>
                <FileRef
                   location = "group:SFSoqlBuilder.h">
@@ -433,69 +456,6 @@
       <Group
          location = "group:shared/resources"
          name = "resources">
-         <FileRef
-            location = "group:Settings.bundle">
-         </FileRef>
-         <Group
-            location = "group:ImagesHybrid.xcassets"
-            name = "ImagesHybrid.xcassets">
-            <Group
-               location = "group:AppIcon.appiconset"
-               name = "AppIcon.appiconset">
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-114.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-120.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-144.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-152.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-57.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-72.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-76.png">
-               </FileRef>
-            </Group>
-            <Group
-               location = "group:LaunchImage.launchimage"
-               name = "LaunchImage.launchimage">
-               <FileRef
-                  location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-568h@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape@2x~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait@2x~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default@2x.png">
-               </FileRef>
-            </Group>
-         </Group>
          <Group
             location = "group:Images.xcassets"
             name = "Images.xcassets">
@@ -503,28 +463,55 @@
                location = "group:AppIcon.appiconset"
                name = "AppIcon.appiconset">
                <FileRef
+                  location = "group:appicon-60@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-72.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-72@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-76.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-76@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40-iPad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40-iPad@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-40@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-50.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-50@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-iPad.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small-iPad@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon-Small@2x.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon.png">
+               </FileRef>
+               <FileRef
+                  location = "group:appicon@2x.png">
+               </FileRef>
+               <FileRef
                   location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-114.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-120.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-144.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-152.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-57.png">
-               </FileRef>
-               <FileRef
-                  location = "group:icon-72.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Icon-76.png">
                </FileRef>
             </Group>
             <Group
@@ -537,25 +524,25 @@
                   location = "group:Default-568h@2x.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Landscape@2x~ipad.png">
+                  location = "group:Default-Landscape.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Landscape~ipad.png">
+                  location = "group:Default-Landscape@2x.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Portrait@2x~ipad.png">
+                  location = "group:Default-Portrait.png">
                </FileRef>
                <FileRef
-                  location = "group:Default-Portrait~ipad.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default.png">
+                  location = "group:Default-Portrait@2x.png">
                </FileRef>
                <FileRef
                   location = "group:Default@2x.png">
                </FileRef>
             </Group>
          </Group>
+         <FileRef
+            location = "group:Settings.bundle">
+         </FileRef>
          <FileRef
             location = "group:SalesforceSDKResources.bundle">
          </FileRef>

@@ -36,7 +36,7 @@ extern NSString* const kAggregateQueryStr;
 
 @interface SmartStoreInterface : NSObject
 
-@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, readonly) SFSmartStore *store;
 
 /**
  * Creates a soup for accounts.

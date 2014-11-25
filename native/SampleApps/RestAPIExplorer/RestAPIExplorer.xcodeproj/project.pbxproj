@@ -38,9 +38,9 @@
 		8201679216E17FCC002F4066 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679116E17FCC002F4066 /* libsqlcipher.a */; };
 		8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */; };
 		8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679516E18052002F4066 /* libSalesforceOAuth.a */; };
-		8201679816E180BE002F4066 /* libSalesforceNativeSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */; };
-		8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679916E18112002F4066 /* libSalesforceCommonUtils.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
+		8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */; };
+		8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
@@ -84,9 +84,9 @@
 		8201679116E17FCC002F4066 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8201679516E18052002F4066 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNativeSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8201679916E18112002F4066 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
@@ -99,11 +99,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */,
+				8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				4F473D6C17E26892000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				8201678E16E17F61002F4066 /* libcrypto.a in Frameworks */,
-				8201679A16E18112002F4066 /* libSalesforceCommonUtils.a in Frameworks */,
 				4F372EE717D92A1D003E182E /* libSalesforceNetworkSDK.a in Frameworks */,
-				8201679816E180BE002F4066 /* libSalesforceNativeSDK.a in Frameworks */,
 				8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */,
 				8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */,
 				82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */,
@@ -148,11 +148,11 @@
 		7DF4D2DD1472E238005CE144 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */,
+				8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */,
 				8201678D16E17F61002F4066 /* libcrypto.a */,
 				4F473D6B17E26892000CCDF3 /* libMKNetworkKit-iOS.a */,
 				4F372EE617D92A1D003E182E /* libSalesforceNetworkSDK.a */,
-				8201679916E18112002F4066 /* libSalesforceCommonUtils.a */,
-				8201679716E180BE002F4066 /* libSalesforceNativeSDK.a */,
 				8201679516E18052002F4066 /* libSalesforceOAuth.a */,
 				8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */,
 				82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */,
@@ -360,7 +360,7 @@
 					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -400,7 +400,7 @@
 					"$(OBJROOT)/UninstalledProducts/Headers",
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -423,6 +423,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -440,6 +442,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RestAPIExplorer/RestAPIExplorer-Prefix.pch";
 				INFOPLIST_FILE = "RestAPIExplorer/RestAPIExplorer-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

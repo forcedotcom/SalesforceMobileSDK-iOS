@@ -23,7 +23,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <SalesforceNativeSDK/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestAPI.h>
 #import "SmartStoreInterface.h"
 
 @interface RootViewController : UIViewController <SFRestDelegate>

@@ -1,4 +1,3 @@
-
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
@@ -7,7 +6,7 @@ module.exports = [
     },
     {
         "file": "plugins/com.salesforce/com.salesforce.plugin.sfaccountmanager.js",
-        "id": "com.salesforce.plugin.sfacccountmanager"
+        "id": "com.salesforce.plugin.sfaccountmanager"
     },
     {
         "file": "plugins/com.salesforce/com.salesforce.plugin.sdkinfo.js",
@@ -19,6 +18,10 @@ module.exports = [
         "clobbers": [
             "navigator.smartstore"
         ]
+    },
+    {
+        "file": "plugins/com.salesforce/com.salesforce.plugin.smartsync.js",
+        "id": "com.salesforce.plugin.smartsync",
     },
     {
         "file": "plugins/com.salesforce/com.salesforce.util.bootstrap.js",
@@ -35,6 +38,10 @@ module.exports = [
     {
         "file": "plugins/com.salesforce/com.salesforce.util.logger.js",
         "id": "com.salesforce.util.logger"
+    },
+    {
+        "file": "plugins/com.salesforce/com.salesforce.util.push.js",
+        "id": "com.salesforce.util.push"
     },
     {
         "file": "plugins/org.apache.cordova.contacts/www/contacts.js",
@@ -116,13 +123,29 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
+        "id": "org.apache.cordova.console.console",
+        "clobbers": [
+            "console"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.console/www/logger.js",
+        "id": "org.apache.cordova.console.logger",
+        "clobbers": [
+            "cordova.logger"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "com.salesforce": "2.3.0",
-    "org.apache.cordova.contacts": "0.2.13-dev"
+    "org.apache.cordova.statusbar": "0.1.9-dev",
+    "com.salesforce": "3.0.0",
+    "org.apache.cordova.contacts": "0.2.13-dev",
+    "org.apache.cordova.console": "0.2.11"
 }
 // BOTTOM OF METADATA
 });

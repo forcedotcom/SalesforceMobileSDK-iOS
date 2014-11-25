@@ -28,45 +28,17 @@
 #import "RestAPIExplorerViewController.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
 
-@interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
-
-/**
- * Success block to call when authentication completes.
- */
-@property (nonatomic, copy) SFOAuthFlowSuccessCallbackBlock initialLoginSuccessBlock;
-
-/**
- * Failure block to calls if authentication fails.
- */
-@property (nonatomic, copy) SFOAuthFlowFailureCallbackBlock initialLoginFailureBlock;
-
-/**
- * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
- * property accordingly.
- */
-- (void)setupRootViewController;
-
-/**
- * (Re-)sets the view state when the app first loads (or post-logout).
- */
-- (void)initializeAppViewState;
-
-@end
-
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize initialLoginSuccessBlock = _initialLoginSuccessBlock;
-@synthesize initialLoginFailureBlock = _initialLoginFailureBlock;
 
 - (id)init
 {
@@ -74,33 +46,28 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
         
-        // These SFAccountManager settings are the minimum required to identify the Connected App.
-        [SFUserAccountManager sharedInstance].oauthClientId = RemoteAccessConsumerKey;
-        [SFUserAccountManager sharedInstance].oauthCompletionUrl = OAuthRedirectURI;
-        [SFUserAccountManager sharedInstance].scopes = [NSSet setWithObjects:@"web", @"api", nil];
-        
-        // Auth manager delegate, for receiving logout and login host change events.
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[SFUserAccountManager sharedInstance] addDelegate:self];
-        
-        // Blocks to execute once authentication has completed.  You could define these at the different boundaries where
-        // authentication is initiated, if you have specific logic for each case.
+        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
+        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
         __weak AppDelegate *weakSelf = self;
-        self.initialLoginSuccessBlock = ^(SFOAuthInfo *info) {
+        [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [weakSelf setupRootViewController];
         };
-        self.initialLoginFailureBlock = ^(SFOAuthInfo *info, NSError *error) {
-            [[SFAuthenticationManager sharedManager] logout];
+        [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
+            [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [weakSelf initializeAppViewState];
+            [[SalesforceSDKManager sharedManager] launch];
+        };
+        [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+            [weakSelf handleSdkManagerLogout];
+        };
+        [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+            [weakSelf handleUserSwitch:fromUser toUser:toUser];
         };
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    [[SFUserAccountManager sharedInstance] removeDelegate:self];
 }
 
 #pragma mark - App delegate lifecycle
@@ -118,7 +85,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
     
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+    [[SalesforceSDKManager sharedManager] launch];
     
     return YES;
 }
@@ -165,11 +132,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     }
 }
 
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void)authManagerDidLogout:(SFAuthenticationManager *)manager
+- (void)handleSdkManagerLogout
 {
-    [self log:SFLogLevelDebug msg:@"SFAuthenticationManager logged out.  Resetting app."];
+    [self log:SFLogLevelDebug msg:@"SDK Manager logged out.  Resetting app."];
     [self resetViewState:^{
         [self initializeAppViewState];
         
@@ -191,23 +156,17 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             if ([allAccounts count] == 1) {
                 [SFUserAccountManager sharedInstance].currentUser = ([SFUserAccountManager sharedInstance].allUserAccounts)[0];
             }
-            [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock
-                                                                 failure:self.initialLoginFailureBlock];
+            [[SalesforceSDKManager sharedManager] launch];
         }
     }];
 }
 
-#pragma mark - SFUserAccountManagerDelegate
-
-- (void)userAccountManager:(SFUserAccountManager *)userAccountManager
-         didSwitchFromUser:(SFUserAccount *)fromUser
-                    toUser:(SFUserAccount *)toUser
+- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser
 {
-    [self log:SFLogLevelDebug format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.",
-     fromUser.userName, toUser.userName];
+    [self log:SFLogLevelInfo format:@"SFUserAccountManager changed from user %@ to %@.  Resetting app.", fromUser.userName, toUser.userName];
     [self resetViewState:^{
         [self initializeAppViewState];
-        [[SFAuthenticationManager sharedManager] loginWithCompletion:self.initialLoginSuccessBlock failure:self.initialLoginFailureBlock];
+        [[SalesforceSDKManager sharedManager] launch];
     }];
 }
 
@@ -215,13 +174,14 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)exportTestingCredentials {
     //collect credentials and copy to pasteboard
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSDictionary *configDict = @{@"test_client_id": RemoteAccessConsumerKey,
-                                @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
-                                @"test_redirect_uri": OAuthRedirectURI,
-                                @"refresh_token": creds.refreshToken,
-                                @"instance_url": [creds.instanceUrl absoluteString],
-                                @"access_token": @"__NOT_REQUIRED__"};
+                                 @"test_login_domain": [SFUserAccountManager sharedInstance].loginHost,
+                                 @"test_redirect_uri": OAuthRedirectURI,
+                                 @"refresh_token": creds.refreshToken,
+                                 @"instance_url": [creds.instanceUrl absoluteString],
+                                 @"identity_url": [creds.identityUrl absoluteString],
+                                 @"access_token": @"__NOT_REQUIRED__"};
     
     NSString *configJSON = [SFJsonUtils JSONRepresentation:configDict];
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];

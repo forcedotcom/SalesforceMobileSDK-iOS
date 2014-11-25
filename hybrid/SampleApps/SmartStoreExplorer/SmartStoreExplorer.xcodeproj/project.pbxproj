@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C2193D219A0010F9D3 /* Settings.bundle */; };
-		4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */; };
+		4F22158319DF5B2400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */; };
+		4F22158419DF5B2400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */; };
+		4F22158519DF5B2400FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */; };
+		4F22158619DF5B2400FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158119DF5B2400FF2D26 /* libSmartSync.a */; };
+		4F22158719DF5B2400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158219DF5B2400FF2D26 /* ImageIO.framework */; };
 		4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F6D83AC1952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D83AD1952638C003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D83AA1952638C003EBB16 /* AppDelegate.m */; };
-		4FFEF97F1908814300C7A193 /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF96B1908802B00C7A193 /* cordova_plugins.js */; };
 		4FFEF9801908814300C7A193 /* cordova.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF9691908801100C7A193 /* cordova.js */; };
 		4FFEF9811908814300C7A193 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF92219087FBC00C7A193 /* bootconfig.json */; };
 		4FFEF9821908814300C7A193 /* index.html in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FFEF94619087FBC00C7A193 /* index.html */; };
@@ -31,6 +34,7 @@
 		4FFEF990190881CB00C7A193 /* com.salesforce.util.logger.js in Copy plugins files */ = {isa = PBXBuildFile; fileRef = 4FFEF9751908802B00C7A193 /* com.salesforce.util.logger.js */; };
 		4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */; };
 		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
+		8230E2481A24184600EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2471A24184600EFE764 /* Images.xcassets */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
 		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
@@ -48,7 +52,6 @@
 		8250720E15C3513E00F3A529 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250720D15C3513E00F3A529 /* SystemConfiguration.framework */; };
 		8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8250721215C3513E00F3A529 /* InfoPlist.strings */; };
 		8250721615C3513E00F3A529 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250721515C3513E00F3A529 /* main.m */; };
-		8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = 8250721715C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch */; };
 		8250723915C3514100F3A529 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8250723815C3514100F3A529 /* libz.dylib */; };
 		8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8C16ED58F100BD1EA2 /* libxml2.dylib */; };
 		8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA8E16ED590E00BD1EA2 /* libssl.a */; };
@@ -61,8 +64,13 @@
 		8251CA9D16ED599400BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9C16ED599400BD1EA2 /* libCordova.a */; };
 		8251CA9F16ED59AB00BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA9E16ED59AB00BD1EA2 /* CoreData.framework */; };
 		82638F2119B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F2019B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
+		8272302519D778AC0066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272302419D778AC0066A350 /* InitialViewController.m */; };
 		82954626167A7E3400A0FC34 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82954625167A7E3400A0FC34 /* config.xml */; };
 		82AA406818E3B22E00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406718E3B22E00BD34D8 /* libSalesforceSecurity.a */; };
+		82AF5AAA1A0DA9E4006C7A4B /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82AF5AA81A0DA9CB006C7A4B /* cordova_plugins.js */; };
+		82AF5AF51A0DAEC6006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AEF1A0DAEC6006C7A4B /* CDVLogger.m */; };
+		82AF5AF91A0DAEFE006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AF31A0DAEC6006C7A4B /* console-via-logger.js */; };
+		82AF5AFA1A0DAEFE006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AF41A0DAEC6006C7A4B /* logger.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -90,7 +98,7 @@
 			dstPath = www;
 			dstSubfolderSpec = 7;
 			files = (
-				4FFEF97F1908814300C7A193 /* cordova_plugins.js in Copy Shared www Files */,
+				82AF5AAA1A0DA9E4006C7A4B /* cordova_plugins.js in Copy Shared www Files */,
 				4FFEF9801908814300C7A193 /* cordova.js in Copy Shared www Files */,
 				4FFEF9811908814300C7A193 /* bootconfig.json in Copy Shared www Files */,
 				4FFEF9821908814300C7A193 /* index.html in Copy Shared www Files */,
@@ -123,11 +131,27 @@
 			name = "Copy js Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		82AF5AF81A0DAEDA006C7A4B /* Copy cordova-plugin-console plugin */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = www/plugins/org.apache.cordova.console/www;
+			dstSubfolderSpec = 7;
+			files = (
+				82AF5AF91A0DAEFE006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */,
+				82AF5AFA1A0DAEFE006C7A4B /* logger.js in Copy cordova-plugin-console plugin */,
+			);
+			name = "Copy cordova-plugin-console plugin";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4F2147C2193D219A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
+		4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
+		4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
+		4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
+		4F22158119DF5B2400FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
+		4F22158219DF5B2400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F6D83A81952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
@@ -141,7 +165,6 @@
 		4FFEF94A19087FBC00C7A193 /* jquery.mobile.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.mobile.min.js; sourceTree = "<group>"; };
 		4FFEF94B19087FBC00C7A193 /* smartstoreexplorer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = smartstoreexplorer.js; path = ../../../../external/shared/samples/smartstoreexplorer/smartstoreexplorer.js; sourceTree = "<group>"; };
 		4FFEF9691908801100C7A193 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
-		4FFEF96B1908802B00C7A193 /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../external/shared/gen/cordova_plugins.js; sourceTree = "<group>"; };
 		4FFEF96E1908802B00C7A193 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		4FFEF96F1908802B00C7A193 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
 		4FFEF9701908802B00C7A193 /* com.salesforce.plugin.sfaccountmanager.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sfaccountmanager.js; sourceTree = "<group>"; };
@@ -152,6 +175,7 @@
 		4FFEF9751908802B00C7A193 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8230E2471A24184600EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		825071F315C3513E00F3A529 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -187,8 +211,15 @@
 		8251CA9E16ED59AB00BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82638F1F19B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F2019B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
+		8272302319D778AC0066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
+		8272302419D778AC0066A350 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ../../../../shared/hybrid/InitialViewController.m; sourceTree = "<group>"; };
 		82954625167A7E3400A0FC34 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		82AA406718E3B22E00BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82AF5AA81A0DA9CB006C7A4B /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../shared/hybrid/cordova_plugins.js; sourceTree = "<group>"; };
+		82AF5AEE1A0DAEC6006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
+		82AF5AEF1A0DAEC6006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
+		82AF5AF31A0DAEC6006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
+		82AF5AF41A0DAEC6006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +227,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */,
+				4F22158319DF5B2400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
+				4F22158419DF5B2400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
+				4F22158519DF5B2400FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
+				4F22158619DF5B2400FF2D26 /* libSmartSync.a in Frameworks */,
 				8251CA9D16ED599400BD1EA2 /* libCordova.a in Frameworks */,
 				8251CA9B16ED598A00BD1EA2 /* libcrypto.a in Frameworks */,
 				8251CA9916ED597D00BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */,
@@ -208,6 +242,8 @@
 				8251CA8F16ED590E00BD1EA2 /* libssl.a in Frameworks */,
 				8251CA8D16ED58F100BD1EA2 /* libxml2.dylib in Frameworks */,
 				8250723915C3514100F3A529 /* libz.dylib in Frameworks */,
+				4F22158719DF5B2400FF2D26 /* ImageIO.framework in Frameworks */,
+				4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */,
 				8250720415C3513E00F3A529 /* AddressBook.framework in Frameworks */,
 				8250720615C3513E00F3A529 /* AddressBookUI.framework in Frameworks */,
 				8250720815C3513E00F3A529 /* AudioToolbox.framework in Frameworks */,
@@ -278,6 +314,7 @@
 		825071E015C3513E00F3A529 = {
 			isa = PBXGroup;
 			children = (
+				82AF5AEC1A0DAEC6006C7A4B /* cordova-plugin-console */,
 				8250720F15C3513E00F3A529 /* SmartStoreExplorer */,
 				825071F015C3513E00F3A529 /* Frameworks */,
 				825071EE15C3513E00F3A529 /* Products */,
@@ -295,6 +332,11 @@
 		825071F015C3513E00F3A529 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */,
+				4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */,
+				4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */,
+				4F22158119DF5B2400FF2D26 /* libSmartSync.a */,
+				4F22158219DF5B2400FF2D26 /* ImageIO.framework */,
 				4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */,
 				8251CA9C16ED599400BD1EA2 /* libCordova.a */,
 				8251CA9A16ED598A00BD1EA2 /* libcrypto.a */,
@@ -356,8 +398,8 @@
 		8250723A15C3514100F3A529 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8230E2471A24184600EFE764 /* Images.xcassets */,
 				4F2147C2193D219A0010F9D3 /* Settings.bundle */,
-				4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */,
 				4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
@@ -370,6 +412,8 @@
 				4F6D83A91952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.h */,
 				4F6D83AA1952638C003EBB16 /* AppDelegate.m */,
 				4F6D83AB1952638C003EBB16 /* AppDelegate.h */,
+				8272302319D778AC0066A350 /* InitialViewController.h */,
+				8272302419D778AC0066A350 /* InitialViewController.m */,
 				82638F1F19B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */,
 				82638F2019B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */,
 			);
@@ -387,16 +431,60 @@
 		825072A615C3595E00F3A529 /* shared-www */ = {
 			isa = PBXGroup;
 			children = (
-				4FFEF96B1908802B00C7A193 /* cordova_plugins.js */,
-				4FFEF96C1908802B00C7A193 /* plugins */,
-				4FFEF9691908801100C7A193 /* cordova.js */,
 				4FFEF92219087FBC00C7A193 /* bootconfig.json */,
+				4FFEF9691908801100C7A193 /* cordova.js */,
+				82AF5AA81A0DA9CB006C7A4B /* cordova_plugins.js */,
 				4FFEF92319087FBC00C7A193 /* css */,
 				4FFEF94619087FBC00C7A193 /* index.html */,
 				4FFEF94719087FBC00C7A193 /* js */,
+				4FFEF96C1908802B00C7A193 /* plugins */,
 				4FFEF94B19087FBC00C7A193 /* smartstoreexplorer.js */,
 			);
 			name = "shared-www";
+			sourceTree = "<group>";
+		};
+		82AF5AEC1A0DAEC6006C7A4B /* cordova-plugin-console */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AED1A0DAEC6006C7A4B /* Classes */,
+				82AF5AF01A0DAEC6006C7A4B /* www */,
+			);
+			name = "cordova-plugin-console";
+			path = "../../../shared/hybrid/dependencies/plugins/cordova-plugin-console";
+			sourceTree = "<group>";
+		};
+		82AF5AED1A0DAEC6006C7A4B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AEE1A0DAEC6006C7A4B /* CDVLogger.h */,
+				82AF5AEF1A0DAEC6006C7A4B /* CDVLogger.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		82AF5AF01A0DAEC6006C7A4B /* www */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AF11A0DAEC6006C7A4B /* org.apache.cordova.console */,
+			);
+			path = www;
+			sourceTree = "<group>";
+		};
+		82AF5AF11A0DAEC6006C7A4B /* org.apache.cordova.console */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AF21A0DAEC6006C7A4B /* www */,
+			);
+			path = org.apache.cordova.console;
+			sourceTree = "<group>";
+		};
+		82AF5AF21A0DAEC6006C7A4B /* www */ = {
+			isa = PBXGroup;
+			children = (
+				82AF5AF31A0DAEC6006C7A4B /* console-via-logger.js */,
+				82AF5AF41A0DAEC6006C7A4B /* logger.js */,
+			);
+			path = www;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -413,6 +501,7 @@
 				825072C315C36FAE00F3A529 /* Copy css Files */,
 				825072CA15C36FE900F3A529 /* Copy js Files */,
 				4FFEF988190881AE00C7A193 /* Copy plugins files */,
+				82AF5AF81A0DAEDA006C7A4B /* Copy cordova-plugin-console plugin */,
 			);
 			buildRules = (
 			);
@@ -455,8 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */,
-				4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
-				8250721815C3513E00F3A529 /* SmartStoreExplorer-Prefix.pch in Resources */,
+				8230E2481A24184600EFE764 /* Images.xcassets in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
 				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */,
@@ -470,6 +558,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8272302519D778AC0066A350 /* InitialViewController.m in Sources */,
+				82AF5AF51A0DAEC6006C7A4B /* CDVLogger.m in Sources */,
 				4F6D83AC1952638C003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
 				8250721615C3513E00F3A529 /* main.m in Sources */,
 				82638F2119B8F12D00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,
@@ -526,7 +616,7 @@
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
@@ -568,7 +658,7 @@
 					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 					"$(PROJECT_DIR)/../../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
