@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8230E24A1A24186900EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2491A24186900EFE764 /* Images.xcassets */; };
 		827B316C19F0595B00488A75 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316B19F0595B00488A75 /* Foundation.framework */; };
 		827B316E19F0595B00488A75 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316D19F0595B00488A75 /* CoreGraphics.framework */; };
 		827B317019F0595B00488A75 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316F19F0595B00488A75 /* UIKit.framework */; };
@@ -39,7 +40,6 @@
 		827B31FE19F061FA00488A75 /* com.salesforce.util.exec.js in Copy plugins files */ = {isa = PBXBuildFile; fileRef = 827B31BC19F05A8B00488A75 /* com.salesforce.util.exec.js */; };
 		827B31FF19F061FA00488A75 /* com.salesforce.util.logger.js in Copy plugins files */ = {isa = PBXBuildFile; fileRef = 827B31BD19F05A8B00488A75 /* com.salesforce.util.logger.js */; };
 		827B320019F061FA00488A75 /* com.salesforce.util.push.js in Copy plugins files */ = {isa = PBXBuildFile; fileRef = 827B31BE19F05A8B00488A75 /* com.salesforce.util.push.js */; };
-		827B320319F0643100488A75 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 827B320219F0643100488A75 /* ImagesHybrid.xcassets */; };
 		827B320619F064F500488A75 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 827B320419F064F500488A75 /* SalesforceSDKResources.bundle */; };
 		827B320719F064F500488A75 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 827B320519F064F500488A75 /* Settings.bundle */; };
 		827B320919F0651C00488A75 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 827B320819F0651C00488A75 /* config.xml */; };
@@ -149,6 +149,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8230E2491A24186900EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		827B316819F0595B00488A75 /* UserList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B316B19F0595B00488A75 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827B316D19F0595B00488A75 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -189,7 +190,6 @@
 		827B31D719F05B2100488A75 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
 		827B31E119F05B4C00488A75 /* error.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = error.html; path = ../../../../external/shared/samples/userlist/error.html; sourceTree = "<group>"; };
 		827B31E219F05B4C00488A75 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../../external/shared/samples/userlist/index.html; sourceTree = "<group>"; };
-		827B320219F0643100488A75 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
 		827B320419F064F500488A75 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		827B320519F064F500488A75 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		827B320819F0651C00488A75 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
@@ -409,7 +409,7 @@
 		827B320119F0639F00488A75 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				827B320219F0643100488A75 /* ImagesHybrid.xcassets */,
+				8230E2491A24186900EFE764 /* Images.xcassets */,
 				827B320419F064F500488A75 /* SalesforceSDKResources.bundle */,
 				827B320519F064F500488A75 /* Settings.bundle */,
 			);
@@ -518,9 +518,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				827B320719F064F500488A75 /* Settings.bundle in Resources */,
+				8230E24A1A24186900EFE764 /* Images.xcassets in Resources */,
 				827B317619F0595B00488A75 /* InfoPlist.strings in Resources */,
 				827B320619F064F500488A75 /* SalesforceSDKResources.bundle in Resources */,
-				827B320319F0643100488A75 /* ImagesHybrid.xcassets in Resources */,
 				827B320919F0651C00488A75 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

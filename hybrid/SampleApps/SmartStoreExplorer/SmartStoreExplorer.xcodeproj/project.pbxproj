@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C2193D219A0010F9D3 /* Settings.bundle */; };
-		4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */; };
 		4F22158319DF5B2400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */; };
 		4F22158419DF5B2400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22158519DF5B2400FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */; };
@@ -35,6 +34,7 @@
 		4FFEF990190881CB00C7A193 /* com.salesforce.util.logger.js in Copy plugins files */ = {isa = PBXBuildFile; fileRef = 4FFEF9751908802B00C7A193 /* com.salesforce.util.logger.js */; };
 		4FFEF9921908820E00C7A193 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */; };
 		820276071651792100DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820276061651792100DB814C /* MessageUI.framework */; };
+		8230E2481A24184600EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2471A24184600EFE764 /* Images.xcassets */; };
 		825071F215C3513E00F3A529 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F115C3513E00F3A529 /* Foundation.framework */; };
 		825071F415C3513E00F3A529 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F315C3513E00F3A529 /* UIKit.framework */; };
 		825071F615C3513E00F3A529 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825071F515C3513E00F3A529 /* CFNetwork.framework */; };
@@ -147,7 +147,6 @@
 
 /* Begin PBXFileReference section */
 		4F2147C2193D219A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
 		4F22157E19DF5B2400FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
 		4F22157F19DF5B2400FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22158019DF5B2400FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
@@ -176,6 +175,7 @@
 		4FFEF9751908802B00C7A193 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FFEF9911908820E00C7A193 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		820276061651792100DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8230E2471A24184600EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		825071ED15C3513E00F3A529 /* SmartStoreExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		825071F115C3513E00F3A529 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		825071F315C3513E00F3A529 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -398,8 +398,8 @@
 		8250723A15C3514100F3A529 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8230E2471A24184600EFE764 /* Images.xcassets */,
 				4F2147C2193D219A0010F9D3 /* Settings.bundle */,
-				4F2147C3193D219A0010F9D3 /* ImagesHybrid.xcassets */,
 				4F53F6DF1683D98E00CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
@@ -544,7 +544,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8250721415C3513E00F3A529 /* InfoPlist.strings in Resources */,
-				4F2147C5193D219A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
+				8230E2481A24184600EFE764 /* Images.xcassets in Resources */,
 				82954626167A7E3400A0FC34 /* config.xml in Resources */,
 				4F53F6E01683D98E00CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				4F2147C4193D219A0010F9D3 /* Settings.bundle in Resources */,
