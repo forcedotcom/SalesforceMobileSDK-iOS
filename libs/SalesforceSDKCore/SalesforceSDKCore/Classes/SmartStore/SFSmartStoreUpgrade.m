@@ -404,7 +404,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if (encTypeDict == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     NSNumber *encTypeNum = encTypeDict[storeName];
     if (encTypeNum == nil) return SFSmartStoreDefaultEncryptionTypeMac;
-    return [encTypeNum intValue];
+    return [encTypeNum unsignedIntegerValue];
 }
 
 + (NSString *)legacyDefaultKey

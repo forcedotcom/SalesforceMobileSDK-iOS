@@ -142,7 +142,7 @@ static BOOL _showPasscode = YES;
     NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
     if (previousLength) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
-        [self setPasscodeLength:[previousLength intValue]];
+        [self setPasscodeLength:[previousLength integerValue]];
     }
 }
 
@@ -300,7 +300,7 @@ static BOOL _showPasscode = YES;
 + (NSInteger)passcodeLength
 {
     NSNumber *nPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
-    return (nPasscodeLength != nil ? [nPasscodeLength intValue] : kDefaultPasscodeLength);
+    return (nPasscodeLength != nil ? [nPasscodeLength integerValue] : kDefaultPasscodeLength);
 }
 
 + (void)setPasscodeLength:(NSInteger)newPasscodeLength

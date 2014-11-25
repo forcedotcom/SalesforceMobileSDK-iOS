@@ -206,14 +206,14 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)testCursorTotalPages
 {
-    uint totalEntries = 50;
+    NSUInteger totalEntries = 50;
     
     // Entries divided evenly by the page size.
-    uint evenDividePageSize = 25;
-    int expectedPageSize = totalEntries / evenDividePageSize;
+    NSUInteger evenDividePageSize = 25;
+    NSUInteger expectedPageSize = totalEntries / evenDividePageSize;
     NSDictionary *allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
                                           kQuerySpecParamIndexPath: @"a",
-                                          kQuerySpecParamPageSize: [NSNumber numberWithInt:evenDividePageSize]};
+                                          kQuerySpecParamPageSize: @(evenDividePageSize)};
     SFQuerySpec *querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     SFStoreCursor *cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     XCTAssertEqual([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
@@ -221,11 +221,11 @@ NSString * const kTestSoupName   = @"testSoup";
     XCTAssertEqual(cursorTotalPages, expectedPageSize, @"%d entries across a page size of %d should make %d total pages.", totalEntries, evenDividePageSize, expectedPageSize);
 
     // Entries not evenly divided across the page size.
-    uint unevenDividePageSize = 24;
+    NSUInteger unevenDividePageSize = 24;
     expectedPageSize = totalEntries / unevenDividePageSize + 1;
     allQuery = @{kQuerySpecParamQueryType: kQuerySpecTypeRange,
                               kQuerySpecParamIndexPath: @"a",
-                              kQuerySpecParamPageSize: [NSNumber numberWithInt:unevenDividePageSize]};
+                              kQuerySpecParamPageSize: @(unevenDividePageSize)};
     querySpec = [[SFQuerySpec alloc] initWithDictionary:allQuery  withSoupName:kTestSoupName];
     cursor = [[SFStoreCursor alloc] initWithStore:nil querySpec:querySpec totalEntries:totalEntries firstPageEntries:nil];
     XCTAssertEqual([cursor.totalEntries unsignedIntValue], totalEntries, @"Wrong value for totalEntries");
