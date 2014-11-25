@@ -27,12 +27,12 @@
 /**
  @enum Logging levels to control the verbosity of log output based on the severity of the event being logged.
  */
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
     kSFOAuthLogLevelDebug,
     kSFOAuthLogLevelInfo,
     kSFOAuthLogLevelWarning,
     kSFOAuthLogLevelError
-} SFOAuthLogLevel;
+};
 
 /** Object representing an individual user account's logon credentials.
  

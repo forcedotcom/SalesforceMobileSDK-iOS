@@ -25,13 +25,13 @@
 #import "SFOAuthCredentials.h"
 #import <SalesforceSecurity/SFEncryptionKey.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeNotSet,
     kSFOAuthCredsEncryptionTypeMac,
     kSFOAuthCredsEncryptionTypeIdForVendor,
     kSFOAuthCredsEncryptionTypeBaseAppId,
     kSFOAuthCredsEncryptionTypeKeyStore
-} SFOAuthCredsEncryptionType;
+};
 
 extern NSString * const kSFOAuthEncryptionTypeKey;
 extern NSString * const kSFOAuthServiceAccess;

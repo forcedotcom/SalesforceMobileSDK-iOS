@@ -27,12 +27,12 @@
 /**
  Enumeration of types of encryption used for the default encryption of stores.
  */
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFSmartStoreLegacyDefaultEncryptionType) {
     SFSmartStoreDefaultEncryptionTypeNone,
     SFSmartStoreDefaultEncryptionTypeMac,
     SFSmartStoreDefaultEncryptionTypeIdForVendor,
     SFSmartStoreDefaultEncryptionTypeBaseAppId
-} SFSmartStoreLegacyDefaultEncryptionType;
+};
 
 @interface SFSmartStoreUpgrade ()
 
