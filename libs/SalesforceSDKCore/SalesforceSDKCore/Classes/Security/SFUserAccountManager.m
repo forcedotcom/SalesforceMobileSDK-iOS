@@ -624,14 +624,16 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    for (SFUserAccountIdentity *userIdentity in [self.userAccountMap copy]) {
+    NSDictionary *userAccountMap = [self.userAccountMap copy];
+    
+    for (SFUserAccountIdentity *userIdentity in userAccountMap) {
         // Don't save the temporary user id
         if ([userIdentity isEqual:self.temporaryUserIdentity]) {
             continue;
         }
         
         // Grab the user account...
-        SFUserAccount *user = self.userAccountMap[userIdentity];
+        SFUserAccount *user = userAccountMap[userIdentity];
         
         // And it's persistent file path
         NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];

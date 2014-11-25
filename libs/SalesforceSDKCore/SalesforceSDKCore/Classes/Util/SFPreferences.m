@@ -142,7 +142,7 @@ static NSMutableDictionary *instances = nil;
             self.attributes[key] = object;
         }
         @catch (NSException *exception) {
-            [self log:SFLogLevelError format:@"Unable to set preference entry (key:%@, object:%@): %@", exception];
+            [self log:SFLogLevelError format:@"Unable to set preference entry (key:%@, object:%@): %@", key, object, exception];
         }
     }
 }

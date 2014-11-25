@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceNetworkSDK/SFNetworkCoordinator.h>
 
 NSString* const kSFRestDefaultAPIVersion = @"v31.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
