@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F2147BC193D215A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BA193D215A0010F9D3 /* Settings.bundle */; };
-		4F2147BD193D215A0010F9D3 /* ImagesHybrid.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BB193D215A0010F9D3 /* ImagesHybrid.xcassets */; };
 		4F22156F19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */; };
 		4F22157019DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22157119DF5AEB00FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */; };
@@ -68,6 +67,7 @@
 		7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7DBD0781149AA9630043A9E0 /* InfoPlist.strings */; };
 		7DBD0785149AA9630043A9E0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DBD0784149AA9630043A9E0 /* main.m */; };
 		820275F9165178B200DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F8165178B200DB814C /* MessageUI.framework */; };
+		8230E2421A2410D600EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2411A2410D600EFE764 /* Images.xcassets */; };
 		8251CA5716ED3BC400BD1EA2 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5316ED3BC400BD1EA2 /* libCordova.a */; };
 		8251CA5816ED3BC400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5416ED3BC400BD1EA2 /* libSalesforceHybridSDK.a */; };
 		8251CA5916ED3BC400BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5516ED3BC400BD1EA2 /* libSalesforceOAuth.a */; };
@@ -208,7 +208,6 @@
 
 /* Begin PBXFileReference section */
 		4F2147BA193D215A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F2147BB193D215A0010F9D3 /* ImagesHybrid.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ImagesHybrid.xcassets; path = ../../../../shared/resources/ImagesHybrid.xcassets; sourceTree = "<group>"; };
 		4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
 		4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
@@ -278,6 +277,7 @@
 		7DBD0786149AA9630043A9E0 /* ContactExplorer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ContactExplorer-Prefix.pch"; sourceTree = "<group>"; };
 		7DBD07CA149AA9640043A9E0 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		820275F8165178B200DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		8230E2411A2410D600EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		8251CA5316ED3BC400BD1EA2 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CA5416ED3BC400BD1EA2 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8251CA5516ED3BC400BD1EA2 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -603,8 +603,8 @@
 		7DBD07B7149AA9640043A9E0 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8230E2411A2410D600EFE764 /* Images.xcassets */,
 				4F2147BA193D215A0010F9D3 /* Settings.bundle */,
-				4F2147BB193D215A0010F9D3 /* ImagesHybrid.xcassets */,
 				4F53F6D11683D8A300CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
@@ -728,10 +728,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F2147BC193D215A0010F9D3 /* Settings.bundle in Resources */,
+				8230E2421A2410D600EFE764 /* Images.xcassets in Resources */,
 				4FF15EE719088FF200705FE0 /* config.xml in Resources */,
 				7DBD0783149AA9630043A9E0 /* InfoPlist.strings in Resources */,
 				4F53F6D21683D8A300CF1C17 /* SalesforceSDKResources.bundle in Resources */,
-				4F2147BD193D215A0010F9D3 /* ImagesHybrid.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
