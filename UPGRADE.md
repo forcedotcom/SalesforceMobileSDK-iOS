@@ -46,20 +46,20 @@ Starting with the 3.0 version of the SDK, much of the SDK bootstrapping process 
     - `[SFUserAccountManager sharedInstance].oauthClientId` should be replaced with `[SalesforceSDKManager sharedManager].connectedAppId`.
     - `[SFUserAccountManager sharedInstance].oauthCompletionUrl` should be replaced with `[SalesforceSDKManager sharedManager].connectedAppCallbackUri`.
     - `[SFUserAccountManager sharedInstance].scopes` should be replaced with `[SalesforceSDKManager sharedManager].authScopes`.
-- If your app authenticates at the beginning of your app launch process (the default behavior), you should replace your call to `[[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]` as follows:
-    - Your completion block will be replaced by setting `[SalesforceSDKManager sharedManager].postLaunchAction`.
-    - Your failure block will be replaced by setting `[SalesforceSDKManager sharedManager].launchErrorAction`.
-    - You will replace your call to `loginWithCompletion:failure:` with `[[SalesforceSDKManager sharedManager] launch]`.
+- If your app authenticates at the beginning of your app launch process (the default behavior), replace your call to `[[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]` as follows:
+    - Replace your completion block by setting `[SalesforceSDKManager sharedManager].postLaunchAction`.
+    - Replace your failure block by setting `[SalesforceSDKManager sharedManager].launchErrorAction`.
+    - Replace your call to `loginWithCompletion:failure:` with `[[SalesforceSDKManager sharedManager] launch]`.
 - If your app does *not* authenticate as part of your app's launch process, do the the following:
     - Set `[SalesforceSDKManager sharedManager].authenticateAtLaunch` to `NO` somewhere before calling `launch`.
     - Continue to call `[[SFAuthenticationManager sharedManager] loginWithCompletion:failure:]` at the appropriate time in your app lifecycle.
 - Regardless of whether your app authenticates at app startup or not, your `AppDelegate` *must* call `[[SalesforceSDKManager sharedManager] launch]` in `application:didFinishLaunchingWithOptions:`.
 - Your `AppDelegate` no longer needs to implement the `SFAuthenticationManagerDelegate` or `SFUserAccountManagerDelegate` protocols for bootstrapping events.
-    - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` has been replaced by setting the `[SalesforceSDKManager sharedManager].postLogoutAction` block.
-    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` has been replaced by setting the `[SalesforceSDKManager sharedManager].switchUserAction` block.
+    - `[SFAuthenticationManagerDelegate authManagerDidLogout:]` has been replaced by the `[SalesforceSDKManager sharedManager].postLogoutAction` block.
+    - `[SFUserAccountManagerDelegate userAccountManager:didSwitchFromUser:toUser:]` has been replaced by the `[SalesforceSDKManager sharedManager].switchUserAction` block.
 - If you subscribed to the `SFAuthenticationManagerDelegate` methods for app event boundaries (`authManagerWillResignActive:`, `authManagerDidBecomeActive:`, `authManagerWillEnterForeground:`, `authManagerDidEnterBackground:`), you must now subscribe to the equivalent delegate methods of `SalesforceSDKManagerDelegate`.
-- If you customized the snapshot view functionality of `SFAuthenticationManager` (`useSnapshotView`, `snapshotView`), you will need to move those customizations to the equivalent functionality in `SalesforceSDKManager`.
-- If you overrode the `preferredPasscodeProvider` of `SFAuthenticationManager` (uncommon), you will need to move your customizations to `SalesforceSDKManager`.
+- If you customized the snapshot view functionality of `SFAuthenticationManager` (`useSnapshotView`, `snapshotView`), move those customizations to the equivalent functionality in `SalesforceSDKManager`.
+- If you overrode the `preferredPasscodeProvider` of `SFAuthenticationManager` (uncommon), move your customizations to `SalesforceSDKManager`.
 
 ## Upgrading from a previous version of the SDK?
 
