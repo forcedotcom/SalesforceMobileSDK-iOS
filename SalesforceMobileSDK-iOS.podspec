@@ -41,7 +41,7 @@ Pod::Spec.new do |s|
       commonutils.vendored_libraries = 'external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a'
       commonutils.frameworks = 'MessageUI'
       commonutils.libraries = 'z'
-      commonutils.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      commonutils.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
 
   end
 
@@ -51,7 +51,7 @@ Pod::Spec.new do |s|
       mknet.public_header_files = 'external/MKNetworkKit/MKNetworkKit/Categories/NSDictionary+RequestEncoding.h', 'external/MKNetworkKit/MKNetworkKit/Categories/NSString+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/Categories/UIAlertView+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkEngine.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkOperation.h'
       mknet.header_dir = 'Headers/MKNetworkKit-iOS'
       mknet.prefix_header_contents = '#import "MKNetworkKit.h"'
-      mknet.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      mknet.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       mknet.requires_arc = true
 
   end
@@ -63,7 +63,7 @@ Pod::Spec.new do |s|
       salesforcesecurity.public_header_files = 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFSDKCryptoUtils.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFEncryptionKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeProviderManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager+Internal.h'
       salesforcesecurity.header_dir = 'Headers/SalesforceSecurity'
       salesforcesecurity.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
-      salesforcesecurity.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      salesforcesecurity.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       salesforcesecurity.requires_arc = true
 
   end
@@ -76,7 +76,7 @@ Pod::Spec.new do |s|
       oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h'
       oauth.header_dir = 'Headers/SalesforceOAuth'
       oauth.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
-      oauth.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      oauth.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       oauth.requires_arc = true
 
   end
@@ -93,7 +93,7 @@ Pod::Spec.new do |s|
       sdkcore.header_dir = 'Headers/SalesforceSDKCore'
       sdkcore.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>', '#import "SalesforceSDKConstants.h"'
       sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ], 'Settings' => [ 'shared/resources/Settings.bundle/**' ] }
-      sdkcore.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers", 'OTHER_CFLAGS' => '-DSQLITE_HAS_CODEC' }
+      sdkcore.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers", 'OTHER_CFLAGS' => '-DSQLITE_HAS_CODEC' }
       sdkcore.requires_arc = true
 
   end
@@ -112,7 +112,7 @@ Pod::Spec.new do |s|
       networksdk.public_header_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkEngine.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkOperation.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkUtils.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkCoordinator.h'
       networksdk.header_dir = 'Headers/SalesforceNetworkSDK'
       networksdk.prefix_header_contents = '#import <SalesforceCommonUtils/SalesforceCommonUtils.h>'
-      networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       networksdk.requires_arc = true
 
   end
@@ -132,7 +132,7 @@ Pod::Spec.new do |s|
       restapi.public_header_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+QueryBuilder.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestRequest.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Files.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Blocks.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI.h'
       restapi.header_dir = 'Headers/SalesforceRestAPI'
       restapi.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
-      restapi.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      restapi.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       restapi.requires_arc = true
 
   end
@@ -153,7 +153,7 @@ Pod::Spec.new do |s|
       smartsync.public_header_files = 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncCacheManager.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncMetadataManager.h', 'libs/SmartSync/SmartSync/Classes/Manager/SFSmartSyncNetworkManager.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObject.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObjectType.h', 'libs/SmartSync/SmartSync/Classes/Model/SFObjectTypeLayout.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncConstants.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncObjectUtils.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoqlBuilder.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslBuilder.h', 'libs/SmartSync/SmartSync/Classes/Util/SFSmartSyncSoslReturningBuilder.h'
       smartsync.header_dir = 'Headers/SmartSync'
       smartsync.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
-      smartsync.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/#{s.name}/Headers" }
+      smartsync.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       smartsync.requires_arc = true
 
   end
