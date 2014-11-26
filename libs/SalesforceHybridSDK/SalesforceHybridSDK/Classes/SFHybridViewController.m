@@ -326,7 +326,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 #pragma mark - Private methods
 
-- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded isAbsUrl:(BOOL)isAbsUrl
+- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *instUrl = creds.apiUrl.absoluteString;
@@ -336,7 +336,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
      * We need to use the absolute URL in some cases and relative URL in some
      * other cases, because of differences between instance URL and community URL.
      */
-    if (!isAbsUrl && ![returnUrl hasPrefix:@"http"]) {
+    if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
         fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
     }
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
@@ -426,7 +426,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
-    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO isAbsUrl:NO] absoluteString];
+    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
     startPageConfigured = YES;
 }
 
@@ -567,11 +567,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (originalUrl != nil) {
         [self log:SFLogLevelDebug format:@"Authentication complete.  Redirecting to '%@' through frontdoor.",
                 [originalUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        BOOL isAbsUrl = NO;
+        BOOL createAbsUrl = YES;
         if (authInfo.authType == SFOAuthTypeRefresh) {
-            isAbsUrl = YES;
+            createAbsUrl = NO;
         }
-        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES isAbsUrl:isAbsUrl];
+        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
         [self.webView loadRequest:newRequest];
     }
