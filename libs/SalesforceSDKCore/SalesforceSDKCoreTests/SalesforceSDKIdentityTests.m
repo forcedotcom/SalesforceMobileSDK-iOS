@@ -54,6 +54,7 @@ static NSException *authException = nil;
 
 + (void)setUp
 {
+    [SFLogger setLogLevel:SFLogLevelDebug];
     @try {
         [TestSetupUtils populateAuthCredentialsFromConfigFile];
         [TestSetupUtils synchronousAuthRefresh];
@@ -83,6 +84,7 @@ static NSException *authException = nil;
 - (void)sendSyncIdentityRequest
 {
     SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
+    _requestListener = nil;
     _requestListener = [[SFSDKTestRequestListener alloc] initWithServiceType:SFAccountManagerServiceTypeIdentity];
     [authMgr.idCoordinator initiateIdentityDataRetrieval];
     [_requestListener waitForCompletion];
@@ -110,12 +112,15 @@ static NSException *authException = nil;
     SFIdentityCoordinator *idCoord = authMgr.idCoordinator;
     NSString *origAccessToken = [idCoord.credentials.accessToken copy];
     idCoord.credentials.accessToken = @"";
-    @try {
-        XCTAssertThrows([self sendSyncIdentityRequest], @"Identity request should fail with no access token.");
-    }
-    @finally {
-        idCoord.credentials.accessToken = origAccessToken;
-    }
+    [self sendSyncIdentityRequest];
+    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed with no access token.");
+    idCoord.credentials.accessToken = origAccessToken;
+    
+    NSURL *origIdentityUrl = idCoord.credentials.identityUrl;
+    idCoord.credentials.identityUrl = nil;
+    [self sendSyncIdentityRequest];
+    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed with no identity URL.");
+    idCoord.credentials.identityUrl = origIdentityUrl;
 }
 
 #pragma mark - Private helper methods

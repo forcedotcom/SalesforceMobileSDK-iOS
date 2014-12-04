@@ -149,11 +149,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
 {
+    [self log:SFLogLevelInfo format:@"%@", NSStringFromSelector(_cmd)];
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
 {
+    [self log:SFLogLevelInfo format:@"%@ with error: %@", NSStringFromSelector(_cmd), error];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }
@@ -182,11 +184,13 @@ NSString* const kTestRequestStatusDidTimeout = @"didTimeout";
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info
 {
+    [self log:SFLogLevelInfo format:@"%@ with authInfo: %@", NSStringFromSelector(_cmd), info];
     self.returnStatus = kTestRequestStatusDidLoad;
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
+    [self log:SFLogLevelInfo format:@"%@ with authInfo: %@, error: %@", NSStringFromSelector(_cmd), info, error];
     self.lastError = error;
     self.returnStatus = kTestRequestStatusDidFail;
 }

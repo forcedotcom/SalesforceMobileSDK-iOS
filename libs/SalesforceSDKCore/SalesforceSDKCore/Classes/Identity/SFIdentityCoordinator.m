@@ -39,12 +39,14 @@ static NSUInteger kSFIdentityReponseBufferLengthBytes        = 512;
 static NSString * const kHttpHeaderAuthorization             = @"Authorization";
 static NSString * const kHttpAuthHeaderFormatString          = @"Bearer %@";
 
-static NSString * const kSFIdentityError                     = @"error";
-static NSString * const kSFIdentityErrorDescription          = @"error_description";
-static NSString * const kSFIdentityErrorTypeNoData           = @"no_data_returned";
-static NSString * const kSFIdentityErrorTypeDataMalformed    = @"malformed_response";
-static NSString * const kSFIdentityErrorTypeBadHttpResponse  = @"bad_http_response";
-static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.keys.identity.data";
+static NSString * const kSFIdentityError                      = @"error";
+static NSString * const kSFIdentityErrorDescription           = @"error_description";
+static NSString * const kSFIdentityErrorTypeNoData            = @"no_data_returned";
+static NSString * const kSFIdentityErrorTypeDataMalformed     = @"malformed_response";
+static NSString * const kSFIdentityErrorTypeBadHttpResponse   = @"bad_http_response";
+static NSString * const kSFIdentityErrorTypeMissingParameters = @"missing_parameters";
+static NSString * const kMissingParametersFormatString        = @"The following required parameters for the identity service were missing: %@";
+static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce.keys.identity.data";
 
 @implementation SFIdentityCoordinator
 
@@ -76,9 +78,14 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 
 - (void)initiateIdentityDataRetrieval
 {
-    NSAssert(self.credentials != nil && self.credentials.accessToken != nil, @"Must have an access token.");
-    NSAssert(self.credentials.identityUrl != nil, @"Must have a value for the identity URL.");
-    NSAssert(self.delegate != nil, @"Cannot retrieve data without a delegate.");
+    NSString *missingParameters = [self validateParameters];
+    if ([missingParameters length] > 0) {
+        NSError *missingParamsError = [self errorWithType:kSFIdentityErrorTypeMissingParameters description:missingParameters];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self notifyDelegateOfFailure:missingParamsError];
+        });
+        return;
+    }
     if (self.retrievingData) {
         [self log:SFLogLevelDebug msg:@"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress."];
     }
@@ -103,6 +110,25 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 }
 
 #pragma mark - Private methods
+
+- (NSString *)validateParameters
+{
+    NSMutableString *invalidParameters = [NSMutableString string];
+    if ([self.credentials.accessToken length] == 0) {
+        [invalidParameters appendString:@"access token"];
+    }
+    if ([[self.credentials.identityUrl absoluteString] length] == 0) {
+        if ([invalidParameters length] > 0) [invalidParameters appendString:@", "];
+        [invalidParameters appendString:@"identity URL"];
+    }
+    
+    NSString *invalidParametersError = nil;
+    if ([invalidParameters length] > 0) {
+        invalidParametersError = [NSString stringWithFormat:kMissingParametersFormatString, invalidParameters];
+    }
+    
+    return invalidParametersError;
+}
 
 - (void)notifyDelegateOfSuccess
 {
@@ -169,7 +195,6 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 - (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
     NSAssert(type, @"error type can't be nil");
     
-    NSString *localized = [NSString stringWithFormat:@"%@ %@ : %@", kSFIdentityErrorDomain, type, description];
     NSInteger intCode = kSFIdentityErrorUnknown;
     NSNumber *numCode = (self.typeToCodeDict)[type];
     if (numCode != nil) {
@@ -178,7 +203,7 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
     
     NSDictionary *dict = @{kSFIdentityError: type,
                           kSFIdentityErrorDescription: description,
-                          NSLocalizedDescriptionKey: localized};
+                          NSLocalizedDescriptionKey: description};
     NSError *error = [NSError errorWithDomain:kSFIdentityErrorDomain code:intCode userInfo:dict];
     return error;
 }
@@ -189,9 +214,10 @@ static NSString * const kSFIdentityDataPropertyKey           = @"com.salesforce.
 {
     static NSDictionary *_typeToCodeDict = nil;
     if (_typeToCodeDict == nil) {
-        _typeToCodeDict = @{kSFIdentityErrorTypeNoData: @(kSFIdentityErrorNoData),
-                           kSFIdentityErrorTypeDataMalformed: @(kSFIdentityErrorDataMalformed),
-                           kSFIdentityErrorTypeBadHttpResponse: @(kSFIdentityErrorBadHttpResponse)};
+        _typeToCodeDict = @{ kSFIdentityErrorTypeNoData: @(kSFIdentityErrorNoData),
+                             kSFIdentityErrorTypeDataMalformed: @(kSFIdentityErrorDataMalformed),
+                             kSFIdentityErrorTypeBadHttpResponse: @(kSFIdentityErrorBadHttpResponse),
+                             kSFIdentityErrorTypeMissingParameters: @(kSFIdentityErrorMissingParameters) };
     }
     
     return _typeToCodeDict;
