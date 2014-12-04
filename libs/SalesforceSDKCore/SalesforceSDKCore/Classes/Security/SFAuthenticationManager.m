@@ -442,13 +442,11 @@ static Class InstanceClass = nil;
     
     SFUserAccountManager *userAccountManager = [SFUserAccountManager sharedInstance];
     
-    [self revokeRefreshToken:user];
-    
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
         [userAccountManager deleteAccountForUser:user error:nil];
-        [user.credentials revoke];
+        [self revokeRefreshToken:user];
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }
@@ -467,7 +465,7 @@ static Class InstanceClass = nil;
     [self willChangeValueForKey:@"haveValidSession"];
     [userAccountManager deleteAccountForUser:user error:nil];
     [userAccountManager saveAccounts:nil];
-    [user.credentials revoke];
+    [self revokeRefreshToken:user];
     userAccountManager.currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
     
@@ -736,6 +734,7 @@ static Class InstanceClass = nil;
         NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [urlConnection start];
     }
+    [user.credentials revoke];
 }
 
 - (void)login
@@ -1134,7 +1133,15 @@ static Class InstanceClass = nil;
 
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
 {
-    [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
+    if (error.code == kSFIdentityErrorMissingParameters) {
+        // No retry, as missing parameters are fatal
+        [self log:SFLogLevelError format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
+        [self revokeRefreshToken:[SFUserAccountManager sharedInstance].currentUser];
+        self.authError = error;
+        [self execFailureBlocks];
+    } else {
+        [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
+    }
 }
 
 #pragma mark - UIAlertViewDelegate
