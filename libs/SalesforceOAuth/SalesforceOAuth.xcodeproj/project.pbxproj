@@ -22,6 +22,8 @@
 
 /* Begin PBXBuildFile section */
 		6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */; };
+		8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */; };
+		8201F1AD1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */; };
 		827C82D817DD86AD0011BBA1 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82D717DD86AD0011BBA1 /* libSalesforceCommonUtils.a */; };
 		827C82DA17DD86CE0011BBA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82D917DD86CE0011BBA1 /* MessageUI.framework */; };
 		827C82DC17DD86D60011BBA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DB17DD86D60011BBA1 /* QuartzCore.framework */; };
@@ -75,6 +77,8 @@
 		6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCoordinator.m; path = SalesforceOAuth/Classes/SFOAuthCoordinator.m; sourceTree = SOURCE_ROOT; };
 		6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthCredentials+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthCredentials+Internal.h"; sourceTree = SOURCE_ROOT; };
 		6FFCCF9E13BD832C00F4B22B /* SFOAuthCoordinator+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthCoordinator+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthCoordinator+Internal.h"; sourceTree = SOURCE_ROOT; };
+		8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthOrgAuthConfiguration.h; path = SalesforceOAuth/Classes/SFOAuthOrgAuthConfiguration.h; sourceTree = SOURCE_ROOT; };
+		8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthOrgAuthConfiguration.m; path = SalesforceOAuth/Classes/SFOAuthOrgAuthConfiguration.m; sourceTree = SOURCE_ROOT; };
 		827C82D717DD86AD0011BBA1 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		827C82D917DD86CE0011BBA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		827C82DB17DD86D60011BBA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -182,6 +186,8 @@
 				82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */,
 				82B0FC1C15F5C3400054B066 /* SFOAuthInfo+Internal.h */,
 				82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */,
+				8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */,
+				8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */,
 			);
 			path = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -294,6 +300,7 @@
 				82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */,
 				82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */,
 				82C2B71317BBF2EB0023218F /* SFOAuthInfo+Internal.h in Headers */,
+				8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF19784A13B510EC00AFCA56 /* SFOAuthCredentials.m in Sources */,
+				8201F1AD1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */,
 				BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */,
 				82B0FC1615F5AE420054B066 /* SFOAuthInfo.m in Sources */,

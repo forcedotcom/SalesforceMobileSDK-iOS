@@ -223,6 +223,13 @@ enum {
  */
 @property (nonatomic, assign) NSTimeInterval timeout;
 
+/**
+ Whether or not to attempt advanced authentication.  Default is NO.  Keep the default value
+ if you don't need advanced authentication options, as this requires an additional round
+ trip to the service to get authentication configuration data.
+ */
+@property (nonatomic, assign) BOOL allowAdvancedAuthentication;
+
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.

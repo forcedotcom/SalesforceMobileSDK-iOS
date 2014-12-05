@@ -274,6 +274,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize connectedAppVersionAuthErrorHandler = _connectedAppVersionAuthErrorHandler;
 @synthesize networkFailureAuthErrorHandler = _networkFailureAuthErrorHandler;
 @synthesize genericAuthErrorHandler = _genericAuthErrorHandler;
+@synthesize enableAdvancedAuthenticationMode = _enableAdvancedAuthenticationMode;
 
 #pragma mark - Singleton initialization / management
 
@@ -508,6 +509,12 @@ static Class InstanceClass = nil;
     } else {
         return NO;
     }
+}
+
+- (void)setEnableAdvancedAuthenticationMode:(BOOL)enableAdvancedAuthenticationMode
+{
+    _enableAdvancedAuthenticationMode = enableAdvancedAuthenticationMode;
+    self.coordinator.allowAdvancedAuthentication = enableAdvancedAuthenticationMode;
 }
 
 + (void)resetSessionCookie
@@ -779,6 +786,7 @@ static Class InstanceClass = nil;
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
     self.coordinator.scopes = account.accessScopes;
+    self.coordinator.allowAdvancedAuthentication = self.enableAdvancedAuthenticationMode;
     self.coordinator.delegate = self;
     
     // re-create the identity coordinator for the current user

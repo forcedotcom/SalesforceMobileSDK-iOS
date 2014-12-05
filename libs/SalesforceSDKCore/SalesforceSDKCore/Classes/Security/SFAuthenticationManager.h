@@ -260,6 +260,13 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
 
 /**
+ Whether or not to enable advanced authentication.  Default is NO.  Leave the default value
+ unless you need advanced authentication, as it requires an additional round trip to the
+ service to retrieve org authentication configuration.
+ */
+@property (nonatomic, assign) BOOL enableAdvancedAuthenticationMode;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */

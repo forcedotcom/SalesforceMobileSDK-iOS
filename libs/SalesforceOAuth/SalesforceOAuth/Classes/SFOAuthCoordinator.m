@@ -26,6 +26,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
+#import "SFOAuthOrgAuthConfiguration.h"
 
 // Public constants
 
@@ -36,6 +37,7 @@ NSString * const     kSFOAuthErrorDomain                        = @"com.salesfor
 
 static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // user agent flow
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
+static NSString * const kSFOAuthEndPointAuthConfiguration       = @"/.well-known/auth-configuration";
 
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
@@ -101,14 +103,15 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 // private
 
-@synthesize authenticating             = _authenticating;
-@synthesize connection                 = _connection;
-@synthesize responseData               = _responseData;
-@synthesize initialRequestLoaded       = _initialRequestLoaded;
-@synthesize approvalCode               = _approvalCode;
-@synthesize scopes                     = _scopes;
-@synthesize refreshFlowConnectionTimer = _refreshFlowConnectionTimer;
-@synthesize refreshTimerThread         = _refreshTimerThread;
+@synthesize authenticating              = _authenticating;
+@synthesize connection                  = _connection;
+@synthesize responseData                = _responseData;
+@synthesize initialRequestLoaded        = _initialRequestLoaded;
+@synthesize approvalCode                = _approvalCode;
+@synthesize scopes                      = _scopes;
+@synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread          = _refreshTimerThread;
+@synthesize allowAdvancedAuthentication = _allowAdvancedAuthentication;
 
 
 - (id)init {
@@ -147,18 +150,20 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSAssert(nil != self.delegate, @"cannot authenticate with nil delegate");
     
     if (self.authenticating) {
-        [self log:SFLogLevelDebug msg:@"SFOAuthCoordinator:authenticate: Error: authenticate called while already authenticating. Call stopAuthenticating first."];
+        [self log:SFLogLevelDebug format:@"%@ Error: authenticate called while already authenticating. Call stopAuthenticating first.", NSStringFromSelector(_cmd)];
         return;
     }
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:authenticate: authenticating as %@ %@ refresh token on '%@://%@' ...",
-              self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"), 
+        [self log:SFLogLevelDebug format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
+              NSStringFromSelector(_cmd),
+              self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
               self.credentials.protocol, self.credentials.domain];
     }
 
     self.authenticating = YES;
     
     SFOAuthInfo *authInfo;
+    // TODO: Advanced auth.
     if (self.credentials.refreshToken) {
         authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
     } else {
@@ -182,6 +187,22 @@ static NSString * const kHttpPostContentType                    = @"application/
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
         [self beginTokenRefreshFlow];
+    } else if (self.allowAdvancedAuthentication) {
+        // In advanced auth mode, we have to get auth configuration settings from the org, where
+        // available, and initiate advanced auth flows, if configured.
+        __weak SFOAuthCoordinator *weakSelf = self;
+        [self retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
+            if (error) {
+                // That's fatal.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf notifyDelegateOfFailure:error authInfo:authInfo];
+                });
+            } else if (orgAuthConfig.useNativeBrowserForAuth) {
+                [weakSelf beginNativeBrowserFlow];
+            } else {
+                [weakSelf beginUserAgentFlow];
+            }
+        }];
     } else {
         [self beginUserAgentFlow];
     }
@@ -235,6 +256,71 @@ static NSString * const kHttpPostContentType                    = @"application/
         [self.delegate oauthCoordinatorDidAuthenticate:self];
 #pragma clang diagnostic pop
     }
+}
+
+- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration *, NSError *))retrievedAuthConfigBlock {
+    // NB: The second (error) parameter of retrievedAuthConfigCallback is only populated if a fatal error
+    // is detected in the process.  Otherwise, errors are considered as no org auth configuration being available.
+    
+    NSString *orgConfigUrl = [NSString stringWithFormat:@"%@://%@%@",
+                              self.credentials.protocol,
+                              self.credentials.domain,
+                              kSFOAuthEndPointAuthConfiguration
+                              ];
+    [self log:SFLogLevelInfo format:@"%@ Advanced authentication configured.  Retrieving auth configuration from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+    NSMutableURLRequest *orgConfigRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:orgConfigUrl]
+                                                                    cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                                timeoutInterval:self.timeout];
+    orgConfigRequest.HTTPShouldHandleCookies = NO;
+    [NSURLConnection sendAsynchronousRequest:orgConfigRequest
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+                               if (connectionError) {
+                                   [self log:SFLogLevelError format:@"%@ Error retrieving org auth config: %@", NSStringFromSelector(_cmd), [connectionError localizedDescription]];
+                                   if (retrievedAuthConfigBlock != NULL) {
+                                       retrievedAuthConfigBlock(nil, connectionError);
+                                       return;
+                                   }
+                               }
+                               
+                               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                               if (httpResponse.statusCode != 200) {
+                                   // Anything other than a 200 means we didn't get data back, which means advanced
+                                   // auth isn't supported for any orgs on that login host.
+                                   [self log:SFLogLevelInfo format:@"%@ No org auth config found at %@ (Status code: %ld)", NSStringFromSelector(_cmd), orgConfigUrl, httpResponse.statusCode];
+                                   if (retrievedAuthConfigBlock != NULL) {
+                                       retrievedAuthConfigBlock(nil, nil);
+                                   }
+                                   return;
+                               }
+                               
+                               if (data == nil) {
+                                   [self log:SFLogLevelInfo format:@"%@ No org auth config data returned from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+                                   if (retrievedAuthConfigBlock != NULL) {
+                                       retrievedAuthConfigBlock(nil, nil);
+                                       return;
+                                   }
+                               }
+                               
+                               NSError *jsonParseError = nil;
+                               NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
+                               if (jsonParseError) {
+                                   [self log:SFLogLevelInfo format:@"%@ Could not parse org auth config response from %@: %@", NSStringFromSelector(_cmd), orgConfigUrl, [jsonParseError localizedDescription]];
+                                   if (retrievedAuthConfigBlock != NULL) {
+                                       retrievedAuthConfigBlock(nil, nil);
+                                   }
+                               }
+                               
+                               [self log:SFLogLevelInfo format:@"%@ Successfully retrieved org auth config data from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+                               SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
+                               if (retrievedAuthConfigBlock != NULL) {
+                                   retrievedAuthConfigBlock(orgAuthConfig, nil);
+                               }
+                           }];
+}
+
+- (void)beginNativeBrowserFlow {
+    
 }
 
 - (void)beginUserAgentFlow {
