@@ -36,6 +36,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceCommonUtils/SFLogger.h>
 #import "SFRestAPI+Files.h"
 
 @interface SalesforceRestAPITests ()
@@ -71,7 +72,7 @@ static NSException *authException = nil;
 - (void)setUp
 {
     if (authException) {
-        STFail(@"Setting up authentication failed: %@", authException);
+        XCTFail(@"Setting up authentication failed: %@", authException);
     }
     
     // Set-up code here.
@@ -110,7 +111,7 @@ static NSException *authException = nil;
 - (void)testGetVersions {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 - (void)testGetVersion_SetDelegate {
@@ -120,7 +121,7 @@ static NSException *authException = nil;
     //exercises overwriting the delegate at send time
     [[SFRestAPI sharedInstance] send:request delegate:listener];
     [listener waitForCompletion];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: make sure fully-defined paths in the request are honored too.
@@ -129,7 +130,7 @@ static NSException *authException = nil;
     request.path = [NSString stringWithFormat:@"%@%@", kSFDefaultRestEndpoint, request.path];
     [self log:SFLogLevelDebug format:@"request.path: %@", request.path];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: make sure that user-defined endpoints are respected
@@ -137,21 +138,21 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     [request setEndpoint:@"/my/custom/endpoint"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
 // simple: just invoke requestForResources
 - (void)testGetResources {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForDescribeGlobal
 - (void)testGetDescribeGlobal {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForDescribeGlobal, force a cancel & timeout
@@ -162,7 +163,7 @@ static NSException *authException = nil;
 
     [[SFRestAPI sharedInstance] cancelAllRequests];
     [listener waitForCompletion];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidCancel, @"request should have been cancelled");
 
 }
 
@@ -174,38 +175,38 @@ static NSException *authException = nil;
     [[SFRestAPI sharedInstance] send:request delegate:nil];
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:request];
-    STAssertTrue(found , @"Could not find request to force a timeout");
+    XCTAssertTrue(found , @"Could not find request to force a timeout");
     
     [listener waitForCompletion];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidTimeout, @"request should have timed out");
  }
 
 // simple: just invoke requestForMetadataWithObjectType:@"Contact"
 - (void)testGetMetadataWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:@"Contact"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForDescribeWithObjectType:@"Contact"
 - (void)testGetDescribeWithObjectType {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:@"Contact"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForSearchScopeAndOrder
 - (void)testGetSearchScopeAndOrder {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForSearchResultLayout:@"Account"
 - (void)testGetSearchResultLayout {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:@"Account"];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 
@@ -214,7 +215,7 @@ static NSException *authException = nil;
 - (void)testCreateBogusContact {
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
 }
 
 
@@ -240,79 +241,79 @@ static NSException *authException = nil;
 
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // make sure we got an id
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
-    STAssertNotNil(contactId, @"id not present");
+    XCTAssertNotNil(contactId, @"id not present");
     
     @try {
         // try to retrieve object with id
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
+        XCTAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
         // try to retrieve again, passing a list of fields
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:@"LastName, FirstName"];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
+        XCTAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
         // try retrieving the raw data, and converting it to JSON
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         request.parseResponse = NO;
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-        STAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"expected raw NSData response");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"expected raw NSData response");
         id responseAsJson = [SFJsonUtils objectFromJSONData:listener.dataResponse];
-        STAssertNotNil(responseAsJson, @"expected valid JSON data response");
-        STAssertEqualObjects(lastName, ((NSDictionary *)responseAsJson)[@"LastName"], @"invalid last name");
-        STAssertEqualObjects(@"John", ((NSDictionary *)responseAsJson)[@"FirstName"], @"invalid first name");
+        XCTAssertNotNil(responseAsJson, @"expected valid JSON data response");
+        XCTAssertEqualObjects(lastName, ((NSDictionary *)responseAsJson)[@"LastName"], @"invalid last name");
+        XCTAssertEqualObjects(@"John", ((NSDictionary *)responseAsJson)[@"FirstName"], @"invalid first name");
         
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
-        STAssertEquals((int)[records count], 1, @"expected just one query result");
+        XCTAssertEqual((int)[records count], 1, @"expected just one query result");
         
         // now search object
         request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = (NSArray *)listener.dataResponse;
-        STAssertEquals((int)[records count], 1, @"expected just one search result");
+        XCTAssertEqual((int)[records count], 1, @"expected just one search result");
     }
     @finally {
         // now delete object
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     }
     
     // well, let's do another query just to be sure
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
-    STAssertEquals((int)[records count], 0, @"expected no result");
+    XCTAssertEqual((int)[records count], 0, @"expected no result");
     
     // check the deleted object is here
     request = [[SFRestAPI sharedInstance] requestForQueryAll:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray* records2 = ((NSDictionary *)listener.dataResponse)[@"records"];
-    STAssertEquals((int)[records2 count], 1, @"expected just one query result");
+    XCTAssertEqual((int)[records2 count], 1, @"expected just one query result");
 
     // now search object
     request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", soslLastName]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     records = (NSArray *)listener.dataResponse;
-    STAssertEquals((int)[records count], 0, @"expected no result");
+    XCTAssertEqual((int)[records count], 0, @"expected no result");
 }
 
 // - create object (requestForCreateWithObjectType)
@@ -332,54 +333,54 @@ static NSException *authException = nil;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // make sure we got an id
     NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
-    STAssertNotNil(contactId, @"id not present");
+    XCTAssertNotNil(contactId, @"id not present");
     [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
     
     @try {
         // now query object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
-        STAssertEquals((int)[records count], 1, @"expected just one query result");
+        XCTAssertEqual((int)[records count], 1, @"expected just one query result");
         
         // modify object
         NSDictionary *updatedFields = @{@"LastName": updatedLastName};
         request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:@"Contact" objectId:contactId fields:updatedFields];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         
         // query updated object
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]]; 
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = ((NSDictionary *)listener.dataResponse)[@"records"];
-        STAssertEquals((int)[records count], 1, @"expected just one query result");
+        XCTAssertEqual((int)[records count], 1, @"expected just one query result");
 
         // let's make sure the old object is not there anymore
         request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", lastName]]; 
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = ((NSDictionary *)listener.dataResponse)[@"records"];
-        STAssertEquals((int)[records count], 0, @"expected no result");
+        XCTAssertEqual((int)[records count], 0, @"expected no result");
     }
     @finally {
         // now delete object
         request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
         listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     }
     
     // well, let's do another query just to be sure
     request = [[SFRestAPI sharedInstance] requestForQuery:[NSString stringWithFormat:@"select Id, FirstName from Contact where LastName='%@'", updatedLastName]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
-    STAssertEquals((int)[records count], 0, @"expected no result");
+    XCTAssertEqual((int)[records count], 0, @"expected no result");
 }
 
 
@@ -404,10 +405,10 @@ static NSException *authException = nil;
                               ];
     
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
     NSDictionary *errDict = listener.lastError.userInfo;
     NSString *restErrCode = errDict[NSLocalizedFailureReasonErrorKey];
-    STAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
+    XCTAssertTrue([restErrCode isEqualToString:@"NOT_FOUND"],@"got unexpected restErrCode: %@",restErrCode);
 
 }
 
@@ -415,26 +416,26 @@ static NSException *authException = nil;
 - (void)testSOQLError {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
-    STAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
-    STAssertEquals(listener.lastError.code, 400, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
+    XCTAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    XCTAssertEqual(listener.lastError.code, 400, @"invalid code");
 }
 
 // issue invalid retrieve and test for errors
 - (void)testRetrieveError {
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
-    STAssertEquals(listener.lastError.code, 404, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
     
     // even when parseJson is NO, errors should still be returned as well-formed JSON
     request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:@"bogus_contact_id" fieldList:nil];
     request.parseResponse = NO;
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
-    STAssertEquals(listener.lastError.code, 404, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqualObjects(listener.lastError.domain, NSURLErrorDomain, @"invalid domain");
+    XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
 }
 
 #pragma mark - testing files calls
@@ -444,11 +445,11 @@ static NSException *authException = nil;
     // with nil for userId
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
     request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForFilesInUsersGroups
@@ -456,11 +457,11 @@ static NSException *authException = nil;
     // with nil for userId
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:nil page:0];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
     request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // simple: just invoke requestForFilesSharedWithUser
@@ -468,11 +469,11 @@ static NSException *authException = nil;
     // with nil for userId
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:nil page:0];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     // with actual user id
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:_currentUser.credentials.userId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // Upload file / download content / download rendition (expect 403) / delete file / download again (expect 404)
@@ -483,25 +484,25 @@ static NSException *authException = nil;
     // download content
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileContents:fileAttrs[@"id"] version:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEqualObjects(listener.dataResponse, fileAttrs[@"data"], @"wrong content");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.dataResponse, fileAttrs[@"data"], @"wrong content");
 
     // download rendition (expect 403)
     request = [[SFRestAPI sharedInstance] requestForFileRendition:fileAttrs[@"id"] version:nil renditionType:@"PDF" page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEquals(listener.lastError.code, 403, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqual(listener.lastError.code, 403, @"invalid code");
     
     // delete
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // download content again (expect 404)
     request = [[SFRestAPI sharedInstance] requestForFileContents:fileAttrs[@"id"] version:nil];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEquals(listener.lastError.code, 404, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
 }
 
 // Upload file / get details / delete file / get details again (expect 404)
@@ -512,19 +513,19 @@ static NSException *authException = nil;
     // get details
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileDetails:fileAttrs[@"id"] forVersion:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     [self compareFileAttributes:listener.dataResponse expectedAttrs:fileAttrs];
    
     // delete
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // get details again (expect 404)
     request = [[SFRestAPI sharedInstance] requestForFileDetails:fileAttrs[@"id"] forVersion:nil];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
-    STAssertEquals(listener.lastError.code, 404, @"invalid code");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqual(listener.lastError.code, 404, @"invalid code");
 }
 
 // Upload files / get batch details / delete files / get batch details again (expect 404)
@@ -538,36 +539,36 @@ static NSException *authException = nil;
     // get batch details
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 200, @"expected 200");
     [self compareFileAttributes:listener.dataResponse[@"results"][0][@"result"] expectedAttrs:fileAttrs];
-    STAssertEquals([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
     [self compareFileAttributes:listener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
     
     // delete first file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // get batch details (expect 404 for first file)
     request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
-    STAssertEquals([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 200, @"expected 200");
     [self compareFileAttributes:listener.dataResponse[@"results"][1][@"result"] expectedAttrs:fileAttrs2];
     
     // delete second file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs2[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     
     // get batch details (expect 404 for both files)
     request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:@[fileAttrs[@"id"], fileAttrs2[@"id"]]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
-    STAssertEquals([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 404, @"expected 404");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual([listener.dataResponse[@"results"][0][@"statusCode"] intValue], 404, @"expected 404");
+    XCTAssertEqual([listener.dataResponse[@"results"][1][@"statusCode"] intValue], 404, @"expected 404");
 }
 
 // Upload files / get owned files / delete files / get owned files again
@@ -578,7 +579,7 @@ static NSException *authException = nil;
     // get owned files
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     [self compareFileAttributes:listener.dataResponse[@"files"][0] expectedAttrs:fileAttrs];
     
     // upload other file
@@ -587,25 +588,25 @@ static NSException *authException = nil;
     // get owned files
     request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     [self compareMultipleFileAttributes:@[ listener.dataResponse[@"files"][0], listener.dataResponse[@"files"][1] ]
                                expected:@[ fileAttrs, fileAttrs2 ]];
 
     // delete second file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs2[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // get owned files
     request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:nil page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     [self compareFileAttributes:listener.dataResponse[@"files"][0] expectedAttrs:fileAttrs];
     
     // delete first file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // Upload file / share file / get file shares and shared files / unshare file / get file shares and shared files / delete file
@@ -619,62 +620,62 @@ static NSException *authException = nil;
     // get file shares
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
-    STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
+    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
 
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     int countFilesSharedWithOtherUser = (int)[listener.dataResponse[@"files"] count];
     
     // share file with other user
     request = [[SFRestAPI sharedInstance] requestForAddFileShare:fileAttrs[@"id"] entityId:otherUserId shareType:@"V"];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     NSString *shareId = listener.dataResponse[@"id"];
     
     // get file shares again
     request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals((int)[listener.dataResponse[@"shares"] count], 2, @"expected two shares");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
-    STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
-    STAssertEqualObjects(listener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
-    STAssertEqualObjects(listener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 2, @"expected two shares");
+    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
 
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals((int)[listener.dataResponse[@"files"] count], countFilesSharedWithOtherUser + 1, @"expected one more file shared with other user");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual((int)[listener.dataResponse[@"files"] count], countFilesSharedWithOtherUser + 1, @"expected one more file shared with other user");
     
     // unshare file from other user
     request = [[SFRestAPI sharedInstance] requestForDeleteFileShare:shareId];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     // get files shares again
     request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
-    STAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
-    STAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 1, @"expected one share");
+    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
+    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
     
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEquals((int)[listener.dataResponse[@"files"] count], countFilesSharedWithOtherUser, @"expected one less file shared with other user");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqual((int)[listener.dataResponse[@"files"] count], countFilesSharedWithOtherUser, @"expected one less file shared with other user");
     
     // delete file
     request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"ContentDocument" objectId:fileAttrs[@"id"]];
     listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 
@@ -688,7 +689,7 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
 
     // check response
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 
     return listener.dataResponse[@"records"][0][@"Id"];
 }
@@ -708,11 +709,11 @@ static NSException *authException = nil;
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     
     // check response
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    STAssertEqualObjects(listener.dataResponse[@"title"], fileTitle, @"wrong title");
-    STAssertEqualObjects(listener.dataResponse[@"description"], fileDescription, @"wrong description");
-    STAssertEquals([listener.dataResponse[@"contentSize"] intValue], [fileSize intValue], @"wrong content size");
-    STAssertEqualObjects(listener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.dataResponse[@"title"], fileTitle, @"wrong title");
+    XCTAssertEqualObjects(listener.dataResponse[@"description"], fileDescription, @"wrong description");
+    XCTAssertEqual([listener.dataResponse[@"contentSize"] intValue], [fileSize intValue], @"wrong content size");
+    XCTAssertEqualObjects(listener.dataResponse[@"mimeType"], fileMimeType, @"wrong mime type");
     
     // get id
     NSString *fileId = listener.dataResponse[@"id"];
@@ -734,7 +735,7 @@ static NSException *authException = nil;
     NSArray *keys = @[@"id", @"title", @"description", @"contentSize", @"mimeType"];
     
     for (id key in keys) {
-        STAssertEqualObjects(actualFileAttrs[key], expectedFileAttrs[key], [NSString stringWithFormat:@"wrong %@", key]);
+        XCTAssertEqualObjects(actualFileAttrs[key], expectedFileAttrs[key], @"wrong %@", key);
     }
 }
 
@@ -743,18 +744,18 @@ static NSException *authException = nil;
     // Order can't be guaranteed for files.  Cheat a little by matching IDs first.
     for (NSDictionary *expectedFile in expectedFileAttrsArray) {
         NSString *expectedId = expectedFile[@"id"];
-        STAssertNotNil(expectedId, @"No value for file's expected ID.");
+        XCTAssertNotNil(expectedId, @"No value for file's expected ID.");
         BOOL foundMatchingId = NO;
         for (NSDictionary *actualFile in actualFileAttrsArray) {
             NSString *actualId = actualFile[@"id"];
-            STAssertNotNil(actualId, @"No value for file's actual ID.");
+            XCTAssertNotNil(actualId, @"No value for file's actual ID.");
             if ([expectedId isEqualToString:actualId]) {
                 foundMatchingId = YES;
                 [self compareFileAttributes:actualFile expectedAttrs:expectedFile];
                 break;
             }
         }
-        STAssertTrue(foundMatchingId, @"No actual file found matching expected ID '%@'.", expectedId);
+        XCTAssertTrue(foundMatchingId, @"No actual file found matching expected ID '%@'.", expectedId);
     }
 }
 
@@ -775,12 +776,12 @@ static NSException *authException = nil;
     // request (valid)
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
     [self log:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
-    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
 // - sets an invalid accessToken
@@ -797,11 +798,11 @@ static NSException *authException = nil;
     // request (invalid)
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
-    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
 // - sets an invalid accessToken
@@ -822,10 +823,10 @@ static NSException *authException = nil;
         // request (valid)
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForResources];
         SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-        STAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
-        STAssertEqualObjects(listener.lastError.domain, kSFOAuthErrorDomain, @"invalid domain");
-        STAssertEquals(listener.lastError.code, kSFRestErrorCode, @"invalid code");
-        STAssertNotNil(listener.lastError.userInfo, nil);
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request should have failed");
+        XCTAssertEqualObjects(listener.lastError.domain, kSFOAuthErrorDomain, @"invalid domain");
+        XCTAssertEqual(listener.lastError.code, kSFRestErrorCode, @"invalid code");
+        XCTAssertNotNil(listener.lastError.userInfo);
     }
     @finally {
         [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
@@ -874,15 +875,15 @@ static NSException *authException = nil;
     [listener2 waitForCompletion];
     [listener0 waitForCompletion];
     
-    STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
-    STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
-    STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
-    STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
-    STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
+    XCTAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidLoad, @"request0 failed");
+    XCTAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidLoad, @"request1 failed");
+    XCTAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidLoad, @"request2 failed");
+    XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidLoad, @"request3 failed");
+    XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidLoad, @"request4 failed");
     
     // let's make sure we have a new access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
-    STAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
 }
 
 // - sets an invalid accessToken
@@ -931,30 +932,30 @@ static NSException *authException = nil;
         [listener2 waitForCompletion];
         [listener0 waitForCompletion];
         
-        STAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidFail, @"request0 should have failed");
-        STAssertEqualObjects(listener0.lastError.domain, kSFOAuthErrorDomain, @"invalid error domain");
-        STAssertEquals(listener0.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener0.lastError.userInfo,@"userInfo should not be nil");
+        XCTAssertEqualObjects(listener0.returnStatus, kTestRequestStatusDidFail, @"request0 should have failed");
+        XCTAssertEqualObjects(listener0.lastError.domain, kSFOAuthErrorDomain, @"invalid error domain");
+        XCTAssertEqual(listener0.lastError.code, kSFRestErrorCode, @"invalid error code");
+        XCTAssertNotNil(listener0.lastError.userInfo,@"userInfo should not be nil");
         
-        STAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidFail, @"request1 should have failed");
-        STAssertEqualObjects(listener1.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener1.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener1.lastError.userInfo,@"userInfo should not be nil");
+        XCTAssertEqualObjects(listener1.returnStatus, kTestRequestStatusDidFail, @"request1 should have failed");
+        XCTAssertEqualObjects(listener1.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+        XCTAssertEqual(listener1.lastError.code, kSFRestErrorCode, @"invalid error code");
+        XCTAssertNotNil(listener1.lastError.userInfo,@"userInfo should not be nil");
         
-        STAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidFail, @"request2 should have failed");
-        STAssertEqualObjects(listener2.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener2.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener2.lastError.userInfo,@"userInfo should not be nil");
+        XCTAssertEqualObjects(listener2.returnStatus, kTestRequestStatusDidFail, @"request2 should have failed");
+        XCTAssertEqualObjects(listener2.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+        XCTAssertEqual(listener2.lastError.code, kSFRestErrorCode, @"invalid error code");
+        XCTAssertNotNil(listener2.lastError.userInfo,@"userInfo should not be nil");
         
-        STAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidFail, @"request3 should have failed");
-        STAssertEqualObjects(listener3.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener3.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener3.lastError.userInfo,@"userInfo should not be nil");
+        XCTAssertEqualObjects(listener3.returnStatus, kTestRequestStatusDidFail, @"request3 should have failed");
+        XCTAssertEqualObjects(listener3.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+        XCTAssertEqual(listener3.lastError.code, kSFRestErrorCode, @"invalid error code");
+        XCTAssertNotNil(listener3.lastError.userInfo,@"userInfo should not be nil");
         
-        STAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidFail, @"request4 should have failed");
-        STAssertEqualObjects(listener4.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
-        STAssertEquals(listener4.lastError.code, kSFRestErrorCode, @"invalid error code");
-        STAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
+        XCTAssertEqualObjects(listener4.returnStatus, kTestRequestStatusDidFail, @"request4 should have failed");
+        XCTAssertEqualObjects(listener4.lastError.domain, kSFOAuthErrorDomain, @"invalid  error domain");
+        XCTAssertEqual(listener4.lastError.code, kSFRestErrorCode, @"invalid error code");
+        XCTAssertNotNil(listener4.lastError.userInfo,@"userInfo should not be nil");
     }
     @finally {
         [self changeOauthTokens:origAccessToken refreshToken:origRefreshToken];
@@ -967,19 +968,19 @@ static NSException *authException = nil;
 // A success block that expects a non-nil response
 #define DICT_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
 _blocksUncompletedCount--; \
-STAssertNotNil( d, [NSString stringWithFormat:@"%@ success block did not include a valid response.",testName]); \
+XCTAssertNotNil( d, @"%@ success block did not include a valid response.",testName); \
 }
 
 // A success block that expects a nil response
 #define EMPTY_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
 _blocksUncompletedCount--; \
-STAssertNil( d, [NSString stringWithFormat:@"%@ success block should have included nil response.",testName]); \
+XCTAssertNil( d, @"%@ success block should have included nil response.",testName); \
 }
 
 // A fail block that should not have failed
 #define UNEXPECTED_ERROR_BLOCK(testName) ^(NSError *e) { \
 _blocksUncompletedCount--; \
-STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Error: %@",testName,e]); \
+XCTAssertNil( e, @"%@ errored but should not have. Error: %@",testName,e); \
 }
 
 - (BOOL)waitForAllBlockCompletions {
@@ -1056,7 +1057,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                            //need to wait until all updates of record complete before deleting record,
                            //since these operations sometimes complete out-of-order (flapper)
                            BOOL updatesTimedOut = [self waitForAllBlockCompletions];
-                           STAssertTrue(!updatesTimedOut, @"Timed out waiting for blocks completion");
+                           XCTAssertTrue(!updatesTimedOut, @"Timed out waiting for blocks completion");
 
                            [api performDeleteWithObjectType:@"Contact"
                                                    objectId:recordId
@@ -1070,7 +1071,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 
     
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
 
 }
 
@@ -1081,37 +1082,37 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
         _blocksUncompletedCount--;
-        STAssertNotNil( e, @"Failure block didn't include an error." );
+        XCTAssertNotNil( e, @"Failure block didn't include an error." );
     };
     
     // A fail block that should not have failed
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
         _blocksUncompletedCount--;
-        STAssertNil( e, @"Failure block errored but should not have.");
+        XCTAssertNil( e, @"Failure block errored but should not have.");
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         _blocksUncompletedCount--;
-        STAssertNil( d, @"Success block succeeded but should not have.");
+        XCTAssertNil( d, @"Success block succeeded but should not have.");
     };
     
     // An array success block that we expected to succeed
     SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr) {
         _blocksUncompletedCount--;
-        STAssertNotNil( arr, @"Success block did not include a valid response.");
+        XCTAssertNotNil( arr, @"Success block did not include a valid response.");
     };
     
     // An array success block that should not have succeeded
     SFRestArrayResponseBlock arrayUnexpectedSuccessBlock = ^(NSArray *arr) {
         _blocksUncompletedCount--;
-        STAssertNil( arr, @"Success block succeeded but should not have.");
+        XCTAssertNil( arr, @"Success block succeeded but should not have.");
     };
     
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
     
-    STAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]], 
+    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]], 
                  @"Generated error should match description." );
 
     
@@ -1199,7 +1200,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     
     
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
 
         
     
@@ -1210,13 +1211,13 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
         _blocksUncompletedCount--;
-        STAssertNotNil( e, @"Failure block didn't include an error." );
+        XCTAssertNotNil( e, @"Failure block didn't include an error." );
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         _blocksUncompletedCount--;
-        STAssertNil( d, @"Success block succeeded but should not have.");
+        XCTAssertNil( d, @"Success block succeeded but should not have.");
     };
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
@@ -1226,7 +1227,7 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     [[SFRestAPI sharedInstance] cancelAllRequests];
     
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
 
 }
 
@@ -1234,13 +1235,13 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
         _blocksUncompletedCount--;
-        STAssertNotNil( e, @"Failure block didn't include an error." );
+        XCTAssertNotNil( e, @"Failure block didn't include an error." );
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         _blocksUncompletedCount--;
-        STAssertNil( d, @"Success block succeeded but should not have.");
+        XCTAssertNil( d, @"Success block succeeded but should not have.");
     };
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
@@ -1248,10 +1249,10 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     _blocksUncompletedCount = 1;
     
     BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:nil];
-    STAssertTrue(found , @"Could not find request to force a timeout");
+    XCTAssertTrue(found , @"Could not find request to force a timeout");
 
     BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    STAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
 }
 
 #pragma mark - SFRestAPI utility tests
@@ -1261,21 +1262,21 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
     // [SFRestAPI sharedInstance].coordinator tracks [SFAuthenticationManager sharedManager].coordinator by default.
     SFOAuthCoordinator *acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
     SFOAuthCoordinator *restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
+    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Coordinator property on SFRestAPI should track the value in SFAccountManager.");
     
     // Updating [SFRestAPI sharedInstance].coordinator updates [SFAuthenticationManager sharedManager].coordinator as well.
     SFOAuthCredentials *creds = _currentUser.credentials;
     SFOAuthCoordinator *newRestApiCoord = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    STAssertFalse(newRestApiCoord == [SFAuthenticationManager sharedManager].coordinator, @"Object references shouldn't be equal with new object.");
+    XCTAssertFalse(newRestApiCoord == [SFAuthenticationManager sharedManager].coordinator, @"Object references shouldn't be equal with new object.");
     [SFRestAPI sharedInstance].coordinator = newRestApiCoord;
     acctMgrCoord = [SFAuthenticationManager sharedManager].coordinator;
     restApiCoord = [SFRestAPI sharedInstance].coordinator;
-    STAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
+    XCTAssertEqualObjects(acctMgrCoord, restApiCoord, @"Updating SFRestAPI's coordinator property should update SFAccountManager as well.");
     
     // After updating [SFRestAPI sharedInstance].coordinator, REST calls still work.
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForVersions];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
-    STAssertEqualObjects(listener.returnStatus,
+    XCTAssertEqualObjects(listener.returnStatus,
                          kTestRequestStatusDidLoad,
                          @"Request failed with updated value for [SFRestAPI sharedInstance].coordinator");
 }
@@ -1284,16 +1285,16 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
 
 - (void) testSOQL {
 
-    STAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil where:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil where:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
-    STAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil where:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil where:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
     NSString *complexQuery = @"select id,status from Lead where id<>null group by status limit 10";
     
-    STAssertTrue( [simpleQuery isEqualToString:
+    XCTAssertTrue( [simpleQuery isEqualToString:
                         [SFRestAPI SOQLQueryWithFields:@[@"id"]
                                                sObject:@"Lead"
                                                  where:@"id<>null"
@@ -1309,30 +1310,30 @@ STAssertNil( e, [NSString stringWithFormat:@"%@ errored but should not have. Err
                                                              orderBy:nil
                                                                limit:10];
     
-    STAssertTrue( [complexQuery isEqualToString:generatedComplexQuery],
+    XCTAssertTrue( [complexQuery isEqualToString:generatedComplexQuery],
                  @"Complex SOQL query does not match.");
 }
 
 - (void) testSOSL {
     
-    STAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
+    XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
                  @"Invalid search did not result in nil output.");
     
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
                                 hasSuffix:[NSString stringWithFormat:@"%i", kMaxSOSLSearchLimit]];
     
-    STAssertTrue( searchLimitEnforced,
+    XCTAssertTrue( searchLimitEnforced,
                  @"SOSL search limit was not properly enforced.");
     
     NSString *simpleSearch = @"FIND {blah} IN NAME FIELDS RETURNING User";
     NSString *complexSearch = @"FIND {blah} IN NAME FIELDS RETURNING User (id, name order by lastname asc limit 5) LIMIT 200";
     
-    STAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
+    XCTAssertTrue( [simpleSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                         objectScope:[NSDictionary dictionaryWithObject:[NSNull null]
                                                                                                                 forKey:@"User"]]],
                  @"Simple SOSL search does not match.");    
     
-    STAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
+    XCTAssertTrue( [complexSearch isEqualToString:[SFRestAPI SOSLSearchWithSearchTerm:@"blah"
                                                                           fieldScope:nil
                                                                          objectScope:[NSDictionary dictionaryWithObject:@"id, name order by lastname asc limit 5"
                                                                                                                  forKey:@"User"]
