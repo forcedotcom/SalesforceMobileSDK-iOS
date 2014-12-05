@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface SalesforceOAuthUnitTests : SenTestCase
+@interface SalesforceOAuthUnitTests : XCTestCase
 
 @end
