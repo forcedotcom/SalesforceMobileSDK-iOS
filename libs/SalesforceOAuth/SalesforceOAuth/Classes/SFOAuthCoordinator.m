@@ -37,7 +37,10 @@ NSString * const     kSFOAuthErrorDomain                        = @"com.salesfor
 
 static NSString * const kSFOAuthEndPointAuthorize               = @"/services/oauth2/authorize";    // user agent flow
 static NSString * const kSFOAuthEndPointToken                   = @"/services/oauth2/token";        // token refresh flow
+
+// Advanced auth constants
 static NSString * const kSFOAuthEndPointAuthConfiguration       = @"/.well-known/auth-configuration";
+//static NSUInteger const kSFOAuth
 
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
