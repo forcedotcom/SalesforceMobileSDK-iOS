@@ -31,6 +31,9 @@
  */
 - (NSString *)msdkBase64UrlString;
 
+/**
+ @return An SHA256 hash of the given data.
+ */
 - (NSData *)msdkSha256Data;
 
 @end
