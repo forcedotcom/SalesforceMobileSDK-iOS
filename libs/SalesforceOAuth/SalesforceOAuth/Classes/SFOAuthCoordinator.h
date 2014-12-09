@@ -57,7 +57,8 @@ enum {
     kSFOAuthErrorInactiveOrg,
     kSFOAuthErrorRateLimitExceeded,
     kSFOAuthErrorUnsupportedResponseType,
-    kSFOAuthErrorWrongVersion               // credentials do not match current Connected App version in the org
+    kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
+    kSFOAuthErrorBrowserLaunchFailed
 };
 
 /** Protocol for objects intending to be a delegate for an OAuth coordinator.

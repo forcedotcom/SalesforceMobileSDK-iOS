@@ -27,6 +27,8 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFOAuthOrgAuthConfiguration.h"
+#import <SalesforceSecurity/SFSDKCryptoUtils.h>
+#import <SalesforceSDKCommon/NSData+SFSDKUtils.h>
 
 // Public constants
 
@@ -40,7 +42,10 @@ static NSString * const kSFOAuthEndPointToken                   = @"/services/oa
 
 // Advanced auth constants
 static NSString * const kSFOAuthEndPointAuthConfiguration       = @"/.well-known/auth-configuration";
-//static NSUInteger const kSFOAuth
+static NSUInteger const kSFOAuthCodeVerifierByteLength          = 128;
+static NSString * const kSFOAuthCodeVerifierParamName           = @"code_verifier";
+static NSString * const kSFOAuthCodeChallengeParamName          = @"code_challenge";
+static NSString * const kSFOAuthResponseTypeCode                = @"code";
 
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
@@ -90,6 +95,7 @@ static NSString * const kSFOAuthErrorTypeRateLimitExceeded          = @"rate_lim
 static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsupported_response_type";
 static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
 static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
+static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -115,6 +121,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
 @synthesize refreshTimerThread          = _refreshTimerThread;
 @synthesize allowAdvancedAuthentication = _allowAdvancedAuthentication;
+@synthesize codeVerifierData            = _codeVerifierData;
 
 
 - (id)init {
@@ -323,7 +330,46 @@ static NSString * const kHttpPostContentType                    = @"application/
 }
 
 - (void)beginNativeBrowserFlow {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginNativeBrowserFlow];
+        });
+        return;
+    }
     
+    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+    
+    // E.g. https://login.salesforce.com/services/oauth2/authorize
+    //      ?client_id=<Connected App ID>&redirect_uri=<Connected App Redirect URI>&display=touch
+    //      &response_type=code
+    NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@&%@=%@",
+                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                    kSFOAuthClientId, self.credentials.clientId,
+                                    kSFOAuthRedirectUri, self.credentials.redirectUri,
+                                    kSFOAuthDisplay, kSFOAuthDisplayTouch,
+                                    kSFOAuthResponseType, kSFOAuthResponseTypeCode];
+    
+    // OAuth scopes
+    NSString *scopeString = [self scopeQueryParamString];
+    if (scopeString != nil) {
+        [approvalUrl appendString:scopeString];
+    }
+    
+    // Code verifier challenge
+    self.codeVerifierData = [SFSDKCryptoUtils randomByteDataWithLength:kSFOAuthCodeVerifierByteLength];
+    NSString *codeVerifierChallengeString = [[self.codeVerifierData msdkSha256Data] msdkBase64UrlString];
+    [approvalUrl appendFormat:@"&%@=%@", kSFOAuthCodeChallengeParamName, codeVerifierChallengeString];
+    
+    [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
+    NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
+    BOOL browserOpenSucceeded = [[UIApplication sharedApplication] openURL:nativeBrowserUrl];
+    if (!browserOpenSucceeded) {
+        [self log:SFLogLevelError format:@"%@: Could not launch native browser with URL %@", NSStringFromSelector(_cmd), approvalUrl];
+        NSError *launchError = [[self class] errorWithType:kSFOAuthErrorTypeBrowserLaunchFailed description:@"The native browser failed to launch for advanced authentication."];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self notifyDelegateOfFailure:launchError authInfo:authInfo];
+        });
+    }
 }
 
 - (void)beginUserAgentFlow {
@@ -371,12 +417,11 @@ static NSString * const kHttpPostContentType                    = @"application/
     } else {
         [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];        
     }
-    
-    // Adding refresh_token scopes
-    NSMutableSet* scopes = [NSMutableSet setWithSet:self.scopes];
-    [scopes addObject:kSFOAuthRefreshToken];
-    NSString* scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    [approvalUrl appendFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
+        
+    NSString *scopeString = [self scopeQueryParamString];
+    if (scopeString != nil) {
+        [approvalUrl appendString:scopeString];
+    }
     
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
@@ -522,6 +567,14 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSError *finalError = [NSError errorWithDomain:kSFOAuthErrorDomain code:error.code userInfo:errorDict];
         [self notifyDelegateOfFailure:finalError authInfo:authInfo];
     }
+}
+
+- (NSString *)scopeQueryParamString
+{
+    NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
+    [scopes addObject:kSFOAuthRefreshToken];
+    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
 }
 
 /** Update the credentials using the provided oauth parameters.
@@ -808,6 +861,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorTimeout;
     } else if ([type isEqualToString:kSFOAuthErrorTypeWrongVersion]) {
         code = kSFOAuthErrorWrongVersion;
+    } else if ([type isEqualToString:kSFOAuthErrorTypeBrowserLaunchFailed]) {
+        code = kSFOAuthErrorBrowserLaunchFailed;
     }
 
     NSDictionary *dict = @{kSFOAuthError: type,

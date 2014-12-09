@@ -29,6 +29,8 @@
 /**
  @return A base64url string based on the data.  See RFC 4648.
  */
-- (NSString *)base64UrlString;
+- (NSString *)msdkBase64UrlString;
+
+- (NSData *)msdkSha256Data;
 
 @end

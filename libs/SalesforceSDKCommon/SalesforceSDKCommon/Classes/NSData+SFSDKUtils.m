@@ -23,13 +23,22 @@
  */
 
 #import "NSData+SFSDKUtils_Internal.h"
+#import <CommonCrypto/CommonCrypto.h>
 
 @implementation NSData (SFSDKUtils)
 
-- (NSString *)base64UrlString {
+- (NSString *)msdkBase64UrlString {
     NSString *base64String = [self base64EncodedStringWithOptions:0];
     return [[self class] replaceBase64CharsForBase64UrlString:base64String];
 }
+
+- (NSData *)msdkSha256Data {
+    NSMutableData *sha256Data = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(self.bytes, (CC_LONG)self.length,  sha256Data.mutableBytes);
+    return sha256Data;
+}
+
+#pragma mark - Internal methods
 
 + (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String {
     if (base64String == nil) return nil;

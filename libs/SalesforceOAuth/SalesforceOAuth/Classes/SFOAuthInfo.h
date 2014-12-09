@@ -30,7 +30,8 @@
 typedef enum {
     SFOAuthTypeUnknown = 0,
     SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh
+    SFOAuthTypeRefresh,
+    SFOAuthTypeAdvancedBrowser
 } SFOAuthType;
 
 /**

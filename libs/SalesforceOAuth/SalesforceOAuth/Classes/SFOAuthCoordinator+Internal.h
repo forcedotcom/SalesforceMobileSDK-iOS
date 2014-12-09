@@ -36,6 +36,7 @@
 @property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
 @property (nonatomic, strong) NSThread *refreshTimerThread;
 @property (nonatomic, strong) UIWebView *view;
+@property (nonatomic, strong) NSData *codeVerifierData;
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenRefreshFlow;

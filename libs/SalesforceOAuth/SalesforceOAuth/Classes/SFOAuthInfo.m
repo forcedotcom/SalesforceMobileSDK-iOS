@@ -56,6 +56,9 @@
         case SFOAuthTypeRefresh:
             desc = @"SFOAuthTypeRefresh";
             break;
+        case SFOAuthTypeAdvancedBrowser:
+            desc = @"SFOAuthTypeAdvancedBrowser";
+            break;
         case SFOAuthTypeUnknown:
         default:
             desc = @"SFOAuthTypeUnknown";
