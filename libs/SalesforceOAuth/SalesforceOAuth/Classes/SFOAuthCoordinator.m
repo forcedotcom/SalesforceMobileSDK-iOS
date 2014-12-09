@@ -112,16 +112,17 @@ static NSString * const kHttpPostContentType                    = @"application/
 
 // private
 
-@synthesize authenticating              = _authenticating;
-@synthesize connection                  = _connection;
-@synthesize responseData                = _responseData;
-@synthesize initialRequestLoaded        = _initialRequestLoaded;
-@synthesize approvalCode                = _approvalCode;
-@synthesize scopes                      = _scopes;
-@synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
-@synthesize refreshTimerThread          = _refreshTimerThread;
-@synthesize allowAdvancedAuthentication = _allowAdvancedAuthentication;
-@synthesize codeVerifierData            = _codeVerifierData;
+@synthesize authenticating                   = _authenticating;
+@synthesize connection                       = _connection;
+@synthesize responseData                     = _responseData;
+@synthesize initialRequestLoaded             = _initialRequestLoaded;
+@synthesize approvalCode                     = _approvalCode;
+@synthesize scopes                           = _scopes;
+@synthesize refreshFlowConnectionTimer       = _refreshFlowConnectionTimer;
+@synthesize refreshTimerThread               = _refreshTimerThread;
+@synthesize allowAdvancedAuthentication      = _allowAdvancedAuthentication;
+@synthesize advancedAuthenticationInProgress = _advancedAuthenticationInProgress;
+@synthesize codeVerifierData                 = _codeVerifierData;
 
 
 - (id)init {
@@ -360,6 +361,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSString *codeVerifierChallengeString = [[self.codeVerifierData msdkSha256Data] msdkBase64UrlString];
     [approvalUrl appendFormat:@"&%@=%@", kSFOAuthCodeChallengeParamName, codeVerifierChallengeString];
     
+    // Launch the native browser.
     [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
     BOOL browserOpenSucceeded = [[UIApplication sharedApplication] openURL:nativeBrowserUrl];
@@ -369,6 +371,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         dispatch_async(dispatch_get_main_queue(), ^{
             [self notifyDelegateOfFailure:launchError authInfo:authInfo];
         });
+    } else {
+        _advancedAuthenticationInProgress = YES;
     }
 }
 

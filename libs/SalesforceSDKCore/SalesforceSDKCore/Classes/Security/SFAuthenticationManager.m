@@ -167,6 +167,8 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 @property (atomic, strong) NSMutableArray *authBlockList;
 
+@property (nonatomic, assign) BOOL advancedBrowserAuthInProgress;
+
 /**
  Dismisses the authentication retry alert box, if present.
  */
@@ -1115,6 +1117,7 @@ static Class InstanceClass = nil;
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
+    self.advancedBrowserAuthInProgress = NO;
     self.authInfo = info;
     self.authError = error;
     
@@ -1130,6 +1133,11 @@ static Class InstanceClass = nil;
     }];
     
     return result;
+}
+
+- (void)oauthCoordinatorWillBeginAdvancedBrowserAuthentication:(SFOAuthCoordinator *)coordinator
+{
+    self.advancedBrowserAuthInProgress = YES;
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

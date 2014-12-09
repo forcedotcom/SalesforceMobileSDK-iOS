@@ -231,6 +231,8 @@ enum {
  */
 @property (nonatomic, assign) BOOL allowAdvancedAuthentication;
 
+@property (nonatomic, readonly) BOOL advancedAuthenticationInProgress;
+
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.

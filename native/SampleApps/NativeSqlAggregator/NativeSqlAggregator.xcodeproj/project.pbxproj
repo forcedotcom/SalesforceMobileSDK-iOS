@@ -34,6 +34,7 @@
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
 		82AA406C18E3B2E100BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */; };
+		82D53D5E1A377D3B00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D5D1A377D3B00E46F8F /* libSalesforceSDKCommon.a */; };
 		CE006E5A176A822300411A4C /* ResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE006E59176A822300411A4C /* ResultViewController.xib */; };
 		CE006E5E176A829200411A4C /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE006E5D176A829100411A4C /* ResultViewController.m */; };
 		CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E5F176BD23B00411A4C /* libcrypto.a */; };
@@ -80,6 +81,7 @@
 		824A9FF517250BFA00C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		82AA406B18E3B2E100BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D53D5D1A377D3B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E59176A822300411A4C /* ResultViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ResultViewController.xib; sourceTree = "<group>"; };
 		CE006E5C176A829100411A4C /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
 		CE006E5D176A829100411A4C /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D5E1A377D3B00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				8222637B19DCA0810097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */,
@@ -148,6 +151,7 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D5D1A377D3B00E46F8F /* libSalesforceSDKCommon.a */,
 				8222637A19DCA0810097A09A /* libSalesforceRestAPI.a */,
 				CE006E5F176BD23B00411A4C /* libcrypto.a */,
 				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
@@ -407,7 +411,6 @@
 				GCC_PREFIX_HEADER = "NativeSqlAggregator/NativeSqlAggregator-Prefix.pch";
 				INFOPLIST_FILE = "NativeSqlAggregator/NativeSqlAggregator-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -427,7 +430,6 @@
 				GCC_PREFIX_HEADER = "NativeSqlAggregator/NativeSqlAggregator-Prefix.pch";
 				INFOPLIST_FILE = "NativeSqlAggregator/NativeSqlAggregator-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
