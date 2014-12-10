@@ -221,21 +221,9 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
      self.countSmartSql = countSmartSql;
 }
 
-- (NSString*) computeCountSql:(NSString*) selectSql {
-    NSRange fromLocation = [[selectSql lowercaseString] rangeOfString:@" from "];
-    NSMutableString* computedCountSql = [NSMutableString string];
-    [computedCountSql appendString:@"SELECT count(*) "];
-    if (fromLocation.location == NSNotFound) {
-        [computedCountSql appendString:@" FROM ("];
-        [computedCountSql appendString:selectSql];
-        [computedCountSql appendString:@")"];
-    }
-    else {
-        [computedCountSql appendString:[selectSql substringFromIndex:fromLocation.location]];
-    }
-    return computedCountSql;
+- (NSString*) computeCountSql:(NSString*) smartSql {
+    return [NSString stringWithFormat:@"SELECT count(*) FROM (%@)", smartSql];
 }
-
 
 - (NSString*)computeSelectClause {
     return [@[@"SELECT ", [self computeFieldReference:@"_soup"], @" "] componentsJoinedByString:@""];
