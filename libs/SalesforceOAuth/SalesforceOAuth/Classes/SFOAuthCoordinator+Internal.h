@@ -36,11 +36,13 @@
 @property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
 @property (nonatomic, strong) NSThread *refreshTimerThread;
 @property (nonatomic, strong) UIWebView *view;
-@property (nonatomic, strong) NSData *codeVerifierData;
+@property (nonatomic, strong) NSString *codeVerifier;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
 
 - (void)beginUserAgentFlow;
-- (void)beginTokenRefreshFlow;
-- (void)handleRefreshResponse;
+- (void)beginTokenEndpointFlow;
+- (void)handleTokenEndpointResponse;
 - (void)startRefreshFlowConnectionTimer;
 - (void)stopRefreshFlowConnectionTimer;
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;

@@ -46,6 +46,11 @@ typedef enum {
 @property (nonatomic, readonly, assign) SFOAuthType authType;
 
 /**
+ The string description of the auth type.
+ */
+@property (nonatomic, readonly) NSString *authTypeDescription;
+
+/**
  Creates a new instance with the given auth type.
  @param authType The type of authentication being performed.
  */

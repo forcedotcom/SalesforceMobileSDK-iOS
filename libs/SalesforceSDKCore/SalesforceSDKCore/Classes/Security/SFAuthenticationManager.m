@@ -167,8 +167,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  */
 @property (atomic, strong) NSMutableArray *authBlockList;
 
-@property (nonatomic, assign) BOOL advancedBrowserAuthInProgress;
-
 /**
  Dismisses the authentication retry alert box, if present.
  */
@@ -517,6 +515,11 @@ static Class InstanceClass = nil;
 {
     _enableAdvancedAuthenticationMode = enableAdvancedAuthenticationMode;
     self.coordinator.allowAdvancedAuthentication = enableAdvancedAuthenticationMode;
+}
+
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse
+{
+    return [self.coordinator handleAdvancedAuthenticationResponse:appUrlResponse];
 }
 
 + (void)resetSessionCookie
@@ -946,8 +949,8 @@ static Class InstanceClass = nil;
                                                      if ([[weakSelf class] errorIsNetworkFailure:error]) {
                                                          [weakSelf log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
                                                          
-                                                         if (authInfo.authType == SFOAuthTypeUserAgent) {
-                                                             [weakSelf log:SFLogLevelError msg:@"Network failure for OAuth User Agent flow is a fatal error."];
+                                                         if (authInfo.authType != SFOAuthTypeRefresh) {
+                                                             [weakSelf log:SFLogLevelError format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
                                                              return NO;  // Default error handler will show the error.
                                                          } else {
                                                              [weakSelf log:SFLogLevelInfo msg:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
@@ -1117,7 +1120,6 @@ static Class InstanceClass = nil;
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info
 {
     [self log:SFLogLevelDebug format:@"oauthCoordinator:didFailWithError: %@, authInfo: %@", error, info];
-    self.advancedBrowserAuthInProgress = NO;
     self.authInfo = info;
     self.authError = error;
     
@@ -1133,11 +1135,6 @@ static Class InstanceClass = nil;
     }];
     
     return result;
-}
-
-- (void)oauthCoordinatorWillBeginAdvancedBrowserAuthentication:(SFOAuthCoordinator *)coordinator
-{
-    self.advancedBrowserAuthInProgress = YES;
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

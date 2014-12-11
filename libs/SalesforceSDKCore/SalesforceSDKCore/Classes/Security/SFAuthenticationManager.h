@@ -327,6 +327,15 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (void)cancelAuthentication;
 
 /**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @return YES if this is a valid URL response from advanced authentication that should
+ be handled, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
+
+/**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the
  OAuth credentials.
  */

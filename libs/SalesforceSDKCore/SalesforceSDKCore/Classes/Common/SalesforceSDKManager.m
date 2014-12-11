@@ -532,7 +532,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     [self log:SFLogLevelInfo msg:@"No valid credentials found.  Proceeding with authentication."];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-        [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", (authInfo.authType == SFOAuthTypeUserAgent ? @"User Agent" : @"Refresh")];
+        [self log:SFLogLevelInfo format:@"Authentication (%@) succeeded.  Launch completed.", authInfo.authTypeDescription];
         [SFSecurityLockout setupTimer];
         [SFSecurityLockout startActivityMonitoring];
         [self authValidatedToPostAuth:SFSDKLaunchActionAuthenticated];
