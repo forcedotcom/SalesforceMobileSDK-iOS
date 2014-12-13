@@ -24,18 +24,6 @@
 
 #import "SFRootViewManager.h"
 
-@interface SFRootViewManager ()
-{
-    
-}
-
-/**
- The app delegate's UIWindow property, assumed as the entry point of the view hierarchy.
- */
-@property (nonatomic, strong) UIWindow *mainWindow;
-
-@end
-
 @implementation SFRootViewManager
 
 @synthesize mainWindow = _mainWindow;
@@ -54,14 +42,22 @@
 {
     self = [super init];
     if (self) {
-        self.mainWindow = [[UIApplication sharedApplication] delegate].window;
-        if (self.mainWindow == nil) {
-            [self log:SFLogLevelError format:@"SFRootViewManager should not be initialized before the app delegate's window property."];
-            self = nil;
-        }
+        
     }
     
     return self;
+}
+
+- (UIWindow *)mainWindow
+{
+    if (_mainWindow == nil) {
+        // Try to set a sane value for mainWindow, if it hasn't been set already.
+        _mainWindow = [UIApplication sharedApplication].keyWindow;
+        if (_mainWindow == nil) {
+            [self log:SFLogLevelError format:@"UIApplication's keyWindow is nil."];
+        }
+    }
+    return _mainWindow;
 }
 
 //

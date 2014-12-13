@@ -138,11 +138,8 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     [self log:SFLogLevelInfo msg:@"Launching the Salesforce SDK."];
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
-    
-    BOOL logoutOrUserSwitchSettingsProcessed = [self processLogoutAndUserSwitchSettings];
-    if (logoutOrUserSwitchSettingsProcessed) {
-        // Logout or user switch will be triggered accordingly.  Exit here.
-        return YES;
+    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+        [SFRootViewManager sharedManager].mainWindow = [UIApplication sharedApplication].keyWindow;
     }
     
     NSError *launchStateError = nil;
@@ -150,6 +147,13 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [self log:SFLogLevelError msg:@"Please correct errors and try again."];
         [self sendLaunchError:launchStateError];
     } else {
+        // Check for presence of logout or user switch settings at launch.
+        BOOL logoutOrUserSwitchSettingsProcessed = [self processLogoutAndUserSwitchSettings];
+        if (logoutOrUserSwitchSettingsProcessed) {
+            // Logout or user switch will be triggered accordingly.  Exit here.
+            return YES;
+        }
+        
         // If there's a passcode configured, and we haven't validated before (through a previous call to
         // launch), we validate that first.
         if (!self.hasVerifiedPasscodeAtStartup) {
@@ -201,8 +205,8 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [self configureWithAppConfig];
     }
     
-    if ([[UIApplication sharedApplication] delegate].window == nil) {
-        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
+    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication's keyWindow property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
