@@ -37,6 +37,11 @@
 + (SFRootViewManager *)sharedManager;
 
 /**
+ The main window of the application.  If not explicitly set, defaults to `[UIApplication sharedApplication].windows[0]`.
+ */
+@property (nonatomic, strong) UIWindow *mainWindow;
+
+/**
  Push a view controller onto the top of the presentation stack.
  @param viewController The view controller to display.
  */
