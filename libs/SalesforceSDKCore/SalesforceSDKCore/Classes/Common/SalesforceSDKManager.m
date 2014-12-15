@@ -206,7 +206,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     }
     
     if ([SFRootViewManager sharedManager].mainWindow == nil) {
-        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication's keyWindow property has been initialized.  Cannot continue.", [self class]];
+        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
