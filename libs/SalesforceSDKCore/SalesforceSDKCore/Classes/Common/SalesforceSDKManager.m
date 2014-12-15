@@ -76,22 +76,6 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
         self.userAgentString = [self defaultUserAgentString];
-        
-        // Make sure the login host settings and dependent data are synced at pre-auth app startup.
-        // Note: No event generation necessary here.  This will happen before the first authentication
-        // in the app's lifetime, and is merely meant to rationalize the App Settings data with the in-memory
-        // app state as an initialization step.
-        BOOL logoutAppSettingEnabled = [[self class] logoutSettingEnabled];
-        SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-        if (logoutAppSettingEnabled) {
-            [[SFAuthenticationManager sharedManager] clearAccountState:YES];
-            NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-            [defs setBool:NO forKey:kAppSettingsAccountLogout];
-            [defs synchronize];
-        } else if (result.loginHostChanged) {
-            // Authentication hasn't started yet.  Just reset the current user.
-            [SFUserAccountManager sharedInstance].currentUser = nil;
-        }
     }
     
     return self;
@@ -154,11 +138,22 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     [self log:SFLogLevelInfo msg:@"Launching the Salesforce SDK."];
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
+    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+        [SFRootViewManager sharedManager].mainWindow = [UIApplication sharedApplication].windows[0];
+    }
+    
     NSError *launchStateError = nil;
     if (![self validateLaunchState:&launchStateError]) {
         [self log:SFLogLevelError msg:@"Please correct errors and try again."];
         [self sendLaunchError:launchStateError];
     } else {
+        // Check for presence of logout or user switch settings at launch.
+        BOOL logoutOrUserSwitchSettingsProcessed = [self processLogoutAndUserSwitchSettings];
+        if (logoutOrUserSwitchSettingsProcessed) {
+            // Logout or user switch will be triggered accordingly.  Exit here.
+            return YES;
+        }
+        
         // If there's a passcode configured, and we haven't validated before (through a previous call to
         // launch), we validate that first.
         if (!self.hasVerifiedPasscodeAtStartup) {
@@ -210,8 +205,8 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [self configureWithAppConfig];
     }
     
-    if ([[UIApplication sharedApplication] delegate].window == nil) {
-        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication delegate's window property has been initialized.  Cannot continue.", [self class]];
+    if ([SFRootViewManager sharedManager].mainWindow == nil) {
+        NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
         [launchStateErrorMessages addObject:noWindowError];
         validInputs = NO;
@@ -320,18 +315,10 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
     }
     
-    BOOL shouldLogout = [[self class] logoutSettingEnabled];
-    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
-    if (shouldLogout) {
-        [self log:SFLogLevelInfo msg:@"Logout setting triggered.  Logging out of the application."];
-        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-        [defs setBool:NO forKey:kAppSettingsAccountLogout];
-        [defs synchronize];
-        [[SFAuthenticationManager sharedManager] logout];
-    } else if (result.loginHostChanged) {
-        [self log:SFLogLevelInfo format:@"Login host changed ('%@' to '%@').  Switching to new login host.", result.originalLoginHost, result.updatedLoginHost];
-        [[SFAuthenticationManager sharedManager] cancelAuthentication];
-        [[SFUserAccountManager sharedInstance] switchToNewUser];
+    BOOL logoutOrUserSwitchProcessed = [self processLogoutAndUserSwitchSettings];
+    if (logoutOrUserSwitchProcessed) {
+        // Logout or user switch will be raised/handled.  Nothing else to do here.
+        [self log:SFLogLevelInfo format:@"%@ Logout or user switch configured.  No further foregrounding action taken.", NSStringFromSelector(_cmd)];
     } else if (_isLaunching) {
         [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
@@ -432,6 +419,30 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     [SFSecurityLockout stopActivityMonitoring];
     [SFSecurityLockout removeTimer];
     [self sendUserAccountSwitch:fromUser toUser:toUser];
+}
+
+- (BOOL)processLogoutAndUserSwitchSettings {
+    BOOL shouldLogout = [[self class] logoutSettingEnabled];
+    SFLoginHostUpdateResult *result = [[SFUserAccountManager sharedInstance] updateLoginHost];
+    
+    if (shouldLogout) {
+        [self log:SFLogLevelInfo format:@"%@: Logout setting triggered.  Logging out of the application.", NSStringFromSelector(_cmd)];
+        NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+        [defs setBool:NO forKey:kAppSettingsAccountLogout];
+        [defs synchronize];
+        [[SFAuthenticationManager sharedManager] logout];
+        return YES;
+    }
+    
+    if (result.loginHostChanged) {
+        [self log:SFLogLevelInfo format:@"%@: Login host changed ('%@' to '%@').  Switching to new login host.", NSStringFromSelector(_cmd), result.originalLoginHost, result.updatedLoginHost];
+        [[SFAuthenticationManager sharedManager] cancelAuthentication];
+        [[SFUserAccountManager sharedInstance] switchToNewUser];
+        return YES;
+    }
+    
+    [self log:SFLogLevelInfo format:@"%@: No updated logout or user switch settings to process.", NSStringFromSelector(_cmd)];
+    return NO;
 }
 
 + (BOOL)logoutSettingEnabled
