@@ -37,7 +37,7 @@
 + (SFRootViewManager *)sharedManager;
 
 /**
- The main window of the application.  If not explicitly set, defaults to `[UIApplication sharedApplication].keyWindow`.
+ The main window of the application.  If not explicitly set, defaults to `[UIApplication sharedApplication].windows[0]`.
  */
 @property (nonatomic, strong) UIWindow *mainWindow;
 
