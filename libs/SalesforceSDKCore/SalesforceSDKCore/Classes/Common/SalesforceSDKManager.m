@@ -139,7 +139,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     _isLaunching = YES;
     self.launchActions = SFSDKLaunchActionNone;
     if ([SFRootViewManager sharedManager].mainWindow == nil) {
-        [SFRootViewManager sharedManager].mainWindow = [UIApplication sharedApplication].keyWindow;
+        [SFRootViewManager sharedManager].mainWindow = [UIApplication sharedApplication].windows[0];
     }
     
     NSError *launchStateError = nil;

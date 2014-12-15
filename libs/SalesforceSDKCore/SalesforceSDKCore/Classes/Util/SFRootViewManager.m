@@ -52,9 +52,9 @@
 {
     if (_mainWindow == nil) {
         // Try to set a sane value for mainWindow, if it hasn't been set already.
-        _mainWindow = [UIApplication sharedApplication].keyWindow;
+        _mainWindow = [UIApplication sharedApplication].windows[0];
         if (_mainWindow == nil) {
-            [self log:SFLogLevelError format:@"UIApplication's keyWindow is nil."];
+            [self log:SFLogLevelError format:@"UIApplication has no defined windows."];
         }
     }
     return _mainWindow;
