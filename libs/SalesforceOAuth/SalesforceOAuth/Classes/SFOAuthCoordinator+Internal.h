@@ -25,9 +25,30 @@
 #import "SFOAuthCoordinator.h"
 
 @class SFOAuthInfo;
+@class SFOAuthOrgAuthConfiguration;
 
-@interface SFOAuthCoordinator ()
+typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
+    SFOAuthTokenEndpointFlowRefresh,
+    SFOAuthTokenEndpointFlowIPBypass,
+    SFOAuthTokenEndpointFlowAdvancedBrowser
+};
 
+@protocol SFOAuthCoordinatorFlow <NSObject>
+
+@required
+
+- (void)beginUserAgentFlow;
+- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
+- (void)handleTokenEndpointResponse;
+- (void)handleUserAgentResponse:(NSURL *)requestUrl;
+- (void)beginNativeBrowserFlow;
+- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
+
+@end
+
+@interface SFOAuthCoordinator () <SFOAuthCoordinatorFlow>
+
+@property (nonatomic, weak) id<SFOAuthCoordinatorFlow> oauthCoordinatorFlow;
 @property (assign) BOOL authenticating;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *responseData;
@@ -40,9 +61,6 @@
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
 
-- (void)beginUserAgentFlow;
-- (void)beginTokenEndpointFlow;
-- (void)handleTokenEndpointResponse;
 - (void)startRefreshFlowConnectionTimer;
 - (void)stopRefreshFlowConnectionTimer;
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;

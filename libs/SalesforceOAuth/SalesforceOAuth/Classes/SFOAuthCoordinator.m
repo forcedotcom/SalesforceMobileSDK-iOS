@@ -125,6 +125,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
+@synthesize oauthCoordinatorFlow        = _oauthCoordinatorFlow;
 
 
 - (id)init {
@@ -134,6 +135,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (id)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
     if (self) {
+        self.oauthCoordinatorFlow = self;
         self.credentials = credentials;
         self.authenticating = NO;
         _timeout = kSFOAuthDefaultTimeout;
@@ -193,12 +195,12 @@ static NSString * const kHttpPostContentType                    = @"application/
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
         [self notifyDelegateOfBeginAuthentication];
-        [self beginTokenEndpointFlow];
+        [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowRefresh];
     } else if (self.allowAdvancedAuthentication) {
         // In advanced auth mode, we have to get auth configuration settings from the org, where
         // available, and initiate advanced auth flows, if configured.
         __weak SFOAuthCoordinator *weakSelf = self;
-        [self retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
+        [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
             if (error) {
                 // That's fatal.
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -207,15 +209,15 @@ static NSString * const kHttpPostContentType                    = @"application/
             } else if (orgAuthConfig.useNativeBrowserForAuth) {
                 weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
                 [weakSelf notifyDelegateOfBeginAuthentication];
-                [weakSelf beginNativeBrowserFlow];
+                [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
             } else {
                 [self notifyDelegateOfBeginAuthentication];
-                [weakSelf beginUserAgentFlow];
+                [weakSelf.oauthCoordinatorFlow beginUserAgentFlow];
             }
         }];
     } else {
         [self notifyDelegateOfBeginAuthentication];
-        [self beginUserAgentFlow];
+        [self.oauthCoordinatorFlow beginUserAgentFlow];
     }
 }
 
@@ -270,7 +272,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [self log:SFLogLevelInfo format:@"%@ Received advanced authentication response.  Beginning token exchange.", NSStringFromSelector(_cmd)];
     self.advancedAuthState = SFOAuthAdvancedAuthStateTokenRequestInitiated;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self beginTokenEndpointFlow];
+        [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowAdvancedBrowser];
     });
     return YES;
 }
@@ -484,7 +486,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 	[self.view loadRequest:request];
 }
 
-- (void)beginTokenEndpointFlow {
+- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
     
     self.responseData = [NSMutableData dataWithLength:512];
     NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", 
@@ -602,6 +604,58 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
 }
 
+- (void)handleUserAgentResponse:(NSURL *)requestUrl {
+    
+    NSString *response = nil;
+    
+    // Check for a response in the URL fragment first, then fall back to the query string.
+    if ([requestUrl fragment]) {
+        response = [requestUrl fragment];
+    } else if ([requestUrl query]) {
+        response = [requestUrl query];
+    } else {
+        [self log:SFLogLevelDebug format:@"%@ Error: response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
+        
+        NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
+        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+        response = nil;
+    }
+    
+    if (response) {
+        NSDictionary *params = [[self class] parseQueryString:response];
+        NSString *error = params[kSFOAuthError];
+        if (nil == error) {
+            [self updateCredentials:params forTokenRefresh:NO];
+            
+            self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
+            
+            self.approvalCode = params[kSFOAuthApprovalCode];
+            if (self.approvalCode) {
+                // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).
+                [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowIPBypass];
+            } else {
+                // Otherwise, we are done with the authentication.
+                [self notifyDelegateOfSuccess:self.authInfo];
+            }
+        } else {
+            NSError *finalError;
+            NSError *error = [[self class] errorWithType:params[kSFOAuthError]
+                                             description:params[kSFOAuthErrorDescription]];
+            
+            // add any additional relevant info to the userInfo dictionary
+            
+            if (kSFOAuthErrorInvalidClientId == error.code) {
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
+                dict[kSFOAuthClientId] = self.credentials.clientId;
+                finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
+            } else {
+                finalError = error;
+            }
+            [self notifyDelegateOfFailure:finalError authInfo:self.authInfo];
+        }
+    }
+}
+
 - (NSString *)scopeQueryParamString
 {
     NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
@@ -706,67 +760,16 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: (navType=%ld): host=%@ : path=%@",
-              (long)navigationType, request.URL.host, request.URL.path];
+         (long)navigationType, request.URL.host, request.URL.path];
     }
     
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
     BOOL result = YES;
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
-
     if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
-        
         result = NO; // we're finished, don't load this request
-        NSString *response = nil;
-        
-        // Check for a response in the URL fragment first, then fall back to the query string.
-        
-        if ([requestUrl fragment]) {
-            response = [requestUrl fragment];
-        } else if ([requestUrl query]) {
-            response = [requestUrl query];
-        } else {
-            [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: Error: response has no payload: %@", requestUrlString];
-            
-            NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
-            [self notifyDelegateOfFailure:error authInfo:authInfo];
-            response = nil;
-        }
-        
-        if (response) {            
-            NSDictionary *params = [[self class] parseQueryString:response];
-            NSString *error = params[kSFOAuthError];
-            if (nil == error) {
-                [self updateCredentials:params forTokenRefresh:NO];
-                
-                self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
-
-                self.approvalCode = params[kSFOAuthApprovalCode];
-                if (self.approvalCode) {
-                    // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).
-                    [self beginTokenEndpointFlow];
-                } else {
-                    // Otherwise, we are done with the authentication.
-                    [self notifyDelegateOfSuccess:authInfo];
-                }
-            } else {
-                NSError *finalError;
-                NSError *error = [[self class] errorWithType:params[kSFOAuthError] 
-                                                 description:params[kSFOAuthErrorDescription]];
-                
-                // add any additional relevant info to the userInfo dictionary
-                
-                if (kSFOAuthErrorInvalidClientId == error.code) {
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
-                    dict[kSFOAuthClientId] = self.credentials.clientId;
-                    finalError = [NSError errorWithDomain:error.domain code:error.code userInfo:dict];
-                } else {
-                    finalError = error;
-                }
-                [self notifyDelegateOfFailure:finalError authInfo:authInfo];
-            }
-        }
-	}
+        [self.oauthCoordinatorFlow handleUserAgentResponse:requestUrl];
+    }
     
     return result;
 }
@@ -858,7 +861,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[self handleTokenEndpointResponse];
+	[self.oauthCoordinatorFlow handleTokenEndpointResponse];
 }
 
 #pragma mark - Utilities

@@ -28,6 +28,7 @@
 		827C82DA17DD86CE0011BBA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82D917DD86CE0011BBA1 /* MessageUI.framework */; };
 		827C82DC17DD86D60011BBA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DB17DD86D60011BBA1 /* QuartzCore.framework */; };
 		827C82DE17DD86E10011BBA1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DD17DD86E10011BBA1 /* libz.dylib */; };
+		8293A8D81A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8D71A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m */; };
 		829A08771A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A08761A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m */; };
 		829A08801A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A087F1A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */; };
 		82B0FC1615F5AE420054B066 /* SFOAuthInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */; };
@@ -82,6 +83,8 @@
 		827C82D917DD86CE0011BBA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		827C82DB17DD86D60011BBA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		827C82DD17DD86E10011BBA1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		8293A8D61A40FD1100ABC43C /* SFOAuthFlowAndDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthFlowAndDelegate.h; sourceTree = "<group>"; };
+		8293A8D71A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthFlowAndDelegate.m; sourceTree = "<group>"; };
 		829A08721A3235DE00DC17A5 /* SalesforceOAuthUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceOAuthUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		829A08751A3235DE00DC17A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		829A08761A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthUnitTests.m; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 				829A08761A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m */,
 				829A087E1A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */,
 				829A087F1A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */,
+				8293A8D61A40FD1100ABC43C /* SFOAuthFlowAndDelegate.h */,
+				8293A8D71A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m */,
 				829A08741A3235DE00DC17A5 /* Supporting Files */,
 			);
 			path = SalesforceOAuthUnitTests;
@@ -432,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				829A08801A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
+				8293A8D81A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m in Sources */,
 				829A08771A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
