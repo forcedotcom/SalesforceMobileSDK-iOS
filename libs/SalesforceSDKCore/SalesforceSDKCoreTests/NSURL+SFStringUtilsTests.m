@@ -114,4 +114,11 @@
     XCTAssertEqualObjects(@"https://test.salesforce.com:3747/customers/service/data/v31.0/settings", ([NSURL stringUrlWithScheme:@"https" host:@"test.salesforce.com" port:@(3747) pathComponents:@[@"/customers/", @"/service/data/v31.0/", @"/settings"]]), @"Invalid URL string");
 }
 
+- (void)testStringURLWithNil
+{
+    STAssertNil([NSURL stringUrlWithScheme:nil host:@"test.salesforce.com" port:nil pathComponents:nil], @"Should return nil");
+    STAssertNil([NSURL stringUrlWithScheme:@"http" host:nil port:nil pathComponents:nil], @"Should return nil");
+    STAssertNil([NSURL stringUrlWithScheme:nil host:nil port:nil pathComponents:nil], @"Should return nil");
+}
+
 @end
