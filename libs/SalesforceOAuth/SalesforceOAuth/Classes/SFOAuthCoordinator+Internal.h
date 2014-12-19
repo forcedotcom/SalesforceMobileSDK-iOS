@@ -28,6 +28,7 @@
 @class SFOAuthOrgAuthConfiguration;
 
 typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
+    SFOAuthTokenEndpointFlowNone = 0,
     SFOAuthTokenEndpointFlowRefresh,
     SFOAuthTokenEndpointFlowIPBypass,
     SFOAuthTokenEndpointFlowAdvancedBrowser
@@ -40,7 +41,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 - (void)beginUserAgentFlow;
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
 - (void)handleTokenEndpointResponse;
-- (void)handleUserAgentResponse:(NSURL *)requestUrl;
 - (void)beginNativeBrowserFlow;
 - (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
 
@@ -66,6 +66,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;
 - (void)invalidateRefreshTimer;
 - (void)cleanupRefreshTimer;
+- (void)handleUserAgentResponse:(NSURL *)requestUrl;
 
 /**
  Notify our delegate that we could not log in, and clear authenticating flag

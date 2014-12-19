@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
 		82D53D3D1A3618CD00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D311A3618CD00E46F8F /* libSalesforceSDKCommon.a */; };
 		82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */; };
@@ -37,6 +39,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAsyncProcessListener.h; path = Classes/Test/SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
+		8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAsyncProcessListener.m; path = Classes/Test/SFSDKAsyncProcessListener.m; sourceTree = "<group>"; };
 		82D53D311A3618CD00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D53D3C1A3618CD00E46F8F /* SalesforceSDKCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D53D421A3618CD00E46F8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,6 +69,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8293A8DC1A43A8CF00ABC43C /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */,
+				8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
 		82D53D281A3618CD00E46F8F = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +124,7 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8293A8DC1A43A8CF00ABC43C /* Test */,
 				82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */,
 				82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */,
 				82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */,
@@ -125,6 +139,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
 				82D53D561A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h in Headers */,
 				82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */,
 			);
@@ -219,6 +234,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -397,6 +413,7 @@
 				82D53D471A3618CD00E46F8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82D53D481A3618CD00E46F8F /* Build configuration list for PBXNativeTarget "SalesforceSDKCommonTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +422,7 @@
 				82D53D4A1A3618CD00E46F8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

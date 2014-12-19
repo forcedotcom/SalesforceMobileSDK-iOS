@@ -734,8 +734,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     [self stopAuthentication];
     NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeTimeout
                                      description:@"The token refresh process timed out."];
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-    [self notifyDelegateOfFailure:error authInfo:authInfo];
+    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
 }
 
 + (NSString *)advancedAuthStateDesc:(SFOAuthAdvancedAuthState)authState
@@ -759,8 +758,8 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:webView:shouldStartLoadWithRequest: (navType=%ld): host=%@ : path=%@",
-         (long)navigationType, request.URL.host, request.URL.path];
+        [self log:SFLogLevelDebug format:@"%@ (navType=%ld): host=%@ : path=%@",
+         NSStringFromSelector(_cmd), (long)navigationType, request.URL.host, request.URL.path];
     }
     
     BOOL result = YES;
@@ -768,7 +767,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSString *requestUrlString = [requestUrl absoluteString];
     if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         result = NO; // we're finished, don't load this request
-        [self.oauthCoordinatorFlow handleUserAgentResponse:requestUrl];
+        [self handleUserAgentResponse:requestUrl];
     }
     
     return result;
@@ -778,11 +777,11 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSURL *url = webView.request.URL;
     
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:webViewDidStartLoad: host=%@ : path=%@", url.host, url.path];
+        [self log:SFLogLevelDebug format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
     }
     
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
-        [self.delegate oauthCoordinator:self didStartLoad:webView];        
+        [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
 }
 
@@ -806,22 +805,21 @@ static NSString * const kHttpPostContentType                    = @"application/
     // NSURLErrorDomain:
     //      -999 The operation couldn't be completed.
     //     -1001 The request timed out.
-
+    
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:error];
     }
-
+    
     NSURL *requestUrl = [webView.request URL];
     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
-    if (-999 == error.code) { 
+    if (-999 == error.code) {
         // -999 errors (operation couldn't be completed) occur during normal execution, therefore only log for debugging
         if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
             [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
         }
     } else {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-        SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeUserAgent];
-        [self notifyDelegateOfFailure:error authInfo:authInfo];
+        [self notifyDelegateOfFailure:error authInfo:self.authInfo];
     }
 }
 
@@ -832,8 +830,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
 	[self log:SFLogLevelDebug format:@"SFOAuthCoordinator:connection:didFailWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
     [self stopRefreshFlowConnectionTimer];
-    SFOAuthInfo *authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeRefresh];
-    [self notifyDelegateOfFailure:error authInfo:authInfo];
+    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
 }
 
 - (NSURLRequest *)connection:(NSURLConnection *)connection 
