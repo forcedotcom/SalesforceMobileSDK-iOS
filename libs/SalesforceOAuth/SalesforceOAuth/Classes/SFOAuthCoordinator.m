@@ -39,6 +39,7 @@ static NSString * const kSFOAuthEndPointToken                   = @"/services/oa
 
 static NSString * const kSFOAuthAccessToken                     = @"access_token";
 static NSString * const kSFOAuthClientId                        = @"client_id";
+static NSString * const kSFOAuthCustomPermissions               = @"custom_permissions";
 static NSString * const kSFOAuthDisplay                         = @"display";
 static NSString * const kSFOAuthDisplayTouch                    = @"touch";
 static NSString * const kSFOAuthError                           = @"error";
@@ -281,21 +282,12 @@ static NSString * const kHttpPostContentType                    = @"application/
     } else {
         [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];        
     }
-        
-    if ([self.scopes count] > 0) {
-        //append scopes
-        [approvalUrl appendFormat:@"&%@=", kSFOAuthScope];
-        NSMutableString *scopeStr = [[NSMutableString alloc] initWithString:kSFOAuthRefreshToken];
-
-        for (NSString *scope in self.scopes) {
-            if (![scope isEqualToString:kSFOAuthRefreshToken]) {
-            	[scopeStr appendFormat:@" %@", scope]; // scopes are delimited by a space character
-            }
-        }
-        
-        NSString *finalScopeStr = [scopeStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [approvalUrl appendString:finalScopeStr];
-    }
+    
+    // Adding refresh_token scopes
+    NSMutableSet* scopes = [NSMutableSet setWithSet:self.scopes];
+    [scopes addObject:kSFOAuthRefreshToken];
+    NSString* scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [approvalUrl appendFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
     
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
