@@ -283,10 +283,9 @@ static NSString * const kHttpPostContentType                    = @"application/
         [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];        
     }
     
-    // Adding refresh_token and custom_permissions scopes
+    // Adding refresh_token scopes
     NSMutableSet* scopes = [NSMutableSet setWithSet:self.scopes];
     [scopes addObject:kSFOAuthRefreshToken];
-    [scopes addObject:kSFOAuthCustomPermissions];
     NSString* scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [approvalUrl appendFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
     
