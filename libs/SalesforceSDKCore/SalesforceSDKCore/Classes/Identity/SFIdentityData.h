@@ -223,6 +223,11 @@
 @property (strong, nonatomic, readonly) NSDictionary *customAttributes;
 
 /**
+ * An optional dictionary of custom permissions defined on the Connected App.
+ */
+@property (strong, nonatomic, readonly) NSDictionary *customPermissions;
+
+/**
  * The date this record was last modified.
  */
 @property (strong, nonatomic, readonly) NSDate *lastModifiedDate;
