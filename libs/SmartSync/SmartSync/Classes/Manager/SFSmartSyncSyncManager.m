@@ -25,7 +25,6 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
-#import "SFSyncState.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
@@ -201,8 +200,8 @@ dispatch_queue_t queue;
 
 /** Create and run a sync down
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithTarget:target soupName:soupName store:self.store];
+- (SFSyncState*) syncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return sync;
 }
@@ -220,6 +219,7 @@ dispatch_queue_t queue;
  */
 - (void) syncDown:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
+    SFSyncStateMergeMode mergeMode = SFSyncStateMergeModeOverwrite; // XXX get it from state/options
     SFSyncTarget* target = sync.target;
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);
@@ -227,20 +227,20 @@ dispatch_queue_t queue;
     
     switch (target.queryType) {
         case SFSyncTargetQueryTypeMru:
-            [self syncDownMru:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownMru:mergeMode objectType:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSoql:
-            [self syncDownSoql:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSoql:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSosl:
-            [self syncDownSosl:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSosl:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
             break;
     }
 }
 
 /** Run a sync down for a mru target
  */
-- (void) syncDownMru:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownMru:(SFSyncStateMergeMode)mergeMode objectType:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:sobjectType];
@@ -252,7 +252,7 @@ dispatch_queue_t queue;
                             from:sobjectType]
                            where:inPredicate]
                           build];
-        [weakSelf syncDownSoql:soql soup:soupName updateSync:updateSync failRest:failRest];
+        [weakSelf syncDownSoql:mergeMode query:soql soup:soupName updateSync:updateSync failRest:failRest];
     }];
 }
 
@@ -266,7 +266,7 @@ dispatch_queue_t queue;
 
 /** Run a sync down for a soql target
  */
-- (void) syncDownSoql:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownSoql:(SFSyncStateMergeMode)mergeMode query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __block NSUInteger countFetched = 0;
     __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
@@ -304,7 +304,7 @@ dispatch_queue_t queue;
 
 /** Run a sync down for a sosl target
  */
-- (void) syncDownSosl:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownSosl:(SFSyncStateMergeMode)mergeMode  query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *recordsFetched) {
         NSUInteger totalSize = [recordsFetched count];
