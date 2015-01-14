@@ -30,9 +30,11 @@ static NSString * const kManagedConfigurationKey   = @"com.apple.configuration.m
 static NSString * const kManagedFeedbackKey        = @"com.apple.feedback.managed";  // XXX - For future "feedback" impl
 
 // Managed key constants
-static NSString * const kManagedKeyRequireCertAuth = @"RequireCertAuth";
-static NSString * const kManagedKeyLoginHosts      = @"AppServiceHosts";
-static NSString * const kManagedKeyLoginHostLabels = @"AppServiceHostLabels";
+static NSString * const kManagedKeyRequireCertAuth         = @"RequireCertAuth";
+static NSString * const kManagedKeyLoginHosts              = @"AppServiceHosts";
+static NSString * const kManagedKeyLoginHostLabels         = @"AppServiceHostLabels";
+static NSString * const kManagedKeyConnectedAppId          = @"ManagedAppOAuthID";
+static NSString * const kManagedKeyConnectedAppCallbackUri = @"ManagedAppCallbackURL";
 
 @interface SFManagedPreferences ()
 
@@ -56,7 +58,14 @@ static NSString * const kManagedKeyLoginHostLabels = @"AppServiceHostLabels";
 - (id)init {
     self = [super init];
     if (self) {
-       self.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        __weak SFManagedPreferences *weakSelf = self;
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
+                                                          object:nil
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification *note) {
+                                                          weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+                                                      }];
+        self.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
     }
     return self;
 }
@@ -75,6 +84,14 @@ static NSString * const kManagedKeyLoginHostLabels = @"AppServiceHostLabels";
 
 - (NSArray *)loginHostLabels {
     return self.rawPreferences[kManagedKeyLoginHostLabels];
+}
+
+- (NSString *)connectedAppId {
+    return self.rawPreferences[kManagedKeyConnectedAppId];
+}
+
+- (NSString *)connectedAppCallbackUri {
+    return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
 }
 
 @end

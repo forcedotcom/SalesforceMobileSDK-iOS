@@ -55,6 +55,16 @@
 @property (nonatomic, readonly) NSArray *loginHostLabels;
 
 /**
+ The managed Connected App ID.
+ */
+@property (nonatomic, readonly) NSString *connectedAppId;
+
+/**
+ The managed Conneced App Callback URI.
+ */
+@property (nonatomic, readonly) NSString *connectedAppCallbackUri;
+
+/**
  The raw NSDictionary of managed preferences.
  */
 @property (nonatomic, strong, readonly) NSDictionary *rawPreferences;
