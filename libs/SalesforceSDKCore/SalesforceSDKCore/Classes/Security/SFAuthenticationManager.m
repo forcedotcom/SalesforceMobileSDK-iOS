@@ -274,7 +274,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize connectedAppVersionAuthErrorHandler = _connectedAppVersionAuthErrorHandler;
 @synthesize networkFailureAuthErrorHandler = _networkFailureAuthErrorHandler;
 @synthesize genericAuthErrorHandler = _genericAuthErrorHandler;
-@synthesize enableAdvancedAuthenticationMode = _enableAdvancedAuthenticationMode;
+@synthesize advancedAuthConfiguration = _advancedAuthConfiguration;
 
 #pragma mark - Singleton initialization / management
 
@@ -511,10 +511,10 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)setEnableAdvancedAuthenticationMode:(BOOL)enableAdvancedAuthenticationMode
+- (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    _enableAdvancedAuthenticationMode = enableAdvancedAuthenticationMode;
-    self.coordinator.allowAdvancedAuthentication = enableAdvancedAuthenticationMode;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
+    self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse
@@ -791,7 +791,7 @@ static Class InstanceClass = nil;
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
     self.coordinator.scopes = account.accessScopes;
-    self.coordinator.allowAdvancedAuthentication = self.enableAdvancedAuthenticationMode;
+    self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
     
     // re-create the identity coordinator for the current user
