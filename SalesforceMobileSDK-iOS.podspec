@@ -158,4 +158,7 @@ Pod::Spec.new do |s|
 
   end
 
+
+  s.dependency 'FMDB', '~> 2.3'
+
 end
