@@ -57,7 +57,29 @@ enum {
     kSFOAuthErrorInactiveOrg,
     kSFOAuthErrorRateLimitExceeded,
     kSFOAuthErrorUnsupportedResponseType,
-    kSFOAuthErrorWrongVersion               // credentials do not match current Connected App version in the org
+    kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
+    kSFOAuthErrorBrowserLaunchFailed
+};
+
+/**
+ Enumeration of different advanced authentication stages.
+ */
+typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
+    /**
+     No advanced authentication is currently under way.
+     */
+    SFOAuthAdvancedAuthStateNotStarted = 0,
+    
+    /**
+     The advanced authentication flow has initiated a request through the external browser (Safari).
+     */
+    SFOAuthAdvancedAuthStateBrowserRequestInitiated,
+    
+    /**
+     The advanced authentication flow has received a response from the external browser, and has
+     initiated a token exchange request.
+     */
+    SFOAuthAdvancedAuthStateTokenRequestInitiated
 };
 
 /** Protocol for objects intending to be a delegate for an OAuth coordinator.
@@ -223,6 +245,18 @@ enum {
  */
 @property (nonatomic, assign) NSTimeInterval timeout;
 
+/**
+ Whether or not to attempt advanced authentication.  Default is NO.  Keep the default value
+ if you don't need advanced authentication options, as this requires an additional round
+ trip to the service to get authentication configuration data.
+ */
+@property (nonatomic, assign) BOOL allowAdvancedAuthentication;
+
+/**
+ The current state of any in-progress advanced authentication flow.
+ */
+@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState;
+
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
@@ -276,5 +310,14 @@ enum {
 /** Revokes the authentication credentials.
  */
 - (void)revokeAuthentication;
+
+/**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @return YES if this is a valid URL response from advanced authentication that the coordinator
+ should handle, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
 @end

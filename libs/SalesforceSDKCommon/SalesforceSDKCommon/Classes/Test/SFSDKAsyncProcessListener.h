@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,23 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthInfo.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFOAuthInfo
+@interface SFSDKAsyncProcessListener : NSObject
 
-@synthesize authType = _authType;
+/**
+ Designated initializer.  Initialize the process listener with an expected status and a block that
+ will return status updates when called.
+ @param expectedStatus The expected return status upon completion.
+ @param actualStatusBlock The block that will return the actual status when called.
+ @param timeout The amount of time before the asynchronous process is considered to time out.
+ */
+- (id)initWithExpectedStatus:(id)expectedStatus actualStatusBlock:(id (^)(void))actualStatusBlock timeout:(NSTimeInterval)timeout;
 
-- (id)initWithAuthType:(SFOAuthType)authType
-{
-    self = [super init];
-    if (self) {
-        _authType = authType;
-    }
-    return self;
-}
-
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
-}
-
-- (NSString *)authTypeDescription
-{
-    NSString *desc;
-    switch (_authType) {
-        case SFOAuthTypeUserAgent:
-            desc = @"SFOAuthTypeUserAgent";
-            break;
-        case SFOAuthTypeRefresh:
-            desc = @"SFOAuthTypeRefresh";
-            break;
-        case SFOAuthTypeAdvancedBrowser:
-            desc = @"SFOAuthTypeAdvancedBrowser";
-            break;
-        case SFOAuthTypeUnknown:
-        default:
-            desc = @"SFOAuthTypeUnknown";
-            break;
-    }
-    
-    return desc;
-}
+/**
+ Waits for the asynchronous process to complete.
+ @return The actual status at the time the process completes, or times out.
+ */
+- (id)waitForCompletion;
 
 @end

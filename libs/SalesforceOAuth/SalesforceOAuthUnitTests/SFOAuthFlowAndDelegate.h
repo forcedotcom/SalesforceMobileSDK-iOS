@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthInfo.h"
+#import <Foundation/Foundation.h>
+#import "SFOAuthCoordinator+Internal.h"
 
-@implementation SFOAuthInfo
+@class SFOAuthOrgAuthConfiguration;
+@class SFOAuthInfo;
 
-@synthesize authType = _authType;
+@interface SFOAuthFlowAndDelegate : NSObject <SFOAuthCoordinatorDelegate, SFOAuthCoordinatorFlow>
 
-- (id)initWithAuthType:(SFOAuthType)authType
-{
-    self = [super init];
-    if (self) {
-        _authType = authType;
-    }
-    return self;
-}
+@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
+@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
+@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
+@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
+@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
+@property (nonatomic, assign) BOOL willBeginAuthenticationCalled;
+@property (nonatomic, assign) BOOL didAuthenticateCalled;
+@property (nonatomic, assign) BOOL didFailWithErrorCalled;
+@property (nonatomic, assign) BOOL isNetworkAvailableCalled;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, strong) NSError *didFailWithError;
 
+@property (nonatomic, assign) BOOL isNetworkAvailable;
+@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
+@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
-}
-
-- (NSString *)authTypeDescription
-{
-    NSString *desc;
-    switch (_authType) {
-        case SFOAuthTypeUserAgent:
-            desc = @"SFOAuthTypeUserAgent";
-            break;
-        case SFOAuthTypeRefresh:
-            desc = @"SFOAuthTypeRefresh";
-            break;
-        case SFOAuthTypeAdvancedBrowser:
-            desc = @"SFOAuthTypeAdvancedBrowser";
-            break;
-        case SFOAuthTypeUnknown:
-        default:
-            desc = @"SFOAuthTypeUnknown";
-            break;
-    }
-    
-    return desc;
-}
+- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
+- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;
 
 @end

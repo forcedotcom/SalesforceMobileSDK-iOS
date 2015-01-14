@@ -27,7 +27,6 @@
 #import "SalesforceOAuthTestAppDelegate.h"
 #import "SalesforceOAuthTestViewController.h"
 #import "SFOAuthInfo.h"
-#import "SFOAuthInfo+Internal.h"
 
 @interface SalesforceOAuthTestViewController ()
 
@@ -131,7 +130,7 @@
         self.labelIssued.text = [self.oauthCoordinator.credentials.issuedAt descriptionWithLocale:[NSLocale currentLocale]];
         self.labelUserId.text = self.oauthCoordinator.credentials.userId;
         self.labelOrgId.text = self.oauthCoordinator.credentials.organizationId;
-        self.labelAuthType.text = [self.authInfo authTypeDescription];
+        self.labelAuthType.text = self.authInfo.authTypeDescription;
     }
 }
 

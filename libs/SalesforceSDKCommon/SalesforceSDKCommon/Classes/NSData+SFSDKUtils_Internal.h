@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,15 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthInfo.h"
+#import "NSData+SFSDKUtils.h"
 
-@implementation SFOAuthInfo
+@interface NSData (SFSDKUtilsInternal)
 
-@synthesize authType = _authType;
-
-- (id)initWithAuthType:(SFOAuthType)authType
-{
-    self = [super init];
-    if (self) {
-        _authType = authType;
-    }
-    return self;
-}
-
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
-}
-
-- (NSString *)authTypeDescription
-{
-    NSString *desc;
-    switch (_authType) {
-        case SFOAuthTypeUserAgent:
-            desc = @"SFOAuthTypeUserAgent";
-            break;
-        case SFOAuthTypeRefresh:
-            desc = @"SFOAuthTypeRefresh";
-            break;
-        case SFOAuthTypeAdvancedBrowser:
-            desc = @"SFOAuthTypeAdvancedBrowser";
-            break;
-        case SFOAuthTypeUnknown:
-        default:
-            desc = @"SFOAuthTypeUnknown";
-            break;
-    }
-    
-    return desc;
-}
+/**
+ Replace the base64 characters that are invalid in a base64url string.
+ @param base64String The input string with characters to replace.
+ @return The base64 string with the URL chars replaced (i.e. the base64url string).
+ */
++ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String;
 
 @end

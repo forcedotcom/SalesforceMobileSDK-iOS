@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,35 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthInfo.h"
+#import "SFOAuthOrgAuthConfiguration.h"
 
-@implementation SFOAuthInfo
+static NSString * const kAuthConfigMobileSDKKey        = @"MobileSDK";
+static NSString * const kAuthConfigUseNativeBrowserKey = @"UseiOSNativeBrowserForAuthentication";
 
-@synthesize authType = _authType;
+@interface SFOAuthOrgAuthConfiguration ()
 
-- (id)initWithAuthType:(SFOAuthType)authType
-{
+@property (nonatomic, strong, readwrite) NSDictionary *authConfigDict;
+
+@end
+
+@implementation SFOAuthOrgAuthConfiguration
+
+@synthesize authConfigDict = _authConfigDict;
+
+- (id)initWithConfigDict:(NSDictionary *)authConfigDict {
     self = [super init];
     if (self) {
-        _authType = authType;
+        self.authConfigDict = authConfigDict;
     }
     return self;
 }
 
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
+- (BOOL)useNativeBrowserForAuth {
+    return [self.authConfigDict[kAuthConfigMobileSDKKey][kAuthConfigUseNativeBrowserKey] boolValue];
 }
 
-- (NSString *)authTypeDescription
-{
-    NSString *desc;
-    switch (_authType) {
-        case SFOAuthTypeUserAgent:
-            desc = @"SFOAuthTypeUserAgent";
-            break;
-        case SFOAuthTypeRefresh:
-            desc = @"SFOAuthTypeRefresh";
-            break;
-        case SFOAuthTypeAdvancedBrowser:
-            desc = @"SFOAuthTypeAdvancedBrowser";
-            break;
-        case SFOAuthTypeUnknown:
-        default:
-            desc = @"SFOAuthTypeUnknown";
-            break;
-    }
-    
-    return desc;
+- (NSString *) description {
+    return [NSString stringWithFormat:@"<%@:%p> authConfigDict: %@", NSStringFromClass([self class]), self, self.authConfigDict];
 }
 
 @end

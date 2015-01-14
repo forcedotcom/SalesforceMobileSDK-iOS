@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthInfo.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFOAuthInfo
+@interface NSData (SFSDKUtils)
 
-@synthesize authType = _authType;
+/**
+ @return A base64url string based on the data.  See RFC 4648.
+ */
+- (NSString *)msdkBase64UrlString;
 
-- (id)initWithAuthType:(SFOAuthType)authType
-{
-    self = [super init];
-    if (self) {
-        _authType = authType;
-    }
-    return self;
-}
-
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
-}
-
-- (NSString *)authTypeDescription
-{
-    NSString *desc;
-    switch (_authType) {
-        case SFOAuthTypeUserAgent:
-            desc = @"SFOAuthTypeUserAgent";
-            break;
-        case SFOAuthTypeRefresh:
-            desc = @"SFOAuthTypeRefresh";
-            break;
-        case SFOAuthTypeAdvancedBrowser:
-            desc = @"SFOAuthTypeAdvancedBrowser";
-            break;
-        case SFOAuthTypeUnknown:
-        default:
-            desc = @"SFOAuthTypeUnknown";
-            break;
-    }
-    
-    return desc;
-}
+/**
+ @return An SHA256 hash of the given data.
+ */
+- (NSData *)msdkSha256Data;
 
 @end

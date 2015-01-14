@@ -274,6 +274,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @synthesize connectedAppVersionAuthErrorHandler = _connectedAppVersionAuthErrorHandler;
 @synthesize networkFailureAuthErrorHandler = _networkFailureAuthErrorHandler;
 @synthesize genericAuthErrorHandler = _genericAuthErrorHandler;
+@synthesize enableAdvancedAuthenticationMode = _enableAdvancedAuthenticationMode;
 
 #pragma mark - Singleton initialization / management
 
@@ -508,6 +509,17 @@ static Class InstanceClass = nil;
     } else {
         return NO;
     }
+}
+
+- (void)setEnableAdvancedAuthenticationMode:(BOOL)enableAdvancedAuthenticationMode
+{
+    _enableAdvancedAuthenticationMode = enableAdvancedAuthenticationMode;
+    self.coordinator.allowAdvancedAuthentication = enableAdvancedAuthenticationMode;
+}
+
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse
+{
+    return [self.coordinator handleAdvancedAuthenticationResponse:appUrlResponse];
 }
 
 + (void)resetSessionCookie
@@ -779,6 +791,7 @@ static Class InstanceClass = nil;
     self.coordinator.delegate = nil;
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:account.credentials];
     self.coordinator.scopes = account.accessScopes;
+    self.coordinator.allowAdvancedAuthentication = self.enableAdvancedAuthenticationMode;
     self.coordinator.delegate = self;
     
     // re-create the identity coordinator for the current user
@@ -936,8 +949,8 @@ static Class InstanceClass = nil;
                                                      if ([[weakSelf class] errorIsNetworkFailure:error]) {
                                                          [weakSelf log:SFLogLevelWarning format:@"Auth token refresh couldn't connect to server: %@", [error localizedDescription]];
                                                          
-                                                         if (authInfo.authType == SFOAuthTypeUserAgent) {
-                                                             [weakSelf log:SFLogLevelError msg:@"Network failure for OAuth User Agent flow is a fatal error."];
+                                                         if (authInfo.authType != SFOAuthTypeRefresh) {
+                                                             [weakSelf log:SFLogLevelError format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
                                                              return NO;  // Default error handler will show the error.
                                                          } else {
                                                              [weakSelf log:SFLogLevelInfo msg:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];

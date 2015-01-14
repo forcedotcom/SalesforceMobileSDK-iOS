@@ -67,6 +67,7 @@
 		82AF5B041A0DAF1C006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AFE1A0DAF1C006C7A4B /* CDVLogger.m */; };
 		82AF5B081A0DAF49006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5B021A0DAF1C006C7A4B /* console-via-logger.js */; };
 		82AF5B091A0DAF49006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5B031A0DAF1C006C7A4B /* logger.js */; };
+		82D53D6C1A37874F00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D6B1A37874F00E46F8F /* libSalesforceSDKCommon.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -218,6 +219,7 @@
 		82AF5AFE1A0DAF1C006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5B021A0DAF1C006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5B031A0DAF1C006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
+		82D53D6B1A37874F00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D6C1A37874F00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				827B322219F068D500488A75 /* libcrypto.a in Frameworks */,
 				827B321319F066A000488A75 /* libCordova.a in Frameworks */,
 				827B321419F066A000488A75 /* libMKNetworkKit-iOS.a in Frameworks */,
@@ -275,6 +278,7 @@
 		827B316A19F0595B00488A75 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D6B1A37874F00E46F8F /* libSalesforceSDKCommon.a */,
 				827B322419F068ED00488A75 /* libsqlcipher.a */,
 				827B322019F068D500488A75 /* libcrypto.a */,
 				827B322119F068D500488A75 /* libssl.a */,
