@@ -159,11 +159,11 @@ Pod::Spec.new do |s|
   end
 
   s.subspec 'SalesforceSDKCommon' do |salesforcesdkcommon|
-      smartsync.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/**/*.{h,m}'
-      smartsync.public_header_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Manager/NSData+SFSDKUtils.h'
-      smartsync.header_dir = 'Headers/SalesforceSDKCommon'
-      smartsync.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
-      smartsync.requires_arc = true
+      salesforcesdkcommon.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/**/*.{h,m}'
+      salesforcesdkcommon.public_header_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Manager/NSData+SFSDKUtils.h'
+      salesforcesdkcommon.header_dir = 'Headers/SalesforceSDKCommon'
+      salesforcesdkcommon.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
+      salesforcesdkcommon.requires_arc = true
   end
 
   s.dependency 'FMDB', '~> 2.3'
