@@ -37,6 +37,9 @@
 NSString * const kUserAgent = @"User-Agent";
 NSString * const kSmartSync = @"SmartSync";
 
+// Page size
+NSUInteger const kSyncManagerPageSize = 2000;
+
 // soups and soup fields
 NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
@@ -281,7 +284,7 @@ dispatch_queue_t queue;
         
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
         // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName];
+        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
         countFetched += [recordsFetched count];
         NSUInteger progress = 100*countFetched / totalSize;
@@ -313,7 +316,7 @@ dispatch_queue_t queue;
             return;
         }
         // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName];
+        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
         updateSync(kSFSyncStateStatusRunning, 100, totalSize);
     };
@@ -323,11 +326,21 @@ dispatch_queue_t queue;
 
 }
 
-- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName {
+- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode{
     NSMutableArray* recordsToSave = [NSMutableArray array];
+    
+    NSSet* idsToSkip = nil;
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
+        idsToSkip = [self getDirtyRecordIds:soupName idField:kSyncManagerObjectId];
+    }
     
     // Prepare for smartstore
     for (NSDictionary* record in records) {
+        // Skip?
+        if (idsToSkip != nil && [idsToSkip containsObject:record[kSyncManagerObjectId]]) {
+            continue;
+        }
+        
         NSMutableDictionary* udpatedRecord = [record mutableCopy];
         udpatedRecord[kSyncManagerLocal] = @NO;
         udpatedRecord[kSyncManagerLocallyCreated] = @NO;
@@ -340,11 +353,35 @@ dispatch_queue_t queue;
     [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kSyncManagerObjectId error:nil];
 }
 
+- (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
+    NSMutableSet* ids = [NSMutableSet new];
+    
+    NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = 'true'", soupName, idField, soupName, soupName, kSyncManagerLocal];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
+    
+    BOOL hasMore = TRUE;
+    for (NSUInteger pageIndex=0; hasMore; pageIndex++) {
+        NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:nil];
+        hasMore = (results.count == kSyncManagerPageSize);
+        [ids addObjectsFromArray:[self flatten:results]];
+    }
+    return ids;
+}
+
+- (NSArray*) flatten:(NSArray*)results {
+    NSMutableArray* flatArray = [NSMutableArray new];
+    for (NSArray* row in results) {
+        [flatArray addObjectsFromArray:row];
+    }
+    return flatArray;
+}
+
+
 /** Run a sync up
  */
 - (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2000];
+    SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:kSyncManagerPageSize];
     
     // Call smartstore
     NSArray* records = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
