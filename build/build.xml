@@ -78,6 +78,12 @@
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SmartSync-Debug.zip" />
+        </exec>
+        <move file="${nativeTemplateDependenciesDir}/SmartSync-Debug" tofile="${nativeTemplateDependenciesDir}/SmartSync" />
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
             <arg file="${artifactsDir}/SalesforceSDKCommon-Debug.zip" />
         </exec>
         <move file="${nativeTemplateDependenciesDir}/SalesforceSDKCommon-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSDKCommon" />
