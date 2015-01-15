@@ -359,7 +359,7 @@ dispatch_queue_t queue;
     NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1'", soupName, idField, soupName, soupName, kSyncManagerLocal];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
     
-    BOOL hasMore = TRUE;
+    BOOL hasMore = YES;
     for (NSUInteger pageIndex=0; hasMore; pageIndex++) {
         NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:nil];
         hasMore = (results.count == kSyncManagerPageSize);
