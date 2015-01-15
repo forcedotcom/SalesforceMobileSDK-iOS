@@ -1130,7 +1130,15 @@
 				GCC_PREFIX_HEADER = "SalesforceSDKCore/SalesforceSDKCore-Prefix.pch";
 				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DFMDatabase=SF_FMDatabase",
+					"-DFMStatement=SF_FMStatement",
+					"-DFMDatabasePool=SF_FMDatabasePool",
+					"-DFMDatabaseQueue=SF_FMDatabaseQueue",
+					"-DFMResultSet=SF_FMResultSet",
+					"-DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -1145,7 +1153,15 @@
 				GCC_PREFIX_HEADER = "SalesforceSDKCore/SalesforceSDKCore-Prefix.pch";
 				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = "-DSQLITE_HAS_CODEC";
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DFMDatabase=SF_FMDatabase",
+					"-DFMStatement=SF_FMStatement",
+					"-DFMDatabasePool=SF_FMDatabasePool",
+					"-DFMDatabaseQueue=SF_FMDatabaseQueue",
+					"-DFMResultSet=SF_FMResultSet",
+					"-DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
