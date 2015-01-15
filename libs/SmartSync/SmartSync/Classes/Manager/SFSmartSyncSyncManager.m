@@ -356,7 +356,7 @@ dispatch_queue_t queue;
 - (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
     NSMutableSet* ids = [NSMutableSet new];
     
-    NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = 'true'", soupName, idField, soupName, soupName, kSyncManagerLocal];
+    NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1'", soupName, idField, soupName, soupName, kSyncManagerLocal];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
     
     BOOL hasMore = TRUE;
@@ -381,11 +381,10 @@ dispatch_queue_t queue;
  */
 - (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:kSyncManagerPageSize];
     
     // Call smartstore
-    NSArray* records = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    NSUInteger totalSize = [records count];
+    NSArray* dirtyRecordIds = [[self getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] allObjects];
+    NSUInteger totalSize = [dirtyRecordIds count];
     updateSync(nil, totalSize == 0 ? 100 : 0, totalSize);
     if (totalSize == 0) {
         return;
@@ -397,13 +396,13 @@ dispatch_queue_t queue;
     };
     
     // Otherwise, there's work to do.
-    [self syncUpOneEntry:sync records:records index:0 updateSync:updateSync failRest:failRest];
+    [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failRest:failRest];
 }
 
-- (void) syncUpOneEntry:(SFSyncState*)sync records:(NSArray*)records index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncUpOneEntry:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     NSString* soupName = sync.soupName;
     SFSyncOptions* options = sync.options;
-    NSUInteger totalSize = records.count;
+    NSUInteger totalSize = recordIds.count;
     NSUInteger progress = i*100 / totalSize;
     updateSync(nil, progress, totalSize);
     
@@ -412,7 +411,8 @@ dispatch_queue_t queue;
         return;
     }
     
-    NSMutableDictionary* record = [records[i] mutableCopy];
+    NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
+    NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
     
     // Do we need to do a create, update or delete
     SFSyncManagerAction action = kSyncManagerActionNone;
@@ -425,7 +425,7 @@ dispatch_queue_t queue;
     
     if (action == kSyncManagerActionNone) {
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     }
     
     // Getting type and id
@@ -449,7 +449,7 @@ dispatch_queue_t queue;
         [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
     
     // Update handler
@@ -464,7 +464,7 @@ dispatch_queue_t queue;
         [self.store upsertEntries:@[record] toSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
     
     // Create handler
