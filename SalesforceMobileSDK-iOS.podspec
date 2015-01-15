@@ -1,14 +1,14 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceMobileSDK-iOS"
-  s.version      = "3.0.0"
+  s.version      = "3.1.0"
   s.summary      = "Salesforce Mobile SDK for iOS"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
   s.author       = { "Kevin Hawkins" => "khawkins@salesforce.com" }
 
-  s.platform     = :ios, "6.0"
+  s.platform     = :ios, "7.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :branch => "unstable",
@@ -56,9 +56,20 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'SalesforceSDKCommon' do |salesforcesdkcommon|
+
+      salesforcesdkcommon.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/*.{h,m}'
+      salesforcesdkcommon.public_header_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/NSData+SFSDKUtils.h'
+      salesforcesdkcommon.header_dir = 'Headers/SalesforceSDKCommon'
+      salesforcesdkcommon.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
+      salesforcesdkcommon.requires_arc = true
+
+  end
+
   s.subspec 'SalesforceSecurity' do |salesforcesecurity|
 
       salesforcesecurity.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      salesforcesecurity.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       salesforcesecurity.source_files = 'libs/SalesforceSecurity/SalesforceSecurity/Classes/*.{h,m}'
       salesforcesecurity.public_header_files = 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFSDKCryptoUtils.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFEncryptionKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeProviderManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreKey.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFKeyStoreManager.h', 'libs/SalesforceSecurity/SalesforceSecurity/Classes/SFPasscodeManager+Internal.h'
       salesforcesecurity.header_dir = 'Headers/SalesforceSecurity'
@@ -71,6 +82,7 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceOAuth' do |oauth|
 
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       oauth.source_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}'
       oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h'
@@ -84,6 +96,7 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceSDKCore' do |sdkcore|
 
       sdkcore.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      sdkcore.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       sdkcore.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       sdkcore.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
       sdkcore.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
@@ -106,6 +119,7 @@ Pod::Spec.new do |s|
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       networksdk.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
       networksdk.source_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/*.{h,m}'
@@ -126,6 +140,7 @@ Pod::Spec.new do |s|
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       restapi.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       restapi.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
       restapi.source_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/*.{h,m}'
@@ -147,6 +162,7 @@ Pod::Spec.new do |s|
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       smartsync.dependency 'SalesforceMobileSDK-iOS/OpenSSL'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
       smartsync.source_files = 'libs/SmartSync/SmartSync/Classes/**/*.{h,m}'
