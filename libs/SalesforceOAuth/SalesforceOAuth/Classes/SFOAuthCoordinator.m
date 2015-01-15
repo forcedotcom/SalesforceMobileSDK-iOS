@@ -238,7 +238,9 @@ static NSString * const kHttpPostContentType                    = @"application/
                 // Unknown advanced auth state.
                 NSError *unknownConfigError = [[self class] errorWithType:kSFOAuthErrorTypeUnknownAdvancedAuthConfig
                                                               description:[NSString stringWithFormat:@"Unknown advanced auth config: %lu", (unsigned long)self.advancedAuthConfiguration]];
-                [self notifyDelegateOfFailure:unknownConfigError authInfo:self.authInfo];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf notifyDelegateOfFailure:unknownConfigError authInfo:weakSelf.authInfo];
+                });
                 break;
             }
         }
