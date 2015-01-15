@@ -20,7 +20,7 @@
     
     <target name="buildAll" depends="nativeAppTemplate" />
     
-    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity" />
+    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageSalesforceSDKCommon" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -75,6 +75,18 @@
             <arg file="${artifactsDir}/SalesforceSecurity-Debug.zip" />
         </exec>
         <move file="${nativeTemplateDependenciesDir}/SalesforceSecurity-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSecurity" />
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SmartSync-Debug.zip" />
+        </exec>
+        <move file="${nativeTemplateDependenciesDir}/SmartSync-Debug" tofile="${nativeTemplateDependenciesDir}/SmartSync" />
+        <exec executable="unzip" failonerror="true" logError="true">
+            <arg value="-d" />
+            <arg file="${nativeTemplateDependenciesDir}" />
+            <arg file="${artifactsDir}/SalesforceSDKCommon-Debug.zip" />
+        </exec>
+        <move file="${nativeTemplateDependenciesDir}/SalesforceSDKCommon-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSDKCommon" />
 
         <!-- SDK resources -->
         <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
@@ -309,6 +321,32 @@
         </antcall>
     </target>
     
+    <target name="packageSalesforceSDKCommon" depends="buildSalesforceSDKCommon" description="Builds the Salesforce SDK Common library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="SalesforceSDKCommon" />
+            <param name="libName" value="libSalesforceSDKCommon.a" />
+            <param name="headerDir" value="Headers/SalesforceSDKCommon" />
+        </antcall>
+    </target>
+    
+    <target name="buildSalesforceSDKCommon">
+        <antcall target="buildLib">
+            <param name="projectName" value="SalesforceSDKCommon" />
+            <param name="libName" value="libSalesforceSDKCommon.a" />
+            <param name="headerDir" value="Headers/SalesforceSDKCommon" />
+            <param name="schemeName" value="SalesforceSDKCommon" />
+        </antcall>
+    </target>
+    
+    <target name="cleanSalesforceSDKCommon" description="Cleans the build artifacts and output of the Salesforce SDK Common library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="SalesforceSDKCommon" />
+            <param name="libName" value="libSalesforceSDKCommon.a" />
+            <param name="headerDir" value="Headers/SalesforceSDKCommon" />
+            <param name="schemeName" value="SalesforceSDKCommon" />
+        </antcall>
+    </target>
+    
     <target name="buildLib" description="Builds the Debug and Release candidates for one of the libraries, as defined by the input scheme.">
         <antcall target="buildLibWithConfiguration">
             <param name="buildConfiguration" value="Debug" />
@@ -457,7 +495,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity, cleanSalesforceSDKCommon">
         <delete dir="${artifactsDir}" />
     </target>
 </project>
