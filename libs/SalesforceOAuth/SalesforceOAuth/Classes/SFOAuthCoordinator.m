@@ -97,6 +97,7 @@ static NSString * const kSFOAuthErrorTypeUnsupportedResponseType    = @"unsuppor
 static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_timeout";
 static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
 static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
+static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  = @"unknown_advanced_auth_config";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -121,7 +122,7 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize scopes                      = _scopes;
 @synthesize refreshFlowConnectionTimer  = _refreshFlowConnectionTimer;
 @synthesize refreshTimerThread          = _refreshTimerThread;
-@synthesize allowAdvancedAuthentication = _allowAdvancedAuthentication;
+@synthesize advancedAuthConfiguration   = _advancedAuthConfiguration;
 @synthesize advancedAuthState           = _advancedAuthState;
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
@@ -170,11 +171,11 @@ static NSString * const kHttpPostContentType                    = @"application/
     }
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
         [self log:SFLogLevelDebug format:@"%@ authenticating as %@ %@ refresh token on '%@://%@' ...",
-              NSStringFromSelector(_cmd),
-              self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
-              self.credentials.protocol, self.credentials.domain];
+         NSStringFromSelector(_cmd),
+         self.credentials.clientId, (nil == self.credentials.refreshToken ? @"without" : @"with"),
+         self.credentials.protocol, self.credentials.domain];
     }
-
+    
     self.authenticating = YES;
     
     if (self.credentials.refreshToken) {
@@ -189,35 +190,61 @@ static NSString * const kHttpPostContentType                    = @"application/
         [self log:SFLogLevelDebug msg:@"Network is not available, so bypassing login"];
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-		return;
+        return;
     }
     
     if (self.credentials.refreshToken) {
         // clear any access token we may have and begin refresh flow
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowRefresh];
-    } else if (self.allowAdvancedAuthentication) {
-        // In advanced auth mode, we have to get auth configuration settings from the org, where
-        // available, and initiate advanced auth flows, if configured.
-        __weak SFOAuthCoordinator *weakSelf = self;
-        [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
-            if (error) {
-                // That's fatal.
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [weakSelf notifyDelegateOfFailure:error authInfo:self.authInfo];
-                });
-            } else if (orgAuthConfig.useNativeBrowserForAuth) {
-                weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                [weakSelf notifyDelegateOfBeginAuthentication];
-                [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
-            } else {
-                [self notifyDelegateOfBeginAuthentication];
-                [weakSelf.oauthCoordinatorFlow beginUserAgentFlow];
-            }
-        }];
     } else {
-        [self notifyDelegateOfBeginAuthentication];
-        [self.oauthCoordinatorFlow beginUserAgentFlow];
+        __weak SFOAuthCoordinator *weakSelf = self;
+        switch (self.advancedAuthConfiguration) {
+            case SFOAuthAdvancedAuthConfigurationNone: {
+                [self notifyDelegateOfBeginAuthentication];
+                [self.oauthCoordinatorFlow beginUserAgentFlow];
+                break;
+            }
+            case SFOAuthAdvancedAuthConfigurationAllow: {
+                // If advanced auth mode is allowed, we have to get auth configuration settings from the org, where
+                // available, and initiate advanced auth flows, if configured.
+                [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
+                    if (error) {
+                        // That's fatal.
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [weakSelf notifyDelegateOfFailure:error authInfo:self.authInfo];
+                        });
+                    } else if (orgAuthConfig.useNativeBrowserForAuth) {
+                        weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                        [weakSelf notifyDelegateOfBeginAuthentication];
+                        [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                    } else {
+                        [self notifyDelegateOfBeginAuthentication];
+                        [weakSelf.oauthCoordinatorFlow beginUserAgentFlow];
+                    }
+                }];
+                break;
+            }
+            case SFOAuthAdvancedAuthConfigurationRequire: {
+                // Advanced auth mode is required.  Begin the advanced browser flow.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                    [weakSelf notifyDelegateOfBeginAuthentication];
+                    [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                });
+                break;
+            }
+            default: {
+                // Unknown advanced auth state.
+                NSError *unknownConfigError = [[self class] errorWithType:kSFOAuthErrorTypeUnknownAdvancedAuthConfig
+                                                              description:[NSString stringWithFormat:@"Unknown advanced auth config: %lu", (unsigned long)self.advancedAuthConfiguration]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [weakSelf notifyDelegateOfFailure:unknownConfigError authInfo:weakSelf.authInfo];
+                });
+                break;
+            }
+        }
+        
     }
 }
 
@@ -920,6 +947,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         code = kSFOAuthErrorWrongVersion;
     } else if ([type isEqualToString:kSFOAuthErrorTypeBrowserLaunchFailed]) {
         code = kSFOAuthErrorBrowserLaunchFailed;
+    } else if ([type isEqualToString:kSFOAuthErrorTypeUnknownAdvancedAuthConfig]) {
+        code = kSFOAuthErrorUnknownAdvancedAuthConfig;
     }
 
     NSDictionary *dict = @{kSFOAuthError: type,

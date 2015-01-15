@@ -58,7 +58,30 @@ enum {
     kSFOAuthErrorRateLimitExceeded,
     kSFOAuthErrorUnsupportedResponseType,
     kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
-    kSFOAuthErrorBrowserLaunchFailed
+    kSFOAuthErrorBrowserLaunchFailed,
+    kSFOAuthErrorUnknownAdvancedAuthConfig
+};
+
+/**
+ Enumeration of advanced auth configuration.
+ */
+typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthConfiguration) {
+    /**
+     Advanced authentication is not configured (default)
+     */
+    SFOAuthAdvancedAuthConfigurationNone = 0,
+    
+    /**
+     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+     configuration from the org, to determine whether to initiate advanced authentication.
+     */
+    SFOAuthAdvancedAuthConfigurationAllow,
+    
+    /**
+     Advanced authentication is required.  Coordinator will initiate advanced authentication
+     regardless of org settings.
+     */
+    SFOAuthAdvancedAuthConfigurationRequire
 };
 
 /**
@@ -246,11 +269,11 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
 @property (nonatomic, assign) NSTimeInterval timeout;
 
 /**
- Whether or not to attempt advanced authentication.  Default is NO.  Keep the default value
- if you don't need advanced authentication options, as this requires an additional round
- trip to the service to get authentication configuration data.
+ The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+ Keep the default value if you don't need advanced authentication options, as this requires an
+ additional round trip to the service to get authentication configuration data.
  */
-@property (nonatomic, assign) BOOL allowAdvancedAuthentication;
+@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 
 /**
  The current state of any in-progress advanced authentication flow.
