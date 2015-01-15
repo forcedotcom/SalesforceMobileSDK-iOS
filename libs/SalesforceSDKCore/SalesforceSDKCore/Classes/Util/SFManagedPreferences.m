@@ -75,7 +75,7 @@ static NSString * const kManagedKeyConnectedAppCallbackUri = @"ManagedAppCallbac
 }
 
 - (BOOL)requireCertificateAuthentication {
-    return self.rawPreferences[kManagedKeyRequireCertAuth];
+    return [self.rawPreferences[kManagedKeyRequireCertAuth] boolValue];
 }
 
 - (NSArray *)loginHosts {

@@ -27,6 +27,7 @@
 #import "SFSecurityLockout+Internal.h"
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
+#import "SFManagedPreferences.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
@@ -205,6 +206,9 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         [self configureWithAppConfig];
     }
     
+    // Managed settings should override any equivalent local app settings.
+    [self configureManagedSettings];
+    
     if ([SFRootViewManager sharedManager].mainWindow == nil) {
         NSString *noWindowError = [NSString stringWithFormat:@"%@ cannot perform launch before the UIApplication main window property has been initialized.  Cannot continue.", [self class]];
         [self log:SFLogLevelError msg:noWindowError];
@@ -257,6 +261,22 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     self.connectedAppCallbackUri = self.appConfig.oauthRedirectURI;
     self.authScopes = [self.appConfig.oauthScopes allObjects];
     self.authenticateAtLaunch = self.appConfig.shouldAuthenticate;
+}
+
+- (void)configureManagedSettings
+{
+    if ([SFManagedPreferences sharedPreferences].requireCertificateAuthentication) {
+//        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationRequire;
+        [SFAuthenticationManager sharedManager].advancedAuthConfiguration = SFOAuthAdvancedAuthConfigurationAllow;
+    }
+    
+    if ([[SFManagedPreferences sharedPreferences].connectedAppId length] > 0) {
+        self.connectedAppId = [SFManagedPreferences sharedPreferences].connectedAppId;
+    }
+    
+    if ([[SFManagedPreferences sharedPreferences].connectedAppCallbackUri length] > 0) {
+        self.connectedAppCallbackUri = [SFManagedPreferences sharedPreferences].connectedAppCallbackUri;
+    }
 }
 
 - (void)sendLaunchError:(NSError *)theLaunchError

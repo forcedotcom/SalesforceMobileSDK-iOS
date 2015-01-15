@@ -198,6 +198,7 @@ static NSString * const kHttpPostContentType                    = @"application/
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowRefresh];
     } else {
+        __weak SFOAuthCoordinator *weakSelf = self;
         switch (self.advancedAuthConfiguration) {
             case SFOAuthAdvancedAuthConfigurationNone: {
                 [self notifyDelegateOfBeginAuthentication];
@@ -205,7 +206,6 @@ static NSString * const kHttpPostContentType                    = @"application/
                 break;
             }
             case SFOAuthAdvancedAuthConfigurationAllow: {
-                __weak SFOAuthCoordinator *weakSelf = self;
                 // If advanced auth mode is allowed, we have to get auth configuration settings from the org, where
                 // available, and initiate advanced auth flows, if configured.
                 [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
@@ -227,9 +227,11 @@ static NSString * const kHttpPostContentType                    = @"application/
             }
             case SFOAuthAdvancedAuthConfigurationRequire: {
                 // Advanced auth mode is required.  Begin the advanced browser flow.
-                self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                [self notifyDelegateOfBeginAuthentication];
-                [self.oauthCoordinatorFlow beginNativeBrowserFlow];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                    [weakSelf notifyDelegateOfBeginAuthentication];
+                    [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                });
                 break;
             }
             default: {
