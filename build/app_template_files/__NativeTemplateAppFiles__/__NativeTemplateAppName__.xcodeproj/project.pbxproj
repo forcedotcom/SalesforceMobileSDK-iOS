@@ -200,6 +200,8 @@
 		82FE2C551A68391C001010F5 /* NSData+SFSDKUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFSDKUtils.h"; sourceTree = "<group>"; };
 		82FE2C561A68391C001010F5 /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
 		82FE2C571A68391C001010F5 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = "<group>"; };
+		82FE2C5A1A685D76001010F5 /* SFManagedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFManagedPreferences.h; sourceTree = "<group>"; };
+		82FE2C5B1A685D76001010F5 /* SFPasscodeViewControllerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeViewControllerTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -607,6 +609,8 @@
 				82BBB5B21793946800374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5B31793946800374DD8 /* SFIdentityData.h */,
 				82BBB5B41793946800374DD8 /* SFJsonUtils.h */,
+				82FE2C5A1A685D76001010F5 /* SFManagedPreferences.h */,
+				82FE2C5B1A685D76001010F5 /* SFPasscodeViewControllerTypes.h */,
 				82E3B3ED193D555800B70864 /* SFPreferences.h */,
 				82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */,
 				82BBB5B71793946800374DD8 /* SFQuerySpec.h */,
