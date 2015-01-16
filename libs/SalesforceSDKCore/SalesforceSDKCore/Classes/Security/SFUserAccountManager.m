@@ -27,6 +27,7 @@
 #import "SFUserAccountManagerUpgrade.h"
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
+#import "SFManagedPreferences.h"
 
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFKeyStoreKey.h>
@@ -194,25 +195,27 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     
     // Fetch from the standard defaults or bundle
     NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
-    BOOL loginHostInitialized = (loginHost != nil);
-    if (nil == loginHost || 0 == [loginHost length]) {
-        loginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
-        if (nil == loginHost || 0 == [loginHost length]) {
+    if ([loginHost length] > 0) return loginHost;
+    
+    // Login host not initialized.  Set it up.
+    NSString *managedLoginHost = ([SFManagedPreferences sharedPreferences].loginHosts)[0];
+    if ([managedLoginHost length] > 0) {
+        loginHost = managedLoginHost;
+    } else {
+        NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
+        if ([bundleLoginHost length] > 0) {
+            loginHost = bundleLoginHost;
+        } else {
             loginHost = [self appSettingsLoginHost];
+            if ([loginHost length] == 0) {
+                loginHost = kSFUserAccountOAuthLoginHostDefault;
+            }
         }
     }
     
-    // Finaly, default to something reasonnable
-    if (nil == loginHost || 0 == [loginHost length]) {
-        loginHost = kSFUserAccountOAuthLoginHostDefault;
-    }
-    
-    // If the login host wasn't previously initialized, set it up.
-    if (!loginHostInitialized) {
-        [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
-        [defaults synchronize];
-        [self updateAppSettingsLoginHost:loginHost];
-    }
+    [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
+    [defaults synchronize];
+    [self updateAppSettingsLoginHost:loginHost];
     
     return loginHost;
 }
