@@ -80,11 +80,19 @@ static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboard
 }
 
 - (NSArray *)loginHosts {
-    return self.rawPreferences[kManagedKeyLoginHosts];
+    id objLoginHosts = self.rawPreferences[kManagedKeyLoginHosts];
+    if ([objLoginHosts isKindOfClass:[NSString class]]) {
+        objLoginHosts = @[ objLoginHosts ];
+    }
+    return objLoginHosts;
 }
 
 - (NSArray *)loginHostLabels {
-    return self.rawPreferences[kManagedKeyLoginHostLabels];
+    id objLoginHostLabels = self.rawPreferences[kManagedKeyLoginHostLabels];
+    if ([objLoginHostLabels isKindOfClass:[NSString class]]) {
+        objLoginHostLabels = @[ objLoginHostLabels ];
+    }
+    return objLoginHostLabels;
 }
 
 - (NSString *)connectedAppId {
