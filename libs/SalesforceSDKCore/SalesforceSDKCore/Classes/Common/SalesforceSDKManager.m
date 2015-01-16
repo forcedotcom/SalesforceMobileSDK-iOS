@@ -372,6 +372,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     }];
     
     [self savePasscodeActivityInfo];
+    [self clearClipboard];
 }
 
 - (void)handleAppTerminate:(NSNotification *)notification
@@ -511,6 +512,17 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     opaqueView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     opaqueView.backgroundColor = [UIColor whiteColor];
     return opaqueView;
+}
+
+- (void)clearClipboard
+{
+    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
+        [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
+        [UIPasteboard generalPasteboard].strings = @[ ];
+        [UIPasteboard generalPasteboard].URLs = @[ ];
+        [UIPasteboard generalPasteboard].images = @[ ];
+        [UIPasteboard generalPasteboard].colors = @[ ];
+    }
 }
 
 - (void)passcodeValidationAtLaunch

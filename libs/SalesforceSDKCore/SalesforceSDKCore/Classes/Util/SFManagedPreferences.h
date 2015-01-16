@@ -40,29 +40,34 @@
 @property (nonatomic, readonly) BOOL hasManagedPreferences;
 
 /**
- Whether the app is configured to require certificate-based authentication.
+ Whether the app is configured to require certificate-based authentication. (RequireCertAuth)
  */
 @property (nonatomic, readonly) BOOL requireCertificateAuthentication;
 
 /**
- An array of prescribed login hosts from the MDM provider.
+ An array of prescribed login hosts from the MDM provider. (AppServiceHosts)
  */
 @property (nonatomic, readonly) NSArray *loginHosts;
 
 /**
- The associated labels for the provided login hosts.
+ The associated labels for the provided login hosts. (AppServiceHostLabels)
  */
 @property (nonatomic, readonly) NSArray *loginHostLabels;
 
 /**
- The managed Connected App ID.
+ The managed Connected App ID. (ManagedAppOAuthID)
  */
 @property (nonatomic, readonly) NSString *connectedAppId;
 
 /**
- The managed Conneced App Callback URI.
+ The managed Conneced App Callback URI. (ManagedAppCallbackURL)
  */
 @property (nonatomic, readonly) NSString *connectedAppCallbackUri;
+
+/**
+ Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)
+ */
+@property (nonatomic, readonly) BOOL clearClipboardOnBackground;
 
 /**
  The raw NSDictionary of managed preferences.
