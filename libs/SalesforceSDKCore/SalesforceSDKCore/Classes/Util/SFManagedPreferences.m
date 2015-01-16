@@ -30,11 +30,12 @@ static NSString * const kManagedConfigurationKey   = @"com.apple.configuration.m
 static NSString * const kManagedFeedbackKey        = @"com.apple.feedback.managed";  // XXX - For future "feedback" impl
 
 // Managed key constants
-static NSString * const kManagedKeyRequireCertAuth         = @"RequireCertAuth";
-static NSString * const kManagedKeyLoginHosts              = @"AppServiceHosts";
-static NSString * const kManagedKeyLoginHostLabels         = @"AppServiceHostLabels";
-static NSString * const kManagedKeyConnectedAppId          = @"ManagedAppOAuthID";
-static NSString * const kManagedKeyConnectedAppCallbackUri = @"ManagedAppCallbackURL";
+static NSString * const kManagedKeyRequireCertAuth            = @"RequireCertAuth";
+static NSString * const kManagedKeyLoginHosts                 = @"AppServiceHosts";
+static NSString * const kManagedKeyLoginHostLabels            = @"AppServiceHostLabels";
+static NSString * const kManagedKeyConnectedAppId             = @"ManagedAppOAuthID";
+static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCallbackURL";
+static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 
 @interface SFManagedPreferences ()
 
@@ -92,6 +93,10 @@ static NSString * const kManagedKeyConnectedAppCallbackUri = @"ManagedAppCallbac
 
 - (NSString *)connectedAppCallbackUri {
     return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
+}
+
+- (BOOL)clearClipboardOnBackground {
+    return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue];
 }
 
 @end
