@@ -222,7 +222,7 @@ dispatch_queue_t queue;
  */
 - (void) syncDown:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    SFSyncStateMergeMode mergeMode = SFSyncStateMergeModeOverwrite; // XXX get it from state/options
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncTarget* target = sync.target;
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);

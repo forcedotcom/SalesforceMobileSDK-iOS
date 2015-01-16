@@ -84,6 +84,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic) SFSyncStateStatus status;
 @property (nonatomic) NSInteger progress;
 @property (nonatomic) NSInteger totalSize;
+@property (nonatomic) SFSyncStateMergeMode mergeMode;
 
 /** Setup soup that keeps track of sync operations
  */

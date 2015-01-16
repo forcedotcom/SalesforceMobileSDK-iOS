@@ -27,6 +27,7 @@
 #import "SFSyncState.h"
 
 extern NSString * const kSFSyncOptionsFieldlist;
+extern NSString * const kSFSyncOptionsMergeMode;
 
 @interface SFSyncOptions : NSObject
 

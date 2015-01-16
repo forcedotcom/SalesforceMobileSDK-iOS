@@ -77,8 +77,9 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict = self.isUndefined ? @{} : @{ kSFSyncOptionsFieldlist: self.fieldlist,
-                                                     kSFSyncOptionsMergeMode: [SFSyncState mergeModeToString:self.mergeMode]};
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    if (self.fieldlist) dict[kSFSyncOptionsFieldlist] = self.fieldlist;
+    dict[kSFSyncOptionsMergeMode] = [SFSyncState mergeModeToString:self.mergeMode];
     return dict;
 }
 

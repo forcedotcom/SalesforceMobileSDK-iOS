@@ -176,6 +176,13 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return self.status == SFSyncStateStatusRunning;
 }
 
+
+#pragma mark - Getter for merge mode
+- (SFSyncStateMergeMode) mergeMode {
+    return self.options.mergeMode;
+}
+
+
 #pragma mark - string to/from enum for sync type
 
 + (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType {

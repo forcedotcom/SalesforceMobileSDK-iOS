@@ -226,6 +226,10 @@
     [self runTest:@"testSyncDown"];
 }
 
+- (void)testSyncDownWithNoOverwrite {
+    [self runTest:@"testSyncDownWithNoOverwrite"];
+}
+
 - (void)testSyncUpLocallyUpdated {
     [self runTest:@"testSyncUpLocallyUpdated"];
 }
