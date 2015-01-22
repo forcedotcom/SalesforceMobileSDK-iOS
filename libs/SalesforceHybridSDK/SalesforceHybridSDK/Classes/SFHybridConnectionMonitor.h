@@ -22,14 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFReachability.h"
+@class SFSDKReachability;
 
-@interface SFHybridConnectionMonitor : NSObject {
-    SFReachability* internetReach;
-}
+@interface SFHybridConnectionMonitor : NSObject
 
 @property (copy) NSString* connectionType;
-@property (strong) SFReachability* internetReach;
+@property (strong) SFSDKReachability* internetReach;
 
 /** Returns the singleton instance of `SFConnection`
  */

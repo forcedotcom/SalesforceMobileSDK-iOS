@@ -154,6 +154,7 @@
 		82B36E3C1828858600B0C975 /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
 		82B36E3D1828858600B0C975 /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
 		82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPushNotificationManager.h; sourceTree = "<group>"; };
+		82BB4F2D1A708181001DAF88 /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKReachability.h; sourceTree = "<group>"; };
 		82BBB59A1793941D00374DD8 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
 		82BBB59B1793941D00374DD8 /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		82BBB59C1793941D00374DD8 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
@@ -685,6 +686,7 @@
 			children = (
 				82FE2C551A68391C001010F5 /* NSData+SFSDKUtils.h */,
 				82FE2C561A68391C001010F5 /* SFSDKAsyncProcessListener.h */,
+				82BB4F2D1A708181001DAF88 /* SFSDKReachability.h */,
 			);
 			path = SalesforceSDKCommon;
 			sourceTree = "<group>";

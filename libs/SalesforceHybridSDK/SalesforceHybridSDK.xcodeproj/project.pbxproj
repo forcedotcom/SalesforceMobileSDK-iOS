@@ -56,8 +56,6 @@
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
 		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
-		4FD72F2A18C955E200610988 /* SFReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2618C955E200610988 /* SFReachability.m */; };
-		4FD72F2B18C955E200610988 /* SFReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2718C955E200610988 /* SFReachability.h */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
 		822272A019C39F4500FC537E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		822272A119C39F4500FC537E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -302,8 +300,6 @@
 		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
 		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
 		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
-		4FD72F2618C955E200610988 /* SFReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFReachability.m; sourceTree = "<group>"; };
-		4FD72F2718C955E200610988 /* SFReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFReachability.h; sourceTree = "<group>"; };
 		8222729D19C39F4500FC537E /* HybridPluginTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HybridPluginTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8222729E19C39F4500FC537E /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		822272A419C39F4500FC537E /* HybridPluginTestAppTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HybridPluginTestAppTests-Info.plist"; sourceTree = "<group>"; };
@@ -735,8 +731,6 @@
 				4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */,
 				4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */,
 				4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */,
-				4FD72F2618C955E200610988 /* SFReachability.m */,
-				4FD72F2718C955E200610988 /* SFReachability.h */,
 				82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */,
 				82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */,
 				CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */,
@@ -874,7 +868,6 @@
 			files = (
 				4F22155819DF480100FF2D26 /* SFForcePlugin.h in Headers */,
 				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
-				4FD72F2B18C955E200610988 /* SFReachability.h in Headers */,
 				82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */,
 				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
 				4FA19A591992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h in Headers */,
@@ -1052,7 +1045,6 @@
 				4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */,
 				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
 				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
-				4FD72F2A18C955E200610988 /* SFReachability.m in Sources */,
 				82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */,
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */,
