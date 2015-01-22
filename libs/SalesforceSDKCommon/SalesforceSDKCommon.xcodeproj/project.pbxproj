@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
+		82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BB4F001A70637B001DAF88 /* SFSDKReachability.m */; };
 		82D53D3D1A3618CD00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D311A3618CD00E46F8F /* libSalesforceSDKCommon.a */; };
 		82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */; };
@@ -41,6 +43,8 @@
 /* Begin PBXFileReference section */
 		8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAsyncProcessListener.h; path = Classes/Test/SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
 		8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAsyncProcessListener.m; path = Classes/Test/SFSDKAsyncProcessListener.m; sourceTree = "<group>"; };
+		82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReachability.h; path = Classes/SFSDKReachability.h; sourceTree = "<group>"; };
+		82BB4F001A70637B001DAF88 /* SFSDKReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKReachability.m; path = Classes/SFSDKReachability.m; sourceTree = "<group>"; };
 		82D53D311A3618CD00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D53D3C1A3618CD00E46F8F /* SalesforceSDKCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D53D421A3618CD00E46F8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 				82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */,
 				82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */,
 				82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */,
+				82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */,
+				82BB4F001A70637B001DAF88 /* SFSDKReachability.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -139,6 +145,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
 				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
 				82D53D561A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h in Headers */,
 				82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */,
@@ -236,6 +243,7 @@
 			files = (
 				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
+				82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
