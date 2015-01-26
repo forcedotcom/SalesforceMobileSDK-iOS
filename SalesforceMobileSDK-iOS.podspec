@@ -33,6 +33,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'MKNetworkKit' do |mknet|
 
+      mknet.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       mknet.source_files = 'external/MKNetworkKit/MKNetworkKit/**/*.{h,m}'
       mknet.public_header_files = 'external/MKNetworkKit/MKNetworkKit/Categories/NSDictionary+RequestEncoding.h', 'external/MKNetworkKit/MKNetworkKit/Categories/NSString+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/Categories/UIAlertView+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkEngine.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkOperation.h'
       mknet.header_dir = 'Headers/MKNetworkKit-iOS'
