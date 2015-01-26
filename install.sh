@@ -15,7 +15,7 @@ then
     echo "Could not determine iOS SDK version.  Is xcodebuild on your path?"
     exit 1
 fi
-ios_ver_num=`echo $ios_ver | sed 's/SDKVersion: \([0-9][0-9]*\)\.\([0-9][0-9]*\)/\1\2/'`
+ios_ver_num=`echo $ios_ver | sed 's/SDKVersion: \([0-9][0-9]*\)\.\([0-9][0-9]*\).*$/\1\2/'`
 ios_ver_str=`echo $ios_ver | sed 's/SDKVersion: //'`
 if [[ $ios_ver_num -lt $IOS_MIN_VERSION_NUM ]]
 then
@@ -32,7 +32,7 @@ then
     echo "Could not determine Xcode version.  Is xcodebuild on your path?"
     exit 3
 fi
-xcode_ver_num=`echo $xcode_ver | sed 's/^Xcode \([0-9][0-9]*\)\.\([0-9][0-9]*\)/\1\2/'`
+xcode_ver_num=`echo $xcode_ver | sed 's/^Xcode \([0-9][0-9]*\)\.\([0-9][0-9]*\).*$/\1\2/'`
 xcode_ver_str=`echo $xcode_ver | sed 's/^Xcode //'`
 if [[ $xcode_ver_num -lt $XCODE_MIN_VERSION ]]
 then
