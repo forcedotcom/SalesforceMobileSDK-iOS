@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "6.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
-                     :branch => "unstable",
+                     :tag => "v#{s.version}",
                      :submodules => true }
 
   s.prepare_command = <<-CMD
