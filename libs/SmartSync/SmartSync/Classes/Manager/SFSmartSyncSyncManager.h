@@ -65,9 +65,13 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId;
 
+/** Create and run a sync down that will overwrite any modified records
+ */
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
 /** Create and run a sync down
  */
-- (SFSyncState*) syncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync up
  */

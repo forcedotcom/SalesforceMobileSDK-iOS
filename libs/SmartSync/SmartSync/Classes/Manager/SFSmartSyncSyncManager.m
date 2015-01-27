@@ -203,7 +203,15 @@ dispatch_queue_t queue;
 
 /** Create and run a sync down
  */
-- (SFSyncState*) syncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite];
+    return [self syncDownWithTarget:target options:options soupName:soupName updateBlock:updateBlock];
+}
+
+
+/** Create and run a sync down
+ */
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return sync;
@@ -216,7 +224,6 @@ dispatch_queue_t queue;
     [self runSync:sync updateBlock:updateBlock];
     return sync;
 }
-
 
 /** Run a sync down
  */
