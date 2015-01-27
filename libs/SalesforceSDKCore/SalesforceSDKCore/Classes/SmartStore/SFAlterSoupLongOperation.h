@@ -75,7 +75,7 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 @property (nonatomic, readonly, strong) FMDatabaseQueue *queue;
 	
 // Row id for long_operations_status
-@property (nonatomic, readonly, assign) long rowId;
+@property (nonatomic, readonly, assign) long long rowId;
 
 
 /**

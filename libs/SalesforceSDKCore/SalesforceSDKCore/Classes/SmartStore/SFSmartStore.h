@@ -285,7 +285,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 /**
  Return database file size
  */
-- (long)getDatabaseSize;
+- (unsigned long long)getDatabaseSize;
 
 /**
  Alter soup indexes

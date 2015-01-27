@@ -89,12 +89,12 @@
 }
 
 - (SFSmartSyncSoqlBuilder *) limit:(NSInteger) limit {
-    [properties setObject:[NSNumber numberWithInt:limit] forKey:@"limit"];
+    [properties setObject:[NSNumber numberWithInteger:limit] forKey:@"limit"];
     return self;
 }
      
 - (SFSmartSyncSoqlBuilder *) offset:(NSInteger) offset {
-    [properties setObject:[NSNumber numberWithInt:offset] forKey:@"offset"];
+    [properties setObject:[NSNumber numberWithInteger:offset] forKey:@"offset"];
     return self;
 }
 

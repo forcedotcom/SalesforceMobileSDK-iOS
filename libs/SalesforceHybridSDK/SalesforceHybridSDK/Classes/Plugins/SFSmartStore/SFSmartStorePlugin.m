@@ -282,8 +282,14 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        long databaseSize = [self.store getDatabaseSize];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize]; // XXX cast to int will cause issues if database is more than 2GB
+        unsigned long long databaseSize = [self.store getDatabaseSize];
+        if (databaseSize > INT_MAX) {
+            // This is the best we can do. Cordova can't return an "unsigned long long" (or anything close).
+            // TODO: Change this once https://issues.apache.org/jira/browse/CB-8365 has been completed.
+            databaseSize = INT_MAX;
+        }
+        
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize];
     } command:command];
 }
 
