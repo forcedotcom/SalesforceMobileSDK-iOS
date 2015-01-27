@@ -491,7 +491,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/headerdoc2html \\\n-o ${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME} \\\n${PROJECT_DIR}/SalesforceRestAPI/ -j -C -L -N -Q -t --tocformat=\"default\"";
+			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceRestAPI/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -818,6 +818,7 @@
 				829A088E1A323DDF00DC17A5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82C0C72916E076DE0006B3C0 /* Build configuration list for PBXProject "SalesforceRestAPI" */ = {
 			isa = XCConfigurationList;

@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		8276EE001A7853CA0083F7EA /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8276EE011A7853CA0083F7EA /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				8276EE041A7853D30083F7EA /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
@@ -200,6 +214,9 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
+					8276EE001A7853CA0083F7EA = {
+						CreatedOnToolsVersion = 6.1;
+					};
 					82D53D301A3618CD00E46F8F = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -222,6 +239,7 @@
 			targets = (
 				82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */,
 				82D53D3B1A3618CD00E46F8F /* SalesforceSDKCommonTests */,
+				8276EE001A7853CA0083F7EA /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -235,6 +253,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8276EE041A7853D30083F7EA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSDKCommon/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		82D53D2D1A3618CD00E46F8F /* Sources */ = {
@@ -266,6 +300,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		8276EE021A7853CA0083F7EA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8276EE031A7853CA0083F7EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		82D53D431A3618CD00E46F8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -405,6 +453,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8276EE011A7853CA0083F7EA /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8276EE021A7853CA0083F7EA /* Debug */,
+				8276EE031A7853CA0083F7EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		82D53D2C1A3618CD00E46F8F /* Build configuration list for PBXProject "SalesforceSDKCommon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
