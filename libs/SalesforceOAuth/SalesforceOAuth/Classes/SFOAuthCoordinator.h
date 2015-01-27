@@ -287,6 +287,13 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
  */
 @property (nonatomic, readonly) UIWebView *view;
 
+/**
+ The user agent string that will be used for authentication.  While this property will persist throughout
+ the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+ its original value in between authentication requests.
+ */
+@property (nonatomic, copy) NSString *userAgentForAuth;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------

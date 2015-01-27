@@ -104,6 +104,8 @@ static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 static NSString * const kHttpMethodPost                         = @"POST";
 static NSString * const kHttpHeaderContentType                  = @"Content-Type";
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
+static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
+static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 @implementation SFOAuthCoordinator
 
@@ -127,6 +129,8 @@ static NSString * const kHttpPostContentType                    = @"application/
 @synthesize codeVerifier                = _codeVerifier;
 @synthesize authInfo                    = _authInfo;
 @synthesize oauthCoordinatorFlow        = _oauthCoordinatorFlow;
+@synthesize userAgentForAuth            = _userAgentForAuth;
+@synthesize origWebUserAgent            = _origWebUserAgent;
 
 
 - (id)init {
@@ -310,6 +314,9 @@ static NSString * const kHttpPostContentType                    = @"application/
 {
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
+    if (info.authType == SFOAuthTypeUserAgent) {
+        [self resetWebUserAgent];
+    }
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:authInfo:)]) {
         [self.delegate oauthCoordinator:self didFailWithError:error authInfo:info];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFailWithError:)]) {
@@ -325,6 +332,9 @@ static NSString * const kHttpPostContentType                    = @"application/
 {
     self.authenticating = NO;
     self.advancedAuthState = SFOAuthAdvancedAuthStateNotStarted;
+    if (authInfo.authType == SFOAuthTypeUserAgent) {
+        [self resetWebUserAgent];
+    }
     if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:authInfo:)]) {
         [self.delegate oauthCoordinatorDidAuthenticate:self authInfo:authInfo];
     } else if ([self.delegate respondsToSelector:@selector(oauthCoordinatorDidAuthenticate:)]) {
@@ -460,6 +470,8 @@ static NSString * const kHttpPostContentType                    = @"application/
         return;
     }
     
+    [self configureWebUserAgent];
+    
     if (nil == self.view) {
         // lazily create web view if needed
         self.view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -516,29 +528,32 @@ static NSString * const kHttpPostContentType                    = @"application/
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
     
     self.responseData = [NSMutableData dataWithLength:512];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", 
-                                                     self.credentials.protocol, 
-                                                     self.credentials.domain, 
-                                                     kSFOAuthEndPointToken];
-	
-	NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url] 
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData 
+    NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@",
+                     self.credentials.protocol,
+                     self.credentials.domain,
+                     kSFOAuthEndPointToken];
+    
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                             timeoutInterval:self.timeout];
-	[request setHTTPMethod:kHttpMethodPost];
-	[request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    if (self.userAgentForAuth != nil) {
+        [request setValue:self.userAgentForAuth forHTTPHeaderField:kHttpHeaderUserAgent];
+    }
     [request setHTTPShouldHandleCookies:NO];
     
     NSMutableString *params = [[NSMutableString alloc] initWithFormat:@"%@=%@&%@=%@&%@=%@",
-                                                                      kSFOAuthFormat, kSFOAuthFormatJson,
-                                                                      kSFOAuthRedirectUri, self.credentials.redirectUri,
-                                                                      kSFOAuthClientId, self.credentials.clientId];
+                               kSFOAuthFormat, kSFOAuthFormatJson,
+                               kSFOAuthRedirectUri, self.credentials.redirectUri,
+                               kSFOAuthClientId, self.credentials.clientId];
     NSMutableString *logString = [NSMutableString stringWithString:params];
     
     // If an activation code is available (IP bypass flow), then provide the activation code in the request
     if (self.credentials.activationCode) {
         [params appendFormat:@"&%@=%@", kSFOAuthResponseClientSecret, self.credentials.activationCode];
     }
-
+    
     // If there is an approval code (IP bypass flow or Advanced Auth flow), use it once to get the tokens.
     if (self.approvalCode) {
         [self log:SFLogLevelInfo format:@"%@: Initiating authorization code flow.", NSStringFromSelector(_cmd)];
@@ -562,20 +577,20 @@ static NSString * const kHttpPostContentType                    = @"application/
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, self.credentials.refreshToken];
         [logString appendFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken];
     }
-	
+    
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"%@ with %@", NSStringFromSelector(_cmd), logString];
     }
-
-	NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-	[request setHTTPBody:encodedBody];
+    
+    NSData *encodedBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:encodedBody];
     
     // We set the timeout value for NSMutableURLRequest above, but NSMutableURLRequest has its own ideas
     // about managing the timeout value (see https://devforums.apple.com/thread/25282).  So we manage
     // the timeout with an NSTimer, which gets started here.
     [self startRefreshFlowConnectionTimer];
     
-	NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     self.connection = urlConnection;
 }
 
@@ -718,6 +733,32 @@ static NSString * const kHttpPostContentType                    = @"application/
         NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
         if (nil != communityUrl) {
             self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
+        }
+    }
+}
+
+- (void)configureWebUserAgent
+{
+    if (self.userAgentForAuth != nil) {
+        NSString *origWebUserAgent = [[NSUserDefaults standardUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
+        if (origWebUserAgent != nil) {
+            self.origWebUserAgent = origWebUserAgent;
+        }
+        
+        NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.userAgentForAuth };
+        [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
+    }
+}
+
+- (void)resetWebUserAgent
+{
+    if (self.userAgentForAuth != nil) {
+        // If the current web user agent has not changed from the one we set, reset it.  Otherwise, assume it's
+        // already been altered out of band, and we shouldn't touch it.
+        NSString *currentWebUserAgent = [[NSUserDefaults standardUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
+        if ([currentWebUserAgent isEqualToString:self.userAgentForAuth] && self.origWebUserAgent != nil) {
+            NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.origWebUserAgent };
+            [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
         }
     }
 }
