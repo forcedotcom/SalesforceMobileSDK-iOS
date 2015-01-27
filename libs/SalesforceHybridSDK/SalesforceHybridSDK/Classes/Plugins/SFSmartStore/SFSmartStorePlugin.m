@@ -283,7 +283,13 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         unsigned long long databaseSize = [self.store getDatabaseSize];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:databaseSize];
+        if (databaseSize > INT_MAX) {
+            // This is the best we can do. Cordova can't return an "unsigned long long" (or anything close).
+            // TODO: Change this once https://issues.apache.org/jira/browse/CB-8365 has been completed.
+            databaseSize = INT_MAX;
+        }
+        
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize];
     } command:command];
 }
 
