@@ -88,7 +88,7 @@
 		8293A8D61A40FD1100ABC43C /* SFOAuthFlowAndDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthFlowAndDelegate.h; sourceTree = "<group>"; };
 		8293A8D71A40FD1100ABC43C /* SFOAuthFlowAndDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthFlowAndDelegate.m; sourceTree = "<group>"; };
 		8293A8D91A43573800ABC43C /* SFOAuthCoordinatorFlowTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthCoordinatorFlowTests.m; sourceTree = "<group>"; };
-		8293A8E11A43AFE700ABC43C /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8293A8E11A43AFE700ABC43C /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		829A08721A3235DE00DC17A5 /* SalesforceOAuthUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceOAuthUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		829A08751A3235DE00DC17A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		829A08761A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthUnitTests.m; sourceTree = "<group>"; };
@@ -434,7 +434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/headerdoc2html \\\n-o ${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME} \\\n${PROJECT_DIR}/SalesforceOAuth/ -j -C -L -N -Q -t --tocformat=\"default\"";
+			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceOAuth/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
