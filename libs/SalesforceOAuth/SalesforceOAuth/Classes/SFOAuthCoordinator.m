@@ -508,7 +508,7 @@ static NSString * const kHttpPostContentType                    = @"application/
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
 	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
-    [request setCachePolicy:NSURLCacheStorageNotAllowed]; // don't use cache
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
 	
 	[self.view loadRequest:request];
 }

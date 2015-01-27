@@ -282,8 +282,8 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        long databaseSize = [self.store getDatabaseSize];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize]; // XXX cast to int will cause issues if database is more than 2GB
+        unsigned long long databaseSize = [self.store getDatabaseSize];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:databaseSize];
     } command:command];
 }
 

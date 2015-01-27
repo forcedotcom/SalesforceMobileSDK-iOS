@@ -746,8 +746,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 
-- (NSString *)tableNameBySoupId:(long)soupId {
-    return [NSString stringWithFormat:@"TABLE_%ld",soupId];
+- (NSString *)tableNameBySoupId:(sqlite_int64)soupId {
+    return [NSString stringWithFormat:@"TABLE_%lld", soupId];
 }
 
 - (NSArray *)tableNamesForAllSoupsWithDb:(FMDatabase*) db{
@@ -1217,7 +1217,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self insertIntoTable:soupTableName values:baseColumns withDb:db];
     
     //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
-    NSNumber *newEntryId = [NSNumber numberWithInteger:[db lastInsertRowId]];
+    NSNumber *newEntryId = [NSNumber numberWithLongLong:[db lastInsertRowId]];
     
     //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
     NSMutableDictionary *mutableEntry = [entry mutableCopy];
@@ -1410,7 +1410,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
 }
 
-- (long)getDatabaseSize
+- (unsigned long long)getDatabaseSize
 {
     NSString *dbPath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:_storeName];
     return [[[NSFileManager defaultManager] attributesOfItemAtPath:dbPath error:nil] fileSize];

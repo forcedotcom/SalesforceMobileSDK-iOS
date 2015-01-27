@@ -72,7 +72,7 @@
         _soupTableName = details[SOUP_TABLE_NAME];
         _indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
         _oldIndexSpecs = [SFSoupIndex asArraySoupIndexes:details[OLD_INDEX_SPECS]];
-        _reIndexData = details[RE_INDEX_DATA];
+        _reIndexData = [details[RE_INDEX_DATA] boolValue];
         _afterStep = status;
     }
     return self;
@@ -80,7 +80,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%ld soupName=%@ soupTableName=%@ afterStep=%d reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
+    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%d reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
             self.rowId,
             self.soupName,
             self.soupTableName,
@@ -253,7 +253,7 @@
  Create row in long operations status table for a new alter soup operation
  @return row id
  */
-- (long) createLongOperationDbRowWithDb:(FMDatabase*) db
+- (long long) createLongOperationDbRowWithDb:(FMDatabase*) db
 {
     NSNumber* now = [self.store currentTimeInMilliseconds];
     NSMutableDictionary* values = [NSMutableDictionary dictionary];
@@ -285,7 +285,7 @@
 - (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
 {
     if (newStatus == kLastStep) {
-        NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %ld",
+        NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ = %lld",
                                LONG_OPERATIONS_STATUS_TABLE, ID_COL, self.rowId];
         [self.store executeUpdateThrows:sql withDb:db];
     }
