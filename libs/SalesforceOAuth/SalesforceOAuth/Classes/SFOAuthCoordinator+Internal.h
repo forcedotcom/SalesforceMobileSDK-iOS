@@ -60,6 +60,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 @property (nonatomic, strong) NSString *codeVerifier;
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
+@property (nonatomic, copy) NSString *origWebUserAgent;
 
 - (void)startRefreshFlowConnectionTimer;
 - (void)stopRefreshFlowConnectionTimer;

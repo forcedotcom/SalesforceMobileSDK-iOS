@@ -25,6 +25,7 @@
 
 #import "SFApplication.h"
 #import "SFAuthenticationManager+Internal.h"
+#import "SalesforceSDKManager.h"
 #import "SFUserAccount.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccountIdentity.h"
@@ -771,6 +772,9 @@ static Class InstanceClass = nil;
     // Trigger the login flow
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
+    }
+    if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
+        self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
     }
     [self.coordinator authenticate];
 }
