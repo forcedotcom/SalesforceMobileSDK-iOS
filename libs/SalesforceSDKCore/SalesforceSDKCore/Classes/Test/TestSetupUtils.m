@@ -38,9 +38,9 @@ static BOOL sPopulatedAuthCredentials = NO;
 
 @implementation TestSetupUtils
 
-+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFile
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass
 {
-    NSString *tokenPath = [[NSBundle bundleForClass:self] pathForResource:@"test_credentials" ofType:@"json"];
+    NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath, @"Test config file not found!");
     
     NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
@@ -83,7 +83,7 @@ static BOOL sPopulatedAuthCredentials = NO;
 {
     // All of the setup and validation of prerequisite auth state is done in populateAuthCredentialsFromConfigFile.
     // Make sure that method has run before this one.
-    NSAssert(sPopulatedAuthCredentials, @"You must call populateAuthCredentialsFromConfigFile before synchronousAuthRefresh");
+    NSAssert(sPopulatedAuthCredentials, @"You must call populateAuthCredentialsFromConfigFileForClass before synchronousAuthRefresh");
     
     __block SFSDKTestRequestListener *authListener = [[SFSDKTestRequestListener alloc] init];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
