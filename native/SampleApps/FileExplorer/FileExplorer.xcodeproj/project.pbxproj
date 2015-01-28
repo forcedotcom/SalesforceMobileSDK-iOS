@@ -32,6 +32,7 @@
 		824A9FF417250BF300C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF317250BF300C9BD79 /* QuartzCore.framework */; };
 		824A9FF617250BFA00C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF517250BFA00C9BD79 /* Security.framework */; };
 		824A9FF817250C0100C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */; };
+		82D53D5C1A377CDE00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D5B1A377CDE00E46F8F /* libSalesforceSDKCommon.a */; };
 		82F6F65818E4A1CC0033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F65718E4A1CC0033CACD /* libSalesforceSecurity.a */; };
 		CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E5F176BD23B00411A4C /* libcrypto.a */; };
 		CE006E62176BD23B00411A4C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E60176BD23B00411A4C /* libssl.a */; };
@@ -71,6 +72,7 @@
 		824A9FF317250BF300C9BD79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		824A9FF517250BFA00C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9FF717250C0100C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		82D53D5B1A377CDE00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F6F65718E4A1CC0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE006E5F176BD23B00411A4C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		CE006E60176BD23B00411A4C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D5C1A377CDE00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				8222637919DCA02A0097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				4F473D6E17E26A06000CCDF3 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4FC0D99617DFEC4D0031AE7D /* libSalesforceNetworkSDK.a in Frameworks */,
@@ -134,6 +137,7 @@
 		824A9DD71724E16400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D5B1A377CDE00E46F8F /* libSalesforceSDKCommon.a */,
 				8222637819DCA02A0097A09A /* libSalesforceRestAPI.a */,
 				4F473D6F17E26DC7000CCDF3 /* ImageIO.framework */,
 				4F473D6D17E26A06000CCDF3 /* libMKNetworkKit-iOS.a */,
@@ -381,7 +385,6 @@
 				INFOPLIST_FILE = "FileExplorer/FileExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -405,7 +408,6 @@
 				INFOPLIST_FILE = "FileExplorer/FileExplorer-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",

@@ -25,7 +25,6 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
-#import "SFSyncState.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
@@ -37,6 +36,9 @@
 // For user agent
 NSString * const kUserAgent = @"User-Agent";
 NSString * const kSmartSync = @"SmartSync";
+
+// Page size
+NSUInteger const kSyncManagerPageSize = 2000;
 
 // soups and soup fields
 NSString * const kSyncManagerLocal = @"__local__";
@@ -202,7 +204,15 @@ dispatch_queue_t queue;
 /** Create and run a sync down
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncDownWithTarget:target soupName:soupName store:self.store];
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite];
+    return [self syncDownWithTarget:target options:options soupName:soupName updateBlock:updateBlock];
+}
+
+
+/** Create and run a sync down
+ */
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return sync;
 }
@@ -215,11 +225,11 @@ dispatch_queue_t queue;
     return sync;
 }
 
-
 /** Run a sync down
  */
 - (void) syncDown:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncTarget* target = sync.target;
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);
@@ -227,20 +237,20 @@ dispatch_queue_t queue;
     
     switch (target.queryType) {
         case SFSyncTargetQueryTypeMru:
-            [self syncDownMru:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownMru:mergeMode objectType:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSoql:
-            [self syncDownSoql:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSoql:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSosl:
-            [self syncDownSosl:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSosl:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
             break;
     }
 }
 
 /** Run a sync down for a mru target
  */
-- (void) syncDownMru:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownMru:(SFSyncStateMergeMode)mergeMode objectType:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:sobjectType];
@@ -252,7 +262,7 @@ dispatch_queue_t queue;
                             from:sobjectType]
                            where:inPredicate]
                           build];
-        [weakSelf syncDownSoql:soql soup:soupName updateSync:updateSync failRest:failRest];
+        [weakSelf syncDownSoql:mergeMode query:soql soup:soupName updateSync:updateSync failRest:failRest];
     }];
 }
 
@@ -266,7 +276,7 @@ dispatch_queue_t queue;
 
 /** Run a sync down for a soql target
  */
-- (void) syncDownSoql:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownSoql:(SFSyncStateMergeMode)mergeMode query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __block NSUInteger countFetched = 0;
     __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
@@ -281,7 +291,7 @@ dispatch_queue_t queue;
         
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
         // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName];
+        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
         countFetched += [recordsFetched count];
         NSUInteger progress = 100*countFetched / totalSize;
@@ -304,7 +314,7 @@ dispatch_queue_t queue;
 
 /** Run a sync down for a sosl target
  */
-- (void) syncDownSosl:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownSosl:(SFSyncStateMergeMode)mergeMode  query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *recordsFetched) {
         NSUInteger totalSize = [recordsFetched count];
@@ -313,7 +323,7 @@ dispatch_queue_t queue;
             return;
         }
         // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName];
+        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
         updateSync(kSFSyncStateStatusRunning, 100, totalSize);
     };
@@ -323,11 +333,21 @@ dispatch_queue_t queue;
 
 }
 
-- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName {
+- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode{
     NSMutableArray* recordsToSave = [NSMutableArray array];
+    
+    NSSet* idsToSkip = nil;
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
+        idsToSkip = [self getDirtyRecordIds:soupName idField:kSyncManagerObjectId];
+    }
     
     // Prepare for smartstore
     for (NSDictionary* record in records) {
+        // Skip?
+        if (idsToSkip != nil && [idsToSkip containsObject:record[kSyncManagerObjectId]]) {
+            continue;
+        }
+        
         NSMutableDictionary* udpatedRecord = [record mutableCopy];
         udpatedRecord[kSyncManagerLocal] = @NO;
         udpatedRecord[kSyncManagerLocallyCreated] = @NO;
@@ -340,15 +360,38 @@ dispatch_queue_t queue;
     [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kSyncManagerObjectId error:nil];
 }
 
+- (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
+    NSMutableSet* ids = [NSMutableSet new];
+    
+    NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1'", soupName, idField, soupName, soupName, kSyncManagerLocal];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
+    
+    BOOL hasMore = YES;
+    for (NSUInteger pageIndex=0; hasMore; pageIndex++) {
+        NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:pageIndex error:nil];
+        hasMore = (results.count == kSyncManagerPageSize);
+        [ids addObjectsFromArray:[self flatten:results]];
+    }
+    return ids;
+}
+
+- (NSArray*) flatten:(NSArray*)results {
+    NSMutableArray* flatArray = [NSMutableArray new];
+    for (NSArray* row in results) {
+        [flatArray addObjectsFromArray:row];
+    }
+    return flatArray;
+}
+
+
 /** Run a sync up
  */
 - (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:soupName withPath:kSyncManagerLocal withMatchKey:@"1" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2000];
     
     // Call smartstore
-    NSArray* records = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    NSUInteger totalSize = [records count];
+    NSArray* dirtyRecordIds = [[self getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] allObjects];
+    NSUInteger totalSize = [dirtyRecordIds count];
     updateSync(nil, totalSize == 0 ? 100 : 0, totalSize);
     if (totalSize == 0) {
         return;
@@ -360,13 +403,13 @@ dispatch_queue_t queue;
     };
     
     // Otherwise, there's work to do.
-    [self syncUpOneEntry:sync records:records index:0 updateSync:updateSync failRest:failRest];
+    [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failRest:failRest];
 }
 
-- (void) syncUpOneEntry:(SFSyncState*)sync records:(NSArray*)records index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncUpOneEntry:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     NSString* soupName = sync.soupName;
     SFSyncOptions* options = sync.options;
-    NSUInteger totalSize = records.count;
+    NSUInteger totalSize = recordIds.count;
     NSUInteger progress = i*100 / totalSize;
     updateSync(nil, progress, totalSize);
     
@@ -375,7 +418,8 @@ dispatch_queue_t queue;
         return;
     }
     
-    NSMutableDictionary* record = [records[i] mutableCopy];
+    NSString* idStr = [(NSNumber*) recordIds[i] stringValue];
+    NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
     
     // Do we need to do a create, update or delete
     SFSyncManagerAction action = kSyncManagerActionNone;
@@ -388,7 +432,7 @@ dispatch_queue_t queue;
     
     if (action == kSyncManagerActionNone) {
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     }
     
     // Getting type and id
@@ -412,7 +456,7 @@ dispatch_queue_t queue;
         [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
     
     // Update handler
@@ -427,7 +471,7 @@ dispatch_queue_t queue;
         [self.store upsertEntries:@[record] toSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync records:records index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
     
     // Create handler

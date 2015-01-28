@@ -23,10 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 @class SFOAuthCoordinatorDelegate;
 
-@interface SalesforceOAuthUnitTestsCoordinatorDelegate : SenTestCase <SFOAuthCoordinatorDelegate>
+@interface SalesforceOAuthUnitTestsCoordinatorDelegate : XCTestCase <SFOAuthCoordinatorDelegate>
 
 @end

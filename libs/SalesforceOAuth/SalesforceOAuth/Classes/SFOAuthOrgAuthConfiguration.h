@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,11 +22,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SFOAuthInfo ()
+#import <Foundation/Foundation.h>
 
 /**
- @return The string description of the auth type enumeration.
+ Data class representing the org authentication configuration.
  */
-- (NSString *)authTypeDescription;
+@interface SFOAuthOrgAuthConfiguration : NSObject
+
+/**
+ Whether to use the native browser for authentication.
+ */
+@property (nonatomic, readonly) BOOL useNativeBrowserForAuth;
+
+/**
+ The raw dictionary data representing the org auth configuration.
+ */
+@property (nonatomic, strong, readonly) NSDictionary *authConfigDict;
+
+/**
+ Designated initializer.
+ @param authConfigDict The NSDictionary containing the org auth configuration.
+ */
+- (id)initWithConfigDict:(NSDictionary *)authConfigDict;
 
 @end

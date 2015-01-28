@@ -52,6 +52,7 @@
 		8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8284055919EAFD9C0079AB60 /* Images.xcassets */; };
 		82D17C9119EF49FB00411734 /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D17C8F19EF49FB00411734 /* add.png */; };
 		82D17C9219EF49FB00411734 /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82D17C9019EF49FB00411734 /* add@2x.png */; };
+		82D53D601A377DF900E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D5F1A377DF900E46F8F /* libSalesforceSDKCommon.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +115,7 @@
 		8284055919EAFD9C0079AB60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		82D17C8F19EF49FB00411734 /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
 		82D17C9019EF49FB00411734 /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
+		82D53D5F1A377DF900E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D601A377DF900E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				820C8B2C19E6095900E9BE5C /* libcrypto.a in Frameworks */,
 				820C8B1819E6070E00E9BE5C /* libMKNetworkKit-iOS.a in Frameworks */,
 				820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */,
@@ -223,6 +226,7 @@
 		827C631319E6018C00027484 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D5F1A377DF900E46F8F /* libSalesforceSDKCommon.a */,
 				820C8B2A19E6095900E9BE5C /* libcrypto.a */,
 				820C8B1219E6070E00E9BE5C /* libMKNetworkKit-iOS.a */,
 				820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */,

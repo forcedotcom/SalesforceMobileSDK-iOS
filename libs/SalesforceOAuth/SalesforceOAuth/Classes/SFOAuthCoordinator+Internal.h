@@ -25,9 +25,30 @@
 #import "SFOAuthCoordinator.h"
 
 @class SFOAuthInfo;
+@class SFOAuthOrgAuthConfiguration;
 
-@interface SFOAuthCoordinator ()
+typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
+    SFOAuthTokenEndpointFlowNone = 0,
+    SFOAuthTokenEndpointFlowRefresh,
+    SFOAuthTokenEndpointFlowIPBypass,
+    SFOAuthTokenEndpointFlowAdvancedBrowser
+};
 
+@protocol SFOAuthCoordinatorFlow <NSObject>
+
+@required
+
+- (void)beginUserAgentFlow;
+- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
+- (void)handleTokenEndpointResponse;
+- (void)beginNativeBrowserFlow;
+- (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
+
+@end
+
+@interface SFOAuthCoordinator () <SFOAuthCoordinatorFlow>
+
+@property (nonatomic, weak) id<SFOAuthCoordinatorFlow> oauthCoordinatorFlow;
 @property (assign) BOOL authenticating;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, strong) NSMutableData *responseData;
@@ -36,15 +57,17 @@
 @property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
 @property (nonatomic, strong) NSThread *refreshTimerThread;
 @property (nonatomic, strong) UIWebView *view;
+@property (nonatomic, strong) NSString *codeVerifier;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
+@property (nonatomic, copy) NSString *origWebUserAgent;
 
-- (void)beginUserAgentFlow;
-- (void)beginTokenRefreshFlow;
-- (void)handleRefreshResponse;
 - (void)startRefreshFlowConnectionTimer;
 - (void)stopRefreshFlowConnectionTimer;
 - (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer;
 - (void)invalidateRefreshTimer;
 - (void)cleanupRefreshTimer;
+- (void)handleUserAgentResponse:(NSURL *)requestUrl;
 
 /**
  Notify our delegate that we could not log in, and clear authenticating flag

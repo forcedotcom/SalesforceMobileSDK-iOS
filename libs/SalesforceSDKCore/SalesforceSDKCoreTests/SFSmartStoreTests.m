@@ -596,7 +596,7 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void) testGetDatabaseSize
 {
     // Before
-    long initialSize = [_store getDatabaseSize];
+    unsigned long long initialSize = [_store getDatabaseSize];
     
     // Register
     NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};

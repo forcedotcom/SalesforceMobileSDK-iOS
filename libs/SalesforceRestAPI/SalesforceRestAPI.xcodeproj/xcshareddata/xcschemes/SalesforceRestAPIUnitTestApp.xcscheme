@@ -20,6 +20,20 @@
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "829A08841A323DDF00DC17A5"
+               BuildableName = "SalesforceRestAPITests.xctest"
+               BlueprintName = "SalesforceRestAPITests"
+               ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,8 +46,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82C0C73E16E076DE0006B3C0"
-               BuildableName = "SalesforceRestAPITests.octest"
+               BlueprintIdentifier = "829A08841A323DDF00DC17A5"
+               BuildableName = "SalesforceRestAPITests.xctest"
                BlueprintName = "SalesforceRestAPITests"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>

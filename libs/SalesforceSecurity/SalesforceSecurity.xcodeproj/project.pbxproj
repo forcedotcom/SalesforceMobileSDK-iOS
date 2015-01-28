@@ -376,7 +376,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/bin/headerdoc2html \\\n-o ${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME} \\\n${PROJECT_DIR}/SalesforceSecurity/ -j -C -L -N -Q -t --tocformat=\"default\"";
+			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSecurity/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

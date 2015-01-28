@@ -24,14 +24,19 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SFSyncState.h"
+
 extern NSString * const kSFSyncOptionsFieldlist;
+extern NSString * const kSFSyncOptionsMergeMode;
 
 @interface SFSyncOptions : NSObject
 
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;
+@property (nonatomic, readonly) SFSyncStateMergeMode mergeMode;
 
 /** Factory methods
  */
++ (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode;
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist;
 
 /** Methods to translate to/from dictionary

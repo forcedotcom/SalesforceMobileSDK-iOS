@@ -75,6 +75,7 @@
 		82AF5AD71A0DAD24006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AD11A0DAD24006C7A4B /* CDVLogger.m */; };
 		82AF5ADB1A0DAD67006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AD51A0DAD24006C7A4B /* console-via-logger.js */; };
 		82AF5ADC1A0DAD67006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AD61A0DAD24006C7A4B /* logger.js */; };
+		82D53D661A3785ED00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D651A3785ED00E46F8F /* libSalesforceSDKCommon.a */; };
 		82F6F65A18E4A23D0033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */; };
 /* End PBXBuildFile section */
 
@@ -233,6 +234,7 @@
 		82AF5AD11A0DAD24006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AD51A0DAD24006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AD61A0DAD24006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
+		82D53D651A3785ED00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F6F65918E4A23D0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -241,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D661A3785ED00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				4F22157919DF5B0400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4F22157A19DF5B0400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22157B19DF5B0400FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
@@ -352,6 +355,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D651A3785ED00E46F8F /* libSalesforceSDKCommon.a */,
 				4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */,
 				4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */,

@@ -57,7 +57,52 @@ enum {
     kSFOAuthErrorInactiveOrg,
     kSFOAuthErrorRateLimitExceeded,
     kSFOAuthErrorUnsupportedResponseType,
-    kSFOAuthErrorWrongVersion               // credentials do not match current Connected App version in the org
+    kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
+    kSFOAuthErrorBrowserLaunchFailed,
+    kSFOAuthErrorUnknownAdvancedAuthConfig
+};
+
+/**
+ Enumeration of advanced auth configuration.
+ */
+typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthConfiguration) {
+    /**
+     Advanced authentication is not configured (default)
+     */
+    SFOAuthAdvancedAuthConfigurationNone = 0,
+    
+    /**
+     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+     configuration from the org, to determine whether to initiate advanced authentication.
+     */
+    SFOAuthAdvancedAuthConfigurationAllow,
+    
+    /**
+     Advanced authentication is required.  Coordinator will initiate advanced authentication
+     regardless of org settings.
+     */
+    SFOAuthAdvancedAuthConfigurationRequire
+};
+
+/**
+ Enumeration of different advanced authentication stages.
+ */
+typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
+    /**
+     No advanced authentication is currently under way.
+     */
+    SFOAuthAdvancedAuthStateNotStarted = 0,
+    
+    /**
+     The advanced authentication flow has initiated a request through the external browser (Safari).
+     */
+    SFOAuthAdvancedAuthStateBrowserRequestInitiated,
+    
+    /**
+     The advanced authentication flow has received a response from the external browser, and has
+     initiated a token exchange request.
+     */
+    SFOAuthAdvancedAuthStateTokenRequestInitiated
 };
 
 /** Protocol for objects intending to be a delegate for an OAuth coordinator.
@@ -223,12 +268,31 @@ enum {
  */
 @property (nonatomic, assign) NSTimeInterval timeout;
 
+/**
+ The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+ Keep the default value if you don't need advanced authentication options, as this requires an
+ additional round trip to the service to get authentication configuration data.
+ */
+@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+
+/**
+ The current state of any in-progress advanced authentication flow.
+ */
+@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState;
+
 /** View in which the user will input OAuth credentials for the user-agent flow OAuth process.
  
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
  @see SFOAuthCoordinatorDelegate
  */
 @property (nonatomic, readonly) UIWebView *view;
+
+/**
+ The user agent string that will be used for authentication.  While this property will persist throughout
+ the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+ its original value in between authentication requests.
+ */
+@property (nonatomic, copy) NSString *userAgentForAuth;
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
@@ -276,5 +340,14 @@ enum {
 /** Revokes the authentication credentials.
  */
 - (void)revokeAuthentication;
+
+/**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @return YES if this is a valid URL response from advanced authentication that the coordinator
+ should handle, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
 @end

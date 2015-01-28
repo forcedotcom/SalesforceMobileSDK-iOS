@@ -23,7 +23,6 @@
  */
 
 #import "SFOAuthInfo.h"
-#import "SFOAuthInfo+Internal.h"
 
 @implementation SFOAuthInfo
 
@@ -41,10 +40,8 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, [self authTypeDescription]];
+    return [NSString stringWithFormat:@"<SFOAuthInfo: %p, authType=%@>", self, self.authTypeDescription];
 }
-
-#pragma mark - Private methods
 
 - (NSString *)authTypeDescription
 {
@@ -55,6 +52,9 @@
             break;
         case SFOAuthTypeRefresh:
             desc = @"SFOAuthTypeRefresh";
+            break;
+        case SFOAuthTypeAdvancedBrowser:
+            desc = @"SFOAuthTypeAdvancedBrowser";
             break;
         case SFOAuthTypeUnknown:
         default:

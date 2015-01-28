@@ -90,7 +90,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             }
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:[NSString stringWithFormat:@"Key type with value %d is not supported.", keyType]
+                                           reason:[NSString stringWithFormat:@"Key type with value %lu is not supported.", (unsigned long)keyType]
                                          userInfo:nil];
         }
         
@@ -150,7 +150,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             }
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:[NSString stringWithFormat:@"Key type with value %d is not supported.", keyType]
+                                           reason:[NSString stringWithFormat:@"Key type with value %lu is not supported.", (unsigned long)keyType]
                                          userInfo:nil];
         }
     }
@@ -262,7 +262,7 @@ static NSString * const kUnknownKeyStoreTypeFormatString = @"Unknown key store k
             }
         } else {
             @throw [NSException exceptionWithName:NSInvalidArgumentException
-                                           reason:[NSString stringWithFormat:@"Key type with value %d is not supported.", key.keyType]
+                                           reason:[NSString stringWithFormat:@"Key type with value %lu is not supported.", (unsigned long)key.keyType]
                                          userInfo:nil];
         }
     }

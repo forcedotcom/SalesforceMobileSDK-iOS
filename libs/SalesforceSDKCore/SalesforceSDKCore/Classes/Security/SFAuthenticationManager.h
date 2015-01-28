@@ -260,6 +260,13 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, strong) SFIdentityCoordinator *idCoordinator;
 
 /**
+ Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
+ default value unless you need advanced authentication, as it requires an additional round trip to the
+ service to retrieve org authentication configuration.
+ */
+@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
@@ -318,6 +325,15 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  Cancels an in-progress authentication.  In-progress authentication state will be cleared.
  */
 - (void)cancelAuthentication;
+
+/**
+ Handle an advanced authentication response from the external browser, continuing any
+ in-progress adavanced authentication flow.
+ @param appUrlResponse The URL response returned to the app from the external browser.
+ @return YES if this is a valid URL response from advanced authentication that should
+ be handled, NO otherwise.
+ */
+- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
 /**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the

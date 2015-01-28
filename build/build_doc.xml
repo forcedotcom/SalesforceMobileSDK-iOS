@@ -4,7 +4,7 @@
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
 
-    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="nativeSdkDoc, hybridSdkDoc, coreSdkDoc, networkSdkDoc, oauthSdkDoc, securityDoc, smartSyncDoc">
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="nativeSdkDoc, hybridSdkDoc, coreSdkDoc, networkSdkDoc, oauthSdkDoc, securityDoc, smartSyncDoc, sdkCommonDoc">
         <antcall target="buildMasterTOC" />
     </target>
     
@@ -78,16 +78,28 @@
         </antcall>
     </target>
     
+    <target name="sdkCommonDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceSDKCommon" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../libs" />
+            <param name="PROJECT_NAME" value="SalesforceSDKCommon" />
+        </antcall>
+    </target>
+    
     <target name="clean">
         <property name="baseBuildOutputDir" value="${artifactsDir}/doc/${buildConfiguration}" />
         <delete dir="${baseBuildOutputDir}" />
     </target>
     
     <target name="buildDoc">
+        <property name="outputDir" location="artifacts/doc/build_out/${PROJECT_NAME}" />
+        <mkdir dir="${outputDir}" />
 		<exec executable="/usr/bin/headerdoc2html">
             <arg value="${PROJECT_DIR}/${PROJECT_NAME}/" />
             <arg value="-o" />
-            <arg value="./artifacts/doc/build_out/${PROJECT_NAME}" />
+            <arg value="${outputDir}" />
             <arg value="-j" />
             <arg value="-C" />
             <arg value="-L" />

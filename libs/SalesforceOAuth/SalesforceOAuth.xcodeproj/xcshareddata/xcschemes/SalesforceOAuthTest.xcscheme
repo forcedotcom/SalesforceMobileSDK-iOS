@@ -20,6 +20,20 @@
                ReferencedContainer = "container:SalesforceOAuth.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "829A08711A3235DE00DC17A5"
+               BuildableName = "SalesforceOAuthUnitTests.xctest"
+               BlueprintName = "SalesforceOAuthUnitTests"
+               ReferencedContainer = "container:SalesforceOAuth.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,8 +46,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CFD31A3113D5956700A9074A"
-               BuildableName = "SalesforceOAuthUnitTests.octest"
+               BlueprintIdentifier = "829A08711A3235DE00DC17A5"
+               BuildableName = "SalesforceOAuthUnitTests.xctest"
                BlueprintName = "SalesforceOAuthUnitTests"
                ReferencedContainer = "container:SalesforceOAuth.xcodeproj">
             </BuildableReference>

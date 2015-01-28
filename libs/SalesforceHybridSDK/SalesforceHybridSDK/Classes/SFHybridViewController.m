@@ -54,8 +54,6 @@ static NSInteger  const kErrorCodeNetworkOffline = 1;
 static NSInteger  const kErrorCodeNoCredentials = 2;
 static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
-
-static NSString * const kLoginRedirect = @"/secur/logout.jsp";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 @interface SFHybridViewController()
@@ -328,20 +326,24 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 #pragma mark - Private methods
 
-- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded
+- (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSString *instUrl = creds.apiUrl.absoluteString;
-    NSString *fullReturnUrl;
-    if (![returnUrl hasPrefix:@"http"]) {
+    NSString *fullReturnUrl = returnUrl;
+
+    /*
+     * We need to use the absolute URL in some cases and relative URL in some
+     * other cases, because of differences between instance URL and community URL.
+     */
+    if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
         fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
-    } else {
-        fullReturnUrl = returnUrl;
     }
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
-    if (![frontDoorUrl hasSuffix:@"/"])
+    if (![frontDoorUrl hasSuffix:@"/"]) {
         [frontDoorUrl appendString:@"/"];
+    }
     NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
     return [NSURL URLWithString:frontDoorUrl];
@@ -352,12 +354,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (url == nil || [url absoluteString] == nil || [[url absoluteString] length] == 0) {
         return nil;
     }
-    NSString *commLoginRedirectUrl = [self isCommunityLoginRedirectUrl:url];
-    if (commLoginRedirectUrl != nil) {
-        return commLoginRedirectUrl;
-    }
     if ([[[url scheme] lowercaseString] hasPrefix:@"http"]
-        && [[url path] isEqualToString:@"/"]
         && [url query] != nil) {
         NSString *startUrlValue = [url valueForParameterName:@"startURL"];
         NSString *ecValue = [url valueForParameterName:@"ec"];
@@ -366,15 +363,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         if (foundStartURL && foundValidEcValue) {
             return startUrlValue;
         }
-    }
-    return nil;
-}
-
-- (NSString *)isCommunityLoginRedirectUrl:(NSURL *)url
-{
-    // TODO: This piece of code has got to go at some point, once we standardize on the correct redirection for communities as well.
-    if ([[url absoluteString] rangeOfString:kLoginRedirect].location != NSNotFound) {
-        return _hybridViewConfig.startPage;
     }
     return nil;
 }
@@ -438,7 +426,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
-    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO] absoluteString];
+    self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
     startPageConfigured = YES;
 }
 
@@ -579,7 +567,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (originalUrl != nil) {
         [self log:SFLogLevelDebug format:@"Authentication complete.  Redirecting to '%@' through frontdoor.",
                 [originalUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES];
+        BOOL createAbsUrl = YES;
+        if (authInfo.authType == SFOAuthTypeRefresh) {
+            createAbsUrl = NO;
+        }
+        NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
         [self.webView loadRequest:newRequest];
     }

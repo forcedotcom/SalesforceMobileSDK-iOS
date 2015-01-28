@@ -118,10 +118,11 @@ NSString * const kSyncDetail = @"detail";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
+        SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
         SFSyncTarget *target = [SFSyncTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
         
         __weak SFSmartSyncPlugin *weakSelf = self;
-        SFSyncState* sync = [self.syncManager syncDownWithTarget:target soupName:soupName updateBlock:^(SFSyncState* sync) {
+        SFSyncState* sync = [self.syncManager syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync];
         }];
         [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
