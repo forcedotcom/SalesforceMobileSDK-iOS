@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :tag => "v#{s.version}",
                      :submodules => true }
+  
+  s.requires_arc = true
 
   s.prepare_command = <<-CMD
       sed -i -e 's/#import \\"Categories\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
