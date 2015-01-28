@@ -81,6 +81,7 @@
 		822272E219C3A84100FC537E /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E019C3A84100FC537E /* libcrypto.a */; };
 		822272E319C3A84100FC537E /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E119C3A84100FC537E /* libssl.a */; };
 		822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E419C3A84E00FC537E /* libsqlcipher.a */; };
+		8276EE061A7863360083F7EA /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8276EE051A7863360083F7EA /* libSalesforceSDKCommon.a */; };
 		82AF5A6B1A0D911D006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5A651A0D911D006C7A4B /* CDVLogger.m */; };
 		82AF5A6F1A0D9277006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A691A0D911D006C7A4B /* console-via-logger.js */; };
 		82AF5A701A0D9277006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A6A1A0D911D006C7A4B /* logger.js */; };
@@ -338,6 +339,7 @@
 		8251CA3616ED007000BD1EA2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		8276EE051A7863360083F7EA /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AF5A641A0D911D006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5A651A0D911D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5A691A0D911D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				4F22159719DF60A200FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4F22159819DF60A200FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22159919DF60A200FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
+				8276EE061A7863360083F7EA /* libSalesforceSDKCommon.a in Frameworks */,
 				4F22159A19DF60A200FF2D26 /* libSmartSync.a in Frameworks */,
 				822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */,
 				822272D519C3A5F100FC537E /* libCordova.a in Frameworks */,
@@ -670,6 +673,7 @@
 				4F22159219DF60A200FF2D26 /* libMKNetworkKit-iOS.a */,
 				4F22159319DF60A200FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22159419DF60A200FF2D26 /* libSalesforceRestAPI.a */,
+				8276EE051A7863360083F7EA /* libSalesforceSDKCommon.a */,
 				4F22159519DF60A200FF2D26 /* libSmartSync.a */,
 				4F22159619DF60A200FF2D26 /* ImageIO.framework */,
 				822272D419C3A5F100FC537E /* libCordova.a */,

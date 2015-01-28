@@ -58,7 +58,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        [TestSetupUtils populateAuthCredentialsFromConfigFile];
+        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     }
     @catch (NSException *exception) {

@@ -55,7 +55,7 @@ static NSString* const kCaseOneName = @"00001007";
 {
     @try {
         [SFLogger setLogLevel:SFLogLevelDebug];
-        [TestSetupUtils populateAuthCredentialsFromConfigFile];
+        [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     } @catch (NSException *exception) {
         [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
