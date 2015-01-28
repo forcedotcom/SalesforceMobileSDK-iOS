@@ -25,10 +25,13 @@
 #import "SFSyncOptions.h"
 
 NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
+NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 
 @interface SFSyncOptions ()
 
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
+@property (nonatomic, readwrite) SFSyncStateMergeMode mergeMode;
+
 
 // true when initiazed from empty dictionary
 @property (nonatomic) BOOL isUndefined;
@@ -42,9 +45,18 @@ NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist {
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.fieldlist = fieldlist;
+    syncOptions.mergeMode = SFSyncStateMergeModeOverwrite;
     syncOptions.isUndefined = NO;
     return syncOptions;
 }
+
++ (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode {
+    SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
+    syncOptions.mergeMode = mergeMode;
+    syncOptions.isUndefined = NO;
+    return syncOptions;
+}
+
 
 #pragma mark - From/to dictionary
 
@@ -57,6 +69,7 @@ NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
         }
         else {
             syncOptions.isUndefined = NO;
+            syncOptions.mergeMode = [SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]];
             syncOptions.fieldlist = dict[kSFSyncOptionsFieldlist];
         }
     }
@@ -64,7 +77,9 @@ NSString * const kSFSyncOptionsFieldlist = @"fieldlist";
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict = self.isUndefined ? @{} : @{ kSFSyncOptionsFieldlist: self.fieldlist };
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    if (self.fieldlist) dict[kSFSyncOptionsFieldlist] = self.fieldlist;
+    dict[kSFSyncOptionsMergeMode] = [SFSyncState mergeModeToString:self.mergeMode];
     return dict;
 }
 

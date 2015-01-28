@@ -23,7 +23,7 @@
  */
 
 #import "SFHybridConnectionMonitor.h"
-#import "SFReachability.h"
+#import <SalesforceSDKCommon/SFSDKReachability.h>
 
 @implementation SFHybridConnectionMonitor
 
@@ -34,11 +34,11 @@
     self = [super init];
     if (self) {
         self.connectionType = @"none";
-        self.internetReach = [SFReachability reachabilityForInternetConnection];
+        self.internetReach = [SFSDKReachability reachabilityForInternetConnection];
         self.connectionType = [self w3cConnectionTypeFor:self.internetReach];
         [self.internetReach startNotifier];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateConnectionType:)
-                                                     name:kReachabilityChangedNotification object:nil];
+                                                     name:kSFSDKReachabilityChangedNotification object:nil];
     }
     return self;
 }
@@ -54,18 +54,18 @@
 }
 
 #pragma mark - Other methods
-- (NSString*)w3cConnectionTypeFor:(SFReachability*)reachability
+- (NSString*)w3cConnectionTypeFor:(SFSDKReachability*)reachability
 {
-    NetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    SFSDKReachabilityNetworkStatus networkStatus = [reachability currentReachabilityStatus];
 
     switch (networkStatus) {
-        case NotReachable:
+        case SFSDKReachabilityNotReachable:
             return @"none";
 
-        case ReachableViaWWAN:
+        case SFSDKReachabilityReachableViaWWAN:
             return @"cellular";
 
-        case ReachableViaWiFi:
+        case SFSDKReachabilityReachableViaWiFi:
             return @"wifi";
 
         default:
@@ -81,7 +81,7 @@
            [theConnectionType isEqualToString:@"cellular"];
 }
 
-- (void)updateReachability:(SFReachability*)reachability
+- (void)updateReachability:(SFSDKReachability*)reachability
 {
     if (reachability) {
         // check whether the connection type has changed
@@ -96,9 +96,9 @@
 
 - (void)updateConnectionType:(NSNotification*)note
 {
-    SFReachability* curReach = [note object];
+    SFSDKReachability* curReach = [note object];
 
-    if ((curReach != nil) && [curReach isKindOfClass:[SFReachability class]]) {
+    if ((curReach != nil) && [curReach isKindOfClass:[SFSDKReachability class]]) {
         [self updateReachability:curReach];
     }
 }

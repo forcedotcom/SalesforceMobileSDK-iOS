@@ -25,6 +25,9 @@
       <FileRef
          location = "group:libs/SmartSync/SmartSync.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "container:"

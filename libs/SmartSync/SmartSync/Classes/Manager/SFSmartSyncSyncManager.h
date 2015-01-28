@@ -23,6 +23,8 @@
  */
 
 #import "SFSyncState.h"
+#import "SFSyncOptions.h"
+#import "SFSyncTarget.h"
 
 @class SFUserAccount;
 
@@ -63,9 +65,13 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId;
 
-/** Create and run a sync down
+/** Create and run a sync down that will overwrite any modified records
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/** Create and run a sync down
+ */
+- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync up
  */

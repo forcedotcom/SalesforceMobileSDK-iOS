@@ -23,6 +23,8 @@
  */
 
 #import "SFSyncState.h"
+#import "SFSyncTarget.h"
+#import "SFSyncOptions.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
 
@@ -50,6 +52,10 @@ NSString * const kSFSyncStateStatusRunning = @"RUNNING";
 NSString * const kSFSyncStateStatusDone = @"DONE";
 NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
+// Possible value for merge mode
+NSString * const kSFSyncStateMergeModeOverwrite = @"OVERWRITE";
+NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
+
 @interface SFSyncState ()
 
 @property (nonatomic, readwrite) NSInteger syncId;
@@ -76,12 +82,12 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
 
 #pragma mark - Factory methods
 
-+ (SFSyncState*) newSyncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeDown,
                            kSFSyncStateTarget: [target asDict],
                            kSFSyncStateSoupName: soupName,
-                           kSFSyncStateOptions: @{},
+                           kSFSyncStateOptions: [options asDict],
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
                            kSFSyncStateProgress: [NSNumber numberWithInteger:0],
                            kSFSyncStateTotalSize: [NSNumber numberWithInteger:-1]
@@ -170,6 +176,13 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
     return self.status == SFSyncStateStatusRunning;
 }
 
+
+#pragma mark - Getter for merge mode
+- (SFSyncStateMergeMode) mergeMode {
+    return self.options.mergeMode;
+}
+
+
 #pragma mark - string to/from enum for sync type
 
 + (SFSyncStateSyncType) syncTypeFromString:(NSString*)syncType {
@@ -211,5 +224,23 @@ NSString * const kSFSyncStateStatusFailed = @"FAILED";
         case SFSyncStateStatusFailed: return kSFSyncStateStatusFailed;
     }
 }
+
+#pragma mark - string to/from enum for merge mode
+
++ (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode {
+    if ([mergeMode isEqualToString:kSFSyncStateMergeModeLeaveIfChanged]) {
+        return SFSyncStateMergeModeLeaveIfChanged;
+    }
+    // if ([mergeMode isEqualToString:kSFSyncStateMergeModeOverwrite]) {
+    return SFSyncStateMergeModeOverwrite;
+}
+
++ (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode {
+    switch (mergeMode) {
+        case SFSyncStateMergeModeLeaveIfChanged: return kSFSyncStateMergeModeLeaveIfChanged;
+        case SFSyncStateMergeModeOverwrite: return kSFSyncStateMergeModeOverwrite;
+    }
+}
+
 
 @end

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -76,33 +76,33 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     credentials.refreshToken = refreshToken;    refreshToken = nil;
     credentials.userId       = userId;          userId = nil;
     
-    STAssertEqualObjects(credentials.identifier, kIdentifier, @"identifier must match initWithIdentifier arg");
-    STAssertEqualObjects(credentials.clientId, kClientId, @"client ID must match initWithIdentifier arg");
-    STAssertEqualObjects(credentials.accessToken, kAccessToken, @"access token mismatch");
-    STAssertEqualObjects(credentials.refreshToken, kRefreshToken, @"refresh token mismatch");
-    STAssertEqualObjects(credentials.userId, kUserId15, @"user ID (18) mismatch/truncation issue");
+    XCTAssertEqualObjects(credentials.identifier, kIdentifier, @"identifier must match initWithIdentifier arg");
+    XCTAssertEqualObjects(credentials.clientId, kClientId, @"client ID must match initWithIdentifier arg");
+    XCTAssertEqualObjects(credentials.accessToken, kAccessToken, @"access token mismatch");
+    XCTAssertEqualObjects(credentials.refreshToken, kRefreshToken, @"refresh token mismatch");
+    XCTAssertEqualObjects(credentials.userId, kUserId15, @"user ID (18) mismatch/truncation issue");
     
     credentials.userId = kUserId12;
-    STAssertEqualObjects(credentials.userId, kUserId12, @"user ID (12) mismatch/truncation issue");
+    XCTAssertEqualObjects(credentials.userId, kUserId12, @"user ID (12) mismatch/truncation issue");
     
     [credentials revokeAccessToken];
-    STAssertNil(credentials.accessToken, @"access token should be nil");
+    XCTAssertNil(credentials.accessToken, @"access token should be nil");
     
     [credentials revokeRefreshToken];
-    STAssertNil(credentials.refreshToken, @"refresh token should be nil");
+    XCTAssertNil(credentials.refreshToken, @"refresh token should be nil");
     // userId, instanceUrl, and issuedAt should all be nil after the refresh token is revoked
-    STAssertNil(credentials.userId, @"userId should be nil");
-    STAssertNil(credentials.issuedAt, @"instanceUrl should be nil");
-    STAssertNil(credentials.issuedAt, @"issuedAt should be nil");
+    XCTAssertNil(credentials.userId, @"userId should be nil");
+    XCTAssertNil(credentials.issuedAt, @"instanceUrl should be nil");
+    XCTAssertNil(credentials.issuedAt, @"issuedAt should be nil");
     
     credentials.accessToken = kAccessToken;
     credentials.refreshToken = kRefreshToken;
-    STAssertEqualObjects(credentials.accessToken, kAccessToken, @"access token mismatch");
-    STAssertEqualObjects(credentials.refreshToken, kRefreshToken, @"refresh token mismatch");
+    XCTAssertEqualObjects(credentials.accessToken, kAccessToken, @"access token mismatch");
+    XCTAssertEqualObjects(credentials.refreshToken, kRefreshToken, @"refresh token mismatch");
     
     [credentials revoke];
-    STAssertNil(credentials.accessToken, @"access token should be nil");
-    STAssertNil(credentials.accessToken, @"refresh token should be nil");
+    XCTAssertNil(credentials.accessToken, @"access token should be nil");
+    XCTAssertNil(credentials.accessToken, @"refresh token should be nil");
     
     credentials = nil;
 }
@@ -122,23 +122,23 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] init];
     
-    STAssertNotNil(credentials, @"credentials object should not be nil");
-    STAssertThrows(accessToken = credentials.accessToken, @"should raise exception if no identifier is set");
-    STAssertThrows(credentials.accessToken = nil, @"should raise exception if no identifier is set");
-    STAssertNoThrow(credentials.clientId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
-    STAssertNoThrow(clientId = credentials.clientId, @"should not raise exception if no identifier is set");
-    STAssertNoThrow(identifier = credentials.identifier, @"should not raise exception if no identifier is set");
-    STAssertNoThrow(credentials.identifier = nil, @"should not raise exception if set to nil");
-    STAssertNoThrow(credentials.identityUrl = nil, @"should not raise exception if set to nil");
-    STAssertThrows(refreshToken = credentials.refreshToken, @"should raise exception if no identifier is set");
-    STAssertThrows(credentials.refreshToken = nil, @"should raise exception if no identifier is set");
-    STAssertThrows(activationCode = credentials.activationCode, @"should raise exception if no identifier is set");
-    STAssertThrows(credentials.activationCode = nil, @"should raise exception if no identifier is set");
-    STAssertNoThrow(userId = credentials.userId, @"should not raise exception if no identifier is set");
-    STAssertNoThrow(credentials.userId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
-    STAssertThrows([credentials revokeAccessToken], @"should raise exception if no identifier is set");
-    STAssertThrows([credentials revokeRefreshToken], @"should raise exception if no identifier is set");
-    STAssertThrows([credentials revokeActivationCode], @"should raise exception if no identifier is set");
+    XCTAssertNotNil(credentials, @"credentials object should not be nil");
+    XCTAssertThrows(accessToken = credentials.accessToken, @"should raise exception if no identifier is set");
+    XCTAssertThrows(credentials.accessToken = nil, @"should raise exception if no identifier is set");
+    XCTAssertNoThrow(credentials.clientId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
+    XCTAssertNoThrow(clientId = credentials.clientId, @"should not raise exception if no identifier is set");
+    XCTAssertNoThrow(identifier = credentials.identifier, @"should not raise exception if no identifier is set");
+    XCTAssertNoThrow(credentials.identifier = nil, @"should not raise exception if set to nil");
+    XCTAssertNoThrow(credentials.identityUrl = nil, @"should not raise exception if set to nil");
+    XCTAssertThrows(refreshToken = credentials.refreshToken, @"should raise exception if no identifier is set");
+    XCTAssertThrows(credentials.refreshToken = nil, @"should raise exception if no identifier is set");
+    XCTAssertThrows(activationCode = credentials.activationCode, @"should raise exception if no identifier is set");
+    XCTAssertThrows(credentials.activationCode = nil, @"should raise exception if no identifier is set");
+    XCTAssertNoThrow(userId = credentials.userId, @"should not raise exception if no identifier is set");
+    XCTAssertNoThrow(credentials.userId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
+    XCTAssertThrows([credentials revokeAccessToken], @"should raise exception if no identifier is set");
+    XCTAssertThrows([credentials revokeRefreshToken], @"should raise exception if no identifier is set");
+    XCTAssertThrows([credentials revokeActivationCode], @"should raise exception if no identifier is set");
     
     credentials = nil;
 }
@@ -168,17 +168,17 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     SFOAuthCredentials * credsOut = [unarchiver decodeObjectForKey:@"creds"];
     unarchiver = nil;
     
-    STAssertNotNil(credsOut, @"couldn't unarchive credentials");
+    XCTAssertNotNil(credsOut, @"couldn't unarchive credentials");
     
-    STAssertEqualObjects(credsIn.identifier,        credsOut.identifier,        @"identifier mismatch");
-    STAssertEqualObjects(credsIn.clientId,          credsOut.clientId,          @"clientId mismatch");
-    STAssertEqualObjects(credsIn.domain,            credsOut.domain,            @"domain mismatch");
-    STAssertEqualObjects(credsIn.redirectUri,       credsOut.redirectUri,       @"redirectUri mismatch");
-    STAssertEqualObjects(credsIn.organizationId,    credsOut.organizationId,    @"organizationId mismatch");
-    STAssertEqualObjects(credsIn.identityUrl,       credsOut.identityUrl,       @"identityUrl mistmatch");
-    STAssertEqualObjects(expectedUserId,            credsOut.userId,            @"userId mismatch");
-    STAssertEqualObjects(credsIn.instanceUrl,       credsOut.instanceUrl,       @"instanceUrl mismatch");
-    STAssertEqualObjects(credsIn.issuedAt,          credsOut.issuedAt,          @"issuedAt mismatch");
+    XCTAssertEqualObjects(credsIn.identifier,        credsOut.identifier,        @"identifier mismatch");
+    XCTAssertEqualObjects(credsIn.clientId,          credsOut.clientId,          @"clientId mismatch");
+    XCTAssertEqualObjects(credsIn.domain,            credsOut.domain,            @"domain mismatch");
+    XCTAssertEqualObjects(credsIn.redirectUri,       credsOut.redirectUri,       @"redirectUri mismatch");
+    XCTAssertEqualObjects(credsIn.organizationId,    credsOut.organizationId,    @"organizationId mismatch");
+    XCTAssertEqualObjects(credsIn.identityUrl,       credsOut.identityUrl,       @"identityUrl mistmatch");
+    XCTAssertEqualObjects(expectedUserId,            credsOut.userId,            @"userId mismatch");
+    XCTAssertEqualObjects(credsIn.instanceUrl,       credsOut.instanceUrl,       @"instanceUrl mismatch");
+    XCTAssertEqualObjects(credsIn.issuedAt,          credsOut.issuedAt,          @"issuedAt mismatch");
     
     credsIn = nil;
 }
@@ -188,20 +188,20 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 - (void)testCoordinator {
     
     SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    STAssertNotNil(creds, @"credentials should not be nil");
+    XCTAssertNotNil(creds, @"credentials should not be nil");
     creds.domain = @"localhost";
     creds.redirectUri = @"sfdc://expected/to/fail";
     creds.refreshToken = @"refresh-token";
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
-    STAssertNotNil(coordinator, @"coordinator should not be nil");
+    XCTAssertNotNil(coordinator, @"coordinator should not be nil");
     SalesforceOAuthUnitTestsCoordinatorDelegate *delegate = [[SalesforceOAuthUnitTestsCoordinatorDelegate alloc] init];
-    STAssertNotNil(delegate, @"delegate should not be nil");
+    XCTAssertNotNil(delegate, @"delegate should not be nil");
     coordinator.delegate = delegate;
-    STAssertNoThrow([coordinator authenticate], @"authenticate should not raise an exception");
-    STAssertTrue([coordinator isAuthenticating], @"authenticating should return true");
+    XCTAssertNoThrow([coordinator authenticate], @"authenticate should not raise an exception");
+    XCTAssertTrue([coordinator isAuthenticating], @"authenticating should return true");
     [coordinator stopAuthentication];
-    STAssertFalse([coordinator isAuthenticating], @"authenticating should return false");
+    XCTAssertFalse([coordinator isAuthenticating], @"authenticating should return false");
     
     coordinator = nil;
     delegate = nil;
@@ -215,10 +215,10 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 - (void)testCoordinatorDefaultInstantiation {
     
     SFOAuthCoordinator *coordinator = [[SFOAuthCoordinator alloc] init];
-    STAssertNotNil(coordinator, @"coordinator should not be nil");
+    XCTAssertNotNil(coordinator, @"coordinator should not be nil");
 
-    STAssertThrows([coordinator authenticate], @"authenticate with nil credentials should raise an exception");
-    STAssertThrows([coordinator authenticateWithCredentials:nil], @"authenticate with nil credentials should raise an exception");
+    XCTAssertThrows([coordinator authenticate], @"authenticate with nil credentials should raise an exception");
+    XCTAssertThrows([coordinator authenticateWithCredentials:nil], @"authenticate with nil credentials should raise an exception");
     
     coordinator = nil;
 }
@@ -234,17 +234,17 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     SFOAuthCredentials *ca = [[SFOAuthCredentials alloc] initWithIdentifier:kUserA_Identifier clientId:kClientId encrypted:YES];
     SFOAuthCredentials *cb = [[SFOAuthCredentials alloc] initWithIdentifier:kUserB_Identifier clientId:kClientId encrypted:YES];
 
-    STAssertFalse([ca.identifier isEqual:ca.clientId], @"identifier and client id for user A must be different");
-    STAssertFalse([cb.identifier isEqual:cb.clientId], @"identifier and client id for user B must be different");
+    XCTAssertFalse([ca.identifier isEqual:ca.clientId], @"identifier and client id for user A must be different");
+    XCTAssertFalse([cb.identifier isEqual:cb.clientId], @"identifier and client id for user B must be different");
     
-    STAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier for user A must match");
-    STAssertEqualObjects(ca.clientId, kClientId, @"client id for user A must match");
+    XCTAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier for user A must match");
+    XCTAssertEqualObjects(ca.clientId, kClientId, @"client id for user A must match");
     
-    STAssertEqualObjects(cb.identifier, kUserB_Identifier, @"identifier for user B must match");
-    STAssertEqualObjects(cb.clientId, kClientId, @"client id for user B must match");
+    XCTAssertEqualObjects(cb.identifier, kUserB_Identifier, @"identifier for user B must match");
+    XCTAssertEqualObjects(cb.clientId, kClientId, @"client id for user B must match");
     
     ca.clientId = @"testClientID";
-    STAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier must still match after changing clientId");
+    XCTAssertEqualObjects(ca.identifier, kUserA_Identifier, @"identifier must still match after changing clientId");
 }
 
 /**
@@ -284,8 +284,8 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
             retrievedAccessToken = [credentials accessTokenWithKey:encTypeArray[0]];
             retrievedRefreshToken = [credentials refreshTokenWithKey:encTypeArray[1]];
         }
-        STAssertEqualObjects(accessToken, retrievedAccessToken, @"Access tokens do not match between storage and retrieval for '%@'.", encTypeKey);
-        STAssertEqualObjects(refreshToken, retrievedRefreshToken, @"Refresh tokens do not match between storage and retrieval for '%@'.", encTypeKey);
+        XCTAssertEqualObjects(accessToken, retrievedAccessToken, @"Access tokens do not match between storage and retrieval for '%@'.", encTypeKey);
+        XCTAssertEqualObjects(refreshToken, retrievedRefreshToken, @"Refresh tokens do not match between storage and retrieval for '%@'.", encTypeKey);
         
         // Different keys between encryption and decryption (i.e. failed decryption)
         NSData *badDecryptKey = [@"grarBogusKey!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -302,8 +302,8 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
             retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
             retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
         }
-        STAssertNil(retrievedAccessToken, @"For encType '%@', access token should be nil if it couldn't be decrypted.", encTypeKey);
-        STAssertNil(retrievedRefreshToken, @"For encType '%@', refresh token should be nil if it couldn't be decrypted.", encTypeKey);
+        XCTAssertNil(retrievedAccessToken, @"For encType '%@', access token should be nil if it couldn't be decrypted.", encTypeKey);
+        XCTAssertNil(retrievedRefreshToken, @"For encType '%@', refresh token should be nil if it couldn't be decrypted.", encTypeKey);
     }
     
     [credentials revoke];
@@ -319,11 +319,11 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     credentials.refreshToken = refreshToken;
     
     NSString *accessTokenVerify = [credentials accessTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceAccess]];
-    STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
+    XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should decrypt to the same value.");
     NSString *refreshTokenVerify = [credentials refreshTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceRefresh]];
-    STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
+    XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should decrypt to the same value.");
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
-    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type should be key store.");
+    XCTAssertEqual(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type should be key store.");
     
     [credentials revoke];
 }
@@ -397,22 +397,22 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     NSString *accessTokenVerify = [credentials accessTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceAccess]];
-    STAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should have been updated to key store encryption.");
+    XCTAssertEqualObjects(accessToken, accessTokenVerify, @"Access token should have been updated to key store encryption.");
     NSString *refreshTokenVerify = [credentials refreshTokenWithSFEncryptionKey:[credentials keyStoreKeyForService:kSFOAuthServiceRefresh]];
-    STAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should have been updated to key store encryption.");
+    XCTAssertEqualObjects(refreshToken, refreshTokenVerify, @"Refresh token should have been updated to key store encryption.");
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
-    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type should have been updated to key store.");
+    XCTAssertEqual(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type should have been updated to key store.");
 }
 
 - (void)verifyUnsuccessfulTokenUpdate
 {
     SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     NSString *accessTokenVerify = credentials.accessToken;
-    STAssertNil(accessTokenVerify, @"Access token should be nil, since it cannot be converted with bad inputs.");
+    XCTAssertNil(accessTokenVerify, @"Access token should be nil, since it cannot be converted with bad inputs.");
     NSString *refreshTokenVerify = credentials.refreshToken;
-    STAssertNil(refreshTokenVerify, @"Refresh token should be nil, since it cannot be converted with bad inputs.");
+    XCTAssertNil(refreshTokenVerify, @"Refresh token should be nil, since it cannot be converted with bad inputs.");
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
-    STAssertEquals(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type still should have been updated to key store.");
+    XCTAssertEqual(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type still should have been updated to key store.");
 }
 
 @end

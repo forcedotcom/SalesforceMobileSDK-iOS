@@ -43,6 +43,7 @@
 		82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5A61793944400374DD8 /* libSalesforceOAuth.a */; };
 		82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BBB5BF1793946800374DD8 /* libSalesforceSDKCore.a */; };
 		82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */; };
+		82FE2C581A68391C001010F5 /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82FE2C571A68391C001010F5 /* libSalesforceSDKCommon.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,6 +154,7 @@
 		82B36E3C1828858600B0C975 /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
 		82B36E3D1828858600B0C975 /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
 		82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPushNotificationManager.h; sourceTree = "<group>"; };
+		82BB4F2D1A708181001DAF88 /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKReachability.h; sourceTree = "<group>"; };
 		82BBB59A1793941D00374DD8 /* SFRestAPI+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+Blocks.h"; sourceTree = "<group>"; };
 		82BBB59B1793941D00374DD8 /* SFRestAPI+QueryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFRestAPI+QueryBuilder.h"; sourceTree = "<group>"; };
 		82BBB59C1793941D00374DD8 /* SFRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFRestAPI.h; sourceTree = "<group>"; };
@@ -196,6 +198,11 @@
 		82F6F66718E4D0280033CACD /* SFPasscodeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeManager.h; sourceTree = "<group>"; };
 		82F6F66818E4D0280033CACD /* SFPasscodeProviderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeProviderManager.h; sourceTree = "<group>"; };
 		82F6F66918E4D0280033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = "<group>"; };
+		82FE2C551A68391C001010F5 /* NSData+SFSDKUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+SFSDKUtils.h"; sourceTree = "<group>"; };
+		82FE2C561A68391C001010F5 /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
+		82FE2C571A68391C001010F5 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = "<group>"; };
+		82FE2C5A1A685D76001010F5 /* SFManagedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFManagedPreferences.h; sourceTree = "<group>"; };
+		82FE2C5B1A685D76001010F5 /* SFPasscodeViewControllerTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFPasscodeViewControllerTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +216,7 @@
 				824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */,
 				8273F18A1778F39F005E31A6 /* libSalesforceCommonUtils.a in Frameworks */,
 				82BBB59F1793941D00374DD8 /* libSalesforceRestAPI.a in Frameworks */,
+				82FE2C581A68391C001010F5 /* libSalesforceSDKCommon.a in Frameworks */,
 				82BBB5A71793944400374DD8 /* libSalesforceOAuth.a in Frameworks */,
 				82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */,
 				82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */,
@@ -422,6 +430,7 @@
 				8273F1641778F39F005E31A6 /* SalesforceCommonUtils */,
 				82BBB5971793941D00374DD8 /* SalesforceRestAPI */,
 				82BBB5A01793944400374DD8 /* SalesforceOAuth */,
+				82FE2C521A68391C001010F5 /* SalesforceSDKCommon */,
 				82BBB5A81793946800374DD8 /* SalesforceSDKCore */,
 				82F6F66318E4D0280033CACD /* SalesforceSecurity */,
 				4FC109621A0C4FA300AC6284 /* SmartSync */,
@@ -601,6 +610,8 @@
 				82BBB5B21793946800374DD8 /* SFIdentityCoordinator.h */,
 				82BBB5B31793946800374DD8 /* SFIdentityData.h */,
 				82BBB5B41793946800374DD8 /* SFJsonUtils.h */,
+				82FE2C5A1A685D76001010F5 /* SFManagedPreferences.h */,
+				82FE2C5B1A685D76001010F5 /* SFPasscodeViewControllerTypes.h */,
 				82E3B3ED193D555800B70864 /* SFPreferences.h */,
 				82B36E3E1828858600B0C975 /* SFPushNotificationManager.h */,
 				82BBB5B71793946800374DD8 /* SFQuerySpec.h */,
@@ -651,6 +662,33 @@
 				82E3B3F2193D55A100B70864 /* SFSDKCryptoUtils.h */,
 			);
 			path = SalesforceSecurity;
+			sourceTree = "<group>";
+		};
+		82FE2C521A68391C001010F5 /* SalesforceSDKCommon */ = {
+			isa = PBXGroup;
+			children = (
+				82FE2C531A68391C001010F5 /* Headers */,
+				82FE2C571A68391C001010F5 /* libSalesforceSDKCommon.a */,
+			);
+			path = SalesforceSDKCommon;
+			sourceTree = "<group>";
+		};
+		82FE2C531A68391C001010F5 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				82FE2C541A68391C001010F5 /* SalesforceSDKCommon */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		82FE2C541A68391C001010F5 /* SalesforceSDKCommon */ = {
+			isa = PBXGroup;
+			children = (
+				82FE2C551A68391C001010F5 /* NSData+SFSDKUtils.h */,
+				82FE2C561A68391C001010F5 /* SFSDKAsyncProcessListener.h */,
+				82BB4F2D1A708181001DAF88 /* SFSDKReachability.h */,
+			);
+			path = SalesforceSDKCommon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -768,7 +806,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -793,7 +831,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -815,6 +853,8 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCommon/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SmartSync/Headers",
 				);
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -829,6 +869,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SmartSync",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCommon",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -853,6 +894,8 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCore/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils/Headers",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCommon/Headers",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SmartSync/Headers",
 				);
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
@@ -867,6 +910,7 @@
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/sqlcipher",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSecurity",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SmartSync",
+					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceSDKCommon",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -72,9 +72,10 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     }
     
     NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
+    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
     SFSyncTarget *syncTarget = [SFSyncTarget newSyncTargetForSOQLSyncDown:soqlQuery];
     __weak SObjectDataManager *weakSelf = self;
-    [self.syncMgr syncDownWithTarget:syncTarget soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+    [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             [weakSelf refreshLocalData];
         }

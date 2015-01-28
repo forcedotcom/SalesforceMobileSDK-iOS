@@ -55,7 +55,7 @@ static CGFloat      const kResultCellBorderWidth = 1.0;
 static NSString *   const kCellIndentifier       = @"cellIdentifier";
 static NSUInteger   const kLabelTag              = 99;
 
-@interface SFSmartStoreInspectorViewController ()
+@interface SFSmartStoreInspectorViewController () <UINavigationBarDelegate>
 
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextView *queryField;

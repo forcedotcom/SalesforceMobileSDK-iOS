@@ -30,7 +30,8 @@
 typedef enum {
     SFOAuthTypeUnknown = 0,
     SFOAuthTypeUserAgent,
-    SFOAuthTypeRefresh
+    SFOAuthTypeRefresh,
+    SFOAuthTypeAdvancedBrowser
 } SFOAuthType;
 
 /**
@@ -43,6 +44,11 @@ typedef enum {
  The type of authentication being performed.
  */
 @property (nonatomic, readonly, assign) SFOAuthType authType;
+
+/**
+ The string description of the auth type.
+ */
+@property (nonatomic, readonly) NSString *authTypeDescription;
 
 /**
  Creates a new instance with the given auth type.

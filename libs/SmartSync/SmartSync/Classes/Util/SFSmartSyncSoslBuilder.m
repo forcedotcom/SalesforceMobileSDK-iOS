@@ -101,7 +101,7 @@
 }
 
 - (SFSmartSyncSoslBuilder *) limit:(NSInteger) limit {
-    [properties setObject:[NSNumber numberWithInt:limit] forKey:@"limit"];
+    [properties setObject:[NSNumber numberWithInteger:limit] forKey:@"limit"];
     return self;
 }
 

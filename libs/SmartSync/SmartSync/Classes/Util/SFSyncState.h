@@ -23,9 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
-#import "SFSyncOptions.h"
 
+@class SFSyncTarget;
+@class SFSyncOptions;
 @class SFSmartStore;
 
 // soups and soup fields
@@ -64,6 +64,16 @@ extern NSString * const kSFSyncStateStatusRunning;
 extern NSString * const kSFSyncStateStatusDone;
 extern NSString * const kSFSyncStateStatusFailed;
 
+// Possible value for merge mode
+typedef enum {
+    SFSyncStateMergeModeOverwrite,
+    SFSyncStateMergeModeLeaveIfChanged
+    
+} SFSyncStateMergeMode;
+
+extern NSString * const kSFSyncStateMergeModeOverwrite;
+extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
+
 @interface SFSyncState : NSObject
 
 @property (nonatomic, readonly) NSInteger syncId;
@@ -74,6 +84,7 @@ extern NSString * const kSFSyncStateStatusFailed;
 @property (nonatomic) SFSyncStateStatus status;
 @property (nonatomic) NSInteger progress;
 @property (nonatomic) NSInteger totalSize;
+@property (nonatomic) SFSyncStateMergeMode mergeMode;
 
 /** Setup soup that keeps track of sync operations
  */
@@ -81,7 +92,7 @@ extern NSString * const kSFSyncStateStatusFailed;
 
 /** Factory methods
  */
-+ (SFSyncState*) newSyncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
@@ -106,5 +117,7 @@ extern NSString * const kSFSyncStateStatusFailed;
 + (NSString*) syncTypeToString:(SFSyncStateSyncType)syncType;
 + (SFSyncStateStatus) syncStatusFromString:(NSString*)syncStatus;
 + (NSString*) syncStatusToString:(SFSyncStateStatus)syncStatus;
++ (SFSyncStateMergeMode) mergeModeFromString:(NSString*)mergeMode;
++ (NSString*) mergeModeToString:(SFSyncStateMergeMode)mergeMode;
 
 @end

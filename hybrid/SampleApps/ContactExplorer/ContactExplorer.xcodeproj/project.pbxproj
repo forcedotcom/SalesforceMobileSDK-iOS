@@ -87,6 +87,7 @@
 		82AF5ACA1A0DAC2F006C7A4B /* com.salesforce.util.push.js in Copy salesforce plugins Files (8 items) */ = {isa = PBXBuildFile; fileRef = 82AF5A9F1A0DA82D006C7A4B /* com.salesforce.util.push.js */; };
 		82AF5ACC1A0DACB5006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AC41A0DAB87006C7A4B /* console-via-logger.js */; };
 		82AF5ACD1A0DACB5006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AC51A0DAB87006C7A4B /* logger.js */; };
+		82D53D641A3785AB00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D631A3785AB00E46F8F /* libSalesforceSDKCommon.a */; };
 		82E689FE199A93B600953452 /* ContactFieldType.js in Copy contact plugins Files */ = {isa = PBXBuildFile; fileRef = 82E689FC199A938D00953452 /* ContactFieldType.js */; };
 /* End PBXBuildFile section */
 
@@ -300,6 +301,7 @@
 		82AF5AC01A0DAB87006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AC41A0DAB87006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AC51A0DAB87006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
+		82D53D631A3785AB00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E689FC199A938D00953452 /* ContactFieldType.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ContactFieldType.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,6 +310,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D53D641A3785AB00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				4F22156F19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
 				4F22157019DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22157119DF5AEB00FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
@@ -538,6 +541,7 @@
 		7DBD075F149AA9620043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82D53D631A3785AB00E46F8F /* libSalesforceSDKCommon.a */,
 				4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */,
 				4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */,
