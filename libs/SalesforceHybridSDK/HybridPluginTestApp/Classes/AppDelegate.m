@@ -140,7 +140,7 @@
 #pragma mark - Private methods
 
 - (SFHybridViewConfig *)stageTestCredentials {
-    SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFile];
+    SFSDKTestCredentialsData *credsData = [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
     SFHybridViewConfig *hybridConfig = [[SFHybridViewConfig alloc] init];
     hybridConfig.remoteAccessConsumerKey = credsData.clientId;
     hybridConfig.oauthRedirectURI = credsData.redirectUri;

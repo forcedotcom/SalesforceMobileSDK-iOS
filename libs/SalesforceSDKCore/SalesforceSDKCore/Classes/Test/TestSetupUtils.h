@@ -33,13 +33,14 @@
 @interface TestSetupUtils : NSObject
 
 /**
- Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle
- of the app, and configures SFUserAccountManager and the current account with the data from
+ Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle associated
+ with the given class, and configures SFUserAccountManager and the current account with the data from
  that file.
+ @param testClass The class associated with the bundle where the test credentials file lives.
  @return The configuration data used to configure SFUserAccountManager (useful e.g. for hybrid
  apps which need the data to bootstrap SFHybridViewController).
  */
-+ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFile;
++ (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass;
 
 /**
  Performs a synchronous refresh of the OAuth credentials, which will stage the remaining auth
