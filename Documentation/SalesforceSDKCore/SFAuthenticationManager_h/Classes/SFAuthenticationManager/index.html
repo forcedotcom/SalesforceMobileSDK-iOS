@@ -282,6 +282,8 @@ function disclosure_triangle(elt) {
 <br><a name="HeaderDoc_functions"></a>
 <h2 class="h2tight">Member Functions</h2>
 <dl>
+<dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_14" target="_top">property</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_1" target="_top">property(nonatomic,  readonly)</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_4" target="_top">property(nonatomic,  readonly)</a></tt></dt>
@@ -299,6 +301,22 @@ function disclosure_triangle(elt) {
 <dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_13" target="_top">property(nonatomic,  strong)</a></tt></dt>
 <dd></dd>
 </dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_14;   name=SFAuthenticationManager::property --><a name="//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_14"></a>
+<h3><a name="property">property</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><tt>private</tt>
+<br>@<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_1" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/property" target="_top"><span class="function">property</span></a> (
+    <span class="param">nonatomic</span>,
+    <span class="param">assign</span>) <!-- a logicalPath="//apple_ref/cpp/cl/SFOAuthAdvancedAuthConfiguration //apple_ref/cpp/tdef/SFOAuthAdvancedAuthConfiguration //apple_ref/cpp/tag/SFOAuthAdvancedAuthConfiguration //apple_ref/cpp/struct/SFOAuthAdvancedAuthConfiguration //apple_ref/cpp/intf/SFOAuthAdvancedAuthConfiguration //apple_ref/doc/anysymbol/SFOAuthAdvancedAuthConfiguration" machineGenerated="true" --><span class="type">SFOAuthAdvancedAuthConfiguration</span><!-- /a --> <!-- a logicalPath="//apple_ref/cpp/econst/advancedAuthConfiguration //apple_ref/cpp/data/SFAuthenticationManager/advancedAuthConfiguration //apple_ref/cpp/data/advancedAuthConfiguration //apple_ref/cpp/clconst/SFAuthenticationManager/advancedAuthConfiguration " machineGenerated="true" --><span class="var">advancedAuthConfiguration</span><!-- /a -->; </pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_14;name=start --><p>Advanced authentication configuration.  Default is SFOAuthAdvancedAuthConfigurationNone.  Leave the
+default value unless you need advanced authentication, as it requires an additional round trip to the
+service to retrieve org authentication configuration.
+<!-- headerDoc=discussion;uid=//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_14;name=end --><!-- end discussion -->
+</p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_1;   name=SFAuthenticationManager::property --><a name="//apple_ref/cpp/instm/SFAuthenticationManager/property_DONTLINK_1"></a>
 <h3><a name="property(nonatomic,readonly)">property(nonatomic,  readonly)</a></h3>
@@ -427,6 +445,8 @@ remove items from this list to change the flow of auth error handling.
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/cpp/clm/SFAuthenticationManager/errorIsInvalidAuthCredentials:" target="_top">+errorIsInvalidAuthCredentials:</a></tt></dt>
 <dd></dd>
+<dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:" target="_top">-handleAdvancedAuthenticationResponse:</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:" target="_top">-loginWithCompletion:failure:</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:" target="_top">-loginWithCompletion:failure:account:</a></tt></dt>
@@ -531,11 +551,40 @@ remove items from this list to change the flow of auth error handling.
 <!-- headerDoc=discussion;uid=//apple_ref/cpp/clm/SFAuthenticationManager/errorIsInvalidAuthCredentials:;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:;   name=SFAuthenticationManager::handleAdvancedAuthenticationResponse: --><a name="//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:"></a>
+<h3><a name="handleAdvancedAuthenticationResponse:">handleAdvancedAuthenticationResponse:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:;name=start -->- (<!-- a logicalPath="//apple_ref/cpp/cl/BOOL //apple_ref/cpp/tdef/BOOL //apple_ref/cpp/tag/BOOL //apple_ref/cpp/struct/BOOL //apple_ref/cpp/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse" target="_top"><span class="function">handleAdvancedAuthenticationResponse</span></a>:(<!-- a logicalPath="//apple_ref/cpp/cl/NSURL //apple_ref/cpp/tdef/NSURL //apple_ref/cpp/tag/NSURL //apple_ref/cpp/struct/NSURL //apple_ref/cpp/intf/NSURL //apple_ref/doc/anysymbol/NSURL" machineGenerated="true" --><span class="type">NSURL</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/cpp/econst/appUrlResponse //apple_ref/cpp/data/SFAuthenticationManager/appUrlResponse //apple_ref/cpp/data/appUrlResponse //apple_ref/cpp/clconst/SFAuthenticationManager/appUrlResponse " machineGenerated="true" --><span class="var">appUrlResponse</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/SFAuthenticationManager/handleAdvancedAuthenticationResponse:/appUrlResponse;   name=handleAdvancedAuthenticationResponse:::appUrlResponse -->
+<a name="//apple_ref/doc/methodparam/SFAuthenticationManager/handleAdvancedAuthenticationResponse:/appUrlResponse"></a>
+<code>appUrlResponse</code>
+</dt>
+<dd><p>The URL response returned to the app from the external browser.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>YES if this is a valid URL response from advanced authentication that should
+be handled, NO otherwise.
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:;name=start --><p>Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.
+<!-- headerDoc=discussion;uid=//apple_ref/cpp/instm/SFAuthenticationManager/handleAdvancedAuthenticationResponse:;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:;   name=SFAuthenticationManager::loginWithCompletion:failure: --><a name="//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:"></a>
 <h3><a name="loginWithCompletion:failure:">loginWithCompletion:failure:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:;name=start -->- (<!-- a logicalPath="//apple_ref/cpp/cl/BOOL //apple_ref/cpp/tdef/BOOL //apple_ref/cpp/tag/BOOL //apple_ref/cpp/struct/BOOL //apple_ref/cpp/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion" target="_top"><span class="function">loginWithCompletion</span></a>:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowSuccessCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowSuccessCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowSuccessCallbackBlock" target="_top"><span class="type">SFOAuthFlowSuccessCallbackBlock</span></a>)<span class="param">completionBlock</span> 
+<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:;name=start -->- (<!-- a logicalPath="//apple_ref/cpp/cl/BOOL //apple_ref/cpp/tdef/BOOL //apple_ref/cpp/tag/BOOL //apple_ref/cpp/struct/BOOL //apple_ref/cpp/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion" target="_top"><span class="function">loginWithCompletion</span></a>:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowSuccessCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowSuccessCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowSuccessCallbackBlock" target="_top"><span class="type">SFOAuthFlowSuccessCallbackBlock</span></a>)<span class="param">completionBlock</span> 
         <!-- a logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/failure //apple_ref/cpp/clm/SFAuthenticationManager/failure //apple_ref/cpp/intfcm/SFAuthenticationManager/failure //apple_ref/cpp/intfm/SFAuthenticationManager/failure //apple_ref/cpp/func/failure //apple_ref/cpp/ftmplt/SFAuthenticationManager/failure //apple_ref/cpp/defn/failure //apple_ref/cpp/macro/failure //apple_ref/doc/anysymbol/failure" machineGenerated="true" --><span class="function">failure</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowFailureCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowFailureCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowFailureCallbackBlock" target="_top"><span class="type">SFOAuthFlowFailureCallbackBlock</span></a>)<!-- a logicalPath="//apple_ref/cpp/econst/failureBlock //apple_ref/cpp/data/SFAuthenticationManager/failureBlock //apple_ref/cpp/data/failureBlock //apple_ref/cpp/clconst/SFAuthenticationManager/failureBlock " machineGenerated="true" --><span class="var">failureBlock</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
@@ -572,7 +621,7 @@ configured.
 <h3><a name="loginWithCompletion:failure:account:">loginWithCompletion:failure:account:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:;name=start -->- (<!-- a logicalPath="//apple_ref/cpp/cl/BOOL //apple_ref/cpp/tdef/BOOL //apple_ref/cpp/tag/BOOL //apple_ref/cpp/struct/BOOL //apple_ref/cpp/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion" target="_top"><span class="function">loginWithCompletion</span></a>:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowSuccessCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowSuccessCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowSuccessCallbackBlock" target="_top"><span class="type">SFOAuthFlowSuccessCallbackBlock</span></a>)<span class="param">completionBlock</span> 
+<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:;name=start -->- (<!-- a logicalPath="//apple_ref/cpp/cl/BOOL //apple_ref/cpp/tdef/BOOL //apple_ref/cpp/tag/BOOL //apple_ref/cpp/struct/BOOL //apple_ref/cpp/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion" target="_top"><span class="function">loginWithCompletion</span></a>:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowSuccessCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowSuccessCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowSuccessCallbackBlock" target="_top"><span class="type">SFOAuthFlowSuccessCallbackBlock</span></a>)<span class="param">completionBlock</span> 
         <!-- a logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/failure //apple_ref/cpp/clm/SFAuthenticationManager/failure //apple_ref/cpp/intfcm/SFAuthenticationManager/failure //apple_ref/cpp/intfm/SFAuthenticationManager/failure //apple_ref/cpp/func/failure //apple_ref/cpp/ftmplt/SFAuthenticationManager/failure //apple_ref/cpp/defn/failure //apple_ref/cpp/macro/failure //apple_ref/doc/anysymbol/failure" machineGenerated="true" --><span class="function">failure</span><!-- /a -->:(<a machinegenerated="true" href="../../index.html#//apple_ref/c/tdef/SFOAuthFlowFailureCallbackBlock" logicalPath="//apple_ref/cpp/cl/SFOAuthFlowFailureCallbackBlock //apple_ref/cpp/tdef/SFOAuthFlowFailureCallbackBlock" target="_top"><span class="type">SFOAuthFlowFailureCallbackBlock</span></a>)<span class="param">failureBlock</span> <a machinegenerated="true" href="../../../SFDirectoryManager_h/Classes/SFDirectoryManager/index.html#//apple_ref/doc/methodparam/SFDirectoryManager/directoryForUser:type:components:/account" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/account //apple_ref/cpp/clm/SFAuthenticationManager/account //apple_ref/cpp/intfcm/SFAuthenticationManager/account //apple_ref/cpp/intfm/SFAuthenticationManager/account //apple_ref/cpp/func/account //apple_ref/cpp/ftmplt/SFAuthenticationManager/account //apple_ref/cpp/defn/account //apple_ref/cpp/macro/account //apple_ref/doc/anysymbol/account" target="_top"><span class="function">account</span></a>:(<a machinegenerated="true" href="../../../SFUserAccount_h/Classes/SFUserAccount/index.html#//apple_ref/occ/cl/SFUserAccount" logicalPath="//apple_ref/cpp/cl/SFUserAccount" target="_top"><span class="type">SFUserAccount</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/cpp/econst/account //apple_ref/cpp/data/SFAuthenticationManager/account //apple_ref/cpp/data/account //apple_ref/cpp/clconst/SFAuthenticationManager/account " machineGenerated="true" --><span class="var">account</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/cpp/instm/SFAuthenticationManager/loginWithCompletion:failure:account:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
@@ -717,7 +766,7 @@ OAuth credentials.
 <h3><a name="setInstanceClass:">setInstanceClass:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass:;name=start -->+ (<!-- a logicalPath="//apple_ref/cpp/cl/void //apple_ref/cpp/tdef/void //apple_ref/cpp/tag/void //apple_ref/cpp/struct/void //apple_ref/cpp/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/setInstanceClass //apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass" target="_top"><span class="function">setInstanceClass</span></a>:(<!-- a logicalPath="//apple_ref/cpp/cl/Class //apple_ref/cpp/tdef/Class //apple_ref/cpp/tag/Class //apple_ref/cpp/struct/Class //apple_ref/cpp/intf/Class //apple_ref/doc/anysymbol/Class" machineGenerated="true" --><span class="type">Class</span><!-- /a -->)<span class="keyword">class</span>  <span class="comment">/**
+<pre><!-- headerDoc=declaration;uid=//apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass:;name=start -->+ (<!-- a logicalPath="//apple_ref/cpp/cl/void //apple_ref/cpp/tdef/void //apple_ref/cpp/tag/void //apple_ref/cpp/struct/void //apple_ref/cpp/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass:" logicalPath="//apple_ref/cpp/instm/SFAuthenticationManager/setInstanceClass //apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass" target="_top"><span class="function">setInstanceClass</span></a>:(<a machinegenerated="true" href="../../../TestSetupUtils_h/Classes/TestSetupUtils/index.html#//apple_ref/occ/clm/TestSetupUtils/Class" logicalPath="//apple_ref/cpp/cl/Class //apple_ref/cpp/tdef/Class //apple_ref/cpp/tag/Class //apple_ref/cpp/struct/Class //apple_ref/cpp/intf/Class //apple_ref/doc/anysymbol/Class" target="_top"><span class="type">Class</span></a>)<span class="keyword">class</span>  <span class="comment">/**
 The singleton instance of the SFAuthenticationManager class.*/</span>+ (<!-- a logicalPath="//apple_ref/cpp/cl/instancetype //apple_ref/cpp/tdef/instancetype //apple_ref/cpp/tag/instancetype //apple_ref/cpp/struct/instancetype //apple_ref/cpp/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/cpp/econst/sharedManager //apple_ref/cpp/data/SFAuthenticationManager/sharedManager //apple_ref/cpp/data/sharedManager //apple_ref/cpp/clconst/SFAuthenticationManager/sharedManager " machineGenerated="true" --><span class="var">sharedManager</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/cpp/clm/SFAuthenticationManager/setInstanceClass:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
@@ -808,7 +857,7 @@ You may use KVO in your app to monitor session validity.
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Monday, November 24, 2014
+<p class="hd_timestamp">Last Updated: Tuesday, January 27, 2015
 </p>
 </div>
 </td>

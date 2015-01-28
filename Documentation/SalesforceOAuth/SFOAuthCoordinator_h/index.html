@@ -312,6 +312,62 @@ function disclosure_triangle(elt) {
 <!-- headerDoc=discussion;uid=//apple_ref/c/data/kSFOAuthErrorDomain;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenSections">
+<a name="HeaderDoc_datatypes"></a>
+<h2 class="h2tight">Typedefs</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/tdef/NS_ENUM" target="_top">NS_ENUM</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/tdef/NS_ENUM_DONTLINK_0" target="_top">NS_ENUM</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=tdef;  uid=//apple_ref/c/tdef/NS_ENUM;   name=NS_ENUM --><a name="//apple_ref/c/tdef/NS_ENUM"></a>
+<h3><a name="NS_ENUM">NS_ENUM</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/tdef/NS_ENUM;name=start --><span class="keyword">typedef</span> <a machinegenerated="true" href="index.html#//apple_ref/c/tdef/NS_ENUM" logicalPath="//apple_ref/c/instm/NS_ENUM //apple_ref/c/clm/NS_ENUM //apple_ref/c/intfcm/NS_ENUM //apple_ref/c/intfm/NS_ENUM //apple_ref/c/func/NS_ENUM //apple_ref/c/ftmplt/NS_ENUM //apple_ref/c/defn/NS_ENUM //apple_ref/c/macro/NS_ENUM //apple_ref/doc/anysymbol/NS_ENUM" target="_top"><span class="function">NS_ENUM</span></a>(<!-- a logicalPath="//apple_ref/c/econst/NSUInteger //apple_ref/c/data/NSUInteger //apple_ref/c/clconst/NSUInteger " machineGenerated="true" --><span class="var">NSUInteger</span><!-- /a -->, <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthConfiguration //apple_ref/c/data/SFOAuthAdvancedAuthConfiguration //apple_ref/c/clconst/SFOAuthAdvancedAuthConfiguration " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthConfiguration</span><!-- /a -->) { 
+    <span class="comment">/**
+Advanced authentication is not configured (default)</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/cl/SFOAuthAdvancedAuthConfigurationNone //apple_ref/c/tdef/SFOAuthAdvancedAuthConfigurationNone //apple_ref/c/tag/SFOAuthAdvancedAuthConfigurationNone //apple_ref/c/struct/SFOAuthAdvancedAuthConfigurationNone //apple_ref/c/intf/SFOAuthAdvancedAuthConfigurationNone //apple_ref/doc/anysymbol/SFOAuthAdvancedAuthConfigurationNone" machineGenerated="true" --><span class="type">SFOAuthAdvancedAuthConfigurationNone</span><!-- /a --> = <span class="number">0</span>,  <span class="comment">/**
+Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+configuration from the org, to determine whether to initiate advanced authentication.</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow //apple_ref/c/data/SFOAuthAdvancedAuthConfigurationAllow //apple_ref/c/clconst/SFOAuthAdvancedAuthConfigurationAllow " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthConfigurationAllow</span><!-- /a -->,  <span class="comment">/**
+Advanced authentication is required.  Coordinator will initiate advanced authentication
+regardless of org settings.</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire //apple_ref/c/data/SFOAuthAdvancedAuthConfigurationRequire //apple_ref/c/clconst/SFOAuthAdvancedAuthConfigurationRequire " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthConfigurationRequire</span><!-- /a --> 
+};  <!-- headerDoc=declaration;uid=//apple_ref/c/tdef/NS_ENUM;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/tdef/NS_ENUM;name=start --><p>Enumeration of advanced auth configuration.
+<!-- headerDoc=discussion;uid=//apple_ref/c/tdef/NS_ENUM;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=tdef;  uid=//apple_ref/c/tdef/NS_ENUM_DONTLINK_0;   name=NS_ENUM --><a name="//apple_ref/c/tdef/NS_ENUM_DONTLINK_0"></a>
+<h3><a name="NS_ENUM">NS_ENUM</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/tdef/NS_ENUM_DONTLINK_0;name=start --><span class="keyword">typedef</span> <a machinegenerated="true" href="index.html#//apple_ref/c/tdef/NS_ENUM" logicalPath="//apple_ref/c/instm/NS_ENUM //apple_ref/c/clm/NS_ENUM //apple_ref/c/intfcm/NS_ENUM //apple_ref/c/intfm/NS_ENUM //apple_ref/c/func/NS_ENUM //apple_ref/c/ftmplt/NS_ENUM //apple_ref/c/defn/NS_ENUM //apple_ref/c/macro/NS_ENUM //apple_ref/doc/anysymbol/NS_ENUM" target="_top"><span class="function">NS_ENUM</span></a>(<!-- a logicalPath="//apple_ref/c/econst/NSUInteger //apple_ref/c/data/NSUInteger //apple_ref/c/clconst/NSUInteger " machineGenerated="true" --><span class="var">NSUInteger</span><!-- /a -->, <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthState //apple_ref/c/data/SFOAuthAdvancedAuthState //apple_ref/c/clconst/SFOAuthAdvancedAuthState " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthState</span><!-- /a -->) { 
+    <span class="comment">/**
+No advanced authentication is currently under way.</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/cl/SFOAuthAdvancedAuthStateNotStarted //apple_ref/c/tdef/SFOAuthAdvancedAuthStateNotStarted //apple_ref/c/tag/SFOAuthAdvancedAuthStateNotStarted //apple_ref/c/struct/SFOAuthAdvancedAuthStateNotStarted //apple_ref/c/intf/SFOAuthAdvancedAuthStateNotStarted //apple_ref/doc/anysymbol/SFOAuthAdvancedAuthStateNotStarted" machineGenerated="true" --><span class="type">SFOAuthAdvancedAuthStateNotStarted</span><!-- /a --> = <span class="number">0</span>,  <span class="comment">/**
+The advanced authentication flow has initiated a request through the external browser (Safari).</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated //apple_ref/c/data/SFOAuthAdvancedAuthStateBrowserRequestInitiated //apple_ref/c/clconst/SFOAuthAdvancedAuthStateBrowserRequestInitiated " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthStateBrowserRequestInitiated</span><!-- /a -->,  <span class="comment">/**
+The advanced authentication flow has received a response from the external browser, and has
+initiated a token exchange request.</span>
+        <span class="comment">*/</span>
+    <!-- a logicalPath="//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated //apple_ref/c/data/SFOAuthAdvancedAuthStateTokenRequestInitiated //apple_ref/c/clconst/SFOAuthAdvancedAuthStateTokenRequestInitiated " machineGenerated="true" --><span class="var">SFOAuthAdvancedAuthStateTokenRequestInitiated</span><!-- /a --> 
+};  <!-- headerDoc=declaration;uid=//apple_ref/c/tdef/NS_ENUM_DONTLINK_0;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/tdef/NS_ENUM_DONTLINK_0;name=start --><p>Enumeration of different advanced authentication stages.
+<!-- headerDoc=discussion;uid=//apple_ref/c/tdef/NS_ENUM_DONTLINK_0;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenSections">
 <a name="HeaderDoc_enums"></a>
 <h2 class="h2tight">Enumerated Types</h2>
 <dl>
@@ -336,7 +392,9 @@ function disclosure_triangle(elt) {
     <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorInactiveOrg //apple_ref/c/data/kSFOAuthErrorInactiveOrg //apple_ref/c/clconst/kSFOAuthErrorInactiveOrg " machineGenerated="true" --><span class="var">kSFOAuthErrorInactiveOrg</span><!-- /a -->, 
     <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorRateLimitExceeded //apple_ref/c/data/kSFOAuthErrorRateLimitExceeded //apple_ref/c/clconst/kSFOAuthErrorRateLimitExceeded " machineGenerated="true" --><span class="var">kSFOAuthErrorRateLimitExceeded</span><!-- /a -->, 
     <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorUnsupportedResponseType //apple_ref/c/data/kSFOAuthErrorUnsupportedResponseType //apple_ref/c/clconst/kSFOAuthErrorUnsupportedResponseType " machineGenerated="true" --><span class="var">kSFOAuthErrorUnsupportedResponseType</span><!-- /a -->, 
-    <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorWrongVersion //apple_ref/c/data/kSFOAuthErrorWrongVersion //apple_ref/c/clconst/kSFOAuthErrorWrongVersion " machineGenerated="true" --><span class="var">kSFOAuthErrorWrongVersion</span><!-- /a --> <span class="comment">// credentials do not match current Connected App version in the org</span> 
+    <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorWrongVersion //apple_ref/c/data/kSFOAuthErrorWrongVersion //apple_ref/c/clconst/kSFOAuthErrorWrongVersion " machineGenerated="true" --><span class="var">kSFOAuthErrorWrongVersion</span><!-- /a -->, <span class="comment">// credentials do not match current Connected App version in the org</span> 
+    <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorBrowserLaunchFailed //apple_ref/c/data/kSFOAuthErrorBrowserLaunchFailed //apple_ref/c/clconst/kSFOAuthErrorBrowserLaunchFailed " machineGenerated="true" --><span class="var">kSFOAuthErrorBrowserLaunchFailed</span><!-- /a -->, 
+    <!-- a logicalPath="//apple_ref/c/econst/kSFOAuthErrorUnknownAdvancedAuthConfig //apple_ref/c/data/kSFOAuthErrorUnknownAdvancedAuthConfig //apple_ref/c/clconst/kSFOAuthErrorUnknownAdvancedAuthConfig " machineGenerated="true" --><span class="var">kSFOAuthErrorUnknownAdvancedAuthConfig</span><!-- /a --> 
 };  <!-- headerDoc=declaration;uid=//apple_ref/doc/title:tag/SFOAuthErrorDomainrelatederrorcodes;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
@@ -345,7 +403,7 @@ function disclosure_triangle(elt) {
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Monday, November 24, 2014
+<p class="hd_timestamp">Last Updated: Tuesday, January 27, 2015
 </p>
 </div>
 </td>

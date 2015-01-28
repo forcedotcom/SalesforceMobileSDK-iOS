@@ -277,17 +277,29 @@ function disclosure_triangle(elt) {
 <br><a name="HeaderDoc_methods"></a>
 <h2 class="h2tight">Methods</h2>
 <dl>
-<dt><tt><a href="index.html#//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile" target="_top">+populateAuthCredentialsFromConfigFile</a></tt></dt>
+<dt><tt><a href="index.html#//apple_ref/occ/clm/TestSetupUtils/Class" target="_top">+Class</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh" target="_top">+synchronousAuthRefresh</a></tt></dt>
 <dd></dd>
 </dl>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=clm;  uid=//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile;   name=TestSetupUtils::populateAuthCredentialsFromConfigFile --><a name="//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile"></a>
-<h3><a name="populateAuthCredentialsFromConfigFile">populateAuthCredentialsFromConfigFile</a></h3>
+<!-- headerDoc=clm;  uid=//apple_ref/occ/clm/TestSetupUtils/Class;   name=TestSetupUtils::Class --><a name="//apple_ref/occ/clm/TestSetupUtils/Class"></a>
+<h3><a name="Class">Class</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile;name=start -->+ (<!-- a logicalPath="//apple_ref/occ/cl/SFSDKTestCredentialsData //apple_ref/occ/tdef/SFSDKTestCredentialsData //apple_ref/occ/tag/SFSDKTestCredentialsData //apple_ref/occ/struct/SFSDKTestCredentialsData //apple_ref/occ/intf/SFSDKTestCredentialsData //apple_ref/doc/anysymbol/SFSDKTestCredentialsData" machineGenerated="true" --><span class="type">SFSDKTestCredentialsData</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/populateAuthCredentialsFromConfigFile //apple_ref/occ/data/TestSetupUtils/populateAuthCredentialsFromConfigFile //apple_ref/occ/data/populateAuthCredentialsFromConfigFile //apple_ref/occ/clconst/TestSetupUtils/populateAuthCredentialsFromConfigFile " machineGenerated="true" --><span class="var">populateAuthCredentialsFromConfigFile</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/clm/TestSetupUtils/Class;name=start -->+ (<!-- a logicalPath="//apple_ref/occ/cl/SFSDKTestCredentialsData //apple_ref/occ/tdef/SFSDKTestCredentialsData //apple_ref/occ/tag/SFSDKTestCredentialsData //apple_ref/occ/struct/SFSDKTestCredentialsData //apple_ref/occ/intf/SFSDKTestCredentialsData //apple_ref/doc/anysymbol/SFSDKTestCredentialsData" machineGenerated="true" --><span class="type">SFSDKTestCredentialsData</span><!-- /a --> <span class="type">*</span>)
+        <!-- a logicalPath="//apple_ref/occ/instm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/intfcm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/intfm/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/func/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/ftmplt/TestSetupUtils/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/defn/populateAuthCredentialsFromConfigFileForClass //apple_ref/occ/macro/populateAuthCredentialsFromConfigFileForClass //apple_ref/doc/anysymbol/populateAuthCredentialsFromConfigFileForClass" machineGenerated="true" --><span class="function">populateAuthCredentialsFromConfigFileForClass</span><!-- /a -->:(<a machinegenerated="true" href="index.html#//apple_ref/occ/clm/TestSetupUtils/Class" logicalPath="//apple_ref/occ/cl/Class //apple_ref/occ/tdef/Class //apple_ref/occ/tag/Class //apple_ref/occ/struct/Class //apple_ref/occ/intf/Class //apple_ref/doc/anysymbol/Class" target="_top"><span class="type">Class</span></a>)<!-- a logicalPath="//apple_ref/occ/econst/testClass //apple_ref/occ/data/TestSetupUtils/testClass //apple_ref/occ/data/testClass //apple_ref/occ/clconst/TestSetupUtils/testClass " machineGenerated="true" --><span class="var">testClass</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/clm/TestSetupUtils/Class;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/TestSetupUtils/Class/testClass;   name=Class::testClass -->
+<a name="//apple_ref/doc/methodparam/TestSetupUtils/Class/testClass"></a>
+<code>testClass</code>
+</dt>
+<dd><p>The class associated with the bundle where the test credentials file lives.</p></dd>
+</dl>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
 <p><!-- begin return value --></p>
@@ -296,10 +308,10 @@ apps which need the data to bootstrap SFHybridViewController).
 
 <!-- end return value --></p>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile;name=start --><p>Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle
-of the app, and configures SFUserAccountManager and the current account with the data from
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/clm/TestSetupUtils/Class;name=start --><p>Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle associated
+with the given class, and configures SFUserAccountManager and the current account with the data from
 that file.
-<!-- headerDoc=discussion;uid=//apple_ref/occ/clm/TestSetupUtils/populateAuthCredentialsFromConfigFile;name=end --><!-- end discussion -->
+<!-- headerDoc=discussion;uid=//apple_ref/occ/clm/TestSetupUtils/Class;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=clm;  uid=//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh;   name=TestSetupUtils::synchronousAuthRefresh --><a name="//apple_ref/occ/clm/TestSetupUtils/synchronousAuthRefresh"></a>
@@ -318,7 +330,7 @@ to refresh authentication.
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Monday, November 24, 2014
+<p class="hd_timestamp">Last Updated: Tuesday, January 27, 2015
 </p>
 </div>
 </td>
