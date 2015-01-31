@@ -68,6 +68,7 @@ NSString * const kSyncManagerResponseRecords = @"records";
 NSString * const kSyncManagerResponseTotalSize = @"totalSize";
 NSString * const kSyncManagerResponseNextRecordsUrl = @"nextRecordsUrl";
 NSString * const kSyncManagerRecentItems = @"recentItems";
+NSString * const kSyncManagerLastModifiedDate = @"LastModifiedDate";
 
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
@@ -85,6 +86,9 @@ typedef enum {
     kSyncManagerActionDelete
 } SFSyncManagerAction;
 
+// date formatter
+static NSDateFormatter* isoDateFormatter;
+
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
@@ -99,10 +103,19 @@ typedef enum {
 static NSMutableDictionary *syncMgrList = nil;
 dispatch_queue_t queue;
 
+
+#pragma mark - instance access / cleanup
+
 + (id)sharedInstance:(SFUserAccount *)user {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         syncMgrList = [[NSMutableDictionary alloc] init];
+        
+        // date formatter initialization
+        if (!isoDateFormatter) {
+            isoDateFormatter = [NSDateFormatter new];
+            isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        }
     });
     @synchronized([SFSmartSyncSyncManager class]) {
         if (user) {
@@ -128,6 +141,8 @@ dispatch_queue_t queue;
     }
 }
 
+#pragma mark - init / dealloc
+
 - (id)initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
@@ -150,6 +165,8 @@ dispatch_queue_t queue;
 - (SFSmartStore *)store {
     return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.user];
 }
+
+#pragma mark - get sync / run sync methods
 
 /** Return details about a sync
  @param syncId
@@ -201,6 +218,8 @@ dispatch_queue_t queue;
     });
 }
 
+#pragma mark - syncDown and supporting methods
+
 /** Create and run a sync down
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
@@ -213,14 +232,6 @@ dispatch_queue_t queue;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    [self runSync:sync updateBlock:updateBlock];
-    return sync;
-}
-
-/** Create and run a sync up
- */
-- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
     return sync;
 }
@@ -290,6 +301,8 @@ dispatch_queue_t queue;
         }
         
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
+        long long maxTimeStamp = [self getMaxTimeStamp:recordsFetched];
+        
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
@@ -375,6 +388,28 @@ dispatch_queue_t queue;
     return ids;
 }
 
+- (long long) getMaxTimeStamp:(NSArray*)records {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[kSyncManagerLastModifiedDate];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [self getTimeMillisFromString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
+}
+
+- (long long) getTimeMillisFromString:(NSString*)dateStr {
+    long long millis = -1;
+    NSDate* date = [isoDateFormatter dateFromString:dateStr];
+    if (date) {
+        millis = (long long) (date.timeIntervalSince1970 * 1000.0);
+    }
+    return millis;
+}
+
 - (NSArray*) flatten:(NSArray*)results {
     NSMutableArray* flatArray = [NSMutableArray new];
     for (NSArray* row in results) {
@@ -383,6 +418,15 @@ dispatch_queue_t queue;
     return flatArray;
 }
 
+#pragma mark - syncUp and supporting methods
+
+/** Create and run a sync up
+ */
+- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+    [self runSync:sync updateBlock:updateBlock];
+    return sync;
+}
 
 /** Run a sync up
  */

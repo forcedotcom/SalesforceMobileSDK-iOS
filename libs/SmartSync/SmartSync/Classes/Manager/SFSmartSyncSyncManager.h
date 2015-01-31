@@ -43,6 +43,8 @@ extern NSString * const kSyncManagerLocallyDeleted;
 
 extern NSString * const kSyncManagerOptionsFieldlist;
 
+extern NSString * const kSyncManagerLastModifiedDate;
+
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 

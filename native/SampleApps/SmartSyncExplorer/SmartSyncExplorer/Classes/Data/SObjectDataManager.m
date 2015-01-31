@@ -71,7 +71,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self registerSoup];
     }
     
-    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
+    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@, LastModifiedDate FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
     SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
     SFSyncTarget *syncTarget = [SFSyncTarget newSyncTargetForSOQLSyncDown:soqlQuery];
     __weak SObjectDataManager *weakSelf = self;
