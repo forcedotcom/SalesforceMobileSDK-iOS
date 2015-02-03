@@ -75,6 +75,10 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
+/** Resync
+ */
+- (SFSyncState*) reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;

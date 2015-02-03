@@ -131,6 +131,21 @@ NSString * const kSyncDetail = @"detail";
     } command:command];
 }
 
+- (void) reSync:(CDVInvokedUrlCommand *)command
+{
+    [self runCommand:^(NSDictionary* argsDict) {
+        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
+        
+        [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
+        
+        __weak SFSmartSyncPlugin *weakSelf = self;
+        SFSyncState* sync = [self.syncManager reSync:syncId updateBlock:^(SFSyncState* sync) {
+            [weakSelf handleSyncUpdate:sync];
+        }];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
+    } command:command];
+}
+
 - (void) syncUp:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
