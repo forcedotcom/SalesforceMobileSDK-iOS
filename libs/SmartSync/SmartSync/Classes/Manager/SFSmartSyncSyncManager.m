@@ -206,7 +206,7 @@ dispatch_queue_t queue;
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
     
-    updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
+    updateSync(kSFSyncStateStatusRunning, 0, 0, kSyncManagerUnchanged);
     // Run on background thread
     dispatch_async(queue, ^{
         switch (sync.type) {
