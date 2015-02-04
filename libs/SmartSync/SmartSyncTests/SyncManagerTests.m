@@ -28,8 +28,13 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 
+#define ACCOUNTS_SOUP       @"accounts"
 #define COUNT_TEST_ACCOUNTS 10
 
 @interface SFSmartSyncSyncManager()
@@ -40,6 +45,7 @@
 {
     SFUserAccount *currentUser;
     SFSmartSyncSyncManager *syncManager;
+    SFSmartStore *store;
     NSDictionary* idToNames;
 }
 @end
@@ -70,18 +76,34 @@ static NSException *authException = nil;
     }
     [SFRestAPI setIsTestRun:YES];
     [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
+    
+    // User and managers setup
     currentUser = [SFUserAccountManager sharedInstance].currentUser;
     syncManager = [SFSmartSyncSyncManager sharedInstance:currentUser];
+    store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:currentUser];
+    
+    // Creating test data
     [self createAccountsSoup];
     idToNames = [self createTestAccountsOnServer:COUNT_TEST_ACCOUNTS];
+    
     [super setUp];
 }
 
 - (void)tearDown
 {
+    // Deleting test data
+    [self deleteTestAccountsOnServer:idToNames];
+    [self dropAccountsSoup];
+    [self deleteSyncs];
+    
+    // User and managers tear down
     [SFSmartSyncSyncManager removeSharedInstance:currentUser];
     [[SFRestAPI sharedInstance] cleanup];
     [SFRestAPI setIsTestRun:NO];
+    
+    currentUser = nil;
+    syncManager = nil;
+    store = nil;
     
     // Some test runs were failing, saying the run didn't complete. This seems to fix that.
     [NSThread sleepForTimeInterval:0.1];
@@ -170,12 +192,77 @@ static NSException *authException = nil;
 
 - (void)createAccountsSoup
 {
-    // TBD
+    NSArray* indexSpecs = @[
+                            [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:@"__local__" indexType:kSoupIndexTypeString columnName:nil]
+                            ];
+    [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs];
+}
+
+
+- (void)dropAccountsSoup
+{
+    [store removeSoup:ACCOUNTS_SOUP];
 }
 
 - (NSDictionary*)createTestAccountsOnServer:(NSUInteger)count
 {
-    return nil;
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    for (NSUInteger i=0; i<count; i++) {
+        // Request
+        NSString* accountName = [self createAccountName];
+        NSDictionary* fields = @{@"Name": accountName};
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Account" fields:fields];
+        // Response
+        NSString* accountId = [self sendSyncRequest:request][@"id"];
+        dict[accountId] = accountName;
+    }
+    return dict;
+}
+
+- (void)deleteTestAccountsOnServer:(NSDictionary*)dict
+{
+    for (NSString* accountId in dict) {
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Account" objectId:accountId];
+        [self sendSyncRequest:request];
+    }
+}
+
+- (NSString*) createAccountName
+{
+    return [NSString stringWithFormat:@"SyncManagerTest%08d", arc4random_uniform(100000000)];
+}
+
+- (void) deleteSyncs
+{
+    // TBD
+}
+
+- (NSDictionary*)sendSyncRequest:(SFRestRequest*)request
+{
+    SFSDKTestRequestListener *listener = [[SFSDKTestRequestListener alloc] init];
+
+    SFRestFailBlock failBlock = ^(NSError *error) {
+        listener.lastError = error;
+        listener.returnStatus = kTestRequestStatusDidFail;
+        
+    };
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary *data) {
+        listener.dataResponse = data;
+        listener.returnStatus = kTestRequestStatusDidLoad;
+    };
+    
+    [[SFRestAPI sharedInstance] sendRESTRequest:request
+                                      failBlock:failBlock
+                                  completeBlock:completeBlock];
+    [listener waitForCompletion];
+    
+    if (listener.lastError) {
+        XCTFail(@"Rest call %@ failed with error %@", request, listener.lastError);
+    }
+    
+    return (NSDictionary*) listener.dataResponse;
 }
 
 @end
