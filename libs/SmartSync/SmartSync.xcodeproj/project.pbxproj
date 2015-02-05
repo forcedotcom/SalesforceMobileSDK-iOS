@@ -397,6 +397,7 @@
 				CEAAAE41195911E600CBBFE9 /* Sources */,
 				CEAAAE42195911E600CBBFE9 /* Frameworks */,
 				82722FFE19D4FCDF0066A350 /* Headers */,
+				827DD5161A83064400519F03 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -466,6 +467,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		827DD5161A83064400519F03 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
 		CEAAAE79195A184100CBBFE9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

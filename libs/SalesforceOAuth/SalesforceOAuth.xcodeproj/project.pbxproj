@@ -358,6 +358,7 @@
 				CFA9ADD013AA86D80024260E /* Sources */,
 				CFA9ADD113AA86D80024260E /* Frameworks */,
 				82BBB58A1790A2BD00374DD8 /* Headers */,
+				827DD5121A8304FB00519F03 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -435,6 +436,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceOAuth/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
+		827DD5121A8304FB00519F03 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

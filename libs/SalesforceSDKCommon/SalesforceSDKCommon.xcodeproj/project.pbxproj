@@ -177,6 +177,7 @@
 				82D53D2E1A3618CD00E46F8F /* Frameworks */,
 				82D53D2F1A3618CD00E46F8F /* CopyFiles */,
 				82D53D4F1A36242B00E46F8F /* Headers */,
+				827DD5171A83066B00519F03 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -267,6 +268,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSDKCommon/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
+		827DD5171A83066B00519F03 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -460,6 +474,7 @@
 				8276EE031A7853CA0083F7EA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		82D53D2C1A3618CD00E46F8F /* Build configuration list for PBXProject "SalesforceSDKCommon" */ = {
 			isa = XCConfigurationList;
