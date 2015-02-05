@@ -97,6 +97,7 @@ static NSDateFormatter* isoDateFormatter;
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, readonly) SFRestAPI *restClient;
+@property (nonatomic, strong) dispatch_queue_t queue;
 
 @end
 
@@ -104,8 +105,6 @@ static NSDateFormatter* isoDateFormatter;
 @implementation SFSmartSyncSyncManager
 
 static NSMutableDictionary *syncMgrList = nil;
-dispatch_queue_t queue;
-
 
 #pragma mark - instance access / cleanup
 
@@ -150,15 +149,15 @@ dispatch_queue_t queue;
     self = [super init];
     if (self) {
         self.user = user;
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
 }
 
+
 - (void)dealloc {
-    queue = nil;
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
@@ -208,7 +207,7 @@ dispatch_queue_t queue;
     };
     
     // Run on background thread
-    dispatch_async(queue, ^{
+    dispatch_async(self.queue, ^{
         updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
@@ -332,17 +331,16 @@ dispatch_queue_t queue;
                 return;
             }
         }
-        
+
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
+        countFetched += [recordsFetched count];
+        NSUInteger progress = 100*countFetched / totalSize;
         long long maxTimeStampForFetched = [self getMaxTimeStamp:recordsFetched];
-        updateSync(nil, kSyncManagerUnchanged, kSyncManagerUnchanged, maxTimeStampForFetched);
         
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
-        countFetched += [recordsFetched count];
-        NSUInteger progress = 100*countFetched / totalSize;
-        updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
+        updateSync(nil, progress, totalSize, maxTimeStampForFetched);
         
         // Fetch next records if any
         NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];

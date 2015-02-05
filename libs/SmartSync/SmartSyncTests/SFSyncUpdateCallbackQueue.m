@@ -54,9 +54,9 @@ NSMutableArray *queue;
 - (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager
 {
     [syncManager runSync:sync updateBlock:^(SFSyncState *sync) {
-//        @synchronized(queue) {
-//            [queue addObject:sync];
-//        }
+        @synchronized(queue) {
+            [queue addObject:sync];
+        }
     }];
 }
 
