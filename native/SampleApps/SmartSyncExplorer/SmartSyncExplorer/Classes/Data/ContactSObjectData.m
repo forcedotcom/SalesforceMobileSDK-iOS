@@ -25,6 +25,7 @@
 #import "ContactSObjectData.h"
 #import "ContactSObjectDataSpec.h"
 #import "SObjectData+Internal.h"
+#import <SmartSync/SFSmartSyncSyncManager.h>
 
 @implementation ContactSObjectData
 
@@ -92,6 +93,10 @@
 
 - (void)setHomePhone:(NSString *)homePhone {
     [self updateSoupForFieldName:kContactHomePhoneField fieldValue:homePhone];
+}
+
+- (NSString*)lastModifiedDate {
+    return [self nonNullFieldValue:kSyncManagerLastModifiedDate];
 }
 
 @end

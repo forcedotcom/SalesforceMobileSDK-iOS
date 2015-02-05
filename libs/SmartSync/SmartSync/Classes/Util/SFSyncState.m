@@ -41,6 +41,7 @@ NSString * const kSFSyncStateOptions = @"options";
 NSString * const kSFSyncStateStatus = @"status";
 NSString * const kSFSyncStateProgress = @"progress";
 NSString * const kSFSyncStateTotalSize = @"totalSize";
+NSString * const kSyncStateMaxTimeStamp = @"maxTimeStamp";
 
 // Possible value for sync type
 NSString * const kSFSyncStateTypeDown = @"syncDown";
@@ -148,18 +149,20 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     self.status = [SFSyncState syncStatusFromString:dict[kSFSyncStateStatus]];
     self.progress = [(NSNumber*) dict[kSFSyncStateProgress] integerValue];
     self.totalSize = [(NSNumber*) dict[kSFSyncStateTotalSize] integerValue];
+    self.maxTimeStamp = [(NSNumber*) dict[kSyncStateMaxTimeStamp] longLongValue];
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict = @{
-                           kSFSyncStateType: [SFSyncState syncTypeToString:self.type],
-                           kSFSyncStateTarget: [self.target asDict],
-                           kSFSyncStateSoupName: self.soupName,
-                           kSFSyncStateOptions: [self.options asDict],
-                           kSFSyncStateStatus: [SFSyncState syncStatusToString:self.status],
-                           kSFSyncStateProgress: [NSNumber numberWithInteger:self.progress],
-                           kSFSyncStateTotalSize: [NSNumber numberWithInteger:self.totalSize]
-                           };
+    NSMutableDictionary* dict = [NSMutableDictionary new];
+    dict[SOUP_ENTRY_ID] = [NSNumber numberWithInteger:self.syncId];
+    dict[kSFSyncStateType] = [SFSyncState syncTypeToString:self.type];
+    if (self.target) dict[kSFSyncStateTarget] = [self.target asDict];
+    if (self.options) dict[kSFSyncStateOptions] = [self.options asDict];
+    dict[kSFSyncStateSoupName] = self.soupName;
+    dict[kSFSyncStateStatus] = [SFSyncState syncStatusToString:self.status];
+    dict[kSFSyncStateProgress] = [NSNumber numberWithInteger:self.progress];
+    dict[kSFSyncStateTotalSize] = [NSNumber numberWithInteger:self.totalSize];
+    dict[kSyncStateMaxTimeStamp] = [NSNumber numberWithLongLong:self.maxTimeStamp];
     return dict;
 }
 

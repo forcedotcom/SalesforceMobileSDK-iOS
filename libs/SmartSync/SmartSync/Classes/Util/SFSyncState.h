@@ -41,6 +41,7 @@ extern NSString * const kSFSyncStateOptions;
 extern NSString * const kSFSyncStateStatus;
 extern NSString * const kSFSyncStateProgress;
 extern NSString * const kSFSyncStateTotalSize;
+extern NSString * const kSFSyncStateMaxTimeStamp;
 
 // Possible values for sync type
 typedef enum {
@@ -85,6 +86,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic) NSInteger progress;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) SFSyncStateMergeMode mergeMode;
+@property (nonatomic) long long maxTimeStamp;
 
 /** Setup soup that keeps track of sync operations
  */

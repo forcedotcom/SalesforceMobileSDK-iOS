@@ -40,6 +40,9 @@ NSString * const kSmartSync = @"SmartSync";
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
 
+// Unchanged
+NSInteger const kSyncManagerUnchanged = -1;
+
 // soups and soup fields
 NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
@@ -68,12 +71,13 @@ NSString * const kSyncManagerResponseRecords = @"records";
 NSString * const kSyncManagerResponseTotalSize = @"totalSize";
 NSString * const kSyncManagerResponseNextRecordsUrl = @"nextRecordsUrl";
 NSString * const kSyncManagerRecentItems = @"recentItems";
+NSString * const kSyncManagerLastModifiedDate = @"LastModifiedDate";
 
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
 
 // block type
-typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize);
+typedef void (^SyncUpdateBlock) (NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp);
 typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
 
@@ -84,6 +88,9 @@ typedef enum {
     kSyncManagerActionUpdate,
     kSyncManagerActionDelete
 } SFSyncManagerAction;
+
+// date formatter
+static NSDateFormatter* isoDateFormatter;
 
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
@@ -99,10 +106,19 @@ typedef enum {
 static NSMutableDictionary *syncMgrList = nil;
 dispatch_queue_t queue;
 
+
+#pragma mark - instance access / cleanup
+
 + (id)sharedInstance:(SFUserAccount *)user {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         syncMgrList = [[NSMutableDictionary alloc] init];
+        
+        // date formatter initialization
+        if (!isoDateFormatter) {
+            isoDateFormatter = [NSDateFormatter new];
+            isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+        }
     });
     @synchronized([SFSmartSyncSyncManager class]) {
         if (user) {
@@ -128,6 +144,8 @@ dispatch_queue_t queue;
     }
 }
 
+#pragma mark - init / dealloc
+
 - (id)initWithUser:(SFUserAccount *)user {
     self = [super init];
     if (self) {
@@ -151,6 +169,8 @@ dispatch_queue_t queue;
     return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.user];
 }
 
+#pragma mark - get sync / run sync methods
+
 /** Return details about a sync
  @param syncId
  */
@@ -167,16 +187,15 @@ dispatch_queue_t queue;
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     __weak SFSmartSyncSyncManager *weakSelf = self;
-    SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize) {
-        if (status == nil) {
-            status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
-        }
+    SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp) {
+        if (status == nil) status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
         sync.status = [SFSyncState syncStatusFromString:status];
         if (progress>=0)  sync.progress = progress;
         if (totalSize>=0) sync.totalSize = totalSize;
+        if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:self.store];
         
-        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status: %@ progress:%d totalSize:%d", [SFSyncState syncTypeToString:sync.type], sync.syncId, [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize];
+        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status:%@ progress:%d totalSize:%d maxTimeStamp:%d", [SFSyncState syncTypeToString:sync.type], sync.syncId, [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize, sync.maxTimeStamp];
         
         if (updateBlock)
             updateBlock(sync);
@@ -184,10 +203,10 @@ dispatch_queue_t queue;
     
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
         [weakSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
-        updateSync(kSFSyncStateStatusFailed, -1, -1);
+        updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
     
-    updateSync(kSFSyncStateStatusRunning, 0, -1);
+    updateSync(kSFSyncStateStatusRunning, 0, 0, kSyncManagerUnchanged);
     // Run on background thread
     dispatch_async(queue, ^{
         switch (sync.type) {
@@ -200,6 +219,8 @@ dispatch_queue_t queue;
         }
     });
 }
+
+#pragma mark - syncDown, reSync and supporting methods
 
 /** Create and run a sync down
  */
@@ -217,13 +238,32 @@ dispatch_queue_t queue;
     return sync;
 }
 
-/** Create and run a sync up
+/** Resync
  */
-- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+- (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
+    
+    if (sync == nil) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:no sync found", syncId];
+         return nil;
+    }
+    if (sync.type != SFSyncStateSyncTypeDown) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        return nil;
+    }
+    if (sync.target.queryType != SFSyncTargetQueryTypeSoql) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong query type:%@", syncId, [SFSyncTarget queryTypeToString:sync.target.queryType]];
+        return nil;
+    }
+    if (sync.status != SFSyncStateStatusDone) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
+        return nil;
+    }
+    
     [self runSync:sync updateBlock:updateBlock];
     return sync;
 }
+
 
 /** Run a sync down
  */
@@ -240,7 +280,7 @@ dispatch_queue_t queue;
             [self syncDownMru:mergeMode objectType:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSoql:
-            [self syncDownSoql:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSoql:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:sync.maxTimeStamp];
             break;
         case SFSyncTargetQueryTypeSosl:
             [self syncDownSosl:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
@@ -262,7 +302,7 @@ dispatch_queue_t queue;
                             from:sobjectType]
                            where:inPredicate]
                           build];
-        [weakSelf syncDownSoql:mergeMode query:soql soup:soupName updateSync:updateSync failRest:failRest];
+        [weakSelf syncDownSoql:mergeMode query:soql soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:0L];
     }];
 }
 
@@ -276,26 +316,29 @@ dispatch_queue_t queue;
 
 /** Run a sync down for a soql target
  */
-- (void) syncDownSoql:(SFSyncStateMergeMode)mergeMode query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+- (void) syncDownSoql:(SFSyncStateMergeMode)mergeMode query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest maxTimeStamp:(long long)maxTimeStamp {
     __block NSUInteger countFetched = 0;
     __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestDictionaryResponseBlock completeBlockSOQL = ^(NSDictionary *d) {
         NSUInteger totalSize = [d[kSyncManagerResponseTotalSize] integerValue];
         if (countFetched == 0) { // after first request only
-            updateSync(nil, totalSize == 0 ? 100 : 0, totalSize);
+            updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
             if (totalSize == 0) {
                 return;
             }
         }
         
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
+        long long maxTimeStampForFetched = [self getMaxTimeStamp:recordsFetched];
+        updateSync(nil, kSyncManagerUnchanged, kSyncManagerUnchanged, maxTimeStampForFetched);
+        
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
         countFetched += [recordsFetched count];
         NSUInteger progress = 100*countFetched / totalSize;
-        updateSync(nil, progress, totalSize);
+        updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
         
         // Fetch next records if any
         NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
@@ -306,9 +349,15 @@ dispatch_queue_t queue;
     };
     // initialize the alias
     completeBlockRecurse = completeBlockSOQL;
+    
+    // Resync?
+    NSString* queryToRun = query;
+    if (maxTimeStamp > 0) {
+        queryToRun = [self addFilterForReSync:query maxTimeStamp:maxTimeStamp];
+    }
 
     // Send request
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:query];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockSOQL];
 }
 
@@ -318,14 +367,14 @@ dispatch_queue_t queue;
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *recordsFetched) {
         NSUInteger totalSize = [recordsFetched count];
-        updateSync(nil, totalSize == 0 ? 100 : 0, totalSize);
+        updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
         if (totalSize == 0) {
             return;
         }
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
-        updateSync(kSFSyncStateStatusRunning, 100, totalSize);
+        updateSync(kSFSyncStateStatusRunning, 100, totalSize, kSyncManagerUnchanged);
     };
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:query];
@@ -375,6 +424,52 @@ dispatch_queue_t queue;
     return ids;
 }
 
+- (long long) getMaxTimeStamp:(NSArray*)records {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[kSyncManagerLastModifiedDate];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [self getTimeMillisFromString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
+}
+
+- (long long) getTimeMillisFromString:(NSString*)dateStr {
+    long long millis = -1;
+    NSDate* date = [isoDateFormatter dateFromString:dateStr];
+    if (date) {
+        millis = (long long) (date.timeIntervalSince1970 * 1000.0);
+    }
+    return millis;
+}
+
+- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp {
+    NSString* queryToRun = query;
+    if (maxTimeStamp > 0) {
+        NSDate* maxTimeStampDate = [NSDate dateWithTimeIntervalSince1970:((double)maxTimeStamp)/1000.0];
+        NSString* extraPredicate = [@[kSyncManagerLastModifiedDate, @">", [isoDateFormatter stringFromDate:maxTimeStampDate]] componentsJoinedByString:@" "];
+        if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
+            queryToRun = [self appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
+        }
+        else {
+            queryToRun = [self appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
+        }
+    }
+    return queryToRun;
+}
+
+- (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend {
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
+    NSString* firstMatch = [str substringWithRange:rangeFirst];
+    NSString* modifiedStr = [str stringByReplacingCharactersInRange:rangeFirst withString:[@[firstMatch, stringToAppend] componentsJoinedByString:@""]];
+    return modifiedStr;
+}
+
+
 - (NSArray*) flatten:(NSArray*)results {
     NSMutableArray* flatArray = [NSMutableArray new];
     for (NSArray* row in results) {
@@ -383,6 +478,15 @@ dispatch_queue_t queue;
     return flatArray;
 }
 
+#pragma mark - syncUp and supporting methods
+
+/** Create and run a sync up
+ */
+- (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+    [self runSync:sync updateBlock:updateBlock];
+    return sync;
+}
 
 /** Run a sync up
  */
@@ -392,7 +496,7 @@ dispatch_queue_t queue;
     // Call smartstore
     NSArray* dirtyRecordIds = [[self getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] allObjects];
     NSUInteger totalSize = [dirtyRecordIds count];
-    updateSync(nil, totalSize == 0 ? 100 : 0, totalSize);
+    updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
     if (totalSize == 0) {
         return;
     }
@@ -411,7 +515,7 @@ dispatch_queue_t queue;
     SFSyncOptions* options = sync.options;
     NSUInteger totalSize = recordIds.count;
     NSUInteger progress = i*100 / totalSize;
-    updateSync(nil, progress, totalSize);
+    updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
     
     if (progress == 100) {
         // Done

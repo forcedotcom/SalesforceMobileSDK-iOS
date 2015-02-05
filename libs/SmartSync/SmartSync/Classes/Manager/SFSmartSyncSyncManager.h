@@ -43,6 +43,8 @@ extern NSString * const kSyncManagerLocallyDeleted;
 
 extern NSString * const kSyncManagerOptionsFieldlist;
 
+extern NSString * const kSyncManagerLastModifiedDate;
+
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 
@@ -72,6 +74,10 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 /** Create and run a sync down
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/** Resync
+ */
+- (SFSyncState*) reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync up
  */
