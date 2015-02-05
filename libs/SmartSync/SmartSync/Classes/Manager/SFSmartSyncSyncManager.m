@@ -206,9 +206,9 @@ dispatch_queue_t queue;
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
     
-    updateSync(kSFSyncStateStatusRunning, 0, 0, kSyncManagerUnchanged);
     // Run on background thread
     dispatch_async(queue, ^{
+        updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
                 [weakSelf syncDown:sync updateSync:updateSync failSync:failSync];
@@ -217,6 +217,7 @@ dispatch_queue_t queue;
                 [weakSelf syncUp:sync updateSync:updateSync failSync:failSync];
                 break;
         }
+        updateSync(kSFSyncStateStatusDone, 100, kSyncManagerUnchanged, kSyncManagerUnchanged);
     });
 }
 
@@ -259,6 +260,9 @@ dispatch_queue_t queue;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
         return nil;
     }
+    
+    sync.totalSize = -1;
+    [sync save:self.store];
     
     [self runSync:sync updateBlock:updateBlock];
     return sync;

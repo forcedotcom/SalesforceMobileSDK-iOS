@@ -24,6 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSmartSyncSyncManager.h"
+#import "SFSyncUpdateCallbackQueue.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -32,6 +33,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
@@ -180,15 +182,85 @@ static NSException *authException = nil;
 
 #pragma mark - helper methods
 
-- (void)trySyncDown:(SFSyncStateMergeMode)mergeMode
+- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode
 {
-    // TBD
+    // Ids clause
+    NSString* idsClause = [NSString stringWithFormat:@"('%@')", [[idToNames allKeys] componentsJoinedByString:@"', '"]];
+    
+    // Create sync
+    NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
+    SFSyncTarget* target = [SFSyncTarget newSyncTargetForSOQLSyncDown:soql];
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    NSInteger syncId = sync.syncId;
+    [self checkStatus:sync expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
+
+    // Run sync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:syncManager];
+    
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:idToNames.count];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNames.count];
+
+     return syncId;
 }
 
-- (void)checkDb:(NSDictionary*)idToNames
+- (void)checkDb:(NSDictionary*)dict
 {
-    // TBD
+    // Ids clause
+    NSString* idsClause = [NSString stringWithFormat:@"('%@')", [[dict allKeys] componentsJoinedByString:@"', '"]];
+
+    // Query
+    NSString* smartSql = [@[@"SELECT {accounts:Id}, {accounts:Name} FROM {accounts} WHERE {accounts:Id} IN ", idsClause] componentsJoinedByString:@""];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:dict.count];
+    NSArray* accountsFromDb = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    NSMutableDictionary* idToNamesFromdb = [NSMutableDictionary new];
+    for (NSArray* row in accountsFromDb) {
+        idToNamesFromdb[row[0]] = row[1];
+    }
+    
+    // Compare
+    XCTAssertEqual(dict.count, idToNamesFromdb.count);
+    for (NSString* objectId in dict) {
+        XCTAssertEqualObjects(dict[objectId], idToNamesFromdb[objectId]);
+    }
 }
+
+- (void) checkStatus:(SFSyncState*)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget*)expectedTarget expectedOptions:(SFSyncOptions*)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize
+{
+    XCTAssertEqual(expectedType, sync.type);
+    XCTAssertEqual(expectedId, sync.syncId);
+    XCTAssertEqual(expectedStatus, sync.status);
+    XCTAssertEqual(expectedProgress, sync.progress);
+    XCTAssertEqual(expectedTotalSize, sync.totalSize);
+    
+    if (expectedTarget) {
+        XCTAssertNotNil(sync.target);
+        if (sync.target) {
+            XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
+            XCTAssertEqualObjects(expectedTarget.query, sync.target.query);
+            XCTAssertEqualObjects(expectedTarget.objectType, sync.target.objectType);
+            XCTAssertEqualObjects(expectedTarget.fieldlist, sync.target.fieldlist);
+        }
+    }
+    else {
+        XCTAssertNil(sync.target);
+    }
+
+    if (expectedOptions) {
+        XCTAssertNotNil(sync.options);
+        if (sync.target) {
+            XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
+            XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
+        }
+    }
+    else {
+        XCTAssertNil(sync.options);
+    }
+}
+
 
 - (void)createAccountsSoup
 {
@@ -236,7 +308,7 @@ static NSException *authException = nil;
 
 - (void) deleteSyncs
 {
-    // TBD
+    [store clearSoup:ACCOUNTS_SOUP];
 }
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request
