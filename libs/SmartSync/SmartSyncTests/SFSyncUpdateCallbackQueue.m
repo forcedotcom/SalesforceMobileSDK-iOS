@@ -24,83 +24,80 @@
 
 #import "SFSyncUpdateCallbackQueue.h"
 
+#define MAX_WAIT_TIME 5.0
+
 @interface SFSmartSyncSyncManager()
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 @end
 
-@interface SFSyncUpdateCallbackQueue()
-@property (nonatomic, strong) NSMutableArray *queue;
-@property (nonatomic, strong) NSCondition *lock;
-@property (nonatomic, strong) dispatch_queue_t dispatchQueue;
-@end
-
 @implementation SFSyncUpdateCallbackQueue
+
+NSMutableArray *queue;
 
 - (id)init
 {
     self = [super init];
     if (self)
     {
-        self.queue = [[NSMutableArray alloc] init];
-        self.lock = [[NSCondition alloc] init];
-        self.dispatchQueue = dispatch_queue_create("SFSyncUpdateCallbackQueue", DISPATCH_QUEUE_SERIAL);
+        queue = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    self.dispatchQueue = nil;
-    self.queue = nil;
-    self.lock = nil;
+    queue = nil;
 }
 
 # pragma - public methods
 
 - (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager
 {
-    __weak SFSyncUpdateCallbackQueue* weakSelf = self;
     [syncManager runSync:sync updateBlock:^(SFSyncState *sync) {
-        [weakSelf enqueue:sync];
+//        @synchronized(queue) {
+//            [queue addObject:sync];
+//        }
     }];
 }
 
 - (SFSyncState*)getNextSyncUpdate
 {
-    return (SFSyncState*) [self dequeue];
+    return [self getNextSyncUpdate:MAX_WAIT_TIME];
 }
 
-# pragma - enqueue/dequeue methods
-
-- (void)enqueue:(id)object
+- (SFSyncState*)getNextSyncUpdate:(NSTimeInterval) maxWaitTime
 {
-    [_lock lock];
-    [_queue addObject:object];
-    [_lock signal];
-    [_lock unlock];
-}
-
-- (id)dequeue
-{
-    __block id object;
-    dispatch_sync(_dispatchQueue, ^{
-        [_lock lock];
-        while (_queue.count == 0)
-        {
-            [_lock wait];
+    NSDate *startTime = [NSDate date];
+    SFSyncState* sync;
+    while (YES) {
+        sync = [self getFirst];
+        if (sync != nil) {
+            // we got one!
+            break;
         }
-        object = [_queue objectAtIndex:0];
-        [_queue removeObjectAtIndex:0];
-        [_lock unlock];
-    });
-    
-    return object;
+        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
+        if (elapsed > maxWaitTime) {
+            [self log:SFLogLevelDebug format:@"getNextSyncUpdate took too long (> %f secs) to complete.", elapsed];
+            return nil;
+        }
+        
+        [self log:SFLogLevelDebug msg:@"## sleeping..."];
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+    };
+    return sync;
 }
 
-- (NSUInteger)count
+- (SFSyncState*)getFirst
 {
-    return [_queue count];
+    @synchronized(queue) {
+        if (queue.count > 0) {
+            SFSyncState* sync = [queue objectAtIndex:0];
+            [queue removeObjectAtIndex:0];
+            return sync;
+        }
+        else {
+            return nil;
+        }
+    }
 }
-
-
 @end

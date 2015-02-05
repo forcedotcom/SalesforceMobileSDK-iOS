@@ -34,8 +34,9 @@
 - (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager;
 
 /**
- Get next sync update (merges) 
+ Get next sync update
  */
 - (SFSyncState*)getNextSyncUpdate;
+- (SFSyncState*)getNextSyncUpdate:(NSTimeInterval) maxWaitTime;
 
 @end

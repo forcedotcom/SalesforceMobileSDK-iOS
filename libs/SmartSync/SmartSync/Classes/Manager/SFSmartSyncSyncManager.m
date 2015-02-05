@@ -158,6 +158,7 @@ dispatch_queue_t queue;
 }
 
 - (void)dealloc {
+    queue = nil;
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
@@ -193,7 +194,7 @@ dispatch_queue_t queue;
         if (progress>=0)  sync.progress = progress;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
-        [sync save:self.store];
+        [sync save:weakSelf.store];
         
         [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status:%@ progress:%d totalSize:%d maxTimeStamp:%d", [SFSyncState syncTypeToString:sync.type], sync.syncId, [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize, sync.maxTimeStamp];
         
@@ -217,7 +218,6 @@ dispatch_queue_t queue;
                 [weakSelf syncUp:sync updateSync:updateSync failSync:failSync];
                 break;
         }
-        updateSync(kSFSyncStateStatusDone, 100, kSyncManagerUnchanged, kSyncManagerUnchanged);
     });
 }
 

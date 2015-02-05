@@ -84,19 +84,13 @@ static NSException *authException = nil;
     syncManager = [SFSmartSyncSyncManager sharedInstance:currentUser];
     store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:currentUser];
     
-    // Creating test data
-    [self createAccountsSoup];
-    idToNames = [self createTestAccountsOnServer:COUNT_TEST_ACCOUNTS];
-    
     [super setUp];
 }
 
 - (void)tearDown
 {
     // Deleting test data
-    [self deleteTestAccountsOnServer:idToNames];
-    [self dropAccountsSoup];
-    [self deleteSyncs];
+    [self deleteTestData];
     
     // User and managers tear down
     [SFSmartSyncSyncManager removeSharedInstance:currentUser];
@@ -129,6 +123,9 @@ static NSException *authException = nil;
  */
 - (void)testSyncDown
 {
+    // Create test data
+    [self createTestData];
+    
     // first sync down
     [self trySyncDown:SFSyncStateMergeModeOverwrite];
     
@@ -143,9 +140,9 @@ static NSException *authException = nil;
 {
     NSDateFormatter* isoDateFormatter = [NSDateFormatter new];
     isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    NSDate* date = [NSDate new];
+    NSString* dateStr = @"2015-02-05T13:12:03.956-0800";
+    NSDate* date = [isoDateFormatter dateFromString:dateStr];
     long long dateLong = (long long)([date timeIntervalSince1970] * 1000.0);
-    NSString* dateStr = [isoDateFormatter stringFromDate:date];
     
     // Original queries
     NSString* originalBasicQuery = @"select Id from Account";
@@ -230,6 +227,10 @@ static NSException *authException = nil;
 
 - (void) checkStatus:(SFSyncState*)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget*)expectedTarget expectedOptions:(SFSyncOptions*)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize
 {
+    XCTAssertNotNil(sync);
+    if (!sync)
+        return;
+    
     XCTAssertEqual(expectedType, sync.type);
     XCTAssertEqual(expectedId, sync.syncId);
     XCTAssertEqual(expectedStatus, sync.status);
@@ -261,6 +262,18 @@ static NSException *authException = nil;
     }
 }
 
+- (void)createTestData
+{
+    [self createAccountsSoup];
+    idToNames = [self createTestAccountsOnServer:COUNT_TEST_ACCOUNTS];
+}
+
+- (void)deleteTestData
+{
+    [self deleteTestAccountsOnServer:idToNames];
+    [self dropAccountsSoup];
+    [self deleteSyncs];
+}
 
 - (void)createAccountsSoup
 {
