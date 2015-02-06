@@ -30,23 +30,21 @@
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 @end
 
-@implementation SFSyncUpdateCallbackQueue
 
-NSMutableArray *queue;
+@interface SFSyncUpdateCallbackQueue ()
+@property (nonatomic, strong) NSMutableArray *queue;
+@end
+
+@implementation SFSyncUpdateCallbackQueue
 
 - (id)init
 {
     self = [super init];
     if (self)
     {
-        queue = [[NSMutableArray alloc] init];
+        self.queue = [[NSMutableArray alloc] init];
     }
     return self;
-}
-
-- (void)dealloc
-{
-    queue = nil;
 }
 
 # pragma - public methods
@@ -54,8 +52,8 @@ NSMutableArray *queue;
 - (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager
 {
     [syncManager runSync:sync updateBlock:^(SFSyncState *sync) {
-        @synchronized(queue) {
-            [queue addObject:sync];
+        @synchronized(self.queue) {
+            [self.queue addObject:[sync copy]];
         }
     }];
 }
@@ -89,10 +87,10 @@ NSMutableArray *queue;
 
 - (SFSyncState*)getFirst
 {
-    @synchronized(queue) {
-        if (queue.count > 0) {
-            SFSyncState* sync = [queue objectAtIndex:0];
-            [queue removeObjectAtIndex:0];
+    @synchronized(self.queue) {
+        if (self.queue.count > 0) {
+            SFSyncState* sync = [self.queue objectAtIndex:0];
+            [self.queue removeObjectAtIndex:0];
             return sync;
         }
         else {

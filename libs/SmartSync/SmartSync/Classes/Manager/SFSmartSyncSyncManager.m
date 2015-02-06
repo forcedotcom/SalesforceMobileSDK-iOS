@@ -195,7 +195,7 @@ static NSMutableDictionary *syncMgrList = nil;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:weakSelf.store];
         
-        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status:%@ progress:%d totalSize:%d maxTimeStamp:%d", [SFSyncState syncTypeToString:sync.type], sync.syncId, [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize, sync.maxTimeStamp];
+        [weakSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
         
         if (updateBlock)
             updateBlock(sync);
