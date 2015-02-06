@@ -37,6 +37,8 @@
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
+#define ACCOUNT_ID          @"Id"
+#define ACCOUNT_NAME        @"Name"
 #define COUNT_TEST_ACCOUNTS 10
 
 @interface SFSmartSyncSyncManager()
@@ -132,6 +134,36 @@ static NSException *authException = nil;
     // Check that db was correctly populated
     [self checkDb:idToNames];
 }
+
+/**
+ * Sync down the test accounts, make some local changes, sync down again with merge mode LEAVE_IF_CHANGED then sync down with merge mode OVERWRITE
+ */
+-(void) testSyncDownWithoutOverwrite
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Make some local change
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    
+    // sync down again with MergeMode.LEAVE_IF_CHANGED
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Check db
+    NSMutableDictionary* idToNamesExpected = [[NSMutableDictionary alloc] initWithDictionary:idToNames];
+    [idToNamesExpected setDictionary:idToNamesLocallyUpdated];
+    [self checkDb:idToNamesExpected];
+    
+    // sync down again with MergeMode.OVERWRITE
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Check db
+    [self checkDb:idToNames];
+}
+
 
 /**
  * Test addFilterForReSync with various queries
@@ -278,9 +310,9 @@ static NSException *authException = nil;
 - (void)createAccountsSoup
 {
     NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:@"Id" indexType:kSoupIndexTypeString columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:@"Name" indexType:kSoupIndexTypeString columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:@"__local__" indexType:kSoupIndexTypeString columnName:nil]
+                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_NAME indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs];
 }
@@ -297,7 +329,7 @@ static NSException *authException = nil;
     for (NSUInteger i=0; i<count; i++) {
         // Request
         NSString* accountName = [self createAccountName];
-        NSDictionary* fields = @{@"Name": accountName};
+        NSDictionary* fields = @{ACCOUNT_NAME: accountName};
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Account" fields:fields];
         // Response
         NSString* accountId = [self sendSyncRequest:request][@"id"];
@@ -323,6 +355,37 @@ static NSException *authException = nil;
 {
     [store clearSoup:ACCOUNTS_SOUP];
 }
+
+- (NSDictionary*) makeSomeLocalChanges
+{
+    NSMutableDictionary* idToNamesLocallyUpdated = [NSMutableDictionary new];
+    NSArray* allIds = [idToNames allKeys];
+    NSArray* ids = @[ allIds[0], allIds[1], allIds[2] ];
+    for (NSString* objectId in ids) {
+        idToNamesLocallyUpdated[objectId] = [NSString stringWithFormat:@"%@_updated", idToNames[objectId]];
+    }
+    [self updateAccountsLocally:idToNamesLocallyUpdated];
+    return idToNamesLocallyUpdated;
+}
+
+- (void)updateAccountsLocally:(NSDictionary*)idToNamesLocallyUpdated
+{
+    NSMutableArray* updatedAccounts = [NSMutableArray new];
+    for (NSString* accountId in idToNamesLocallyUpdated) {
+        NSString* updatedName = idToNamesLocallyUpdated[accountId];
+        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ACCOUNT_ID withMatchKey:accountId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+        NSArray* results = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+        NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
+        account[ACCOUNT_NAME] = updatedName;
+        account[kSyncManagerLocal] = @YES;
+        account[kSyncManagerLocallyCreated] = @NO;
+        account[kSyncManagerLocallyDeleted] = @NO;
+        account[kSyncManagerLocallyUpdated] = @YES;
+        [updatedAccounts addObject:account];
+    }
+    [store upsertEntries:updatedAccounts toSoup:ACCOUNTS_SOUP];
+}
+
 
 - (NSDictionary*)sendSyncRequest:(SFRestRequest*)request
 {
