@@ -27,6 +27,7 @@
 #import "SFSyncOptions.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 // soups and soup fields
 NSString * const kSFSyncStateSyncsSoupName = @"syncs_soup";
@@ -245,5 +246,20 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     }
 }
 
+#pragma mark - description
+
+- (NSString*)description
+{
+    return [SFJsonUtils JSONRepresentation:[self asDict]];
+}
+
+#pragma mark - copy
+
+-(id)copyWithZone:(NSZone *)zone
+{
+    SFSyncState* clone = [SFSyncState new];
+    [clone fromDict:[self asDict]];
+    return clone;
+}
 
 @end

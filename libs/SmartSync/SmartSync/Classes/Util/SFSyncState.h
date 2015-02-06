@@ -75,7 +75,7 @@ typedef enum {
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
-@interface SFSyncState : NSObject
+@interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
 @property (nonatomic, readonly) SFSyncStateSyncType type;

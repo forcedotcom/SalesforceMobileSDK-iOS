@@ -97,6 +97,7 @@ static NSDateFormatter* isoDateFormatter;
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, readonly) SFRestAPI *restClient;
+@property (nonatomic, strong) dispatch_queue_t queue;
 
 @end
 
@@ -104,8 +105,6 @@ static NSDateFormatter* isoDateFormatter;
 @implementation SFSmartSyncSyncManager
 
 static NSMutableDictionary *syncMgrList = nil;
-dispatch_queue_t queue;
-
 
 #pragma mark - instance access / cleanup
 
@@ -150,12 +149,13 @@ dispatch_queue_t queue;
     self = [super init];
     if (self) {
         self.user = user;
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
 }
+
 
 - (void)dealloc {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
@@ -193,9 +193,9 @@ dispatch_queue_t queue;
         if (progress>=0)  sync.progress = progress;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
-        [sync save:self.store];
+        [sync save:weakSelf.store];
         
-        [weakSelf log:SFLogLevelDebug format:@"Sync type:%@ id:%d status:%@ progress:%d totalSize:%d maxTimeStamp:%d", [SFSyncState syncTypeToString:sync.type], sync.syncId, [SFSyncState syncStatusToString:sync.status], sync.progress, sync.totalSize, sync.maxTimeStamp];
+        [weakSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
         
         if (updateBlock)
             updateBlock(sync);
@@ -206,9 +206,9 @@ dispatch_queue_t queue;
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
     
-    updateSync(kSFSyncStateStatusRunning, 0, 0, kSyncManagerUnchanged);
     // Run on background thread
-    dispatch_async(queue, ^{
+    dispatch_async(self.queue, ^{
+        updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
                 [weakSelf syncDown:sync updateSync:updateSync failSync:failSync];
@@ -259,6 +259,9 @@ dispatch_queue_t queue;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
         return nil;
     }
+    
+    sync.totalSize = -1;
+    [sync save:self.store];
     
     [self runSync:sync updateBlock:updateBlock];
     return sync;
@@ -328,17 +331,16 @@ dispatch_queue_t queue;
                 return;
             }
         }
-        
+
         NSArray* recordsFetched = d[kSyncManagerResponseRecords];
+        countFetched += [recordsFetched count];
+        NSUInteger progress = 100*countFetched / totalSize;
         long long maxTimeStampForFetched = [self getMaxTimeStamp:recordsFetched];
-        updateSync(nil, kSyncManagerUnchanged, kSyncManagerUnchanged, maxTimeStampForFetched);
         
         // Save records
         [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
         // Update status
-        countFetched += [recordsFetched count];
-        NSUInteger progress = 100*countFetched / totalSize;
-        updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
+        updateSync(nil, progress, totalSize, maxTimeStampForFetched);
         
         // Fetch next records if any
         NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
