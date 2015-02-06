@@ -149,17 +149,23 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             // Alternatively, you could just go straight to re-initializing your app state, if you know
             // your app does not support multiple accounts.  The logic below will work either way.
             
-            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts
-            if (allAccounts.count > 1)
-            {
+            var numberOfAccounts : Int;
+            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts as [SFUserAccount]?
+            if allAccounts != nil {
+                numberOfAccounts = allAccounts!.count;
+            } else {
+                numberOfAccounts = 0;
+            }
+            
+            if numberOfAccounts > 1 {
                 let userSwitchVc = SFDefaultUserManagementViewController(completionBlock: {
                     action in
                     self.window!.rootViewController!.dismissViewControllerAnimated(true, completion: nil)
                 })
                 self.window!.rootViewController!.presentViewController(userSwitchVc, animated: true, completion: nil)
             } else {
-                if (SFUserAccountManager.sharedInstance().allUserAccounts.count == 1) {
-                    SFUserAccountManager.sharedInstance().currentUser = SFUserAccountManager.sharedInstance().allUserAccounts[0] as SFUserAccount
+                if (numberOfAccounts == 1) {
+                    SFUserAccountManager.sharedInstance().currentUser = allAccounts![0]
                 }
                 SalesforceSDKManager.sharedManager().launch()
             }

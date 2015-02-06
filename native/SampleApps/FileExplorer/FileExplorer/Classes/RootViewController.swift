@@ -166,7 +166,7 @@ class RootViewController : UITableViewController, SFRestDelegate
         let fileId = obj["id"] as String
         let tag = fileId.hash
         
-        cell!.textLabel.text =  obj["title"] as? String
+        cell!.textLabel!.text =  obj["title"] as? String
         cell!.detailTextLabel!.text = (obj["owner"] as NSDictionary)["name"] as? String
         cell!.tag = tag;
         self.getThumbnail(fileId, completeBlock: {
@@ -174,7 +174,7 @@ class RootViewController : UITableViewController, SFRestDelegate
             // Cell are recycled - we don't want to set the image if the cell is showing a different file
             if (cell!.tag == tag)
             {
-                cell!.imageView.image = thumbnailImage
+                cell!.imageView!.image = thumbnailImage
                 cell!.setNeedsLayout()
             }
         })
