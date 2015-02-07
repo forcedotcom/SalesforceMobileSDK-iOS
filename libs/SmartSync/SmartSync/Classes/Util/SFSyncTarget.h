@@ -42,6 +42,10 @@ extern NSString * const kSFSyncTargetFieldlist;
 @property (nonatomic, strong, readonly) NSString* objectType;
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;
 
+// True when initialized from empty dictionary
+@property (nonatomic, readonly) BOOL isUndefined;
+
+
 /** Factory methods
  */
 + (SFSyncTarget*) newSyncTargetForSOQLSyncDown:(NSString*)query;
