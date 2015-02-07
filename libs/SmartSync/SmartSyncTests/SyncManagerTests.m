@@ -164,6 +164,50 @@ static NSException *authException = nil;
     [self checkDb:idToNames];
 }
 
+/**
+ * Sync down the test accounts, modify a few on the server, re-sync, make sure only the updated ones are downloaded
+ */
+- (void)testReSync
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite]];
+    
+    // Check sync time stamp
+    SFSyncState* sync = [syncManager getSyncStatus:syncId];
+    SFSyncTarget* target = sync.target;
+    SFSyncOptions* options = sync.options;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    XCTAssertTrue(maxTimeStamp > 0);
+    
+    // Make some remote changes
+    [NSThread sleepForTimeInterval:1.0f];
+    NSMutableDictionary* idToNamesUpdated = [NSMutableDictionary new];
+    NSArray* allIds = [idToNames allKeys];
+    NSArray* ids = @[ allIds[0], allIds[2] ];
+    for (NSString* accountId in ids) {
+        idToNamesUpdated[accountId] = [NSString stringWithFormat:@"%@_updated", idToNames[accountId]];
+    }
+    [self updateAccountsOnServer:idToNamesUpdated];
+    
+    
+    // Call reSync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runReSync:syncId syncManager:syncManager];
+    
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:idToNamesUpdated.count];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNamesUpdated.count];
+    
+    // Check db
+    [self checkDb:idToNamesUpdated];
+    
+    // Check sync time stamp
+    XCTAssertTrue([syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
+}
 
 /**
  * Test addFilterForReSync with various queries
@@ -252,8 +296,8 @@ static NSException *authException = nil;
     
     // Compare
     XCTAssertEqual(dict.count, idToNamesFromdb.count);
-    for (NSString* objectId in dict) {
-        XCTAssertEqualObjects(dict[objectId], idToNamesFromdb[objectId]);
+    for (NSString* accountId in dict) {
+        XCTAssertEqualObjects(dict[accountId], idToNamesFromdb[accountId]);
     }
 }
 
@@ -361,8 +405,8 @@ static NSException *authException = nil;
     NSMutableDictionary* idToNamesLocallyUpdated = [NSMutableDictionary new];
     NSArray* allIds = [idToNames allKeys];
     NSArray* ids = @[ allIds[0], allIds[1], allIds[2] ];
-    for (NSString* objectId in ids) {
-        idToNamesLocallyUpdated[objectId] = [NSString stringWithFormat:@"%@_updated", idToNames[objectId]];
+    for (NSString* accountId in ids) {
+        idToNamesLocallyUpdated[accountId] = [NSString stringWithFormat:@"%@_updated", idToNames[accountId]];
     }
     [self updateAccountsLocally:idToNamesLocallyUpdated];
     return idToNamesLocallyUpdated;
@@ -384,6 +428,18 @@ static NSException *authException = nil;
         [updatedAccounts addObject:account];
     }
     [store upsertEntries:updatedAccounts toSoup:ACCOUNTS_SOUP];
+}
+
+-(void)updateAccountsOnServer:(NSDictionary*)idToNamesUpdated
+{
+    for (NSString* accountId in idToNamesUpdated) {
+        // Request
+        NSString* updatedName = idToNamesUpdated[accountId];
+        NSDictionary* fields = @{ACCOUNT_NAME: updatedName};
+        SFRestRequest* request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:@"Account" objectId:accountId fields:fields];
+        // Response
+        [self sendSyncRequest:request];
+    }
 }
 
 

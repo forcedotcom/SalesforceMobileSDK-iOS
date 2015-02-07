@@ -29,9 +29,14 @@
 @interface SFSyncUpdateCallbackQueue : NSObject
 
 /** 
- Start sync 
+ Run sync
  */
 - (void)runSync:(SFSyncState*)sync syncManager:(SFSmartSyncSyncManager*)syncManager;
+
+/**
+ Run re-sync
+ */
+- (void)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
 
 /**
  Get next sync update
