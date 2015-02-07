@@ -58,6 +58,15 @@
     }];
 }
 
+- (void)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager
+{
+    [syncManager reSync:syncId updateBlock:^(SFSyncState *sync) {
+        @synchronized(self.queue) {
+            [self.queue addObject:[sync copy]];
+        }
+    }];
+}
+
 - (SFSyncState*)getNextSyncUpdate
 {
     return [self getNextSyncUpdate:MAX_WAIT_TIME];
