@@ -95,7 +95,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
-    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames];
+    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     [self.syncMgr syncUpWithOptions:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
