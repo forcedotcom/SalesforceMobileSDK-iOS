@@ -39,6 +39,7 @@
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
 #define ACCOUNT_NAME        @"Name"
+#define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
 
 @interface SFSmartSyncSyncManager()
@@ -210,6 +211,44 @@ static NSException *authException = nil;
 }
 
 /**
+ * Sync down the test accounts, modify a few, sync up, check smartstore and server afterwards
+ */
+-(void)testSyncUpWithLocallyUpdatedRecords
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+   
+    // Make some local change
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    
+    // Sync up
+    [self trySyncUp:3];
+    
+    // Check that db doesn't show entries as locally modified anymore
+    NSArray* ids = [idToNamesLocallyUpdated allKeys];
+    NSString* idsClause = [NSString stringWithFormat:@"('%@')", [ids componentsJoinedByString:@"', '"]];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
+    }
+    
+    // Check server
+    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSArray* records = [self sendSyncRequest:request][RECORDS];
+    for (NSDictionary* record in records) {
+        XCTAssertEqualObjects(idToNamesLocallyUpdated[record[ACCOUNT_ID]], record[ACCOUNT_NAME]);
+    }
+}
+
+/**
  * Test addFilterForReSync with various queries
  */
 - (void) testAddFilterForResync
@@ -301,6 +340,27 @@ static NSException *authException = nil;
     }
 }
 
+- (void) trySyncUp:(NSInteger)numberChanges
+{
+    // Create sync
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[ ACCOUNT_NAME]];
+    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:store];
+    NSInteger syncId = sync.syncId;
+    [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
+    
+    // Run sync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:syncManager];
+    
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
+    for (int i=1; i<numberChanges; i++) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
+    }
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberChanges];
+}
+
 - (void) checkStatus:(SFSyncState*)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget*)expectedTarget expectedOptions:(SFSyncOptions*)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize
 {
     XCTAssertNotNil(sync);
@@ -314,7 +374,7 @@ static NSException *authException = nil;
     XCTAssertEqual(expectedTotalSize, sync.totalSize);
     
     if (expectedTarget) {
-        XCTAssertNotNil(sync.target);
+        XCTAssertFalse(sync.target.isUndefined);
         if (sync.target) {
             XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
             XCTAssertEqualObjects(expectedTarget.query, sync.target.query);
@@ -323,18 +383,18 @@ static NSException *authException = nil;
         }
     }
     else {
-        XCTAssertNil(sync.target);
+        XCTAssertTrue(sync.target.isUndefined);
     }
 
     if (expectedOptions) {
-        XCTAssertNotNil(sync.options);
+        XCTAssertFalse(sync.options.isUndefined);
         if (sync.target) {
             XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
             XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
         }
     }
     else {
-        XCTAssertNil(sync.options);
+        XCTAssertTrue(sync.options.isUndefined);
     }
 }
 

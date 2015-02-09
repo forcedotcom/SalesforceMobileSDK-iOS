@@ -30,11 +30,8 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 @interface SFSyncOptions ()
 
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
-@property (nonatomic, readwrite) SFSyncStateMergeMode mergeMode;
-
-
-// true when initiazed from empty dictionary
-@property (nonatomic) BOOL isUndefined;
+@property (nonatomic, readwrite)         SFSyncStateMergeMode mergeMode;
+@property (nonatomic, readwrite)         BOOL isUndefined;
 
 @end
 

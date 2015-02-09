@@ -40,9 +40,7 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 @property (nonatomic, strong, readwrite) NSString* query;
 @property (nonatomic, strong, readwrite) NSString* objectType;
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
-
-// true when initiazed from empty dictionary
-@property (nonatomic) BOOL isUndefined;
+@property (nonatomic, readwrite)         BOOL isUndefined;
 
 @end
 
