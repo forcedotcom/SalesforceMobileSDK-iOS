@@ -631,16 +631,18 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (BOOL)isNewerThanServer:(NSString *)objectType objectId:(NSString *)objectId lastModifiedDate:(long long)lastModifiedDate {
-    __block BOOL done = NO;
     __block BOOL isNewer = NO;
     __block long long serverLastModified = -1;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kSyncManagerLastModifiedDate];
     [soqlBuilder from:objectType];
     [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
     NSString *query = [soqlBuilder build];
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
-    [self sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *error) {
-            done = YES;
+    [self sendRequestWithSmartSyncUserAgent:request
+        failBlock:^(NSError *error) {
+            [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
+            dispatch_semaphore_signal(semaphore);
         }
         completeBlock:^(NSDictionary* d) {
             if (nil != d) {
@@ -655,17 +657,10 @@ static NSMutableDictionary *syncMgrList = nil;
             if (serverLastModified <= lastModifiedDate) {
                 isNewer = YES;
             }
-            done = YES;
+            dispatch_semaphore_signal(semaphore);
         }
      ];
-    long long curTimeInMillis = [[NSDate date] timeIntervalSince1970];
-
-    // Wait for block to complete or timeout in 5 seconds.
-    while (!done) {
-        if ([[NSDate date] timeIntervalSince1970] - curTimeInMillis > 5000) {
-            break;
-        }
-    }
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     return isNewer;
 }
 
