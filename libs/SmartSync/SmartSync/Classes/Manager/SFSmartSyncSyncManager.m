@@ -506,7 +506,7 @@ static NSMutableDictionary *syncMgrList = nil;
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);
     };
-    
+
     // Otherwise, there's work to do.
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failRest:failRest];
 }
@@ -514,6 +514,7 @@ static NSMutableDictionary *syncMgrList = nil;
 - (void) syncUpOneEntry:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     NSString* soupName = sync.soupName;
     SFSyncOptions* options = sync.options;
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     NSUInteger totalSize = recordIds.count;
     NSUInteger progress = i*100 / totalSize;
     updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
@@ -544,6 +545,21 @@ static NSMutableDictionary *syncMgrList = nil;
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
     NSString* objectId = record[kSyncManagerObjectId];
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
+    NSString* lastModifiedDateString = record[kSyncManagerLastModifiedDate];
+    long long lastModifiedDate = [self getTimeMillisFromString:lastModifiedDateString];
+
+    /*
+     * Checks if we are attempting to update a record that has been updated
+     * on the server AFTER the client's last sync down. If the merge mode
+     * passed in tells us to leave the record alone under these
+     * circumstances, we will do nothing and return here.
+     */
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged &&
+        (action == kSyncManagerActionUpdate || action == kSyncManagerActionDelete) &&
+        ![self isNewerThanServer:objectType objectId:objectId lastModifiedDate:lastModifiedDate]) {
+        // Next
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+    }
     
     // Fields to save (in the case of create or update)
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
@@ -603,7 +619,7 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
     }
-    
+
     // Send request
     [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlock];
     
@@ -612,6 +628,45 @@ static NSMutableDictionary *syncMgrList = nil;
 - (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {
     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [self.restClient sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
+}
+
+- (BOOL)isNewerThanServer:(NSString *)objectType objectId:(NSString *)objectId lastModifiedDate:(long long)lastModifiedDate {
+    __block BOOL done = NO;
+    __block BOOL isNewer = NO;
+    __block long long serverLastModified = -1;
+    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kSyncManagerLastModifiedDate];
+    [soqlBuilder from:objectType];
+    [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
+    NSString *query = [soqlBuilder build];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
+    [self sendRequestWithSmartSyncUserAgent:request failBlock:^(NSError *error) {
+            done = YES;
+        }
+        completeBlock:^(NSDictionary* d) {
+            if (nil != d) {
+                NSDictionary *record = d[@"records"][0];
+                if (nil != record) {
+                    NSString *serverLastMod = record[kSyncManagerLastModifiedDate];
+                    if (nil != serverLastMod) {
+                        serverLastModified = [self getTimeMillisFromString:serverLastMod];
+                    }
+                }
+            }
+            if (serverLastModified <= lastModifiedDate) {
+                isNewer = YES;
+            }
+            done = YES;
+        }
+     ];
+    long long curTimeInMillis = [[NSDate date] timeIntervalSince1970];
+
+    // Wait for block to complete or timeout in 5 seconds.
+    while (!done) {
+        if ([[NSDate date] timeIntervalSince1970] - curTimeInMillis > 5000) {
+            break;
+        }
+    }
+    return isNewer;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
