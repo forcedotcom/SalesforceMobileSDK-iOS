@@ -404,13 +404,20 @@ static NSException *authException = nil;
     // Sync up
     [self trySyncUp:3 mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     
-    // Check that db still shows entries as locally modified
+    // Check that db still shows entries as locally deleted
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
     NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     XCTAssertEqual(3, rows.count);
-    
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqual(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqual(@YES, account[kSyncManagerLocallyDeleted]);
+    }
+
     // Check server
     NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];

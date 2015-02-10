@@ -539,6 +539,7 @@ static NSMutableDictionary *syncMgrList = nil;
     if (action == kSyncManagerActionNone) {
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        return;
     }
     
     // Getting type and id
@@ -559,6 +560,7 @@ static NSMutableDictionary *syncMgrList = nil;
         ![self isNewerThanServer:objectType objectId:objectId lastModifiedDate:lastModifiedDate]) {
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        return;
     }
     
     // Fields to save (in the case of create or update)
@@ -622,7 +624,6 @@ static NSMutableDictionary *syncMgrList = nil;
 
     // Send request
     [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlock];
-    
 }
 
 - (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {
