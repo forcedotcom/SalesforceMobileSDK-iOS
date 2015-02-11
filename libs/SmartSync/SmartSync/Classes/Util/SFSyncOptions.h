@@ -37,11 +37,11 @@ extern NSString * const kSFSyncOptionsMergeMode;
 // True when initialized from empty dictionary
 @property (nonatomic, readonly) BOOL isUndefined;
 
-
 /** Factory methods
  */
 + (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode;
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist;
++ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode;
 
 /** Methods to translate to/from dictionary
  */

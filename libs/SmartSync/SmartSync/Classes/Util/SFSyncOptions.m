@@ -40,9 +40,13 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 #pragma mark - Factory methods
 
 + (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist {
+    return [SFSyncOptions newSyncOptionsForSyncUp:fieldlist mergeMode:SFSyncStateMergeModeOverwrite];
+}
+
++ (SFSyncOptions*) newSyncOptionsForSyncUp:(NSArray*)fieldlist mergeMode:(SFSyncStateMergeMode)mergeMode {
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.fieldlist = fieldlist;
-    syncOptions.mergeMode = SFSyncStateMergeModeOverwrite;
+    syncOptions.mergeMode = mergeMode;
     syncOptions.isUndefined = NO;
     return syncOptions;
 }

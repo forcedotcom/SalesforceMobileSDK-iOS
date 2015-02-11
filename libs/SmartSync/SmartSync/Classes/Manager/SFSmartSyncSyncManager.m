@@ -506,14 +506,14 @@ static NSMutableDictionary *syncMgrList = nil;
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);
     };
-    
+
     // Otherwise, there's work to do.
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failRest:failRest];
 }
 
 - (void) syncUpOneEntry:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     NSString* soupName = sync.soupName;
-    SFSyncOptions* options = sync.options;
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     NSUInteger totalSize = recordIds.count;
     NSUInteger progress = i*100 / totalSize;
     updateSync(nil, progress, totalSize, kSyncManagerUnchanged);
@@ -538,13 +538,32 @@ static NSMutableDictionary *syncMgrList = nil;
     if (action == kSyncManagerActionNone) {
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        return;
     }
-    
+
+    /*
+     * Checks if we are attempting to update a record that has been updated
+     * on the server AFTER the client's last sync down. If the merge mode
+     * passed in tells us to leave the record alone under these
+     * circumstances, we will do nothing and return here.
+     */
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged &&
+        (action == kSyncManagerActionUpdate || action == kSyncManagerActionDelete)) {
+        [self isNewerThanServer:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest];
+    } else {
+        [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failRest:failRest];
+    }
+}
+
+- (void)resumeSyncUpOneEntry:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+    SFSyncOptions* options = sync.options;
+    NSString* soupName = sync.soupName;
+    NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
+
     // Getting type and id
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
     NSString* objectId = record[kSyncManagerObjectId];
-    NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
-    
+
     // Fields to save (in the case of create or update)
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
@@ -554,7 +573,7 @@ static NSMutableDictionary *syncMgrList = nil;
             }
         }
     }
-    
+
     // Delete handler
     SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
@@ -563,7 +582,7 @@ static NSMutableDictionary *syncMgrList = nil;
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
-    
+
     // Update handler
     SFRestDictionaryResponseBlock completeBlockUpdate = ^(NSDictionary *d) {
         // Set local flags to false
@@ -578,14 +597,14 @@ static NSMutableDictionary *syncMgrList = nil;
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
     };
-    
+
     // Create handler
     SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
         record[kSyncManagerObjectId] = d[kSyncManagerLObjectId];
         completeBlockUpdate(d);
     };
-    
+
     SFRestRequest* request;
     id completeBlock;
     switch(action) {
@@ -603,15 +622,49 @@ static NSMutableDictionary *syncMgrList = nil;
             break;
         case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
     }
-    
+
     // Send request
     [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlock];
-    
 }
 
 - (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {
     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [self.restClient sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
+}
+
+- (void)isNewerThanServer:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
+    NSString* objectId = record[kSyncManagerObjectId];
+    NSString* lastModifiedDateString = record[kSyncManagerLastModifiedDate];
+    long long lastModifiedDate = [self getTimeMillisFromString:lastModifiedDateString];
+    __block long long serverLastModified = -1;
+    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kSyncManagerLastModifiedDate];
+    [soqlBuilder from:objectType];
+    [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
+    NSString *query = [soqlBuilder build];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
+    [self sendRequestWithSmartSyncUserAgent:request
+        failBlock:^(NSError *error) {
+            [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
+            [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        }
+        completeBlock:^(NSDictionary* d) {
+            if (nil != d) {
+                NSDictionary *record = d[@"records"][0];
+                if (nil != record) {
+                    NSString *serverLastMod = record[kSyncManagerLastModifiedDate];
+                    if (nil != serverLastMod) {
+                        serverLastModified = [self getTimeMillisFromString:serverLastMod];
+                    }
+                }
+            }
+            if (serverLastModified <= lastModifiedDate) {
+                [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failRest:failRest];
+            } else {
+                [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+            }
+        }
+     ];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
