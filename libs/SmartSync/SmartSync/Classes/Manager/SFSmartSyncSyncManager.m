@@ -445,7 +445,8 @@ dispatch_queue_t queue;
     if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
         for (NSString* fieldName in options.fieldlist) {
             if (![fieldName isEqualToString:kSyncManagerObjectId]) {
-                fields[fieldName] = record[fieldName];
+                if (record[fieldName] != nil)
+                    fields[fieldName] = record[fieldName];
             }
         }
     }
