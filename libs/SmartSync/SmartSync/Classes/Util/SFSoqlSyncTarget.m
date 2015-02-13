@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,32 +22,61 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFsoqlSyncTarget.h"
 
-typedef enum {
-  SFSyncTargetQueryTypeMru,
-  SFSyncTargetQueryTypeSosl,
-  SFSyncTargetQueryTypeSoql
-} SFSyncTargetQueryType;
+NSString * const kSFSoqlSyncTargetQuery = @"query";
 
-extern NSString * const kSFSyncTargetQueryType;
+@interface SFSoqlSyncTarget ()
 
-@interface SFSyncTarget : NSObject
+@property (nonatomic, strong, readwrite) NSString* query;
 
-@property (nonatomic)         SFSyncTargetQueryType queryType;
+@end
 
-// True when initialized from empty dictionary
-@property (nonatomic) BOOL    isUndefined;
+@implementation SFSoqlSyncTarget
+
+#pragma mark - Factory methods
+
++ (SFSoqlSyncTarget*) newSyncTarget:(NSString*)query {
+    SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
+    syncTarget.queryType = SFSyncTargetQueryTypeSoql;
+    syncTarget.query = query;
+    syncTarget.isUndefined = NO;
+    return syncTarget;
+}
 
 
-/** Methods to translate to/from dictionary
- */
-+ (SFSyncTarget*) newFromDict:(NSDictionary *)dict;
-- (NSDictionary*) asDict;
+#pragma mark - From/to dictionary
 
-/** Enum to/from string helper methods
- */
-+ (SFSyncTargetQueryType) queryTypeFromString:(NSString*)queryType;
-+ (NSString*) queryTypeToString:(SFSyncTargetQueryType)queryType;
++ (SFSoqlSyncTarget*) newFromDict:(NSDictionary*)dict {
+    SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
+    if (syncTarget) {
+        if (dict == nil || [dict count] == 0) {
+            syncTarget.isUndefined = YES;
+        }
+        else {
+            syncTarget.isUndefined = NO;
+            syncTarget.queryType = SFSyncTargetQueryTypeSoql;
+            syncTarget.query = dict[kSFSoqlSyncTargetQuery];
+        }
+    }
+    
+    return syncTarget;
+}
+
+- (NSDictionary*) asDict {
+    NSDictionary* dict;
+
+    if (self.isUndefined) {
+        dict = @{};
+    }
+    else {
+        dict = @{
+        kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+        kSFSoqlSyncTargetQuery: self.query
+        };
+    }
+
+    return dict;
+}
 
 @end
