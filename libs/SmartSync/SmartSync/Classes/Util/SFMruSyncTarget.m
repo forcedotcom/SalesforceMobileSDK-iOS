@@ -23,9 +23,13 @@
  */
 
 #import "SFMruSyncTarget.h"
+#import "SFSmartSyncSyncManager.h"
+#import "SFSmartSyncSoqlBuilder.h"
+#import "SFSmartSyncConstants.h"
 
 NSString * const kSFSyncTargetObjectType = @"sobjectType";
 NSString * const kSFSyncTargetFieldlist = @"fieldlist";
+
 
 @interface SFMruSyncTarget ()
 
@@ -85,10 +89,39 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager maxTimeStamp:(long long)maxTimeStamp completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
-    // TBD
-    completeBlock(0, nil);
+    __weak SFMruSyncTarget *weakSelf = self;
+    
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
+        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:kId];
+        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
+                                 componentsJoinedByString:@""];
+        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
+                            from:self.objectType]
+                           where:inPredicate]
+                          build];
+        
+        
+        SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:soql];
+        [syncManager sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
+            weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
+            completeBlock(d[kResponseRecords]);
+        }];
+    }];
 }
+
+- (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
+    NSMutableArray* result = [NSMutableArray array];
+    for (NSDictionary* d in arrayOfDictionaries) {
+        [result addObject:d[key]];
+    }
+    return result;
+}
+
 
 @end

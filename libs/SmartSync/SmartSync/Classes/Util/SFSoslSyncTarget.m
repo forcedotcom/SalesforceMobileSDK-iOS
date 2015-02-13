@@ -24,7 +24,7 @@
 
 #import "SFSoslSyncTarget.h"
 #import "SFSmartSyncSyncManager.h"
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
+#import "SFSmartSyncConstants.h"
 
 NSString * const kSFSoslSyncTargetQuery = @"query";
 
@@ -91,16 +91,16 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
          errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
-    SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *records) {
-        NSUInteger totalSize = [records count];
-        completeBlock(totalSize, records);
-    };
+    __weak SFSoslSyncTarget* weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:self.query];
-    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:completeBlockSOSL];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){
+        weakSelf.totalSize = [records count];
+        completeBlock(records);
+    }];
 }
 
 

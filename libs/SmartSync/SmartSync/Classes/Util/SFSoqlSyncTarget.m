@@ -22,13 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFsoqlSyncTarget.h"
+#import "SFSoqlSyncTarget.h"
+#import "SFSmartSyncSyncManager.h"
+#import "SFSmartSyncConstants.h"
 
 NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 @interface SFSoqlSyncTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* query;
+@property (nonatomic, strong, readwrite) NSString* nextRecordsUrl;
 
 @end
 
@@ -81,17 +84,68 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 # pragma mark - Data fetching
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager maxTimeStamp:(long long)maxTimeStamp completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
-    // TBD
-    completeBlock(0, nil);
+    __weak SFSoqlSyncTarget* weakSelf = self;
+
+    // Resync?
+    NSString* queryToRun = self.query;
+    if (maxTimeStamp > 0) {
+        queryToRun = [self addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+    }
+    
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:self.query];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+        weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
+        weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
+        completeBlock(d[kResponseRecords]);
+    }];
 }
 
-- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+- (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
+            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
-    // TBD
-    completeBlock(-1, nil);
+    if (self.nextRecordsUrl) {
+        __weak SFSoqlSyncTarget* weakSelf = self;
+        SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
+        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+            weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
+            completeBlock(d[kResponseRecords]);
+        }];
+    }
+    else {
+        completeBlock(nil);
+    }
 }
+
+- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp {
+    NSString* queryToRun = query;
+    if (maxTimeStamp > 0) {
+        NSDate* maxTimeStampDate = [NSDate dateWithTimeIntervalSince1970:((double)maxTimeStamp)/1000.0];
+        NSString* extraPredicate =  @""; // FIXME // [@[kLastModifiedDate, @">", [isoDateFormatter stringFromDate:maxTimeStampDate]] componentsJoinedByString:@" "];
+        if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
+            queryToRun = [self appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
+        }
+        else {
+            queryToRun = [self appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
+        }
+    }
+    return queryToRun;
+}
+
+- (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend {
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
+    NSString* firstMatch = [str substringWithRange:rangeFirst];
+    NSString* modifiedStr = [str stringByReplacingCharactersInRange:rangeFirst withString:[@[firstMatch, stringToAppend] componentsJoinedByString:@""]];
+    return modifiedStr;
+}
+
+
 
 
 @end

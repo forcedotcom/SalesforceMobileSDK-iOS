@@ -22,6 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceRest/SFRestAPI+Blocks.h>
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
 #import "SFSyncTarget.h"
@@ -40,10 +41,6 @@ extern NSString * const kSyncManagerLocal;
 extern NSString * const kSyncManagerLocallyCreated;
 extern NSString * const kSyncManagerLocallyUpdated;
 extern NSString * const kSyncManagerLocallyDeleted;
-
-extern NSString * const kSyncManagerOptionsFieldlist;
-
-extern NSString * const kSyncManagerLastModifiedDate;
 
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
@@ -82,6 +79,10 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/** Send request with smartsync user agent
+ */
+- (void) sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;
 
 
 @end

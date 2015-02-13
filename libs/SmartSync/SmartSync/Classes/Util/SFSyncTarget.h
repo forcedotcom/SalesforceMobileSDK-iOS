@@ -26,7 +26,7 @@
 
 @class SFSmartSyncSyncManager;
 
-typedef void (^SFSyncTargetFetchCompleteBlock) (NSInteger totalSize, NSArray* records);
+typedef void (^SFSyncTargetFetchCompleteBlock) (NSArray* records);
 typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
 
 
@@ -46,6 +46,8 @@ extern NSString * const kSFSyncTargetQueryType;
 // True when initialized from empty dictionary
 @property (nonatomic) BOOL    isUndefined;
 
+// Set during a fetch
+@property (nonatomic)         NSUInteger totalSize;
 
 /** Methods to translate to/from dictionary
  */
@@ -56,15 +58,15 @@ extern NSString * const kSFSyncTargetQueryType;
  */
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock;
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
 
 /**
  * Continue fetching records conforming to target if any
  */
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock;
+            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
 
 /** Enum to/from string helper methods
  */

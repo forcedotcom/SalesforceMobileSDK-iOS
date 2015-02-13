@@ -62,15 +62,15 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
          errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 ABSTRACT_METHOD
 
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
-    completeBlock(-1, nil);
+    completeBlock(nil);
 }
 
 #pragma mark - string to/from enum for query type
