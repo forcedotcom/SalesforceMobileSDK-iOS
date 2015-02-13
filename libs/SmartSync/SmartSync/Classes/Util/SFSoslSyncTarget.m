@@ -23,8 +23,16 @@
  */
 
 #import "SFSoslSyncTarget.h"
+#import "SFSmartSyncSyncManager.h"
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 NSString * const kSFSoslSyncTargetQuery = @"query";
+
+@interface SFSmartSyncSyncManager ()
+
+- (void) sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;
+
+@end
 
 @interface SFSoslSyncTarget ()
 
@@ -78,5 +86,22 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
     return dict;
 }
+
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+{
+    SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *records) {
+        NSUInteger totalSize = [records count];
+        completeBlock(totalSize, records);
+    };
+    
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:self.query];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:completeBlockSOSL];
+}
+
 
 @end

@@ -27,6 +27,11 @@
 #import "SFSoqlSyncTarget.h"
 #import "SFSoslSyncTarget.h"
 
+#define ABSTRACT_METHOD {\
+[self doesNotRecognizeSelector:_cmd]; \
+__builtin_unreachable(); \
+}
+
 NSString * const kSFSyncTargetQueryType = @"type";
 
 // query types
@@ -51,10 +56,21 @@ NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
     return nil;
 }
 
-- (NSDictionary*) asDict {
-    @throw [NSException exceptionWithName:NSInternalInconsistencyException
-                                   reason:@"You must override asDict in a subclass"
-                                 userInfo:nil];
+- (NSDictionary*) asDict ABSTRACT_METHOD
+
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+ABSTRACT_METHOD
+
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+{
+    completeBlock(-1, nil);
 }
 
 #pragma mark - string to/from enum for query type

@@ -24,6 +24,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFSmartSyncSyncManager;
+
+typedef void (^SFSyncTargetFetchCompleteBlock) (NSInteger totalSize, NSArray* records);
+typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
+
+
+
 typedef enum {
   SFSyncTargetQueryTypeMru,
   SFSyncTargetQueryTypeSosl,
@@ -44,6 +51,20 @@ extern NSString * const kSFSyncTargetQueryType;
  */
 + (SFSyncTarget*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
+
+/** Sart fetching records conforming to target
+ */
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock;
+
+/**
+ * Continue fetching records conforming to target if any
+ */
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock;
 
 /** Enum to/from string helper methods
  */

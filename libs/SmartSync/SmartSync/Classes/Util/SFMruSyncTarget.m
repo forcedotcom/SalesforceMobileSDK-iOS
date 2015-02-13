@@ -83,4 +83,12 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     return dict;
 }
 
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager maxTimeStamp:(long long)maxTimeStamp completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    // TBD
+    completeBlock(0, nil);
+}
+
 @end

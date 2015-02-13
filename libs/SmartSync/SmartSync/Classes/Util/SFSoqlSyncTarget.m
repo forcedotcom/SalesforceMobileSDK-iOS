@@ -79,4 +79,19 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     return dict;
 }
 
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager maxTimeStamp:(long long)maxTimeStamp completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    // TBD
+    completeBlock(0, nil);
+}
+
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    // TBD
+    completeBlock(-1, nil);
+}
+
+
 @end
