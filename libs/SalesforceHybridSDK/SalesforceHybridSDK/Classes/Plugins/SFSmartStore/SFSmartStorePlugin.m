@@ -39,6 +39,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
 
+NSString * const kStoreNameArg        = @"storeName";
 NSString * const kSoupNameArg         = @"soupName";
 NSString * const kEntryIdsArg         = @"entryIds";
 NSString * const kCursorIdArg         = @"cursorId";
@@ -113,6 +114,37 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 }
 
 #pragma mark - SmartStore plugin methods
+
+- (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command
+{
+    NSDate *startTime = [NSDate date];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveStoreWithName" withArguments:command.arguments];
+    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called."];
+    [SFSmartStore removeAllStores];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+
+    [self log:SFLogLevelDebug format:@"pgRemoveAllStores returning after %f secs.", -[startTime timeIntervalSinceNow]];
+}
+
+- (void)pgRemoveStore:(CDVInvokedUrlCommand *)command
+{
+    NSDate *startTime = [NSDate date];
+    NSString* callbackId = command.callbackId;
+    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveStoreWithName" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    NSString *storeName = [argsDict nonNullObjectForKey:kStoreNameArg];
+    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called for store name '%@'.", storeName];
+
+    [SFSmartStore removeSharedStoreWithName:storeName];
+
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
+
+    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName returning after %f secs.", -[startTime timeIntervalSinceNow]];
+}
+
 
 - (void)pgSoupExists:(CDVInvokedUrlCommand *)command
 {
