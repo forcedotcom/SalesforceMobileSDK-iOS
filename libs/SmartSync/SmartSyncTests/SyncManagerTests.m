@@ -35,6 +35,9 @@
 #import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
+#import <SmartSync/SFSoqlSyncTarget.h>
+#import <SmartSync/SFSoslSyncTarget.h>
+#import <SmartSync/SFMruSyncTarget.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
@@ -477,7 +480,7 @@ static NSException *authException = nil;
     
     // Create sync
     NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
-    SFSyncTarget* target = [SFSyncTarget newSyncTargetForSOQLSyncDown:soql];
+    SFSoqlSyncTarget* target = [SFSoqlSyncTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
     NSInteger syncId = sync.syncId;
@@ -553,9 +556,20 @@ static NSException *authException = nil;
         XCTAssertFalse(sync.target.isUndefined);
         if (sync.target) {
             XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
-            XCTAssertEqualObjects(expectedTarget.query, sync.target.query);
-            XCTAssertEqualObjects(expectedTarget.objectType, sync.target.objectType);
-            XCTAssertEqualObjects(expectedTarget.fieldlist, sync.target.fieldlist);
+            if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
+                XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
+            }
+            else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
+                XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
+
+            }
+            else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
+                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
+            }
         }
     }
     else {

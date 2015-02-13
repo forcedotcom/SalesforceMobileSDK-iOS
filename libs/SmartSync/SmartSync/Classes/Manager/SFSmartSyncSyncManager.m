@@ -33,6 +33,11 @@
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
+// Will go away once we are done refactoring SFSyncTarget
+#import "SFMruSyncTarget.h"
+#import "SFSoqlSyncTarget.h"
+#import "SFSoslSyncTarget.h"
+
 // For user agent
 NSString * const kUserAgent = @"User-Agent";
 NSString * const kSmartSync = @"SmartSync";
@@ -280,13 +285,13 @@ static NSMutableDictionary *syncMgrList = nil;
     
     switch (target.queryType) {
         case SFSyncTargetQueryTypeMru:
-            [self syncDownMru:mergeMode objectType:target.objectType fieldlist:target.fieldlist soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownMru:mergeMode objectType:((SFMruSyncTarget*) target).objectType fieldlist:((SFMruSyncTarget*) target).fieldlist soup:soupName updateSync:updateSync failRest:failRest];
             break;
         case SFSyncTargetQueryTypeSoql:
-            [self syncDownSoql:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:sync.maxTimeStamp];
+            [self syncDownSoql:mergeMode query:((SFSoqlSyncTarget*) target).query soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:sync.maxTimeStamp];
             break;
         case SFSyncTargetQueryTypeSosl:
-            [self syncDownSosl:mergeMode query:target.query soup:soupName updateSync:updateSync failRest:failRest];
+            [self syncDownSosl:mergeMode query:((SFSoslSyncTarget*) target).query soup:soupName updateSync:updateSync failRest:failRest];
             break;
     }
 }

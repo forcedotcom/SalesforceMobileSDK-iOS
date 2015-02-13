@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,31 +23,17 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSyncTarget.h"
 
-typedef enum {
-  SFSyncTargetQueryTypeMru,
-  SFSyncTargetQueryTypeSosl,
-  SFSyncTargetQueryTypeSoql
-} SFSyncTargetQueryType;
+extern NSString * const kSFSoslSyncTargetQuery;
 
-extern NSString * const kSFSyncTargetQueryType;
+@interface SFSoslSyncTarget : SFSyncTarget
 
-@interface SFSyncTarget : NSObject
+@property (nonatomic, strong, readonly) NSString* query;
 
-@property (nonatomic)         SFSyncTargetQueryType queryType;
-
-// True when initialized from empty dictionary
-@property (nonatomic) BOOL    isUndefined;
-
-
-/** Methods to translate to/from dictionary
+/** Factory methods
  */
-+ (SFSyncTarget*) newFromDict:(NSDictionary *)dict;
-- (NSDictionary*) asDict;
-
-/** Enum to/from string helper methods
- */
-+ (SFSyncTargetQueryType) queryTypeFromString:(NSString*)queryType;
-+ (NSString*) queryTypeToString:(SFSyncTargetQueryType)queryType;
++ (SFSoslSyncTarget*) newSyncTarget:(NSString*)query;
++ (SFSoslSyncTarget*) newFromDict:(NSDictionary *)dict;
 
 @end
