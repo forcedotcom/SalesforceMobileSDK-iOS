@@ -29,7 +29,7 @@ extern NSString * const kSFSoqlSyncTargetQuery;
 
 @interface SFSoqlSyncTarget : SFSyncTarget
 
-@property (nonatomic, strong, readonly) NSString* query;
+@property (nonatomic, strong) NSString* query;
 
 + (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
 

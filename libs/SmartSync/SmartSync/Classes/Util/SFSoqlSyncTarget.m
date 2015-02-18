@@ -31,7 +31,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 @interface SFSoqlSyncTarget ()
 
-@property (nonatomic, strong, readwrite) NSString* query;
 @property (nonatomic, strong, readwrite) NSString* nextRecordsUrl;
 
 @end
@@ -54,7 +53,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncTarget* syncTarget = nil;
     if (dict != nil && [dict count] != 0) {
         syncTarget = [[SFSoqlSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeMru;
         syncTarget.queryType = SFSyncTargetQueryTypeSoql;
         syncTarget.query = dict[kSFSoqlSyncTargetQuery];
     }

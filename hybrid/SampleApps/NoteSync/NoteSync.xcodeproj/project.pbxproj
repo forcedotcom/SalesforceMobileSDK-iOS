@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1FD0801A9559D3006E1795 /* SFContentSoqlSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncTarget.m */; };
 		4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */; };
 		4F22154D19DF44E100FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22154E19DF44E100FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */; };
@@ -161,6 +162,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F1FD07E1A95593A006E1795 /* SFContentSoqlSyncTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContentSoqlSyncTarget.h; sourceTree = "<group>"; };
+		4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContentSoqlSyncTarget.m; sourceTree = "<group>"; };
 		4F2147AC193D20C80010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
 		4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
@@ -461,6 +464,8 @@
 				8272301B19D764160066A350 /* InitialViewController.m */,
 				82638F0A19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */,
 				82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */,
+				4F1FD07E1A95593A006E1795 /* SFContentSoqlSyncTarget.h */,
+				4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncTarget.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -583,6 +588,7 @@
 				8272301C19D764160066A350 /* InitialViewController.m in Sources */,
 				82AF5AE61A0DADA4006C7A4B /* CDVLogger.m in Sources */,
 				4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */,
+				4F1FD0801A9559D3006E1795 /* SFContentSoqlSyncTarget.m in Sources */,
 				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
 				82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */,
 				4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */,
