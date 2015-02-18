@@ -117,32 +117,21 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 
 - (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command
 {
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveStoreWithName" withArguments:command.arguments];
-    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called."];
-    [SFSmartStore removeAllStores];
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-
-    [self log:SFLogLevelDebug format:@"pgRemoveAllStores returning after %f secs.", -[startTime timeIntervalSinceNow]];
+    [self runCommand:^(NSDictionary* argsDict) {
+        [self log:SFLogLevelDebug format:@"pgRemoveAllStores called."];
+        [SFSmartStore removeAllStores];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    } command:command];
 }
 
 - (void)pgRemoveStore:(CDVInvokedUrlCommand *)command
 {
-    NSDate *startTime = [NSDate date];
-    NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"pgRemoveStoreWithName" withArguments:command.arguments];
-    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
-    NSString *storeName = [argsDict nonNullObjectForKey:kStoreNameArg];
-    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called for store name '%@'.", storeName];
-
-    [SFSmartStore removeSharedStoreWithName:storeName];
-
-    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
-    [self writeSuccessResultToJsRealm:result callbackId:callbackId];
-
-    [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName returning after %f secs.", -[startTime timeIntervalSinceNow]];
+    [self runCommand:^(NSDictionary* argsDict) {
+        NSString *storeName = [argsDict nonNullObjectForKey:kStoreNameArg];
+        [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called for store name '%@'.", storeName];
+        [SFSmartStore removeSharedStoreWithName:storeName];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
+    } command:command];
 }
 
 
