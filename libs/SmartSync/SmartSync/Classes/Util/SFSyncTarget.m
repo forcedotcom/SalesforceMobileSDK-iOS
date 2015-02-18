@@ -85,8 +85,8 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeMru]) {
         return SFSyncTargetQueryTypeMru;
     }
-    if ([queryType isEqualToString:kSFSyncTargetQueryTypeSoql]) {
-        return SFSyncTargetQueryTypeSoql;
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeSosl]) {
+        return SFSyncTargetQueryTypeSosl;
     }
     // Must be custom
     return SFSyncTargetQueryTypeCustom;
