@@ -30,6 +30,10 @@
 
 + (NSString *)formatLocalDateToGMTString:(NSDate *)localDate;
 
++ (long long) getMillisFromIsoString:(NSString*) dateStr;
+
++ (NSString*) getIsoStringFromMillis:(long long) millis;
+
 + (BOOL)isEmpty:(NSString *)value;
 
 @end

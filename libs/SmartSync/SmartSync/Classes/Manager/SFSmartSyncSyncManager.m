@@ -26,6 +26,7 @@
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
@@ -73,9 +74,6 @@ typedef enum {
     kSyncManagerActionDelete
 } SFSyncManagerAction;
 
-// date formatter
-static NSDateFormatter* isoDateFormatter;
-
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
@@ -96,12 +94,6 @@ static NSMutableDictionary *syncMgrList = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         syncMgrList = [[NSMutableDictionary alloc] init];
-        
-        // date formatter initialization
-        if (!isoDateFormatter) {
-            isoDateFormatter = [NSDateFormatter new];
-            isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        }
     });
     @synchronized([SFSmartSyncSyncManager class]) {
         if (user) {
@@ -348,19 +340,10 @@ static NSMutableDictionary *syncMgrList = nil;
         if (!timeStampStr) {
             break; // LastModifiedDate field not present
         }
-        long long timeStamp = [self getTimeMillisFromString:timeStampStr];
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
         maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
     }
     return maxTimeStamp;
-}
-
-- (long long) getTimeMillisFromString:(NSString*)dateStr {
-    long long millis = -1;
-    NSDate* date = [isoDateFormatter dateFromString:dateStr];
-    if (date) {
-        millis = (long long) (date.timeIntervalSince1970 * 1000.0);
-    }
-    return millis;
 }
 
 - (NSArray*) flatten:(NSArray*)results {
@@ -527,8 +510,8 @@ static NSMutableDictionary *syncMgrList = nil;
 - (void)isNewerThanServer:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSString* objectId = record[kId];
-    NSString* lastModifiedDateString = record[kLastModifiedDate];
-    long long lastModifiedDate = [self getTimeMillisFromString:lastModifiedDateString];
+    NSString* lastModifiedDateStr = record[kLastModifiedDate];
+    long long lastModifiedDate = [SFSmartSyncObjectUtils getMillisFromIsoString:lastModifiedDateStr];
     __block long long serverLastModified = -1;
     SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kLastModifiedDate];
     [soqlBuilder from:objectType];
@@ -544,9 +527,9 @@ static NSMutableDictionary *syncMgrList = nil;
             if (nil != d) {
                 NSDictionary *record = d[@"records"][0];
                 if (nil != record) {
-                    NSString *serverLastMod = record[kLastModifiedDate];
-                    if (nil != serverLastMod) {
-                        serverLastModified = [self getTimeMillisFromString:serverLastMod];
+                    NSString *serverLastModifiedStr = record[kLastModifiedDate];
+                    if (nil != serverLastModifiedStr) {
+                        serverLastModified = [SFSmartSyncObjectUtils getMillisFromIsoString:serverLastModifiedStr];
                     }
                 }
             }

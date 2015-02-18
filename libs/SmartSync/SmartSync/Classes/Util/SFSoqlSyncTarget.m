@@ -25,6 +25,7 @@
 #import "SFSoqlSyncTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 
 NSString * const kSFSoqlSyncTargetQuery = @"query";
 
@@ -94,10 +95,10 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [self addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
     }
     
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:self.query];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
         weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
@@ -122,22 +123,24 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
-- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp {
++ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp
+{
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
-        NSDate* maxTimeStampDate = [NSDate dateWithTimeIntervalSince1970:((double)maxTimeStamp)/1000.0];
-        NSString* extraPredicate =  @""; // FIXME // [@[kLastModifiedDate, @">", [isoDateFormatter stringFromDate:maxTimeStampDate]] componentsJoinedByString:@" "];
+        NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+        NSString* extraPredicate =  [@[kLastModifiedDate, @">", maxTimeStampStr] componentsJoinedByString:@" "];
         if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
-            queryToRun = [self appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
+            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
         }
         else {
-            queryToRun = [self appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
+            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
         }
     }
     return queryToRun;
 }
 
-- (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend {
++ (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend
+{
     NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
     NSString* firstMatch = [str substringWithRange:rangeFirst];
