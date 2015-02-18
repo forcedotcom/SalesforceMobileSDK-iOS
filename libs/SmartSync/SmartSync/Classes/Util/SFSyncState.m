@@ -102,7 +102,6 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeUp,
-                           kSFSyncStateTarget: @{},
                            kSFSyncStateSoupName: soupName,
                            kSFSyncStateOptions: [options asDict],
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
@@ -144,7 +143,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 - (void) fromDict:(NSDictionary*) dict {
     self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
     self.type = [SFSyncState syncTypeFromString:dict[kSFSyncStateType]];
-    self.target = [SFSyncTarget newFromDict:dict[kSFSyncStateTarget]];
+    self.target = (dict[kSFSyncStateTarget] == nil ? nil : [SFSyncTarget newFromDict:dict[kSFSyncStateTarget]]);
     self.soupName = dict[kSFSyncStateSoupName];
     self.options = [SFSyncOptions newFromDict:dict[kSFSyncStateOptions]];
     self.status = [SFSyncState syncStatusFromString:dict[kSFSyncStateStatus]];

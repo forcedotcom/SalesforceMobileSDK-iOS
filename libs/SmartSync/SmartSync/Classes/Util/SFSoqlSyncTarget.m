@@ -22,13 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFsoqlSyncTarget.h"
+#import "SFSoqlSyncTarget.h"
+#import "SFSmartSyncSyncManager.h"
+#import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 
 NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 @interface SFSoqlSyncTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* query;
+@property (nonatomic, strong, readwrite) NSString* nextRecordsUrl;
 
 @end
 
@@ -40,7 +44,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
     syncTarget.queryType = SFSyncTargetQueryTypeSoql;
     syncTarget.query = query;
-    syncTarget.isUndefined = NO;
     return syncTarget;
 }
 
@@ -48,35 +51,89 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 #pragma mark - From/to dictionary
 
 + (SFSoqlSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
-    if (syncTarget) {
-        if (dict == nil || [dict count] == 0) {
-            syncTarget.isUndefined = YES;
-        }
-        else {
-            syncTarget.isUndefined = NO;
-            syncTarget.queryType = SFSyncTargetQueryTypeSoql;
-            syncTarget.query = dict[kSFSoqlSyncTargetQuery];
-        }
+    SFSoqlSyncTarget* syncTarget = nil;
+    if (dict != nil && [dict count] != 0) {
+        syncTarget = [[SFSoqlSyncTarget alloc] init];
+        syncTarget.queryType = SFSyncTargetQueryTypeMru;
+        syncTarget.queryType = SFSyncTargetQueryTypeSoql;
+        syncTarget.query = dict[kSFSoqlSyncTargetQuery];
     }
-    
     return syncTarget;
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict;
+    return @{
+             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSoqlSyncTargetQuery: self.query
+             };
+}
 
-    if (self.isUndefined) {
-        dict = @{};
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    __weak SFSoqlSyncTarget* weakSelf = self;
+
+    // Resync?
+    NSString* queryToRun = self.query;
+    if (maxTimeStamp > 0) {
+        queryToRun = [SFSoqlSyncTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+    }
+    
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+        weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
+        weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
+        completeBlock(d[kResponseRecords]);
+    }];
+}
+
+- (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
+            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    if (self.nextRecordsUrl) {
+        __weak SFSoqlSyncTarget* weakSelf = self;
+        SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
+        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+            weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
+            completeBlock(d[kResponseRecords]);
+        }];
     }
     else {
-        dict = @{
-        kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-        kSFSoqlSyncTargetQuery: self.query
-        };
+        completeBlock(nil);
     }
-
-    return dict;
 }
+
++ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp
+{
+    NSString* queryToRun = query;
+    if (maxTimeStamp > 0) {
+        NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+        NSString* extraPredicate =  [@[kLastModifiedDate, @">", maxTimeStampStr] componentsJoinedByString:@" "];
+        if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
+            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
+        }
+        else {
+            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
+        }
+    }
+    return queryToRun;
+}
+
++ (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend
+{
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
+    NSString* firstMatch = [str substringWithRange:rangeFirst];
+    NSString* modifiedStr = [str stringByReplacingCharactersInRange:rangeFirst withString:[@[firstMatch, stringToAppend] componentsJoinedByString:@""]];
+    return modifiedStr;
+}
+
+
+
 
 @end

@@ -31,7 +31,6 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
 @property (nonatomic, readwrite)         SFSyncStateMergeMode mergeMode;
-@property (nonatomic, readwrite)         BOOL isUndefined;
 
 @end
 
@@ -47,14 +46,12 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.fieldlist = fieldlist;
     syncOptions.mergeMode = mergeMode;
-    syncOptions.isUndefined = NO;
     return syncOptions;
 }
 
 + (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode {
     SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
     syncOptions.mergeMode = mergeMode;
-    syncOptions.isUndefined = NO;
     return syncOptions;
 }
 
@@ -62,17 +59,11 @@ NSString * const kSFSyncOptionsMergeMode = @"mergeMode";
 #pragma mark - From/to dictionary
 
 + (SFSyncOptions*) newFromDict:(NSDictionary*)dict {
-    SFSyncOptions* syncOptions = [[SFSyncOptions alloc] init];
-    
-    if (syncOptions) {
-        if (dict == nil || [dict count] == 0) {
-            syncOptions.isUndefined = YES;
-        }
-        else {
-            syncOptions.isUndefined = NO;
-            syncOptions.mergeMode = [SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]];
-            syncOptions.fieldlist = dict[kSFSyncOptionsFieldlist];
-        }
+    SFSyncOptions* syncOptions = nil;
+    if (dict != nil && [dict count] != 0) {
+        syncOptions = [[SFSyncOptions alloc] init];
+        syncOptions.mergeMode = [SFSyncState mergeModeFromString:dict[kSFSyncOptionsMergeMode]];
+        syncOptions.fieldlist = dict[kSFSyncOptionsFieldlist];
     }
     return syncOptions;
 }

@@ -28,8 +28,6 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceRestAPI/SFRestAPI.h>
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
@@ -460,14 +458,14 @@ static NSException *authException = nil;
     NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE LastModifiedDate > %@ and Name = 'John' LIMIT 100", dateStr];
 
     // Tests
-    XCTAssertEqualObjects(basicQuery, [syncManager addFilterForReSync:originalBasicQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQuery, [syncManager addFilterForReSync:originalLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQuery, [syncManager addFilterForReSync:originalNameQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQuery, [syncManager addFilterForReSync:originalNameLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(basicQueryUpper, [syncManager addFilterForReSync:originalBasicQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQueryUpper, [syncManager addFilterForReSync:originalLimitQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQueryUpper, [syncManager addFilterForReSync:originalNameQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQueryUpper, [syncManager addFilterForReSync:originalNameLimitQueryUpper maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(basicQuery, [SFSoqlSyncTarget addFilterForReSync:originalBasicQuery maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(limitQuery, [SFSoqlSyncTarget addFilterForReSync:originalLimitQuery maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameQuery, [SFSoqlSyncTarget addFilterForReSync:originalNameQuery maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameLimitQuery, [SFSoqlSyncTarget addFilterForReSync:originalNameLimitQuery maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(basicQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalBasicQueryUpper maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(limitQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalLimitQueryUpper maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalNameQueryUpper maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameLimitQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalNameLimitQueryUpper maxTimeStamp:dateLong]);
 }
 
 
@@ -553,38 +551,36 @@ static NSException *authException = nil;
     XCTAssertEqual(expectedTotalSize, sync.totalSize);
     
     if (expectedTarget) {
-        XCTAssertFalse(sync.target.isUndefined);
-        if (sync.target) {
-            XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
-            if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
-                XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
-            }
-            else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
-                XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
-
-            }
-            else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
-                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
-                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
-            }
+        XCTAssertNotNil(sync.target);
+        XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
+        if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
+            XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
+            XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
+            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
+            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeCustom) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncTarget class]]);
         }
     }
     else {
-        XCTAssertTrue(sync.target.isUndefined);
+        XCTAssertNil(sync.target);
     }
 
     if (expectedOptions) {
-        XCTAssertFalse(sync.options.isUndefined);
-        if (sync.target) {
-            XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
-            XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
-        }
+        XCTAssertNotNil(sync.options);
+        XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
+        XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
     }
     else {
-        XCTAssertTrue(sync.options.isUndefined);
+        XCTAssertNil(sync.options);
     }
 }
 

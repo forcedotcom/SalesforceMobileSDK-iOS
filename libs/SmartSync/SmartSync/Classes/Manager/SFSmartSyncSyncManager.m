@@ -25,13 +25,14 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
+#import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 // Will go away once we are done refactoring SFSyncTarget
 #import "SFMruSyncTarget.h"
@@ -54,29 +55,8 @@ NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
 NSString * const kSyncManagerLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncManagerLocallyDeleted = @"__locally_deleted__";
 
-// in options
-NSString * const kSyncManagerOptionsFieldlist = @"fieldlist";
-
-// in target
-NSString * const kSyncManagerTargetQueryType = @"type";
-NSString * const kSyncManagerTargetQuery = @"query";
-NSString * const kSyncManagerTargetObjectType = @"sobjectType";
-NSString * const kSyncManagerTargetFieldlist = @"fieldlist";
-
-// query types
-NSString * const kSyncManagerQueryTypeMru = @"mru";
-NSString * const kSyncManagerQueryTypeSoql = @"soql";
-NSString * const kSyncManagerQueryTypeSosl = @"sosl";
-
 // response
-NSString * const kSyncManagerObjectId = @"Id";
 NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
-NSString * const kSyncManagerObjectTypePath = @"attributes.type";
-NSString * const kSyncManagerResponseRecords = @"records";
-NSString * const kSyncManagerResponseTotalSize = @"totalSize";
-NSString * const kSyncManagerResponseNextRecordsUrl = @"nextRecordsUrl";
-NSString * const kSyncManagerRecentItems = @"recentItems";
-NSString * const kSyncManagerLastModifiedDate = @"LastModifiedDate";
 
 // dispatch queue
 char * const kSyncManagerQueue = "com.salesforce.smartsync.manager.syncmanager.QUEUE";
@@ -93,9 +73,6 @@ typedef enum {
     kSyncManagerActionUpdate,
     kSyncManagerActionDelete
 } SFSyncManagerAction;
-
-// date formatter
-static NSDateFormatter* isoDateFormatter;
 
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
@@ -117,12 +94,6 @@ static NSMutableDictionary *syncMgrList = nil;
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         syncMgrList = [[NSMutableDictionary alloc] init];
-        
-        // date formatter initialization
-        if (!isoDateFormatter) {
-            isoDateFormatter = [NSDateFormatter new];
-            isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-        }
     });
     @synchronized([SFSmartSyncSyncManager class]) {
         if (user) {
@@ -256,10 +227,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    if (sync.target.queryType != SFSyncTargetQueryTypeSoql) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong query type:%@", syncId, [SFSyncTarget queryTypeToString:sync.target.queryType]];
-        return nil;
-    }
     if (sync.status != SFSyncStateStatusDone) {
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
         return nil;
@@ -279,114 +246,45 @@ static NSMutableDictionary *syncMgrList = nil;
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncTarget* target = sync.target;
+    long long maxTimeStamp = sync.maxTimeStamp;
+
     SFRestFailBlock failRest = ^(NSError *error) {
         failSync(@"REST call failed", error);
     };
-    
-    switch (target.queryType) {
-        case SFSyncTargetQueryTypeMru:
-            [self syncDownMru:mergeMode objectType:((SFMruSyncTarget*) target).objectType fieldlist:((SFMruSyncTarget*) target).fieldlist soup:soupName updateSync:updateSync failRest:failRest];
-            break;
-        case SFSyncTargetQueryTypeSoql:
-            [self syncDownSoql:mergeMode query:((SFSoqlSyncTarget*) target).query soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:sync.maxTimeStamp];
-            break;
-        case SFSyncTargetQueryTypeSosl:
-            [self syncDownSosl:mergeMode query:((SFSoslSyncTarget*) target).query soup:soupName updateSync:updateSync failRest:failRest];
-            break;
-    }
-}
 
-/** Run a sync down for a mru target
- */
-- (void) syncDownMru:(SFSyncStateMergeMode)mergeMode objectType:(NSString*)sobjectType fieldlist:(NSArray*)fieldlist soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
-    __weak SFSmartSyncSyncManager *weakSelf = self;
-    
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:sobjectType];
-    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:^(NSDictionary* d) {
-        NSArray* recentItems = [weakSelf pluck:d[kSyncManagerRecentItems] key:kSyncManagerObjectId];
-        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
-                                 componentsJoinedByString:@""];
-        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:fieldlist]
-                            from:sobjectType]
-                           where:inPredicate]
-                          build];
-        [weakSelf syncDownSoql:mergeMode query:soql soup:soupName updateSync:updateSync failRest:failRest maxTimeStamp:0L];
-    }];
-}
-
-- (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
-    NSMutableArray* result = [NSMutableArray array];
-    for (NSDictionary* d in arrayOfDictionaries) {
-        [result addObject:d[key]];
-    }
-    return result;
-}
-
-/** Run a sync down for a soql target
- */
-- (void) syncDownSoql:(SFSyncStateMergeMode)mergeMode query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest maxTimeStamp:(long long)maxTimeStamp {
     __block NSUInteger countFetched = 0;
-    __block SFRestDictionaryResponseBlock completeBlockRecurse = ^(NSDictionary *d) {};
+    __block NSUInteger totalSize = 0;
+    __block SFSyncTargetFetchCompleteBlock completeBlockRecurse = ^(NSArray *records) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
-    SFRestDictionaryResponseBlock completeBlockSOQL = ^(NSDictionary *d) {
-        NSUInteger totalSize = [d[kSyncManagerResponseTotalSize] integerValue];
+    
+    SFSyncTargetFetchCompleteBlock completeBlock = ^(NSArray* records) {
+        totalSize = target.totalSize;
         if (countFetched == 0) { // after first request only
             updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
             if (totalSize == 0) {
                 return;
             }
         }
-
-        NSArray* recordsFetched = d[kSyncManagerResponseRecords];
-        countFetched += [recordsFetched count];
+        
+        countFetched += [records count];
         NSUInteger progress = 100*countFetched / totalSize;
-        long long maxTimeStampForFetched = [self getMaxTimeStamp:recordsFetched];
+        long long maxTimeStampForFetched = [self getMaxTimeStamp:records];
         
         // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
+        [weakSelf saveRecords:records soup:soupName mergeMode:mergeMode];
         // Update status
         updateSync(nil, progress, totalSize, maxTimeStampForFetched);
         
         // Fetch next records if any
-        NSString* nextRecordsUrl = d[kSyncManagerResponseNextRecordsUrl];
-        if (nextRecordsUrl) {
-            SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:nextRecordsUrl queryParams:nil];
-            [weakSelf sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockRecurse];
+        if (countFetched < totalSize) {
+            [target continueFetch:self errorBlock:failRest completeBlock:completeBlockRecurse];
         }
     };
     // initialize the alias
-    completeBlockRecurse = completeBlockSOQL;
+    completeBlockRecurse = completeBlock;
     
-    // Resync?
-    NSString* queryToRun = query;
-    if (maxTimeStamp > 0) {
-        queryToRun = [self addFilterForReSync:query maxTimeStamp:maxTimeStamp];
-    }
-
-    // Send request
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
-    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockSOQL];
-}
-
-/** Run a sync down for a sosl target
- */
-- (void) syncDownSosl:(SFSyncStateMergeMode)mergeMode  query:(NSString*)query soup:(NSString*)soupName updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
-    __weak SFSmartSyncSyncManager *weakSelf = self;
-    SFRestArrayResponseBlock completeBlockSOSL = ^(NSArray *recordsFetched) {
-        NSUInteger totalSize = [recordsFetched count];
-        updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
-        if (totalSize == 0) {
-            return;
-        }
-        // Save records
-        [weakSelf saveRecords:recordsFetched soup:soupName mergeMode:mergeMode];
-        // Update status
-        updateSync(kSFSyncStateStatusRunning, 100, totalSize, kSyncManagerUnchanged);
-    };
-    
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:query];
-    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlockSOSL];
-
+    // Start fetch
+    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failRest completeBlock:completeBlock];
 }
 
 - (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode{
@@ -394,13 +292,13 @@ static NSMutableDictionary *syncMgrList = nil;
     
     NSSet* idsToSkip = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
-        idsToSkip = [self getDirtyRecordIds:soupName idField:kSyncManagerObjectId];
+        idsToSkip = [self getDirtyRecordIds:soupName idField:kId];
     }
     
     // Prepare for smartstore
     for (NSDictionary* record in records) {
         // Skip?
-        if (idsToSkip != nil && [idsToSkip containsObject:record[kSyncManagerObjectId]]) {
+        if (idsToSkip != nil && [idsToSkip containsObject:record[kId]]) {
             continue;
         }
         
@@ -413,7 +311,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     // Save to smartstore
-    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kSyncManagerObjectId error:nil];
+    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kId error:nil];
 }
 
 - (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
@@ -434,48 +332,15 @@ static NSMutableDictionary *syncMgrList = nil;
 - (long long) getMaxTimeStamp:(NSArray*)records {
     long long maxTimeStamp = -1L;
     for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[kSyncManagerLastModifiedDate];
+        NSString* timeStampStr = record[kLastModifiedDate];
         if (!timeStampStr) {
             break; // LastModifiedDate field not present
         }
-        long long timeStamp = [self getTimeMillisFromString:timeStampStr];
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
         maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
     }
     return maxTimeStamp;
 }
-
-- (long long) getTimeMillisFromString:(NSString*)dateStr {
-    long long millis = -1;
-    NSDate* date = [isoDateFormatter dateFromString:dateStr];
-    if (date) {
-        millis = (long long) (date.timeIntervalSince1970 * 1000.0);
-    }
-    return millis;
-}
-
-- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp {
-    NSString* queryToRun = query;
-    if (maxTimeStamp > 0) {
-        NSDate* maxTimeStampDate = [NSDate dateWithTimeIntervalSince1970:((double)maxTimeStamp)/1000.0];
-        NSString* extraPredicate = [@[kSyncManagerLastModifiedDate, @">", [isoDateFormatter stringFromDate:maxTimeStampDate]] componentsJoinedByString:@" "];
-        if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
-            queryToRun = [self appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
-        }
-        else {
-            queryToRun = [self appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
-        }
-    }
-    return queryToRun;
-}
-
-- (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend {
-    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
-    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
-    NSString* firstMatch = [str substringWithRange:rangeFirst];
-    NSString* modifiedStr = [str stringByReplacingCharactersInRange:rangeFirst withString:[@[firstMatch, stringToAppend] componentsJoinedByString:@""]];
-    return modifiedStr;
-}
-
 
 - (NSArray*) flatten:(NSArray*)results {
     NSMutableArray* flatArray = [NSMutableArray new];
@@ -566,14 +431,14 @@ static NSMutableDictionary *syncMgrList = nil;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
 
     // Getting type and id
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
-    NSString* objectId = record[kSyncManagerObjectId];
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[kId];
 
     // Fields to save (in the case of create or update)
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
         for (NSString* fieldName in options.fieldlist) {
-            if (![fieldName isEqualToString:kSyncManagerObjectId]) {
+            if (![fieldName isEqualToString:kId]) {
                 if (record[fieldName] != nil)
                     fields[fieldName] = record[fieldName];
             }
@@ -607,7 +472,7 @@ static NSMutableDictionary *syncMgrList = nil;
     // Create handler
     SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
-        record[kSyncManagerObjectId] = d[kSyncManagerLObjectId];
+        record[kId] = d[kSyncManagerLObjectId];
         completeBlockUpdate(d);
     };
 
@@ -634,17 +499,17 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 - (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock {
-    [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
+    //[request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [self.restClient sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
 }
 
 - (void)isNewerThanServer:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kSyncManagerObjectTypePath];
-    NSString* objectId = record[kSyncManagerObjectId];
-    NSString* lastModifiedDateString = record[kSyncManagerLastModifiedDate];
-    long long lastModifiedDate = [self getTimeMillisFromString:lastModifiedDateString];
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[kId];
+    NSString* lastModifiedDateStr = record[kLastModifiedDate];
+    long long lastModifiedDate = [SFSmartSyncObjectUtils getMillisFromIsoString:lastModifiedDateStr];
     __block long long serverLastModified = -1;
-    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kSyncManagerLastModifiedDate];
+    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kLastModifiedDate];
     [soqlBuilder from:objectType];
     [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
     NSString *query = [soqlBuilder build];
@@ -658,9 +523,9 @@ static NSMutableDictionary *syncMgrList = nil;
             if (nil != d) {
                 NSDictionary *record = d[@"records"][0];
                 if (nil != record) {
-                    NSString *serverLastMod = record[kSyncManagerLastModifiedDate];
-                    if (nil != serverLastMod) {
-                        serverLastModified = [self getTimeMillisFromString:serverLastMod];
+                    NSString *serverLastModifiedStr = record[kLastModifiedDate];
+                    if (nil != serverLastModifiedStr) {
+                        serverLastModified = [SFSmartSyncObjectUtils getMillisFromIsoString:serverLastModifiedStr];
                     }
                 }
             }

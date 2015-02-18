@@ -23,9 +23,13 @@
  */
 
 #import "SFMruSyncTarget.h"
+#import "SFSmartSyncSyncManager.h"
+#import "SFSmartSyncSoqlBuilder.h"
+#import "SFSmartSyncConstants.h"
 
 NSString * const kSFSyncTargetObjectType = @"sobjectType";
 NSString * const kSFSyncTargetFieldlist = @"fieldlist";
+
 
 @interface SFMruSyncTarget ()
 
@@ -43,44 +47,65 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     syncTarget.queryType = SFSyncTargetQueryTypeMru;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
-    syncTarget.isUndefined = NO;
     return syncTarget;
 }
 
 #pragma mark - From/to dictionary
 
 + (SFMruSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFMruSyncTarget* syncTarget = [[SFMruSyncTarget alloc] init];
-    if (syncTarget) {
-        if (dict == nil || [dict count] == 0) {
-            syncTarget.isUndefined = YES;
-        }
-        else {
-            syncTarget.isUndefined = NO;
-            syncTarget.queryType = SFSyncTargetQueryTypeMru;
-            syncTarget.objectType = dict[kSFSyncTargetObjectType];
-            syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
-        }
+    SFMruSyncTarget* syncTarget = nil;
+    if (dict != nil && [dict count] != 0) {
+        syncTarget = [[SFMruSyncTarget alloc] init];
+        syncTarget.queryType = SFSyncTargetQueryTypeMru;
+        syncTarget.objectType = dict[kSFSyncTargetObjectType];
+        syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
     }
-    
     return syncTarget;
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict;
-
-    if (self.isUndefined) {
-        dict = @{};
-    }
-    else {
-        dict = @{
-        kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-        kSFSyncTargetObjectType: self.objectType,
-        kSFSyncTargetFieldlist: self.fieldlist
-        };
-    }
-
-    return dict;
+    return @{
+             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetObjectType: self.objectType,
+             kSFSyncTargetFieldlist: self.fieldlist
+             };
 }
+
+# pragma mark - Data fetching
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+{
+    __weak SFMruSyncTarget *weakSelf = self;
+    
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
+    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
+        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:kId];
+        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
+                                 componentsJoinedByString:@""];
+        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
+                            from:self.objectType]
+                           where:inPredicate]
+                          build];
+        
+        
+        SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:soql];
+        [syncManager sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
+            weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
+            completeBlock(d[kResponseRecords]);
+        }];
+    }];
+}
+
+- (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
+    NSMutableArray* result = [NSMutableArray array];
+    for (NSDictionary* d in arrayOfDictionaries) {
+        [result addObject:d[key]];
+    }
+    return result;
+}
+
 
 @end
