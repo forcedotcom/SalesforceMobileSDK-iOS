@@ -34,9 +34,6 @@ extern NSString * const kSFSyncOptionsMergeMode;
 @property (nonatomic, strong, readonly) NSArray*  fieldlist;
 @property (nonatomic, readonly) SFSyncStateMergeMode mergeMode;
 
-// True when initialized from empty dictionary
-@property (nonatomic, readonly) BOOL isUndefined;
-
 /** Factory methods
  */
 + (SFSyncOptions*) newSyncOptionsForSyncDown:(SFSyncStateMergeMode)mergeMode;

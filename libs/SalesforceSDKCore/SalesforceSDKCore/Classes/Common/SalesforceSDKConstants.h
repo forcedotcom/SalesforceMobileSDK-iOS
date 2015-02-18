@@ -35,6 +35,11 @@
 #define FIX_CATEGORY_BUG(name) @interface FIXCATEGORYBUG ## name @end @implementation FIXCATEGORYBUG ## name @end
 #define SFRelease(ivar) ivar = nil;
 
+#define ABSTRACT_METHOD {\
+[self doesNotRecognizeSelector:_cmd]; \
+__builtin_unreachable(); \
+}
+
 #ifdef __clang__
 #define SFSDK_DEPRECATED(version, msg) __attribute__((deprecated("Deprecated in Salesforce Mobile SDK " #version ". " msg)))
 #else

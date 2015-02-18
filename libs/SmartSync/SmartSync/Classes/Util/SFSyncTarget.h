@@ -34,17 +34,16 @@ typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
 typedef enum {
   SFSyncTargetQueryTypeMru,
   SFSyncTargetQueryTypeSosl,
-  SFSyncTargetQueryTypeSoql
+  SFSyncTargetQueryTypeSoql,
+  SFSyncTargetQueryTypeCustom
 } SFSyncTargetQueryType;
 
 extern NSString * const kSFSyncTargetQueryType;
+extern NSString * const kSFSyncTargetiOSImpl;
 
 @interface SFSyncTarget : NSObject
 
 @property (nonatomic)         SFSyncTargetQueryType queryType;
-
-// True when initialized from empty dictionary
-@property (nonatomic) BOOL    isUndefined;
 
 // Set during a fetch
 @property (nonatomic)         NSUInteger totalSize;

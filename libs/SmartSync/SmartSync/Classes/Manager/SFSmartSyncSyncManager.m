@@ -227,10 +227,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    if (sync.target.queryType != SFSyncTargetQueryTypeSoql) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong query type:%@", syncId, [SFSyncTarget queryTypeToString:sync.target.queryType]];
-        return nil;
-    }
     if (sync.status != SFSyncStateStatusDone) {
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
         return nil;

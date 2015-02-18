@@ -47,44 +47,28 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     syncTarget.queryType = SFSyncTargetQueryTypeMru;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
-    syncTarget.isUndefined = NO;
     return syncTarget;
 }
 
 #pragma mark - From/to dictionary
 
 + (SFMruSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFMruSyncTarget* syncTarget = [[SFMruSyncTarget alloc] init];
-    if (syncTarget) {
-        if (dict == nil || [dict count] == 0) {
-            syncTarget.isUndefined = YES;
-        }
-        else {
-            syncTarget.isUndefined = NO;
-            syncTarget.queryType = SFSyncTargetQueryTypeMru;
-            syncTarget.objectType = dict[kSFSyncTargetObjectType];
-            syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
-        }
+    SFMruSyncTarget* syncTarget = nil;
+    if (dict != nil && [dict count] != 0) {
+        syncTarget = [[SFMruSyncTarget alloc] init];
+        syncTarget.queryType = SFSyncTargetQueryTypeMru;
+        syncTarget.objectType = dict[kSFSyncTargetObjectType];
+        syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
     }
-    
     return syncTarget;
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict;
-
-    if (self.isUndefined) {
-        dict = @{};
-    }
-    else {
-        dict = @{
-        kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-        kSFSyncTargetObjectType: self.objectType,
-        kSFSyncTargetFieldlist: self.fieldlist
-        };
-    }
-
-    return dict;
+    return @{
+             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetObjectType: self.objectType,
+             kSFSyncTargetFieldlist: self.fieldlist
+             };
 }
 
 # pragma mark - Data fetching

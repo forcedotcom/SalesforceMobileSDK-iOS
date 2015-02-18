@@ -551,38 +551,36 @@ static NSException *authException = nil;
     XCTAssertEqual(expectedTotalSize, sync.totalSize);
     
     if (expectedTarget) {
-        XCTAssertFalse(sync.target.isUndefined);
-        if (sync.target) {
-            XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
-            if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
-                XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
-            }
-            else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
-                XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
-
-            }
-            else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
-                XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
-                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
-                XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
-            }
+        XCTAssertNotNil(sync.target);
+        XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
+        if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
+            XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
+            XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
+            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
+            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
+        }
+        else if (expectedTarget.queryType == SFSyncTargetQueryTypeCustom) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncTarget class]]);
         }
     }
     else {
-        XCTAssertTrue(sync.target.isUndefined);
+        XCTAssertNil(sync.target);
     }
 
     if (expectedOptions) {
-        XCTAssertFalse(sync.options.isUndefined);
-        if (sync.target) {
-            XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
-            XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
-        }
+        XCTAssertNotNil(sync.options);
+        XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);
+        XCTAssertEqualObjects(expectedOptions.fieldlist, sync.options.fieldlist);
     }
     else {
-        XCTAssertTrue(sync.options.isUndefined);
+        XCTAssertNil(sync.options);
     }
 }
 

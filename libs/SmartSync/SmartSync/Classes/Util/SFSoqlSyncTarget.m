@@ -44,7 +44,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
     syncTarget.queryType = SFSyncTargetQueryTypeSoql;
     syncTarget.query = query;
-    syncTarget.isUndefined = NO;
     return syncTarget;
 }
 
@@ -52,35 +51,21 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 #pragma mark - From/to dictionary
 
 + (SFSoqlSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
-    if (syncTarget) {
-        if (dict == nil || [dict count] == 0) {
-            syncTarget.isUndefined = YES;
-        }
-        else {
-            syncTarget.isUndefined = NO;
-            syncTarget.queryType = SFSyncTargetQueryTypeSoql;
-            syncTarget.query = dict[kSFSoqlSyncTargetQuery];
-        }
+    SFSoqlSyncTarget* syncTarget = nil;
+    if (dict != nil && [dict count] != 0) {
+        syncTarget = [[SFSoqlSyncTarget alloc] init];
+        syncTarget.queryType = SFSyncTargetQueryTypeMru;
+        syncTarget.queryType = SFSyncTargetQueryTypeSoql;
+        syncTarget.query = dict[kSFSoqlSyncTargetQuery];
     }
-    
     return syncTarget;
 }
 
 - (NSDictionary*) asDict {
-    NSDictionary* dict;
-
-    if (self.isUndefined) {
-        dict = @{};
-    }
-    else {
-        dict = @{
-        kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-        kSFSoqlSyncTargetQuery: self.query
-        };
-    }
-
-    return dict;
+    return @{
+             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSoqlSyncTargetQuery: self.query
+             };
 }
 
 # pragma mark - Data fetching

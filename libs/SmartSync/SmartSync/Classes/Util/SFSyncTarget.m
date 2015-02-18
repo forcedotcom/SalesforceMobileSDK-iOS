@@ -26,31 +26,34 @@
 #import "SFMruSyncTarget.h"
 #import "SFSoqlSyncTarget.h"
 #import "SFSoslSyncTarget.h"
-
-#define ABSTRACT_METHOD {\
-[self doesNotRecognizeSelector:_cmd]; \
-__builtin_unreachable(); \
-}
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 NSString * const kSFSyncTargetQueryType = @"type";
+NSString * const kSFSyncTargetiOSImpl = @"iOSImpl";
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
 NSString * const kSFSyncTargetQueryTypeSoql = @"soql";
 NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
+NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
+
 
 @implementation SFSyncTarget
 
 #pragma mark - From/to dictionary
 
 + (SFSyncTarget*) newFromDict:(NSDictionary*)dict {
+    NSString* implClassName;
     switch ([SFSyncTarget queryTypeFromString:dict[kSFSyncTargetQueryType]]) {
     case SFSyncTargetQueryTypeMru:
         return [SFMruSyncTarget newFromDict:dict];
     case SFSyncTargetQueryTypeSosl:
         return [SFSoslSyncTarget newFromDict:dict];
     case SFSyncTargetQueryTypeSoql:
-        return [SFSoqlSyncTarget newFromDict:dict];
+         return [SFSoqlSyncTarget newFromDict:dict];
+    case SFSyncTargetQueryTypeCustom:
+        implClassName = dict[kSFSyncTargetiOSImpl];
+        return [NSClassFromString(implClassName) newFromDict:dict];
     }
     // Fell through
     return nil;
@@ -82,8 +85,11 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeMru]) {
         return SFSyncTargetQueryTypeMru;
     }
-    // Must be SOSL
-    return SFSyncTargetQueryTypeSosl;
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeSoql]) {
+        return SFSyncTargetQueryTypeSoql;
+    }
+    // Must be custom
+    return SFSyncTargetQueryTypeCustom;
 }
 
 + (NSString*) queryTypeToString:(SFSyncTargetQueryType)queryType {
@@ -91,6 +97,7 @@ ABSTRACT_METHOD
         case SFSyncTargetQueryTypeMru:  return kSFSyncTargetQueryTypeMru;
         case SFSyncTargetQueryTypeSosl: return kSFSyncTargetQueryTypeSosl;
         case SFSyncTargetQueryTypeSoql: return kSFSyncTargetQueryTypeSoql;
+        case SFSyncTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
     }
 }
 
