@@ -25,7 +25,7 @@
 #import "ContactSObjectData.h"
 #import "ContactSObjectDataSpec.h"
 #import "SObjectData+Internal.h"
-#import <SmartSync/SFSmartSyncSyncManager.h>
+#import <SmartSync/SFSmartSyncConstants.h>
 
 @implementation ContactSObjectData
 
@@ -96,7 +96,7 @@
 }
 
 - (NSString*)lastModifiedDate {
-    return [self nonNullFieldValue:kSyncManagerLastModifiedDate];
+    return [self nonNullFieldValue:kLastModifiedDate];
 }
 
 @end
