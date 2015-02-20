@@ -266,6 +266,10 @@ static NSMutableDictionary *syncMgrList = nil;
             }
         }
         
+        if (records == nil || records.count == 0) {
+            // Shouldn't happen but custom target could be improperly coded
+            return;
+        }
         countFetched += [records count];
         NSUInteger progress = 100*countFetched / totalSize;
         long long maxTimeStampForFetched = [self getMaxTimeStamp:records];
@@ -438,7 +442,7 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
         for (NSString* fieldName in options.fieldlist) {
-            if (![fieldName isEqualToString:kId]) {
+            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
                 if (record[fieldName] != nil)
                     fields[fieldName] = record[fieldName];
             }
