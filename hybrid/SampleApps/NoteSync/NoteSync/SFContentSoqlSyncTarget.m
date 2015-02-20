@@ -140,7 +140,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         self.queryDone = [self.foundValue boolValue];
     }
     else if (self.inResult && [elementName isEqualToString:QUERY_LOCATOR]){
-        self.queryLocator = self.queryDone ? self.foundValue : nil;
+        self.queryLocator = self.queryDone ? nil : self.foundValue;
     }
     else if (self.inResult && [elementName isEqualToString:SIZE]) {
         self.totalSize = [self.foundValue integerValue];
@@ -149,8 +149,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         NSString* attributeName = [elementName substringFromIndex:[SF length]];
         self.record[attributeName] = self.foundValue;
     }
-    // Clear the mutable string.
-    [self.foundValue setString:@""];
+    self.foundValue = [NSMutableString new];
 }
 
 -(void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
@@ -162,7 +161,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 @interface SFSoapSoqlRequest : SFRestRequest
 
 @property (nonatomic, strong) NSString *query;
-@property (nonatomic)         BOOL isLocator;
+@property (nonatomic, strong) NSString *queryLocator;
 
 - (id)initWithQuery:(NSString*) query;
 - (id)initWithQueryLocator:(NSString*) queryLocator;
@@ -179,8 +178,8 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         self.path = SOAP_PATH;
         self.endpoint = SOAP_ENDPOINT;
         self.parseResponse = NO;
-        self.isLocator = NO;
         self.query = query;
+        self.queryLocator = nil;
         
     }
     return self;
@@ -194,8 +193,8 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         self.path = @"";
         self.endpoint = SOAP_ENDPOINT;
         self.parseResponse = NO;
-        self.isLocator = YES;
-        self.query = queryLocator;
+        self.query = nil;
+        self.queryLocator = queryLocator;
     }
     return self;
 }
@@ -203,22 +202,29 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 - (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine {
     NSString *url = [NSString stringWithFormat:@"%@%@", self.endpoint, self.path];
-    // FIXME get session id
-    [networkEngine post:url params:@{ SESSION_ID:@"", QUERY:self.query, IS_LOCATOR:self.isLocator ? @YES : @NO} ];
+    NSString* sessionId = [SFNetworkEngine sharedInstance].coordinator.accessToken;
+    NSString* body;
+    if (self.queryLocator) {
+        body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
+    }
+    else {
+        body = [NSString stringWithFormat:QUERY_TEMPLATE, self.query];
+    }
     
-    SFNetworkOperationEncodingBlock enncodingBlock = ^(NSDictionary *postDataDict) {
-        NSString* template = postDataDict[IS_LOCATOR] ? QUERY_MORE_TEMPLATE : QUERY_TEMPLATE;
-        return [NSString stringWithFormat:REQUEST_TEMPLATE, postDataDict[SESSION_ID], [NSString stringWithFormat:template, postDataDict[QUERY]]];
+    SFNetworkOperationEncodingBlock enncodingBlock = ^(NSDictionary *d) {
+        return [NSString stringWithFormat:REQUEST_TEMPLATE, sessionId, body];
     };
-    [self.networkOperation setCustomPostDataEncodingHandler:enncodingBlock forType:XML_MIME_TYPE];
 
+    self.networkOperation = [networkEngine post:url params:nil];
+    
     // Add any custom headers to the network operation.
+    [self.networkOperation setCustomPostDataEncodingHandler:enncodingBlock forType:XML_MIME_TYPE];
     if (self.customHeaders != nil) {
         [self.customHeaders enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
             [self.networkOperation setHeaderValue:obj forKey:key];
         }];
-        [self.networkOperation setHeaderValue:SOAP_ACTION forKey:SOAP_ACTION_VALUE];
     }
+    [self.networkOperation setHeaderValue:SOAP_ACTION_VALUE forKey:SOAP_ACTION];
     
     self.networkOperation.delegate = self;
     [networkEngine enqueueOperation:self.networkOperation];
@@ -296,11 +302,13 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         queryToRun = [SFSoqlSyncTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
     }
     
-    SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
-        weakSelf.queryLocator = response.queryLocator;
-        weakSelf.totalSize = response.totalSize;
-        completeBlock(response.records);
+    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
+        SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
+        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
+            weakSelf.queryLocator = response.queryLocator;
+            weakSelf.totalSize = response.totalSize;
+            completeBlock(response.records);
+        }];
     }];
 }
 

@@ -266,6 +266,10 @@ static NSMutableDictionary *syncMgrList = nil;
             }
         }
         
+        if (records == nil || records.count == 0) {
+            // Shouldn't happen but custom target could be improperly coded
+            return;
+        }
         countFetched += [records count];
         NSUInteger progress = 100*countFetched / totalSize;
         long long maxTimeStampForFetched = [self getMaxTimeStamp:records];
