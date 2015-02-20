@@ -956,6 +956,9 @@ static Class InstanceClass = nil;
                                                          if (authInfo.authType != SFOAuthTypeRefresh) {
                                                              [weakSelf log:SFLogLevelError format:@"Network failure for non-Refresh OAuth flow (%@) is a fatal error.", authInfo.authTypeDescription];
                                                              return NO;  // Default error handler will show the error.
+                                                         } else if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken == nil) {
+                                                             [weakSelf log:SFLogLevelWarning msg:@"Network unreachable for access token refresh, and no access token is configured.  Cannot continue."];
+                                                             return NO;
                                                          } else {
                                                              [weakSelf log:SFLogLevelInfo msg:@"Network failure for OAuth Refresh flow (existing credentials)  Try to continue."];
                                                              [weakSelf loggedIn:YES];
