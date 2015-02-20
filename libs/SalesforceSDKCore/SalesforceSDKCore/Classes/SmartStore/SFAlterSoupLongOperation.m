@@ -80,7 +80,7 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%ld soupName=%@ soupTableName=%@ afterStep=%lu reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
+    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%lu reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
             self.rowId,
             self.soupName,
             self.soupTableName,
