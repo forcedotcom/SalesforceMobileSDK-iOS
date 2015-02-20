@@ -116,9 +116,9 @@
 
 - (void)testStringURLWithNil
 {
-    STAssertNil([NSURL stringUrlWithScheme:nil host:@"test.salesforce.com" port:nil pathComponents:nil], @"Should return nil");
-    STAssertNil([NSURL stringUrlWithScheme:@"http" host:nil port:nil pathComponents:nil], @"Should return nil");
-    STAssertNil([NSURL stringUrlWithScheme:nil host:nil port:nil pathComponents:nil], @"Should return nil");
+    XCTAssertNil([NSURL stringUrlWithScheme:nil host:@"test.salesforce.com" port:nil pathComponents:nil], @"Should return nil");
+    XCTAssertNil([NSURL stringUrlWithScheme:@"http" host:nil port:nil pathComponents:nil], @"Should return nil");
+    XCTAssertNil([NSURL stringUrlWithScheme:nil host:nil port:nil pathComponents:nil], @"Should return nil");
 }
 
 @end
