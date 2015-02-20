@@ -239,10 +239,10 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 }
 
 - (void)networkOperationDidFinish:(SFNetworkOperation *)networkOperation {
-    __weak SFSoapSoqlRequest* weakSelf = self;
     if ([self.delegate respondsToSelector:@selector(request:didLoadResponse:)]) {
         NSData* data = [networkOperation responseAsData];
         if (data != nil) {
+            __weak SFSoapSoqlRequest* weakSelf = self;
             SFSoapSoqlResponse* response = [[SFSoapSoqlResponse alloc] init];
             [response parse:data completeBlock:^() {
                 [self.delegate request:self didLoadResponse:response];
