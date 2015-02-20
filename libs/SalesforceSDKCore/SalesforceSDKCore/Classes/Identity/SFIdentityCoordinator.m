@@ -198,7 +198,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     NSInteger intCode = kSFIdentityErrorUnknown;
     NSNumber *numCode = (self.typeToCodeDict)[type];
     if (numCode != nil) {
-        intCode = [numCode intValue];
+        intCode = [numCode integerValue];
     }
     
     NSDictionary *dict = @{kSFIdentityError: type,

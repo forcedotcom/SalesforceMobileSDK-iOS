@@ -27,12 +27,12 @@
 /**
  The type of authentication being attempted, in a given OAuth coordinator cycle.
  */
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFOAuthType) {
     SFOAuthTypeUnknown = 0,
     SFOAuthTypeUserAgent,
     SFOAuthTypeRefresh,
     SFOAuthTypeAdvancedBrowser
-} SFOAuthType;
+};
 
 /**
  Data class containing members denoting state information for an OAuth coordinator authentication
