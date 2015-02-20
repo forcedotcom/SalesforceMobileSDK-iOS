@@ -56,6 +56,7 @@
 #define QUERY_LOCATOR @"queryLocator"
 #define SIZE @"size"
 #define DONE @"done"
+#define TYPE @"type"
 
 // Params for SFSoapSoqlRequest
 #define SESSION_ID @"sessionId"
@@ -147,7 +148,12 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     }
     else if (self.inRecord && [elementName hasPrefix:SF]) {
         NSString* attributeName = [elementName substringFromIndex:[SF length]];
-        self.record[attributeName] = self.foundValue;
+        if ([attributeName isEqualToString:TYPE]) {
+            self.record[kAttributes] = @{ TYPE : self.foundValue };
+        }
+        else {
+            self.record[attributeName] = self.foundValue;
+        }
     }
     self.foundValue = [NSMutableString new];
 }

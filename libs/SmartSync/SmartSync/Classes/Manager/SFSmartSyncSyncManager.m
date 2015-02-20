@@ -442,7 +442,7 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
         for (NSString* fieldName in options.fieldlist) {
-            if (![fieldName isEqualToString:kId]) {
+            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
                 if (record[fieldName] != nil)
                     fields[fieldName] = record[fieldName];
             }
