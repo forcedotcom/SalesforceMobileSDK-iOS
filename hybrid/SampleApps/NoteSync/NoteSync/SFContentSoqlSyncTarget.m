@@ -39,7 +39,7 @@
 #define QUERY_MORE_TEMPLATE @"<queryMore xmlns=\"urn:partner.soap.sforce.com\" xmlns:ns1=\"sobject.partner.soap.sforce.com\">"\
 "<queryLocator>%@</queryLocator>"\
 "</queryMore>"
-#define SOAP_ENDPOINT @"/services/Soap/u/32.0"
+#define SOAP_ENDPOINT @"/services/Soap/u/33.0"
 #define SOAP_PATH @""
 
 // Soal request mime type
