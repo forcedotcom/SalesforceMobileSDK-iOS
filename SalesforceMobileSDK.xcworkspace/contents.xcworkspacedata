@@ -86,6 +86,9 @@
          location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:external/react-ios/ReactKit/ReactKit.xcodeproj">
+   </FileRef>
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
