@@ -13,3 +13,6 @@
 [submodule "libs/SalesforceNetworkSDK"]
 	path = libs/SalesforceNetworkSDK
 	url = https://github.com/forcedotcom/SalesforceNetworkSDK.git
+[submodule "external/react-ios"]
+	path = external/react-ios
+	url = https://git.soma.salesforce.com/wmathurin/react-ios
