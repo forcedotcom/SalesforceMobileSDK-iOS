@@ -90,14 +90,13 @@ typedef enum {
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, readonly) SFRestAPI *restClient;
-
+@property (nonatomic, strong) dispatch_queue_t queue;
 @end
 
 
 @implementation SFSmartSyncSyncManager
 
 static NSMutableDictionary *syncMgrList = nil;
-dispatch_queue_t queue;
 
 + (id)sharedInstance:(SFUserAccount *)user {
     static dispatch_once_t pred;
@@ -133,7 +132,7 @@ dispatch_queue_t queue;
     if (self) {
         self.user = user;
         [[SFAuthenticationManager sharedManager] addDelegate:self];
-        queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
     return self;
@@ -189,7 +188,7 @@ dispatch_queue_t queue;
     
     updateSync(kSFSyncStateStatusRunning, 0, -1);
     // Run on background thread
-    dispatch_async(queue, ^{
+    dispatch_async(self.queue, ^{
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
                 [weakSelf syncDown:sync updateSync:updateSync failSync:failSync];
@@ -433,6 +432,7 @@ dispatch_queue_t queue;
     if (action == kSyncManagerActionNone) {
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        return;
     }
     
     // Getting type and id
