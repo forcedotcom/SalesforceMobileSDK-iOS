@@ -24,6 +24,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface InitialViewController : UIViewController
 
 @end

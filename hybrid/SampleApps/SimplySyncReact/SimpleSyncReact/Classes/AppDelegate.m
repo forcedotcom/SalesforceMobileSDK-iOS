@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,11 +24,13 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import <ReactKit/RCTRootView.h>
+#import "RootViewController.h"
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceCommonUtils/SFLogger.h>
+
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
@@ -58,7 +60,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self = [super init];
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
-        
+
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -79,6 +81,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             [weakSelf handleUserSwitch:fromUser toUser:toUser];
         };
     }
+        
     return self;
 }
 
@@ -86,7 +89,25 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    
+
+    for(NSString* family in [UIFont familyNames]){
+        NSLog(@"%@",family);
+        for(NSString* name in [UIFont fontNamesForFamilyName:family]){
+            NSLog(@"%@",name);
+        }
+    }
+/*
+    [[UIView appearance] setMultipleTouchEnabled:false];
+    [[UILabel appearance] setFont:[UIFont fontWithName:@"ProximaNovaSoft-Regular" size:12.0]];
+
+    NSShadow* shadow = [NSShadow new];
+    shadow.shadowOffset = CGSizeMake(0.0f, 1.0f);
+    shadow.shadowColor = [UIColor redColor];
+    [[UINavigationBar appearance] setMultipleTouchEnabled:false];
+    [[UINavigationBar appearance] setTitleTextAttributes: @{
+                                                                                                                        NSFontAttributeName: [UIFont fontWithName:@"ProximaNovaSoft-Regular" size:12.0f],
+                                                                                                    }];
+ */
     //
     // If you wish to register for push notifications, uncomment the line below.  Note that,
     // if you want to receive push notifications from Salesforce, you will also need to
@@ -94,7 +115,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //
     //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
     //
-    
+//  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
@@ -126,36 +147,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 
 - (void)setupRootViewController
 {
-    NSURL *jsCodeLocation;
-    RCTRootView *rootView = [[RCTRootView alloc] init];
-    
-    // Loading JavaScript code - uncomment the one you want.
-    
-    // OPTION 1
-    // Load from development server. Start the server from the repository root:
-    //
-    // $ npm start
-    //
-    // To run on device, change `localhost` to the IP address of your computer, and make sure your computer and
-    // iOS device are on the same Wi-Fi network.
-    // jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/Examples/Movies/MoviesApp.includeRequire.runModule.bundle"];
-    
-    // OPTION 2
-    // Load from pre-bundled file on disk. To re-generate the static bundle, run
-    //
-    // $ curl http://localhost:8081/Examples/Movies/MoviesApp.includeRequire.runModule.bundle -o main.jsbundle
-    //
-    // and uncomment the next following line
-    jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-    
-    rootView.scriptURL = jsCodeLocation;
-    rootView.moduleName = @"SimpleSyncApp";
-    
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    UIViewController *rootViewController = [[UIViewController alloc] init];
-    rootViewController.view = rootView;
-    self.window.rootViewController = rootViewController;
-    [self.window makeKeyAndVisible];
+    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
+//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    self.window.rootViewController = rootVC;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock
@@ -211,4 +205,3 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 }
 
 @end
-
