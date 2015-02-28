@@ -1,26 +1,35 @@
 'use strict';
 
 var React = require('react-native/addons');
-
 var {
-  Bundler,
+  AppRegistry,
   NavigatorIOS,
-  Text,
-  TouchableHighlight,
-  View,
+  StyleSheet,
 } = React;
 
+var SearchScreen = require('./SearchScreen');
+
 var App = React.createClass({
-  render () {
+  render: function() {
     return (
-      <View style={{flex:1}}>
-        <Text>Hello World</Text>
-      </View>
+      <NavigatorIOS
+        style={styles.container}
+        initialRoute={{
+          title: 'Users',
+          component: SearchScreen,
+        }}
+      />
     );
   }
 });
 
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+  },
+});
 
-Bundler.registerComponent('App', () => App);
+AppRegistry.registerComponent('App', () => App);
 
 module.exports = App;
