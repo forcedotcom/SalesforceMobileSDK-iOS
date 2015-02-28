@@ -11,6 +11,7 @@
 		4F2214251AA12CD7002818BA /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F2214201AA12CD7002818BA /* InitialViewController.xib */; };
 		4F2214261AA12CD7002818BA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214211AA12CD7002818BA /* RootViewController.m */; };
 		4F2214271AA12CD7002818BA /* SFDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214231AA12CD7002818BA /* SFDataManager.m */; };
+		4F2214A81AA14E4E002818BA /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */; };
 		4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */; };
 		4F22154D19DF44E100FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22154E19DF44E100FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */; };
@@ -115,6 +116,9 @@
 		4F2214221AA12CD7002818BA /* SFDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFDataManager.h; path = Classes/SFDataManager.h; sourceTree = "<group>"; };
 		4F2214231AA12CD7002818BA /* SFDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFDataManager.m; path = Classes/SFDataManager.m; sourceTree = "<group>"; };
 		4F2214A51AA1461D002818BA /* App.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = App.js; sourceTree = "<group>"; };
+		4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
+		4F2214A91AA14E6B002818BA /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
+		4F2214AA1AA14E6B002818BA /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
 		4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
@@ -312,6 +316,8 @@
 		824A9C5E1722021D00C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4F2214A91AA14E6B002818BA /* SFSmartStoreReactBridge.h */,
+				4F2214AA1AA14E6B002818BA /* RootViewController.h */,
 				4F22141E1AA12CD7002818BA /* InitialViewController.h */,
 				4F22141F1AA12CD7002818BA /* InitialViewController.m */,
 				4F2214201AA12CD7002818BA /* InitialViewController.xib */,
@@ -320,6 +326,7 @@
 				4F2214231AA12CD7002818BA /* SFDataManager.m */,
 				4FDB90421A9FDA230010ED5E /* AppDelegate.h */,
 				4FDB90431A9FDA230010ED5E /* AppDelegate.m */,
+				4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -400,6 +407,7 @@
 				4F2214241AA12CD7002818BA /* InitialViewController.m in Sources */,
 				4F2214271AA12CD7002818BA /* SFDataManager.m in Sources */,
 				4F2214261AA12CD7002818BA /* RootViewController.m in Sources */,
+				4F2214A81AA14E4E002818BA /* SFSmartStoreReactBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

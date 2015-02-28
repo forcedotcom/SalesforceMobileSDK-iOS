@@ -13,6 +13,7 @@ var {
   View,
 } = React;
 
+var Footer = require('./Footer');
 var UserCell = require('./UserCell');
 var UserScreen = require('./UserScreen');
 
@@ -250,6 +251,7 @@ var SearchScreen = React.createClass({
         />
         <View style={styles.separator} />
         {content}
+        <Footer/>
       </View>
     );
   },
