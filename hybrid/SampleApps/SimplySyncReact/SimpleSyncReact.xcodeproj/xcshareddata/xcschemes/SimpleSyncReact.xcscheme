@@ -140,6 +140,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FABF0451AA51F9000D31E3F"
+               BuildableName = "libSalesforceReact.a"
+               BlueprintName = "SalesforceReact"
+               ReferencedContainer = "container:../../../libs/SalesforceReact/SalesforceReact.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "824A9BCD1721FCA400C9BD79"
                BuildableName = "SimpleSyncReact.app"
                BlueprintName = "SimpleSyncReact"

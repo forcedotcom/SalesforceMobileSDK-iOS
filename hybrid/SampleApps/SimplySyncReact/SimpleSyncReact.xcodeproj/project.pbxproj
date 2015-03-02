@@ -11,12 +11,12 @@
 		4F2214251AA12CD7002818BA /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F2214201AA12CD7002818BA /* InitialViewController.xib */; };
 		4F2214261AA12CD7002818BA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214211AA12CD7002818BA /* RootViewController.m */; };
 		4F2214271AA12CD7002818BA /* SFDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214231AA12CD7002818BA /* SFDataManager.m */; };
-		4F2214A81AA14E4E002818BA /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */; };
 		4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */; };
 		4F22154D19DF44E100FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22154E19DF44E100FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */; };
 		4F22154F19DF44E100FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154B19DF44E000FF2D26 /* libSmartSync.a */; };
 		4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22155E19DF549400FF2D26 /* ImageIO.framework */; };
+		4FABF05F1AA5205A00D31E3F /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FABF05E1AA5205A00D31E3F /* libSalesforceReact.a */; };
 		4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
 		4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
 		4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
@@ -116,14 +116,13 @@
 		4F2214221AA12CD7002818BA /* SFDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFDataManager.h; path = Classes/SFDataManager.h; sourceTree = "<group>"; };
 		4F2214231AA12CD7002818BA /* SFDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFDataManager.m; path = Classes/SFDataManager.m; sourceTree = "<group>"; };
 		4F2214A51AA1461D002818BA /* App.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = App.js; sourceTree = "<group>"; };
-		4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
-		4F2214A91AA14E6B002818BA /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
 		4F2214AA1AA14E6B002818BA /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
 		4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		4F22154B19DF44E000FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
 		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4FABF05E1AA5205A00D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceReact.a; path = "../../../libs/SalesforceReact/build/Debug-iphoneos/libSalesforceReact.a"; sourceTree = "<group>"; };
 		4FDB903E1A9FD90D0010ED5E /* libReactKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libReactKit.a; path = "../../../external/react-ios/ReactKit/build/Debug-iphoneos/libReactKit.a"; sourceTree = "<group>"; };
 		4FDB90421A9FDA230010ED5E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		4FDB90431A9FDA230010ED5E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -172,6 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FABF05F1AA5205A00D31E3F /* libSalesforceReact.a in Frameworks */,
 				4FDB903F1A9FD90D0010ED5E /* libReactKit.a in Frameworks */,
 				82D53D681A37862B00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
@@ -240,6 +240,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FABF05E1AA5205A00D31E3F /* libSalesforceReact.a */,
 				4FDB90481A9FDE490010ED5E /* libSalesforceHybridSDK.a */,
 				4FDB903E1A9FD90D0010ED5E /* libReactKit.a */,
 				82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */,
@@ -316,7 +317,6 @@
 		824A9C5E1722021D00C9BD79 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4F2214A91AA14E6B002818BA /* SFSmartStoreReactBridge.h */,
 				4F2214AA1AA14E6B002818BA /* RootViewController.h */,
 				4F22141E1AA12CD7002818BA /* InitialViewController.h */,
 				4F22141F1AA12CD7002818BA /* InitialViewController.m */,
@@ -326,7 +326,6 @@
 				4F2214231AA12CD7002818BA /* SFDataManager.m */,
 				4FDB90421A9FDA230010ED5E /* AppDelegate.h */,
 				4FDB90431A9FDA230010ED5E /* AppDelegate.m */,
-				4F2214A71AA14E4E002818BA /* SFSmartStoreReactBridge.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -338,6 +337,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "SimpleSyncReact" */;
 			buildPhases = (
+				4FABF0681AA526C300D31E3F /* ShellScript */,
 				824A9BCA1721FCA400C9BD79 /* Sources */,
 				824A9BCB1721FCA400C9BD79 /* Frameworks */,
 				824A9BCC1721FCA400C9BD79 /* Resources */,
@@ -397,6 +397,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4FABF0681AA526C300D31E3F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "nc -w 5 -z localhost 8081 > /dev/null 2>&1 || open $SRCROOT/../packager/launchPackager.command || echo \"Can't start packager automatically\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		824A9BCA1721FCA400C9BD79 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -407,7 +423,6 @@
 				4F2214241AA12CD7002818BA /* InitialViewController.m in Sources */,
 				4F2214271AA12CD7002818BA /* SFDataManager.m in Sources */,
 				4F2214261AA12CD7002818BA /* RootViewController.m in Sources */,
-				4F2214A81AA14E4E002818BA /* SFSmartStoreReactBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,9 +534,9 @@
 				INFOPLIST_FILE = "Simplesyncreact/SimpleSyncReact-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/wmathurin/Development/gitsoma/wmathurin/SalesforceMobileSDK-iOS/external/react-ios/ReactKit/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/gitsoma/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceHybridSDK/build/Debug-iphoneos",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -542,9 +557,9 @@
 				INFOPLIST_FILE = "Simplesyncreact/SimpleSyncReact-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/wmathurin/Development/gitsoma/wmathurin/SalesforceMobileSDK-iOS/external/react-ios/ReactKit/build/Debug-iphoneos",
-					"/Users/wmathurin/Development/gitsoma/wmathurin/SalesforceMobileSDK-iOS/libs/SalesforceHybridSDK/build/Debug-iphoneos",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
+					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
