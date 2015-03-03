@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4FABF0521AA51F9000D31E3F /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */; };
 		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
+		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,8 @@
 		4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FABF0571AA51F9000D31E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
+		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
+		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,9 +85,8 @@
 		4FABF0481AA51F9000D31E3F /* SalesforceReact */ = {
 			isa = PBXGroup;
 			children = (
+				4FABF06C1AA52ECF00D31E3F /* Classes */,
 				4FABF0641AA5226400D31E3F /* Supporting Files */,
-				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
-				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
 			);
 			path = SalesforceReact;
 			sourceTree = "<group>";
@@ -111,6 +113,17 @@
 				4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FABF06C1AA52ECF00D31E3F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
+				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
+				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
+				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */,
 				4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
