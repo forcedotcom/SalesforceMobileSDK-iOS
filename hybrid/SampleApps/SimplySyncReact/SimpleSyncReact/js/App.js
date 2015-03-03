@@ -1,5 +1,6 @@
 'use strict';
 
+var SmartStore = require('./SmartStore');
 var React = require('react-native/addons');
 var {
   AppRegistry,
@@ -30,6 +31,10 @@ var styles = StyleSheet.create({
   },
 });
 
+
 AppRegistry.registerComponent('App', () => App);
+
+// Wrong place?
+SmartStore.registerSoup("users", [ {path:"FirstName", type:"string"}, {path:"LastName", type:"string"} ],  function() {}, function() {});
 
 module.exports = App;
