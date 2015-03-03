@@ -35,6 +35,6 @@ var styles = StyleSheet.create({
 AppRegistry.registerComponent('App', () => App);
 
 // Wrong place?
-SmartStore.registerSoup("users", [ {path:"FirstName", type:"string"}, {path:"LastName", type:"string"} ],  function() {}, function() {});
+SmartStore.registerSoup("users", [ {path:"Id", type:"string"}, {path:"FirstName", type:"string"}, {path:"LastName", type:"string"}, {path:"__local__", type:"string"} ],  function() {}, function() {});
 
 module.exports = App;
