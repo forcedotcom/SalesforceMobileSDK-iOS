@@ -88,11 +88,15 @@ var SearchScreen = React.createClass({
             queryNumber: this.state.queryNumber + 1
         });
 
+        var queryParts = query.split(/ /);
+        var queryFirst = queryParts.length == 2 ? queryParts[0] : query;
+        var queryLast = queryParts.length == 2 ? queryParts[1] : query;
+        var queryOp = queryParts.length == 2 ? "AND" : "OR";
         var querySpec = {queryType:"smart", 
                          smartSql:"SELECT {users:_soup}"
                          + " FROM {users}"
-                         + " WHERE {users:FirstName} like '" + query + "%'"
-                         + " OR {users:LastName} like '" + query + "%'"
+                         + " WHERE {users:FirstName} like '" + queryFirst + "%'"
+                         + " " + queryOp + " {users:LastName} like '" + queryLast + "%'"
                          + " ORDER BY {users:LastName} ",
                          pageSize:10}
 
