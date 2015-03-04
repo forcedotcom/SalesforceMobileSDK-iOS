@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "jest",
-    "lint": "node linter.js Examples/",
+    "lint": "node linter.js SimpleSyncReact/js",
     "start": "./packager/packager.sh"
   },
   "dependencies": {
