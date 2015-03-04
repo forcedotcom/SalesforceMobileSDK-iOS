@@ -57,7 +57,7 @@ var SearchScreen = React.createClass({
         }
 
         this.setState({
-            isLoading: false,
+            isLoadingTail: false,
             dataSource: this.getDataSource(queryToData[query]),
         });
     },
@@ -70,6 +70,7 @@ var SearchScreen = React.createClass({
         this.setState({
             dataSource: this.getDataSource([]),
             isLoading: false,
+            isLoadingTail: false
         });
 
     },
@@ -91,16 +92,15 @@ var SearchScreen = React.createClass({
                          + " FROM {users}"
                          + " WHERE {users:FirstName} like '" + query + "%'"
                          + " OR {users:LastName} like '" + query + "%'"
-                         + " ORDER BY {users:LastName} "
-                         + " LIMIT 25 ", 
-                         pageSize:25}
+                         + " ORDER BY {users:LastName} ",
+                         pageSize:2}
 
         var that = this;
         smartstore.runSmartQuery(querySpec,                                          
                                  function(cursor) {
                                      that.handleData(query, cursor);
                                  }, 
-                                 this.handleError.bind(this));
+                                 this.handleError);
     },
 
     hasMore: function(): boolean {
@@ -124,7 +124,6 @@ var SearchScreen = React.createClass({
         if (queryToLoading[query]) {
             return;
         }
-
         queryToLoading[query] = true;
         this.setState({
             queryNumber: this.state.queryNumber + 1,
@@ -133,11 +132,11 @@ var SearchScreen = React.createClass({
 
         var cursor = queryToCursor[query];
         var that = this;
-        smartstore.moveCursorToPageIndex(cursor, 
-                                         function(cursor) {
-                                             that.handleData(query, cursor);
-                                         }, 
-                                         this.handleError.bind(this));
+        smartstore.moveCursorToNextPage(cursor, 
+                                        function(cursor) {
+                                            that.handleData(query, cursor);
+                                        }, 
+                                        this.handleError);
     },
 
     getDataSource: function(users: Array<any>): ListViewDataSource {

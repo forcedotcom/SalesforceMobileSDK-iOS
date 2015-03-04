@@ -1,6 +1,8 @@
 'use strict';
 
+var smartsync = require('./SmartSync');
 var smartstore = require('./SmartStore');
+var oauth = require('./OAuth');
 var React = require('react-native/addons');
 var {
   AppRegistry,
@@ -34,7 +36,18 @@ var styles = StyleSheet.create({
 
 AppRegistry.registerComponent('App', () => App);
 
-// Wrong place?
-smartstore.registerSoup("users", [ {path:"Id", type:"string"}, {path:"FirstName", type:"string"}, {path:"LastName", type:"string"}, {path:"__local__", type:"string"} ],  function() {}, function() {});
+// Misc initialization
+oauth.getAccessToken();
+
+smartstore.registerSoup("users", 
+                        [ {path:"Id", type:"string"}, 
+                          {path:"FirstName", type:"string"}, 
+                          {path:"LastName", type:"string"}, 
+                          {path:"__local__", type:"string"} ]);
+
+var fieldlist = ["Id", "FirstName", "LastName", "Title", "CompanyName", "Email", "MobilePhone","City", "SmallPhotoUrl", "FullPhotoUrl"];
+var target = {type:"soql", query:"SELECT " + fieldlist.join(",") + " FROM User WHERE CompanyName = 'salesforce.com' LIMIT 1000"};
+smartsync.syncDown(target, "users", {mergeMode:smartsync.MERGE_MODE.OVERWRITE});
+
 
 module.exports = App;

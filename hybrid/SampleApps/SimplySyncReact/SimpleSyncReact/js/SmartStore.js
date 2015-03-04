@@ -135,8 +135,8 @@ var getDatabaseSize = function(successCB, errorCB) {
     storeConsole.debug("SmartStore.getDatabaseSize");
     SFSmartStoreReactBridge.getDatabaseSize(
         {}, 
-        successCB, 
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); }, 
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -144,8 +144,8 @@ var registerSoup = function (soupName, indexSpecs, successCB, errorCB) {
     storeConsole.debug("SmartStore.registerSoup: '" + soupName + "' indexSpecs: " + JSON.stringify(indexSpecs));
     SFSmartStoreReactBridge.registerSoup(
         {"soupName": soupName, "indexes": indexSpecs},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -153,8 +153,8 @@ var removeSoup = function (soupName, successCB, errorCB) {
     storeConsole.debug("SmartStore.removeSoup: " + soupName);
     SFSmartStoreReactBridge.removeSoup(
         {"soupName": soupName},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -162,8 +162,8 @@ var getSoupIndexSpecs = function(soupName, successCB, errorCB) {
     storeConsole.debug("SmartStore.getSoupIndexSpecs: " + soupName);
     SFSmartStoreReactBridge.getSoupIndexSpecs(
         {"soupName": soupName},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -171,8 +171,8 @@ var alterSoup = function (soupName, indexSpecs, reIndexData, successCB, errorCB)
     storeConsole.debug("SmartStore.alterSoup: '" + soupName + "' indexSpecs: " + JSON.stringify(indexSpecs));
     SFSmartStoreReactBridge.alterSoup(
         {"soupName": soupName, "indexes": indexSpecs, "reIndexData": reIndexData},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -180,8 +180,8 @@ var reIndexSoup = function (soupName, paths, successCB, errorCB) {
     storeConsole.debug("SmartStore.reIndexSoup: '" + soupName + "' paths: " + JSON.stringify(paths));
     SFSmartStoreReactBridge.reIndexSoup(
         {"soupName": soupName, "paths": paths},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -189,8 +189,8 @@ var clearSoup = function (soupName, successCB, errorCB) {
     storeConsole.debug("SmartStore.clearSoup: '" + soupName + "'");
     SFSmartStoreReactBridge.clearSoup(
         {"soupName": soupName},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -198,8 +198,8 @@ var showInspector = function(successCB, errorCB) {
     storeConsole.debug("SmartStore.showInspector");
     SFSmartStoreReactBridge.showInspector(
         [],
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -207,8 +207,8 @@ var soupExists = function (soupName, successCB, errorCB) {
     storeConsole.debug("SmartStore.soupExists: " + soupName);
     SFSmartStoreReactBridge.soupExists(
         {"soupName": soupName},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -217,8 +217,8 @@ var querySoup = function (soupName, querySpec, successCB, errorCB) {
     storeConsole.debug("SmartStore.querySoup: '" + soupName + "' indexPath: " + querySpec.indexPath);
     SFSmartStoreReactBridge.querySoup(
         {"soupName": soupName, "querySpec": querySpec},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -227,8 +227,8 @@ var runSmartQuery = function (querySpec, successCB, errorCB) {
     storeConsole.debug("SmartStore.runSmartQuery: smartSql: " + querySpec.smartSql);
     SFSmartStoreReactBridge.runSmartQuery(
         {"querySpec": querySpec},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -236,8 +236,8 @@ var retrieveSoupEntries = function (soupName, entryIds, successCB, errorCB) {
     storeConsole.debug("SmartStore.retrieveSoupEntry: '" + soupName + "' entryIds: " + entryIds);
     SFSmartStoreReactBridge.retrieveSoupEntries(
         {"soupName": soupName, "entryIds": entryIds},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -249,8 +249,8 @@ var upsertSoupEntriesWithExternalId = function (soupName, entries, externalIdPat
     storeConsole.debug("SmartStore.upsertSoupEntries: '" + soupName + "' entries.length: " + entries.length);
     SFSmartStoreReactBridge.upsertSoupEntries(
         {"soupName": soupName, "entries": entries, "externalIdPath": externalIdPath},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -258,8 +258,8 @@ var removeFromSoup = function (soupName, entryIds, successCB, errorCB) {
     storeConsole.debug("SmartStore.removeFromSoup: '" + soupName + "' entryIds: " + entryIds);
     SFSmartStoreReactBridge.removeFromSoup(
         {"soupName": soupName, "entryIds": entryIds},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
@@ -268,13 +268,14 @@ var moveCursorToPageIndex = function (cursor, newPageIndex, successCB, errorCB) 
     storeConsole.debug("moveCursorToPageIndex: " + cursor.cursorId + "  newPageIndex: " + newPageIndex);
     SFSmartStoreReactBridge.moveCursorToPageIndex(
         {"cursorId": cursor.cursorId, "index": newPageIndex},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 
 var moveCursorToNextPage = function (cursor, successCB, errorCB) {
     var newPageIndex = cursor.currentPageIndex + 1;
+    console.log("going to page:"+ newPageIndex);
     if (newPageIndex >= cursor.totalPages) {
         errorCB(cursor, new Error("moveCursorToNextPage called while on last page"));
     }
@@ -297,8 +298,8 @@ var closeCursor = function (cursor, successCB, errorCB) {
     storeConsole.debug("closeCursor: " + cursor.cursorId);
     SFSmartStoreReactBridge.closeCursor(
         {"cursorId": cursor.cursorId},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );
 };
 

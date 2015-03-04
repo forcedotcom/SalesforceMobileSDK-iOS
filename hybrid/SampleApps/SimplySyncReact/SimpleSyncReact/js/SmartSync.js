@@ -5,16 +5,16 @@ var { SFSmartSyncReactBridge } = require('NativeModules');
 var syncDown = function(target, soupName, options, successCB, errorCB) {
     SFSmartSyncReactBridge.syncDown(
         {"target": target, "soupName": soupName, "options": options},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );        
 };
 
 var reSync = function(syncId, successCB, errorCB) {
     SFSmartSyncReactBridge.reSync(
         {"syncId": syncId},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );        
 };
 
@@ -22,16 +22,16 @@ var reSync = function(syncId, successCB, errorCB) {
 var syncUp = function(soupName, options, successCB, errorCB) {
     SFSmartSyncReactBridge.syncUp(
         {"soupName": soupName, "options": options},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );        
 };
 
 var getSyncStatus = function(syncId, successCB, errorCB) {
     SFSmartSyncReactBridge.getSyncStatus(
         {"syncId": syncId},
-        successCB,
-        errorCB
+        successCB || function() { console.log("Bridged call succeeded"); },
+        errorCB || function(err) { console.err("Bridge call failed " + err); }
     );        
 };
 
