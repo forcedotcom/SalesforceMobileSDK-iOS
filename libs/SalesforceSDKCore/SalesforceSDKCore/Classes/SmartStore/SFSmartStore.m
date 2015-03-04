@@ -1293,9 +1293,10 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
             if (fieldValue == nil) {
                 // Cannot have empty values for user-defined external ID upsert.
                 if (error != nil) {
+                    NSString *errorDescription = [NSString stringWithFormat:kSFSmartStoreExternalIdNilDescription, externalIdPath];
                     *error = [NSError errorWithDomain:kSFSmartStoreErrorDomain
                                                  code:kSFSmartStoreExternalIdNilCode
-                                             userInfo:@{NSLocalizedDescriptionKey: kSFSmartStoreExternalIdNilDescription}];
+                                             userInfo:@{NSLocalizedDescriptionKey: errorDescription}];
                 }
                 return nil;
             }
