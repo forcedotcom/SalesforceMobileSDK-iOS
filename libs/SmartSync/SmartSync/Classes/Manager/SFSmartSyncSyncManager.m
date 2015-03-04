@@ -275,13 +275,18 @@ static NSMutableDictionary *syncMgrList = nil;
         long long maxTimeStampForFetched = [self getMaxTimeStamp:records];
         
         // Save records
-        [weakSelf saveRecords:records soup:soupName mergeMode:mergeMode];
-        // Update status
-        updateSync(nil, progress, totalSize, maxTimeStampForFetched);
-        
-        // Fetch next records if any
-        if (countFetched < totalSize) {
-            [target continueFetch:self errorBlock:failRest completeBlock:completeBlockRecurse];
+        NSError *saveRecordsError = nil;
+        [weakSelf saveRecords:records soup:soupName mergeMode:mergeMode error:&saveRecordsError];
+        if (saveRecordsError) {
+            failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
+        } else {
+            // Update status
+            updateSync(nil, progress, totalSize, maxTimeStampForFetched);
+            
+            // Fetch next records if any
+            if (countFetched < totalSize) {
+                [target continueFetch:self errorBlock:failRest completeBlock:completeBlockRecurse];
+            }
         }
     };
     // initialize the alias
@@ -291,7 +296,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failRest completeBlock:completeBlock];
 }
 
-- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode{
+- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode error:(NSError **)error {
     NSMutableArray* recordsToSave = [NSMutableArray array];
     
     NSSet* idsToSkip = nil;
@@ -315,7 +320,11 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     // Save to smartstore
-    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kId error:nil];
+    NSError *upsertError = nil;
+    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kId error:&upsertError];
+    if (upsertError && error) {
+        *error = upsertError;
+    }
 }
 
 - (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
