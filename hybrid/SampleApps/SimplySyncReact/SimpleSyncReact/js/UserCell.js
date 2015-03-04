@@ -62,7 +62,7 @@ var styles = StyleSheet.create({
         backgroundColor: '#dddddd',
         height: 93,
         marginRight: 10,
-        width: 60,
+        width: 70,
     },
     cellBorder: {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
