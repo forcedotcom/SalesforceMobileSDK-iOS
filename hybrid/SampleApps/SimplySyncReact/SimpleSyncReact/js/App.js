@@ -46,7 +46,7 @@ smartstore.registerSoup("users",
                           {path:"__local__", type:"string"} ]);
 
 var fieldlist = ["Id", "FirstName", "LastName", "Title", "CompanyName", "Email", "MobilePhone","City", "SmallPhotoUrl", "FullPhotoUrl"];
-var target = {type:"soql", query:"SELECT " + fieldlist.join(",") + " FROM User WHERE CompanyName = 'salesforce.com' LIMIT 10000"};
+var target = {type:"soql", query:"SELECT " + fieldlist.join(",") + " FROM User WHERE CompanyName = 'salesforce.com' and Title like '%Engineer%' LIMIT 10000"};
 smartsync.syncDown(target, "users", {mergeMode:smartsync.MERGE_MODE.OVERWRITE});
 
 
