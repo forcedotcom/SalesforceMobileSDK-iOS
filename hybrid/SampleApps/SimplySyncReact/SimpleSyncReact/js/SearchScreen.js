@@ -57,8 +57,9 @@ var SearchScreen = React.createClass({
         }
 
         this.setState({
-            isLoadingTail: false,
             dataSource: this.getDataSource(queryToData[query]),
+            isLoading: false,
+            isLoadingTail: false
         });
     },
 
@@ -93,7 +94,7 @@ var SearchScreen = React.createClass({
                          + " WHERE {users:FirstName} like '" + query + "%'"
                          + " OR {users:LastName} like '" + query + "%'"
                          + " ORDER BY {users:LastName} ",
-                         pageSize:2}
+                         pageSize:10}
 
         var that = this;
         smartstore.runSmartQuery(querySpec,                                          
@@ -131,6 +132,7 @@ var SearchScreen = React.createClass({
         });
 
         var cursor = queryToCursor[query];
+        console.log("Getting next page - currently at page:" + cursor.currentPageIndex);
         var that = this;
         smartstore.moveCursorToNextPage(cursor, 
                                         function(cursor) {
