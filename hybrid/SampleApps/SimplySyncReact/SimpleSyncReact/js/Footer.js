@@ -18,7 +18,7 @@ var style = StyleSheet.create({
 });
 
 var showInspector = function() {
-    smarstore.showInspector();
+    smartstore.showInspector();
 };
 
 module.exports = React.createClass({
