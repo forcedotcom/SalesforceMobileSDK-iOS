@@ -235,8 +235,8 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncTarget* target = sync.target;
     long long maxTimeStamp = sync.maxTimeStamp;
 
-    SFRestFailBlock failRest = ^(NSError *error) {
-        failSync(@"REST call failed", error);
+    void (^failBlock)(NSError *error) = ^(NSError *error) {
+        failSync(@"Server call failed", error);
     };
 
     __block NSUInteger countFetched = 0;
@@ -272,7 +272,7 @@ static NSMutableDictionary *syncMgrList = nil;
             
             // Fetch next records if any
             if (countFetched < totalSize) {
-                [target continueFetch:self errorBlock:failRest completeBlock:completeBlockRecurse];
+                [target continueFetch:self errorBlock:failBlock completeBlock:completeBlockRecurse];
             }
         }
     };
@@ -280,7 +280,7 @@ static NSMutableDictionary *syncMgrList = nil;
     completeBlockRecurse = completeBlock;
     
     // Start fetch
-    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failRest completeBlock:completeBlock];
+    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:completeBlock];
 }
 
 - (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode error:(NSError **)error {
@@ -381,19 +381,19 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     // Fail block for rest call
-    SFRestFailBlock failRest = ^(NSError *error) {
-        failSync(@"REST call failed", error);
+    void (^failBlock)(NSError *error) = ^(NSError *error) {
+        failSync(@"Server call failed", error);
     };
 
     // Otherwise, there's work to do.
-    [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failRest:failRest];
+    [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failBlock:failBlock];
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
              recordIds:(NSArray*)recordIds
                  index:(NSUInteger)i
             updateSync:(SyncUpdateBlock)updateSync
-              failRest:(void (^)(NSError *))failRest {
+             failBlock:(void (^)(NSError *))failBlock {
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     NSUInteger totalSize = recordIds.count;
@@ -419,7 +419,7 @@ static NSMutableDictionary *syncMgrList = nil;
     
     if (action == SyncServerTargetActionNone) {
         // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
         return;
     }
     
@@ -442,19 +442,19 @@ static NSMutableDictionary *syncMgrList = nil;
                                                             record:record
                                                             action:action
                                                         updateSync:updateSync
-                                                          failRest:failRest];
+                                                         failBlock:failBlock];
                                     } else {
                                         // Server date is newer than the local date.  Skip this update.
                                         [self syncUpOneEntry:sync
                                                    recordIds:recordIds
                                                        index:i+1
                                                   updateSync:updateSync
-                                                    failRest:failRest];
+                                                   failBlock:failBlock];
                                     }
                                 }];
     } else {
         // State is such that we can simply update the record directly.
-        [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failRest:failRest];
+        [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failBlock:failBlock];
     }
 }
 
@@ -464,37 +464,22 @@ static NSMutableDictionary *syncMgrList = nil;
                       record:(NSMutableDictionary*)record
                       action:(SFSyncServerTargetAction)action
                   updateSync:(SyncUpdateBlock)updateSync
-                    failRest:(void (^)(NSError *))failRest {
-    SFSyncOptions* options = sync.options;
+                   failBlock:(void (^)(NSError *))failBlock {
+    
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
-
-    // Getting type and id
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[kId];
-
-    // Fields to save (in the case of create or update)
-    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
-    if (action == kSyncManagerActionCreate || action == kSyncManagerActionUpdate) {
-        for (NSString* fieldName in options.fieldlist) {
-            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
-                if (record[fieldName] != nil)
-                    fields[fieldName] = record[fieldName];
-            }
-        }
-    }
-
+    
     // Delete handler
-    SFRestDictionaryResponseBlock completeBlockDelete = ^(NSDictionary *d) {
+    void (^completeBlockDelete)(NSDictionary *) = ^(NSDictionary *d) {
         // Remove entry on delete
         [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
-
+    
     // Update handler
-    SFRestDictionaryResponseBlock completeBlockUpdate = ^(NSDictionary *d) {
+    void (^completeBlockUpdate)(NSDictionary *) = ^(NSDictionary *d) {
         // Set local flags to false
         record[kSyncManagerLocal] = @NO;
         record[kSyncManagerLocallyCreated] = @NO;
@@ -505,71 +490,38 @@ static NSMutableDictionary *syncMgrList = nil;
         [self.store upsertEntries:@[record] toSoup:soupName];
         
         // Next
-        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
+        [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
     };
-
+    
     // Create handler
-    SFRestDictionaryResponseBlock completeBlockCreate = ^(NSDictionary *d) {
+    void (^completeBlockCreate)(NSDictionary *) = ^(NSDictionary *d) {
         // Replace id with server id during create
         record[kId] = d[kSyncManagerLObjectId];
         completeBlockUpdate(d);
     };
-
-    SFRestRequest* request;
-    id completeBlock;
+    
+    void (^completeBlock)(NSDictionary *);
+    NSError *actionError;
     switch(action) {
-        case kSyncManagerActionCreate:
-            request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+        case SyncServerTargetActionCreate:
             completeBlock = completeBlockCreate;
             break;
-        case kSyncManagerActionUpdate:
-            request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+        case SyncServerTargetActionUpdate:
             completeBlock = completeBlockUpdate;
             break;
-        case kSyncManagerActionDelete:
-            request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+        case SyncServerTargetActionDelete:
             completeBlock = completeBlockDelete;
             break;
-        case kSyncManagerActionNone: /* caught by if (action == kSyncManagerActionNone) above */ break;
+        default:
+            // Action is unsupported here.  Move on.
+            [self log:SFLogLevelInfo format:@"%@ unsupported action with value %d.  Moving to the next record.", NSStringFromSelector(_cmd), action];
+            [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
+            return;
     }
-
-    // Send request
-    [self sendRequestWithSmartSyncUserAgent:request failBlock:failRest completeBlock:completeBlock];
-}
-
-- (void)isNewerThanServer:(SFSyncState*)sync recordIds:(NSArray*)recordIds index:(NSUInteger)i record:(NSMutableDictionary*)record action:(SFSyncManagerAction)action updateSync:(SyncUpdateBlock)updateSync failRest:(SFRestFailBlock)failRest {
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[kId];
-    NSString* lastModifiedDateStr = record[kLastModifiedDate];
-    long long lastModifiedDate = [SFSmartSyncObjectUtils getMillisFromIsoString:lastModifiedDateStr];
-    __block long long serverLastModified = -1;
-    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kLastModifiedDate];
-    [soqlBuilder from:objectType];
-    [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
-    NSString *query = [soqlBuilder build];
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
-    [self sendRequestWithSmartSyncUserAgent:request
-        failBlock:^(NSError *error) {
-            [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
-            [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
-        }
-        completeBlock:^(NSDictionary* d) {
-            if (nil != d) {
-                NSDictionary *record = d[@"records"][0];
-                if (nil != record) {
-                    NSString *serverLastModifiedStr = record[kLastModifiedDate];
-                    if (nil != serverLastModifiedStr) {
-                        serverLastModified = [SFSmartSyncObjectUtils getMillisFromIsoString:serverLastModifiedStr];
-                    }
-                }
-            }
-            if (serverLastModified <= lastModifiedDate) {
-                [self resumeSyncUpOneEntry:sync recordIds:recordIds index:i record:record action:action updateSync:updateSync failRest:failRest];
-            } else {
-                [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failRest:failRest];
-            }
-        }
-     ];
+    
+    SFSyncServerTarget *target = sync.serverTarget;
+    NSArray *fieldList = sync.options.fieldlist;
+    [target syncUpRecord:record fieldList:fieldList action:action completionBlock:completeBlock failBlock:failBlock];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

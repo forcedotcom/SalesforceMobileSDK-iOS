@@ -22,15 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSyncTarget+Internal.h"
+#import "SFSyncTarget.h"
 #import "SFMruSyncTarget.h"
 #import "SFSoqlSyncTarget.h"
 #import "SFSoslSyncTarget.h"
-#import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
-#import "SFSmartSyncSoqlBuilder.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -75,54 +71,6 @@ ABSTRACT_METHOD
          completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
 {
     completeBlock(nil);
-}
-
-#pragma mark - Data posting
-
-- (void)compareRecordModificationToServer:(NSDictionary *)record
-                  modificationResultBlock:(void (^)(NSDate *, NSDate *, NSError *))modificationResultBlock {
-    
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[kId];
-    NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
-    __block NSDate *serverLastModifiedDate = [NSDate dateWithTimeIntervalSince1970:0.0];
-    
-    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kLastModifiedDate];
-    [soqlBuilder from:objectType];
-    [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
-    NSString *query = [soqlBuilder build];
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
-    [self sendRequestWithSmartSyncUserAgent:request
-                                  failBlock:^(NSError *error) {
-                                      [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
-                                      if (modificationResultBlock != NULL) {
-                                          modificationResultBlock(nil, nil, error);
-                                      }
-                                  }
-                              completeBlock:^(NSDictionary *response) {
-                                  if (nil != response) {
-                                      NSDictionary *record = response[@"records"][0];
-                                      if (nil != record) {
-                                          NSString *serverLastModifiedStr = record[kLastModifiedDate];
-                                          if (nil != serverLastModifiedStr) {
-                                              NSDate *testServerModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:serverLastModifiedStr];
-                                              if (testServerModifiedDate != nil) {
-                                                  serverLastModifiedDate = testServerModifiedDate;
-                                              }
-                                          }
-                                      }
-                                  }
-                                  if (modificationResultBlock != NULL) {
-                                      modificationResultBlock(localLastModifiedDate, serverLastModifiedDate, nil);
-                                  }
-                              }
-     ];
-}
-
-#pragma mark - Internal methods and properties
-
-- (SFRestAPI *)restClient {
-    return [SFRestAPI sharedInstance];
 }
 
 #pragma mark - string to/from enum for query type

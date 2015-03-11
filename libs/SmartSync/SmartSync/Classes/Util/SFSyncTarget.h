@@ -23,7 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSmartSyncSyncManagerDefines.h"
 
 @class SFSmartSyncSyncManager;
 
@@ -62,13 +61,6 @@ typedef enum {
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
-
-- (void)syncUpRecord:(NSDictionary *)record
-              action:(SFSyncManagerAction)action
-     completionBlock:(void (^)(NSDictionary *response))response;
-
-- (void)compareRecordModificationToServer:(NSDictionary *)record
-                  modificationResultBlock:(void (^)(NSDate *localDate, NSDate *remoteDate, NSError *error))modificationResultBlock;
 
 /** Enum to/from string helper methods
  */

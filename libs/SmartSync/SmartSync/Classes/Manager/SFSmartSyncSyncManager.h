@@ -23,12 +23,27 @@
  */
 
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
-#import "SFSmartSyncSyncManagerDefines.h"
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
 #import "SFSyncTarget.h"
 
 @class SFUserAccount;
+
+extern NSString * const kSyncManagerTargetQueryType;
+extern NSString * const kSyncManagerTargetQuery;
+extern NSString * const kSyncManagerTargetObjectType;
+extern NSString * const kSyncManagerTargetFieldlist;
+extern NSString * const kSyncManagerQueryTypeMru;
+extern NSString * const kSyncManagerQueryTypeSoql;
+extern NSString * const kSyncManagerQueryTypeSosl;
+
+extern NSString * const kSyncManagerLocal;
+extern NSString * const kSyncManagerLocallyCreated;
+extern NSString * const kSyncManagerLocallyUpdated;
+extern NSString * const kSyncManagerLocallyDeleted;
+
+// block type
+typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 
 /** This class provides methods for doing synching records to/from the server from/to the smartstore.
  */

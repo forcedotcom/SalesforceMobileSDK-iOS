@@ -110,4 +110,49 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
      ];
 }
 
+- (void)syncUpRecord:(NSDictionary *)record
+           fieldList:(NSArray *)fieldList
+              action:(SFSyncServerTargetAction)action
+     completionBlock:(void (^)(NSDictionary *response))response
+           failBlock:(void (^)(NSError *))failBlock {
+    
+    // Getting type and id
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[kId];
+    
+    // Fields to save (in the case of create or update)
+    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    if (action == SyncServerTargetActionCreate || action == SyncServerTargetActionUpdate) {
+        for (NSString *fieldName in fieldList) {
+            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
+                if (record[fieldName] != nil)
+                    fields[fieldName] = record[fieldName];
+            }
+        }
+    }
+    
+    SFRestRequest *request;
+    switch(action) {
+        case SyncServerTargetActionCreate:
+            request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+            break;
+        case SyncServerTargetActionUpdate:
+            request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+            break;
+        case SyncServerTargetActionDelete:
+            request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+            break;
+        default:
+            // Unsupported action.
+            [self log:SFLogLevelInfo format:@"%@ unsupported action with value %d.  No action taken.", NSStringFromSelector(_cmd), action];
+            if (response != NULL) {
+                response(nil);
+            }
+            return;
+    }
+    
+    // Send request
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:response];
+}
+
 @end
