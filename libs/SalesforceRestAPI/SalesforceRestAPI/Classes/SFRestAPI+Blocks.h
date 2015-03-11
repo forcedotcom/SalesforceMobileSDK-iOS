@@ -30,6 +30,7 @@
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
+typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 typedef void (^SFRestDataResponseBlock) (NSData* data);
