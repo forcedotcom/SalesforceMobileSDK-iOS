@@ -30,8 +30,6 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 @interface SFSmartSyncSyncManager ()
 
-- (void) sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;
-
 @end
 
 @interface SFSoslSyncTarget ()
@@ -66,7 +64,7 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
              kSFSoslSyncTargetQuery: self.query
              };
 }

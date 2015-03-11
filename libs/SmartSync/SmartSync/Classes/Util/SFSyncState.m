@@ -25,6 +25,7 @@
 #import "SFSyncState.h"
 #import "SFSyncTarget.h"
 #import "SFSyncOptions.h"
+#import "SFSyncServerTarget.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -37,6 +38,7 @@ NSString * const kSFSyncStateSyncsSoupSyncType = @"type";
 NSString * const kSFSyncStateId = @"_soupEntryId";
 NSString * const kSFSyncStateType = @"type";
 NSString * const kSFSyncStateTarget = @"target";
+NSString * const kSFSyncStateServerTarget = @"serverTarget";
 NSString * const kSFSyncStateSoupName = @"soupName";
 NSString * const kSFSyncStateOptions = @"options";
 NSString * const kSFSyncStateStatus = @"status";
@@ -64,6 +66,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 @property (nonatomic, readwrite) SFSyncStateSyncType type;
 @property (nonatomic, strong, readwrite) NSString* soupName;
 @property (nonatomic, strong, readwrite) SFSyncTarget* target;
+@property (nonatomic, strong, readwrite) SFSyncServerTarget* serverTarget;
 @property (nonatomic, strong, readwrite) SFSyncOptions* options;
 
 @end
@@ -99,9 +102,18 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return sync;
 }
 
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store {
+    SFSyncServerTarget *serverTarget = [[SFSyncServerTarget alloc] init];
+    return [self newSyncUpWithOptions:options target:serverTarget soupName:soupName store:store];
+}
+
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options
+                               target:(SFSyncServerTarget*)serverTarget
+                             soupName:(NSString*)soupName
+                                store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeUp,
+                           kSFSyncStateServerTarget: [serverTarget asDict],
                            kSFSyncStateSoupName: soupName,
                            kSFSyncStateOptions: [options asDict],
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
@@ -144,6 +156,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
     self.type = [SFSyncState syncTypeFromString:dict[kSFSyncStateType]];
     self.target = (dict[kSFSyncStateTarget] == nil ? nil : [SFSyncTarget newFromDict:dict[kSFSyncStateTarget]]);
+    self.serverTarget = (dict[kSFSyncStateServerTarget] == nil ? nil : [SFSyncServerTarget newFromDict:dict[kSFSyncStateServerTarget]]);
     self.options = (dict[kSFSyncStateOptions] == nil ? nil : [SFSyncOptions newFromDict:dict[kSFSyncStateOptions]]);
     self.soupName = dict[kSFSyncStateSoupName];
     self.status = [SFSyncState syncStatusFromString:dict[kSFSyncStateStatus]];
@@ -157,6 +170,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     dict[SOUP_ENTRY_ID] = [NSNumber numberWithInteger:self.syncId];
     dict[kSFSyncStateType] = [SFSyncState syncTypeToString:self.type];
     if (self.target) dict[kSFSyncStateTarget] = [self.target asDict];
+    if (self.serverTarget) dict[kSFSyncStateServerTarget] = [self.serverTarget asDict];
     if (self.options) dict[kSFSyncStateOptions] = [self.options asDict];
     dict[kSFSyncStateSoupName] = self.soupName;
     dict[kSFSyncStateStatus] = [SFSyncState syncStatusToString:self.status];

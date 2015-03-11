@@ -23,13 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSmartSyncSyncManagerDefines.h"
 
 @class SFSmartSyncSyncManager;
 
 typedef void (^SFSyncTargetFetchCompleteBlock) (NSArray* records);
 typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
-
-
 
 typedef enum {
   SFSyncTargetQueryTypeMru,
@@ -37,9 +36,6 @@ typedef enum {
   SFSyncTargetQueryTypeSoql,
   SFSyncTargetQueryTypeCustom
 } SFSyncTargetQueryType;
-
-extern NSString * const kSFSyncTargetQueryType;
-extern NSString * const kSFSyncTargetiOSImpl;
 
 @interface SFSyncTarget : NSObject
 
@@ -66,6 +62,13 @@ extern NSString * const kSFSyncTargetiOSImpl;
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
+
+- (void)syncUpRecord:(NSDictionary *)record
+              action:(SFSyncManagerAction)action
+     completionBlock:(void (^)(NSDictionary *response))response;
+
+- (void)compareRecordModificationToServer:(NSDictionary *)record
+                  modificationResultBlock:(void (^)(NSDate *localDate, NSDate *remoteDate, NSError *error))modificationResultBlock;
 
 /** Enum to/from string helper methods
  */

@@ -61,7 +61,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
              kSFSoqlSyncTargetQuery: self.query
              };
 }

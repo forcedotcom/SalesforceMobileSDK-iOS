@@ -287,9 +287,9 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
              kSFSoqlSyncTargetQuery: self.query,
-             kSFSyncTargetiOSImpl: NSStringFromClass([self class])
+             kSFSyncTargetiOSImplKey: NSStringFromClass([self class])
              };
 }
 

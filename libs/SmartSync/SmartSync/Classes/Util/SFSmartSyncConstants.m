@@ -73,3 +73,6 @@ NSString * const kLayoutLabelField = @"label";
 NSString * const kLayoutLimitsField = @"limitRows";
 NSString * const kLayoutColumnsField = @"searchColumns";
 NSString * const kLayoutObjectTypeField = @"objectType";
+
+NSString * const kSFSyncTargetTypeKey = @"type";
+NSString * const kSFSyncTargetiOSImplKey = @"iOSImpl";

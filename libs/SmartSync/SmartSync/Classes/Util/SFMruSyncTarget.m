@@ -65,7 +65,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
              kSFSyncTargetObjectType: self.objectType,
              kSFSyncTargetFieldlist: self.fieldlist
              };
