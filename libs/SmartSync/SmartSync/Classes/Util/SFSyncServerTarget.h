@@ -32,10 +32,11 @@ typedef NS_ENUM(NSUInteger, SFSyncServerTargetAction) {
 
 - (void)fetchRecordModificationDates:(NSDictionary *)record
              modificationResultBlock:(void (^)(NSDate *localDate, NSDate *serverDate, NSError *error))modificationResultBlock;
+
 - (void)syncUpRecord:(NSDictionary *)record
            fieldList:(NSArray *)fieldList
               action:(SFSyncServerTargetAction)action
-     completionBlock:(void (^)(NSDictionary *response))response
+     completionBlock:(void (^)(NSDictionary *))completionBlock
            failBlock:(void (^)(NSError *))failBlock;
 
 @end

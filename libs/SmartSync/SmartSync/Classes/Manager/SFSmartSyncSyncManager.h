@@ -52,12 +52,16 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 /** Singleton method for accessing cache manager instance.
  @param user A user that will scope this manager instance data
  */
-+ (id)sharedInstance:(SFUserAccount *)user;
++ (instancetype)sharedInstance:(SFUserAccount *)user;
+
++ (instancetype)sharedInstanceForStore:(SFSmartStore *)store;
 
 /** Removes the shared instance associated with the specified user
  @param user The user
  */
 + (void)removeSharedInstance:(SFUserAccount *)user;
+
++ (void)removeSharedInstanceForStore:(SFSmartStore *)store;
 
 /** Return details about a sync
  @param syncId

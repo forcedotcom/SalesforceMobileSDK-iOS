@@ -26,6 +26,7 @@
 #import "SFMruSyncTarget.h"
 #import "SFSoqlSyncTarget.h"
 #import "SFSoslSyncTarget.h"
+#import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 // query types

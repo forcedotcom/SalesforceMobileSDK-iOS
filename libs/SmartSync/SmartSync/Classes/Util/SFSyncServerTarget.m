@@ -34,11 +34,12 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
 + (instancetype)newFromDict:(NSDictionary*)dict {
     NSString *implClassName;
     switch ([self targetTypeFromString:dict[kSFSyncTargetTypeKey]]) {
-        case SFSyncServerTargetTypeRestStandard:
-            return [[SFSyncServerTarget alloc] init];
         case SFSyncServerTargetTypeCustom:
             implClassName = dict[kSFSyncTargetiOSImplKey];
             return [NSClassFromString(implClassName) newFromDict:dict];
+        case SFSyncServerTargetTypeRestStandard:
+        default:  // SFSyncServerTarget is the default, if not specified.
+            return [[SFSyncServerTarget alloc] init];
     }
     
     // Fell through
@@ -113,7 +114,7 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
 - (void)syncUpRecord:(NSDictionary *)record
            fieldList:(NSArray *)fieldList
               action:(SFSyncServerTargetAction)action
-     completionBlock:(void (^)(NSDictionary *response))response
+     completionBlock:(void (^)(NSDictionary *))completionBlock
            failBlock:(void (^)(NSError *))failBlock {
     
     // Getting type and id
@@ -145,14 +146,14 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
         default:
             // Unsupported action.
             [self log:SFLogLevelInfo format:@"%@ unsupported action with value %d.  No action taken.", NSStringFromSelector(_cmd), action];
-            if (response != NULL) {
-                response(nil);
+            if (completionBlock != NULL) {
+                completionBlock(nil);
             }
             return;
     }
     
     // Send request
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:response];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:failBlock completeBlock:completionBlock];
 }
 
 @end

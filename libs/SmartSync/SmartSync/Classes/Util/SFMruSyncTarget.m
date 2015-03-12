@@ -26,6 +26,7 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSmartSyncNetworkUtils.h"
 
 NSString * const kSFSyncTargetObjectType = @"sobjectType";
 NSString * const kSFSyncTargetFieldlist = @"fieldlist";
@@ -81,7 +82,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     __weak SFMruSyncTarget *weakSelf = self;
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
-    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
         NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:kId];
         NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
@@ -92,7 +93,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
         
         
         SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:soql];
-        [syncManager sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
             weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
             completeBlock(d[kResponseRecords]);
         }];

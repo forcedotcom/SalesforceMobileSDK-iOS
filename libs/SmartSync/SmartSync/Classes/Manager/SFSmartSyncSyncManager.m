@@ -23,17 +23,13 @@
  */
 
 #import "SFSmartSyncSyncManager.h"
-#import "SFSmartSyncCacheManager.h"
-#import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSyncServerTarget.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
 
 // Will go away once we are done refactoring SFSyncTarget
 #import "SFMruSyncTarget.h"
@@ -69,7 +65,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) SFUserAccount *user;
-@property (nonatomic, readonly) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 
 @end
@@ -81,30 +77,46 @@ static NSMutableDictionary *syncMgrList = nil;
 
 #pragma mark - instance access / cleanup
 
-+ (id)sharedInstance:(SFUserAccount *)user {
-    static dispatch_once_t pred;
-    dispatch_once(&pred, ^{
-        syncMgrList = [[NSMutableDictionary alloc] init];
-    });
-    @synchronized([SFSmartSyncSyncManager class]) {
-        if (user) {
-            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
-            id syncMgr = [syncMgrList objectForKey:key];
-            if (!syncMgr) {
-                syncMgr = [[SFSmartSyncSyncManager alloc] initWithUser:user];
-                [syncMgrList setObject:syncMgr forKey:key];
-            }
-            return syncMgr;
-        } else {
-            return nil;
++ (void)initialize {
+    if (self == [SFSmartSyncSyncManager class]) {
+        syncMgrList = [NSMutableDictionary new];
+    }
+}
+
++ (instancetype)sharedInstance:(SFUserAccount *)user {
+    if (user) {
+        SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
+        return [self sharedInstanceForStore:store];
+    } else {
+        return nil;
+    }
+}
+
++ (instancetype)sharedInstanceForStore:(SFSmartStore *)store {
+    @synchronized ([SFSmartSyncSyncManager class]) {
+        if (store == nil || store.storePath == nil) return nil;
+        
+        NSString *storePath = store.storePath;
+        id syncMgr = [syncMgrList objectForKey:storePath];
+        if (syncMgr == nil) {
+            syncMgr = [[self alloc] initWithStore:store];
+            syncMgrList[storePath] = syncMgr;
         }
+        return syncMgr;
     }
 }
 
 + (void)removeSharedInstance:(SFUserAccount*)user {
+    if (user) {
+        SFSmartStore *store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:user];
+        [self removeSharedInstanceForStore:store];
+    }
+}
+
++ (void)removeSharedInstanceForStore:(SFSmartStore *)store {
     @synchronized([SFSmartSyncSyncManager class]) {
-        if (user) {
-            NSString *key = SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+        if (store && store.storePath.length > 0) {
+            NSString *key = store.storePath;
             [syncMgrList removeObjectForKey:key];
         }
     }
@@ -123,13 +135,20 @@ static NSMutableDictionary *syncMgrList = nil;
     return self;
 }
 
+- (instancetype)initWithStore:(SFSmartStore *)store {
+    self = [super init];
+    if (self) {
+        self.store = store;
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
+        [[SFAuthenticationManager sharedManager] addDelegate:self];
+        [SFSyncState setupSyncsSoupIfNeeded:self.store];
+    }
+    return self;
+}
+
 
 - (void)dealloc {
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
-}
-
-- (SFSmartStore *)store {
-    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:self.user];
 }
 
 #pragma mark - get sync / run sync methods
@@ -501,7 +520,6 @@ static NSMutableDictionary *syncMgrList = nil;
     };
     
     void (^completeBlock)(NSDictionary *);
-    NSError *actionError;
     switch(action) {
         case SyncServerTargetActionCreate:
             completeBlock = completeBlockCreate;

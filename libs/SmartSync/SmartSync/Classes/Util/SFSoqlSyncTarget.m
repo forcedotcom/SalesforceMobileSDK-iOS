@@ -26,6 +26,7 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
+#import "SFSmartSyncNetworkUtils.h"
 
 NSString * const kSFSoqlSyncTargetQuery = @"query";
 
@@ -82,7 +83,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
-    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
         weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
         completeBlock(d[kResponseRecords]);
@@ -96,7 +97,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self.nextRecordsUrl) {
         __weak SFSoqlSyncTarget* weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
-        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
             weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
             completeBlock(d[kResponseRecords]);
         }];

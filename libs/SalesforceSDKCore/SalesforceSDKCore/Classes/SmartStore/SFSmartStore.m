@@ -255,6 +255,10 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return (self.storeQueue != nil);
 }
 
+- (NSString *)storePath {
+    return [self.dbMgr fullDbFilePathForStoreName:self.storeName];
+}
+
 #pragma mark - Store methods
 
 + (id)sharedStoreWithName:(NSString *)storeName {
