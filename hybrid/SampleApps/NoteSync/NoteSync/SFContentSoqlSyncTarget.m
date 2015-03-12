@@ -25,6 +25,7 @@
 #import "SFContentSoqlSyncTarget.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
+#import <SmartSync/SFSmartSyncNetworkUtils.h>
 
 // SOAP request
 #define REQUEST_TEMPLATE @"<?xml version=\"1.0\"?>"\
@@ -310,7 +311,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
             weakSelf.queryLocator = response.queryLocator;
             weakSelf.totalSize = response.totalSize;
             completeBlock(response.records);
@@ -325,7 +326,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     if (self.queryLocator) {
         __weak SFContentSoqlSyncTarget* weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
-        [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
             weakSelf.queryLocator = response.queryLocator;
             completeBlock(response.records);
         }];

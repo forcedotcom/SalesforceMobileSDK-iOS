@@ -256,6 +256,9 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (NSString *)storePath {
+    if (self.storeName.length == 0)
+        return nil;
+    
     return [self.dbMgr fullDbFilePathForStoreName:self.storeName];
 }
 

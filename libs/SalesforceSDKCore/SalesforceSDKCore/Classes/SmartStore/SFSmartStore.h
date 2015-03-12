@@ -113,6 +113,9 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 @property (nonatomic, readonly, strong) NSString *storeName;
 
+/**
+ The full path to the store database.
+ */
 @property (nonatomic, readonly, strong) NSString *storePath;
 
 

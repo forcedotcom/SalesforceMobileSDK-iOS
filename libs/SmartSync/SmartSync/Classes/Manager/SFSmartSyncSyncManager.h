@@ -49,11 +49,17 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 @interface SFSmartSyncSyncManager : NSObject
 
-/** Singleton method for accessing cache manager instance.
- @param user A user that will scope this manager instance data
+/**
+ Singleton method for accessing sync manager instance by user.  Configured SmartStore store will be
+ the default store for the user.
+ @param user A user that will scope this manager instance data.
  */
 + (instancetype)sharedInstance:(SFUserAccount *)user;
 
+/**
+ Singleton method for accessing sync manager instance by SmartStore store.
+ @param store The store instance to configure.
+ */
 + (instancetype)sharedInstanceForStore:(SFSmartStore *)store;
 
 /** Removes the shared instance associated with the specified user
@@ -61,6 +67,9 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 + (void)removeSharedInstance:(SFUserAccount *)user;
 
+/** Removes the shared instance associated with the specified store.
+ @param store The store instance.
+ */
 + (void)removeSharedInstanceForStore:(SFSmartStore *)store;
 
 /** Return details about a sync
@@ -80,9 +89,21 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 - (SFSyncState*) reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
-/** Create and run a sync up
+/** Create and run a sync up with the default SFSyncServerTarget.
+ @param options The options associated with this sync up.
+ @param soupName The soup name where the local entries are stored.
+ @param updateBlock The block to be called with updates.
+ @return The sync state associated with this sync up.
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/** Create and run a sync up with the configured SFSyncServerTarget.
+ @param serverTarget The sync server target that will manage the sync up process.
+ @param options The options associated with this sync up.
+ @param soupName The soup name where the local entries are stored.
+ @param updateBlock The block to be called with updates.
+ @return The sync state associated with this sync up.
+ */
 - (SFSyncState*) syncUpWithTarget:(SFSyncServerTarget *)serverTarget
                           options:(SFSyncOptions*)options
                          soupName:(NSString*)soupName

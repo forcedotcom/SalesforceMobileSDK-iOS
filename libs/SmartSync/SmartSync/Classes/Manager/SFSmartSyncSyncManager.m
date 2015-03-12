@@ -64,7 +64,6 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
 @interface SFSmartSyncSyncManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
 
@@ -123,17 +122,6 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 #pragma mark - init / dealloc
-
-- (id)initWithUser:(SFUserAccount *)user {
-    self = [super init];
-    if (self) {
-        self.user = user;
-        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [SFSyncState setupSyncsSoupIfNeeded:self.store];
-    }
-    return self;
-}
 
 - (instancetype)initWithStore:(SFSmartStore *)store {
     self = [super init];
@@ -428,15 +416,15 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
     
     // Do we need to do a create, update or delete
-    SFSyncServerTargetAction action = SyncServerTargetActionNone;
+    SFSyncServerTargetAction action = SFSyncServerTargetActionNone;
     if ([record[kSyncManagerLocallyDeleted] boolValue])
-        action = SyncServerTargetActionDelete;
+        action = SFSyncServerTargetActionDelete;
     else if ([record[kSyncManagerLocallyCreated] boolValue])
-        action = SyncServerTargetActionCreate;
+        action = SFSyncServerTargetActionCreate;
     else if ([record[kSyncManagerLocallyUpdated] boolValue])
-        action = SyncServerTargetActionUpdate;
+        action = SFSyncServerTargetActionUpdate;
     
-    if (action == SyncServerTargetActionNone) {
+    if (action == SFSyncServerTargetActionNone) {
         // Next
         [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
         return;
@@ -449,7 +437,7 @@ static NSMutableDictionary *syncMgrList = nil;
      * circumstances, we will do nothing and return here.
      */
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged &&
-        (action == SyncServerTargetActionUpdate || action == SyncServerTargetActionDelete)) {
+        (action == SFSyncServerTargetActionUpdate || action == SFSyncServerTargetActionDelete)) {
         // Need to check the modification date on the server, against the local date.
         [sync.serverTarget fetchRecordModificationDates:record
                                 modificationResultBlock:^(NSDate *localDate, NSDate *serverDate, NSError *error) {
@@ -521,13 +509,13 @@ static NSMutableDictionary *syncMgrList = nil;
     
     void (^completeBlock)(NSDictionary *);
     switch(action) {
-        case SyncServerTargetActionCreate:
+        case SFSyncServerTargetActionCreate:
             completeBlock = completeBlockCreate;
             break;
-        case SyncServerTargetActionUpdate:
+        case SFSyncServerTargetActionUpdate:
             completeBlock = completeBlockUpdate;
             break;
-        case SyncServerTargetActionDelete:
+        case SFSyncServerTargetActionDelete:
             completeBlock = completeBlockDelete;
             break;
         default:
