@@ -88,7 +88,7 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
 #pragma mark - Sync up methods
 
 - (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(void (^)(NSDate *, NSDate *, NSError *))modificationResultBlock {
+             modificationResultBlock:(SFSyncServerRecordModificationResultBlock)modificationResultBlock {
     
     NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSString *objectId = record[kId];
@@ -131,8 +131,8 @@ static NSString * const kSFSyncServerTargetTypeCustom = @"custom";
 - (void)syncUpRecord:(NSDictionary *)record
            fieldList:(NSArray *)fieldList
               action:(SFSyncServerTargetAction)action
-     completionBlock:(void (^)(NSDictionary *))completionBlock
-           failBlock:(void (^)(NSError *))failBlock {
+     completionBlock:(SFSyncServerTargetCompleteBlock)completionBlock
+           failBlock:(SFSyncServerTargetErrorBlock)failBlock {
     
     // Getting type and id
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];

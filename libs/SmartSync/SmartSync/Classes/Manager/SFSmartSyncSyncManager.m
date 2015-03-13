@@ -249,8 +249,8 @@ static NSMutableDictionary *syncMgrList = nil;
     SFSyncTarget* target = sync.target;
     long long maxTimeStamp = sync.maxTimeStamp;
 
-    void (^failBlock)(NSError *error) = ^(NSError *error) {
-        failSync(@"Server call failed", error);
+    SFSyncTargetFetchErrorBlock failBlock = ^(NSError *error) {
+        failSync(@"Server call for sync down failed", error);
     };
 
     __block NSUInteger countFetched = 0;
@@ -395,8 +395,8 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     
     // Fail block for rest call
-    void (^failBlock)(NSError *error) = ^(NSError *error) {
-        failSync(@"Server call failed", error);
+    SFSyncServerTargetErrorBlock failBlock = ^(NSError *error) {
+        failSync(@"Server call for sync up failed", error);
     };
 
     // Otherwise, there's work to do.
@@ -407,7 +407,7 @@ static NSMutableDictionary *syncMgrList = nil;
              recordIds:(NSArray*)recordIds
                  index:(NSUInteger)i
             updateSync:(SyncUpdateBlock)updateSync
-             failBlock:(void (^)(NSError *))failBlock {
+             failBlock:(SFSyncServerTargetErrorBlock)failBlock {
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     NSUInteger totalSize = recordIds.count;
@@ -478,13 +478,13 @@ static NSMutableDictionary *syncMgrList = nil;
                       record:(NSMutableDictionary*)record
                       action:(SFSyncServerTargetAction)action
                   updateSync:(SyncUpdateBlock)updateSync
-                   failBlock:(void (^)(NSError *))failBlock {
+                   failBlock:(SFSyncServerTargetErrorBlock)failBlock {
     
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
     
     // Delete handler
-    void (^completeBlockDelete)(NSDictionary *) = ^(NSDictionary *d) {
+    SFSyncServerTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
         // Remove entry on delete
         [self.store removeEntries:@[soupEntryId] fromSoup:soupName];
         
@@ -493,7 +493,7 @@ static NSMutableDictionary *syncMgrList = nil;
     };
     
     // Update handler
-    void (^completeBlockUpdate)(NSDictionary *) = ^(NSDictionary *d) {
+    SFSyncServerTargetCompleteBlock completeBlockUpdate = ^(NSDictionary *d) {
         // Set local flags to false
         record[kSyncManagerLocal] = @NO;
         record[kSyncManagerLocallyCreated] = @NO;
@@ -508,13 +508,13 @@ static NSMutableDictionary *syncMgrList = nil;
     };
     
     // Create handler
-    void (^completeBlockCreate)(NSDictionary *) = ^(NSDictionary *d) {
+    SFSyncServerTargetCompleteBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
         record[kId] = d[kSyncManagerLObjectId];
         completeBlockUpdate(d);
     };
     
-    void (^completeBlock)(NSDictionary *);
+    SFSyncServerTargetCompleteBlock completeBlock;
     switch(action) {
         case SFSyncServerTargetActionCreate:
             completeBlock = completeBlockCreate;

@@ -65,6 +65,21 @@ typedef NS_ENUM(NSUInteger, SFSyncServerTargetAction) {
 };
 
 /**
+ Block definition for returning record modification information.
+ */
+typedef void (^SFSyncServerRecordModificationResultBlock)(NSDate *localModificationDate, NSDate *remoteModificationDate, NSError *error);
+
+/**
+ Block definition for calling a sync up completion block.
+ */
+typedef void (^SFSyncServerTargetCompleteBlock)(NSDictionary *syncUpResult);
+
+/**
+ Block definition for calling a sync up failure block.
+ */
+typedef void (^SFSyncServerTargetErrorBlock)(NSError *error);
+
+/**
  Base class for a server target, used to manage sync ups to the configured service.
  */
 @interface SFSyncServerTarget : NSObject
@@ -106,7 +121,7 @@ typedef NS_ENUM(NSUInteger, SFSyncServerTargetAction) {
  @param modificationResultBlock The block to execute with the modification date values.
  */
 - (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(void (^)(NSDate *localDate, NSDate *serverDate, NSError *error))modificationResultBlock;
+             modificationResultBlock:(SFSyncServerRecordModificationResultBlock)modificationResultBlock;
 
 /**
  Syncs up a record to the service.
@@ -119,7 +134,7 @@ typedef NS_ENUM(NSUInteger, SFSyncServerTargetAction) {
 - (void)syncUpRecord:(NSDictionary *)record
            fieldList:(NSArray *)fieldList
               action:(SFSyncServerTargetAction)action
-     completionBlock:(void (^)(NSDictionary *))completionBlock
-           failBlock:(void (^)(NSError *))failBlock;
+     completionBlock:(SFSyncServerTargetCompleteBlock)completionBlock
+           failBlock:(SFSyncServerTargetErrorBlock)failBlock;
 
 @end
