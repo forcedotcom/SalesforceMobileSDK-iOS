@@ -57,6 +57,14 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 + (instancetype)sharedInstance:(SFUserAccount *)user;
 
 /**
+ Singleton method for accessing a sync manager based on user and store name.  Configured SmartStore
+ store will be the store with the given name for the given user.
+ @param user The user associated with the store.
+ @param storeName The name of the SmartStore associated with the user.
+ */
++ (instancetype)sharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName;
+
+/**
  Singleton method for accessing sync manager instance by SmartStore store.
  @param store The store instance to configure.
  */
@@ -66,6 +74,12 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  @param user The user
  */
 + (void)removeSharedInstance:(SFUserAccount *)user;
+
+/** Removes the shared instance associated with the given user and store name.
+ @param user The user associated with the store.
+ @param storeName The name of the store associated with the given user.
+ */
++ (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName;
 
 /** Removes the shared instance associated with the specified store.
  @param store The store instance.
