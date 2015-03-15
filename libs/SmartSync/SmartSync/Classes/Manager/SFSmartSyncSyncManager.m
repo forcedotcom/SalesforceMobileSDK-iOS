@@ -446,11 +446,17 @@ static NSMutableDictionary *syncMgrList = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged &&
         (action == SFSyncServerTargetActionUpdate || action == SFSyncServerTargetActionDelete)) {
         // Need to check the modification date on the server, against the local date.
+        __weak SFSmartSyncSyncManager *weakSelf = self;
         [sync.serverTarget fetchRecordModificationDates:record
                                 modificationResultBlock:^(NSDate *localDate, NSDate *serverDate, NSError *error) {
-                                    if ([localDate compare:serverDate] != NSOrderedAscending) {
+                                    __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
+                                    if (error) {
+                                        if (failBlock != NULL) {
+                                            failBlock(error);
+                                        }
+                                    } else if ([localDate compare:serverDate] != NSOrderedAscending) {
                                         // Local date is newer than or the same as the server date.
-                                        [self resumeSyncUpOneEntry:sync
+                                        [strongSelf resumeSyncUpOneEntry:sync
                                                          recordIds:recordIds
                                                              index:i
                                                             record:record
@@ -459,7 +465,8 @@ static NSMutableDictionary *syncMgrList = nil;
                                                          failBlock:failBlock];
                                     } else {
                                         // Server date is newer than the local date.  Skip this update.
-                                        [self syncUpOneEntry:sync
+                                        [strongSelf log:SFLogLevelInfo format:@"Record with id '%@' has been modified on the server.  Local last mod date: %@, Server last mod date: %@ . Skipping.", record[kId], localDate, serverDate];
+                                        [strongSelf syncUpOneEntry:sync
                                                    recordIds:recordIds
                                                        index:i+1
                                                   updateSync:updateSync

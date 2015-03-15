@@ -33,7 +33,6 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
     if (self) {
         self.targetType = SFSyncServerTargetTypeCustom;
         self.dateCompare = dateCompare;
-        NSLog(@"init: self.dateCompare: %lu", self.dateCompare);
         self.sendRemoteModError = sendRemoteModError;
         self.sendSyncUpError = sendSyncUpError;
     }
@@ -75,11 +74,9 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
             } else {
                 NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
                 NSDate *remoteLastModifiedDate;
-                NSLog(@"fetch: self.dateCompare: %lu", self.dateCompare);
                 switch (self.dateCompare) {
                     case TestSyncServerTargetRemoteModDateGreaterThanLocal:
                         remoteLastModifiedDate = [NSDate dateWithTimeInterval:60.0 * 60.0 sinceDate:localLastModifiedDate];
-                        NSLog(@"Remote date greater than local: %@", remoteLastModifiedDate);
                         break;
                     case TestSyncServerTargetRemoteModDateLessThanLocal:
                         remoteLastModifiedDate = [NSDate dateWithTimeInterval:-60.0 * 60.0 sinceDate:localLastModifiedDate];

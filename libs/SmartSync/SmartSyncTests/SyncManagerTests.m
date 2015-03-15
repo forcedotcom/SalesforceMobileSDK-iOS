@@ -329,7 +329,7 @@ static NSException *authException = nil;
     SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally modified anymore
     NSArray* ids = [idToNamesLocallyUpdated allKeys];
@@ -409,7 +409,7 @@ static NSException *authException = nil;
     SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
     
     // Check that db still shows entries as locally modified
     NSString* idsClause = [self buildInClause:ids];
@@ -482,7 +482,7 @@ static NSException *authException = nil;
     SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally created anymore and that they use returned id
     NSString* namesClause = [self buildInClause:names];
@@ -550,7 +550,7 @@ static NSException *authException = nil;
     SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally modified anymore
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
@@ -625,7 +625,7 @@ static NSException *authException = nil;
     SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
     
     // Check that db still shows entries as locally deleted
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
@@ -640,6 +640,48 @@ static NSException *authException = nil;
         XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
         XCTAssertEqual(@YES, account[kSyncManagerLocallyDeleted]);
     }
+}
+
+/**
+ * Tests the flow for a failure determining modification date.
+ */
+- (void)testCustomSyncUpWithFetchModificationDateFailure
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Make some local change
+    [self makeSomeLocalChanges];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+                                                                                     sendRemoteModError:YES
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusFailed];
+}
+
+/**
+ * Tests the flow for a failure syncing up the data.
+ */
+- (void)testCustomSyncUpWithSyncUpFailure
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Make some local change
+    [self makeSomeLocalChanges];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:YES];
+    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusFailed];
 }
 
 /**
@@ -735,10 +777,14 @@ static NSException *authException = nil;
 
 - (void)trySyncUp:(NSInteger)numberChanges mergeMode:(SFSyncStateMergeMode)mergeMode {
     SFSyncServerTarget *defaultTarget = [SFSyncServerTarget newFromDict:@{ }];
-    [self trySyncUp:numberChanges serverTarget:defaultTarget mergeMode:mergeMode];
+    [self trySyncUp:numberChanges actualChanges:numberChanges serverTarget:defaultTarget mergeMode:mergeMode completionStatus:SFSyncStateStatusDone];
 }
 
-- (void) trySyncUp:(NSInteger)numberChanges serverTarget:(SFSyncServerTarget *)serverTarget mergeMode:(SFSyncStateMergeMode)mergeMode
+- (void) trySyncUp:(NSInteger)numberChanges
+     actualChanges:(NSInteger)actualNumberChanges
+      serverTarget:(SFSyncServerTarget *)serverTarget
+         mergeMode:(SFSyncStateMergeMode)mergeMode
+  completionStatus:(SFSyncStateStatus)completionStatus
 {
     // Create sync
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[ACCOUNT_NAME] mergeMode:mergeMode];
@@ -753,10 +799,18 @@ static NSException *authException = nil;
     // Check status updates
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
-    for (int i=1; i<numberChanges; i++) {
+    for (int i=1; i<actualNumberChanges; i++) {
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
     }
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberChanges];
+    
+    if (completionStatus == SFSyncStateStatusDone) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
+    } else if (completionStatus == SFSyncStateStatusFailed) {
+        NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
+    } else {
+        XCTFail(@"completionStatus value '%d' not currently supported.", completionStatus);
+    }
 }
 
 - (void)checkStatus:(SFSyncState*)sync
