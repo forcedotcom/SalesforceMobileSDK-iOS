@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 @class SFSyncTarget;
+@class SFSyncServerTarget;
 @class SFSyncOptions;
 @class SFSmartStore;
 
@@ -36,6 +37,7 @@ extern NSString * const kSFSyncStateSyncsSoupSyncType;
 extern NSString * const kSFSyncStateId;
 extern NSString * const kSFSyncStateType;
 extern NSString * const kSFSyncStateTarget;
+extern NSString * const kSFSyncStateServerTarget;
 extern NSString * const kSFSyncStateSoupName;
 extern NSString * const kSFSyncStateOptions;
 extern NSString * const kSFSyncStateStatus;
@@ -81,6 +83,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic, readonly) SFSyncStateSyncType type;
 @property (nonatomic, strong, readonly) NSString* soupName;
 @property (nonatomic, strong, readonly) SFSyncTarget* target;
+@property (nonatomic, strong, readonly) SFSyncServerTarget *serverTarget;
 @property (nonatomic, strong, readonly) SFSyncOptions* options;
 @property (nonatomic) SFSyncStateStatus status;
 @property (nonatomic) NSInteger progress;
@@ -96,6 +99,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncServerTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
  */

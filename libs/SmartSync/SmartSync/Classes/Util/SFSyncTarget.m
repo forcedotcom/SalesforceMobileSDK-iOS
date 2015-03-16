@@ -26,10 +26,8 @@
 #import "SFMruSyncTarget.h"
 #import "SFSoqlSyncTarget.h"
 #import "SFSoslSyncTarget.h"
+#import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-
-NSString * const kSFSyncTargetQueryType = @"type";
-NSString * const kSFSyncTargetiOSImpl = @"iOSImpl";
 
 // query types
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
@@ -44,7 +42,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 
 + (SFSyncTarget*) newFromDict:(NSDictionary*)dict {
     NSString* implClassName;
-    switch ([SFSyncTarget queryTypeFromString:dict[kSFSyncTargetQueryType]]) {
+    switch ([SFSyncTarget queryTypeFromString:dict[kSFSyncTargetTypeKey]]) {
     case SFSyncTargetQueryTypeMru:
         return [SFMruSyncTarget newFromDict:dict];
     case SFSyncTargetQueryTypeSosl:
@@ -52,7 +50,7 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
     case SFSyncTargetQueryTypeSoql:
          return [SFSoqlSyncTarget newFromDict:dict];
     case SFSyncTargetQueryTypeCustom:
-        implClassName = dict[kSFSyncTargetiOSImpl];
+        implClassName = dict[kSFSyncTargetiOSImplKey];
         return [NSClassFromString(implClassName) newFromDict:dict];
     }
     // Fell through

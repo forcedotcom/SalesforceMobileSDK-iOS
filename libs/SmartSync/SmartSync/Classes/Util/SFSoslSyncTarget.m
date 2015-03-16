@@ -25,12 +25,11 @@
 #import "SFSoslSyncTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSmartSyncNetworkUtils.h"
 
 NSString * const kSFSoslSyncTargetQuery = @"query";
 
 @interface SFSmartSyncSyncManager ()
-
-- (void) sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;
 
 @end
 
@@ -66,7 +65,7 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
              kSFSoslSyncTargetQuery: self.query
              };
 }
@@ -81,7 +80,7 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
     __weak SFSoslSyncTarget* weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:self.query];
-    [syncManager sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){
         weakSelf.totalSize = [records count];
         completeBlock(records);
     }];

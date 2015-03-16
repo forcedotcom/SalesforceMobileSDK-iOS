@@ -29,17 +29,12 @@
 typedef void (^SFSyncTargetFetchCompleteBlock) (NSArray* records);
 typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
 
-
-
 typedef enum {
   SFSyncTargetQueryTypeMru,
   SFSyncTargetQueryTypeSosl,
   SFSyncTargetQueryTypeSoql,
   SFSyncTargetQueryTypeCustom
 } SFSyncTargetQueryType;
-
-extern NSString * const kSFSyncTargetQueryType;
-extern NSString * const kSFSyncTargetiOSImpl;
 
 @interface SFSyncTarget : NSObject
 

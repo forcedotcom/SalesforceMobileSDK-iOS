@@ -85,3 +85,9 @@ extern NSString * const kLayoutLabelField;
 extern NSString * const kLayoutLimitsField;
 extern NSString * const kLayoutColumnsField;
 extern NSString * const kLayoutObjectTypeField;
+
+/**
+ * Sync target constants.
+ */
+extern NSString * const kSFSyncTargetTypeKey;
+extern NSString * const kSFSyncTargetiOSImplKey;
