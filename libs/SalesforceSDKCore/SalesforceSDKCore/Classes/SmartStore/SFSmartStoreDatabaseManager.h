@@ -46,6 +46,8 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  */
 + (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user;
 
++ (SFSmartStoreDatabaseManager *)sharedGlobalManager;
+
 /**
  Removes the shared database manager associated with the given user.
  @param user The user configured for the shared database manager.

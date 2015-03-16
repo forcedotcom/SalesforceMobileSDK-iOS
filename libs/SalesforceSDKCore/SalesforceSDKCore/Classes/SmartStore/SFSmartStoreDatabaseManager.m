@@ -34,7 +34,6 @@
 #import "FMDatabaseQueue.h"
 #import "FMResultSet.h"
 
-static SFSmartStoreDatabaseManager *sharedInstance = nil;
 static NSMutableDictionary *sDatabaseManagers;
 
 // NSError constants
@@ -57,12 +56,15 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 @implementation SFSmartStoreDatabaseManager
 
 @synthesize user = _user;
+@synthesize isGlobalManager = _isGlobalManager;
 
 #pragma mark - Singleton initialization / management
 
 + (void)initialize
 {
-    sDatabaseManagers = [NSMutableDictionary dictionary];
+    if (self == [SFSmartStoreDatabaseManager class]) {
+        sDatabaseManagers = [NSMutableDictionary dictionary];
+    }
 }
 
 + (SFSmartStoreDatabaseManager *)sharedManager
@@ -83,6 +85,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
++ (SFSmartStoreDatabaseManager *)sharedGlobalManager
+{
+    static dispatch_once_t pred;
+    static SFSmartStoreDatabaseManager *globalManager = nil;
+    
+    dispatch_once(&pred, ^{
+        globalManager = [[self alloc] initGlobalManager];
+    });
+    return globalManager;
+}
+
 + (void)removeSharedManagerForUser:(SFUserAccount *)user
 {
     @synchronized (self) {
@@ -98,7 +111,17 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 {
     self = [super init];
     if (self) {
-        self.user = ([user isEqual:[SFUserAccountManager sharedInstance].temporaryUser] ? nil : user);
+        self.user = ([user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity] ? nil : user);
+        self.isGlobalManager = NO;
+    }
+    return self;
+}
+
+- (id)initGlobalManager
+{
+    self = [super init];
+    if (self) {
+        self.isGlobalManager = YES;
     }
     return self;
 }
@@ -338,7 +361,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 - (NSString *)rootStoreDirectory {
     NSString *rootStoreDir;
-    if (self.user == nil) {
+    if (self.user == nil || self.isGlobalManager) {
         rootStoreDir = [[SFDirectoryManager sharedManager] globalDirectoryOfType:NSDocumentDirectory components:@[ kStoresDirectory ]];
     } else {
         rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:self.user type:NSDocumentDirectory components:@[ kStoresDirectory ]];

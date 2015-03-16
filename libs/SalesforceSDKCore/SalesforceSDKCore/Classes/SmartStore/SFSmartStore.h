@@ -134,6 +134,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 + (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
 
++ (id)sharedGlobalStoreWithName:(NSString *)storeName;
+
 /**
  You may use this method to completely remove a persistent shared store with
  the given name for the current user.
@@ -150,6 +152,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 + (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user;
 
++ (void)removeSharedGlobalStoreWithName:(NSString *)storeName;
+
 /**
  Removes all of the stores for the current user from this app.
  */
@@ -160,6 +164,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @param user The user associated with the stores to remove.
  */
 + (void)removeAllStoresForUser:(SFUserAccount *)user;
+
++ (void)removeAllGlobalStores;
 
 /**
  @return The block used to generate the encryption key.  Sticking with the default encryption

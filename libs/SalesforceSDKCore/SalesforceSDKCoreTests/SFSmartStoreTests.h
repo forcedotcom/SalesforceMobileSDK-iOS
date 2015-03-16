@@ -30,5 +30,6 @@
 
 @interface SFSmartStoreTests : SFSmartStoreTestCase {
     SFSmartStore* _store;
+    SFSmartStore* _globalStore;
 }
 @end
