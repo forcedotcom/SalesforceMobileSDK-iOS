@@ -25,6 +25,7 @@
 #import <XCTest/XCTest.h>
 #import "SFSmartSyncSyncManager.h"
 #import "SFSyncUpdateCallbackQueue.h"
+#import "TestSyncServerTarget.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -36,6 +37,7 @@
 #import <SmartSync/SFSoqlSyncTarget.h>
 #import <SmartSync/SFSoslSyncTarget.h>
 #import <SmartSync/SFMruSyncTarget.h>
+#import <SmartSync/SFSyncServerTarget.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
@@ -114,6 +116,64 @@ static NSException *authException = nil;
 }
 
 #pragma mark - tests
+
+/**
+ * Test instantiation of sync manager from various sharedInstance methods.
+ */
+- (void)testSyncManagerSharedInstanceMethods
+{
+    SFSmartSyncSyncManager *mgr1 = [SFSmartSyncSyncManager sharedInstance:currentUser];
+    SFSmartStore *store1 = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
+    SFSmartSyncSyncManager *mgr2 = [SFSmartSyncSyncManager sharedInstanceForStore:store1];
+    SFSmartSyncSyncManager *mgr3 = [SFSmartSyncSyncManager sharedInstanceForUser:currentUser storeName:kDefaultSmartStoreName];
+    XCTAssertEqual(mgr1, mgr2, @"Sync managers should be the same.");
+    XCTAssertEqual(mgr1, mgr3, @"Sync managers should be the same.");
+    
+    NSString *storeName2 = @"AnotherStore";
+    SFSmartSyncSyncManager *mgr4 = [SFSmartSyncSyncManager sharedInstance:currentUser];
+    SFSmartStore *store2 = [SFSmartStore sharedStoreWithName:storeName2];
+    SFSmartSyncSyncManager *mgr5 = [SFSmartSyncSyncManager sharedInstanceForStore:store2];
+    SFSmartSyncSyncManager *mgr6 = [SFSmartSyncSyncManager sharedInstanceForUser:currentUser storeName:storeName2];
+    XCTAssertEqual(mgr1, mgr4, @"Sync managers should be the same.");
+    XCTAssertNotEqual(mgr4, mgr5, @"Sync managers should not be the same.");
+    XCTAssertNotEqual(mgr4, mgr6, @"Sync managers should not be the same.");
+    XCTAssertEqual(mgr5, mgr6, @"Sync managers should be the same.");
+    
+    [SFSmartStore removeSharedStoreWithName:storeName2 forUser:currentUser];
+}
+
+/**
+ * Test serialization and deserialization of SFSyncServerTargets to and from NSDictionary objects.
+ */
+- (void)testSyncServerTargetSerialization {
+    
+    // Default server target should be the base class.
+    NSDictionary *defaultDict = @{ };
+    SFSyncServerTarget *defaultServerTarget = [SFSyncServerTarget newFromDict:defaultDict];
+    XCTAssertEqual([defaultServerTarget class], [SFSyncServerTarget class], @"Default class should be SFSyncServerTarget");
+    XCTAssertEqual(defaultServerTarget.targetType, SFSyncServerTargetTypeRestStandard, @"Sync server target type is incorrect.");
+    
+    // Explicit rest server target type creates base class.
+    NSDictionary *restDict = @{ kSFSyncTargetTypeKey: @"rest" };
+    SFSyncServerTarget *restServerTarget = [SFSyncServerTarget newFromDict:restDict];
+    XCTAssertEqual([restServerTarget class], [SFSyncServerTarget class], @"Rest class should be SFSyncServerTarget");
+    XCTAssertEqual(restServerTarget.targetType, SFSyncServerTargetTypeRestStandard, @"Sync server target type is incorrect.");
+    
+    // Custom server target
+    TestSyncServerTarget *customTarget = [[TestSyncServerTarget alloc] init];
+    NSDictionary *customDict = [customTarget asDict];
+    XCTAssertEqualObjects(customDict[kSFSyncTargetTypeKey], @"custom", @"Should be a custom server target.");
+    XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncServerTarget class]), @"Custom class is incorrect.");
+    SFSyncServerTarget *customTargetFromDict = [SFSyncServerTarget newFromDict:customDict];
+    XCTAssertEqual([customTargetFromDict class], [TestSyncServerTarget class], @"Custom class is incorrect.");
+    XCTAssertEqual(customTargetFromDict.targetType, SFSyncServerTargetTypeCustom, @"Target type should be custom.");
+}
+
+- (void)testDefaultSyncServerTarget {
+    SFSyncOptions *options = [SFSyncOptions newSyncOptionsForSyncUp:@[ACCOUNT_NAME] mergeMode:SFSyncStateMergeModeOverwrite];
+    SFSyncState *syncUpState = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:store];
+    XCTAssertEqual([syncUpState.serverTarget class], [SFSyncServerTarget class], @"Default sync up target should be SFSyncServerTarget");
+}
 
 /**
  * getSyncStatus should return null for invalid sync id
@@ -254,10 +314,42 @@ static NSException *authException = nil;
     }
 }
 
+- (void)testCustomSyncUpWithLocallyUpdatedRecords
+{
+    // Create test data.
+    [self createTestData];
+    
+    // Sync down data to local store.
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Make some local changes.
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    
+    // Sync up with custom sync server target.
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    
+    // Check that db doesn't show entries as locally modified anymore
+    NSArray* ids = [idToNamesLocallyUpdated allKeys];
+    NSString* idsClause = [self buildInClause:ids];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+    }
+}
+
 /**
  * Sync down the test accounts, modify a few, sync up with merge mode LEAVE_IF_CHANGED, check smartstore and server afterwards
  */
--(void)testSyncUpWithLocallyUpdatedRecordsWithoutOverwrite
+- (void)testSyncUpWithLocallyUpdatedRecordsWithoutOverwrite
 {
     // Create test data
     [self createTestData];
@@ -298,6 +390,38 @@ static NSException *authException = nil;
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     for (NSDictionary* record in records) {
         XCTAssertNotEqualObjects(idToNamesLocallyUpdated[record[ACCOUNT_ID]], record[ACCOUNT_NAME]);
+    }
+}
+
+- (void)testCustomSyncUpWithLocallyUpdatedRecordsWithoutOverwrite
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Make some local change
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    NSArray* ids = [idToNamesLocallyUpdated allKeys];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
+    
+    // Check that db still shows entries as locally modified
+    NSString* idsClause = [self buildInClause:ids];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
     }
 }
 
@@ -345,6 +469,37 @@ static NSException *authException = nil;
     [idToNames setDictionary:idToNamesCreated];
 }
 
+- (void)testCustomSyncUpWithLocallyCreatedRecords
+{
+    // Create test data
+    [self createTestData];
+    
+    // Create a few entries locally
+    NSArray* names = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    [self createAccountsLocally:names];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    
+    // Check that db doesn't show entries as locally created anymore and that they use returned id
+    NSString* namesClause = [self buildInClause:names];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        NSString* accountId = account[ACCOUNT_ID];
+        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertFalse([accountId hasPrefix:@"local_"]);
+    }
+}
+
 /**
  * Sync down the test accounts, delete a few, sync up, check smartstore and server afterwards
  */
@@ -376,6 +531,33 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(0, records.count);
+}
+
+-(void) testCustomSyncUpWithLocallyDeletedRecords
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Delete a few entries locally
+    NSArray* allIds = [idToNames allKeys];
+    NSArray* idsLocallyDeleted = @[ allIds[0], allIds[1], allIds[2] ];
+    [self deleteAccountsLocally:idsLocallyDeleted];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    
+    // Check that db doesn't show entries as locally modified anymore
+    NSString* idsClause = [self buildInClause:idsLocallyDeleted];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(0, rows.count);
 }
 
 /**
@@ -424,6 +606,82 @@ static NSException *authException = nil;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
     NSArray* records = [self sendSyncRequest:request][RECORDS];
     XCTAssertEqual(3, records.count);
+}
+
+-(void) testCustomSyncUpWithLocallyDeletedRecordsWithoutOverwrite
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Delete a few entries locally
+    NSArray* allIds = [idToNames allKeys];
+    NSArray* idsLocallyDeleted = @[ allIds[0], allIds[1], allIds[2] ];
+    [self deleteAccountsLocally:idsLocallyDeleted];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
+    
+    // Check that db still shows entries as locally deleted
+    NSString* idsClause = [self buildInClause:idsLocallyDeleted];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(3, rows.count);
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqual(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqual(@YES, account[kSyncManagerLocallyDeleted]);
+    }
+}
+
+/**
+ * Tests the flow for a failure determining modification date.
+ */
+- (void)testCustomSyncUpWithFetchModificationDateFailure
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Make some local change
+    [self makeSomeLocalChanges];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+                                                                                     sendRemoteModError:YES
+                                                                                        sendSyncUpError:NO];
+    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusFailed];
+}
+
+/**
+ * Tests the flow for a failure syncing up the data.
+ */
+- (void)testCustomSyncUpWithSyncUpFailure
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Make some local change
+    [self makeSomeLocalChanges];
+    
+    // Sync up
+    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+                                                                                     sendRemoteModError:NO
+                                                                                        sendSyncUpError:YES];
+    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusFailed];
 }
 
 /**
@@ -517,11 +775,20 @@ static NSException *authException = nil;
     }
 }
 
-- (void) trySyncUp:(NSInteger)numberChanges mergeMode:(SFSyncStateMergeMode)mergeMode
+- (void)trySyncUp:(NSInteger)numberChanges mergeMode:(SFSyncStateMergeMode)mergeMode {
+    SFSyncServerTarget *defaultTarget = [SFSyncServerTarget newFromDict:@{ }];
+    [self trySyncUp:numberChanges actualChanges:numberChanges serverTarget:defaultTarget mergeMode:mergeMode completionStatus:SFSyncStateStatusDone];
+}
+
+- (void) trySyncUp:(NSInteger)numberChanges
+     actualChanges:(NSInteger)actualNumberChanges
+      serverTarget:(SFSyncServerTarget *)serverTarget
+         mergeMode:(SFSyncStateMergeMode)mergeMode
+  completionStatus:(SFSyncStateStatus)completionStatus
 {
     // Create sync
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[ACCOUNT_NAME] mergeMode:mergeMode];
-    SFSyncState* sync = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:serverTarget soupName:ACCOUNTS_SOUP store:store];
     NSInteger syncId = sync.syncId;
     [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
     
@@ -532,13 +799,28 @@ static NSException *authException = nil;
     // Check status updates
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
-    for (int i=1; i<numberChanges; i++) {
+    for (int i=1; i<actualNumberChanges; i++) {
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
     }
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:numberChanges];
+    
+    if (completionStatus == SFSyncStateStatusDone) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
+    } else if (completionStatus == SFSyncStateStatusFailed) {
+        NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
+    } else {
+        XCTFail(@"completionStatus value '%d' not currently supported.", completionStatus);
+    }
 }
 
-- (void) checkStatus:(SFSyncState*)sync expectedType:(SFSyncStateSyncType)expectedType expectedId:(NSInteger)expectedId expectedTarget:(SFSyncTarget*)expectedTarget expectedOptions:(SFSyncOptions*)expectedOptions expectedStatus:(SFSyncStateStatus)expectedStatus expectedProgress:(NSInteger)expectedProgress expectedTotalSize:(NSInteger)expectedTotalSize
+- (void)checkStatus:(SFSyncState*)sync
+       expectedType:(SFSyncStateSyncType)expectedType
+         expectedId:(NSInteger)expectedId
+     expectedTarget:(SFSyncTarget*)expectedTarget
+    expectedOptions:(SFSyncOptions*)expectedOptions
+     expectedStatus:(SFSyncStateStatus)expectedStatus
+   expectedProgress:(NSInteger)expectedProgress
+  expectedTotalSize:(NSInteger)expectedTotalSize
 {
     XCTAssertNotNil(sync);
     if (!sync)
@@ -573,7 +855,7 @@ static NSException *authException = nil;
     else {
         XCTAssertNil(sync.target);
     }
-
+    
     if (expectedOptions) {
         XCTAssertNotNil(sync.options);
         XCTAssertEqual(expectedOptions.mergeMode, sync.options.mergeMode);

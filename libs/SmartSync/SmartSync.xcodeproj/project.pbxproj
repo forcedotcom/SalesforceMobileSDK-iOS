@@ -55,6 +55,7 @@
 		828722241AAF8D050082A2F9 /* SFSyncServerTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828722221AAF8D050082A2F9 /* SFSyncServerTarget.m */; };
 		828E0E461AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E0E441AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828E0E471AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E451AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m */; };
+		828E0E541AB398AA004E0AF2 /* TestSyncServerTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncServerTarget.m */; };
 		CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
 		CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */; };
@@ -131,6 +132,8 @@
 		828722221AAF8D050082A2F9 /* SFSyncServerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSyncServerTarget.m; sourceTree = "<group>"; };
 		828E0E441AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncNetworkUtils.h; sourceTree = "<group>"; };
 		828E0E451AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncNetworkUtils.m; sourceTree = "<group>"; };
+		828E0E521AB398AA004E0AF2 /* TestSyncServerTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestSyncServerTarget.h; path = Targets/TestSyncServerTarget.h; sourceTree = "<group>"; };
+		828E0E531AB398AA004E0AF2 /* TestSyncServerTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestSyncServerTarget.m; path = Targets/TestSyncServerTarget.m; sourceTree = "<group>"; };
 		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -231,6 +234,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		828E0E511AB3987C004E0AF2 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				828E0E521AB398AA004E0AF2 /* TestSyncServerTarget.h */,
+				828E0E531AB398AA004E0AF2 /* TestSyncServerTarget.m */,
+			);
+			name = Targets;
+			sourceTree = "<group>";
+		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +314,7 @@
 		CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */ = {
 			isa = PBXGroup;
 			children = (
+				828E0E511AB3987C004E0AF2 /* Targets */,
 				4F9079821A82EE5100E32659 /* SFSyncUpdateCallbackQueue.h */,
 				CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
@@ -567,6 +580,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				828E0E541AB398AA004E0AF2 /* TestSyncServerTarget.m in Sources */,
 				4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */,
 				CECDF84419ABE009007A29E5 /* MetadataManagerTests.m in Sources */,
 				4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */,
