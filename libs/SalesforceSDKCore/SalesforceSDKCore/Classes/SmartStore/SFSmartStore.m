@@ -117,12 +117,12 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (id) initWithName:(NSString*)name user:(SFUserAccount *)user isGlobal:(BOOL)isGlobal {
     self = [super init];
-    
-    if (nil != self)  {
+    if (self)  {
         if ((user == nil || [user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity]) && !isGlobal) {
-            [self log:SFLogLevelWarning format:@"%@ Cannot create SmartStore with name '%@': user is not configured, and isGlobal is not configured.",
+            [self log:SFLogLevelWarning format:@"%@ Cannot create SmartStore with name '%@': user is not configured, and isGlobal is not configured.  Did you mean to call [%@ sharedGlobalStoreWithName:]?",
              NSStringFromSelector(_cmd),
-             name];
+             name,
+             NSStringFromClass([self class])];
             return nil;
         }
         

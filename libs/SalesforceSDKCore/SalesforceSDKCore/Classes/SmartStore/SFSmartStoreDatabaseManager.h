@@ -46,6 +46,9 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  */
 + (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user;
 
+/**
+ Gets the shared instance of the database manager of global stores.
+ */
 + (SFSmartStoreDatabaseManager *)sharedGlobalManager;
 
 /**
