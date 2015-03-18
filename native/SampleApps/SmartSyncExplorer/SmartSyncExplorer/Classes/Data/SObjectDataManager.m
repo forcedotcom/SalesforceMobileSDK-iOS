@@ -28,7 +28,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Will go away once we are done refactoring SFSyncTarget
-#import <SmartSync/SFSoqlSyncTarget.h>
+#import <SmartSync/SFSoqlSyncDownTarget.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
