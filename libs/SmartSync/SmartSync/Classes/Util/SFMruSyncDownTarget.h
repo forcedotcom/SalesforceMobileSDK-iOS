@@ -22,8 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface SFSyncTarget : NSObject
+#import <Foundation/Foundation.h>
+#import "SFSyncDownTarget.h"
 
-- (NSDictionary*) asDict;
+extern NSString * const kSFSyncTargetFieldlist;
+
+@interface SFMruSyncDownTarget : SFSyncDownTarget
+
+@property (nonatomic, strong, readonly) NSString* objectType;
+@property (nonatomic, strong, readonly) NSArray*  fieldlist;
+
+/** Factory methods
+ */
++ (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
++ (SFMruSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
 @end

@@ -22,20 +22,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SmartSync.h>
+#import <Foundation/Foundation.h>
+#import "SFSyncDownTarget.h"
 
-typedef NS_ENUM(NSUInteger, TestSyncServerTargetModDateCompare) {
-    TestSyncServerTargetRemoteModDateSameAsLocal,
-    TestSyncServerTargetRemoteModDateGreaterThanLocal,
-    TestSyncServerTargetRemoteModDateLessThanLocal,
-};
+extern NSString * const kSFSoslSyncTargetQuery;
 
-extern NSString * const kCreatedResultIdPrefix;
+@interface SFSoslSyncDownTarget : SFSyncDownTarget
 
-@interface TestSyncServerTarget : SFSyncServerTarget
+@property (nonatomic, strong, readonly) NSString* query;
 
-- (instancetype)initWithRemoteModDateCompare:(TestSyncServerTargetModDateCompare)dateCompare
-                          sendRemoteModError:(BOOL)sendRemoteModError
-                             sendSyncUpError:(BOOL)sendSyncUpError;
+/** Factory methods
+ */
++ (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query;
++ (SFSoslSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
 @end

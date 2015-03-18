@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,18 +25,47 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncTarget.h"
 
-extern NSString * const kSFSoqlSyncTargetQuery;
+@class SFSmartSyncSyncManager;
 
-@interface SFSoqlSyncTarget : SFSyncTarget
+typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* records);
+typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError *e);
 
-@property (nonatomic, strong) NSString* query;
+typedef enum {
+  SFSyncDownTargetQueryTypeMru,
+  SFSyncDownTargetQueryTypeSosl,
+  SFSyncDownTargetQueryTypeSoql,
+  SFSyncDownTargetQueryTypeCustom
+} SFSyncDownTargetQueryType;
 
-+ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
+@interface SFSyncDownTarget : SFSyncTarget
 
-/** Factory methods
+@property (nonatomic)         SFSyncDownTargetQueryType queryType;
+
+// Set during a fetch
+@property (nonatomic)         NSUInteger totalSize;
+
+/** Methods to translate to/from dictionary
  */
-+ (SFSoqlSyncTarget*) newSyncTarget:(NSString*)query;
-+ (SFSoqlSyncTarget*) newFromDict:(NSDictionary *)dict;
++ (SFSyncDownTarget*) newFromDict:(NSDictionary *)dict;
+- (NSDictionary*) asDict;
 
+/** Sart fetching records conforming to target
+ */
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+
+/**
+ * Continue fetching records conforming to target if any
+ */
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+
+/** Enum to/from string helper methods
+ */
++ (SFSyncDownTargetQueryType) queryTypeFromString:(NSString*)queryType;
++ (NSString*) queryTypeToString:(SFSyncDownTargetQueryType)queryType;
 
 @end

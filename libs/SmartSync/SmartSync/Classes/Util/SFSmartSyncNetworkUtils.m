@@ -29,6 +29,7 @@
 @implementation SFSmartSyncNetworkUtils
 
 + (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(void (^)(NSError *))failBlock completeBlock:(id)completeBlock {
+    // FIXME set header
     //[request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
 }

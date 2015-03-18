@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSoslSyncTarget.h"
+#import "SFSoslSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
@@ -33,19 +33,19 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 @end
 
-@interface SFSoslSyncTarget ()
+@interface SFSoslSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* query;
 
 @end
 
-@implementation SFSoslSyncTarget
+@implementation SFSoslSyncDownTarget
 
 #pragma mark - Factory methods
 
-+ (SFSoslSyncTarget*) newSyncTarget:(NSString*)query {
-    SFSoslSyncTarget* syncTarget = [[SFSoslSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeSosl;
++ (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query {
+    SFSoslSyncDownTarget* syncTarget = [[SFSoslSyncDownTarget alloc] init];
+    syncTarget.queryType = SFSyncDownTargetQueryTypeSosl;
     syncTarget.query = query;
     return syncTarget;
 }
@@ -53,11 +53,11 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 #pragma mark - From/to dictionary
 
-+ (SFSoslSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoslSyncTarget* syncTarget = nil;
++ (SFSoslSyncDownTarget*) newFromDict:(NSDictionary*)dict {
+    SFSoslSyncDownTarget* syncTarget = nil;
     if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFSoslSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeSosl;
+        syncTarget = [[SFSoslSyncDownTarget alloc] init];
+        syncTarget.queryType = SFSyncDownTargetQueryTypeSosl;
         syncTarget.query = dict[kSFSoslSyncTargetQuery];
     }
     return syncTarget;
@@ -65,7 +65,7 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncDownTarget queryTypeToString:self.queryType],
              kSFSoslSyncTargetQuery: self.query
              };
 }
@@ -74,10 +74,10 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFSoslSyncTarget* weakSelf = self;
+    __weak SFSoslSyncDownTarget* weakSelf = self;
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:self.query];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){

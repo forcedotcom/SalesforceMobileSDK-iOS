@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFMruSyncTarget.h"
+#import "SFMruSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
@@ -32,20 +32,20 @@ NSString * const kSFSyncTargetObjectType = @"sobjectType";
 NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 
-@interface SFMruSyncTarget ()
+@interface SFMruSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* objectType;
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
 
 @end
 
-@implementation SFMruSyncTarget
+@implementation SFMruSyncDownTarget
 
 #pragma mark - Factory methods
 
-+ (SFMruSyncTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
-    SFMruSyncTarget* syncTarget = [[SFMruSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeMru;
++ (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
+    SFMruSyncDownTarget* syncTarget = [[SFMruSyncDownTarget alloc] init];
+    syncTarget.queryType = SFSyncDownTargetQueryTypeMru;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
     return syncTarget;
@@ -53,11 +53,11 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 #pragma mark - From/to dictionary
 
-+ (SFMruSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFMruSyncTarget* syncTarget = nil;
++ (SFMruSyncDownTarget*) newFromDict:(NSDictionary*)dict {
+    SFMruSyncDownTarget* syncTarget = nil;
     if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFMruSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeMru;
+        syncTarget = [[SFMruSyncDownTarget alloc] init];
+        syncTarget.queryType = SFSyncDownTargetQueryTypeMru;
         syncTarget.objectType = dict[kSFSyncTargetObjectType];
         syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
     }
@@ -66,7 +66,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 - (NSDictionary*) asDict {
     return @{
-             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
+             kSFSyncTargetTypeKey: [SFSyncDownTarget queryTypeToString:self.queryType],
              kSFSyncTargetObjectType: self.objectType,
              kSFSyncTargetFieldlist: self.fieldlist
              };
@@ -76,10 +76,10 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFMruSyncTarget *weakSelf = self;
+    __weak SFMruSyncDownTarget *weakSelf = self;
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
