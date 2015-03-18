@@ -25,6 +25,7 @@
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
+#import "SFSyncUpTarget.h"
 #import "SFSyncDownTarget.h"
 
 @class SFUserAccount;

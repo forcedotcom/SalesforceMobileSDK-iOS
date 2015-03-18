@@ -39,6 +39,7 @@
 		4F9079811A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9079801A82EDF600E32659 /* SFSyncUpdateCallbackQueue.m */; };
 		4F9732D61A816C2D006E2A86 /* SyncManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9732D51A816C2D006E2A86 /* SyncManagerTests.m */; };
 		4FDE57BE1ABA13640060A583 /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */; };
+		4FDE57BF1ABA32F10060A583 /* SFSyncTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8207891E1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		820789221A1D2555009E9831 /* SFSmartSyncPersistableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */; };
 		820789241A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */; };
@@ -436,6 +437,7 @@
 				4F1283751A018ED9007F87EC /* SFSyncDownTarget.h in Headers */,
 				8272300719D4FD170066A350 /* SFSmartSyncSoqlBuilder.h in Headers */,
 				4F1FD07C1A8D7E9B006E1795 /* SFSoslSyncDownTarget.h in Headers */,
+				4FDE57BF1ABA32F10060A583 /* SFSyncTarget.h in Headers */,
 				828722231AAF8D050082A2F9 /* SFSyncUpTarget.h in Headers */,
 				820789241A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h in Headers */,
 				8272300819D4FD170066A350 /* SFSmartSyncSoslBuilder.h in Headers */,

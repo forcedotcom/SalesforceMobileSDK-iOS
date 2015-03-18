@@ -25,17 +25,11 @@
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
-#import "SFSyncUpTarget.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-
-// Will go away once we are done refactoring SFSyncTarget
-#import "SFMruSyncDownTarget.h"
-#import "SFSoqlSyncDownTarget.h"
-#import "SFSoslSyncDownTarget.h"
 
 // For user agent
 NSString * const kUserAgent = @"User-Agent";
@@ -370,8 +364,9 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Create and run a sync up
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    SFSyncUpTarget *defaultServerTarget = [[SFSyncUpTarget alloc] init];
-    return [self syncUpWithTarget:defaultServerTarget options:options soupName:soupName updateBlock:updateBlock];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
+    [self runSync:sync updateBlock:updateBlock];
+    return sync;
 }
 
 - (SFSyncState*)syncUpWithTarget:(SFSyncUpTarget *)target
