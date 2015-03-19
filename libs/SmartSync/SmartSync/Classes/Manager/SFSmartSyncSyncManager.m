@@ -31,10 +31,6 @@
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
-// For user agent
-NSString * const kUserAgent = @"User-Agent";
-NSString * const kSmartSync = @"SmartSync";
-
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
 
@@ -535,8 +531,9 @@ static NSMutableDictionary *syncMgrList = nil;
     if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
         for (NSString *fieldName in fieldList) {
             if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
-                if (record[fieldName] != nil)
-                    fields[fieldName] = record[fieldName];
+                NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
+                if (fieldValue != nil)
+                    fields[fieldName] = fieldValue;
             }
         }
     }
