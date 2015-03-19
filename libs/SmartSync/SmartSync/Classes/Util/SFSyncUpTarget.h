@@ -23,71 +23,74 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSyncTarget.h"
+
+@class SFSmartSyncSyncManager;
 
 /**
  Enumeration of types of server targets.
  */
-typedef NS_ENUM(NSUInteger, SFSyncServerTargetType) {
+typedef NS_ENUM(NSUInteger, SFSyncUpTargetType) {
     /**
      The default server target, which uses standard REST requests to post updates.
      */
-    SFSyncServerTargetTypeRestStandard,
+    SFSyncUpTargetTypeRestStandard,
     
     /**
      Server target is a custom target, that manages its own server update logic.
      */
-    SFSyncServerTargetTypeCustom,
+    SFSyncUpTargetTypeCustom,
 };
 
 /**
  Enumeration of the types of actions that can be executed against the server target.
  */
-typedef NS_ENUM(NSUInteger, SFSyncServerTargetAction) {
+typedef NS_ENUM(NSUInteger, SFSyncUpTargetAction) {
     /**
      No action should be taken against the server.
      */
-    SFSyncServerTargetActionNone,
+    SFSyncUpTargetActionNone,
     
     /**
      Created data will be posted to the server.
      */
-    SFSyncServerTargetActionCreate,
+    SFSyncUpTargetActionCreate,
     
     /**
      Updated data will be posted to the server.
      */
-    SFSyncServerTargetActionUpdate,
+    SFSyncUpTargetActionUpdate,
     
     /**
      Data will be deleted from the server.
      */
-    SFSyncServerTargetActionDelete
+    SFSyncUpTargetActionDelete
 };
 
 /**
  Block definition for returning record modification information.
  */
-typedef void (^SFSyncServerRecordModificationResultBlock)(NSDate *localModificationDate, NSDate *remoteModificationDate, NSError *error);
+typedef void (^SFSyncUpRecordModificationResultBlock)(NSDate *localModificationDate, NSDate *remoteModificationDate, NSError *error);
 
 /**
  Block definition for calling a sync up completion block.
  */
-typedef void (^SFSyncServerTargetCompleteBlock)(NSDictionary *syncUpResult);
+typedef void (^SFSyncUpTargetCompleteBlock)(NSDictionary *syncUpResult);
 
 /**
  Block definition for calling a sync up failure block.
  */
-typedef void (^SFSyncServerTargetErrorBlock)(NSError *error);
+typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 
 /**
  Base class for a server target, used to manage sync ups to the configured service.
  */
-@interface SFSyncServerTarget : NSObject
+@interface SFSyncUpTarget : SFSyncTarget
 
 /**
  The type of server target represented by this instance.
  */
-@property (nonatomic, assign) SFSyncServerTargetType targetType;
+@property (nonatomic, assign) SFSyncUpTargetType targetType;
 
 /**
  Creates a new instance of a server target from a serialized dictionary.
@@ -106,14 +109,14 @@ typedef void (^SFSyncServerTargetErrorBlock)(NSError *error);
  @param targetType The string representation of the target type.
  @return The target type value.
  */
-+ (SFSyncServerTargetType)targetTypeFromString:(NSString*)targetType;
++ (SFSyncUpTargetType)targetTypeFromString:(NSString*)targetType;
 
 /**
  Gives the string representation of a target type.
  @param targetType The target type to display.
  @return The string representation of the target type.
  */
-+ (NSString *)targetTypeToString:(SFSyncServerTargetType)targetType;
++ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType;
 
 /**
  Gives the current modification times of a record, on the client and on the server.
@@ -121,20 +124,52 @@ typedef void (^SFSyncServerTargetErrorBlock)(NSError *error);
  @param modificationResultBlock The block to execute with the modification date values.
  */
 - (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncServerRecordModificationResultBlock)modificationResultBlock;
+             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock;
 
 /**
- Syncs up a record to the service.
- @param record The record to sync up.
- @param fieldList The list of fields to consider for updating.
- @param The action to take against the server (create, update, etc.).
- @param completionBlock The block to execute upon successful sync up.
- @param failBlock The block to execute if the sync up fails.
+ Save locally created record back to server
+ @param objectType The object type of the record.
+ @param fields The map of record attribute names to values.
+ @param completionBlock The block to execute after the server call completes.
+ @param failBlock The block to execute if the server call fails.
  */
-- (void)syncUpRecord:(NSDictionary *)record
-           fieldList:(NSArray *)fieldList
-              action:(SFSyncServerTargetAction)action
-     completionBlock:(SFSyncServerTargetCompleteBlock)completionBlock
-           failBlock:(SFSyncServerTargetErrorBlock)failBlock;
+- (void)createOnServer:(NSString*)objectType
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
 
+/**
+ Save locally updated record back to server
+ @param objectType The object type of the record.
+ @param objectId The object id of the record.
+ @param fields The map of record attribute names to values.
+ @param completionBlock The block to execute after the server call completes.
+ @param failBlock The block to execute if the server call fails.
+ */
+- (void)updateOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+
+/**
+ Delete locally deleted record from server
+ @param objectType The object type of the record.
+ @param objectId The object id of the record.
+ @param completionBlock The block to execute after the server call completes.
+ @param failBlock The block to execute if the server call fails.
+ */
+- (void)deleteOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock;
+
+
+/**
+ Return set of record ids (soup element ids) that need to be sent up to the server
+ @param syncManager The sync manager running the sync.
+ @param soupName The soup name to look into for records.
+ */
+- (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
+                           soupName:(NSString*)soupName;
 @end

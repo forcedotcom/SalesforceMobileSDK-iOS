@@ -23,17 +23,20 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
+#import "SFSyncDownTarget.h"
 
-extern NSString * const kSFSoslSyncTargetQuery;
+extern NSString * const kSFSoqlSyncTargetQuery;
 
-@interface SFSoslSyncTarget : SFSyncTarget
+@interface SFSoqlSyncDownTarget : SFSyncDownTarget
 
-@property (nonatomic, strong, readonly) NSString* query;
+@property (nonatomic, strong) NSString* query;
+
++ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
 
 /** Factory methods
  */
-+ (SFSoslSyncTarget*) newSyncTarget:(NSString*)query;
-+ (SFSoslSyncTarget*) newFromDict:(NSDictionary *)dict;
++ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
++ (SFSoqlSyncDownTarget*) newFromDict:(NSDictionary *)dict;
+
 
 @end

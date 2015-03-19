@@ -22,32 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "TestSyncServerTarget.h"
+#import "TestSyncUpTarget.h"
 
-NSString * const kCreatedResultIdPrefix = @"testSyncServerCreatedId_";
+NSString * const kCreatedResultIdPrefix = @"testSyncUpCreatedId_";
 
-static NSString * const kTestSyncServerTargetErrorDomain = @"com.smartsync.test.TestServerTargetErrorDomain";
+static NSString * const kTestSyncUpTargetErrorDomain = @"com.smartsync.test.TestServerTargetErrorDomain";
 
-static NSString * const kTestSyncServerDateCompareKey = @"dateCompareKey";
-static NSString * const kTestSyncServerSendRemoteModErrorKey = @"sendRemoteModErrorKey";
-static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey";
+static NSString * const kTestSyncUpDateCompareKey = @"dateCompareKey";
+static NSString * const kTestSyncUpSendRemoteModErrorKey = @"sendRemoteModErrorKey";
+static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
 
-@interface TestSyncServerTarget ()
+@interface TestSyncUpTarget ()
 
-@property (nonatomic, assign) TestSyncServerTargetModDateCompare dateCompare;
+@property (nonatomic, assign) TestSyncUpTargetModDateCompare dateCompare;
 @property (nonatomic, assign) BOOL sendRemoteModError;
 @property (nonatomic, assign) BOOL sendSyncUpError;
 
 @end
 
-@implementation TestSyncServerTarget
+@implementation TestSyncUpTarget
 
-- (instancetype)initWithRemoteModDateCompare:(TestSyncServerTargetModDateCompare)dateCompare
+- (instancetype)initWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare
                           sendRemoteModError:(BOOL)sendRemoteModError
                              sendSyncUpError:(BOOL)sendSyncUpError {
     self = [super init];
     if (self) {
-        self.targetType = SFSyncServerTargetTypeCustom;
+        self.targetType = SFSyncUpTargetTypeCustom;
         self.dateCompare = dateCompare;
         self.sendRemoteModError = sendRemoteModError;
         self.sendSyncUpError = sendSyncUpError;
@@ -56,34 +56,34 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
 }
 
 - (instancetype)init {
-    return [self initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+    return [self initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
                            sendRemoteModError:NO
                               sendSyncUpError:NO];
 }
 
-+ (TestSyncServerTarget *)newFromDict:(NSDictionary *)dict {
-    TestSyncServerTargetModDateCompare compare = (dict[kTestSyncServerDateCompareKey] == nil ? TestSyncServerTargetRemoteModDateSameAsLocal : (TestSyncServerTargetModDateCompare)[dict[kTestSyncServerDateCompareKey] unsignedIntegerValue]);
-    BOOL sendRemoteModError = (dict[kTestSyncServerSendRemoteModErrorKey] == nil ? NO : [dict[kTestSyncServerSendRemoteModErrorKey] boolValue]);
-    BOOL sendSyncUpError = (dict[kTestSyncServerSendSyncUpErrorKey] == nil ? NO : [dict[kTestSyncServerSendSyncUpErrorKey] boolValue]);
-    return [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:compare sendRemoteModError:sendRemoteModError sendSyncUpError:sendSyncUpError];
++ (TestSyncUpTarget *)newFromDict:(NSDictionary *)dict {
+    TestSyncUpTargetModDateCompare compare = (dict[kTestSyncUpDateCompareKey] == nil ? TestSyncUpTargetRemoteModDateSameAsLocal : (TestSyncUpTargetModDateCompare)[dict[kTestSyncUpDateCompareKey] unsignedIntegerValue]);
+    BOOL sendRemoteModError = (dict[kTestSyncUpSendRemoteModErrorKey] == nil ? NO : [dict[kTestSyncUpSendRemoteModErrorKey] boolValue]);
+    BOOL sendSyncUpError = (dict[kTestSyncUpSendSyncUpErrorKey] == nil ? NO : [dict[kTestSyncUpSendSyncUpErrorKey] boolValue]);
+    return [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:compare sendRemoteModError:sendRemoteModError sendSyncUpError:sendSyncUpError];
 }
 
 - (NSDictionary *)asDict {
     return @{
              kSFSyncTargetTypeKey: [[self class] targetTypeToString:self.targetType],
              kSFSyncTargetiOSImplKey: NSStringFromClass([self class]),
-             kTestSyncServerDateCompareKey: @(self.dateCompare),
-             kTestSyncServerSendRemoteModErrorKey: @(self.sendRemoteModError),
-             kTestSyncServerSendSyncUpErrorKey: @(self.sendSyncUpError)
+             kTestSyncUpDateCompareKey: @(self.dateCompare),
+             kTestSyncUpSendRemoteModErrorKey: @(self.sendRemoteModError),
+             kTestSyncUpSendSyncUpErrorKey: @(self.sendSyncUpError)
              };
 }
 
 - (void)fetchRecordModificationDates:(NSDictionary *)record
-             modificationResultBlock:(SFSyncServerRecordModificationResultBlock)modificationResultBlock {
+             modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (modificationResultBlock != NULL) {
             if (self.sendRemoteModError) {
-                NSError *remoteModError = [NSError errorWithDomain:kTestSyncServerTargetErrorDomain
+                NSError *remoteModError = [NSError errorWithDomain:kTestSyncUpTargetErrorDomain
                                                               code:555
                                                           userInfo:@{ NSLocalizedDescriptionKey: @"RemoteModError" }];
                 modificationResultBlock(nil, nil, remoteModError);
@@ -91,13 +91,13 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
                 NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
                 NSDate *remoteLastModifiedDate;
                 switch (self.dateCompare) {
-                    case TestSyncServerTargetRemoteModDateGreaterThanLocal:
+                    case TestSyncUpTargetRemoteModDateGreaterThanLocal:
                         remoteLastModifiedDate = [NSDate dateWithTimeInterval:60.0 * 60.0 sinceDate:localLastModifiedDate];
                         break;
-                    case TestSyncServerTargetRemoteModDateLessThanLocal:
+                    case TestSyncUpTargetRemoteModDateLessThanLocal:
                         remoteLastModifiedDate = [NSDate dateWithTimeInterval:-60.0 * 60.0 sinceDate:localLastModifiedDate];
                         break;
-                    case TestSyncServerTargetRemoteModDateSameAsLocal:
+                    case TestSyncUpTargetRemoteModDateSameAsLocal:
                         remoteLastModifiedDate = [localLastModifiedDate copy];
                         break;
                 }
@@ -107,15 +107,41 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
     });
 }
 
-- (void)syncUpRecord:(NSDictionary *)record
-           fieldList:(NSArray *)fieldList
-              action:(SFSyncServerTargetAction)action
-     completionBlock:(SFSyncServerTargetCompleteBlock)completionBlock
-           failBlock:(SFSyncServerTargetErrorBlock)failBlock {
+- (void)createOnServer:(NSString*)objectType
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    [self fakeRemoteCall:YES completionBlock:completionBlock failBlock:failBlock];
+}
+
+- (void)updateOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+                fields:(NSDictionary*)fields
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    [self fakeRemoteCall:NO completionBlock:completionBlock failBlock:failBlock];
+}
+
+- (void)deleteOnServer:(NSString*)objectType
+              objectId:(NSString*)objectId
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock
+{
+    [self fakeRemoteCall:NO completionBlock:completionBlock failBlock:failBlock];
+}
+
+
+
+- (void)fakeRemoteCall:(BOOL)isCreate
+       completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock
+             failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (self.sendSyncUpError) {
             if (failBlock != NULL) {
-                NSError *syncUpError = [NSError errorWithDomain:kTestSyncServerTargetErrorDomain
+                NSError *syncUpError = [NSError errorWithDomain:kTestSyncUpTargetErrorDomain
                                                            code:556
                                                        userInfo:@{ NSLocalizedDescriptionKey: @"RemoteSyncUpError" }];
                 failBlock(syncUpError);
@@ -123,7 +149,7 @@ static NSString * const kTestSyncServerSendSyncUpErrorKey = @"sendSyncUpErrorKey
         } else {
             if (completionBlock != NULL) {
                 NSDictionary *result = nil;
-                if (action == SFSyncServerTargetActionCreate) {
+                if (isCreate) {
                     u_int32_t randomId = arc4random() % 10000000;
                     NSString *resultId = [NSString stringWithFormat:@"%@%u", kCreatedResultIdPrefix, randomId];
                     result = @{ @"id": resultId, @"errors": @[ ], @"success": @YES };

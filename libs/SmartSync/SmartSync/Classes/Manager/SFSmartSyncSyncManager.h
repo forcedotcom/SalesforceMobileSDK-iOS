@@ -25,7 +25,8 @@
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
-#import "SFSyncTarget.h"
+#import "SFSyncUpTarget.h"
+#import "SFSyncDownTarget.h"
 
 @class SFUserAccount;
 
@@ -93,17 +94,17 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
 
 /** Create and run a sync down that will overwrite any modified records
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Create and run a sync down
  */
-- (SFSyncState*) syncDownWithTarget:(SFSyncTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+- (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
-/** Create and run a sync up with the default SFSyncServerTarget.
+/** Create and run a sync up with the default SFSyncUpTarget.
  @param options The options associated with this sync up.
  @param soupName The soup name where the local entries are stored.
  @param updateBlock The block to be called with updates.
@@ -111,16 +112,22 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
 
-/** Create and run a sync up with the configured SFSyncServerTarget.
- @param serverTarget The sync server target that will manage the sync up process.
+/** Create and run a sync up with the configured SFSyncUpTarget.
+ @param target The sync up target that will manage the sync up process.
  @param options The options associated with this sync up.
  @param soupName The soup name where the local entries are stored.
  @param updateBlock The block to be called with updates.
  @return The sync state associated with this sync up.
  */
-- (SFSyncState*) syncUpWithTarget:(SFSyncServerTarget *)serverTarget
+- (SFSyncState*) syncUpWithTarget:(SFSyncUpTarget *)target
                           options:(SFSyncOptions*)options
                          soupName:(NSString*)soupName
                       updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock;
+
+/** Return ids (specified id field) from dirty records in the given soup.
+ @param soupName The name of the soup to look into.
+ @param idField The field to return.
+ */
+- (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField;
 
 @end
