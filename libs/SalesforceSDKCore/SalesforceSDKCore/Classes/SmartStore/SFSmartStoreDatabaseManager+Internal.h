@@ -30,6 +30,7 @@ static NSString * const kStoresDirectory          = @"stores";
 @interface SFSmartStoreDatabaseManager ()
 
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, assign) BOOL isGlobalManager;
 
 /**
  @param storeName The name of the store.

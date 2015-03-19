@@ -24,11 +24,8 @@
 		4FC276B519DCBC88008F4AA6 /* styles.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC2768D19DCBB1B008F4AA6 /* styles.css */; };
 		4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2768F19DCBB1B008F4AA6 /* auth.js */; };
 		4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769019DCBB1B008F4AA6 /* backbone-min.js */; };
-		4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769119DCBB1B008F4AA6 /* backbone.js */; };
-		4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769219DCBB1B008F4AA6 /* cordova.force.js */; };
 		4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769319DCBB1B008F4AA6 /* fastclick.js */; };
 		4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */; };
-		4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */; };
 		4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769619DCBB1B008F4AA6 /* jquery.min.js */; };
 		4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769A19DCBB1B008F4AA6 /* smartsync.js */; };
 		4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */; };
@@ -120,11 +117,8 @@
 			files = (
 				4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */,
 				4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */,
-				4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */,
-				4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */,
 				4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */,
 				4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */,
-				4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */,
 				4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */,
 				4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */,
 				4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */,
@@ -184,15 +178,9 @@
 		4FC2768D19DCBB1B008F4AA6 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
 		4FC2768F19DCBB1B008F4AA6 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
 		4FC2769019DCBB1B008F4AA6 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
-		4FC2769119DCBB1B008F4AA6 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
-		4FC2769219DCBB1B008F4AA6 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
 		4FC2769319DCBB1B008F4AA6 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
 		4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
-		4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.ui.js; sourceTree = "<group>"; };
 		4FC2769619DCBB1B008F4AA6 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		4FC2769719DCBB1B008F4AA6 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
-		4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartStore.js; sourceTree = "<group>"; };
-		4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartSyncPlugin.js; sourceTree = "<group>"; };
 		4FC2769A19DCBB1B008F4AA6 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
@@ -253,7 +241,7 @@
 		82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AE51A0DADA4006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
-		82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,15 +306,9 @@
 			children = (
 				4FC2768F19DCBB1B008F4AA6 /* auth.js */,
 				4FC2769019DCBB1B008F4AA6 /* backbone-min.js */,
-				4FC2769119DCBB1B008F4AA6 /* backbone.js */,
-				4FC2769219DCBB1B008F4AA6 /* cordova.force.js */,
 				4FC2769319DCBB1B008F4AA6 /* fastclick.js */,
 				4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */,
-				4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */,
 				4FC2769619DCBB1B008F4AA6 /* jquery.min.js */,
-				4FC2769719DCBB1B008F4AA6 /* MockCordova.js */,
-				4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */,
-				4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */,
 				4FC2769A19DCBB1B008F4AA6 /* smartsync.js */,
 				4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */,
 				4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */,
@@ -709,6 +691,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
 				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";
@@ -726,6 +709,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
 				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";

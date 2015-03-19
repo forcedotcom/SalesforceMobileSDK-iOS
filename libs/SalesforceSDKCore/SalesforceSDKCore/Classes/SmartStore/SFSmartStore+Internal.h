@@ -36,8 +36,7 @@
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
 @property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
-
-- (id)initWithName:(NSString*)name user:(SFUserAccount *)user;
+@property (nonatomic, assign) BOOL isGlobal;
 
 /**
  Simply open the db file.

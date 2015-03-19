@@ -113,6 +113,11 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 @property (nonatomic, readonly, strong) NSString *storeName;
 
+/**
+ The full path to the store database.
+ */
+@property (nonatomic, readonly, strong) NSString *storePath;
+
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.
@@ -128,6 +133,13 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @param user The user associated with the store.
  */
 + (id)sharedStoreWithName:(NSString*)storeName user:(SFUserAccount *)user;
+
+/**
+ Use this method to obtain a shared global store instance with the given name.  This store will
+ not be specific to a particular user.
+ @param storeName The name of the global store to retrieve.
+ */
++ (id)sharedGlobalStoreWithName:(NSString *)storeName;
 
 /**
  You may use this method to completely remove a persistent shared store with
@@ -146,6 +158,12 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 + (void)removeSharedStoreWithName:(NSString *)storeName forUser:(SFUserAccount *)user;
 
 /**
+ You may use this method to completely remove a persisted global store with the given name.
+ @param storeName The name of the global store to remove.
+ */
++ (void)removeSharedGlobalStoreWithName:(NSString *)storeName;
+
+/**
  Removes all of the stores for the current user from this app.
  */
 + (void)removeAllStores;
@@ -155,6 +173,11 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @param user The user associated with the stores to remove.
  */
 + (void)removeAllStoresForUser:(SFUserAccount *)user;
+
+/**
+ Removes all of the global stores from this app.
+ */
++ (void)removeAllGlobalStores;
 
 /**
  @return The block used to generate the encryption key.  Sticking with the default encryption

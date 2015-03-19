@@ -80,11 +80,11 @@
 
 - (NSString*) description
 {
-    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%d reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
+    return [NSString stringWithFormat:@"AlterSoupOperation = {rowId=%lld soupName=%@ soupTableName=%@ afterStep=%lu reIndexData=%@ oldIndexSpecs=%@ newIndexSpecs=%@}\n",
             self.rowId,
             self.soupName,
             self.soupTableName,
-            self.afterStep,
+            (unsigned long)self.afterStep,
             self.reIndexData ? @"YES" : @"NO",
             [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.oldIndexSpecs withColumnName:YES]],
             [SFJsonUtils JSONRepresentation:[SFSoupIndex asArrayOfDictionaries:self.indexSpecs  withColumnName:YES]]
@@ -292,7 +292,7 @@
     else {
         NSNumber* now = [self.store currentTimeInMilliseconds];
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
-        values[STATUS_COL] = [NSNumber numberWithInt:newStatus];
+        values[STATUS_COL] = [NSNumber numberWithUnsignedInteger:newStatus];
         values[LAST_MODIFIED_COL] = now;
         [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) withDb:db];
     }

@@ -47,17 +47,17 @@ extern NSString * const kQuerySpecParamEndKey;
 extern NSString * const kQuerySpecParamLikeKey;
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSoupQueryType) {
     kSFSoupQueryTypeExact = 2,
     kSFSoupQueryTypeRange = 4,
     kSFSoupQueryTypeLike = 8,
     kSFSoupQueryTypeSmart = 16
-} SFSoupQueryType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
     kSFSoupQuerySortOrderAscending,
     kSFSoupQuerySortOrderDescending
-} SFSoupQuerySortOrder;
+};
 
 /**
  * Object containing the query specification for queries against a soup.

@@ -97,7 +97,7 @@
                 NSUInteger currentCount = [_databaseOutPool count] + [_databaseInPool count];
                 
                 if (currentCount >= _maximumNumberOfDatabasesToCreate) {
-                    [self log:SFLogLevelDebug format:@"Maximum number of databases (%ld) has already been reached!", (long)currentCount];
+                    [self log:SFLogLevelDebug format:@"Maximum number of databases (%lu) has already been reached!", (unsigned long)currentCount];
                     return;
                 }
             }

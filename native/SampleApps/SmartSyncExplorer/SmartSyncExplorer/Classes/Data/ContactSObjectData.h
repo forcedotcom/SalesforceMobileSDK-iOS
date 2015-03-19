@@ -34,5 +34,6 @@
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *department;
 @property (nonatomic, copy) NSString *homePhone;
+@property (nonatomic, copy) NSString *lastModifiedDate;
 
 @end

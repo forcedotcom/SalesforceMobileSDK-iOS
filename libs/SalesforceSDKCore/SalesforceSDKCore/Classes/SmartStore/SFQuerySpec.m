@@ -334,11 +334,11 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 - (NSString*)description {
     if (self.queryType == kSFSoupQueryTypeSmart) {
-        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n smartSql:\"%@\" \n pageSize: %lu}", self,self.queryType, self.smartSql,(unsigned long)self.pageSize];
+        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%lu\" \n smartSql:\"%@\" \n pageSize: %lu}", self, (unsigned long)self.queryType, self.smartSql, (unsigned long)self.pageSize];
     }
     else {
-        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%d\" \n soupName:\"%@\" \n smartSql:\"%@\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%d \n pageSize: %lu}",
-                self,self.queryType, self.soupName, self.smartSql, self.path,self.beginKey,self.endKey,self.order,(unsigned long)self.pageSize];
+        return [NSString stringWithFormat:@"<SFSoupQuerySpec: %p> { \n  queryType:\"%lu\" \n soupName:\"%@\" \n smartSql:\"%@\" \n path:\"%@\" \n beginKey:\"%@\" \n endKey:\"%@\" \n  order:%lu \n pageSize: %lu}",
+                self, (unsigned long)self.queryType, self.soupName, self.smartSql, self.path, self.beginKey, self.endKey, (unsigned long)self.order, (unsigned long)self.pageSize];
     }
 }
 

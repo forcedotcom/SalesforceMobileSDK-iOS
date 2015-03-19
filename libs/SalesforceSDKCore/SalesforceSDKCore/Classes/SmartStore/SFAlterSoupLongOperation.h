@@ -26,7 +26,7 @@
 @class SFSmartStore;
 
 // Enum for alter steps
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFAlterSoupStep) {
     SFAlterSoupStepStarting,
     SFAlterSoupStepRenameOldSoupTable,
     SFAlterSoupStepDropOldIndexes,
@@ -34,7 +34,7 @@ typedef enum {
     SFAlterSoupStepCopyTable,
     SFAlterSoupStepReIndexSoup,
     SFAlterSoupStepDropOldTable
-} SFAlterSoupStep;
+};
 
 
 // Fields of details for alter soup long operation row in long_operations_status table

@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 
 @class SFSyncTarget;
+@class SFSyncServerTarget;
 @class SFSyncOptions;
 @class SFSmartStore;
 
@@ -36,11 +37,13 @@ extern NSString * const kSFSyncStateSyncsSoupSyncType;
 extern NSString * const kSFSyncStateId;
 extern NSString * const kSFSyncStateType;
 extern NSString * const kSFSyncStateTarget;
+extern NSString * const kSFSyncStateServerTarget;
 extern NSString * const kSFSyncStateSoupName;
 extern NSString * const kSFSyncStateOptions;
 extern NSString * const kSFSyncStateStatus;
 extern NSString * const kSFSyncStateProgress;
 extern NSString * const kSFSyncStateTotalSize;
+extern NSString * const kSFSyncStateMaxTimeStamp;
 
 // Possible values for sync type
 typedef enum {
@@ -74,17 +77,19 @@ typedef enum {
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
-@interface SFSyncState : NSObject
+@interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
 @property (nonatomic, readonly) SFSyncStateSyncType type;
 @property (nonatomic, strong, readonly) NSString* soupName;
 @property (nonatomic, strong, readonly) SFSyncTarget* target;
+@property (nonatomic, strong, readonly) SFSyncServerTarget *serverTarget;
 @property (nonatomic, strong, readonly) SFSyncOptions* options;
 @property (nonatomic) SFSyncStateStatus status;
 @property (nonatomic) NSInteger progress;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) SFSyncStateMergeMode mergeMode;
+@property (nonatomic) long long maxTimeStamp;
 
 /** Setup soup that keeps track of sync operations
  */
@@ -94,6 +99,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncServerTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
  */

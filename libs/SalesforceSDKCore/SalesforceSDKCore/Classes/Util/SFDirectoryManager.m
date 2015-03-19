@@ -82,6 +82,10 @@ static NSString * const kDefaultCommunityName = @"internal";
 }
 
 - (NSString*)directoryForUser:(SFUserAccount *)user scope:(SFUserAccountScope)scope type:(NSSearchPathDirectory)type components:(NSArray *)components {
+    if (nil == user.credentials.organizationId && scope != SFUserAccountScopeGlobal) {
+        // do nothing
+        return nil;
+    }
     switch (scope) {
         case SFUserAccountScopeGlobal:
             return [self directoryForOrg:nil user:nil community:nil type:type components:components];

@@ -230,12 +230,24 @@
     [self runTest:@"testSyncDownWithNoOverwrite"];
 }
 
+- (void)testReSync {
+    [self runTest:@"testReSync"];
+}
+
 - (void)testSyncUpLocallyUpdated {
     [self runTest:@"testSyncUpLocallyUpdated"];
 }
 
+- (void)testSyncUpLocallyUpdatedWithNoOverwrite {
+    [self runTest:@"testSyncUpLocallyUpdatedWithNoOverwrite"];
+}
+
 - (void)testSyncUpLocallyDeleted {
     [self runTest:@"testSyncUpLocallyDeleted"];
+}
+
+- (void)testSyncUpLocallyDeletedWithNoOverwrite {
+    [self runTest:@"testSyncUpLocallyDeletedWithNoOverwrite"];
 }
 
 - (void)testSyncUpLocallyCreated {

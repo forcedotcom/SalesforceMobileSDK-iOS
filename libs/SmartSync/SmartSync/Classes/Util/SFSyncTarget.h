@@ -24,34 +24,43 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFSmartSyncSyncManager;
+
+typedef void (^SFSyncTargetFetchCompleteBlock) (NSArray* records);
+typedef void (^SFSyncTargetFetchErrorBlock) (NSError *e);
+
 typedef enum {
   SFSyncTargetQueryTypeMru,
   SFSyncTargetQueryTypeSosl,
-  SFSyncTargetQueryTypeSoql
+  SFSyncTargetQueryTypeSoql,
+  SFSyncTargetQueryTypeCustom
 } SFSyncTargetQueryType;
-
-extern NSString * const kSFSyncTargetQueryType;
-extern NSString * const kSFSyncTargetQuery;
-extern NSString * const kSFSyncTargetObjectType;
-extern NSString * const kSFSyncTargetFieldlist;
 
 @interface SFSyncTarget : NSObject
 
-@property (nonatomic, readonly)         SFSyncTargetQueryType queryType;
-@property (nonatomic, strong, readonly) NSString* query;
-@property (nonatomic, strong, readonly) NSString* objectType;
-@property (nonatomic, strong, readonly) NSArray*  fieldlist;
+@property (nonatomic)         SFSyncTargetQueryType queryType;
 
-/** Factory methods
- */
-+ (SFSyncTarget*) newSyncTargetForSOQLSyncDown:(NSString*)query;
-+ (SFSyncTarget*) newSyncTargetForSOSLSyncDown:(NSString*)query;
-+ (SFSyncTarget*) newSyncTargetForMRUSyncDown:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
+// Set during a fetch
+@property (nonatomic)         NSUInteger totalSize;
 
 /** Methods to translate to/from dictionary
  */
 + (SFSyncTarget*) newFromDict:(NSDictionary *)dict;
 - (NSDictionary*) asDict;
+
+/** Sart fetching records conforming to target
+ */
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
+
+/**
+ * Continue fetching records conforming to target if any
+ */
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock;
 
 /** Enum to/from string helper methods
  */

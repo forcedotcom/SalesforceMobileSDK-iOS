@@ -32,7 +32,7 @@
 #import <SalesforceRestAPI/SFRestAPI.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
-@interface SmartSyncTests : XCTestCase
+@interface MetadataManagerTests : XCTestCase
 {
     NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion.
     SFUserAccount *_currentUser;
@@ -41,7 +41,7 @@
 
 static NSException *authException = nil;
 
-@implementation SmartSyncTests
+@implementation MetadataManagerTests
 
 static NSInteger const kRefreshInterval = 24 * 60 * 60 * 1000;
 static NSString* const kAccountOneId = @"001S000000fkJKmIAM";
