@@ -23,14 +23,16 @@
  */
 
 #import "SFSmartSyncNetworkUtils.h"
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import <SalesforceRestAPI/SFRestRequest.h>
+
+// For user agent
+NSString * const kUserAgent = @"User-Agent";
+NSString * const kSmartSync = @"SmartSync";
 
 @implementation SFSmartSyncNetworkUtils
 
-+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(void (^)(NSError *))failBlock completeBlock:(id)completeBlock {
-    // FIXME set header
-    //[request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
++ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock {
+     [request setHeaderValue:[SFRestAPI userAgentString:kSmartSync] forHeaderName:kUserAgent];
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
 }
 
