@@ -31,10 +31,6 @@
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
-// For user agent
-NSString * const kUserAgent = @"User-Agent";
-NSString * const kSmartSync = @"SmartSync";
-
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
 
