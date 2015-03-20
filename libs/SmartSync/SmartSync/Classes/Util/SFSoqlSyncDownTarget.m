@@ -107,12 +107,17 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
-+ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp
++ (NSString *)addFilterForReSync:(NSString *)query maxTimeStamp:(long long)maxTimeStamp
+{
+    return [self addFilterForReSync:query modDateFieldName:kLastModifiedDate maxTimeStamp:maxTimeStamp];
+}
+
++ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp
 {
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
         NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
-        NSString* extraPredicate =  [@[kLastModifiedDate, @">", maxTimeStampStr] componentsJoinedByString:@" "];
+        NSString* extraPredicate =  [@[modDateFieldName, @">", maxTimeStampStr] componentsJoinedByString:@" "];
         if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
             queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
         }
