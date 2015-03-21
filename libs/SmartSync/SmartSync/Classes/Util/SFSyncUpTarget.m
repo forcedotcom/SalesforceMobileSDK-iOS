@@ -39,8 +39,8 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 
 @implementation SFSyncUpTarget
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
     if (self) {
         self.targetType = SFSyncUpTargetTypeRestStandard;
     }
@@ -55,20 +55,30 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     switch ([self targetTypeFromString:targetTypeString]) {
         case SFSyncUpTargetTypeCustom:
             implClassName = dict[kSFSyncTargetiOSImplKey];
-            return [NSClassFromString(implClassName) newFromDict:dict];
+            if (implClassName.length == 0) {
+                [SFLogger log:self level:SFLogLevelError format:@"%@ Custom class name not specified.", NSStringFromSelector(_cmd)];
+                return nil;
+            }
+            Class customSyncUpClass = NSClassFromString(implClassName);
+            if (![customSyncUpClass isSubclassOfClass:[SFSyncUpTarget class]]) {
+                [SFLogger log:self level:SFLogLevelError format:@"%@ Class '%@' is not a subclass of %@.", NSStringFromSelector(_cmd), implClassName, NSStringFromClass([SFSyncUpTarget class])];
+                return nil;
+            } else {
+                return [[customSyncUpClass alloc] initWithDict:dict];
+            }
         case SFSyncUpTargetTypeRestStandard:
         default:  // SFSyncUpTarget is the default, if not specified.
-            return [[SFSyncUpTarget alloc] init];
+            return [[SFSyncUpTarget alloc] initWithDict:dict];
     }
     
     // Fell through
     return nil;
 }
 
-- (NSDictionary *)asDict {
-    return @{
-             kSFSyncTargetTypeKey: [[self class] targetTypeToString:self.targetType],
-             };
+- (NSMutableDictionary *)asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetTypeKey] = [[self class] targetTypeToString:self.targetType];
+    return dict;
 }
 
 + (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType {

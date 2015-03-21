@@ -264,7 +264,7 @@ static NSMutableDictionary *syncMgrList = nil;
         }
         countFetched += [records count];
         NSUInteger progress = 100*countFetched / totalSize;
-        long long maxTimeStampForFetched = [self getMaxTimeStamp:records];
+        long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
         
         // Save records
         NSError *saveRecordsError = nil;
@@ -332,19 +332,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [ids addObjectsFromArray:[self flatten:results]];
     }
     return ids;
-}
-
-- (long long) getMaxTimeStamp:(NSArray*)records {
-    long long maxTimeStamp = -1L;
-    for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[kLastModifiedDate];
-        if (!timeStampStr) {
-            break; // LastModifiedDate field not present
-        }
-        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
-        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
-    }
-    return maxTimeStamp;
 }
 
 - (NSArray*) flatten:(NSArray*)results {

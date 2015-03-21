@@ -160,7 +160,7 @@ static NSException *authException = nil;
     XCTAssertEqual(resttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
     // Custom sync up target
-    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] init];
+    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithDict:@{ }];
     NSDictionary *customDict = [customTarget asDict];
     XCTAssertEqualObjects(customDict[kSFSyncTargetTypeKey], @"custom", @"Should be a custom sync up target.");
     XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncUpTarget class]), @"Custom class is incorrect.");

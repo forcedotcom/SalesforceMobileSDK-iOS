@@ -99,12 +99,6 @@ typedef void (^SFSyncUpTargetErrorBlock)(NSError *error);
 + (instancetype)newFromDict:(NSDictionary *)dict;
 
 /**
- Serializes the server target to a dictionary.
- @return The serialized server target in an NSDictionary.
- */
-- (NSDictionary *)asDict;
-
-/**
  Converts a string representation of a target type into its target type.
  @param targetType The string representation of the target type.
  @return The target type value.

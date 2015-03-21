@@ -47,7 +47,6 @@ typedef enum {
 /** Methods to translate to/from dictionary
  */
 + (SFSyncDownTarget*) newFromDict:(NSDictionary *)dict;
-- (NSDictionary*) asDict;
 
 /** Sart fetching records conforming to target
  */

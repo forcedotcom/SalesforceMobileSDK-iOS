@@ -41,6 +41,16 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 @implementation SFMruSyncDownTarget
 
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeMru;
+        self.objectType = dict[kSFSyncTargetObjectType];
+        self.fieldlist = dict[kSFSyncTargetFieldlist];
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
@@ -51,25 +61,13 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     return syncTarget;
 }
 
-#pragma mark - From/to dictionary
+#pragma mark - To dictionary
 
-+ (SFMruSyncDownTarget*) newFromDict:(NSDictionary*)dict {
-    SFMruSyncDownTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFMruSyncDownTarget alloc] init];
-        syncTarget.queryType = SFSyncDownTargetQueryTypeMru;
-        syncTarget.objectType = dict[kSFSyncTargetObjectType];
-        syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncDownTarget queryTypeToString:self.queryType],
-             kSFSyncTargetObjectType: self.objectType,
-             kSFSyncTargetFieldlist: self.fieldlist
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetObjectType] = self.objectType;
+    dict[kSFSyncTargetFieldlist] = self.fieldlist;
+    return dict;
 }
 
 # pragma mark - Data fetching

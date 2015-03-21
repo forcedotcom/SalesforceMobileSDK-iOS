@@ -23,10 +23,37 @@
  */
 
 #import "SFSyncTarget.h"
+#import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @implementation SFSyncTarget
 
-- (NSDictionary*) asDict ABSTRACT_METHOD
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    if (dict == nil) return nil;
+    
+    self = [super init];
+    if (self) {
+        // Currently no default behavior.
+    }
+    return self;
+}
+
+- (NSMutableDictionary *)asDict {
+    return [NSMutableDictionary dictionary];
+}
+
+- (long long)getLatestModificationTimeStamp:(NSArray *)records {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[kLastModifiedDate];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
+}
 
 @end

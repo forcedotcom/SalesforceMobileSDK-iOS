@@ -24,6 +24,27 @@
 
 @interface SFSyncTarget : NSObject
 
-- (NSDictionary*) asDict;
+/**
+ Designated initializer that initializes a sync target from the given dictionary.
+ @param dict The sync target serialized to an NSDictionary.
+ */
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
+/**
+ The target represented as a dictionary.  Note: inheriting classes should initialize their
+ dictionary from the super representation, as each parent class can add fields to the
+ dictionary along the way.
+ @return The target represented as a dictionary.
+ */
+- (NSMutableDictionary *)asDict;
+
+/**
+ Gets the latest modification timestamp from the array of records.  Note: inheriting classes can
+ override this method to determine the timestamp in a customized way.  The default implementation
+ looks at the LastModifiedDate field of each record.
+ @param records The array of records to query.
+ @return The timestamp of the record with the most recent modification date.
+ */
+- (long long)getLatestModificationTimeStamp:(NSArray *)records;
 
 @end
