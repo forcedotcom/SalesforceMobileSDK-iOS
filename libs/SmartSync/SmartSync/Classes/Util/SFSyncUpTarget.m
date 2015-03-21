@@ -104,10 +104,10 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     
     NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSString *objectId = record[kId];
-    NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
+    NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
     __block NSDate *serverLastModifiedDate = [NSDate dateWithTimeIntervalSince1970:0.0];
     
-    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:kLastModifiedDate];
+    SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:self.modificationDateFieldName];
     [soqlBuilder from:objectType];
     [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
     NSString *query = [soqlBuilder build];
@@ -123,7 +123,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
         if (nil != response) {
             NSDictionary *record = response[@"records"][0];
             if (nil != record) {
-                NSString *serverLastModifiedStr = record[kLastModifiedDate];
+                NSString *serverLastModifiedStr = record[self.modificationDateFieldName];
                 if (nil != serverLastModifiedStr) {
                     NSDate *testServerModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:serverLastModifiedStr];
                     if (testServerModifiedDate != nil) {

@@ -48,10 +48,6 @@
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
 
-@interface SFSmartSyncSyncManager()
-- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
-@end
-
 @interface SyncManagerTests : XCTestCase
 {
     SFUserAccount *currentUser;
@@ -716,14 +712,14 @@ static NSException *authException = nil;
     NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE LastModifiedDate > %@ and Name = 'John' LIMIT 100", dateStr];
 
     // Tests
-    XCTAssertEqualObjects(basicQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(basicQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQueryUpper maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(basicQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQuery modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(limitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQuery modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQuery modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameLimitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQuery modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(basicQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQueryUpper modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(limitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQueryUpper modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQueryUpper modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
+    XCTAssertEqualObjects(nameLimitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQueryUpper modDateFieldName:kLastModifiedDate maxTimeStamp:dateLong]);
 }
 
 

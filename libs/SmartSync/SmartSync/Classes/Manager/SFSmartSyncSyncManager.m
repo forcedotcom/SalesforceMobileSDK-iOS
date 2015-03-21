@@ -517,7 +517,7 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
         for (NSString *fieldName in fieldList) {
-            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:kLastModifiedDate]) {
+            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
                 NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
                 if (fieldValue != nil)
                     fields[fieldName] = fieldValue;

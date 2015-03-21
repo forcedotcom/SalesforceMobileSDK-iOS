@@ -302,7 +302,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session

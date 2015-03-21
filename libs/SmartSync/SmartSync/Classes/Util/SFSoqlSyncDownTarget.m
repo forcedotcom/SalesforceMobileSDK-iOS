@@ -77,7 +77,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
@@ -103,11 +103,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     else {
         completeBlock(nil);
     }
-}
-
-+ (NSString *)addFilterForReSync:(NSString *)query maxTimeStamp:(long long)maxTimeStamp
-{
-    return [self addFilterForReSync:query modDateFieldName:kLastModifiedDate maxTimeStamp:maxTimeStamp];
 }
 
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp

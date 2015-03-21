@@ -24,6 +24,8 @@
 
 @interface SFSyncTarget : NSObject
 
+@property (nonatomic, copy) NSString *modificationDateFieldName;
+
 /**
  Designated initializer that initializes a sync target from the given dictionary.
  @param dict The sync target serialized to an NSDictionary.

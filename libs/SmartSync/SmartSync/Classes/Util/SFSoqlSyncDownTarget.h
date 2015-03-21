@@ -32,14 +32,6 @@ extern NSString * const kSFSoqlSyncTargetQuery;
 @property (nonatomic, strong) NSString* query;
 
 /**
- Adds a filter for re-syncing a data set, using the default modification date field of the API.
- @param query The original query to append a re-syncing clause to.
- @param maxTimeStamp The latest modification time represented locally.
- @return The original query with an additional re-syncing clause added.
- */
-+ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
-
-/**
  Adds a filter for re-syncing a data set, using the given modification date field.
  @param query The original query to append a re-syncing clause to.
  @param modDateFieldName The name of the SOQL field representing the modification date field.

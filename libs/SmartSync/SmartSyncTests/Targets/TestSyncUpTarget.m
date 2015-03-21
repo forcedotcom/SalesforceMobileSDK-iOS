@@ -81,7 +81,7 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
                                                           userInfo:@{ NSLocalizedDescriptionKey: @"RemoteModError" }];
                 modificationResultBlock(nil, nil, remoteModError);
             } else {
-                NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
+                NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
                 NSDate *remoteLastModifiedDate;
                 switch (self.dateCompare) {
                     case TestSyncUpTargetRemoteModDateGreaterThanLocal:

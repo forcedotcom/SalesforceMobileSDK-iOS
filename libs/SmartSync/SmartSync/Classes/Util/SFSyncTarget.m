@@ -34,19 +34,26 @@
     
     self = [super init];
     if (self) {
-        // Currently no default behavior.
+        NSString *modificationDateFieldName = dict[kSFSyncTargetModificationDateFieldNameKey];
+        if (modificationDateFieldName.length == 0) {
+            self.modificationDateFieldName = kLastModifiedDate;
+        } else {
+            self.modificationDateFieldName = modificationDateFieldName;
+        }
     }
     return self;
 }
 
 - (NSMutableDictionary *)asDict {
-    return [NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
+    return dict;
 }
 
 - (long long)getLatestModificationTimeStamp:(NSArray *)records {
     long long maxTimeStamp = -1L;
     for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[kLastModifiedDate];
+        NSString* timeStampStr = record[self.modificationDateFieldName];
         if (!timeStampStr) {
             break; // LastModifiedDate field not present
         }
