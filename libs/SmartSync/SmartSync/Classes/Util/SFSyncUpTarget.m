@@ -47,6 +47,14 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     return self;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.targetType = SFSyncUpTargetTypeRestStandard;
+    }
+    return self;
+}
+
 #pragma mark - Serialization and factory methods
 
 + (instancetype)newFromDict:(NSDictionary*)dict {

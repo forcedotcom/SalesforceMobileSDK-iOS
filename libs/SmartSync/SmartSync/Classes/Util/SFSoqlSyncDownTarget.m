@@ -47,6 +47,14 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     return self;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSoql;
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {

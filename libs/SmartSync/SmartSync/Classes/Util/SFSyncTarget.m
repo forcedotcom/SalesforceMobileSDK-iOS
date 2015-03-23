@@ -44,6 +44,14 @@
     return self;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.modificationDateFieldName = kLastModifiedDate;
+    }
+    return self;
+}
+
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;

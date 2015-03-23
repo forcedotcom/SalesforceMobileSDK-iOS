@@ -51,6 +51,14 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     return self;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeMru;
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {

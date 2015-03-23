@@ -272,6 +272,14 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     return self;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFContentSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
