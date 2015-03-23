@@ -48,13 +48,4 @@
  */
 - (NSMutableDictionary *)asDict;
 
-/**
- Gets the latest modification timestamp from the array of records.  Note: inheriting classes can
- override this method to determine the timestamp in a customized way.  The default implementation
- looks at the LastModifiedDate field of each record.
- @param records The array of records to query.
- @return The timestamp of the record with the most recent modification date.
- */
-- (long long)getLatestModificationTimeStamp:(NSArray *)records;
-
 @end

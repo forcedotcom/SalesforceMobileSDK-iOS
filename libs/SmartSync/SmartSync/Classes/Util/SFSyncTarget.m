@@ -24,7 +24,6 @@
 
 #import "SFSyncTarget.h"
 #import "SFSmartSyncConstants.h"
-#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @implementation SFSyncTarget
@@ -56,19 +55,6 @@
     dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
     dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
     return dict;
-}
-
-- (long long)getLatestModificationTimeStamp:(NSArray *)records {
-    long long maxTimeStamp = -1L;
-    for(NSDictionary* record in records) {
-        NSString* timeStampStr = record[self.modificationDateFieldName];
-        if (!timeStampStr) {
-            break; // LastModifiedDate field not present
-        }
-        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
-        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
-    }
-    return maxTimeStamp;
 }
 
 @end

@@ -27,6 +27,7 @@
 #import "SFSoqlSyncDownTarget.h"
 #import "SFSoslSyncDownTarget.h"
 #import "SFSmartSyncConstants.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 // query types
@@ -87,6 +88,19 @@ ABSTRACT_METHOD
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
     completeBlock(nil);
+}
+
+- (long long)getLatestModificationTimeStamp:(NSArray *)records {
+    long long maxTimeStamp = -1L;
+    for(NSDictionary* record in records) {
+        NSString* timeStampStr = record[self.modificationDateFieldName];
+        if (!timeStampStr) {
+            break; // LastModifiedDate field not present
+        }
+        long long timeStamp = [SFSmartSyncObjectUtils getMillisFromIsoString:timeStampStr];
+        maxTimeStamp = (timeStamp > maxTimeStamp ? timeStamp : maxTimeStamp);
+    }
+    return maxTimeStamp;
 }
 
 #pragma mark - string to/from enum for query type
