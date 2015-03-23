@@ -268,7 +268,7 @@ static NSMutableDictionary *syncMgrList = nil;
         
         // Save records
         NSError *saveRecordsError = nil;
-        [weakSelf saveRecords:records soup:soupName mergeMode:mergeMode error:&saveRecordsError];
+        [weakSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
         if (saveRecordsError) {
             failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
         } else {
@@ -288,18 +288,22 @@ static NSMutableDictionary *syncMgrList = nil;
     [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:completeBlock];
 }
 
-- (void) saveRecords:(NSArray*)records soup:(NSString*)soupName mergeMode:(SFSyncStateMergeMode)mergeMode error:(NSError **)error {
+- (void) saveRecords:(NSArray*)records
+                soup:(NSString*)soupName
+         idFieldName:(NSString *)idFieldName
+           mergeMode:(SFSyncStateMergeMode)mergeMode
+               error:(NSError **)error {
     NSMutableArray* recordsToSave = [NSMutableArray array];
     
     NSSet* idsToSkip = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
-        idsToSkip = [self getDirtyRecordIds:soupName idField:kId];
+        idsToSkip = [self getDirtyRecordIds:soupName idField:idFieldName];
     }
     
     // Prepare for smartstore
     for (NSDictionary* record in records) {
         // Skip?
-        if (idsToSkip != nil && [idsToSkip containsObject:record[kId]]) {
+        if (idsToSkip != nil && [idsToSkip containsObject:record[idFieldName]]) {
             continue;
         }
         
@@ -313,7 +317,7 @@ static NSMutableDictionary *syncMgrList = nil;
     
     // Save to smartstore
     NSError *upsertError = nil;
-    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:kId error:&upsertError];
+    [self.store upsertEntries:recordsToSave toSoup:soupName withExternalIdPath:idFieldName error:&upsertError];
     if (upsertError && error) {
         *error = upsertError;
     }
@@ -389,6 +393,7 @@ static NSMutableDictionary *syncMgrList = nil;
                  index:(NSUInteger)i
             updateSync:(SyncUpdateBlock)updateSync
              failBlock:(SFSyncUpTargetErrorBlock)failBlock {
+    SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     SFSyncStateMergeMode mergeMode = sync.mergeMode;
     NSUInteger totalSize = recordIds.count;
@@ -446,7 +451,7 @@ static NSMutableDictionary *syncMgrList = nil;
                                        failBlock:failBlock];
             } else {
                 // Server date is newer than the local date.  Skip this update.
-                [strongSelf log:SFLogLevelInfo format:@"Record with id '%@' has been modified on the server.  Local last mod date: %@, Server last mod date: %@ . Skipping.", record[kId], localDate, serverDate];
+                [strongSelf log:SFLogLevelInfo format:@"Record with id '%@' has been modified on the server.  Local last mod date: %@, Server last mod date: %@ . Skipping.", record[target.idFieldName], localDate, serverDate];
                 [strongSelf syncUpOneEntry:sync
                                  recordIds:recordIds
                                      index:i+1
@@ -455,7 +460,6 @@ static NSMutableDictionary *syncMgrList = nil;
             }
         };
         
-        SFSyncUpTarget *target = (SFSyncUpTarget*) sync.target;
         [target fetchRecordModificationDates:record modificationResultBlock:modificationBlock];
     } else {
         // State is such that we can simply update the record directly.
@@ -471,6 +475,7 @@ static NSMutableDictionary *syncMgrList = nil;
                   updateSync:(SyncUpdateBlock)updateSync
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     
+    SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
     
@@ -501,23 +506,21 @@ static NSMutableDictionary *syncMgrList = nil;
     // Create handler
     SFSyncUpTargetCompleteBlock completeBlockCreate = ^(NSDictionary *d) {
         // Replace id with server id during create
-        record[kId] = d[kSyncManagerLObjectId];
+        record[target.idFieldName] = d[kSyncManagerLObjectId];
         completeBlockUpdate(d);
     };
     
-    
-    SFSyncUpTarget *target = (SFSyncUpTarget*) sync.target;
     NSArray *fieldList = sync.options.fieldlist;
     
     // Getting type and id
     NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[kId];
+    NSString* objectId = record[target.idFieldName];
     
     // Fields to save (in the case of create or update)
     NSMutableDictionary* fields = [NSMutableDictionary dictionary];
     if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
         for (NSString *fieldName in fieldList) {
-            if (![fieldName isEqualToString:kId] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
+            if (![fieldName isEqualToString:target.idFieldName] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
                 NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
                 if (fieldValue != nil)
                     fields[fieldName] = fieldValue;

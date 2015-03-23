@@ -89,8 +89,8 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
-        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:kId];
-        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
+        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:self.idFieldName];
+        NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
         NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
                             from:self.objectType]

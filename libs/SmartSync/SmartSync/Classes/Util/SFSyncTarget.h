@@ -24,6 +24,14 @@
 
 @interface SFSyncTarget : NSObject
 
+/**
+ The field name of the ID field of the record.  Defaults to "Id".
+ */
+@property (nonatomic, copy) NSString *idFieldName;
+
+/**
+ The field name of the modification date field of the record.  Defaults to "LastModifiedDate".
+ */
 @property (nonatomic, copy) NSString *modificationDateFieldName;
 
 /**

@@ -111,13 +111,13 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
              modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock {
     
     NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString *objectId = record[kId];
+    NSString *objectId = record[self.idFieldName];
     NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
     __block NSDate *serverLastModifiedDate = [NSDate dateWithTimeIntervalSince1970:0.0];
     
     SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:self.modificationDateFieldName];
     [soqlBuilder from:objectType];
-    [soqlBuilder where:[NSString stringWithFormat:@"Id = '%@'", objectId]];
+    [soqlBuilder where:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, objectId]];
     NSString *query = [soqlBuilder build];
     
     SFRestFailBlock failBlock = ^(NSError *error) {

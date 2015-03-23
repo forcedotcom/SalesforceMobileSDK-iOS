@@ -34,12 +34,10 @@
     
     self = [super init];
     if (self) {
+        NSString *idFieldName = dict[kSFSyncTargetIdFieldNameKey];
         NSString *modificationDateFieldName = dict[kSFSyncTargetModificationDateFieldNameKey];
-        if (modificationDateFieldName.length == 0) {
-            self.modificationDateFieldName = kLastModifiedDate;
-        } else {
-            self.modificationDateFieldName = modificationDateFieldName;
-        }
+        self.idFieldName = (idFieldName.length > 0 ? idFieldName : kId);
+        self.modificationDateFieldName = (modificationDateFieldName.length > 0 ? modificationDateFieldName : kLastModifiedDate);
     }
     return self;
 }
@@ -47,6 +45,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        self.idFieldName = kId;
         self.modificationDateFieldName = kLastModifiedDate;
     }
     return self;
@@ -54,6 +53,7 @@
 
 - (NSMutableDictionary *)asDict {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
     dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
     return dict;
 }
