@@ -261,7 +261,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         [self log:SFLogLevelDebug format:@"pgCloseCursor with cursor ID: %@", cursorId];
-        [self closeCursorWithId:cursorId];
+        [self closeCursorWithId:cursorId isGlobal:[self isGlobal:argsDict]];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
