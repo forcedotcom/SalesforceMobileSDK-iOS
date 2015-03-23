@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,17 +34,18 @@ extern NSString * const kSmartStorePluginIdentifier;
 @class SFSmartStore;
 
 @interface SFSmartStorePlugin : SFForcePlugin {
-    //the native store used by this plugin
+
+    // the native stores used by this plugin
     SFSmartStore *_store;
-    
-    //cache of cursors by cursorID
+    SFSmartStore *_globalStore;
+
+    // cache of cursors by cursorID
     NSMutableDictionary *_cursorCache;
 }
 
-
 @property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, strong) NSMutableDictionary *cursorCache; 
-
+@property (nonatomic, readonly) SFSmartStore *globalStore;
+@property (nonatomic, strong) NSMutableDictionary *cursorCache;
 
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.
