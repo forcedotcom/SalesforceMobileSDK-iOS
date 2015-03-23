@@ -53,19 +53,22 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 @interface SFSmartStorePlugin() 
 
-- (void)closeCursorWithId:(NSString *)cursorId;
+- (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal;
+- (SFSmartStore *)getStoreInst:(NSDictionary *)args;
+- (BOOL)isGlobal:(NSDictionary *)args;
 
 @end
 
 @implementation SFSmartStorePlugin
 
-@synthesize cursorCache = _cursorCache;
+@synthesize userCursorCache = _userCursorCache;
+@synthesize globalCursorCache = _globalCursorCache;
 @synthesize store = _store;
 @synthesize globalStore = _globalStore;
 
 - (void)resetSharedStore
 {
-    [[self cursorCache] removeAllObjects];
+    [[self userCursorCache] removeAllObjects];
 }
 
 - (SFSmartStore *)store
@@ -83,7 +86,8 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     self = [super initWithWebView:theWebView];
     if (nil != self)  {
         [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
-        _cursorCache = [[NSMutableDictionary alloc] init];
+        _userCursorCache = [[NSMutableDictionary alloc] init];
+        _globalCursorCache = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -95,17 +99,21 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 #pragma mark - Object bridging helpers
 
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal
 {
-    return _cursorCache[cursorId];
+    return (isGlobal ? _globalCursorCache[cursorId] : _userCursorCache[cursorId]);
 }
 
-- (void)closeCursorWithId:(NSString *)cursorId
+- (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal
 {
-    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId isGlobal:isGlobal];
     if (nil != cursor) {
         [cursor close];
-        [self.cursorCache removeObjectForKey:cursorId];
+        if (isGlobal) {
+            [self.globalCursorCache removeObjectForKey:cursorId];
+        } else {
+            [self.userCursorCache removeObjectForKey:cursorId];
+        }
     } 
 }
 
@@ -175,7 +183,11 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSError* error;
         SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
         if (cursor) {
-            (self.cursorCache)[cursor.cursorId] = cursor;
+            if ([self isGlobal:argsDict]) {
+                (self.globalCursorCache)[cursor.cursorId] = cursor;
+            } else {
+                (self.userCursorCache)[cursor.cursorId] = cursor;
+            }
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
         } else {
             [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
@@ -260,7 +272,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
         [self log:SFLogLevelDebug format:@"pgMoveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
-        SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
+        SFStoreCursor *cursor = [self cursorByCursorId:cursorId isGlobal:[self isGlobal:argsDict]];
         [cursor setCurrentPageIndex:newPageIndex];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
     } command:command];
@@ -344,12 +356,15 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 - (SFSmartStore *)getStoreInst:(NSDictionary *)args
 {
+    return ([self isGlobal:args] ? self.globalStore : self.store);
+}
+
+- (BOOL)isGlobal:(NSDictionary *)args
+{
     BOOL isGlobal = NO;
     if ([args objectForKey:kIsGlobalStoreArg]) {
         isGlobal = [[args objectForKey:kIsGlobalStoreArg] boolValue];
     }
-    SFSmartStore *store = (isGlobal ? self.globalStore : self.store);
-    return store;
 }
 
 @end

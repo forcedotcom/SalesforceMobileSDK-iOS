@@ -39,13 +39,15 @@ extern NSString * const kSmartStorePluginIdentifier;
     SFSmartStore *_store;
     SFSmartStore *_globalStore;
 
-    // cache of cursors by cursorID
-    NSMutableDictionary *_cursorCache;
+    // cache of cursors by cursorID and store
+    NSMutableDictionary *_userCursorCache;
+    NSMutableDictionary *_globalCursorCache;
 }
 
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, readonly) SFSmartStore *globalStore;
-@property (nonatomic, strong) NSMutableDictionary *cursorCache;
+@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
+@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
 
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.
@@ -167,8 +169,9 @@ extern NSString * const kSmartStorePluginIdentifier;
 /**
  * Gets a handle to a cursor, from its ID.
  * @param cursorId The unique ID of the cursor.
+ * @param isGlobal YES - if global store, NO - otherwise.
  * @return The cached SFStoreCursor isntance with the given ID, or nil.
  */
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId;
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal;
 
 @end
