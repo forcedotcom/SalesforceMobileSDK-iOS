@@ -76,3 +76,5 @@ NSString * const kLayoutObjectTypeField = @"objectType";
 
 NSString * const kSFSyncTargetTypeKey = @"type";
 NSString * const kSFSyncTargetiOSImplKey = @"iOSImpl";
+NSString * const kSFSyncTargetIdFieldNameKey = @"idFieldName";
+NSString * const kSFSyncTargetModificationDateFieldNameKey = @"modificationDateFieldName";

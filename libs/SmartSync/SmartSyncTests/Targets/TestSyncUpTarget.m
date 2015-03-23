@@ -47,35 +47,46 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
                              sendSyncUpError:(BOOL)sendSyncUpError {
     self = [super init];
     if (self) {
-        self.targetType = SFSyncUpTargetTypeCustom;
-        self.dateCompare = dateCompare;
-        self.sendRemoteModError = sendRemoteModError;
-        self.sendSyncUpError = sendSyncUpError;
+        [self commonInitWithRemoteModDateCompare:dateCompare sendRemoteModError:sendRemoteModError sendSyncUpError:sendSyncUpError];
+    }
+    return self;
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        TestSyncUpTargetModDateCompare dateCompare = (dict[kTestSyncUpDateCompareKey] == nil ? TestSyncUpTargetRemoteModDateSameAsLocal : (TestSyncUpTargetModDateCompare)[dict[kTestSyncUpDateCompareKey] unsignedIntegerValue]);
+        BOOL sendRemoteModError = (dict[kTestSyncUpSendRemoteModErrorKey] == nil ? NO : [dict[kTestSyncUpSendRemoteModErrorKey] boolValue]);
+        BOOL sendSyncUpError = (dict[kTestSyncUpSendSyncUpErrorKey] == nil ? NO : [dict[kTestSyncUpSendSyncUpErrorKey] boolValue]);
+        [self commonInitWithRemoteModDateCompare:dateCompare sendRemoteModError:sendRemoteModError sendSyncUpError:sendSyncUpError];
     }
     return self;
 }
 
 - (instancetype)init {
-    return [self initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
-                           sendRemoteModError:NO
-                              sendSyncUpError:NO];
+    self = [super init];
+    if (self) {
+        [self commonInitWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal sendRemoteModError:NO sendSyncUpError:NO];
+    }
+    return self;
 }
 
-+ (TestSyncUpTarget *)newFromDict:(NSDictionary *)dict {
-    TestSyncUpTargetModDateCompare compare = (dict[kTestSyncUpDateCompareKey] == nil ? TestSyncUpTargetRemoteModDateSameAsLocal : (TestSyncUpTargetModDateCompare)[dict[kTestSyncUpDateCompareKey] unsignedIntegerValue]);
-    BOOL sendRemoteModError = (dict[kTestSyncUpSendRemoteModErrorKey] == nil ? NO : [dict[kTestSyncUpSendRemoteModErrorKey] boolValue]);
-    BOOL sendSyncUpError = (dict[kTestSyncUpSendSyncUpErrorKey] == nil ? NO : [dict[kTestSyncUpSendSyncUpErrorKey] boolValue]);
-    return [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:compare sendRemoteModError:sendRemoteModError sendSyncUpError:sendSyncUpError];
+- (void)commonInitWithRemoteModDateCompare:(TestSyncUpTargetModDateCompare)dateCompare
+                        sendRemoteModError:(BOOL)sendRemoteModError
+                           sendSyncUpError:(BOOL)sendSyncUpError {
+    self.targetType = SFSyncUpTargetTypeCustom;
+    self.dateCompare = dateCompare;
+    self.sendRemoteModError = sendRemoteModError;
+    self.sendSyncUpError = sendSyncUpError;
 }
 
-- (NSDictionary *)asDict {
-    return @{
-             kSFSyncTargetTypeKey: [[self class] targetTypeToString:self.targetType],
-             kSFSyncTargetiOSImplKey: NSStringFromClass([self class]),
-             kTestSyncUpDateCompareKey: @(self.dateCompare),
-             kTestSyncUpSendRemoteModErrorKey: @(self.sendRemoteModError),
-             kTestSyncUpSendSyncUpErrorKey: @(self.sendSyncUpError)
-             };
+- (NSMutableDictionary *)asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
+    dict[kTestSyncUpDateCompareKey] = @(self.dateCompare);
+    dict[kTestSyncUpSendRemoteModErrorKey] = @(self.sendRemoteModError);
+    dict[kTestSyncUpSendSyncUpErrorKey] = @(self.sendSyncUpError);
+    return dict;
 }
 
 - (void)fetchRecordModificationDates:(NSDictionary *)record
@@ -88,7 +99,7 @@ static NSString * const kTestSyncUpSendSyncUpErrorKey = @"sendSyncUpErrorKey";
                                                           userInfo:@{ NSLocalizedDescriptionKey: @"RemoteModError" }];
                 modificationResultBlock(nil, nil, remoteModError);
             } else {
-                NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[kLastModifiedDate]];
+                NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
                 NSDate *remoteLastModifiedDate;
                 switch (self.dateCompare) {
                     case TestSyncUpTargetRemoteModDateGreaterThanLocal:

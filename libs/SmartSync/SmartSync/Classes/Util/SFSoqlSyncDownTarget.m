@@ -38,6 +38,23 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 @implementation SFSoqlSyncDownTarget
 
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSoql;
+        self.query = dict[kSFSoqlSyncTargetQuery];
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSoql;
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
@@ -50,21 +67,10 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 #pragma mark - From/to dictionary
 
-+ (SFSoqlSyncDownTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoqlSyncDownTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFSoqlSyncDownTarget alloc] init];
-        syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
-        syncTarget.query = dict[kSFSoqlSyncTargetQuery];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncDownTarget queryTypeToString:self.queryType],
-             kSFSoqlSyncTargetQuery: self.query
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSoqlSyncTargetQuery] = self.query;
+    return dict;
 }
 
 # pragma mark - Data fetching
@@ -79,7 +85,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
@@ -105,11 +111,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     else {
         completeBlock(nil);
     }
-}
-
-+ (NSString *)addFilterForReSync:(NSString *)query maxTimeStamp:(long long)maxTimeStamp
-{
-    return [self addFilterForReSync:query modDateFieldName:kLastModifiedDate maxTimeStamp:maxTimeStamp];
 }
 
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp

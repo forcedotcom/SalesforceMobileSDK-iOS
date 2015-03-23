@@ -35,6 +35,5 @@ extern NSString * const kSFSyncTargetFieldlist;
 /** Factory methods
  */
 + (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
-+ (SFMruSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
 @end

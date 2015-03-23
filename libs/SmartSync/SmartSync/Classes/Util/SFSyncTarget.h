@@ -24,6 +24,28 @@
 
 @interface SFSyncTarget : NSObject
 
-- (NSDictionary*) asDict;
+/**
+ The field name of the ID field of the record.  Defaults to "Id".
+ */
+@property (nonatomic, copy) NSString *idFieldName;
+
+/**
+ The field name of the modification date field of the record.  Defaults to "LastModifiedDate".
+ */
+@property (nonatomic, copy) NSString *modificationDateFieldName;
+
+/**
+ Designated initializer that initializes a sync target from the given dictionary.
+ @param dict The sync target serialized to an NSDictionary.
+ */
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
+/**
+ The target represented as a dictionary.  Note: inheriting classes should initialize their
+ dictionary from the super representation, as each parent class can add fields to the
+ dictionary along the way.
+ @return The target represented as a dictionary.
+ */
+- (NSMutableDictionary *)asDict;
 
 @end

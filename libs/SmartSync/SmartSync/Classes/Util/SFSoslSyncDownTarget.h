@@ -34,6 +34,5 @@ extern NSString * const kSFSoslSyncTargetQuery;
 /** Factory methods
  */
 + (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query;
-+ (SFSoslSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
 @end

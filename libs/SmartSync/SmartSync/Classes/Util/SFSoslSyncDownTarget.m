@@ -41,6 +41,23 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 
 @implementation SFSoslSyncDownTarget
 
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSosl;
+        self.query = dict[kSFSoslSyncTargetQuery];
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSosl;
+    }
+    return self;
+}
+
 #pragma mark - Factory methods
 
 + (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query {
@@ -51,23 +68,12 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 }
 
 
-#pragma mark - From/to dictionary
+#pragma mark - To dictionary
 
-+ (SFSoslSyncDownTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoslSyncDownTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFSoslSyncDownTarget alloc] init];
-        syncTarget.queryType = SFSyncDownTargetQueryTypeSosl;
-        syncTarget.query = dict[kSFSoslSyncTargetQuery];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncDownTarget queryTypeToString:self.queryType],
-             kSFSoslSyncTargetQuery: self.query
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSoslSyncTargetQuery] = self.query;
+    return dict;
 }
 
 # pragma mark - Data fetching

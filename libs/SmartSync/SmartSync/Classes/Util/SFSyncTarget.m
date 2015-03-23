@@ -23,10 +23,38 @@
  */
 
 #import "SFSyncTarget.h"
+#import "SFSmartSyncConstants.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @implementation SFSyncTarget
 
-- (NSDictionary*) asDict ABSTRACT_METHOD
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    if (dict == nil) return nil;
+    
+    self = [super init];
+    if (self) {
+        NSString *idFieldName = dict[kSFSyncTargetIdFieldNameKey];
+        NSString *modificationDateFieldName = dict[kSFSyncTargetModificationDateFieldNameKey];
+        self.idFieldName = (idFieldName.length > 0 ? idFieldName : kId);
+        self.modificationDateFieldName = (modificationDateFieldName.length > 0 ? modificationDateFieldName : kLastModifiedDate);
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.idFieldName = kId;
+        self.modificationDateFieldName = kLastModifiedDate;
+    }
+    return self;
+}
+
+- (NSMutableDictionary *)asDict {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
+    dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
+    return dict;
+}
 
 @end
