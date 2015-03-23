@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,17 +34,20 @@ extern NSString * const kSmartStorePluginIdentifier;
 @class SFSmartStore;
 
 @interface SFSmartStorePlugin : SFForcePlugin {
-    //the native store used by this plugin
+
+    // the native stores used by this plugin
     SFSmartStore *_store;
-    
-    //cache of cursors by cursorID
-    NSMutableDictionary *_cursorCache;
+    SFSmartStore *_globalStore;
+
+    // cache of cursors by cursorID and store
+    NSMutableDictionary *_userCursorCache;
+    NSMutableDictionary *_globalCursorCache;
 }
 
-
 @property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, strong) NSMutableDictionary *cursorCache; 
-
+@property (nonatomic, readonly) SFSmartStore *globalStore;
+@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
+@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
 
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.
@@ -166,8 +169,9 @@ extern NSString * const kSmartStorePluginIdentifier;
 /**
  * Gets a handle to a cursor, from its ID.
  * @param cursorId The unique ID of the cursor.
+ * @param isGlobal YES - if global store, NO - otherwise.
  * @return The cached SFStoreCursor isntance with the given ID, or nil.
  */
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId;
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal;
 
 @end
