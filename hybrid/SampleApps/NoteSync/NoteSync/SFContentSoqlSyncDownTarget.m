@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFContentSoqlSyncTarget.h"
+#import "SFContentSoqlSyncDownTarget.h"
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
@@ -256,57 +256,61 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 @end
 
-@interface SFContentSoqlSyncTarget ()
+@interface SFContentSoqlSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* queryLocator;
 
 @end
 
-@implementation SFContentSoqlSyncTarget
+@implementation SFContentSoqlSyncDownTarget
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
 
 #pragma mark - Factory methods
 
-+ (SFContentSoqlSyncTarget*) newSyncTarget:(NSString*)query {
-    SFContentSoqlSyncTarget* syncTarget = [[SFContentSoqlSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeCustom;
++ (SFContentSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
+    SFContentSoqlSyncDownTarget* syncTarget = [[SFContentSoqlSyncDownTarget alloc] init];
+    syncTarget.queryType = SFSyncDownTargetQueryTypeCustom;
     syncTarget.query = query;
     return syncTarget;
 }
 
 
-#pragma mark - From/to dictionary
+#pragma mark - To dictionary
 
-+ (SFContentSoqlSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFContentSoqlSyncTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFContentSoqlSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeCustom;
-        syncTarget.query = dict[kSFSoqlSyncTargetQuery];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
-             kSFSoqlSyncTargetQuery: self.query,
-             kSFSyncTargetiOSImplKey: NSStringFromClass([self class])
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
+    return dict;
 }
 
 # pragma mark - Data fetching
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFContentSoqlSyncTarget* weakSelf = self;
+    __weak SFContentSoqlSyncDownTarget* weakSelf = self;
     
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
@@ -320,11 +324,11 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 }
 
 - (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
-            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
     if (self.queryLocator) {
-        __weak SFContentSoqlSyncTarget* weakSelf = self;
+        __weak SFContentSoqlSyncDownTarget* weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
             weakSelf.queryLocator = response.queryLocator;

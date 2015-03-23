@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSoqlSyncTarget.h"
+#import "SFSoqlSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncObjectUtils.h"
@@ -30,19 +30,36 @@
 
 NSString * const kSFSoqlSyncTargetQuery = @"query";
 
-@interface SFSoqlSyncTarget ()
+@interface SFSoqlSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* nextRecordsUrl;
 
 @end
 
-@implementation SFSoqlSyncTarget
+@implementation SFSoqlSyncDownTarget
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSoql;
+        self.query = dict[kSFSoqlSyncTargetQuery];
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeSoql;
+    }
+    return self;
+}
 
 #pragma mark - Factory methods
 
-+ (SFSoqlSyncTarget*) newSyncTarget:(NSString*)query {
-    SFSoqlSyncTarget* syncTarget = [[SFSoqlSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeSoql;
++ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
+    SFSoqlSyncDownTarget* syncTarget = [[SFSoqlSyncDownTarget alloc] init];
+    syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
     syncTarget.query = query;
     return syncTarget;
 }
@@ -50,36 +67,25 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 #pragma mark - From/to dictionary
 
-+ (SFSoqlSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFSoqlSyncTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFSoqlSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeSoql;
-        syncTarget.query = dict[kSFSoqlSyncTargetQuery];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
-             kSFSoqlSyncTargetQuery: self.query
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSoqlSyncTargetQuery] = self.query;
+    return dict;
 }
 
 # pragma mark - Data fetching
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFSoqlSyncTarget* weakSelf = self;
+    __weak SFSoqlSyncDownTarget* weakSelf = self;
 
     // Resync?
     NSString* queryToRun = self.query;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncTarget addFilterForReSync:self.query maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
     
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
@@ -91,11 +97,11 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 }
 
 - (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
-            errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
     if (self.nextRecordsUrl) {
-        __weak SFSoqlSyncTarget* weakSelf = self;
+        __weak SFSoqlSyncDownTarget* weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
             weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
@@ -107,17 +113,17 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
-+ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp
++ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp
 {
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
         NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
-        NSString* extraPredicate =  [@[kLastModifiedDate, @">", maxTimeStampStr] componentsJoinedByString:@" "];
+        NSString* extraPredicate =  [@[modDateFieldName, @">", maxTimeStampStr] componentsJoinedByString:@" "];
         if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
-            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
+            queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
         }
         else {
-            queryToRun = [SFSoqlSyncTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
+            queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
         }
     }
     return queryToRun;

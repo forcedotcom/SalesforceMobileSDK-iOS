@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFMruSyncTarget.h"
+#import "SFMruSyncDownTarget.h"
 #import "SFSmartSyncSyncManager.h"
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
@@ -32,59 +32,65 @@ NSString * const kSFSyncTargetObjectType = @"sobjectType";
 NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 
-@interface SFMruSyncTarget ()
+@interface SFMruSyncDownTarget ()
 
 @property (nonatomic, strong, readwrite) NSString* objectType;
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
 
 @end
 
-@implementation SFMruSyncTarget
+@implementation SFMruSyncDownTarget
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeMru;
+        self.objectType = dict[kSFSyncTargetObjectType];
+        self.fieldlist = dict[kSFSyncTargetFieldlist];
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeMru;
+    }
+    return self;
+}
 
 #pragma mark - Factory methods
 
-+ (SFMruSyncTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
-    SFMruSyncTarget* syncTarget = [[SFMruSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeMru;
++ (SFMruSyncDownTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
+    SFMruSyncDownTarget* syncTarget = [[SFMruSyncDownTarget alloc] init];
+    syncTarget.queryType = SFSyncDownTargetQueryTypeMru;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
     return syncTarget;
 }
 
-#pragma mark - From/to dictionary
+#pragma mark - To dictionary
 
-+ (SFMruSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFMruSyncTarget* syncTarget = nil;
-    if (dict != nil && [dict count] != 0) {
-        syncTarget = [[SFMruSyncTarget alloc] init];
-        syncTarget.queryType = SFSyncTargetQueryTypeMru;
-        syncTarget.objectType = dict[kSFSyncTargetObjectType];
-        syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
-    }
-    return syncTarget;
-}
-
-- (NSDictionary*) asDict {
-    return @{
-             kSFSyncTargetTypeKey: [SFSyncTarget queryTypeToString:self.queryType],
-             kSFSyncTargetObjectType: self.objectType,
-             kSFSyncTargetFieldlist: self.fieldlist
-             };
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetObjectType] = self.objectType;
+    dict[kSFSyncTargetFieldlist] = self.fieldlist;
+    return dict;
 }
 
 # pragma mark - Data fetching
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncTargetFetchCompleteBlock)completeBlock
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFMruSyncTarget *weakSelf = self;
+    __weak SFMruSyncDownTarget *weakSelf = self;
     
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
-        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:kId];
-        NSString* inPredicate = [@[ @"Id IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
+        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:self.idFieldName];
+        NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
         NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
                             from:self.objectType]

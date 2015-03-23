@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 @class SFRestRequest;
 
@@ -37,6 +38,6 @@
  @param failBlock The block to call if the request fails.
  @param completeBlock The block to call if the request succeeds.
  */
-+ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(void (^)(NSError *))failBlock completeBlock:(id)completeBlock;
++ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
 
 @end

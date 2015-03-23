@@ -25,7 +25,7 @@
 #import <XCTest/XCTest.h>
 #import "SFSmartSyncSyncManager.h"
 #import "SFSyncUpdateCallbackQueue.h"
-#import "TestSyncServerTarget.h"
+#import "TestSyncUpTarget.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -34,10 +34,10 @@
 #import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
-#import <SmartSync/SFSoqlSyncTarget.h>
-#import <SmartSync/SFSoslSyncTarget.h>
-#import <SmartSync/SFMruSyncTarget.h>
-#import <SmartSync/SFSyncServerTarget.h>
+#import <SmartSync/SFSoqlSyncDownTarget.h>
+#import <SmartSync/SFSoslSyncDownTarget.h>
+#import <SmartSync/SFMruSyncDownTarget.h>
+#import <SmartSync/SFSyncUpTarget.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
@@ -47,10 +47,6 @@
 #define TYPE                @"type"
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
-
-@interface SFSmartSyncSyncManager()
-- (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
-@end
 
 @interface SyncManagerTests : XCTestCase
 {
@@ -143,36 +139,36 @@ static NSException *authException = nil;
 }
 
 /**
- * Test serialization and deserialization of SFSyncServerTargets to and from NSDictionary objects.
+ * Test serialization and deserialization of SFSyncUpTargets to and from NSDictionary objects.
  */
-- (void)testSyncServerTargetSerialization {
+- (void)testSyncUpTargetSerialization {
     
-    // Default server target should be the base class.
+    // Default sync up target should be the base class.
     NSDictionary *defaultDict = @{ };
-    SFSyncServerTarget *defaultServerTarget = [SFSyncServerTarget newFromDict:defaultDict];
-    XCTAssertEqual([defaultServerTarget class], [SFSyncServerTarget class], @"Default class should be SFSyncServerTarget");
-    XCTAssertEqual(defaultServerTarget.targetType, SFSyncServerTargetTypeRestStandard, @"Sync server target type is incorrect.");
+    SFSyncUpTarget *defaulttarget = [SFSyncUpTarget newFromDict:defaultDict];
+    XCTAssertEqual([defaulttarget class], [SFSyncUpTarget class], @"Default class should be SFSyncUpTarget");
+    XCTAssertEqual(defaulttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
-    // Explicit rest server target type creates base class.
+    // Explicit rest sync up target type creates base class.
     NSDictionary *restDict = @{ kSFSyncTargetTypeKey: @"rest" };
-    SFSyncServerTarget *restServerTarget = [SFSyncServerTarget newFromDict:restDict];
-    XCTAssertEqual([restServerTarget class], [SFSyncServerTarget class], @"Rest class should be SFSyncServerTarget");
-    XCTAssertEqual(restServerTarget.targetType, SFSyncServerTargetTypeRestStandard, @"Sync server target type is incorrect.");
+    SFSyncUpTarget *resttarget = [SFSyncUpTarget newFromDict:restDict];
+    XCTAssertEqual([resttarget class], [SFSyncUpTarget class], @"Rest class should be SFSyncUpTarget");
+    XCTAssertEqual(resttarget.targetType, SFSyncUpTargetTypeRestStandard, @"Sync sync up target type is incorrect.");
     
-    // Custom server target
-    TestSyncServerTarget *customTarget = [[TestSyncServerTarget alloc] init];
+    // Custom sync up target
+    TestSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithDict:@{ }];
     NSDictionary *customDict = [customTarget asDict];
-    XCTAssertEqualObjects(customDict[kSFSyncTargetTypeKey], @"custom", @"Should be a custom server target.");
-    XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncServerTarget class]), @"Custom class is incorrect.");
-    SFSyncServerTarget *customTargetFromDict = [SFSyncServerTarget newFromDict:customDict];
-    XCTAssertEqual([customTargetFromDict class], [TestSyncServerTarget class], @"Custom class is incorrect.");
-    XCTAssertEqual(customTargetFromDict.targetType, SFSyncServerTargetTypeCustom, @"Target type should be custom.");
+    XCTAssertEqualObjects(customDict[kSFSyncTargetTypeKey], @"custom", @"Should be a custom sync up target.");
+    XCTAssertEqualObjects(customDict[kSFSyncTargetiOSImplKey], NSStringFromClass([TestSyncUpTarget class]), @"Custom class is incorrect.");
+    SFSyncUpTarget *customTargetFromDict = [SFSyncUpTarget newFromDict:customDict];
+    XCTAssertEqual([customTargetFromDict class], [TestSyncUpTarget class], @"Custom class is incorrect.");
+    XCTAssertEqual(customTargetFromDict.targetType, SFSyncUpTargetTypeCustom, @"Target type should be custom.");
 }
 
-- (void)testDefaultSyncServerTarget {
+- (void)testDefaultSyncUpTarget {
     SFSyncOptions *options = [SFSyncOptions newSyncOptionsForSyncUp:@[ACCOUNT_NAME] mergeMode:SFSyncStateMergeModeOverwrite];
     SFSyncState *syncUpState = [SFSyncState newSyncUpWithOptions:options soupName:ACCOUNTS_SOUP store:store];
-    XCTAssertEqual([syncUpState.serverTarget class], [SFSyncServerTarget class], @"Default sync up target should be SFSyncServerTarget");
+    XCTAssertEqual([syncUpState.target class], [SFSyncUpTarget class], @"Default sync up target should be SFSyncUpTarget");
 }
 
 /**
@@ -242,7 +238,7 @@ static NSException *authException = nil;
     
     // Check sync time stamp
     SFSyncState* sync = [syncManager getSyncStatus:syncId];
-    SFSyncTarget* target = sync.target;
+    SFSyncDownTarget* target = (SFSyncDownTarget*) sync.target;
     SFSyncOptions* options = sync.options;
     long long maxTimeStamp = sync.maxTimeStamp;
     XCTAssertTrue(maxTimeStamp > 0);
@@ -299,10 +295,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
     }
     
     // Check server
@@ -325,11 +321,11 @@ static NSException *authException = nil;
     // Make some local changes.
     NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
     
-    // Sync up with custom sync server target.
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+    // Sync up with custom sync sync up target.
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally modified anymore
     NSArray* ids = [idToNamesLocallyUpdated allKeys];
@@ -339,10 +335,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
     }
 }
 
@@ -378,10 +374,10 @@ static NSException *authException = nil;
     NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqual(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@YES, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
     }
 
     // Check server
@@ -406,10 +402,10 @@ static NSException *authException = nil;
     NSArray* ids = [idToNamesLocallyUpdated allKeys];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
     
     // Check that db still shows entries as locally modified
     NSString* idsClause = [self buildInClause:ids];
@@ -450,10 +446,10 @@ static NSException *authException = nil;
         NSDictionary* account = row[0];
         NSString* accountId = account[ACCOUNT_ID];
         idToNamesCreated[accountId] = account[ACCOUNT_NAME];
-        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
     
@@ -479,10 +475,10 @@ static NSException *authException = nil;
     [self createAccountsLocally:names];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally created anymore and that they use returned id
     NSString* namesClause = [self buildInClause:names];
@@ -492,10 +488,10 @@ static NSException *authException = nil;
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
         NSString* accountId = account[ACCOUNT_ID];
-        XCTAssertEqual(@NO, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
         XCTAssertFalse([accountId hasPrefix:@"local_"]);
     }
 }
@@ -547,10 +543,10 @@ static NSException *authException = nil;
     [self deleteAccountsLocally:idsLocallyDeleted];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
     // Check that db doesn't show entries as locally modified anymore
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
@@ -595,10 +591,10 @@ static NSException *authException = nil;
     XCTAssertEqual(3, rows.count);
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqual(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@YES, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyDeleted]);
     }
 
     // Check server
@@ -622,10 +618,10 @@ static NSException *authException = nil;
     [self deleteAccountsLocally:idsLocallyDeleted];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:3 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
     
     // Check that db still shows entries as locally deleted
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
@@ -635,10 +631,10 @@ static NSException *authException = nil;
     XCTAssertEqual(3, rows.count);
     for (NSArray* row in rows) {
         NSDictionary* account = row[0];
-        XCTAssertEqual(@YES, account[kSyncManagerLocal]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyCreated]);
-        XCTAssertEqual(@NO, account[kSyncManagerLocallyUpdated]);
-        XCTAssertEqual(@YES, account[kSyncManagerLocallyDeleted]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyDeleted]);
     }
 }
 
@@ -657,10 +653,10 @@ static NSException *authException = nil;
     [self makeSomeLocalChanges];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateGreaterThanLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:YES
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusFailed];
+    [self trySyncUp:3 actualChanges:1 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusFailed];
 }
 
 /**
@@ -678,10 +674,10 @@ static NSException *authException = nil;
     [self makeSomeLocalChanges];
     
     // Sync up
-    SFSyncServerTarget *customServerTarget = [[TestSyncServerTarget alloc] initWithRemoteModDateCompare:TestSyncServerTargetRemoteModDateSameAsLocal
+    SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateSameAsLocal
                                                                                      sendRemoteModError:NO
                                                                                         sendSyncUpError:YES];
-    [self trySyncUp:3 actualChanges:1 serverTarget:customServerTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusFailed];
+    [self trySyncUp:3 actualChanges:1 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusFailed];
 }
 
 /**
@@ -694,7 +690,7 @@ static NSException *authException = nil;
     NSString* dateStr = @"2015-02-05T13:12:03.956-0800";
     NSDate* date = [isoDateFormatter dateFromString:dateStr];
     long long dateLong = (long long)([date timeIntervalSince1970] * 1000.0);
-
+    
     // Original queries
     NSString* originalBasicQuery = @"select Id from Account";
     NSString* originalLimitQuery = @"select Id from Account limit 100";
@@ -704,26 +700,29 @@ static NSException *authException = nil;
     NSString* originalLimitQueryUpper = @"SELECT Id FROM Account LIMIT 100";
     NSString* originalNameQueryUpper = @"SELECT Id FROM Account WHERE Name = 'John'";
     NSString* originalNameLimitQueryUpper = @"SELECT Id FROM Account WHERE Name = 'John' LIMIT 100";
-
-    // Expected queries
-    NSString* basicQuery = [NSString stringWithFormat:@"select Id from Account where LastModifiedDate > %@", dateStr];
-    NSString* limitQuery = [NSString stringWithFormat:@"select Id from Account where LastModifiedDate > %@ limit 100", dateStr];
-    NSString* nameQuery = [NSString stringWithFormat:@"select Id from Account where LastModifiedDate > %@ and Name = 'John'", dateStr];
-    NSString* nameLimitQuery = [NSString stringWithFormat:@"select Id from Account where LastModifiedDate > %@ and Name = 'John' limit 100", dateStr];
-    NSString* basicQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where LastModifiedDate > %@", dateStr];
-    NSString* limitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where LastModifiedDate > %@ LIMIT 100", dateStr];
-    NSString* nameQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE LastModifiedDate > %@ and Name = 'John'", dateStr];
-    NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE LastModifiedDate > %@ and Name = 'John' LIMIT 100", dateStr];
-
-    // Tests
-    XCTAssertEqualObjects(basicQuery, [SFSoqlSyncTarget addFilterForReSync:originalBasicQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQuery, [SFSoqlSyncTarget addFilterForReSync:originalLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQuery, [SFSoqlSyncTarget addFilterForReSync:originalNameQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQuery, [SFSoqlSyncTarget addFilterForReSync:originalNameLimitQuery maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(basicQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalBasicQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(limitQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalLimitQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalNameQueryUpper maxTimeStamp:dateLong]);
-    XCTAssertEqualObjects(nameLimitQueryUpper, [SFSoqlSyncTarget addFilterForReSync:originalNameLimitQueryUpper maxTimeStamp:dateLong]);
+    
+    // Test different modification date field names.
+    for (NSString *modDateFieldName in @[ @"LastModifiedDate", @"CustomModDate" ]) {
+        // Expected queries
+        NSString* basicQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@", modDateFieldName, dateStr];
+        NSString* limitQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ limit 100", modDateFieldName, dateStr];
+        NSString* nameQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John'", modDateFieldName, dateStr];
+        NSString* nameLimitQuery = [NSString stringWithFormat:@"select Id from Account where %@ > %@ and Name = 'John' limit 100", modDateFieldName, dateStr];
+        NSString* basicQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where %@ > %@", modDateFieldName, dateStr];
+        NSString* limitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account where %@ > %@ LIMIT 100", modDateFieldName, dateStr];
+        NSString* nameQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE %@ > %@ and Name = 'John'", modDateFieldName, dateStr];
+        NSString* nameLimitQueryUpper = [NSString stringWithFormat:@"SELECT Id FROM Account WHERE %@ > %@ and Name = 'John' LIMIT 100", modDateFieldName, dateStr];
+        
+        // Tests
+        XCTAssertEqualObjects(basicQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQuery modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(limitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQuery modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(nameQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQuery modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(nameLimitQuery, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQuery modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(basicQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalBasicQueryUpper modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(limitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalLimitQueryUpper modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(nameQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameQueryUpper modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+        XCTAssertEqualObjects(nameLimitQueryUpper, [SFSoqlSyncDownTarget addFilterForReSync:originalNameLimitQueryUpper modDateFieldName:modDateFieldName maxTimeStamp:dateLong]);
+    }
 }
 
 
@@ -736,7 +735,7 @@ static NSException *authException = nil;
     
     // Create sync
     NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
-    SFSoqlSyncTarget* target = [SFSoqlSyncTarget newSyncTarget:soql];
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
     NSInteger syncId = sync.syncId;
@@ -776,38 +775,38 @@ static NSException *authException = nil;
 }
 
 - (void)trySyncUp:(NSInteger)numberChanges mergeMode:(SFSyncStateMergeMode)mergeMode {
-    SFSyncServerTarget *defaultTarget = [SFSyncServerTarget newFromDict:@{ }];
-    [self trySyncUp:numberChanges actualChanges:numberChanges serverTarget:defaultTarget mergeMode:mergeMode completionStatus:SFSyncStateStatusDone];
+    SFSyncUpTarget *defaultTarget = [SFSyncUpTarget newFromDict:@{ }];
+    [self trySyncUp:numberChanges actualChanges:numberChanges target:defaultTarget mergeMode:mergeMode completionStatus:SFSyncStateStatusDone];
 }
 
 - (void) trySyncUp:(NSInteger)numberChanges
      actualChanges:(NSInteger)actualNumberChanges
-      serverTarget:(SFSyncServerTarget *)serverTarget
+      target:(SFSyncUpTarget *)target
          mergeMode:(SFSyncStateMergeMode)mergeMode
   completionStatus:(SFSyncStateStatus)completionStatus
 {
     // Create sync
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncUp:@[ACCOUNT_NAME] mergeMode:mergeMode];
-    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:serverTarget soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
     NSInteger syncId = sync.syncId;
-    [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
+    [self checkStatus:sync expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusNew expectedProgress:0 expectedTotalSize:-1];
     
     // Run sync
     SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
     [queue runSync:sync syncManager:syncManager];
     
     // Check status updates
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
     for (int i=1; i<actualNumberChanges; i++) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
     }
     
     if (completionStatus == SFSyncStateStatusDone) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:100 expectedTotalSize:numberChanges];
     } else if (completionStatus == SFSyncStateStatusFailed) {
         NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:nil expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
     } else {
         XCTFail(@"completionStatus value '%d' not currently supported.", completionStatus);
     }
@@ -834,22 +833,29 @@ static NSException *authException = nil;
     
     if (expectedTarget) {
         XCTAssertNotNil(sync.target);
-        XCTAssertEqual(expectedTarget.queryType, sync.target.queryType);
-        if (expectedTarget.queryType == SFSyncTargetQueryTypeSoql) {
-            XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncTarget class]]);
-            XCTAssertEqualObjects(((SFSoqlSyncTarget*)expectedTarget).query, ((SFSoqlSyncTarget*)sync.target).query);
+        if (expectedType == SFSyncStateSyncTypeDown) {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
+            SFSyncDownTargetQueryType expectedQueryType = ((SFSyncDownTarget*) expectedTarget).queryType;
+            XCTAssertEqual(expectedQueryType, ((SFSyncDownTarget*)sync.target).queryType);
+            if (expectedQueryType == SFSyncDownTargetQueryTypeSoql) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoqlSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFSoqlSyncDownTarget*)expectedTarget).query, ((SFSoqlSyncDownTarget*)sync.target).query);
+            }
+            else if (expectedQueryType == SFSyncDownTargetQueryTypeSosl) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFSoslSyncDownTarget*)expectedTarget).query, ((SFSoslSyncDownTarget*)sync.target).query);
+            }
+            else if (expectedQueryType == SFSyncDownTargetQueryTypeMru) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncDownTarget class]]);
+                XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).objectType, ((SFMruSyncDownTarget*)sync.target).objectType);
+                XCTAssertEqualObjects(((SFMruSyncDownTarget*)expectedTarget).fieldlist, ((SFMruSyncDownTarget*)sync.target).fieldlist);
+            }
+            else if (expectedQueryType == SFSyncDownTargetQueryTypeCustom) {
+                XCTAssertTrue([sync.target isKindOfClass:[SFSyncDownTarget class]]);
+            }
         }
-        else if (expectedTarget.queryType == SFSyncTargetQueryTypeSosl) {
-            XCTAssertTrue([sync.target isKindOfClass:[SFSoslSyncTarget class]]);
-            XCTAssertEqualObjects(((SFSoslSyncTarget*)expectedTarget).query, ((SFSoslSyncTarget*)sync.target).query);
-        }
-        else if (expectedTarget.queryType == SFSyncTargetQueryTypeMru) {
-            XCTAssertTrue([sync.target isKindOfClass:[SFMruSyncTarget class]]);
-            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).objectType, ((SFMruSyncTarget*)sync.target).objectType);
-            XCTAssertEqualObjects(((SFMruSyncTarget*)expectedTarget).fieldlist, ((SFMruSyncTarget*)sync.target).fieldlist);
-        }
-        else if (expectedTarget.queryType == SFSyncTargetQueryTypeCustom) {
-            XCTAssertTrue([sync.target isKindOfClass:[SFSyncTarget class]]);
+        else {
+            XCTAssertTrue([sync.target isKindOfClass:[SFSyncUpTarget class]]);
         }
     }
     else {

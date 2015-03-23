@@ -91,3 +91,5 @@ extern NSString * const kLayoutObjectTypeField;
  */
 extern NSString * const kSFSyncTargetTypeKey;
 extern NSString * const kSFSyncTargetiOSImplKey;
+extern NSString * const kSFSyncTargetIdFieldNameKey;
+extern NSString * const kSFSyncTargetModificationDateFieldNameKey;

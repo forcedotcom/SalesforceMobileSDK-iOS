@@ -28,7 +28,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Will go away once we are done refactoring SFSyncTarget
-#import <SmartSync/SFSoqlSyncTarget.h>
+#import <SmartSync/SFSoqlSyncDownTarget.h>
 
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
@@ -88,7 +88,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         // first time
         NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@, LastModifiedDate FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
         SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-        SFSyncTarget *syncTarget = [SFSoqlSyncTarget newSyncTarget:soqlQuery];
+        SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
         [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
     }
     else {

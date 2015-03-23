@@ -23,17 +23,16 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
+#import "SFSyncDownTarget.h"
 
 extern NSString * const kSFSoslSyncTargetQuery;
 
-@interface SFSoslSyncTarget : SFSyncTarget
+@interface SFSoslSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* query;
 
 /** Factory methods
  */
-+ (SFSoslSyncTarget*) newSyncTarget:(NSString*)query;
-+ (SFSoslSyncTarget*) newFromDict:(NSDictionary *)dict;
++ (SFSoslSyncDownTarget*) newSyncTarget:(NSString*)query;
 
 @end
