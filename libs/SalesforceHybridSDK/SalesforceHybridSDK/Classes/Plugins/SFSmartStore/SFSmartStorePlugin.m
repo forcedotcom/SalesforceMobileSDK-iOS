@@ -95,6 +95,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 - (void) dealloc
 {
     SFRelease(_store);
+    SFRelease(_globalStore);
 }
 
 #pragma mark - Object bridging helpers
@@ -365,6 +366,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     if ([args objectForKey:kIsGlobalStoreArg]) {
         isGlobal = [[args objectForKey:kIsGlobalStoreArg] boolValue];
     }
+    return isGlobal;
 }
 
 @end
