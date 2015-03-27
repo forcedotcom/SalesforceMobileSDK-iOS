@@ -66,6 +66,10 @@
     [self runTest:@"testRegisterRemoveSoup"];
 }
 
+- (void)testRegisterRemoveSoupGlobalStore {
+    [self runTest:@"testRegisterRemoveSoupGlobalStore"];
+}
+
 - (void)testRegisterBogusSoup {
     [self runTest:@"testRegisterBogusSoup"];
 }
@@ -164,6 +168,26 @@
 
 - (void)testSmartQueryWithSpecialFields {
     [self runTest:@"testSmartQueryWithSpecialFields"];
+}
+
+- (void) testSmartQueryWithIntegerCompare {
+    [self runTest:@"testSmartQueryWithIntegerCompare"];
+}
+
+- (void) testSmartQueryWithMultipleFieldsAndWhereInClause {
+    [self runTest:@"testSmartQueryWithMultipleFieldsAndWhereInClause"];
+}
+
+- (void) testSmartQueryWithSingleFieldAndWhereInClause {
+    [self runTest:@"testSmartQueryWithSingleFieldAndWhereInClause"];
+}
+
+- (void) testSmartQueryWithWhereLikeClause {
+    [self runTest:@"testSmartQueryWithWhereLikeClause"];
+}
+
+- (void) testSmartQueryWithWhereLikeClauseOrdered {
+    [self runTest:@"testSmartQueryWithWhereLikeClauseOrdered"];
 }
 
 - (void)testGetSoupIndexSpecs {
