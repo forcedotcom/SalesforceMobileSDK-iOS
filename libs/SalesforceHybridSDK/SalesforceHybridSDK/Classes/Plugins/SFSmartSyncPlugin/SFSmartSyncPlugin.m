@@ -187,7 +187,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 - (BOOL)isGlobal:(NSDictionary *)args
 {
-    return args[kSyncIsGlobalStoreArg] && [args[kSyncIsGlobalStoreArg] boolValue];
+    return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
 }
 
 

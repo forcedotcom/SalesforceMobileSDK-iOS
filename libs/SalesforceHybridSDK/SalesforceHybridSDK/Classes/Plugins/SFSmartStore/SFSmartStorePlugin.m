@@ -362,7 +362,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 - (BOOL)isGlobal:(NSDictionary *)args
 {
-    return args[kIsGlobalStoreArg] && [args[kIsGlobalStoreArg] boolValue];
+    return args[kIsGlobalStoreArg] != nil && [args[kIsGlobalStoreArg] boolValue];
 }
 
 @end
