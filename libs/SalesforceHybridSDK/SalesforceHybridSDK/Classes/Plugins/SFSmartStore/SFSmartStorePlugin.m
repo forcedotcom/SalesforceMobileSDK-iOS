@@ -38,7 +38,6 @@
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
-NSString * const kStoreNameArg        = @"storeName";
 NSString * const kSoupNameArg         = @"soupName";
 NSString * const kEntryIdsArg         = @"entryIds";
 NSString * const kCursorIdArg         = @"cursorId";
@@ -119,25 +118,6 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 }
 
 #pragma mark - SmartStore plugin methods
-
-- (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command
-{
-    [self runCommand:^(NSDictionary* argsDict) {
-        [self log:SFLogLevelDebug format:@"pgRemoveAllStores called."];
-        [SFSmartStore removeAllStores];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
-    } command:command];
-}
-
-- (void)pgRemoveStore:(CDVInvokedUrlCommand *)command
-{
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSString *storeName = [argsDict nonNullObjectForKey:kStoreNameArg];
-        [self log:SFLogLevelDebug format:@"pgRemoveStoreWithName called for store name '%@'.", storeName];
-        [SFSmartStore removeSharedStoreWithName:storeName];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK ];
-    } command:command];
-}
 
 - (void)pgSoupExists:(CDVInvokedUrlCommand *)command
 {
