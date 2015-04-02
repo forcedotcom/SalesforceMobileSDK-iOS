@@ -28,6 +28,9 @@
       <FileRef
          location = "group:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceReact/SalesforceReact.xcodeproj">
+      </FileRef>
    </Group>
    <Group
       location = "container:"
@@ -64,6 +67,9 @@
          location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
       </FileRef>
       <FileRef
+         location = "group:hybrid/SampleApps/SimplySync/../SimplySyncReact/SimpleSyncReact.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
       </FileRef>
       <FileRef
@@ -76,6 +82,9 @@
    <Group
       location = "container:"
       name = "External">
+      <FileRef
+         location = "group:external/react-ios/ReactKit/ReactKit.xcodeproj">
+      </FileRef>
       <FileRef
          location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
       </FileRef>
