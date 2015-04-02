@@ -142,6 +142,6 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error The output NSError parameter that will be populated in the event of an error.
  @return YES if the database can be read, NO otherwise.
  */
-- (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
++ (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
 
 @end
