@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 
 @class SFSyncTarget;
+@class SFSyncDownTarget;
+@class SFSyncUpTarget;
 @class SFSyncOptions;
 @class SFSmartStore;
 
@@ -94,8 +96,9 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Factory methods
  */
-+ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncUpTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
  */

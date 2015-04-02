@@ -272,7 +272,9 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     
     NSNumber *usesDefaultNum = @(usesKeyStoreEncryption);
     newUserDict[storeName] = usesDefaultNum;
-    newDict[userKey] = newUserDict;
+    if (userKey) {
+        newDict[userKey] = newUserDict;
+    }
     [userDefaults setObject:newDict forKey:kKeyStoreEncryptedStoresKey];
     [userDefaults synchronize];
 }
@@ -404,7 +406,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     if (encTypeDict == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     NSNumber *encTypeNum = encTypeDict[storeName];
     if (encTypeNum == nil) return SFSmartStoreDefaultEncryptionTypeMac;
-    return [encTypeNum intValue];
+    return [encTypeNum unsignedIntegerValue];
 }
 
 + (NSString *)legacyDefaultKey

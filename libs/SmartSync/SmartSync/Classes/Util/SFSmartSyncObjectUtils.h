@@ -34,6 +34,8 @@
 
 + (NSString*) getIsoStringFromMillis:(long long) millis;
 
++ (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString;
+
 + (BOOL)isEmpty:(NSString *)value;
 
 @end

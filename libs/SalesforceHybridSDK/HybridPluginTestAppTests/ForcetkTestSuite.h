@@ -22,21 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
 
-extern NSString * const kSFSoqlSyncTargetQuery;
-
-@interface SFSoqlSyncTarget : SFSyncTarget
-
-@property (nonatomic, strong) NSString* query;
-
-+ (NSString*) addFilterForReSync:(NSString*)query maxTimeStamp:(long long)maxTimeStamp;
-
-/** Factory methods
- */
-+ (SFSoqlSyncTarget*) newSyncTarget:(NSString*)query;
-+ (SFSoqlSyncTarget*) newFromDict:(NSDictionary *)dict;
+#import "SFPluginTestSuite.h"
 
 
+@interface ForcetkTestSuite : SFPluginTestSuite
 @end

@@ -173,7 +173,7 @@ static BOOL kIsTestRun;
 
 - (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator {
     SFNetworkCoordinator *networkCoordinator = [[SFNetworkCoordinator alloc] init];
-    networkCoordinator.host = [oAuthCoordinator.credentials.instanceUrl host];
+    networkCoordinator.host = [oAuthCoordinator.credentials.apiUrl host];
     networkCoordinator.organizationId = oAuthCoordinator.credentials.organizationId;
     networkCoordinator.userId = oAuthCoordinator.credentials.userId;
     networkCoordinator.accessToken = oAuthCoordinator.credentials.accessToken;

@@ -23,18 +23,21 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFSyncTarget.h"
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
-extern NSString * const kSFSyncTargetFieldlist;
+@class SFRestRequest;
 
-@interface SFMruSyncTarget : SFSyncTarget
-
-@property (nonatomic, strong, readonly) NSString* objectType;
-@property (nonatomic, strong, readonly) NSArray*  fieldlist;
-
-/** Factory methods
+/**
+ Class to provide network utilities related to SmartSync actions.
  */
-+ (SFMruSyncTarget*) newSyncTarget:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
-+ (SFMruSyncTarget*) newFromDict:(NSDictionary *)dict;
+@interface SFSmartSyncNetworkUtils : NSObject
+
+/**
+ Sends a REST request, applying the SmartSync user agent string.
+ @param request The request to send.
+ @param failBlock The block to call if the request fails.
+ @param completeBlock The block to call if the request succeeds.
+ */
++ (void)sendRequestWithSmartSyncUserAgent:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;
 
 @end

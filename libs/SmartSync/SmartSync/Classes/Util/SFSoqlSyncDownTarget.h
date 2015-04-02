@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,13 +23,25 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "SFSyncDownTarget.h"
+
+extern NSString * const kSFSoqlSyncTargetQuery;
+
+@interface SFSoqlSyncDownTarget : SFSyncDownTarget
+
+@property (nonatomic, strong) NSString* query;
 
 /**
- Mode constants indicating whether to create or verify an existing passcode.
+ Adds a filter for re-syncing a data set, using the given modification date field.
+ @param query The original query to append a re-syncing clause to.
+ @param modDateFieldName The name of the SOQL field representing the modification date field.
+ @param maxTimeStamp The latest modification time represented locally.
+ @return The original query with an additional re-syncing clause added.
  */
-typedef NS_ENUM(NSUInteger, SFPasscodeControllerMode) {
-    SFPasscodeControllerModeCreate,
-    SFPasscodeControllerModeVerify,
-    SFPasscodeControllerModeChange
-};
++ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp;
 
+/** Factory methods
+ */
++ (SFSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
+
+@end

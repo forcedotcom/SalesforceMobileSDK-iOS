@@ -23,8 +23,9 @@
  */
 
 #import "SFSyncState.h"
-#import "SFSyncTarget.h"
+#import "SFSyncDownTarget.h"
 #import "SFSyncOptions.h"
+#import "SFSyncUpTarget.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
@@ -84,7 +85,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 
 #pragma mark - Factory methods
 
-+ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeDown,
                            kSFSyncStateTarget: [target asDict],
@@ -99,9 +100,18 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     return sync;
 }
 
-+ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store {
++ (SFSyncState*)newSyncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName store:(SFSmartStore *)store {
+    SFSyncUpTarget *target = [[SFSyncUpTarget alloc] init];
+    return [self newSyncUpWithOptions:options target:target soupName:soupName store:store];
+}
+
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options
+                               target:(SFSyncUpTarget*)target
+                             soupName:(NSString*)soupName
+                                store:(SFSmartStore*)store {
     NSDictionary* dict = @{
                            kSFSyncStateType: kSFSyncStateTypeUp,
+                           kSFSyncStateTarget: [target asDict],
                            kSFSyncStateSoupName: soupName,
                            kSFSyncStateOptions: [options asDict],
                            kSFSyncStateStatus: kSFSyncStateStatusNew,
@@ -143,7 +153,9 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
 - (void) fromDict:(NSDictionary*) dict {
     self.syncId = [(NSNumber*) dict[kSFSyncStateId] integerValue];
     self.type = [SFSyncState syncTypeFromString:dict[kSFSyncStateType]];
-    self.target = (dict[kSFSyncStateTarget] == nil ? nil : [SFSyncTarget newFromDict:dict[kSFSyncStateTarget]]);
+    self.target = (self.type == SFSyncStateSyncTypeDown
+                   ? [SFSyncDownTarget newFromDict:dict[kSFSyncStateTarget]]
+                   : [SFSyncUpTarget newFromDict:dict[kSFSyncStateTarget]]);
     self.options = (dict[kSFSyncStateOptions] == nil ? nil : [SFSyncOptions newFromDict:dict[kSFSyncStateOptions]]);
     self.soupName = dict[kSFSyncStateSoupName];
     self.status = [SFSyncState syncStatusFromString:dict[kSFSyncStateStatus]];

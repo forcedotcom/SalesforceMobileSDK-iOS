@@ -23,14 +23,12 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 */
 
 #import <Foundation/Foundation.h>
-#import <SmartSync/SFSoqlSyncTarget.h>
+#import <SmartSync/SFSoqlSyncDownTarget.h>
 
-@interface SFContentSoqlSyncTarget : SFSoqlSyncTarget
+@interface SFContentSoqlSyncDownTarget : SFSoqlSyncDownTarget
 
 /** Factory methods
  */
-+ (SFContentSoqlSyncTarget*) newSyncTarget:(NSString*)query;
-+ (SFContentSoqlSyncTarget*) newFromDict:(NSDictionary *)dict;
-
++ (SFContentSoqlSyncDownTarget*) newSyncTarget:(NSString*)query;
 
 @end

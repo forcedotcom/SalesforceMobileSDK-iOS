@@ -40,7 +40,6 @@
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
 		4FC2768119DCA6BB008F4AA6 /* SFSmartSyncPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FC2768219DCA6BB008F4AA6 /* SFSmartSyncPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */; };
-		4FC404A41911C6720027AD76 /* qunit.css in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
 		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
 		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
 		4FC404AA1911C6CA0027AD76 /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049C1911C6720027AD76 /* qunit.js */; };
@@ -54,6 +53,8 @@
 		4FC404BE1911C72D0027AD76 /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC404B61911C6F10027AD76 /* backbone-min.js */; };
 		4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
+		4FD231761AC4D1C500FCE6C8 /* ForcetkTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD231741AC4D1C500FCE6C8 /* ForcetkTestSuite.m */; };
+		4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */; };
 		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
 		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
@@ -159,6 +160,7 @@
 			dstPath = www/test;
 			dstSubfolderSpec = 7;
 			files = (
+				4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */,
 				4FC404AB1911C6E00027AD76 /* SFSmartSyncTestSuite.js in Copy test lib */,
 				4FC404AC1911C6E00027AD76 /* SFAbstractSmartStoreTestSuite.js in Copy test lib */,
 				4FC404AD1911C6E00027AD76 /* SFSDKInfoTestSuite.js in Copy test lib */,
@@ -299,6 +301,9 @@
 		4FC404B61911C6F10027AD76 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
 		4FC404B71911C6F10027AD76 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
 		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
+		4FD231741AC4D1C500FCE6C8 /* ForcetkTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForcetkTestSuite.m; sourceTree = "<group>"; };
+		4FD231751AC4D1C500FCE6C8 /* ForcetkTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForcetkTestSuite.h; sourceTree = "<group>"; };
+		4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFForcetkTestSuite.js; sourceTree = "<group>"; };
 		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
 		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
 		8222729D19C39F4500FC537E /* HybridPluginTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HybridPluginTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -450,6 +455,7 @@
 		4F1A59D2174FF02500473EE8 /* test */ = {
 			isa = PBXGroup;
 			children = (
+				4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */,
 				4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */,
 				4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */,
 				4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */,
@@ -541,6 +547,8 @@
 		822272A219C39F4500FC537E /* HybridPluginTestAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				4FD231741AC4D1C500FCE6C8 /* ForcetkTestSuite.m */,
+				4FD231751AC4D1C500FCE6C8 /* ForcetkTestSuite.h */,
 				822272B019C3A03100FC537E /* SDKInfoTestSuite.h */,
 				822272B119C3A03100FC537E /* SDKInfoTestSuite.m */,
 				822272B219C3A03100FC537E /* SFPluginTestSuite.h */,
@@ -1002,7 +1010,6 @@
 				82EFF31216E8049500A63CDF /* Default.png in Resources */,
 				82EFF31416E8049500A63CDF /* Default@2x.png in Resources */,
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
-				4FC404A41911C6720027AD76 /* qunit.css in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				4F753375193D252200540762 /* Settings.bundle in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
@@ -1046,6 +1053,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				822272BB19C3A03100FC537E /* SFPluginTestSuite.m in Sources */,
+				4FD231761AC4D1C500FCE6C8 /* ForcetkTestSuite.m in Sources */,
 				822272BA19C3A03100FC537E /* SDKInfoTestSuite.m in Sources */,
 				822272BD19C3A03100FC537E /* SmartStoreTestSuite.m in Sources */,
 				822272BE19C3A03100FC537E /* SmartSyncTestSuite.m in Sources */,
