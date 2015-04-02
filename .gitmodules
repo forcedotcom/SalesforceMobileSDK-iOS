@@ -8,5 +8,5 @@
 	path = external/ThirdPartyDependencies
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
 [submodule "external/ocmock"]
-        path = external/ocmock
-        url = https://github.com/erikdoe/ocmock.git
+	path = external/ocmock
+	url = https://github.com/erikdoe/ocmock.git
