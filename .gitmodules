@@ -7,9 +7,3 @@
 [submodule "external/ThirdPartyDependencies"]
 	path = external/ThirdPartyDependencies
 	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
-[submodule "external/MKNetworkKit"]
-	path = external/MKNetworkKit
-	url = https://github.com/forcedotcom/MKNetworkKit.git
-[submodule "libs/SalesforceNetworkSDK"]
-	path = libs/SalesforceNetworkSDK
-	url = https://github.com/forcedotcom/SalesforceNetworkSDK.git
