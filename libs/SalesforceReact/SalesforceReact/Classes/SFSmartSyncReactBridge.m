@@ -29,6 +29,7 @@
 #import <ReactKit/RCTUtils.h>
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFSmartStore.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
 
@@ -39,6 +40,14 @@ NSString * const kSyncOptionsArg = @"options";
 NSString * const kSyncIdArg = @"syncId";
 NSString * const kSyncEventType = @"sync";
 NSString * const kSyncDetail = @"detail";
+NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
+
+@interface SFSmartSyncReactBridge ()
+
+@property (nonatomic, strong) SFSmartSyncSyncManager *syncManager;
+@property (nonatomic, strong) SFSmartSyncSyncManager *globalSyncManager;
+
+@end
 
 @implementation SFSmartSyncReactBridge
 
@@ -48,10 +57,11 @@ NSString * const kSyncDetail = @"detail";
 {
     RCT_EXPORT();
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
+    BOOL isGlobal = [self isGlobal:args];
     
     [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
     
-    SFSyncState* sync = [self.syncManager getSyncStatus:syncId];
+    SFSyncState* sync = [[self getSyncManagerInst:isGlobal] getSyncStatus:syncId];
     callback( @[ [sync asDict] ]);
 }
 
@@ -60,13 +70,14 @@ NSString * const kSyncDetail = @"detail";
     RCT_EXPORT();
     NSString *soupName = [args nonNullObjectForKey:kSyncSoupNameArg];
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
-    SFSyncTarget *target = [SFSyncTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
+    SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
+    BOOL isGlobal = [self isGlobal:args];
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
-    SFSyncState* sync = [self.syncManager syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync callback:callback callbackErr:callbackErr];
+    SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
     }];
-
+    
     [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
 }
 
@@ -74,12 +85,13 @@ NSString * const kSyncDetail = @"detail";
 {
     RCT_EXPORT();
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
+    BOOL isGlobal = [self isGlobal:args];
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
-    SFSyncState* sync = [self.syncManager reSync:syncId updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync callback:callback callbackErr:callbackErr];
+    SFSyncState* sync = [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
     }];
-
+    
     [self log:SFLogLevelDebug format:@"reSync # %d from soup: %@", sync.syncId, sync.soupName];
 }
 
@@ -88,10 +100,12 @@ NSString * const kSyncDetail = @"detail";
     RCT_EXPORT();
     NSString *soupName = [args nonNullObjectForKey:kSyncSoupNameArg];
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
+    SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
+    BOOL isGlobal = [self isGlobal:args];
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
-    SFSyncState* sync = [self.syncManager syncUpWithOptions:options soupName:soupName updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync callback:callback callbackErr:callbackErr];
+    SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
     }];
     
     [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
@@ -100,21 +114,35 @@ NSString * const kSyncDetail = @"detail";
 
 #pragma mark - Helper methods
 
-- (SFSmartSyncSyncManager*) syncManager
+- (SFSmartSyncSyncManager *)syncManager
 {
-    RCT_EXPORT();
-    SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
-    [SFSmartSyncSyncManager removeSharedInstance:user];
-    return [SFSmartSyncSyncManager sharedInstance:user];
+    return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
 }
 
-- (void)handleSyncUpdate:(SFSyncState*)sync callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+- (SFSmartSyncSyncManager *)globalSyncManager
 {
+    return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
+}
+
+- (SFSmartSyncSyncManager *)getSyncManagerInst:(BOOL)isGlobal
+{
+    return isGlobal ? self.globalSyncManager : self.syncManager;
+}
+
+- (BOOL)isGlobal:(NSDictionary *)args
+{
+    return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
+}
+
+- (void)handleSyncUpdate:(SFSyncState*)sync isGlobal:(BOOL)isGlobal callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+{
+    NSMutableDictionary* syncDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
+    syncDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
     if (sync.status == SFSyncStateStatusDone) {
-        callback( @[ [sync asDict] ]);
+        callback( @[ syncDict ]);
     }
     else if (sync.status == SFSyncStateStatusFailed) {
-        callbackErr( @ [[ sync asDict] ]);
+        callbackErr( @ [ syncDict ]);
     }
 }
 

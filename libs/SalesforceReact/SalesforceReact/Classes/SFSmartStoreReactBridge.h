@@ -27,12 +27,29 @@
 #import <ReactKit/RCTBridgeModule.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
+@class SFStoreCursor;
+@class SFSmartStore;
 
 @protocol SFSmartStoreReactBridgeJSExport <JSExport>
 
 @end
 
-@interface SFSmartStoreReactBridge : UIViewController <RCTBridgeModule,SFSmartStoreReactBridgeJSExport>
+@interface SFSmartStoreReactBridge : UIViewController <RCTBridgeModule,SFSmartStoreReactBridgeJSExport> {
 
+    // the native stores used by this plugin
+    SFSmartStore *_store;
+    SFSmartStore *_globalStore;
+
+    // cache of cursors by cursorID and store
+    NSMutableDictionary *_userCursorCache;
+    NSMutableDictionary *_globalCursorCache;
+
+}
+
+@property (nonatomic, readonly) SFSmartStore *store;
+@property (nonatomic, readonly) SFSmartStore *globalStore;
+@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
+@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
+    
 @end
 

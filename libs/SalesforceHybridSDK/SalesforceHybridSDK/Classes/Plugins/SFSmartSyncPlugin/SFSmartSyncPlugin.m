@@ -116,9 +116,9 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 - (void) getSyncStatus:(CDVInvokedUrlCommand *)command
 {
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        BOOL isGlobal = [self isGlobal:argsDict];
+    [self runCommand:^(NSDictionary* argsDictDict) {
+        NSNumber* syncId = (NSNumber*) [argsDictDict nonNullObjectForKey:kSyncIdArg];
+        BOOL isGlobal = [self isGlobal:argsDictDict];
         
         [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
         
@@ -129,11 +129,11 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 - (void) syncDown:(CDVInvokedUrlCommand *)command
 {
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
-        SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
-        SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
-        BOOL isGlobal = [self isGlobal:argsDict];
+    [self runCommand:^(NSDictionary* argsDictDict) {
+        NSString *soupName = [argsDictDict nonNullObjectForKey:kSyncSoupNameArg];
+        SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDictDict nonNullObjectForKey:kSyncOptionsArg]];
+        SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[argsDictDict nonNullObjectForKey:kSyncTargetArg]];
+        BOOL isGlobal = [self isGlobal:argsDictDict];
         
         __weak SFSmartSyncPlugin *weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
@@ -147,9 +147,9 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 - (void) reSync:(CDVInvokedUrlCommand *)command
 {
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
-        BOOL isGlobal = [self isGlobal:argsDict];
+    [self runCommand:^(NSDictionary* argsDictDict) {
+        NSNumber* syncId = (NSNumber*) [argsDictDict nonNullObjectForKey:kSyncIdArg];
+        BOOL isGlobal = [self isGlobal:argsDictDict];
         
         [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
         
@@ -163,11 +163,11 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 - (void) syncUp:(CDVInvokedUrlCommand *)command
 {
-    [self runCommand:^(NSDictionary* argsDict) {
-        NSString *soupName = [argsDict nonNullObjectForKey:kSyncSoupNameArg];
-        SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
-        SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
-        BOOL isGlobal = [self isGlobal:argsDict];
+    [self runCommand:^(NSDictionary* argsDictDict) {
+        NSString *soupName = [argsDictDict nonNullObjectForKey:kSyncSoupNameArg];
+        SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDictDict nonNullObjectForKey:kSyncOptionsArg]];
+        SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[argsDictDict nonNullObjectForKey:kSyncTargetArg]];
+        BOOL isGlobal = [self isGlobal:argsDictDict];
         
         __weak SFSmartSyncPlugin *weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
@@ -185,9 +185,9 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
     return isGlobal ? self.globalSyncManager : self.syncManager;
 }
 
-- (BOOL)isGlobal:(NSDictionary *)args
+- (BOOL)isGlobal:(NSDictionary *)argsDict
 {
-    return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
+    return argsDict[kSyncIsGlobalStoreArg] != nil && [argsDict[kSyncIsGlobalStoreArg] boolValue];
 }
 
 
