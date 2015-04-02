@@ -17,7 +17,7 @@
                BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
                BuildableName = "libReactKit.a"
                BlueprintName = "ReactKit"
-               ReferencedContainer = "container:../../external/react-ios/ReactKit/ReactKit.xcodeproj">
+               ReferencedContainer = "container:../../external/react-native/ReactKit/ReactKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
