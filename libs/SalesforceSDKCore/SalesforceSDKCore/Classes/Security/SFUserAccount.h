@@ -24,11 +24,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+
 #import "SFCommunityData.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 #import "SFIdentityData.h"
+
+@class SFOAuthCredentials;
 
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.

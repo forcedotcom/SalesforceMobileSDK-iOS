@@ -16,10 +16,6 @@ Pod::Spec.new do |s|
   
   s.requires_arc = true
 
-  s.prepare_command = <<-CMD
-      sed -i -e 's/#import \\"Categories\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
-  CMD
-
   s.subspec 'SalesforceCommonUtils' do |commonutils|
 
       commonutils.source_files = 'external/ThirdPartyDependencies/SalesforceCommonUtils/Headers/SalesforceCommonUtils/*.h'
@@ -30,18 +26,6 @@ Pod::Spec.new do |s|
       commonutils.frameworks = 'MessageUI'
       commonutils.libraries = 'z'
       commonutils.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
-
-  end
-
-  s.subspec 'MKNetworkKit' do |mknet|
-
-      mknet.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
-      mknet.source_files = 'external/MKNetworkKit/MKNetworkKit/**/*.{h,m}'
-      mknet.public_header_files = 'external/MKNetworkKit/MKNetworkKit/Categories/NSDictionary+RequestEncoding.h', 'external/MKNetworkKit/MKNetworkKit/Categories/NSString+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/Categories/UIAlertView+MKNetworkKitAdditions.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkEngine.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h', 'external/MKNetworkKit/MKNetworkKit/MKNetworkOperation.h'
-      mknet.header_dir = 'Headers/MKNetworkKit-iOS'
-      mknet.prefix_header_contents = '#import "MKNetworkKit.h"'
-      mknet.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
-      mknet.requires_arc = true
 
   end
 
@@ -73,8 +57,8 @@ Pod::Spec.new do |s|
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
-      oauth.source_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}'
-      oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h'
+      oauth.source_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}', 'libs/SalesforceOAuth/SalesforceOAuth/SalesforceOAuth.h'
+      oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h', 'libs/SalesforceOAuth/SalesforceOAuth/SalesforceOAuth.h'
       oauth.header_dir = 'Headers/SalesforceOAuth'
       oauth.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       oauth.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
@@ -100,20 +84,18 @@ Pod::Spec.new do |s|
 
   end
 
-  s.subspec 'SalesforceNetworkSDK' do |networksdk|
+  s.subspec 'SalesforceNetwork' do |networksdk|
 
-      networksdk.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
-      networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
       networksdk.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       networksdk.dependency 'OpenSSL-Universal', '1.0.1.k'
       networksdk.dependency 'SQLCipher', '~> 3.1'
-      networksdk.source_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/*.{h,m}'
-      networksdk.public_header_files = 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkCoordinator.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkEngine.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkOperation.h', 'libs/SalesforceNetworkSDK/SalesforceNetworkSDK/SFNetworkUtils.h'
-      networksdk.header_dir = 'Headers/SalesforceNetworkSDK'
+      networksdk.source_files = 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/**/*.{h,m}', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetworkiOS/*.{h,m}', 'libs/SalesforceNetwork/SalesforceNetwork.h'
+      networksdk.public_header_files = 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Action/CSFAction.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Protocols/CSFActionInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Protocols/CSFActionModel.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Protocols/CSFActionValue.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/OAuth/CSFAuthRefresh.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Utilities/CSFAvailability.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Utilities/CSFDefines.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Action/Force/CSFForceAction.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceAttachmentInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceAttachmentObjectInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceChildRelationshipMetadataOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Utilities/CSFForceDefines.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeFlexiPageOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutComponentOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutItemOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutParentOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutResultOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutRowOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutSectionOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeLayoutsResultOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceDescribeQuickActionResultOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceFieldMetadataOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceFieldPicklistValueOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/CSFForceInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Action/Force/CSFForceMetadataAction.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceNoteInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceNoteObjectInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectArrayOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectAttributesOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectMetadataDirectoryOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectMetadataOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectMetadataSummaryOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectMetadataSummaryPageOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectNoteOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectQueryPageOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectURLsOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceObjectUserOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Action/Force/CSFForceObjectsAction.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionColorOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionDefaultValuesResultOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionIconOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceQuickActionInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionListItemOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionListOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceQuickActionUrlsOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Output/CSFForceRecordTypeInfoOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceTaskInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/Force/Input/CSFForceTaskObjectInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Protocols/CSFIndexedEntity.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/CSFInput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Queue/CSFNetwork.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Protocols/CSFNetworkOutputCache.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Model/CSFOutput.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Support/CSFParameterStorage.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Network/Action/CSFSalesforceAction.h', 'libs/SalesforceNetwork/SalesforceNetwork/SalesforceNetwork/Classes/Additions/SFUserAccount+SalesforceNetwork.h', 'libs/SalesforceNetwork/SalesforceNetwork.h'
+      networksdk.header_dir = 'Headers/SalesforceNetwork'
       networksdk.prefix_header_contents = '#import <SalesforceCommonUtils/SalesforceCommonUtils.h>'
       networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       networksdk.requires_arc = true
@@ -122,8 +104,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'SalesforceRestAPI' do |restapi|
 
-      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceNetworkSDK'
-      restapi.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
+      restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceNetwork'
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
       restapi.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
@@ -133,7 +114,7 @@ Pod::Spec.new do |s|
       restapi.dependency 'OpenSSL-Universal', '1.0.1.k'
       restapi.dependency 'SQLCipher', '~> 3.1'
       restapi.source_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/*.{h,m}'
-      restapi.public_header_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Blocks.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Files.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+QueryBuilder.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestRequest.h'
+      restapi.public_header_files = 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Blocks.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+Files.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI+QueryBuilder.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPI.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestAPISalesforceAction.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/Classes/SFRestRequest.h', 'libs/SalesforceRestAPI/SalesforceRestAPI/SalesforceRestAPI.h'
       restapi.header_dir = 'Headers/SalesforceRestAPI'
       restapi.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       restapi.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
@@ -144,8 +125,7 @@ Pod::Spec.new do |s|
   s.subspec 'SmartSync' do |smartsync|
 
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceRestAPI'
-      smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceNetworkSDK'
-      smartsync.dependency 'SalesforceMobileSDK-iOS/MKNetworkKit'
+      smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceNetwork'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
       smartsync.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'

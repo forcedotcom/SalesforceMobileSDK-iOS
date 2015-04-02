@@ -20,7 +20,7 @@
     
     <target name="buildAll" depends="nativeAppTemplate" />
     
-    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetworkSDK, packageMKNetworkKit, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageSalesforceSDKCommon" />
+    <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageSalesforceSDKCommon" />
     
     <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
         <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
@@ -60,15 +60,9 @@
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceNetworkSDK-Debug.zip" />
+            <arg file="${artifactsDir}/SalesforceNetwork-Debug.zip" />
         </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceNetworkSDK-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNetworkSDK" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/MKNetworkKit-iOS-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS-Debug" tofile="${nativeTemplateDependenciesDir}/MKNetworkKit-iOS" />
+        <move file="${nativeTemplateDependenciesDir}/SalesforceNetwork-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNetwork" />
         <exec executable="unzip" failonerror="true" logError="true">
             <arg value="-d" />
             <arg file="${nativeTemplateDependenciesDir}" />
@@ -243,55 +237,29 @@
         </antcall>
     </target>
     
-    <target name="packageSalesforceNetworkSDK" depends="buildSalesforceNetworkSDK" description="Builds the Salesforce Network SDK library.">
+    <target name="packageSalesforceNetwork" depends="buildSalesforceNetwork" description="Builds the Salesforce Network SDK library.">
         <antcall target="packageLib">
-            <param name="projectName" value="SalesforceNetworkSDK" />
-            <param name="libName" value="libSalesforceNetworkSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
+            <param name="projectName" value="SalesforceNetwork" />
+            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="headerDir" value="Headers/SalesforceNetwork" />
         </antcall>
     </target>
     
-    <target name="buildSalesforceNetworkSDK">
+    <target name="buildSalesforceNetwork">
         <antcall target="buildLib">
-            <param name="projectName" value="SalesforceNetworkSDK" />
-            <param name="libName" value="libSalesforceNetworkSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
-            <param name="schemeName" value="SalesforceNetworkSDK" />
+            <param name="projectName" value="SalesforceNetwork" />
+            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="headerDir" value="Headers/SalesforceNetwork" />
+            <param name="schemeName" value="SalesforceNetworkiOS" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceNetworkSDK" description="Cleans the build artifacts and output of the Salesforce Network SDK library.">
+    <target name="cleanSalesforceNetwork" description="Cleans the build artifacts and output of the Salesforce Network SDK library.">
         <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceNetworkSDK" />
-            <param name="libName" value="libSalesforceNetworkSDK.a" />
-            <param name="headerDir" value="Headers/SalesforceNetworkSDK" />
-            <param name="schemeName" value="SalesforceNetworkSDK" />
-        </antcall>
-    </target>
-    
-    <target name="packageMKNetworkKit" depends="buildMKNetworkKit" description="Builds the MKNetworkKit library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="MKNetworkKit-iOS" />
-            <param name="libName" value="libMKNetworkKit-iOS.a" />
-            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
-        </antcall>
-    </target>
-    
-    <target name="buildMKNetworkKit">
-        <antcall target="buildLib">
-            <param name="projectName" value="MKNetworkKit-iOS" />
-            <param name="libName" value="libMKNetworkKit-iOS.a" />
-            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
-            <param name="schemeName" value="MKNetworkKit-iOS" />
-        </antcall>
-    </target>
-    
-    <target name="cleanMKNetworkKit" description="Cleans the build artifacts and output of the MKNetworkKit library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="MKNetworkKit-iOS" />
-            <param name="libName" value="libMKNetworkKit-iOS.a" />
-            <param name="headerDir" value="Headers/MKNetworkKit-iOS" />
-            <param name="schemeName" value="MKNetworkKit-iOS" />
+            <param name="projectName" value="SalesforceNetwork" />
+            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="headerDir" value="Headers/SalesforceNetwork" />
+            <param name="schemeName" value="SalesforceNetworkiOS" />
         </antcall>
     </target>
     
@@ -495,7 +463,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetworkSDK, cleanMKNetworkKit, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity, cleanSalesforceSDKCommon">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceHybridSDK, cleanSmartSync, cleanSalesforceRestAPI, cleanSalesforceNetwork, cleanSalesforceOAuth, cleanSalesforceSDKCore, cleanSalesforceSecurity, cleanSalesforceSDKCommon">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

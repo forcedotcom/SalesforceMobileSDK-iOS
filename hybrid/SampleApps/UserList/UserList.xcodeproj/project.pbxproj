@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8230E24A1A24186900EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2491A24186900EFE764 /* Images.xcassets */; };
+		825880571AA426CF000C551E /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825880561AA426CF000C551E /* libSalesforceNetwork.a */; };
 		827B316C19F0595B00488A75 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316B19F0595B00488A75 /* Foundation.framework */; };
 		827B316E19F0595B00488A75 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316D19F0595B00488A75 /* CoreGraphics.framework */; };
 		827B317019F0595B00488A75 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B316F19F0595B00488A75 /* UIKit.framework */; };
@@ -44,9 +45,7 @@
 		827B320719F064F500488A75 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 827B320519F064F500488A75 /* Settings.bundle */; };
 		827B320919F0651C00488A75 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 827B320819F0651C00488A75 /* config.xml */; };
 		827B321319F066A000488A75 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320A19F0669F00488A75 /* libCordova.a */; };
-		827B321419F066A000488A75 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320B19F0669F00488A75 /* libMKNetworkKit-iOS.a */; };
 		827B321519F066A000488A75 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320C19F0669F00488A75 /* libSalesforceHybridSDK.a */; };
-		827B321619F066A000488A75 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320D19F0669F00488A75 /* libSalesforceNetworkSDK.a */; };
 		827B321719F066A000488A75 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320E19F0669F00488A75 /* libSalesforceOAuth.a */; };
 		827B321819F066A000488A75 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B320F19F0669F00488A75 /* libSalesforceRestAPI.a */; };
 		827B321919F066A000488A75 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B321019F066A000488A75 /* libSalesforceSDKCore.a */; };
@@ -151,6 +150,7 @@
 
 /* Begin PBXFileReference section */
 		8230E2491A24186900EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
+		825880561AA426CF000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B316819F0595B00488A75 /* UserList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B316B19F0595B00488A75 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		827B316D19F0595B00488A75 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -195,9 +195,7 @@
 		827B320519F064F500488A75 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		827B320819F0651C00488A75 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
 		827B320A19F0669F00488A75 /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		827B320B19F0669F00488A75 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libMKNetworkKit-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B320C19F0669F00488A75 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		827B320D19F0669F00488A75 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetworkSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B320E19F0669F00488A75 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B320F19F0669F00488A75 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B321019F066A000488A75 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,13 +225,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				825880571AA426CF000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D6C1A37874F00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
 				827B322219F068D500488A75 /* libcrypto.a in Frameworks */,
 				827B321319F066A000488A75 /* libCordova.a in Frameworks */,
-				827B321419F066A000488A75 /* libMKNetworkKit-iOS.a in Frameworks */,
 				827B321F19F068BD00488A75 /* libSalesforceCommonUtils.a in Frameworks */,
 				827B321519F066A000488A75 /* libSalesforceHybridSDK.a in Frameworks */,
-				827B321619F066A000488A75 /* libSalesforceNetworkSDK.a in Frameworks */,
 				827B321719F066A000488A75 /* libSalesforceOAuth.a in Frameworks */,
 				827B321819F066A000488A75 /* libSalesforceRestAPI.a in Frameworks */,
 				827B321919F066A000488A75 /* libSalesforceSDKCore.a in Frameworks */,
@@ -278,15 +275,14 @@
 		827B316A19F0595B00488A75 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				825880561AA426CF000C551E /* libSalesforceNetwork.a */,
 				82D53D6B1A37874F00E46F8F /* libSalesforceSDKCommon.a */,
 				827B322419F068ED00488A75 /* libsqlcipher.a */,
 				827B322019F068D500488A75 /* libcrypto.a */,
 				827B322119F068D500488A75 /* libssl.a */,
 				827B321E19F068BD00488A75 /* libSalesforceCommonUtils.a */,
 				827B320A19F0669F00488A75 /* libCordova.a */,
-				827B320B19F0669F00488A75 /* libMKNetworkKit-iOS.a */,
 				827B320C19F0669F00488A75 /* libSalesforceHybridSDK.a */,
-				827B320D19F0669F00488A75 /* libSalesforceNetworkSDK.a */,
 				827B320E19F0669F00488A75 /* libSalesforceOAuth.a */,
 				827B320F19F0669F00488A75 /* libSalesforceRestAPI.a */,
 				827B321019F066A000488A75 /* libSalesforceSDKCore.a */,

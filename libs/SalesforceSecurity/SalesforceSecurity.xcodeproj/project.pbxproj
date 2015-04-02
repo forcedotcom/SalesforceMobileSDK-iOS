@@ -24,6 +24,41 @@
 		00AB96A41A1444AF0029E119 /* SFEncryptionKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */; };
 		00AB96A61A1445C40029E119 /* SFSecurityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00AB96A51A1445C40029E119 /* SFSecurityTests.m */; };
 		00D46DCF1A12C74C000C1008 /* SFKeyStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */; };
+		6F644CC71A9FD36C009BF92A /* SalesforceSecurity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CBC1A9FD36C009BF92A /* SalesforceSecurity.framework */; };
+		6F644CD51A9FD3EA009BF92A /* SFPBKDF2PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA403718E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.m */; };
+		6F644CD61A9FD3EA009BF92A /* SFKeyStoreKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E0D878190EF4B700A8FC23 /* SFKeyStoreKey.m */; };
+		6F644CD71A9FD3EA009BF92A /* SFEncryptionKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67818E5F5880033CACD /* SFEncryptionKey.m */; };
+		6F644CD81A9FD3EA009BF92A /* SFPasscodeProviderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA403B18E39B4C00BD34D8 /* SFPasscodeProviderManager.m */; };
+		6F644CD91A9FD3EA009BF92A /* SFSHA256PasscodeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA404318E39D7500BD34D8 /* SFSHA256PasscodeProvider.m */; };
+		6F644CDA1A9FD3EA009BF92A /* SFPasscodeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA403F18E39D1F00BD34D8 /* SFPasscodeManager.m */; };
+		6F644CDB1A9FD3EA009BF92A /* SFSDKCryptoUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA402E18E397C200BD34D8 /* SFSDKCryptoUtils.m */; };
+		6F644CDC1A9FD3EA009BF92A /* SFKeyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67C18E5F5880033CACD /* SFKeyStoreManager.m */; };
+		6F644CDD1A9FD3EA009BF92A /* SFPasscodeKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A78637192C22ED0023AC99 /* SFPasscodeKeyStore.m */; };
+		6F644CDE1A9FD3EA009BF92A /* SFGeneratedKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A78633192C22D50023AC99 /* SFGeneratedKeyStore.m */; };
+		6F644CDF1A9FD3EA009BF92A /* SFKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A7862F192C22A90023AC99 /* SFKeyStore.m */; };
+		6F644CE01A9FD3EA009BF92A /* SFPBKDFData.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA403318E39A1900BD34D8 /* SFPBKDFData.m */; };
+		6F644CE11A9FD3F5009BF92A /* SFPasscodeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403E18E39D1F00BD34D8 /* SFPasscodeManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE21A9FD3F5009BF92A /* SFSDKCryptoUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA402D18E397C200BD34D8 /* SFSDKCryptoUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE31A9FD3F5009BF92A /* SFEncryptionKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67718E5F5880033CACD /* SFEncryptionKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE41A9FD3F5009BF92A /* SFPasscodeProviderManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403A18E39B4C00BD34D8 /* SFPasscodeProviderManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE51A9FD3F5009BF92A /* SFKeyStoreKey.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D877190EF4B700A8FC23 /* SFKeyStoreKey.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE61A9FD3F5009BF92A /* SFKeyStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE71A9FD3F5009BF92A /* SFPasscodeManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA404618E39F0C00BD34D8 /* SFPasscodeManager+Internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644CE81A9FD3FF009BF92A /* SFKeyStoreManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E0D87D1912F80B00A8FC23 /* SFKeyStoreManager+Internal.h */; };
+		6F644CE91A9FD3FF009BF92A /* SFKeyStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8278A071192D2EA900BECB08 /* SFKeyStore+Internal.h */; };
+		6F644CEA1A9FD3FF009BF92A /* SFPBKDFData.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403218E39A1900BD34D8 /* SFPBKDFData.h */; };
+		6F644CEB1A9FD3FF009BF92A /* SFPasscodeKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A78636192C22ED0023AC99 /* SFPasscodeKeyStore.h */; };
+		6F644CEC1A9FD3FF009BF92A /* SFSHA256PasscodeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA404218E39D7500BD34D8 /* SFSHA256PasscodeProvider.h */; };
+		6F644CED1A9FD3FF009BF92A /* SFPasscodeProviderManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA404C18E3A0D400BD34D8 /* SFPasscodeProviderManager+Internal.h */; };
+		6F644CEE1A9FD3FF009BF92A /* SFKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A7862E192C22A90023AC99 /* SFKeyStore.h */; };
+		6F644CEF1A9FD3FF009BF92A /* SFPBKDF2PasscodeProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA403618E39AA900BD34D8 /* SFPBKDF2PasscodeProvider.h */; };
+		6F644CF01A9FD3FF009BF92A /* SFGeneratedKeyStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A78632192C22D50023AC99 /* SFGeneratedKeyStore.h */; };
+		6F644CF51A9FD506009BF92A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF41A9FD506009BF92A /* libz.dylib */; };
+		6F644CF71A9FD516009BF92A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF61A9FD516009BF92A /* MessageUI.framework */; };
+		6F644CF81A9FD614009BF92A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF21A9FD4FC009BF92A /* UIKit.framework */; };
+		6F644D3E1A9FDE6A009BF92A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF21A9FD4FC009BF92A /* UIKit.framework */; };
+		6F644D3F1A9FDE6D009BF92A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF41A9FD506009BF92A /* libz.dylib */; };
+		6F644D401A9FDE71009BF92A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644CF61A9FD516009BF92A /* MessageUI.framework */; };
 		820AB72818E230EC00E25E1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72718E230EC00E25E1D /* Foundation.framework */; };
 		820AB73618E230EC00E25E1D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB73518E230EC00E25E1D /* XCTest.framework */; };
 		820AB73718E230EC00E25E1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820AB72718E230EC00E25E1D /* Foundation.framework */; };
@@ -68,6 +103,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6F644CC81A9FD36C009BF92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 820AB71C18E230EC00E25E1D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F644CBB1A9FD36C009BF92A;
+			remoteInfo = "SalesforceSecurity-iOSFramework";
+		};
 		820AB73A18E230EC00E25E1D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 820AB71C18E230EC00E25E1D /* Project object */;
@@ -81,6 +123,21 @@
 		00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFEncryptionKeyTests.m; sourceTree = "<group>"; };
 		00AB96A51A1445C40029E119 /* SFSecurityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityTests.m; sourceTree = "<group>"; };
 		00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFKeyStoreManagerTests.m; sourceTree = "<group>"; };
+		6F644CBC1A9FD36C009BF92A /* SalesforceSecurity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSecurity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F644CBF1A9FD36C009BF92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F644CC61A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SalesforceSecurity-iOSFrameworkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F644CCC1A9FD36C009BF92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F644CF21A9FD4FC009BF92A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		6F644CF41A9FD506009BF92A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		6F644CF61A9FD516009BF92A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
+		6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Common.xcconfig"; sourceTree = "<group>"; };
+		6F89608B1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F89608C1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		6F89608D1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-OSX-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F89608E1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-OSX-Release.xcconfig"; sourceTree = "<group>"; };
+		6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Test.xcconfig"; sourceTree = "<group>"; };
 		820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820AB72718E230EC00E25E1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		820AB72B18E230EC00E25E1D /* SalesforceSecurity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSecurity-Prefix.pch"; sourceTree = "<group>"; };
@@ -127,6 +184,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6F644CB81A9FD36C009BF92A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644CF81A9FD614009BF92A /* UIKit.framework in Frameworks */,
+				6F644CF71A9FD516009BF92A /* MessageUI.framework in Frameworks */,
+				6F644CF51A9FD506009BF92A /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644CC31A9FD36C009BF92A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644D401A9FDE71009BF92A /* MessageUI.framework in Frameworks */,
+				6F644D3F1A9FDE6D009BF92A /* libz.dylib in Frameworks */,
+				6F644D3E1A9FDE6A009BF92A /* UIKit.framework in Frameworks */,
+				6F644CC71A9FD36C009BF92A /* SalesforceSecurity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		820AB72118E230EC00E25E1D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -153,11 +231,61 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F644CBD1A9FD36C009BF92A /* SalesforceSecurity-iOSFramework */ = {
+			isa = PBXGroup;
+			children = (
+				6F644CBE1A9FD36C009BF92A /* Supporting Files */,
+			);
+			path = "SalesforceSecurity-iOSFramework";
+			sourceTree = "<group>";
+		};
+		6F644CBE1A9FD36C009BF92A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F644CBF1A9FD36C009BF92A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F644CCA1A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F644CCB1A9FD36C009BF92A /* Supporting Files */,
+			);
+			path = "SalesforceSecurity-iOSFrameworkTests";
+			sourceTree = "<group>";
+		};
+		6F644CCB1A9FD36C009BF92A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F644CCC1A9FD36C009BF92A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F8960891A9E9ECD00A48FF1 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */,
+				6F89608B1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Debug.xcconfig */,
+				6F89608C1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Release.xcconfig */,
+				6F89608D1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Debug.xcconfig */,
+				6F89608E1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Release.xcconfig */,
+				6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */,
+				6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */,
+				6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		820AB71B18E230EC00E25E1D = {
 			isa = PBXGroup;
 			children = (
+				6F8960891A9E9ECD00A48FF1 /* Configuration */,
 				820AB72918E230EC00E25E1D /* SalesforceSecurity */,
 				820AB73D18E230EC00E25E1D /* SalesforceSecurityTests */,
+				6F644CBD1A9FD36C009BF92A /* SalesforceSecurity-iOSFramework */,
+				6F644CCA1A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests */,
 				820AB72618E230EC00E25E1D /* Frameworks */,
 				820AB72518E230EC00E25E1D /* Products */,
 			);
@@ -168,6 +296,8 @@
 			children = (
 				820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */,
 				820AB73418E230EC00E25E1D /* SalesforceSecurityTests.xctest */,
+				6F644CBC1A9FD36C009BF92A /* SalesforceSecurity.framework */,
+				6F644CC61A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,6 +305,9 @@
 		820AB72618E230EC00E25E1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F644CF61A9FD516009BF92A /* MessageUI.framework */,
+				6F644CF41A9FD506009BF92A /* libz.dylib */,
+				6F644CF21A9FD4FC009BF92A /* UIKit.framework */,
 				82AA405B18E3ADE100BD34D8 /* MessageUI.framework */,
 				82AA405918E3ADAA00BD34D8 /* libz.dylib */,
 				82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */,
@@ -264,6 +397,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		6F644CB91A9FD36C009BF92A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644CE91A9FD3FF009BF92A /* SFKeyStore+Internal.h in Headers */,
+				6F644CED1A9FD3FF009BF92A /* SFPasscodeProviderManager+Internal.h in Headers */,
+				6F644CE71A9FD3F5009BF92A /* SFPasscodeManager+Internal.h in Headers */,
+				6F644CEE1A9FD3FF009BF92A /* SFKeyStore.h in Headers */,
+				6F644CE31A9FD3F5009BF92A /* SFEncryptionKey.h in Headers */,
+				6F644CE51A9FD3F5009BF92A /* SFKeyStoreKey.h in Headers */,
+				6F644CE21A9FD3F5009BF92A /* SFSDKCryptoUtils.h in Headers */,
+				6F644CEA1A9FD3FF009BF92A /* SFPBKDFData.h in Headers */,
+				6F644CEB1A9FD3FF009BF92A /* SFPasscodeKeyStore.h in Headers */,
+				6F644CEC1A9FD3FF009BF92A /* SFSHA256PasscodeProvider.h in Headers */,
+				6F644CE11A9FD3F5009BF92A /* SFPasscodeManager.h in Headers */,
+				6F644CE81A9FD3FF009BF92A /* SFKeyStoreManager+Internal.h in Headers */,
+				6F644CE61A9FD3F5009BF92A /* SFKeyStoreManager.h in Headers */,
+				6F644CE41A9FD3F5009BF92A /* SFPasscodeProviderManager.h in Headers */,
+				6F644CF01A9FD3FF009BF92A /* SFGeneratedKeyStore.h in Headers */,
+				6F644CEF1A9FD3FF009BF92A /* SFPBKDF2PasscodeProvider.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82AA403018E398AF00BD34D8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -290,6 +446,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6F644CBB1A9FD36C009BF92A /* SalesforceSecurity-iOSFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F644CCF1A9FD36C009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSecurity-iOSFramework" */;
+			buildPhases = (
+				6F644CB71A9FD36C009BF92A /* Sources */,
+				6F644CB81A9FD36C009BF92A /* Frameworks */,
+				6F644CB91A9FD36C009BF92A /* Headers */,
+				6F644CBA1A9FD36C009BF92A /* Resources */,
+				6F644CF11A9FD412009BF92A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SalesforceSecurity-iOSFramework";
+			productName = "SalesforceSecurity-iOSFramework";
+			productReference = 6F644CBC1A9FD36C009BF92A /* SalesforceSecurity.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6F644CC51A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F644CD21A9FD36C009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSecurity-iOSFrameworkTests" */;
+			buildPhases = (
+				6F644CC21A9FD36C009BF92A /* Sources */,
+				6F644CC31A9FD36C009BF92A /* Frameworks */,
+				6F644CC41A9FD36C009BF92A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F644CC91A9FD36C009BF92A /* PBXTargetDependency */,
+			);
+			name = "SalesforceSecurity-iOSFrameworkTests";
+			productName = "SalesforceSecurity-iOSFrameworkTests";
+			productReference = 6F644CC61A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		820AB72318E230EC00E25E1D /* SalesforceSecurity */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 820AB74718E230EC00E25E1D /* Build configuration list for PBXNativeTarget "SalesforceSecurity" */;
@@ -334,6 +527,14 @@
 			attributes = {
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = salesforce.com;
+				TargetAttributes = {
+					6F644CBB1A9FD36C009BF92A = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					6F644CC51A9FD36C009BF92A = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
 			};
 			buildConfigurationList = 820AB71F18E230EC00E25E1D /* Build configuration list for PBXProject "SalesforceSecurity" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -350,11 +551,27 @@
 				820AB72318E230EC00E25E1D /* SalesforceSecurity */,
 				820AB73318E230EC00E25E1D /* SalesforceSecurityTests */,
 				821DA3F2193EAF1A0041FE0E /* Documentation */,
+				6F644CBB1A9FD36C009BF92A /* SalesforceSecurity-iOSFramework */,
+				6F644CC51A9FD36C009BF92A /* SalesforceSecurity-iOSFrameworkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6F644CBA1A9FD36C009BF92A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644CC41A9FD36C009BF92A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		820AB73218E230EC00E25E1D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -366,6 +583,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6F644CF11A9FD412009BF92A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
 		821DA3F6193EAF260041FE0E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -390,11 +620,37 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6F644CB71A9FD36C009BF92A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644CDC1A9FD3EA009BF92A /* SFKeyStoreManager.m in Sources */,
+				6F644CDB1A9FD3EA009BF92A /* SFSDKCryptoUtils.m in Sources */,
+				6F644CDE1A9FD3EA009BF92A /* SFGeneratedKeyStore.m in Sources */,
+				6F644CD71A9FD3EA009BF92A /* SFEncryptionKey.m in Sources */,
+				6F644CD61A9FD3EA009BF92A /* SFKeyStoreKey.m in Sources */,
+				6F644CD51A9FD3EA009BF92A /* SFPBKDF2PasscodeProvider.m in Sources */,
+				6F644CDD1A9FD3EA009BF92A /* SFPasscodeKeyStore.m in Sources */,
+				6F644CD91A9FD3EA009BF92A /* SFSHA256PasscodeProvider.m in Sources */,
+				6F644CDF1A9FD3EA009BF92A /* SFKeyStore.m in Sources */,
+				6F644CDA1A9FD3EA009BF92A /* SFPasscodeManager.m in Sources */,
+				6F644CE01A9FD3EA009BF92A /* SFPBKDFData.m in Sources */,
+				6F644CD81A9FD3EA009BF92A /* SFPasscodeProviderManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644CC21A9FD36C009BF92A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		820AB72018E230EC00E25E1D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -430,6 +686,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6F644CC91A9FD36C009BF92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F644CBB1A9FD36C009BF92A /* SalesforceSecurity-iOSFramework */;
+			targetProxy = 6F644CC81A9FD36C009BF92A /* PBXContainerItemProxy */;
+		};
 		820AB73B18E230EC00E25E1D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 820AB72318E230EC00E25E1D /* SalesforceSecurity */;
@@ -449,8 +710,29 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		820AB74518E230EC00E25E1D /* Debug */ = {
+		6F644CD01A9FD36C009BF92A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F89608B1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SalesforceSecurity-iOSFramework/Info.plist";
+				MTL_ENABLE_DEBUG_INFO = YES;
+			};
+			name = Debug;
+		};
+		6F644CD11A9FD36C009BF92A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F89608C1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SalesforceSecurity-iOSFramework/Info.plist";
+				MTL_ENABLE_DEBUG_INFO = NO;
+			};
+			name = Release;
+		};
+		6F644CD31A9FD36C009BF92A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -464,8 +746,14 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -480,20 +768,19 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				INFOPLIST_FILE = "SalesforceSecurity-iOSFrameworkTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		820AB74618E230EC00E25E1D /* Release */ = {
+		6F644CD41A9FD36C009BF92A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -507,9 +794,15 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -517,48 +810,53 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				INFOPLIST_FILE = "SalesforceSecurity-iOSFrameworkTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		820AB74818E230EC00E25E1D /* Debug */ = {
+		820AB74518E230EC00E25E1D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				DSTROOT = /tmp/SalesforceSecurity.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSecurity/SalesforceSecurity-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "-ObjC";
+			};
+			name = Debug;
+		};
+		820AB74618E230EC00E25E1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		820AB74818E230EC00E25E1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */;
+			buildSettings = {
+				DSTROOT = /tmp/SalesforceSecurity.dst;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		820AB74918E230EC00E25E1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceSecurity.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSecurity/SalesforceSecurity-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		820AB74B18E230EC00E25E1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -585,6 +883,7 @@
 		};
 		820AB74C18E230EC00E25E1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -622,6 +921,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6F644CCF1A9FD36C009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSecurity-iOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F644CD01A9FD36C009BF92A /* Debug */,
+				6F644CD11A9FD36C009BF92A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F644CD21A9FD36C009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSecurity-iOSFrameworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F644CD31A9FD36C009BF92A /* Debug */,
+				6F644CD41A9FD36C009BF92A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		820AB71F18E230EC00E25E1D /* Build configuration list for PBXProject "SalesforceSecurity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

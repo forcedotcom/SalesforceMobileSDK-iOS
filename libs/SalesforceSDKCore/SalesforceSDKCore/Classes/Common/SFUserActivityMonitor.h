@@ -37,7 +37,7 @@
 /**
  * Returns the singleton instance of the class.
  */
-+ (SFUserActivityMonitor *)sharedInstance;
++ (instancetype)sharedInstance;
 
 /**
  * Starts the application monitoring process.

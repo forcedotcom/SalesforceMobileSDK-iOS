@@ -2,13 +2,41 @@
 <Workspace
    version = "1.0">
    <Group
+      location = "group:configuration"
+      name = "configuration">
+      <FileRef
+         location = "group:Common.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Common-iOS.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Common-OSX.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Common-Test.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Configuration-Debug.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Configuration-Release.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Packaging-Framework.xcconfig">
+      </FileRef>
+      <FileRef
+         location = "group:Packaging-Static.xcconfig">
+      </FileRef>
+   </Group>
+   <Group
       location = "container:"
       name = "Libs">
       <FileRef
          location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceHybridSDK/../../libs/SalesforceNetworkSDK/SalesforceNetworkSDK.xcodeproj">
+         location = "group:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
@@ -80,7 +108,7 @@
          location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:external/MKNetworkKit/MKNetworkKit-iOS/MKNetworkKit-iOS.xcodeproj">
+         location = "group:external/ocmock/Source/OCMock.xcodeproj">
       </FileRef>
    </Group>
    <Group
