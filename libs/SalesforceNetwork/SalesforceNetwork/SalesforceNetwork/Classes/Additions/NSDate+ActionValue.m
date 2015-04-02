@@ -12,11 +12,11 @@
 @implementation NSDate (ActionValue)
 
 - (id)actionValue {
-    return [[NSValueTransformer valueTransformerForName:kCSFDateValueTransformer] transformedValue:self];
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] transformedValue:self];
 }
 
 + (id<CSFActionValue>)decodedObjectForActionValue:(id)actionValue {
-    return [[NSValueTransformer valueTransformerForName:kCSFDateValueTransformer] reverseTransformedValue:actionValue];
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] reverseTransformedValue:actionValue];
 }
 
 @end
