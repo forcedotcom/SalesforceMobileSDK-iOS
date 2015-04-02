@@ -17,6 +17,7 @@
 		4F22154F19DF44E100FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154B19DF44E000FF2D26 /* libSmartSync.a */; };
 		4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22155E19DF549400FF2D26 /* ImageIO.framework */; };
 		4FABF05F1AA5205A00D31E3F /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FABF05E1AA5205A00D31E3F /* libSalesforceReact.a */; };
+		4FABF0721AA7CC7000D31E3F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 4FABF0711AA7CC7000D31E3F /* main.jsbundle */; };
 		4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
 		4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
 		4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
@@ -123,6 +124,7 @@
 		4F22154B19DF44E000FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
 		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4FABF05E1AA5205A00D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceReact.a; path = "../../../libs/SalesforceReact/build/Debug-iphoneos/libSalesforceReact.a"; sourceTree = "<group>"; };
+		4FABF0711AA7CC7000D31E3F /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		4FDB903E1A9FD90D0010ED5E /* libReactKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libReactKit.a; path = "../../../external/react-ios/ReactKit/build/Debug-iphoneos/libReactKit.a"; sourceTree = "<group>"; };
 		4FDB90421A9FDA230010ED5E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		4FDB90431A9FDA230010ED5E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 		824A9BD81721FCA400C9BD79 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				4FABF0711AA7CC7000D31E3F /* main.jsbundle */,
 				824A9BD91721FCA400C9BD79 /* SimpleSyncReact-Info.plist */,
 				824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */,
 				824A9BDD1721FCA400C9BD79 /* main.m */,
@@ -390,6 +393,7 @@
 				4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */,
 				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
 				4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */,
+				4FABF0721AA7CC7000D31E3F /* main.jsbundle in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 				4F2214251AA12CD7002818BA /* InitialViewController.xib in Resources */,
 			);
