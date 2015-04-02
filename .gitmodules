@@ -13,6 +13,6 @@
 [submodule "libs/SalesforceNetworkSDK"]
 	path = libs/SalesforceNetworkSDK
 	url = https://github.com/forcedotcom/SalesforceNetworkSDK.git
-[submodule "external/react-ios"]
-	path = external/react-ios
-	url = https://github.com/forcedotcom/react-ios
+[submodule "external/react-native"]
+	path = external/react-native
+	url = https://github.com/forcedotcom/react-native.git
