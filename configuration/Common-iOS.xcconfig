@@ -1,0 +1,12 @@
+//
+//  Common-iOS.xcconfig
+//  
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//
+//
+
+#include "Common.xcconfig"
+
+SDKROOT = iphoneos
+TARGETED_DEVICE_FAMILY = 1,2

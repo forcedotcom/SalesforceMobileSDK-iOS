@@ -23,10 +23,10 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceNetworkSDK/SFNetworkEngine.h>
-#import <SalesforceNetworkSDK/SFNetworkOperation.h>
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
-@class RKRequest;
+@class SFRestAPISalesforceAction;
+
 
 /**
  * HTTP methods for requests
@@ -93,7 +93,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * Request object used to send a REST request to Salesforce.com
  * @see SFRestAPI
  */
-@interface SFRestRequest : NSObject<SFNetworkOperationDelegate>
+@interface SFRestRequest : NSObject
 
 /**
  * The HTTP method of the request.  See SFRestMethod.
@@ -121,9 +121,9 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, strong) NSDictionary *customHeaders;
 
 /**
- * Underlying SFNetworkOperation through which the network call is carried out
+ * Underlying SFRestAPISalesforceAction through which the network call is carried out
  */
-@property (nonatomic, strong) SFNetworkOperation *networkOperation;
+@property (nonatomic, strong) SFRestAPISalesforceAction *action;
 
 /**
  * The delegate for this request. Notified of request status.
@@ -137,17 +137,23 @@ extern NSString * const kSFDefaultRestEndpoint;
 @property (nonatomic, strong) NSString *endpoint;
 
 /**
+ * Whether or not this request requires authentication.  If YES, the credentials will be added to
+ * the request headers before sending the request.  If NO, they will not.
+ */
+@property (nonatomic, assign) BOOL requiresAuthentication;
+
+/**
  * Whether or not to parse the response data as structured JSON data.  Defaults to `YES`. If
  * set to `NO`, response data will be returned as binary data in an `NSData` object.
  */
 @property (nonatomic, assign) BOOL parseResponse;
 
 /**
- * Send request using specified network engine
- * @param networkEngine
- * Returns the SFNetworkOperation through which the network call is actually carried out
+ * Override this method to implement any request preparations immediately prior to the request
+ * being sent.  Note: You should not call this method directly.  And make sure to call the
+ * super implementation within your own implementation.
  */
-- (SFNetworkOperation*) send:(SFNetworkEngine*) networkEngine;
+- (void)prepareRequestForSend;
 
 /**
  * Sets the value for the specified HTTP header.
@@ -168,6 +174,27 @@ extern NSString * const kSFDefaultRestEndpoint;
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
 /**
+ * Sets a custom request body based on an NSString representation.
+ * @param bodyString The NSString object representing the request body.
+ * @param contentType The content type associated with this request.
+ */
+- (void)setCustomRequestBodyString:(NSString *)bodyString contentType:(NSString *)contentType;
+
+/**
+ * Sets a custom request body based on an NSData representation.
+ * @param bodyData The NSData object representing the request body.
+ * @param contentType The content type associated with this request.
+ */
+- (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType;
+
+/**
+ * Sets a custom request body based on an NSInputStream representation.
+ * @param bodyData The NSInputStream object representing the request body.
+ * @param contentType The content type associated with this request.
+ */
+- (void)setCustomRequestBodyStream:(NSInputStream *)bodyInputStream contentType:(NSString *)contentType;
+
+/**
  * Returns YES if error is a network error
  */
 + (BOOL)isNetworkError:(NSError *)error;
@@ -183,6 +210,6 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
  */
-+ (id)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
++ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
 
 @end

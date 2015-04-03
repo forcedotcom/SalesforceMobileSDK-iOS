@@ -25,9 +25,7 @@
 #import "SFRestAPI.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
-
-@class SFSessionRefresher;
-@class SFNetworkEngine;
+#import <SalesforceNetwork/CSFNetwork.h>
 
 /**
  We declare here a set of interfaces that are meant to be used by code running internally
@@ -35,28 +33,18 @@
  from application code.  If you find yourself accessing properties or calling methods
  declared in this file from app code, you're probably doing something wrong.
  */
-@interface SFRestAPI () <SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+@interface SFRestAPI () <SFUserAccountManagerDelegate>
 {
     SFUserAccountManager *_accountMgr;
     SFAuthenticationManager *_authMgr;
-    SFNetworkEngine *_networkEngine;
 }
+
+@property (nonatomic, readonly) CSFNetwork *currentNetwork;
 
 /**
  * Active requests property
  */
 @property (nonatomic, readonly, strong) NSMutableSet	*activeRequests;
-
-/**
- Whether the network coordinator is in a "dirty" state.  SFRestAPI will rehydrate the network
- coordinator before the next REST request.
- */
-@property (nonatomic, assign) BOOL networkCoordinatorNeedsRefresh;
-
-/**
- * Session refresher property
- */
-@property (nonatomic, readonly, strong) SFSessionRefresher *sessionRefresher;
 
 - (void)removeActiveRequestObject:(SFRestRequest *)request;
 
@@ -67,18 +55,6 @@
  @return YES if we were able to find and timeout the request, NO if the request could not be found
  */
 - (BOOL)forceTimeoutRequest:(SFRestRequest*)req;
-
-/**
- * Setup network engine network coordinator
- */
-- (void) setupNetworkCoordinator;
-
-/**
- Creates SFNetworkCoordinator from SFOAuthCoordinator
- @param oAuthCoordinator
- @return a SFNetworkCoordinator
- */
-- (SFNetworkCoordinator *)createNetworkCoordinator:(SFOAuthCoordinator *)oAuthCoordinator;
 
 @end
 

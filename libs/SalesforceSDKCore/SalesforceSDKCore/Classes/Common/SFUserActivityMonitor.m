@@ -46,7 +46,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 
 #pragma mark - Singleton
 
-+ (SFUserActivityMonitor *)sharedInstance {
++ (instancetype)sharedInstance {
     dispatch_once(&_sharedInstanceGuard, 
                   ^{ 
                       _instance = [[SFUserActivityMonitor alloc] init];

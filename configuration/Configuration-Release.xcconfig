@@ -1,0 +1,13 @@
+//
+//  Configuration-Release.xcconfig
+//  
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//
+//
+
+VALIDATE_PRODUCT = YES
+COPY_PHASE_STRIP = YES
+
+ENABLE_NS_ASSERTIONS = NO
+MTL_ENABLE_DEBUG_INFO = NO

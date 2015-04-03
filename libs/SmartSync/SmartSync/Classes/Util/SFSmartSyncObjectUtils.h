@@ -36,6 +36,8 @@
 
 + (NSDate *)getDateFromIsoDateString:(NSString *)isoDateString;
 
++ (NSString *)getIsoStringFromDate:(NSDate *)date;
+
 + (BOOL)isEmpty:(NSString *)value;
 
 @end

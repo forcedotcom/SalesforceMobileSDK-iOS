@@ -1,0 +1,14 @@
+//
+//  Configuration-Debug.xcconfig
+//  
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//
+//
+
+ONLY_ACTIVE_ARCH = YES
+COPY_PHASE_STRIP = NO
+
+GCC_OPTIMIZATION_LEVEL = 0
+GCC_PREPROCESSOR_DEFINITIONS = DEBUG=1 $(inherited)
+MTL_ENABLE_DEBUG_INFO = YES

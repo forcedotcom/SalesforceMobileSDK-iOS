@@ -23,55 +23,11 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFUserAccount.h"
-#import "SFSDKAppConfig.h"
+#import <UIKit/UIKit.h>
 
-// Errors
-extern NSString * const kSalesforceSDKManagerErrorDomain;
-extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
-enum {
-    kSalesforceSDKManagerErrorUnknown = 766,
-    kSalesforceSDKManagerErrorInvalidLaunchParameters
-};
+#import "SalesforceSDKCoreDefines.h"
 
-// Launch actions taken
-typedef enum {
-    SFSDKLaunchActionNone                 = 0,
-    SFSDKLaunchActionAuthenticated        = 1 << 0,
-    SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
-    SFSDKLaunchActionAuthBypassed         = 1 << 2,
-    SFSDKLaunchActionPasscodeVerified     = 1 << 3
-} SFSDKLaunchAction;
-
-/**
- Callback block to implement for post launch actions.
- */
-typedef void (^SFSDKPostLaunchCallbackBlock)(SFSDKLaunchAction);
-
-/**
- Callback block to implement for handling launch errors.
- */
-typedef void (^SFSDKLaunchErrorCallbackBlock)(NSError*, SFSDKLaunchAction);
-
-/**
- Callback block to implement for post logout actions.
- */
-typedef void (^SFSDKLogoutCallbackBlock)(void);
-
-/**
- Callback block to implement for user switching.
- */
-typedef void (^SFSDKSwitchUserCallbackBlock)(SFUserAccount*, SFUserAccount*);
-
-/**
- Callback block to implement for post app foregrounding actions.
- */
-typedef void (^SFSDKAppForegroundCallbackBlock)(void);
-
-/**
- Block to return a user agent string, with an optional qualifier.
- */
-typedef NSString* (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+@class SFUserAccount, SFSDKAppConfig;
 
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
