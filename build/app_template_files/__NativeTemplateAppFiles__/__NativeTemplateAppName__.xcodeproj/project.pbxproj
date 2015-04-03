@@ -107,48 +107,7 @@
 		825880611AA4CB2B000C551E /* CSFAuthRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFAuthRefresh.h; sourceTree = "<group>"; };
 		825880621AA4CB2B000C551E /* CSFAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFAvailability.h; sourceTree = "<group>"; };
 		825880631AA4CB2B000C551E /* CSFDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFDefines.h; sourceTree = "<group>"; };
-		825880641AA4CB2B000C551E /* CSFForceAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceAction.h; sourceTree = "<group>"; };
-		825880651AA4CB2B000C551E /* CSFForceAttachmentInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceAttachmentInput.h; sourceTree = "<group>"; };
-		825880661AA4CB2B000C551E /* CSFForceAttachmentObjectInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceAttachmentObjectInput.h; sourceTree = "<group>"; };
-		825880671AA4CB2B000C551E /* CSFForceChildRelationshipMetadataOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceChildRelationshipMetadataOutput.h; sourceTree = "<group>"; };
 		825880681AA4CB2B000C551E /* CSFForceDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDefines.h; sourceTree = "<group>"; };
-		825880691AA4CB2B000C551E /* CSFForceDescribeFlexiPageOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeFlexiPageOutput.h; sourceTree = "<group>"; };
-		8258806A1AA4CB2B000C551E /* CSFForceDescribeLayoutComponentOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutComponentOutput.h; sourceTree = "<group>"; };
-		8258806B1AA4CB2B000C551E /* CSFForceDescribeLayoutItemOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutItemOutput.h; sourceTree = "<group>"; };
-		8258806C1AA4CB2B000C551E /* CSFForceDescribeLayoutParentOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutParentOutput.h; sourceTree = "<group>"; };
-		8258806D1AA4CB2B000C551E /* CSFForceDescribeLayoutResultOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutResultOutput.h; sourceTree = "<group>"; };
-		8258806E1AA4CB2B000C551E /* CSFForceDescribeLayoutRowOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutRowOutput.h; sourceTree = "<group>"; };
-		8258806F1AA4CB2B000C551E /* CSFForceDescribeLayoutSectionOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutSectionOutput.h; sourceTree = "<group>"; };
-		825880701AA4CB2B000C551E /* CSFForceDescribeLayoutsResultOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeLayoutsResultOutput.h; sourceTree = "<group>"; };
-		825880711AA4CB2B000C551E /* CSFForceDescribeQuickActionResultOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceDescribeQuickActionResultOutput.h; sourceTree = "<group>"; };
-		825880721AA4CB2B000C551E /* CSFForceFieldMetadataOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceFieldMetadataOutput.h; sourceTree = "<group>"; };
-		825880731AA4CB2B000C551E /* CSFForceFieldPicklistValueOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceFieldPicklistValueOutput.h; sourceTree = "<group>"; };
-		825880741AA4CB2B000C551E /* CSFForceInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceInput.h; sourceTree = "<group>"; };
-		825880751AA4CB2B000C551E /* CSFForceMetadataAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceMetadataAction.h; sourceTree = "<group>"; };
-		825880761AA4CB2B000C551E /* CSFForceNoteInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceNoteInput.h; sourceTree = "<group>"; };
-		825880771AA4CB2B000C551E /* CSFForceNoteObjectInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceNoteObjectInput.h; sourceTree = "<group>"; };
-		825880781AA4CB2B000C551E /* CSFForceObjectArrayOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectArrayOutput.h; sourceTree = "<group>"; };
-		825880791AA4CB2B000C551E /* CSFForceObjectAttributesOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectAttributesOutput.h; sourceTree = "<group>"; };
-		8258807A1AA4CB2B000C551E /* CSFForceObjectMetadataDirectoryOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectMetadataDirectoryOutput.h; sourceTree = "<group>"; };
-		8258807B1AA4CB2B000C551E /* CSFForceObjectMetadataOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectMetadataOutput.h; sourceTree = "<group>"; };
-		8258807C1AA4CB2B000C551E /* CSFForceObjectMetadataSummaryOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectMetadataSummaryOutput.h; sourceTree = "<group>"; };
-		8258807D1AA4CB2B000C551E /* CSFForceObjectMetadataSummaryPageOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectMetadataSummaryPageOutput.h; sourceTree = "<group>"; };
-		8258807E1AA4CB2B000C551E /* CSFForceObjectNoteOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectNoteOutput.h; sourceTree = "<group>"; };
-		8258807F1AA4CB2B000C551E /* CSFForceObjectOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectOutput.h; sourceTree = "<group>"; };
-		825880801AA4CB2B000C551E /* CSFForceObjectQueryPageOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectQueryPageOutput.h; sourceTree = "<group>"; };
-		825880811AA4CB2B000C551E /* CSFForceObjectsAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectsAction.h; sourceTree = "<group>"; };
-		825880821AA4CB2B000C551E /* CSFForceObjectURLsOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectURLsOutput.h; sourceTree = "<group>"; };
-		825880831AA4CB2B000C551E /* CSFForceObjectUserOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceObjectUserOutput.h; sourceTree = "<group>"; };
-		825880841AA4CB2B000C551E /* CSFForceQuickActionColorOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionColorOutput.h; sourceTree = "<group>"; };
-		825880851AA4CB2B000C551E /* CSFForceQuickActionDefaultValuesResultOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionDefaultValuesResultOutput.h; sourceTree = "<group>"; };
-		825880861AA4CB2B000C551E /* CSFForceQuickActionIconOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionIconOutput.h; sourceTree = "<group>"; };
-		825880871AA4CB2B000C551E /* CSFForceQuickActionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionInput.h; sourceTree = "<group>"; };
-		825880881AA4CB2B000C551E /* CSFForceQuickActionListItemOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionListItemOutput.h; sourceTree = "<group>"; };
-		825880891AA4CB2B000C551E /* CSFForceQuickActionListOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionListOutput.h; sourceTree = "<group>"; };
-		8258808A1AA4CB2B000C551E /* CSFForceQuickActionUrlsOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceQuickActionUrlsOutput.h; sourceTree = "<group>"; };
-		8258808B1AA4CB2B000C551E /* CSFForceRecordTypeInfoOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceRecordTypeInfoOutput.h; sourceTree = "<group>"; };
-		8258808C1AA4CB2B000C551E /* CSFForceTaskInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceTaskInput.h; sourceTree = "<group>"; };
-		8258808D1AA4CB2B000C551E /* CSFForceTaskObjectInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFForceTaskObjectInput.h; sourceTree = "<group>"; };
 		8258808E1AA4CB2B000C551E /* CSFIndexedEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFIndexedEntity.h; sourceTree = "<group>"; };
 		8258808F1AA4CB2B000C551E /* CSFInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFInput.h; sourceTree = "<group>"; };
 		825880901AA4CB2B000C551E /* CSFNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFNetwork.h; sourceTree = "<group>"; };
@@ -157,7 +116,6 @@
 		825880931AA4CB2B000C551E /* CSFParameterStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFParameterStorage.h; sourceTree = "<group>"; };
 		825880941AA4CB2B000C551E /* CSFSalesforceAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFSalesforceAction.h; sourceTree = "<group>"; };
 		825880951AA4CB2B000C551E /* SalesforceNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceNetwork.h; sourceTree = "<group>"; };
-		825880961AA4CB2B000C551E /* SalesforceNetworkiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceNetworkiOS.h; sourceTree = "<group>"; };
 		825880971AA4CB2B000C551E /* SFUserAccount+SalesforceNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccount+SalesforceNetwork.h"; sourceTree = "<group>"; };
 		825880981AA4CB2B000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = "<group>"; };
 		8258809A1AA4CB82000C551E /* SalesforceRestAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceRestAPI.h; sourceTree = "<group>"; };
@@ -486,48 +444,7 @@
 				825880611AA4CB2B000C551E /* CSFAuthRefresh.h */,
 				825880621AA4CB2B000C551E /* CSFAvailability.h */,
 				825880631AA4CB2B000C551E /* CSFDefines.h */,
-				825880641AA4CB2B000C551E /* CSFForceAction.h */,
-				825880651AA4CB2B000C551E /* CSFForceAttachmentInput.h */,
-				825880661AA4CB2B000C551E /* CSFForceAttachmentObjectInput.h */,
-				825880671AA4CB2B000C551E /* CSFForceChildRelationshipMetadataOutput.h */,
 				825880681AA4CB2B000C551E /* CSFForceDefines.h */,
-				825880691AA4CB2B000C551E /* CSFForceDescribeFlexiPageOutput.h */,
-				8258806A1AA4CB2B000C551E /* CSFForceDescribeLayoutComponentOutput.h */,
-				8258806B1AA4CB2B000C551E /* CSFForceDescribeLayoutItemOutput.h */,
-				8258806C1AA4CB2B000C551E /* CSFForceDescribeLayoutParentOutput.h */,
-				8258806D1AA4CB2B000C551E /* CSFForceDescribeLayoutResultOutput.h */,
-				8258806E1AA4CB2B000C551E /* CSFForceDescribeLayoutRowOutput.h */,
-				8258806F1AA4CB2B000C551E /* CSFForceDescribeLayoutSectionOutput.h */,
-				825880701AA4CB2B000C551E /* CSFForceDescribeLayoutsResultOutput.h */,
-				825880711AA4CB2B000C551E /* CSFForceDescribeQuickActionResultOutput.h */,
-				825880721AA4CB2B000C551E /* CSFForceFieldMetadataOutput.h */,
-				825880731AA4CB2B000C551E /* CSFForceFieldPicklistValueOutput.h */,
-				825880741AA4CB2B000C551E /* CSFForceInput.h */,
-				825880751AA4CB2B000C551E /* CSFForceMetadataAction.h */,
-				825880761AA4CB2B000C551E /* CSFForceNoteInput.h */,
-				825880771AA4CB2B000C551E /* CSFForceNoteObjectInput.h */,
-				825880781AA4CB2B000C551E /* CSFForceObjectArrayOutput.h */,
-				825880791AA4CB2B000C551E /* CSFForceObjectAttributesOutput.h */,
-				8258807A1AA4CB2B000C551E /* CSFForceObjectMetadataDirectoryOutput.h */,
-				8258807B1AA4CB2B000C551E /* CSFForceObjectMetadataOutput.h */,
-				8258807C1AA4CB2B000C551E /* CSFForceObjectMetadataSummaryOutput.h */,
-				8258807D1AA4CB2B000C551E /* CSFForceObjectMetadataSummaryPageOutput.h */,
-				8258807E1AA4CB2B000C551E /* CSFForceObjectNoteOutput.h */,
-				8258807F1AA4CB2B000C551E /* CSFForceObjectOutput.h */,
-				825880801AA4CB2B000C551E /* CSFForceObjectQueryPageOutput.h */,
-				825880811AA4CB2B000C551E /* CSFForceObjectsAction.h */,
-				825880821AA4CB2B000C551E /* CSFForceObjectURLsOutput.h */,
-				825880831AA4CB2B000C551E /* CSFForceObjectUserOutput.h */,
-				825880841AA4CB2B000C551E /* CSFForceQuickActionColorOutput.h */,
-				825880851AA4CB2B000C551E /* CSFForceQuickActionDefaultValuesResultOutput.h */,
-				825880861AA4CB2B000C551E /* CSFForceQuickActionIconOutput.h */,
-				825880871AA4CB2B000C551E /* CSFForceQuickActionInput.h */,
-				825880881AA4CB2B000C551E /* CSFForceQuickActionListItemOutput.h */,
-				825880891AA4CB2B000C551E /* CSFForceQuickActionListOutput.h */,
-				8258808A1AA4CB2B000C551E /* CSFForceQuickActionUrlsOutput.h */,
-				8258808B1AA4CB2B000C551E /* CSFForceRecordTypeInfoOutput.h */,
-				8258808C1AA4CB2B000C551E /* CSFForceTaskInput.h */,
-				8258808D1AA4CB2B000C551E /* CSFForceTaskObjectInput.h */,
 				8258808E1AA4CB2B000C551E /* CSFIndexedEntity.h */,
 				8258808F1AA4CB2B000C551E /* CSFInput.h */,
 				825880901AA4CB2B000C551E /* CSFNetwork.h */,
@@ -536,7 +453,6 @@
 				825880931AA4CB2B000C551E /* CSFParameterStorage.h */,
 				825880941AA4CB2B000C551E /* CSFSalesforceAction.h */,
 				825880951AA4CB2B000C551E /* SalesforceNetwork.h */,
-				825880961AA4CB2B000C551E /* SalesforceNetworkiOS.h */,
 				825880971AA4CB2B000C551E /* SFUserAccount+SalesforceNetwork.h */,
 			);
 			path = SalesforceNetwork;
