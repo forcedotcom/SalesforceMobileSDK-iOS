@@ -181,29 +181,35 @@ var SearchScreen = React.createClass({
     },
 
     render: function() {
-        var content = this.state.dataSource.getRowCount() === 0 ?
-            <NoUsers
-              filter={this.state.filter}
-              isLoading={this.state.isLoading}
-            /> :
-            <ListView
-              ref="listview"
-              dataSource={this.state.dataSource}
-              renderFooter={this.renderFooter}
-              renderRow={this.renderRow}
-              onEndReached={this.onEndReached}
-              automaticallyAdjustContentInsets={false}
-              keyboardDismissMode={ScrollView.keyboardDismissMode.OnDrag}
-              keyboardShouldPersistTaps={true}
-              showsVerticalScrollIndicator={false}
-            />;
+        var content;
+        var onFocus = null;
+        
+        if (this.state.dataSource.getRowCount() === 0) {
+            content = <NoUsers filter={this.state.filter} isLoading={this.state.isLoading} />;
+        }
+        else {
+            content = 
+                <ListView
+                  ref="listview"
+                  dataSource={this.state.dataSource}
+                  renderFooter={this.renderFooter}
+                  renderRow={this.renderRow}
+                  onEndReached={this.onEndReached}
+                  automaticallyAdjustContentInsets={false}
+                  keyboardDismissMode={ScrollView.keyboardDismissMode.OnDrag}
+                  keyboardShouldPersistTaps={true}
+                  showsVerticalScrollIndicator={false}
+                />;
 
+            onFocus = () => this.refs.listview.getScrollResponder().scrollTo(0, 0);
+        }
+        
         return (
                 <View style={styles.container}>
                   <SearchBar
                     onSearchChange={this.onSearchChange}
                     isLoading={this.state.isLoading}
-                    onFocus={() => this.refs.listview.getScrollResponder().scrollTo(0, 0)}
+                    onFocus={onFocus}
                   />
                 <View style={styles.separator} />
                 {content}
