@@ -93,6 +93,12 @@ __strong static NSDateFormatter *isoDateFormatter;
     return [isoDateFormatter dateFromString:isoDateString];
 }
 
++ (NSString *)getIsoStringFromDate:(NSDate *)date {
+    if (date == nil) return nil;
+    
+    return [isoDateFormatter stringFromDate:date];
+}
+
 + (BOOL)isEmpty:(NSString *)value {
     BOOL isEmpty = NO;
     if (nil == value || [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {

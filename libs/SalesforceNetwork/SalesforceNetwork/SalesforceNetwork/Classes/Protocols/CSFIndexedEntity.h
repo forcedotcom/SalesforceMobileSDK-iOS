@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,40 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSessionRefresher.h"
-#import "SFRestAPI.h"
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <Foundation/Foundation.h>
 
-@implementation SFSessionRefresher
+/** The `CSFIndexedEntity` protocol indicates that an instance of `CSFOutput`
+ has an indexable property bound to it that is capable of being used to uniquely identify
+ an instance of the response.  This allows for these objects to be cached and later
+ retrieved using the property.
 
-@synthesize isRefreshing = _isRefreshing;
+ The value for the index may be any value, though its use should be restricted to values that
+ are easily indexed by Core Data, or at least that support NSCoding.
+ */
+@protocol CSFIndexedEntity <NSObject>
 
-- (id)init
-{
-    self = [super init];
-    if (nil != self) {
-        _isRefreshing = NO;
-    }
-    
-    return self;
-}
+/** The key name that represents the property that is indexed.
 
-#pragma mark - Public
+ @see indexedValue
+ @return String that can be used by `valueForKey:`.
+ */
+- (NSString*)indexedKey;
 
-- (void)refreshAccessToken
-{
-    [self log:SFLogLevelInfo msg:@"Session timed out.  Refreshing session to replay unauthorized requests."];
-    _isRefreshing = YES;
-    
-    // Let's refresh the token via SFAuthenticationManager.
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-        [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
-        _isRefreshing = NO;
-    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-        NSError *newError = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFRestErrorCode userInfo:[error userInfo]];
-        [[SFNetworkEngine sharedInstance] failOperationsWaitingForAccessTokenWithError:newError];
-        _isRefreshing = NO;
-    }];
-}
+/** The value for the indexed key property.
+
+ This is a shortcut for using `[obj valueForKey:[obj indexedKey]]`.
+
+ @see indexedKey
+ @return Value for the indexed property.
+ */
+- (id)indexedValue;
 
 @end

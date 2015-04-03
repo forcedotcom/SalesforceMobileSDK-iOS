@@ -1,0 +1,21 @@
+//
+//  Packaging-Framework.xcconfig
+//  
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//
+//
+
+IPHONEOS_DEPLOYMENT_TARGET = 8.0
+INSTALL_PATH = $(LOCAL_LIBRARY_DIR)/Frameworks
+
+DEFINES_MODULE = YES
+
+DYLIB_COMPATIBILITY_VERSION = 1
+DYLIB_CURRENT_VERSION = 1
+DYLIB_INSTALL_NAME_BASE = @rpath
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks @loader_path/Frameworks
+
+CURRENT_PROJECT_VERSION = 1
+VERSION_INFO_PREFIX =
+VERSIONING_SYSTEM = apple-generic

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F2147C0193D217A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BE193D217A0010F9D3 /* Settings.bundle */; };
-		4F22157919DF5B0400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */; };
-		4F22157A19DF5B0400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22157B19DF5B0400FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */; };
 		4F22157C19DF5B0400FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157719DF5B0400FF2D26 /* libSmartSync.a */; };
 		4F22157D19DF5B0400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22157819DF5B0400FF2D26 /* ImageIO.framework */; };
@@ -68,6 +66,7 @@
 		824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBC1724CAB900C9BD79 /* Security.framework */; };
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
 		824A9DC11724CE4600C9BD79 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
+		825880511AA424C5000C551E /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825880501AA424C5000C551E /* libSalesforceNetwork.a */; };
 		82638F1E19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F1D19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		8272302219D7743B0066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272302119D7743B0066A350 /* InitialViewController.m */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
@@ -158,8 +157,6 @@
 
 /* Begin PBXFileReference section */
 		4F2147BE193D217A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
-		4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		4F22157719DF5B0400FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
 		4F22157819DF5B0400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -224,6 +221,7 @@
 		824A9DBC1724CAB900C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		825880501AA424C5000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82638F1C19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F1D19B8F11700FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		8272302019D7743B0066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
@@ -243,9 +241,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				825880511AA424C5000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D661A3785ED00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				4F22157919DF5B0400FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
-				4F22157A19DF5B0400FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22157B19DF5B0400FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
 				4F22157C19DF5B0400FF2D26 /* libSmartSync.a in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
@@ -355,9 +352,8 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				825880501AA424C5000C551E /* libSalesforceNetwork.a */,
 				82D53D651A3785ED00E46F8F /* libSalesforceSDKCommon.a */,
-				4F22157419DF5B0400FF2D26 /* libMKNetworkKit-iOS.a */,
-				4F22157519DF5B0400FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22157619DF5B0400FF2D26 /* libSalesforceRestAPI.a */,
 				4F22157719DF5B0400FF2D26 /* libSmartSync.a */,
 				4F22157819DF5B0400FF2D26 /* ImageIO.framework */,

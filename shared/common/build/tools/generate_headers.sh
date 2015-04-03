@@ -66,10 +66,22 @@ wrapper_directory=$(dirname $OPT_OUTPUT)
 
 [[ -d $wrapper_directory ]] || mkdir -p $wrapper_directory
 
+# Copy the existing umbrella header file, if it exists.
+orig_imports=""
 if [[ -f $OPT_UMBRELLA ]]; then 
-    cp $OPT_UMBRELLA $OPT_OUTPUT
-else
-    cat <<EOF > $OPT_OUTPUT
+    cp "$OPT_UMBRELLA" "$OPT_OUTPUT"
+
+    # We'll compare the imports to see if we need to update the original file.
+    while read line; do
+        if [[ "$line" =~ ^#import ]]; then
+            orig_imports=`echo "${orig_imports}${line}"`
+        fi
+    done < "$OPT_OUTPUT"
+fi
+
+# Re-create the umbrella header file.
+updated_imports=""
+cat <<EOF > "$OPT_OUTPUT"
 /*
  $wrapper_filename
  $OPT_NAME
@@ -100,12 +112,20 @@ else
  */
 
 EOF
-fi
 
 for file in $(find $wrapper_directory -type f); do
     filename=$(basename $file)
     if [[ $filename == $wrapper_filename ]]; then
         continue;
     fi
-    echo "#import <$OPT_NAME/$filename>" >> $OPT_OUTPUT
+    import_line=`echo "#import <$OPT_NAME/$filename>"`
+    updated_imports=`echo "${updated_imports}${import_line}"`
+    echo "$import_line" >> $OPT_OUTPUT
 done
+
+# If there was an original file, and the updated import file differs from the original, update the original.
+if [[ "$orig_imports" != "" ]]; then
+    if [[ "$orig_imports" != "$updated_imports" ]]; then
+        cp "$OPT_OUTPUT" "$OPT_UMBRELLA"
+    fi
+fi

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +22,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <objc/runtime.h>
 
-@interface SFSessionRefresher : NSObject
+#import "CSFInput.h"
+#import "CSFInternalDefines.h"
 
-/**
- Whether or not A session is currently being refreshed.
- */
-@property (nonatomic, readonly) BOOL isRefreshing;
+@interface CSFInput () {
+@private
+    NSMutableDictionary *_storage;
+}
 
-/**
- Refreshes the access token, presumably after receiving a 401 Unauthorized error from the service.
- */
-- (void)refreshAccessToken;
+@property (nonatomic, strong) NSMutableDictionary *storage;
 
++ (BOOL)dynamicImplementationForProperty:(NSString*)propertyName
+                              storageKey:(NSString*)storageKey
+                              attributes:(NSDictionary*)attributes
+                    getterImplementation:(IMP *)getter
+                    setterImplementation:(IMP *)setter;
+
+- (NSDictionary *)JSONDictionary;
 
 @end

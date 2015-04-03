@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F2147BC193D215A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147BA193D215A0010F9D3 /* Settings.bundle */; };
-		4F22156F19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */; };
-		4F22157019DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22157119DF5AEB00FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */; };
 		4F22157219DF5AEB00FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156D19DF5AEB00FF2D26 /* libSmartSync.a */; };
 		4F22157319DF5AEB00FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156E19DF5AEB00FF2D26 /* ImageIO.framework */; };
@@ -78,6 +76,7 @@
 		8251CA6216ED3CA900BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6116ED3CA900BD1EA2 /* libsqlcipher.a */; };
 		8251CA6416ED3CB000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6316ED3CB000BD1EA2 /* libssl.a */; };
 		8251CA6616ED3CD200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6516ED3CD200BD1EA2 /* CoreData.framework */; };
+		8258804F1AA42431000C551E /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8258804E1AA42431000C551E /* libSalesforceNetwork.a */; };
 		82638F1B19B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F1A19B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		82707C00157C498B00B50291 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82707BFF157C498B00B50291 /* libz.dylib */; };
 		8272301F19D766A80066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272301E19D766A80066A350 /* InitialViewController.m */; };
@@ -209,8 +208,6 @@
 
 /* Begin PBXFileReference section */
 		4F2147BA193D215A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
-		4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		4F22156D19DF5AEB00FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
 		4F22156E19DF5AEB00FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -289,6 +286,7 @@
 		8251CA6116ED3CA900BD1EA2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		8251CA6316ED3CB000BD1EA2 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		8251CA6516ED3CD200BD1EA2 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8258804E1AA42431000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82638F1919B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F1A19B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		82707BFF157C498B00B50291 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -310,9 +308,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8258804F1AA42431000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D641A3785AB00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				4F22156F19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
-				4F22157019DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22157119DF5AEB00FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
 				4F22157219DF5AEB00FF2D26 /* libSmartSync.a in Frameworks */,
 				8251CA5716ED3BC400BD1EA2 /* libCordova.a in Frameworks */,
@@ -541,9 +538,8 @@
 		7DBD075F149AA9620043A9E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8258804E1AA42431000C551E /* libSalesforceNetwork.a */,
 				82D53D631A3785AB00E46F8F /* libSalesforceSDKCommon.a */,
-				4F22156A19DF5AEB00FF2D26 /* libMKNetworkKit-iOS.a */,
-				4F22156B19DF5AEB00FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22156C19DF5AEB00FF2D26 /* libSalesforceRestAPI.a */,
 				4F22156D19DF5AEB00FF2D26 /* libSmartSync.a */,
 				4F22156E19DF5AEB00FF2D26 /* ImageIO.framework */,

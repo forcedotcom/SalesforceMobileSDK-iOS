@@ -21,6 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6F644C6B1A9FC709009BF92A /* SalesforceSDKCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F644C601A9FC708009BF92A /* SalesforceSDKCommon.framework */; };
+		6F644C791A9FC7F9009BF92A /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644C7A1A9FC7F9009BF92A /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644C7B1A9FC7F9009BF92A /* NSData+SFSDKUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6F644C7C1A9FC801009BF92A /* NSData+SFSDKUtils_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */; };
+		6F644CB31A9FCFB4009BF92A /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
+		6F644CB41A9FCFB4009BF92A /* NSData+SFSDKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */; };
+		6F644CB51A9FCFB4009BF92A /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 82BB4F001A70637B001DAF88 /* SFSDKReachability.m */; };
 		8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
 		82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -33,6 +41,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6F644C6C1A9FC709009BF92A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82D53D291A3618CD00E46F8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F644C5F1A9FC708009BF92A;
+			remoteInfo = "SalesforceSDKCommon-iOSFramework";
+		};
 		82D53D3E1A3618CD00E46F8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82D53D291A3618CD00E46F8F /* Project object */;
@@ -55,6 +70,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6F644C601A9FC708009BF92A /* SalesforceSDKCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F644C631A9FC708009BF92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F644C6A1A9FC708009BF92A /* SalesforceSDKCommon-iOSFrameworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SalesforceSDKCommon-iOSFrameworkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F644C701A9FC709009BF92A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Common.xcconfig"; sourceTree = "<group>"; };
+		6F8960821A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960831A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		6F8960841A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-OSX-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960851A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-OSX-Release.xcconfig"; sourceTree = "<group>"; };
+		6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Test.xcconfig"; sourceTree = "<group>"; };
 		8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAsyncProcessListener.h; path = Classes/Test/SFSDKAsyncProcessListener.h; sourceTree = "<group>"; };
 		8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAsyncProcessListener.m; path = Classes/Test/SFSDKAsyncProcessListener.m; sourceTree = "<group>"; };
 		82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReachability.h; path = Classes/SFSDKReachability.h; sourceTree = "<group>"; };
@@ -69,6 +96,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6F644C5C1A9FC708009BF92A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644C671A9FC708009BF92A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644C6B1A9FC709009BF92A /* SalesforceSDKCommon.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82D53D2E1A3618CD00E46F8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -87,6 +129,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F644C611A9FC708009BF92A /* SalesforceSDKCommon-iOSFramework */ = {
+			isa = PBXGroup;
+			children = (
+				6F644C621A9FC708009BF92A /* Supporting Files */,
+			);
+			path = "SalesforceSDKCommon-iOSFramework";
+			sourceTree = "<group>";
+		};
+		6F644C621A9FC708009BF92A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F644C631A9FC708009BF92A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F644C6E1A9FC709009BF92A /* SalesforceSDKCommon-iOSFrameworkTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F644C6F1A9FC709009BF92A /* Supporting Files */,
+			);
+			path = "SalesforceSDKCommon-iOSFrameworkTests";
+			sourceTree = "<group>";
+		};
+		6F644C6F1A9FC709009BF92A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F644C701A9FC709009BF92A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F8960801A9E9DCA00A48FF1 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */,
+				6F8960821A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Debug.xcconfig */,
+				6F8960831A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Release.xcconfig */,
+				6F8960841A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Debug.xcconfig */,
+				6F8960851A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Release.xcconfig */,
+				6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */,
+				6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */,
+				6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		8293A8DC1A43A8CF00ABC43C /* Test */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,8 +188,11 @@
 		82D53D281A3618CD00E46F8F = {
 			isa = PBXGroup;
 			children = (
+				6F8960801A9E9DCA00A48FF1 /* Configuration */,
 				82D53D331A3618CD00E46F8F /* SalesforceSDKCommon */,
 				82D53D401A3618CD00E46F8F /* SalesforceSDKCommonTests */,
+				6F644C611A9FC708009BF92A /* SalesforceSDKCommon-iOSFramework */,
+				6F644C6E1A9FC709009BF92A /* SalesforceSDKCommon-iOSFrameworkTests */,
 				82D53D321A3618CD00E46F8F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,6 +202,8 @@
 			children = (
 				82D53D311A3618CD00E46F8F /* libSalesforceSDKCommon.a */,
 				82D53D3C1A3618CD00E46F8F /* SalesforceSDKCommonTests.xctest */,
+				6F644C601A9FC708009BF92A /* SalesforceSDKCommon.framework */,
+				6F644C6A1A9FC708009BF92A /* SalesforceSDKCommon-iOSFrameworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +249,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		6F644C5D1A9FC708009BF92A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644C7A1A9FC7F9009BF92A /* SFSDKAsyncProcessListener.h in Headers */,
+				6F644C791A9FC7F9009BF92A /* SFSDKReachability.h in Headers */,
+				6F644C7B1A9FC7F9009BF92A /* NSData+SFSDKUtils.h in Headers */,
+				6F644C7C1A9FC801009BF92A /* NSData+SFSDKUtils_Internal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82D53D4F1A36242B00E46F8F /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -169,6 +274,43 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		6F644C5F1A9FC708009BF92A /* SalesforceSDKCommon-iOSFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F644C771A9FC709009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon-iOSFramework" */;
+			buildPhases = (
+				6F644C5B1A9FC708009BF92A /* Sources */,
+				6F644C5C1A9FC708009BF92A /* Frameworks */,
+				6F644C5D1A9FC708009BF92A /* Headers */,
+				6F644C5E1A9FC708009BF92A /* Resources */,
+				6F644C7D1A9FC81A009BF92A /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SalesforceSDKCommon-iOSFramework";
+			productName = "SalesforceSDKCommon-iOSFramework";
+			productReference = 6F644C601A9FC708009BF92A /* SalesforceSDKCommon.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		6F644C691A9FC708009BF92A /* SalesforceSDKCommon-iOSFrameworkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F644C781A9FC709009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon-iOSFrameworkTests" */;
+			buildPhases = (
+				6F644C661A9FC708009BF92A /* Sources */,
+				6F644C671A9FC708009BF92A /* Frameworks */,
+				6F644C681A9FC708009BF92A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F644C6D1A9FC709009BF92A /* PBXTargetDependency */,
+			);
+			name = "SalesforceSDKCommon-iOSFrameworkTests";
+			productName = "SalesforceSDKCommon-iOSFrameworkTests";
+			productReference = 6F644C6A1A9FC708009BF92A /* SalesforceSDKCommon-iOSFrameworkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82D53D451A3618CD00E46F8F /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon" */;
@@ -215,6 +357,12 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
+					6F644C5F1A9FC708009BF92A = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					6F644C691A9FC708009BF92A = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					8276EE001A7853CA0083F7EA = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -241,11 +389,27 @@
 				82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */,
 				82D53D3B1A3618CD00E46F8F /* SalesforceSDKCommonTests */,
 				8276EE001A7853CA0083F7EA /* Documentation */,
+				6F644C5F1A9FC708009BF92A /* SalesforceSDKCommon-iOSFramework */,
+				6F644C691A9FC708009BF92A /* SalesforceSDKCommon-iOSFrameworkTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6F644C5E1A9FC708009BF92A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644C681A9FC708009BF92A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82D53D3A1A3618CD00E46F8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +420,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6F644C7D1A9FC81A009BF92A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
 		8276EE041A7853D30083F7EA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -280,11 +457,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6F644C5B1A9FC708009BF92A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F644CB41A9FCFB4009BF92A /* NSData+SFSDKUtils.m in Sources */,
+				6F644CB51A9FCFB4009BF92A /* SFSDKReachability.m in Sources */,
+				6F644CB31A9FCFB4009BF92A /* SFSDKAsyncProcessListener.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F644C661A9FC708009BF92A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82D53D2D1A3618CD00E46F8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -306,6 +500,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6F644C6D1A9FC709009BF92A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F644C5F1A9FC708009BF92A /* SalesforceSDKCommon-iOSFramework */;
+			targetProxy = 6F644C6C1A9FC709009BF92A /* PBXContainerItemProxy */;
+		};
 		82D53D3F1A3618CD00E46F8F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */;
@@ -314,22 +513,27 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		8276EE021A7853CA0083F7EA /* Debug */ = {
+		6F644C731A9FC709009BF92A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960821A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Debug.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SalesforceSDKCommon-iOSFramework/Info.plist";
 			};
 			name = Debug;
 		};
-		8276EE031A7853CA0083F7EA /* Release */ = {
+		6F644C741A9FC709009BF92A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960831A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Release.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "SalesforceSDKCommon-iOSFramework/Info.plist";
 			};
 			name = Release;
 		};
-		82D53D431A3618CD00E46F8F /* Debug */ = {
+		6F644C751A9FC709009BF92A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -347,6 +551,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -361,15 +569,18 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				INFOPLIST_FILE = "SalesforceSDKCommon-iOSFrameworkTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
-		82D53D441A3618CD00E46F8F /* Release */ = {
+		6F644C761A9FC709009BF92A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -388,6 +599,10 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -395,35 +610,64 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
+				INFOPLIST_FILE = "SalesforceSDKCommon-iOSFrameworkTests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		82D53D461A3618CD00E46F8F /* Debug */ = {
+		8276EE021A7853CA0083F7EA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
+			};
+			name = Debug;
+		};
+		8276EE031A7853CA0083F7EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		82D53D431A3618CD00E46F8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MTL_ENABLE_DEBUG_INFO = YES;
+			};
+			name = Debug;
+		};
+		82D53D441A3618CD00E46F8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MTL_ENABLE_DEBUG_INFO = NO;
+			};
+			name = Release;
+		};
+		82D53D461A3618CD00E46F8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		82D53D471A3618CD00E46F8F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */;
 			buildSettings = {
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		82D53D491A3618CD00E46F8F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -447,6 +691,7 @@
 		};
 		82D53D4A1A3618CD00E46F8F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -467,6 +712,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6F644C771A9FC709009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon-iOSFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F644C731A9FC709009BF92A /* Debug */,
+				6F644C741A9FC709009BF92A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6F644C781A9FC709009BF92A /* Build configuration list for PBXNativeTarget "SalesforceSDKCommon-iOSFrameworkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F644C751A9FC709009BF92A /* Debug */,
+				6F644C761A9FC709009BF92A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8276EE011A7853CA0083F7EA /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

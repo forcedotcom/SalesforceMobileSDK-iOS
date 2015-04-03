@@ -321,7 +321,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 {
     [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
     
-    [self enumerateDelegates:^(id<SalesforceSDKManagerDelegate> delegate) {
+    [self enumerateDelegates:^(NSObject<SalesforceSDKManagerDelegate> *delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillEnterForeground)]) {
             [delegate sdkManagerWillEnterForeground];
         }

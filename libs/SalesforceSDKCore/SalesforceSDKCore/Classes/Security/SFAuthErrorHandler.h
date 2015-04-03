@@ -24,7 +24,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+
+@class SFOAuthInfo;
 
 /**
  Block definition for auth error handling evaluation block.

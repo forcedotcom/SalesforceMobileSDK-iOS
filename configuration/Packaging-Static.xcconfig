@@ -1,0 +1,11 @@
+//
+//  Packaging-Static.xcconfig
+//  
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//
+//
+
+IPHONEOS_DEPLOYMENT_TARGET = 7.0
+PUBLIC_HEADERS_FOLDER_PATH = Headers/$(PRODUCT_NAME)
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(inherited)
