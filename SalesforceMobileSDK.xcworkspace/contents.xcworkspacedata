@@ -11,9 +11,6 @@
          location = "group:Common-iOS.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:Common-OSX.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:Common-Test.xcconfig">
       </FileRef>
       <FileRef

@@ -1,9 +1,0 @@
-//
-//  Common-OSX.xcconfig
-//  
-//
-//  Created by Michael Nachbaur on 2/25/15.
-//
-//
-
-#include "Common.xcconfig"
