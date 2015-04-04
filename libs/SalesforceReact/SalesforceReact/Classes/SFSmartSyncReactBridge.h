@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <ReactKit/RCTBridgeModule.h>
+#import <React/RCTBridgeModule.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 
 

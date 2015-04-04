@@ -1,5 +1,5 @@
 #import "RootViewController.h"
-#import <ReactKit/RCTRootView.h>
+#import <React/RCTRootView.h>
 #include "TargetConditionals.h"
 
 
@@ -24,17 +24,16 @@
     [super viewDidLoad];
     
     NSURL *jsCodeLocation;
-    RCTRootView *rootView = [[RCTRootView alloc] init];
     
     #if (TARGET_IPHONE_SIMULATOR)
       jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/SimpleSyncReact/js/App.includeRequire.runModule.bundle"];
     #else
-        jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+      jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
     #endif
     
-    rootView.scriptURL = jsCodeLocation;
-    rootView.moduleName = @"App";
-    
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                        moduleName:@"App"
+                                                     launchOptions:nil];
     self.view = rootView;
     
  }
