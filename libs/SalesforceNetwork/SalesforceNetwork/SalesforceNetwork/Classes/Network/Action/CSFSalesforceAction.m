@@ -31,7 +31,7 @@
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
 NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
-NSString * const CSFSalesforceDefaultAPIVersion = @"v32.0";
+NSString * const CSFSalesforceDefaultAPIVersion = @"v33.0";
 
 static void * kObservingKey = &kObservingKey;
 

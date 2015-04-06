@@ -177,8 +177,6 @@
 		6F8960781A9E9ADF00A48FF1 /* SalesforceOAuth-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960791A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Framework-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F89607A1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Framework-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		6F89607B1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-OSX-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Framework-OSX-Debug.xcconfig"; sourceTree = "<group>"; };
-		6F89607C1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-OSX-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Framework-OSX-Release.xcconfig"; sourceTree = "<group>"; };
 		6F89607D1A9E9ADF00A48FF1 /* SalesforceOAuth-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F89607E1A9E9ADF00A48FF1 /* SalesforceOAuth-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F89607F1A9E9ADF00A48FF1 /* SalesforceOAuth-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Test.xcconfig"; sourceTree = "<group>"; };
@@ -343,8 +341,6 @@
 				6F644CA51A9FCEEB009BF92A /* SalesforceOAuth-Common-Static.xcconfig */,
 				6F8960791A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-iOS-Debug.xcconfig */,
 				6F89607A1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-iOS-Release.xcconfig */,
-				6F89607B1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-OSX-Debug.xcconfig */,
-				6F89607C1A9E9ADF00A48FF1 /* SalesforceOAuth-Framework-OSX-Release.xcconfig */,
 				6F89607D1A9E9ADF00A48FF1 /* SalesforceOAuth-Static-iOS-Debug.xcconfig */,
 				6F89607E1A9E9ADF00A48FF1 /* SalesforceOAuth-Static-iOS-Release.xcconfig */,
 				6F89607F1A9E9ADF00A48FF1 /* SalesforceOAuth-Test.xcconfig */,

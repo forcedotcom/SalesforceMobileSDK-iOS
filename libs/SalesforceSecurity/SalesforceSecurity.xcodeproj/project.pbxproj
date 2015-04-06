@@ -133,8 +133,6 @@
 		6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Common.xcconfig"; sourceTree = "<group>"; };
 		6F89608B1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F89608C1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		6F89608D1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-OSX-Debug.xcconfig"; sourceTree = "<group>"; };
-		6F89608E1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Framework-OSX-Release.xcconfig"; sourceTree = "<group>"; };
 		6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Test.xcconfig"; sourceTree = "<group>"; };
@@ -269,8 +267,6 @@
 				6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */,
 				6F89608B1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Debug.xcconfig */,
 				6F89608C1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-iOS-Release.xcconfig */,
-				6F89608D1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Debug.xcconfig */,
-				6F89608E1A9E9ECD00A48FF1 /* SalesforceSecurity-Framework-OSX-Release.xcconfig */,
 				6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */,
 				6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */,
 				6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */,

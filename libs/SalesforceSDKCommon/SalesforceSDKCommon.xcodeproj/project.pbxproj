@@ -77,8 +77,6 @@
 		6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960821A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F8960831A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		6F8960841A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-OSX-Debug.xcconfig"; sourceTree = "<group>"; };
-		6F8960851A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Framework-OSX-Release.xcconfig"; sourceTree = "<group>"; };
 		6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Test.xcconfig"; sourceTree = "<group>"; };
@@ -167,8 +165,6 @@
 				6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */,
 				6F8960821A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Debug.xcconfig */,
 				6F8960831A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-iOS-Release.xcconfig */,
-				6F8960841A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Debug.xcconfig */,
-				6F8960851A9E9DCA00A48FF1 /* SalesforceSDKCommon-Framework-OSX-Release.xcconfig */,
 				6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */,
 				6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */,
 				6F8960881A9E9DCA00A48FF1 /* SalesforceSDKCommon-Test.xcconfig */,
