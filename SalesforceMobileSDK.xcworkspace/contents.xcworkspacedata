@@ -20,9 +20,6 @@
          location = "group:Configuration-Release.xcconfig">
       </FileRef>
       <FileRef
-         location = "group:Packaging-Framework.xcconfig">
-      </FileRef>
-      <FileRef
          location = "group:Packaging-Static.xcconfig">
       </FileRef>
    </Group>
