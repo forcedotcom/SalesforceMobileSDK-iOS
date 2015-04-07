@@ -76,6 +76,10 @@
 		CE1F0B1619ACFA1A0007F22F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1419ACFA1A0007F22F /* libcrypto.a */; };
 		CE1F0B1719ACFA1A0007F22F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1519ACFA1A0007F22F /* libssl.a */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
+		CE3FE5831AD4891400E65B49 /* SmartSync-Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */; };
+		CE3FE5851AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */; };
+		CE3FE5871AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */; };
+		CE3FE5891AD489A900E65B49 /* SmartSync-Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */; };
 		CE617399196F469A00C63BDE /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
@@ -131,7 +135,7 @@
 		8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncPersistableObject.h; sourceTree = "<group>"; };
 		820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncPersistableObject.m; sourceTree = "<group>"; };
 		820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSmartSyncPersistableObject+Internal.h"; sourceTree = "<group>"; };
-		825880401AA3FC74000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		825880401AA3FC74000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		828722211AAF8D050082A2F9 /* SFSyncUpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSyncUpTarget.h; sourceTree = "<group>"; };
 		828722221AAF8D050082A2F9 /* SFSyncUpTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSyncUpTarget.m; sourceTree = "<group>"; };
 		828E0E441AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncNetworkUtils.h; sourceTree = "<group>"; };
@@ -155,6 +159,10 @@
 		CE1F0B1419ACFA1A0007F22F /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libcrypto.a"; sourceTree = "<absolute>"; };
 		CE1F0B1519ACFA1A0007F22F /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libssl.a"; sourceTree = "<absolute>"; };
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
+		CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Test.xcconfig"; sourceTree = "<group>"; };
+		CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Common.xcconfig"; sourceTree = "<group>"; };
 		CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncConstants.m; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -244,9 +252,21 @@
 			name = Targets;
 			sourceTree = "<group>";
 		};
+		CE3FE5811AD488F800E65B49 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */,
+				CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */,
+				CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */,
+				CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */,
+			);
+			name = Configuration;
+			sourceTree = "<group>";
+		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
+				CE3FE5811AD488F800E65B49 /* Configuration */,
 				CEAAAE4A195911E600CBBFE9 /* SmartSync */,
 				CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */,
 				CEAAAE47195911E600CBBFE9 /* Frameworks */,
@@ -515,8 +535,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE3FE5891AD489A900E65B49 /* SmartSync-Common.xcconfig in Resources */,
 				CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */,
 				CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */,
+				CE3FE5831AD4891400E65B49 /* SmartSync-Test.xcconfig in Resources */,
+				CE3FE5851AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig in Resources */,
+				CE3FE5871AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,5 +15,4 @@ OTHER_CFLAGS = -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FM
 OTHER_LDFLAGS = -ObjC -lssl -lcrypto -lsqlcipher
 
 HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers" $(inherited)
-
 LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" "$(SRCROOT)/../../external/ThirdPartyDependencies/openssl" $(inherited)
