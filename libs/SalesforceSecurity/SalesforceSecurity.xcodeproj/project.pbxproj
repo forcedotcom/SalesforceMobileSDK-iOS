@@ -475,6 +475,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -482,6 +484,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};

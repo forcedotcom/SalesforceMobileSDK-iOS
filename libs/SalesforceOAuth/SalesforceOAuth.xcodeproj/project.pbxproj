@@ -729,6 +729,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -736,6 +738,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};

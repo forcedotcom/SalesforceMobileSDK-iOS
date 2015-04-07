@@ -1112,12 +1112,16 @@
 		8220B75816D804CA00EC3921 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
 		8220B75916D804CA00EC3921 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};

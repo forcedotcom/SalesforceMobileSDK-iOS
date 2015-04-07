@@ -348,6 +348,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				MTL_ENABLE_DEBUG_INFO = YES;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -355,6 +357,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
