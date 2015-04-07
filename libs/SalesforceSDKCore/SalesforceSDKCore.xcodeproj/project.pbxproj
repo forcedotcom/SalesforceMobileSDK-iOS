@@ -190,7 +190,6 @@
 		6F644C521A9FC46B009BF92A /* SalesforceSDKCoreDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCoreDefines.h; sourceTree = "<group>"; };
 		6F644C531A9FC46B009BF92A /* SalesforceSDKCoreDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKCoreDefines.m; sourceTree = "<group>"; };
 		6F644C581A9FC500009BF92A /* SFSDKAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppDelegate.h; sourceTree = "<group>"; };
-		6F644D411A9FE400009BF92A /* SalesforceSecurity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSecurity.framework; path = "../SalesforceSecurity/build/Debug-iphoneos/SalesforceSecurity.framework"; sourceTree = "<group>"; };
 		6F644D431A9FE414009BF92A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libsqlite3.dylib; sourceTree = DEVELOPER_DIR; };
 		6F742A0A1A9EA7BA00FA31C4 /* SalesforceSDKCore-Common-Static.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
@@ -455,7 +454,6 @@
 			isa = PBXGroup;
 			children = (
 				6F644D431A9FE414009BF92A /* libsqlite3.dylib */,
-				6F644D411A9FE400009BF92A /* SalesforceSecurity.framework */,
 				82D4647D19C7CDE80006BDFE /* libcrypto.a */,
 				82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */,
 				82D4647B19C7CDA90006BDFE /* libSalesforceOAuth.a */,
