@@ -104,48 +104,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6FD16C891AA4EF73001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8220B74C16D804CA00EC3921;
-			remoteInfo = SalesforceSDKCore;
-		};
-		6FD16C8B1AA4EF73001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
-			remoteInfo = SalesforceSDKCoreUnitTestApp;
-		};
-		6FD16C8D1AA4EF73001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
-			remoteInfo = SalesforceSDKCoreTests;
-		};
-		6FD16C9F1AA4EFA8001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CFA9ADD413AA86DA0024260E;
-			remoteInfo = SalesforceOAuth;
-		};
-		6FD16CA11AA4EFA8001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CF7F346213B52B4E001AB761;
-			remoteInfo = SalesforceOAuthTest;
-		};
-		6FD16CA31AA4EFA8001628F3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 829A08721A3235DE00DC17A5;
-			remoteInfo = SalesforceOAuthUnitTests;
-		};
 		825347FC1A8ADD050019FE0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82DBBAEC1A798B290093A54C /* Project object */;
@@ -172,8 +130,6 @@
 		6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Test.xcconfig"; sourceTree = "<group>"; };
-		6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
-		6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceOAuth.xcodeproj; path = ../SalesforceOAuth/SalesforceOAuth.xcodeproj; sourceTree = "<group>"; };
 		820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ActionValue.h"; sourceTree = "<group>"; };
 		820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ActionValue.m"; sourceTree = "<group>"; };
 		82225A4B1A9D6F0700DE1E07 /* CSFNetwork+Caching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSFNetwork+Caching.m"; sourceTree = "<group>"; };
@@ -316,26 +272,6 @@
 			);
 			name = Configuration;
 			path = SalesforceNetwork/Configuration;
-			sourceTree = "<group>";
-		};
-		6FD16C811AA4EF73001628F3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6FD16C8A1AA4EF73001628F3 /* libSalesforceSDKCore.a */,
-				6FD16C8C1AA4EF73001628F3 /* SalesforceSDKCoreUnitTestApp.app */,
-				6FD16C8E1AA4EF73001628F3 /* SalesforceSDKCoreTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6FD16C971AA4EFA8001628F3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6FD16CA01AA4EFA8001628F3 /* libSalesforceOAuth.a */,
-				6FD16CA21AA4EFA8001628F3 /* SalesforceOAuthTest.app */,
-				6FD16CA41AA4EFA8001628F3 /* SalesforceOAuthUnitTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		825348011A8ADD220019FE0B /* SalesforceNetworkiOSTests */ = {
@@ -581,8 +517,6 @@
 		827DD5091A7C090000519F03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */,
-				6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */,
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
 				825348D51A8AF5BD0019FE0B /* libcrypto.a */,
 				825348D61A8AF5BD0019FE0B /* libssl.a */,
@@ -750,16 +684,6 @@
 			mainGroup = 82DBBAEB1A798B290093A54C;
 			productRefGroup = 82DBBAF51A798B290093A54C /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6FD16C971AA4EFA8001628F3 /* Products */;
-					ProjectRef = 6FD16C961AA4EFA8001628F3 /* SalesforceOAuth.xcodeproj */;
-				},
-				{
-					ProductGroup = 6FD16C811AA4EF73001628F3 /* Products */;
-					ProjectRef = 6FD16C801AA4EF73001628F3 /* SalesforceSDKCore.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				827DD3D91A7BF55F00519F03 /* SalesforceNetworkiOS */,
@@ -767,51 +691,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		6FD16C8A1AA4EF73001628F3 /* libSalesforceSDKCore.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSDKCore.a;
-			remoteRef = 6FD16C891AA4EF73001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6FD16C8C1AA4EF73001628F3 /* SalesforceSDKCoreUnitTestApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SalesforceSDKCoreUnitTestApp.app;
-			remoteRef = 6FD16C8B1AA4EF73001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6FD16C8E1AA4EF73001628F3 /* SalesforceSDKCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCoreTests.xctest;
-			remoteRef = 6FD16C8D1AA4EF73001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6FD16CA01AA4EFA8001628F3 /* libSalesforceOAuth.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceOAuth.a;
-			remoteRef = 6FD16C9F1AA4EFA8001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6FD16CA21AA4EFA8001628F3 /* SalesforceOAuthTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SalesforceOAuthTest.app;
-			remoteRef = 6FD16CA11AA4EFA8001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6FD16CA41AA4EFA8001628F3 /* SalesforceOAuthUnitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceOAuthUnitTests.xctest;
-			remoteRef = 6FD16CA31AA4EFA8001628F3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		825347F31A8ADD050019FE0B /* Resources */ = {
