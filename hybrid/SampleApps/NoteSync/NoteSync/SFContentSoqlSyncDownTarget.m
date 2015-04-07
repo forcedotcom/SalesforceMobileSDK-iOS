@@ -27,6 +27,7 @@
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
 #import <SalesforceNetwork/CSFNetwork.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // SOAP request
 #define REQUEST_TEMPLATE @"<?xml version=\"1.0\"?>"\
@@ -198,7 +199,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
 
 - (void)prepareRequestForSend
 {
-    NSString *sessionId = [CSFNetwork currentNetwork].account.credentials.accessToken;
+    NSString *sessionId = [SFAuthenticationManager sharedManager].coordinator.credentials.accessToken;
     NSString *body;
     if (self.queryLocator) {
         body = [NSString stringWithFormat:QUERY_MORE_TEMPLATE, self.queryLocator];
@@ -291,7 +292,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
         __weak SFContentSoqlSyncDownTarget* weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData *response) {
-            __strong SFContentSoqlSyncTarget *strongSelf = weakSelf;
+            __strong SFContentSoqlSyncDownTarget *strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
                 completeBlock(soapSoqlResponse.records);
