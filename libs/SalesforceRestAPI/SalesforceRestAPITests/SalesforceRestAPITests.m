@@ -1291,10 +1291,10 @@ XCTAssertNil( e, @"%@ errored but should not have. Error: %@",testName,e); \
 
 - (void) testSOQL {
 
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil where:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil where:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
@@ -1303,14 +1303,14 @@ XCTAssertNil( e, @"%@ errored but should not have. Error: %@",testName,e); \
     XCTAssertTrue( [simpleQuery isEqualToString:
                         [SFRestAPI SOQLQueryWithFields:@[@"id"]
                                                sObject:@"Lead"
-                                                 where:@"id<>null"
+                                                 whereClause:@"id<>null"
                                                  limit:10]],                 
                  @"Simple SOQL query does not match.");
     
     
     NSString *generatedComplexQuery = [SFRestAPI SOQLQueryWithFields:@[@"id", @"status"]
                                                              sObject:@"Lead"
-                                                               where:@"id<>null"
+                                                               whereClause:@"id<>null"
                                                              groupBy:@[@"status"]
                                                               having:nil
                                                              orderBy:nil
