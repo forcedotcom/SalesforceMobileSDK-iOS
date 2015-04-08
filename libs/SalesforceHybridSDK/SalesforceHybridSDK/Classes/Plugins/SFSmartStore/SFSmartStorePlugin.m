@@ -278,7 +278,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
             // TODO: Change this once https://issues.apache.org/jira/browse/CB-8365 has been completed.
             databaseSize = INT_MAX;
         }
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)databaseSize];
     } command:command];
 }
 

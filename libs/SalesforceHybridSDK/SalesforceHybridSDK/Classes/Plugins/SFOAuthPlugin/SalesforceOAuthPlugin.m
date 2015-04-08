@@ -104,7 +104,7 @@
     NSString *urlString = (url == nil ? @"" : [url absoluteString]);
     [self log:SFLogLevelDebug format:@"AppHomeURL: %@",urlString];
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:urlString];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 - (void)authenticate:(CDVInvokedUrlCommand*)command getCachedCredentials:(BOOL)getCachedCredentials
@@ -117,7 +117,7 @@
     SFOAuthFlowFailureCallbackBlock failureBlock = ^(SFOAuthInfo *authInfo, NSError *error) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
                                                       messageAsDictionary:[[self class] authErrorDictionaryFromError:error authInfo:authInfo]];
-        [self writeJavascript:[pluginResult toErrorCallbackString:callbackId]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     };
     
     SFHybridViewController *hybridVc = (SFHybridViewController *)self.viewController;
@@ -147,7 +147,7 @@
     [self log:SFLogLevelDebug msg:@"authenticationCompletion: Authentication flow succeeded. Initiating post-auth configuration."];
     // Call back to the client with the authentication credentials.
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:authDict];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 @end

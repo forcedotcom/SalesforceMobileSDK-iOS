@@ -107,7 +107,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
                               @"}))" ]
                             componentsJoinedByString:@""
                             ];
-            [self writeJavascript:js];
+            [self.commandDelegate evalJs:js];
         }
     });
 }

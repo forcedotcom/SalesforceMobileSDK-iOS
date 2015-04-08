@@ -79,7 +79,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         [userAccountArray addObject:[self dictionaryFromUserAccount:account]];
     }
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:userAccountArray];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 - (void)getCurrentUser:(CDVInvokedUrlCommand *)command
@@ -96,7 +96,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
                                         : [self dictionaryFromUserAccount:currentAccount]
                                         );
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:currentAccountDict];
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
 }
 
 - (void)switchToUser:(CDVInvokedUrlCommand *)command
@@ -150,7 +150,7 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
         [self log:SFLogLevelDebug format:@"logout: Logging out user account: %@", account];
         [[SFAuthenticationManager sharedManager] logoutUser:account];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
     }
 }
 
