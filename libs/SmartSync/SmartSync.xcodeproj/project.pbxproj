@@ -76,10 +76,6 @@
 		CE1F0B1619ACFA1A0007F22F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1419ACFA1A0007F22F /* libcrypto.a */; };
 		CE1F0B1719ACFA1A0007F22F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1519ACFA1A0007F22F /* libssl.a */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
-		CE3FE5831AD4891400E65B49 /* SmartSync-Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */; };
-		CE3FE5851AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */; };
-		CE3FE5871AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */; };
-		CE3FE5891AD489A900E65B49 /* SmartSync-Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */; };
 		CE617399196F469A00C63BDE /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
@@ -159,12 +155,12 @@
 		CE1F0B1419ACFA1A0007F22F /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libcrypto.a"; sourceTree = "<absolute>"; };
 		CE1F0B1519ACFA1A0007F22F /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libssl.a"; sourceTree = "<absolute>"; };
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
-		CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Test.xcconfig"; sourceTree = "<group>"; };
-		CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
-		CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Common.xcconfig"; sourceTree = "<group>"; };
 		CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncConstants.m; sourceTree = "<group>"; };
+		CE8F12FE1AD4A84C00233F2F /* SmartSync-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Common.xcconfig"; path = "Configuration/SmartSync-Common.xcconfig"; sourceTree = "<group>"; };
+		CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartSync-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Static-iOS-Release.xcconfig"; path = "Configuration/SmartSync-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Test.xcconfig"; path = "Configuration/SmartSync-Test.xcconfig"; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
@@ -255,10 +251,10 @@
 		CE3FE5811AD488F800E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				CE3FE5821AD4891400E65B49 /* SmartSync-Test.xcconfig */,
-				CE3FE5841AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig */,
-				CE3FE5861AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig */,
-				CE3FE5881AD489A900E65B49 /* SmartSync-Common.xcconfig */,
+				CE8F12FE1AD4A84C00233F2F /* SmartSync-Common.xcconfig */,
+				CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */,
+				CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */,
+				CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -535,12 +531,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE3FE5891AD489A900E65B49 /* SmartSync-Common.xcconfig in Resources */,
 				CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */,
 				CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */,
-				CE3FE5831AD4891400E65B49 /* SmartSync-Test.xcconfig in Resources */,
-				CE3FE5851AD4894B00E65B49 /* SmartSync-Static-iOS-Debug.xcconfig in Resources */,
-				CE3FE5871AD4897D00E65B49 /* SmartSync-Static-iOS-Release.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -707,21 +699,12 @@
 		};
 		CEAAAE69195911E600CBBFE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SmartSync.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -731,21 +714,12 @@
 		};
 		CEAAAE6A195911E600CBBFE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SmartSync.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -755,6 +729,7 @@
 		};
 		CEAAAE6C195911E600CBBFE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -767,19 +742,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -793,6 +756,7 @@
 		};
 		CEAAAE6D195911E600CBBFE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -801,19 +765,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
