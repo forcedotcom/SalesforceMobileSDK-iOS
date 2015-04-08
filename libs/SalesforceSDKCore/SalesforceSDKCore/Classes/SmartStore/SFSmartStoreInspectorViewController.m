@@ -29,7 +29,6 @@
 #import "SFSmartStoreInspectorViewController.h"
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
-#import "SFSmartStore.h"
 #import "SFQuerySpec.h"
 #import "SFJsonUtils.h"
 
@@ -57,6 +56,7 @@ static NSUInteger   const kLabelTag              = 99;
 
 @interface SFSmartStoreInspectorViewController () <UINavigationBarDelegate>
 
+@property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) UINavigationBar *navBar;
 @property (nonatomic, strong) UITextView *queryField;
 @property (nonatomic, strong) UITextField *pageSizeField;
@@ -73,43 +73,41 @@ static NSUInteger   const kLabelTag              = 99;
 
 @implementation SFSmartStoreInspectorViewController
 
-#pragma mark - Singleton
+#pragma mark - Constructor
 
-+ (SFSmartStoreInspectorViewController *) sharedInstance
+- (instancetype) initWithStore:(SFSmartStore*)store
 {
-    static SFSmartStoreInspectorViewController *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken,
-                  ^{
-                      sharedInstance = [[SFSmartStoreInspectorViewController alloc] init];
-                  });
-    return sharedInstance;
+    self = [super init];
+    if (self) {
+        self.store = store;
+    }
+    return self;
 }
 
 #pragma mark - Present / dimiss
 
-+ (void) present:(UIViewController*)currentViewController
+- (void) present:(UIViewController*)currentViewController
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SFSmartStoreInspectorViewController present:currentViewController];
+            [self present:currentViewController];
         });
         return;
     }
 
-    [currentViewController presentViewController:[SFSmartStoreInspectorViewController sharedInstance] animated:NO completion:nil];
+    [currentViewController presentViewController:self animated:NO completion:nil];
 }
 
-+ (void) dismiss
+- (void) dismiss
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [SFSmartStoreInspectorViewController dismiss];
+            [self dismiss];
         });
         return;
     }
 
-    [[[SFSmartStoreInspectorViewController sharedInstance] presentingViewController] dismissViewControllerAnimated:NO completion:nil];
+    [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - Results setter
@@ -131,7 +129,7 @@ static NSUInteger   const kLabelTag              = 99;
 
 - (void) backButtonClicked
 {
-    [SFSmartStoreInspectorViewController dismiss];
+    [self dismiss];
 }
 
 
