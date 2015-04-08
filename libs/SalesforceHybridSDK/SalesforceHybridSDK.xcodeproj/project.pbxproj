@@ -342,7 +342,7 @@
 		8251CA3816ED008200BD1EA2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		8251CA3A16ED009700BD1EA2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		8276EE051A7863360083F7EA /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		82A0C3E31A9A2D1000243931 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82A0C3E31A9A2D1000243931 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AF5A641A0D911D006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5A651A0D911D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5A691A0D911D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
@@ -392,6 +392,10 @@
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
+		CE8F13061AD4A87200233F2F /* SalesforceHybridSDK-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Common.xcconfig"; path = "Configuration/SalesforceHybridSDK-Common.xcconfig"; sourceTree = "<group>"; };
+		CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceHybridSDK-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Test.xcconfig"; path = "Configuration/SalesforceHybridSDK-Test.xcconfig"; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -654,6 +658,7 @@
 		82EFF2C716E7C57100A63CDF = {
 			isa = PBXGroup;
 			children = (
+				CE3FE5631AD4804200E65B49 /* Configuration */,
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* HybridPluginTestApp */,
 				822272A219C39F4500FC537E /* HybridPluginTestAppTests */,
@@ -865,6 +870,17 @@
 				82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */,
 			);
 			path = Plugins;
+			sourceTree = "<group>";
+		};
+		CE3FE5631AD4804200E65B49 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				CE8F13061AD4A87200233F2F /* SalesforceHybridSDK-Common.xcconfig */,
+				CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */,
+				CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */,
+				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1139,6 +1155,7 @@
 		};
 		822272AD19C39F4500FC537E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HybridPluginTestApp.app/HybridPluginTestApp";
 				CLANG_ENABLE_MODULES = YES;
@@ -1171,6 +1188,7 @@
 		};
 		822272AE19C39F4500FC537E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/HybridPluginTestApp.app/HybridPluginTestApp";
 				CLANG_ENABLE_MODULES = YES;
@@ -1222,18 +1240,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1256,18 +1263,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/cordova-ios/cordova-ios/CordovaLib/Classes/**",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1275,6 +1271,7 @@
 		};
 		82EFF2DF16E7C57100A63CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1289,6 +1286,7 @@
 		};
 		82EFF2E016E7C57100A63CDF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceHybridSDK.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1303,6 +1301,7 @@
 		};
 		82EFF33616E8049600A63CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1321,6 +1320,7 @@
 		};
 		82EFF33716E8049600A63CDF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

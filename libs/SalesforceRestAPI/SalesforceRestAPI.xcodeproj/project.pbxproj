@@ -150,6 +150,10 @@
 		82C0C7B216E089310006B3C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		82C0C7B416E089660006B3C0 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		82C0C7B616E089AB0006B3C0 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE8F13021AD4A86200233F2F /* SalesforceRestAPI-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Common.xcconfig"; path = "Configuration/SalesforceRestAPI-Common.xcconfig"; sourceTree = "<group>"; };
+		CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceRestAPI-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceRestAPI-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Test.xcconfig"; path = "Configuration/SalesforceRestAPI-Test.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +236,7 @@
 		82C0C72516E076DE0006B3C0 = {
 			isa = PBXGroup;
 			children = (
+				CE3FE5711AD486B600E65B49 /* Configuration */,
 				82C0C73316E076DE0006B3C0 /* SalesforceRestAPI */,
 				82C0C76216E07DEB0006B3C0 /* SalesforceRestAPIUnitTestApp */,
 				829A08861A323DDF00DC17A5 /* SalesforceRestAPITests */,
@@ -343,6 +348,17 @@
 				4FDA6D3A19DB78A7005AF96F /* SFRestRequest.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		CE3FE5711AD486B600E65B49 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				CE8F13021AD4A86200233F2F /* SalesforceRestAPI-Common.xcconfig */,
+				CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */,
+				CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */,
+				CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,6 +617,7 @@
 		};
 		829A088D1A323DDF00DC17A5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -633,6 +650,7 @@
 		};
 		829A088E1A323DDF00DC17A5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -684,17 +702,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-				);
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = NO;
@@ -718,17 +726,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(BUILT_PRODUCTS_DIR)/Headers",
-					"$(TARGET_BUILD_DIR)/Headers",
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl\"",
-				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -736,6 +734,7 @@
 		};
 		82C0C75416E076DF0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceRestAPI.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -751,6 +750,7 @@
 		};
 		82C0C75516E076DF0006B3C0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceRestAPI.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -766,6 +766,7 @@
 		};
 		82C0C77E16E07DEB0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -790,6 +791,7 @@
 		};
 		82C0C77F16E07DEB0006B3C0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
