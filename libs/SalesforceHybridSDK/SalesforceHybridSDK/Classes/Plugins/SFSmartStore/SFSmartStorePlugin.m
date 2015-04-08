@@ -86,7 +86,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         self.userCursorCache = [[NSMutableDictionary alloc] init];
         self.globalCursorCache = [[NSMutableDictionary alloc] init];
         self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
-        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalInspector];
+        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
     }
     return self;
 }
