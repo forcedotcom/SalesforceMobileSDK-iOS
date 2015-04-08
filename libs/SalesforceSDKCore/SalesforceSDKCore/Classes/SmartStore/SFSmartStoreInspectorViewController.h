@@ -32,7 +32,7 @@
 /**
  Show smart store inspector
  */
-+ (void) present;
++ (void) present:(UIViewController*) currentViewController;
 
 /**
  Hide smart store inspector

@@ -316,7 +316,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        [SFSmartStoreInspectorViewController present];
+        [SFSmartStoreInspectorViewController present:self.viewController];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
