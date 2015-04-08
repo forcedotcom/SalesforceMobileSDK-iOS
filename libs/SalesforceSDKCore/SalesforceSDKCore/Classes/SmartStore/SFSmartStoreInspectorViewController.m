@@ -88,14 +88,28 @@ static NSUInteger   const kLabelTag              = 99;
 
 #pragma mark - Present / dimiss
 
-+ (void) present
++ (void) present:(UIViewController*)currentViewController
 {
-    [[SFRootViewManager sharedManager] pushViewController:[SFSmartStoreInspectorViewController sharedInstance]];
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SFSmartStoreInspectorViewController present:currentViewController];
+        });
+        return;
+    }
+
+    [currentViewController presentViewController:[SFSmartStoreInspectorViewController sharedInstance] animated:NO completion:nil];
 }
 
 + (void) dismiss
 {
-    [[SFRootViewManager sharedManager] popViewController:[SFSmartStoreInspectorViewController sharedInstance]];
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SFSmartStoreInspectorViewController dismiss];
+        });
+        return;
+    }
+
+    [[[SFSmartStoreInspectorViewController sharedInstance] presentingViewController] dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - Results setter
