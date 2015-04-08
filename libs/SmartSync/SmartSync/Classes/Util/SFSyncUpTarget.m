@@ -117,7 +117,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     
     SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:self.modificationDateFieldName];
     [soqlBuilder from:objectType];
-    [soqlBuilder where:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, objectId]];
+    [soqlBuilder whereClause:[NSString stringWithFormat:@"%@ = '%@'", self.idFieldName, objectId]];
     NSString *query = [soqlBuilder build];
     
     SFRestFailBlock failBlock = ^(NSError *error) {

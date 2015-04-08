@@ -88,17 +88,17 @@ NSInteger const kMaxSOSLSearchLimit      = 200;
 	return query;
 }
 
-+ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where limit:(NSInteger)limit {
++ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject whereClause:(NSString *)whereClause limit:(NSInteger)limit {
 	return [self SOQLQueryWithFields:fields
 							 sObject:sObject
-							   where:where
+							   whereClause:whereClause
 							 groupBy:nil
 							  having:nil
 							 orderBy:nil
 							   limit:limit];
 }
 
-+ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject where:(NSString *)where groupBy:(NSArray *)groupBy having:(NSString *)having orderBy:(NSArray *)orderBy limit:(NSInteger)limit {
++ (NSString *)SOQLQueryWithFields:(NSArray *)fields sObject:(NSString *)sObject whereClause:(NSString *)whereClause groupBy:(NSArray *)groupBy having:(NSString *)having orderBy:(NSArray *)orderBy limit:(NSInteger)limit {
 	if( !fields || [fields count] == 0 )
 		return nil;
 
@@ -109,8 +109,8 @@ NSInteger const kMaxSOSLSearchLimit      = 200;
 							  [[[NSSet setWithArray:fields] allObjects] componentsJoinedByString:@","],
 							  sObject];
 
-	if( where && [where length] > 0 )
-		[query appendFormat:@" where %@", where];
+	if( whereClause && [whereClause length] > 0 )
+		[query appendFormat:@" where %@", whereClause];
 
 	if( groupBy && [groupBy count] > 0 ) {
 		[query appendFormat:@" group by %@", [groupBy componentsJoinedByString:@","]];

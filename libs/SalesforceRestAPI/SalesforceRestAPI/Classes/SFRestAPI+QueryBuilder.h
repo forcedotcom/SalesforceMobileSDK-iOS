@@ -33,7 +33,7 @@
  * NSString *soqlQuery = 
  * [SFRestAPI SOQLQueryWithFields:[NSArray arrayWithObjects:@"Id", @"Name", @"Company", @"Status", nil]
  *                             sObject:@"Lead"
- *                               where:nil
+ *                               whereClause:nil
  *                               limit:10];
  *   							   
  *   							   
@@ -99,7 +99,7 @@ extern NSInteger const kMaxSOSLSearchLimit;
  */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
                            sObject:(NSString *)sObject 
-                             where:(NSString *)where 
+                             whereClause:(NSString *)whereClause
                              limit:(NSInteger)limit;
 
 /**
@@ -114,7 +114,7 @@ extern NSInteger const kMaxSOSLSearchLimit;
  */
 + (NSString *) SOQLQueryWithFields:(NSArray *)fields 
                            sObject:(NSString *)sObject 
-                             where:(NSString *)where 
+                             whereClause:(NSString *)whereClause
                            groupBy:(NSArray *)groupBy 
                             having:(NSString *)having
                            orderBy:(NSArray *)orderBy 

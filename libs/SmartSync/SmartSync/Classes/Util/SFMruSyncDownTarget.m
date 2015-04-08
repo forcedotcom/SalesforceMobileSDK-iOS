@@ -94,7 +94,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
                                  componentsJoinedByString:@""];
         NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
                             from:self.objectType]
-                           where:inPredicate]
+                           whereClause:inPredicate]
                           build];
         
         
