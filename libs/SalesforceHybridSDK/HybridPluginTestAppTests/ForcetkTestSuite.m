@@ -35,10 +35,6 @@
 }
 
 
-- (void)testGetInfo {
-    [self runTest:@"testGetInfo"];
-}
-
 - (void)testComputeWebAppSdkAgentForUnrecognizedUserAgents {
     [self runTest:@"testComputeWebAppSdkAgentForUnrecognizedUserAgents"];
 }
