@@ -24,30 +24,14 @@
 
 #import <Foundation/Foundation.h>
 #import "SFForcePlugin.h"
+#import <SalesforceSDKCore/SFStoreCursor.h>
 
 /**
  String used with Cordova to uniquely identify this plugin
  */
 extern NSString * const kSmartStorePluginIdentifier;
 
-@class SFStoreCursor;
-@class SFSmartStore;
-
-@interface SFSmartStorePlugin : SFForcePlugin {
-
-    // the native stores used by this plugin
-    SFSmartStore *_store;
-    SFSmartStore *_globalStore;
-
-    // cache of cursors by cursorID and store
-    NSMutableDictionary *_userCursorCache;
-    NSMutableDictionary *_globalCursorCache;
-}
-
-@property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, readonly) SFSmartStore *globalStore;
-@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
-@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
+@interface SFSmartStorePlugin : SFForcePlugin
 
 /**
  Used for unit testing purposes only: allows the shared smart store instance to be reset.

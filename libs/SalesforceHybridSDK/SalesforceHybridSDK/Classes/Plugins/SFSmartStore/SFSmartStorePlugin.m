@@ -52,18 +52,16 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 @interface SFSmartStorePlugin() 
 
-- (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal;
-- (SFSmartStore *)getStoreInst:(NSDictionary *)args;
-- (BOOL)isGlobal:(NSDictionary *)args;
+@property (nonatomic, strong) SFSmartStoreInspectorViewController *inspector;
+@property (nonatomic, strong) SFSmartStoreInspectorViewController *globalInspector;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *globalStore;
+@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
+@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
 
 @end
 
 @implementation SFSmartStorePlugin
-
-@synthesize userCursorCache = _userCursorCache;
-@synthesize globalCursorCache = _globalCursorCache;
-@synthesize store = _store;
-@synthesize globalStore = _globalStore;
 
 - (void)resetSharedStore
 {
@@ -80,28 +78,24 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     return [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
 }
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
+- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
     self = [super initWithWebView:theWebView];
     if (nil != self)  {
         [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
-        _userCursorCache = [[NSMutableDictionary alloc] init];
-        _globalCursorCache = [[NSMutableDictionary alloc] init];
+        self.userCursorCache = [[NSMutableDictionary alloc] init];
+        self.globalCursorCache = [[NSMutableDictionary alloc] init];
+        self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
+        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
     }
     return self;
-}
-
-- (void) dealloc
-{
-    SFRelease(_store);
-    SFRelease(_globalStore);
 }
 
 #pragma mark - Object bridging helpers
 
 - (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal
 {
-    return (isGlobal ? _globalCursorCache[cursorId] : _userCursorCache[cursorId]);
+    return (isGlobal ? self.globalCursorCache[cursorId] : self.userCursorCache[cursorId]);
 }
 
 - (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal
@@ -316,7 +310,9 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        [SFSmartStoreInspectorViewController present:self.viewController];
+        BOOL isGlobal = [self isGlobal:argsDict];
+        SFSmartStoreInspectorViewController* inspector = isGlobal ? self.globalInspector : self.inspector;
+        [inspector present:self.viewController];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
