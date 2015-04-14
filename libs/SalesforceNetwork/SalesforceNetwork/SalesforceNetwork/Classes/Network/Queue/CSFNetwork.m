@@ -115,11 +115,7 @@ static NSMutableDictionary *SharedInstances = nil;
         self.queue = [NSOperationQueue new];
         [self.queue addObserver:self forKeyPath:@"operationCount" options:NSKeyValueObservingOptionNew context:kObservingKey];
         _online = YES;
-        
-        // Start the queue suspended, so we can unsuspend it when the user account object is set
-        self.queue.suspended = YES;
-        _networkSuspended = YES;
-        
+
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         self.ephemeralSession = [NSURLSession sessionWithConfiguration:configuration
                                                               delegate:self
@@ -218,17 +214,7 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
-        if (self.account == object) {
-            if ([keyPath isEqualToString:@"communityId"]) {
-                self.defaultConnectCommunityId = self.account.communityId;
-            } else if (self.account.credentials.accessToken && self.account.credentials.instanceUrl) {
-                self.networkSuspended = NO;
-                self.credentialsReady = YES;
-            } else {
-                self.networkSuspended = YES;
-                self.credentialsReady = NO;
-            }
-        } else if (self.queue == object && [keyPath isEqualToString:@"operationCount"]) {
+        if (self.queue == object && [keyPath isEqualToString:@"operationCount"]) {
             self.actionCount = self.queue.operationCount;
         }
     } else {

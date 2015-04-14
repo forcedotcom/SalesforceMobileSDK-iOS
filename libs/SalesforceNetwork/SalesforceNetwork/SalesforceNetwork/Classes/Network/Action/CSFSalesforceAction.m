@@ -209,6 +209,16 @@ static void * kObservingKey = &kObservingKey;
     if (context == kObservingKey) {
         [self willChangeValueForKey:@"ready"];
         [self didChangeValueForKey:@"ready"];
+        if ([keyPath isEqualToString:@"communityId"]) {
+            self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
+        } else if (self.enqueuedNetwork.account.credentials.accessToken
+                   && self.enqueuedNetwork.account.credentials.instanceUrl) {
+            self.enqueuedNetwork.networkSuspended = NO;
+            self.enqueuedNetwork.credentialsReady = YES;
+        } else {
+            self.enqueuedNetwork.networkSuspended = YES;
+            self.enqueuedNetwork.credentialsReady = NO;
+        }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
