@@ -44,8 +44,28 @@ static void * kObservingKey = &kObservingKey;
         _apiVersion = CSFSalesforceDefaultAPIVersion;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
+        CSFNetwork *network = self.enqueuedNetwork;
+        [network addObserver:self forKeyPath:@"credentials.accessToken"
+                      options:(NSKeyValueObservingOptionInitial |
+                               NSKeyValueObservingOptionNew)
+                      context:kObservingKey];
+        [network addObserver:self forKeyPath:@"credentials.instanceUrl"
+                      options:(NSKeyValueObservingOptionInitial |
+                               NSKeyValueObservingOptionNew)
+                      context:kObservingKey];
+        [network addObserver:self forKeyPath:@"communityId"
+                      options:(NSKeyValueObservingOptionInitial |
+                               NSKeyValueObservingOptionNew)
+                      context:kObservingKey];
     }
     return self;
+}
+
+- (void)dealloc {
+    CSFNetwork *network = self.enqueuedNetwork;
+    [network removeObserver:self forKeyPath:@"credentials.accessToken" context:kObservingKey];
+    [network removeObserver:self forKeyPath:@"credentials.instanceUrl" context:kObservingKey];
+    [network removeObserver:self forKeyPath:@"communityId" context:kObservingKey];
 }
 
 - (NSDictionary *)headersForAction {
@@ -65,24 +85,6 @@ static void * kObservingKey = &kObservingKey;
     }
     
     return httpHeaders;
-}
-
-- (void)setEnqueuedNetwork:(CSFNetwork *)enqueuedNetwork {
-    CSFNetwork *oldNetwork = _enqueuedNetwork;
-    
-    if (oldNetwork != enqueuedNetwork && oldNetwork) {
-        [oldNetwork removeObserver:self forKeyPath:@"credentialsReady" context:kObservingKey];
-    }
-    
-    [super setEnqueuedNetwork:enqueuedNetwork];
-    
-    if (enqueuedNetwork) {
-        [enqueuedNetwork addObserver:self
-                          forKeyPath:@"credentialsReady"
-                             options:(NSKeyValueObservingOptionInitial |
-                                      NSKeyValueObservingOptionNew)
-                             context:kObservingKey];
-    }
 }
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
@@ -209,15 +211,17 @@ static void * kObservingKey = &kObservingKey;
     if (context == kObservingKey) {
         [self willChangeValueForKey:@"ready"];
         [self didChangeValueForKey:@"ready"];
-        if ([keyPath isEqualToString:@"communityId"]) {
-            self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
-        } else if (self.enqueuedNetwork.account.credentials.accessToken
-                   && self.enqueuedNetwork.account.credentials.instanceUrl) {
-            self.enqueuedNetwork.networkSuspended = NO;
-            self.enqueuedNetwork.credentialsReady = YES;
-        } else {
-            self.enqueuedNetwork.networkSuspended = YES;
-            self.enqueuedNetwork.credentialsReady = NO;
+        if ([self requiresAuthentication] && (self.enqueuedNetwork.account == object)) {
+            if ([keyPath isEqualToString:@"communityId"]) {
+                self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
+            } else if (self.enqueuedNetwork.account.credentials.accessToken
+                       && self.enqueuedNetwork.account.credentials.instanceUrl) {
+                self.enqueuedNetwork.networkSuspended = NO;
+                self.credentialsReady = YES;
+            } else {
+                self.enqueuedNetwork.networkSuspended = YES;
+                self.credentialsReady = NO;
+            }
         }
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];

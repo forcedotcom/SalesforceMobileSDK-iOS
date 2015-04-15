@@ -65,6 +65,7 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance;
+@property (nonatomic) BOOL credentialsReady;
 
 + (NSURL*)urlForAction:(CSFAction*)action error:(NSError**)error;
 + (NSError *)errorInResponseDataForAction:(CSFAction*)action;

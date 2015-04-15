@@ -171,37 +171,7 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (void)setAccount:(SFUserAccount *)account {
     if (_account != account) {
-        if (_account) {
-            [_account removeObserver:self
-                          forKeyPath:@"credentials.accessToken"
-                             context:kObservingKey];
-            [_account removeObserver:self
-                          forKeyPath:@"credentials.instanceUrl"
-                             context:kObservingKey];
-            [_account removeObserver:self
-                          forKeyPath:@"communityId"
-                             context:kObservingKey];
-        }
-        
         _account = account;
-        
-        if (_account) {
-            [_account addObserver:self
-                       forKeyPath:@"credentials.accessToken"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-            [_account addObserver:self
-                       forKeyPath:@"credentials.instanceUrl"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-            [_account addObserver:self
-                       forKeyPath:@"communityId"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-        }
     }
 }
 
