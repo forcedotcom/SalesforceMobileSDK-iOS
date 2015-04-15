@@ -141,11 +141,6 @@ static NSMutableDictionary *SharedInstances = nil;
 												   object:nil];
         #endif
         
-		[notificationCenter addObserver:self
-												 selector:@selector(authManagerDidLogout:)
-													 name:kSFUserLogoutNotification
-												   object:nil];
-        
         [notificationCenter addObserver:self
 												 selector:@selector(userAccountManagerDidChangeCurrentUser:)
 													 name:SFUserAccountManagerDidChangeCurrentUserNotification
@@ -366,9 +361,6 @@ static NSMutableDictionary *SharedInstances = nil;
         }
     }
 }
-
-#pragma mark - SFAuthenticationManagerDelegate
-
 
 #pragma mark - Device Authorization support
 
