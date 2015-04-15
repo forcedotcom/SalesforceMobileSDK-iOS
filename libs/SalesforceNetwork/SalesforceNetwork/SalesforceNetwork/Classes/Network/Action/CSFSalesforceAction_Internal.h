@@ -24,11 +24,13 @@
 
 #import "CSFSalesforceAction.h"
 #import "CSFAction+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 CSF_EXTERN NSString * const CSFAuthorizationHeaderValueFormat;
 CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
 
-@interface CSFSalesforceAction ()
+@interface CSFSalesforceAction() <SFUserAccountManagerDelegate> {
+}
 
 @property (nonatomic, readwrite) BOOL requiresSecurityToken;
 @property (nonatomic, readwrite) BOOL returnsSecurityToken;

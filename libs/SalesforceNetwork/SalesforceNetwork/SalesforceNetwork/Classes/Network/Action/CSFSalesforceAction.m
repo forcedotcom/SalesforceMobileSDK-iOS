@@ -26,7 +26,6 @@
 #import "CSFNetwork+Internal.h"
 #import "CSFInternalDefines.h"
 #import "CSFSalesforceOAuthRefresh.h"
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
@@ -34,11 +33,6 @@ NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
 NSString * const CSFSalesforceDefaultAPIVersion = @"v33.0";
 
 static void * kObservingKey = &kObservingKey;
-
-@interface CSFNetwork() <SFUserAccountManagerDelegate> {
-}
-
-@end
 
 @implementation CSFSalesforceAction
 
@@ -50,15 +44,15 @@ static void * kObservingKey = &kObservingKey;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
         CSFNetwork *network = self.enqueuedNetwork;
-        [network addObserver:self forKeyPath:@"credentials.accessToken"
+        [network addObserver:self forKeyPath:@"account.credentials.accessToken"
                       options:(NSKeyValueObservingOptionInitial |
                                NSKeyValueObservingOptionNew)
                       context:kObservingKey];
-        [network addObserver:self forKeyPath:@"credentials.instanceUrl"
+        [network addObserver:self forKeyPath:@"account.credentials.instanceUrl"
                       options:(NSKeyValueObservingOptionInitial |
                                NSKeyValueObservingOptionNew)
                       context:kObservingKey];
-        [network addObserver:self forKeyPath:@"communityId"
+        [network addObserver:self forKeyPath:@"account.communityId"
                       options:(NSKeyValueObservingOptionInitial |
                                NSKeyValueObservingOptionNew)
                       context:kObservingKey];
@@ -73,9 +67,9 @@ static void * kObservingKey = &kObservingKey;
 
 - (void)dealloc {
     CSFNetwork *network = self.enqueuedNetwork;
-    [network removeObserver:self forKeyPath:@"credentials.accessToken" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"credentials.instanceUrl" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"communityId" context:kObservingKey];
+    [network removeObserver:self forKeyPath:@"account.credentials.accessToken" context:kObservingKey];
+    [network removeObserver:self forKeyPath:@"account.credentials.instanceUrl" context:kObservingKey];
+    [network removeObserver:self forKeyPath:@"account.communityId" context:kObservingKey];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
