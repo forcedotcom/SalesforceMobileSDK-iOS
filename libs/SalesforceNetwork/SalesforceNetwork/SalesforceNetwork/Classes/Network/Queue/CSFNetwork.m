@@ -136,12 +136,6 @@ static NSMutableDictionary *SharedInstances = nil;
 													 name:UIApplicationDidBecomeActiveNotification
 												   object:nil];
         #endif
-        
-		[notificationCenter addObserver:self
-												 selector:@selector(authManagerDidLogout:)
-													 name:kSFUserLogoutNotification
-												   object:nil];
-        
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
     }
     return self;
@@ -298,9 +292,6 @@ static NSMutableDictionary *SharedInstances = nil;
     CSFAction *action = [self actionForSessionTask:downloadTask];
     [action sessionDownloadTask:downloadTask didFinishDownloadingToURL:location];
 }
-
-#pragma mark - SFAuthenticationManagerDelegate
-
 
 #pragma mark - Device Authorization support
 
