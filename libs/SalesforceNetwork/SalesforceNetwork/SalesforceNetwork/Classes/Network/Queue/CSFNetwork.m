@@ -53,7 +53,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate> {
+@interface CSFNetwork() <SFAuthenticationManagerDelegate> {
     //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
     NSString *_defaultConnectCommunityId;
     UIAlertView *_deviceUnauthorizedAlert;
@@ -142,11 +142,6 @@ static NSMutableDictionary *SharedInstances = nil;
 													 name:kSFUserLogoutNotification
 												   object:nil];
         
-        [notificationCenter addObserver:self
-												 selector:@selector(userAccountManagerDidChangeCurrentUser:)
-													 name:SFUserAccountManagerDidChangeCurrentUserNotification
-												   object:nil];
-        
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
     }
     return self;
@@ -163,7 +158,6 @@ static NSMutableDictionary *SharedInstances = nil;
 - (void)dealloc {
     [self.queue removeObserver:self forKeyPath:@"operationCount" context:kObservingKey];
     [self.queue cancelAllOperations];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
     [self cleanupDeviceUnauthorizedAlert];
@@ -303,24 +297,6 @@ static NSMutableDictionary *SharedInstances = nil;
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     CSFAction *action = [self actionForSessionTask:downloadTask];
     [action sessionDownloadTask:downloadTask didFinishDownloadingToURL:location];
-}
-
-#pragma mark SFAuthenticationManagerDelegate
-
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (accountManager.currentUserIdentity.userId != self.account.credentials.userId) {
-            self.networkSuspended = YES;
-        } else {
-            [self resetSession];
-            self.networkSuspended = NO;
-        }
-        
-        if (accountManager.currentCommunityId != self.defaultConnectCommunityId) {
-            self.defaultConnectCommunityId = accountManager.currentCommunityId;
-        }
-    }
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

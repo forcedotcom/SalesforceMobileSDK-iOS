@@ -35,6 +35,11 @@ NSString * const CSFSalesforceDefaultAPIVersion = @"v33.0";
 
 static void * kObservingKey = &kObservingKey;
 
+@interface CSFNetwork() <SFUserAccountManagerDelegate> {
+}
+
+@end
+
 @implementation CSFSalesforceAction
 
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock {
@@ -57,6 +62,11 @@ static void * kObservingKey = &kObservingKey;
                       options:(NSKeyValueObservingOptionInitial |
                                NSKeyValueObservingOptionNew)
                       context:kObservingKey];
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:self
+                               selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                               name:SFUserAccountManagerDidChangeCurrentUserNotification
+                               object:nil];
     }
     return self;
 }
@@ -66,6 +76,7 @@ static void * kObservingKey = &kObservingKey;
     [network removeObserver:self forKeyPath:@"credentials.accessToken" context:kObservingKey];
     [network removeObserver:self forKeyPath:@"credentials.instanceUrl" context:kObservingKey];
     [network removeObserver:self forKeyPath:@"communityId" context:kObservingKey];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (NSDictionary *)headersForAction {
@@ -246,6 +257,23 @@ static void * kObservingKey = &kObservingKey;
     }
     
     return YES;
+}
+
+#pragma mark SFAuthenticationManagerDelegate
+
+- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+        if (accountManager.currentUserIdentity.userId != self.enqueuedNetwork.account.credentials.userId) {
+            self.enqueuedNetwork.networkSuspended = YES;
+        } else {
+            [self.enqueuedNetwork resetSession];
+            self.enqueuedNetwork.networkSuspended = NO;
+        }
+        if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
+            self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
+        }
+    }
 }
 
 @end
