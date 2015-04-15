@@ -82,9 +82,7 @@
         if (currentViewController != nil) {
             if (currentViewController != viewController) {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
-                __block BOOL presentCompleted = NO;
-                [currentViewController presentViewController:viewController animated:NO completion:^{ presentCompleted = YES; }];
-                [weakSelf waitForPresentCompletion:&presentCompleted];
+                [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
             }
@@ -94,11 +92,7 @@
         }
     };
     
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), pushControllerBlock);
-    } else {
-        pushControllerBlock();
-    }
+    dispatch_async(dispatch_get_main_queue(), pushControllerBlock);
 }
 
 - (void)popViewController:(UIViewController *)viewController
@@ -118,25 +112,12 @@
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
-                __block BOOL dismissCompleted = NO;
-                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{ dismissCompleted = YES; }];
-                [weakSelf waitForPresentCompletion:&dismissCompleted];
+                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:NULL];
             }
         }
     };
     
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), popControllerBlock);
-    } else {
-        popControllerBlock();
-    }
-}
-
-- (void)waitForPresentCompletion:(BOOL *)completionVar
-{
-    while (*completionVar == NO) {
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    }
+    dispatch_async(dispatch_get_main_queue(), popControllerBlock);
 }
 
 @end
