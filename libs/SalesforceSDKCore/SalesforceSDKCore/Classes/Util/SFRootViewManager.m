@@ -129,7 +129,6 @@
     dispatch_async(dispatch_get_main_queue(), popControllerBlock);
 }
 
-
 #pragma mark - Private
 
 - (void)saveCurrentKeyWindow
