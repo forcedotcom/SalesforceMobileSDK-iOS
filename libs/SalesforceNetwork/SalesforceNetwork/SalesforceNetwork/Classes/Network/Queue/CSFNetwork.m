@@ -30,10 +30,6 @@
 
 #import "CSFInternalDefines.h"
 
-#import "CSFOAuthTokenRefreshInput.h"
-#import "CSFOAuthTokenRefreshOutput.h"
-#import "CSFAuthRefresh.h"
-
 // Value transformers used by model objects
 #import "CSFDateValueTransformer.h"
 #import "CSFURLValueTransformer.h"
@@ -53,10 +49,9 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() <SFAuthenticationManagerDelegate> {
+@interface CSFNetwork() {
     //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
     NSString *_defaultConnectCommunityId;
-    UIAlertView *_deviceUnauthorizedAlert;
 }
 
 // This cache holds all the actions that have a limit per session
@@ -125,10 +120,6 @@ static NSMutableDictionary *SharedInstances = nil;
         
         self.actionQueue = dispatch_queue_create("com.salesforce.network.action", DISPATCH_QUEUE_SERIAL);
         
-        // Register as delegate of the account manager to get updated when the credentials change
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[SFUserAccountManager sharedInstance] addDelegate:self];
-
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         #ifdef SFPlatformiOS
 		[notificationCenter addObserver:self
@@ -153,8 +144,6 @@ static NSMutableDictionary *SharedInstances = nil;
     [self.queue removeObserver:self forKeyPath:@"operationCount" context:kObservingKey];
     [self.queue cancelAllOperations];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    [self cleanupDeviceUnauthorizedAlert];
 }
 
 - (void)setAccount:(SFUserAccount *)account {
@@ -300,32 +289,6 @@ static NSMutableDictionary *SharedInstances = nil;
 //       This way we don't ahve to reference UIKit from the network stack, and the consumer
 //       is capable of handling the unauthorized response.
 - (void)receivedDevicedUnauthorizedError:(CSFAction *)action {
-}
-
-- (void)cleanupDeviceUnauthorizedAlert {
-	if (nil != _deviceUnauthorizedAlert) {
-		[_deviceUnauthorizedAlert dismissWithClickedButtonIndex:-1 animated:NO];
-	}
-	_deviceUnauthorizedAlert = nil;
-}
-
-- (void)applicationDidBecomeActive:(NSNotification* )note {
-	if (nil != _deviceUnauthorizedAlert) {
-        //all auth info should now be reset and oauth login should be shown
-        [self cleanupDeviceUnauthorizedAlert];
-	}
-}
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (alertView == _deviceUnauthorizedAlert) {
-		_deviceUnauthorizedAlert = nil;
-        SFAuthenticationManager *manager = [SFAuthenticationManager sharedManager];
-        [manager logout];
-        [manager loginWithCompletion:nil failure:nil];
-	}
 }
 
 @end

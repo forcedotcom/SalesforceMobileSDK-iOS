@@ -258,7 +258,7 @@ static void * kObservingKey = &kObservingKey;
 - (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
     SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
     if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (accountManager.currentUserIdentity.userId != self.enqueuedNetwork.account.credentials.userId) {
+        if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
             self.enqueuedNetwork.networkSuspended = YES;
         } else {
             [self.enqueuedNetwork resetSession];
