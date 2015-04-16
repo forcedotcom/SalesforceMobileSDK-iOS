@@ -824,6 +824,7 @@
 				8220B74916D804CA00EC3921 /* Frameworks */,
 				82BBB56817909AFC00374DD8 /* Headers */,
 				827DD5141A83056000519F03 /* ShellScript */,
+				825BE4811AE025500048E6DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -940,6 +941,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSDKCore/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
+		825BE4811AE025500048E6DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkcore";
 		};
 		827DD5141A83056000519F03 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

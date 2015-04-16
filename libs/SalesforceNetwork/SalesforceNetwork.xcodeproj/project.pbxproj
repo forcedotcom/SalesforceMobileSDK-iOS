@@ -647,6 +647,7 @@
 				827DD3D81A7BF55F00519F03 /* CopyFiles */,
 				827DD4C01A7C050400519F03 /* Headers */,
 				8253495C1A8C1B7A0019FE0B /* ShellScript */,
+				825BE47B1AE023150048E6DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -716,6 +717,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$PRODUCT_NAME.h\"";
+		};
+		825BE47B1AE023150048E6DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s networksdk";
 		};
 /* End PBXShellScriptBuildPhase section */
 

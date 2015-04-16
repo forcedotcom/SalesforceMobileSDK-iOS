@@ -320,6 +320,7 @@
 				820AB72118E230EC00E25E1D /* Frameworks */,
 				82AA403018E398AF00BD34D8 /* Headers */,
 				827DD5151A83060D00519F03 /* ShellScript */,
+				825BE4821AE025660048E6DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -400,6 +401,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSecurity/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
+		825BE4821AE025660048E6DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s salesforcesecurity";
 		};
 		827DD5151A83060D00519F03 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

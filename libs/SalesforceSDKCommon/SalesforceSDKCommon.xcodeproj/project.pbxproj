@@ -194,6 +194,7 @@
 				82D53D2F1A3618CD00E46F8F /* CopyFiles */,
 				82D53D4F1A36242B00E46F8F /* Headers */,
 				827DD5171A83066B00519F03 /* ShellScript */,
+				825BE4841AE025910048E6DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -272,6 +273,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		825BE4841AE025910048E6DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s salesforcesdkcommon";
+		};
 		8276EE041A7853D30083F7EA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
