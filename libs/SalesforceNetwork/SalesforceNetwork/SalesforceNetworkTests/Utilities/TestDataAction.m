@@ -57,7 +57,6 @@
     CSFNetwork *network = OCMClassMock([CSFNetwork class]);
     OCMStub([network userAgent]).andReturn(@"MyClient");
     OCMStub([network ephemeralSession]).andReturn(session);
-    OCMStub([network areCredentialsReady]).andReturn(YES);
     OCMStub([network account]).andReturn(account);
     OCMStub([network setSecurityToken:[OCMArg isKindOfClass:[NSString class]]]);
     return network;

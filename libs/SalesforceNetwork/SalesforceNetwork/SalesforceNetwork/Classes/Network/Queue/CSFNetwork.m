@@ -30,10 +30,6 @@
 
 #import "CSFInternalDefines.h"
 
-#import "CSFOAuthTokenRefreshInput.h"
-#import "CSFOAuthTokenRefreshOutput.h"
-#import "CSFAuthRefresh.h"
-
 // Value transformers used by model objects
 #import "CSFDateValueTransformer.h"
 #import "CSFURLValueTransformer.h"
@@ -53,10 +49,9 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate> {
+@interface CSFNetwork() {
     //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
     NSString *_defaultConnectCommunityId;
-    UIAlertView *_deviceUnauthorizedAlert;
 }
 
 // This cache holds all the actions that have a limit per session
@@ -115,11 +110,7 @@ static NSMutableDictionary *SharedInstances = nil;
         self.queue = [NSOperationQueue new];
         [self.queue addObserver:self forKeyPath:@"operationCount" options:NSKeyValueObservingOptionNew context:kObservingKey];
         _online = YES;
-        
-        // Start the queue suspended, so we can unsuspend it when the user account object is set
-        self.queue.suspended = YES;
-        _networkSuspended = YES;
-        
+
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         self.ephemeralSession = [NSURLSession sessionWithConfiguration:configuration
                                                               delegate:self
@@ -129,10 +120,6 @@ static NSMutableDictionary *SharedInstances = nil;
         
         self.actionQueue = dispatch_queue_create("com.salesforce.network.action", DISPATCH_QUEUE_SERIAL);
         
-        // Register as delegate of the account manager to get updated when the credentials change
-        [[SFAuthenticationManager sharedManager] addDelegate:self];
-        [[SFUserAccountManager sharedInstance] addDelegate:self];
-
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         #ifdef SFPlatformiOS
 		[notificationCenter addObserver:self
@@ -140,12 +127,6 @@ static NSMutableDictionary *SharedInstances = nil;
 													 name:UIApplicationDidBecomeActiveNotification
 												   object:nil];
         #endif
-        
-        [notificationCenter addObserver:self
-												 selector:@selector(userAccountManagerDidChangeCurrentUser:)
-													 name:SFUserAccountManagerDidChangeCurrentUserNotification
-												   object:nil];
-        
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
     }
     return self;
@@ -162,45 +143,12 @@ static NSMutableDictionary *SharedInstances = nil;
 - (void)dealloc {
     [self.queue removeObserver:self forKeyPath:@"operationCount" context:kObservingKey];
     [self.queue cancelAllOperations];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[SFAuthenticationManager sharedManager] removeDelegate:self];
-    [self cleanupDeviceUnauthorizedAlert];
 }
 
 - (void)setAccount:(SFUserAccount *)account {
     if (_account != account) {
-        if (_account) {
-            [_account removeObserver:self
-                          forKeyPath:@"credentials.accessToken"
-                             context:kObservingKey];
-            [_account removeObserver:self
-                          forKeyPath:@"credentials.instanceUrl"
-                             context:kObservingKey];
-            [_account removeObserver:self
-                          forKeyPath:@"communityId"
-                             context:kObservingKey];
-        }
-        
         _account = account;
-        
-        if (_account) {
-            [_account addObserver:self
-                       forKeyPath:@"credentials.accessToken"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-            [_account addObserver:self
-                       forKeyPath:@"credentials.instanceUrl"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-            [_account addObserver:self
-                       forKeyPath:@"communityId"
-                          options:(NSKeyValueObservingOptionInitial |
-                                   NSKeyValueObservingOptionNew)
-                          context:kObservingKey];
-        }
     }
 }
 
@@ -213,17 +161,7 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
-        if (self.account == object) {
-            if ([keyPath isEqualToString:@"communityId"]) {
-                self.defaultConnectCommunityId = self.account.communityId;
-            } else if (self.account.credentials.accessToken && self.account.credentials.instanceUrl) {
-                self.networkSuspended = NO;
-                self.credentialsReady = YES;
-            } else {
-                self.networkSuspended = YES;
-                self.credentialsReady = NO;
-            }
-        } else if (self.queue == object && [keyPath isEqualToString:@"operationCount"]) {
+        if (self.queue == object && [keyPath isEqualToString:@"operationCount"]) {
             self.actionCount = self.queue.operationCount;
         }
     } else {
@@ -344,24 +282,6 @@ static NSMutableDictionary *SharedInstances = nil;
     [action sessionDownloadTask:downloadTask didFinishDownloadingToURL:location];
 }
 
-#pragma mark SFAuthenticationManagerDelegate
-
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (accountManager.currentUserIdentity.userId != self.account.credentials.userId) {
-            self.networkSuspended = YES;
-        } else {
-            [self resetSession];
-            self.networkSuspended = NO;
-        }
-        
-        if (accountManager.currentCommunityId != self.defaultConnectCommunityId) {
-            self.defaultConnectCommunityId = accountManager.currentCommunityId;
-        }
-    }
-}
-
 #pragma mark - Device Authorization support
 
 // TODO: This should probably be relocated to the CSFSalesforceAction logic, and cleaned up
@@ -369,32 +289,6 @@ static NSMutableDictionary *SharedInstances = nil;
 //       This way we don't ahve to reference UIKit from the network stack, and the consumer
 //       is capable of handling the unauthorized response.
 - (void)receivedDevicedUnauthorizedError:(CSFAction *)action {
-}
-
-- (void)cleanupDeviceUnauthorizedAlert {
-	if (nil != _deviceUnauthorizedAlert) {
-		[_deviceUnauthorizedAlert dismissWithClickedButtonIndex:-1 animated:NO];
-	}
-	_deviceUnauthorizedAlert = nil;
-}
-
-- (void)applicationDidBecomeActive:(NSNotification* )note {
-	if (nil != _deviceUnauthorizedAlert) {
-        //all auth info should now be reset and oauth login should be shown
-        [self cleanupDeviceUnauthorizedAlert];
-	}
-}
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (alertView == _deviceUnauthorizedAlert) {
-		_deviceUnauthorizedAlert = nil;
-        SFAuthenticationManager *manager = [SFAuthenticationManager sharedManager];
-        [manager logout];
-        [manager loginWithCompletion:nil failure:nil];
-	}
 }
 
 @end

@@ -157,7 +157,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         _method = @"GET";
         _authRefreshClass = [CSFTokenRefresh class];
         _requiresAuthentication = YES;
-
+        self.credentialsReady = YES;
         self.responseBlock = responseBlock;
     }
     return self;
@@ -403,8 +403,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     
     if (self.duplicateParentAction) {
         result = [self.duplicateParentAction isFinished];
-    } else if (![self.enqueuedNetwork areCredentialsReady]) {
-        // TODO: credentialsReady is a construct that likely needs to be refactored down to the action.
+    } else if (!self.credentialsReady) {
         result = NO;
     } else {
         if ([self.authRefreshClass isSubclassOfClass:[CSFAuthRefresh class]]) {
