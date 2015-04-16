@@ -18,6 +18,7 @@ Pod::Spec.new do |s|
 
   s.prepare_command = <<-CMD
       sed -i -e 's/#import \\"Categories\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
+      sed -i -e 's/#import \\"Reachability\\//#import \\"/g' external/MKNetworkKit/MKNetworkKit/MKNetworkKit.h
   CMD
 
   s.subspec 'SalesforceCommonUtils' do |commonutils|
