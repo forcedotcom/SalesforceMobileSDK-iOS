@@ -258,62 +258,96 @@ function disclosure_triangle(elt) {
 <td id="bodyContents" valign="top">
 <a name="top"></a>
 <h1><a name="SFSyncTarget.h">SFSyncTarget.h</a></h1>
-<div class="spec_sheet_info_box"><table cellspacing="0" class="specbox"><tr>
-<td scope="row"><b>Includes:</b></td>
-<td><div style="margin-bottom:1px"><div class="content_text">
-<!-- a logicalPath="//apple_ref/doc/header/Foundation.h" machineGenerated="true" -->&lt;Foundation/Foundation.h&gt;<!-- /a -->
-</div></div></td>
-</tr></table></div>
 <h2>Introduction</h2>
 <p><!-- headerDoc=abstract;uid=//apple_ref/doc/header/SFSyncTarget.h;name=start --><!-- begin abstract -->Use the links in the table of contents to the left to access the documentation.<br><!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/doc/header/SFSyncTarget.h;name=end --></p>
 <hr class="afterClassOrHeaderInfo">
-<br><a name="HeaderDoc_methods"></a>
-<h2 class="h2tight">Methods</h2>
+<br><a name="HeaderDoc_functions"></a>
+<h2 class="h2tight">Functions</h2>
 <dl>
-<dt><tt><a href="index.html#//apple_ref/c/func/newFromDict:" target="_top">+newFromDict:</a></tt></dt>
+<dt><tt><a href="index.html#//apple_ref/c/func/property" target="_top">property(nonatomic,  copy)</a></tt></dt>
 <dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/newSyncTargetForSOQLSyncDown:" target="_top">+newSyncTargetForSOQLSyncDown:</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/queryTypeFromString:" target="_top">+queryTypeFromString:</a></tt></dt>
+<dt><tt><a href="index.html#//apple_ref/c/func/property_DONTLINK_1" target="_top">property(nonatomic,  copy)</a></tt></dt>
 <dd></dd>
 </dl>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/newFromDict:;   name=newFromDict: --><a name="//apple_ref/c/func/newFromDict:"></a>
-<h3><a name="newFromDict:">newFromDict:</a></h3>
+<!-- headerDoc=func;  uid=//apple_ref/c/func/property;   name=property --><a name="//apple_ref/c/func/property"></a>
+<h3><a name="property(nonatomic,copy)">property(nonatomic,  copy)</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/newFromDict:;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/SFSyncTarget //apple_ref/c/tdef/SFSyncTarget //apple_ref/c/tag/SFSyncTarget //apple_ref/c/struct/SFSyncTarget //apple_ref/c/intf/SFSyncTarget //apple_ref/doc/anysymbol/SFSyncTarget" machineGenerated="true" --><span class="type">SFSyncTarget</span><!-- /a --><span class="type">*</span>) <!-- a logicalPath="//apple_ref/c/instm/newFromDict //apple_ref/c/clm/newFromDict //apple_ref/c/intfcm/newFromDict //apple_ref/c/intfm/newFromDict //apple_ref/c/func/newFromDict //apple_ref/c/ftmplt/newFromDict //apple_ref/c/defn/newFromDict //apple_ref/c/macro/newFromDict //apple_ref/doc/anysymbol/newFromDict" machineGenerated="true" --><span class="function">newFromDict</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/intf/NSDictionary //apple_ref/doc/anysymbol/NSDictionary" machineGenerated="true" --><span class="type">NSDictionary</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/dict //apple_ref/c/data/dict //apple_ref/c/clconst/dict " machineGenerated="true" --><span class="var">dict</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/newFromDict:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/property;name=start -->@<a machinegenerated="true" logicalpath="//apple_ref/c/instm/property //apple_ref/c/clm/property //apple_ref/c/intfcm/property //apple_ref/c/intfm/property //apple_ref/c/func/property" target="_top" href="index.html#//apple_ref/c/func/property"><span class="function">property</span></a> (
+    <span class="param">nonatomic</span>,
+    <span class="param">copy</span>) <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><!-- a logicalPath="//apple_ref/c/econst/idFieldName //apple_ref/c/data/idFieldName //apple_ref/c/clconst/idFieldName " machineGenerated="true" --><span class="var">idFieldName</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/property;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/newFromDict:;name=start --><p>Methods to translate to/from dictionary
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/newFromDict:;name=end --><!-- end discussion -->
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/property;name=start --><p>The field name of the ID field of the record.  Defaults to "Id".
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/property;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/newSyncTargetForSOQLSyncDown:;   name=newSyncTargetForSOQLSyncDown: --><a name="//apple_ref/c/func/newSyncTargetForSOQLSyncDown:"></a>
-<h3><a name="newSyncTargetForSOQLSyncDown:">newSyncTargetForSOQLSyncDown:</a></h3>
+<!-- headerDoc=func;  uid=//apple_ref/c/func/property_DONTLINK_1;   name=property --><a name="//apple_ref/c/func/property_DONTLINK_1"></a>
+<h3><a name="property(nonatomic,copy)">property(nonatomic,  copy)</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/newSyncTargetForSOQLSyncDown:;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/SFSyncTarget //apple_ref/c/tdef/SFSyncTarget //apple_ref/c/tag/SFSyncTarget //apple_ref/c/struct/SFSyncTarget //apple_ref/c/intf/SFSyncTarget //apple_ref/doc/anysymbol/SFSyncTarget" machineGenerated="true" --><span class="type">SFSyncTarget</span><!-- /a --><span class="type">*</span>) <!-- a logicalPath="//apple_ref/c/instm/newSyncTargetForSOQLSyncDown //apple_ref/c/clm/newSyncTargetForSOQLSyncDown //apple_ref/c/intfcm/newSyncTargetForSOQLSyncDown //apple_ref/c/intfm/newSyncTargetForSOQLSyncDown //apple_ref/c/func/newSyncTargetForSOQLSyncDown //apple_ref/c/ftmplt/newSyncTargetForSOQLSyncDown //apple_ref/c/defn/newSyncTargetForSOQLSyncDown //apple_ref/c/macro/newSyncTargetForSOQLSyncDown //apple_ref/doc/anysymbol/newSyncTargetForSOQLSyncDown" machineGenerated="true" --><span class="function">newSyncTargetForSOQLSyncDown</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/query //apple_ref/c/data/query //apple_ref/c/clconst/query " machineGenerated="true" --><span class="var">query</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/newSyncTargetForSOQLSyncDown:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/property_DONTLINK_1;name=start -->@<a machinegenerated="true" logicalpath="//apple_ref/c/instm/property //apple_ref/c/clm/property //apple_ref/c/intfcm/property //apple_ref/c/intfm/property //apple_ref/c/func/property" target="_top" href="index.html#//apple_ref/c/func/property"><span class="function">property</span></a> (
+    <span class="param">nonatomic</span>,
+    <span class="param">copy</span>) <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><!-- a logicalPath="//apple_ref/c/econst/modificationDateFieldName //apple_ref/c/data/modificationDateFieldName //apple_ref/c/clconst/modificationDateFieldName " machineGenerated="true" --><span class="var">modificationDateFieldName</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/property_DONTLINK_1;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/newSyncTargetForSOQLSyncDown:;name=start --><p>Factory methods
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/newSyncTargetForSOQLSyncDown:;name=end --><!-- end discussion -->
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/property_DONTLINK_1;name=start --><p>The field name of the modification date field of the record.  Defaults to "LastModifiedDate".
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/property_DONTLINK_1;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenSections">
+<a name="HeaderDoc_methods"></a>
+<h2 class="h2tight">Methods</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/func/asDict" target="_top">+asDict</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/c/func/initWithDict:" target="_top">+initWithDict:</a></tt></dt>
+<dd></dd>
+</dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=func;  uid=//apple_ref/c/func/asDict;   name=asDict --><a name="//apple_ref/c/func/asDict"></a>
+<h3><a name="asDict">asDict</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/asDict;name=start -->- (<!-- a logicalPath="//apple_ref/c/cl/NSMutableDictionary //apple_ref/c/tdef/NSMutableDictionary //apple_ref/c/tag/NSMutableDictionary //apple_ref/c/struct/NSMutableDictionary //apple_ref/c/intf/NSMutableDictionary //apple_ref/doc/anysymbol/NSMutableDictionary" machineGenerated="true" --><span class="type">NSMutableDictionary</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/asDict //apple_ref/c/data/asDict //apple_ref/c/clconst/asDict " machineGenerated="true" --><span class="var">asDict</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/asDict;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
+<p><!-- begin return value --></p>
+<p>The target represented as a dictionary.
+
+<!-- end return value --></p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/asDict;name=start --><p>The target represented as a dictionary.  Note: inheriting classes should initialize their
+dictionary from the super representation, as each parent class can add fields to the
+dictionary along the way.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/asDict;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/queryTypeFromString:;   name=queryTypeFromString: --><a name="//apple_ref/c/func/queryTypeFromString:"></a>
-<h3><a name="queryTypeFromString:">queryTypeFromString:</a></h3>
+<!-- headerDoc=func;  uid=//apple_ref/c/func/initWithDict:;   name=initWithDict: --><a name="//apple_ref/c/func/initWithDict:"></a>
+<h3><a name="initWithDict:">initWithDict:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/queryTypeFromString:;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/SFSyncTargetQueryType //apple_ref/c/tdef/SFSyncTargetQueryType //apple_ref/c/tag/SFSyncTargetQueryType //apple_ref/c/struct/SFSyncTargetQueryType //apple_ref/c/intf/SFSyncTargetQueryType //apple_ref/doc/anysymbol/SFSyncTargetQueryType" machineGenerated="true" --><span class="type">SFSyncTargetQueryType</span><!-- /a -->) <!-- a logicalPath="//apple_ref/c/instm/queryTypeFromString //apple_ref/c/clm/queryTypeFromString //apple_ref/c/intfcm/queryTypeFromString //apple_ref/c/intfm/queryTypeFromString //apple_ref/c/func/queryTypeFromString //apple_ref/c/ftmplt/queryTypeFromString //apple_ref/c/defn/queryTypeFromString //apple_ref/c/macro/queryTypeFromString //apple_ref/doc/anysymbol/queryTypeFromString" machineGenerated="true" --><span class="function">queryTypeFromString</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/queryType //apple_ref/c/data/queryType //apple_ref/c/clconst/queryType " machineGenerated="true" --><span class="var">queryType</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/queryTypeFromString:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/initWithDict:;name=start -->- (<!-- a logicalPath="//apple_ref/c/cl/instancetype //apple_ref/c/tdef/instancetype //apple_ref/c/tag/instancetype //apple_ref/c/struct/instancetype //apple_ref/c/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/instm/initWithDict //apple_ref/c/clm/initWithDict //apple_ref/c/intfcm/initWithDict //apple_ref/c/intfm/initWithDict //apple_ref/c/func/initWithDict //apple_ref/c/ftmplt/initWithDict //apple_ref/c/defn/initWithDict //apple_ref/c/macro/initWithDict //apple_ref/doc/anysymbol/initWithDict" machineGenerated="true" --><span class="function">initWithDict</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/c/cl/NSDictionary //apple_ref/c/tdef/NSDictionary //apple_ref/c/tag/NSDictionary //apple_ref/c/struct/NSDictionary //apple_ref/c/intf/NSDictionary //apple_ref/doc/anysymbol/NSDictionary" machineGenerated="true" --><span class="type">NSDictionary</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/dict //apple_ref/c/data/dict //apple_ref/c/clconst/dict " machineGenerated="true" --><span class="var">dict</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/initWithDict:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/initWithDict:/dict;   name=dict -->
+<a name="//apple_ref/doc/methodparam/initWithDict:/dict"></a>
+<code>dict</code>
+</dt>
+<dd><p>The sync target serialized to an NSDictionary.</p></dd>
+</dl>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/queryTypeFromString:;name=start --><p>Enum to/from string helper methods
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/queryTypeFromString:;name=end --><!-- end discussion -->
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/initWithDict:;name=start --><p>Designated initializer that initializes a sync target from the given dictionary.
+<!-- headerDoc=discussion;uid=//apple_ref/c/func/initWithDict:;name=end --><!-- end discussion -->
 </p>
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Tuesday, January 27, 2015
+<p class="hd_timestamp">Last Updated: Tuesday, April 21, 2015
 </p>
 </div>
 </td>

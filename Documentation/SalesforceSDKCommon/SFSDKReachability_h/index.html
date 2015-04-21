@@ -267,92 +267,68 @@ function disclosure_triangle(elt) {
 <h2>Introduction</h2>
 <p><!-- headerDoc=abstract;uid=//apple_ref/doc/header/SFSDKReachability.h;name=start --><!-- begin abstract -->Use the links in the table of contents to the left to access the documentation.<br><!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/doc/header/SFSDKReachability.h;name=end --></p>
 <hr class="afterClassOrHeaderInfo">
-<br><a name="HeaderDoc_methods"></a>
-<h2 class="h2tight">Methods</h2>
+<br><a name="HeaderDoc_classes"></a>
+<h2 class="h2tight">Classes</h2>
 <dl>
-<dt><tt><a href="index.html#//apple_ref/c/func/connectionRequired" target="_top">+connectionRequired</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/reachabilityForInternetConnection" target="_top">+reachabilityForInternetConnection</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/reachabilityForLocalWiFi" target="_top">+reachabilityForLocalWiFi</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/reachabilityWithAddress:" target="_top">+reachabilityWithAddress:</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/reachabilityWithHostName:" target="_top">+reachabilityWithHostName:</a></tt></dt>
-<dd></dd>
-<dt><tt><a href="index.html#//apple_ref/c/func/startNotifier" target="_top">+startNotifier</a></tt></dt>
-<dd></dd>
+<dt><tt><a href="Classes/SFSDKReachability/index.html#//apple_ref/occ/cl/SFSDKReachability" target="_top">SFSDKReachability</a></tt></dt>
+<dd><p>Class used to determine network reachability status.
+</p></dd>
+</dl>
+<hr class="afterClassEmbeddedTOC">
+<br><a name="HeaderDoc_datatypes"></a>
+<h2 class="h2tight">Typedefs</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus" target="_top">SFSDKReachabilityNetworkStatus</a></tt></dt>
+<dd><p>The different network statuses based on reachability.
+</p></dd>
 </dl>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/connectionRequired;   name=connectionRequired --><a name="//apple_ref/c/func/connectionRequired"></a>
-<h3><a name="connectionRequired">connectionRequired</a></h3>
+<!-- headerDoc=tdef;  uid=//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus;   name=SFSDKReachabilityNetworkStatus --><a name="//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus"></a>
+<h3><a name="SFSDKReachabilityNetworkStatus">SFSDKReachabilityNetworkStatus</a></h3>
 <hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus;name=start --><!-- begin abstract --></p>
+<p>The different network statuses based on reachability.
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus;name=end --></p>
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/connectionRequired;name=start -->- (<!-- a logicalPath="//apple_ref/c/cl/BOOL //apple_ref/c/tdef/BOOL //apple_ref/c/tag/BOOL //apple_ref/c/struct/BOOL //apple_ref/c/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/econst/connectionRequired //apple_ref/c/data/connectionRequired //apple_ref/c/clconst/connectionRequired " machineGenerated="true" --><span class="var">connectionRequired</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/connectionRequired;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus;name=start --><span class="keyword">typedef</span> <span class="keyword">enum</span> { 
+    <a machinegenerated="true" logicalpath="//apple_ref/c/econst/SFSDKReachabilityNotReachable" target="_top" href="index.html#//apple_ref/c/econst/SFSDKReachabilityNotReachable"><span class="var">SFSDKReachabilityNotReachable</span></a> = <span class="number">0</span>, 
+    <a machinegenerated="true" logicalpath="//apple_ref/c/econst/SFSDKReachabilityReachableViaWiFi" target="_top" href="index.html#//apple_ref/c/econst/SFSDKReachabilityReachableViaWiFi"><span class="var">SFSDKReachabilityReachableViaWiFi</span></a>, 
+    <a machinegenerated="true" logicalpath="//apple_ref/c/econst/SFSDKReachabilityReachableViaWWAN" target="_top" href="index.html#//apple_ref/c/econst/SFSDKReachabilityReachableViaWWAN"><span class="var">SFSDKReachabilityReachableViaWWAN</span></a> 
+} <!-- a logicalPath="//apple_ref/c/econst/SFSDKReachabilityNetworkStatus //apple_ref/c/data/SFSDKReachabilityNetworkStatus //apple_ref/c/clconst/SFSDKReachabilityNetworkStatus " machineGenerated="true" --><span class="var">SFSDKReachabilityNetworkStatus</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus;name=end --></pre>
 </div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/connectionRequired;name=start --><p>WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/connectionRequired;name=end --><!-- end discussion -->
-</p>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Constants</font></h5>
+<div class="param_indent">
+<dl>
+<dt><a name="//apple_ref/c/econst/SFSDKReachabilityNotReachable"><code>SFSDKReachabilityNotReachable</code></a></dt>
+<dd><p>The network is not reachable.</p></dd>
+<dt><a name="//apple_ref/c/econst/SFSDKReachabilityReachableViaWiFi"><code>SFSDKReachabilityReachableViaWiFi</code></a></dt>
+<dd><p>The network is reachable over WiFi.</p></dd>
+<dt><a name="//apple_ref/c/econst/SFSDKReachabilityReachableViaWWAN"><code>SFSDKReachabilityReachableViaWWAN</code></a></dt>
+<dd><p>The network is reachable over cellular.</p></dd>
+</dl>
+</div>
+<hr class="betweenSections">
+<a name="HeaderDoc_vars"></a>
+<h2 class="h2tight">Globals</h2>
+<dl>
+<dt><tt><a href="index.html#//apple_ref/c/data/kSFSDKReachabilityChangedNotification" target="_top">kSFSDKReachabilityChangedNotification</a></tt></dt>
+<dd><p>String label for the reachability changed notification.
+</p></dd>
+</dl>
 <hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/reachabilityForInternetConnection;   name=reachabilityForInternetConnection --><a name="//apple_ref/c/func/reachabilityForInternetConnection"></a>
-<h3><a name="reachabilityForInternetConnection">reachabilityForInternetConnection</a></h3>
+<!-- headerDoc=data;  uid=//apple_ref/c/data/kSFSDKReachabilityChangedNotification;   name=kSFSDKReachabilityChangedNotification --><a name="//apple_ref/c/data/kSFSDKReachabilityChangedNotification"></a>
+<h3><a name="kSFSDKReachabilityChangedNotification">kSFSDKReachabilityChangedNotification</a></h3>
 <hr class="afterName">
+<p><!-- headerDoc=abstract;uid=//apple_ref/c/data/kSFSDKReachabilityChangedNotification;name=start --><!-- begin abstract --></p>
+<p>String label for the reachability changed notification.
+<!-- end abstract --><!-- headerDoc=abstract;uid=//apple_ref/c/data/kSFSDKReachabilityChangedNotification;name=end --></p>
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityForInternetConnection;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/instancetype //apple_ref/c/tdef/instancetype //apple_ref/c/tag/instancetype //apple_ref/c/struct/instancetype //apple_ref/c/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/econst/reachabilityForInternetConnection //apple_ref/c/data/reachabilityForInternetConnection //apple_ref/c/clconst/reachabilityForInternetConnection " machineGenerated="true" --><span class="var">reachabilityForInternetConnection</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityForInternetConnection;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/c/data/kSFSDKReachabilityChangedNotification;name=start --><span class="keyword">extern</span> <!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span><a machinegenerated="true" logicalpath="//apple_ref/c/econst/kSFSDKReachabilityChangedNotification //apple_ref/c/data/kSFSDKReachabilityChangedNotification" target="_top" href="index.html#//apple_ref/c/data/kSFSDKReachabilityChangedNotification"><span class="var">kSFSDKReachabilityChangedNotification</span></a>;  <!-- headerDoc=declaration;uid=//apple_ref/c/data/kSFSDKReachabilityChangedNotification;name=end --></pre>
 </div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityForInternetConnection;name=start --><p>Checks whether the default route is available. Should be used by applications that do not connect to a particular host.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityForInternetConnection;name=end --><!-- end discussion -->
-</p>
-<hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/reachabilityForLocalWiFi;   name=reachabilityForLocalWiFi --><a name="//apple_ref/c/func/reachabilityForLocalWiFi"></a>
-<h3><a name="reachabilityForLocalWiFi">reachabilityForLocalWiFi</a></h3>
-<hr class="afterName">
-<div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityForLocalWiFi;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/instancetype //apple_ref/c/tdef/instancetype //apple_ref/c/tag/instancetype //apple_ref/c/struct/instancetype //apple_ref/c/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/econst/reachabilityForLocalWiFi //apple_ref/c/data/reachabilityForLocalWiFi //apple_ref/c/clconst/reachabilityForLocalWiFi " machineGenerated="true" --><span class="var">reachabilityForLocalWiFi</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityForLocalWiFi;name=end --></pre>
-</div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityForLocalWiFi;name=start --><p>Checks whether a local WiFi connection is available.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityForLocalWiFi;name=end --><!-- end discussion -->
-</p>
-<hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/reachabilityWithAddress:;   name=reachabilityWithAddress: --><a name="//apple_ref/c/func/reachabilityWithAddress:"></a>
-<h3><a name="reachabilityWithAddress:">reachabilityWithAddress:</a></h3>
-<hr class="afterName">
-<div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityWithAddress:;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/instancetype //apple_ref/c/tdef/instancetype //apple_ref/c/tag/instancetype //apple_ref/c/struct/instancetype //apple_ref/c/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/instm/reachabilityWithAddress //apple_ref/c/clm/reachabilityWithAddress //apple_ref/c/intfcm/reachabilityWithAddress //apple_ref/c/intfm/reachabilityWithAddress //apple_ref/c/func/reachabilityWithAddress //apple_ref/c/ftmplt/reachabilityWithAddress //apple_ref/c/defn/reachabilityWithAddress //apple_ref/c/macro/reachabilityWithAddress //apple_ref/doc/anysymbol/reachabilityWithAddress" machineGenerated="true" --><span class="function">reachabilityWithAddress</span><!-- /a -->:(<span class="keyword">const</span> <span class="keyword">struct</span> <!-- a logicalPath="//apple_ref/c/cl/sockaddr_in //apple_ref/c/tdef/sockaddr_in //apple_ref/c/tag/sockaddr_in //apple_ref/c/struct/sockaddr_in //apple_ref/c/intf/sockaddr_in //apple_ref/doc/anysymbol/sockaddr_in" machineGenerated="true" --><span class="type">sockaddr_in</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/hostAddress //apple_ref/c/data/hostAddress //apple_ref/c/clconst/hostAddress " machineGenerated="true" --><span class="var">hostAddress</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityWithAddress:;name=end --></pre>
-</div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityWithAddress:;name=start --><p>Use to check the reachability of a given IP address.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityWithAddress:;name=end --><!-- end discussion -->
-</p>
-<hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/reachabilityWithHostName:;   name=reachabilityWithHostName: --><a name="//apple_ref/c/func/reachabilityWithHostName:"></a>
-<h3><a name="reachabilityWithHostName:">reachabilityWithHostName:</a></h3>
-<hr class="afterName">
-<div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityWithHostName:;name=start -->+ (<!-- a logicalPath="//apple_ref/c/cl/instancetype //apple_ref/c/tdef/instancetype //apple_ref/c/tag/instancetype //apple_ref/c/struct/instancetype //apple_ref/c/intf/instancetype //apple_ref/doc/anysymbol/instancetype" machineGenerated="true" --><span class="type">instancetype</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/instm/reachabilityWithHostName //apple_ref/c/clm/reachabilityWithHostName //apple_ref/c/intfcm/reachabilityWithHostName //apple_ref/c/intfm/reachabilityWithHostName //apple_ref/c/func/reachabilityWithHostName //apple_ref/c/ftmplt/reachabilityWithHostName //apple_ref/c/defn/reachabilityWithHostName //apple_ref/c/macro/reachabilityWithHostName //apple_ref/doc/anysymbol/reachabilityWithHostName" machineGenerated="true" --><span class="function">reachabilityWithHostName</span><!-- /a -->:(<!-- a logicalPath="//apple_ref/c/cl/NSString //apple_ref/c/tdef/NSString //apple_ref/c/tag/NSString //apple_ref/c/struct/NSString //apple_ref/c/intf/NSString //apple_ref/doc/anysymbol/NSString" machineGenerated="true" --><span class="type">NSString</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/c/econst/hostName //apple_ref/c/data/hostName //apple_ref/c/clconst/hostName " machineGenerated="true" --><span class="var">hostName</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/reachabilityWithHostName:;name=end --></pre>
-</div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityWithHostName:;name=start --><p>Use to check the reachability of a given host name.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/reachabilityWithHostName:;name=end --><!-- end discussion -->
-</p>
-<hr class="betweenAPIEntries">
-<!-- headerDoc=func;  uid=//apple_ref/c/func/startNotifier;   name=startNotifier --><a name="//apple_ref/c/func/startNotifier"></a>
-<h3><a name="startNotifier">startNotifier</a></h3>
-<hr class="afterName">
-<div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/c/func/startNotifier;name=start -->- (<!-- a logicalPath="//apple_ref/c/cl/BOOL //apple_ref/c/tdef/BOOL //apple_ref/c/tag/BOOL //apple_ref/c/struct/BOOL //apple_ref/c/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a -->)<!-- a logicalPath="//apple_ref/c/econst/startNotifier //apple_ref/c/data/startNotifier //apple_ref/c/clconst/startNotifier " machineGenerated="true" --><span class="var">startNotifier</span><!-- /a -->;  <!-- headerDoc=declaration;uid=//apple_ref/c/func/startNotifier;name=end --></pre>
-</div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/c/func/startNotifier;name=start --><p>Start listening for reachability notifications on the current run loop.
-<!-- headerDoc=discussion;uid=//apple_ref/c/func/startNotifier;name=end --><!-- end discussion -->
-</p>
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Tuesday, January 27, 2015
+<p class="hd_timestamp">Last Updated: Tuesday, April 21, 2015
 </p>
 </div>
 </td>
