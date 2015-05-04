@@ -447,16 +447,15 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }
     
     // Otherwise, the current user is being logged out.  Supply the user account to the
     // "Will Logout" notification before the credentials are revoked.  This will ensure
     // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-    
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
     }
