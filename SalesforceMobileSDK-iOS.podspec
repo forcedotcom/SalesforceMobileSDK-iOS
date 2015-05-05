@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceMobileSDK-iOS"
-  s.version      = "3.2.0"
+  s.version      = "3.2.1"
   s.summary      = "Salesforce Mobile SDK for iOS"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -98,6 +98,7 @@ Pod::Spec.new do |s|
       networksdk.header_dir = 'Headers/SalesforceNetwork'
       networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       networksdk.requires_arc = true
+      networksdk.frameworks = 'MobileCoreServices'
 
   end
 
