@@ -98,6 +98,7 @@ Pod::Spec.new do |s|
       networksdk.header_dir = 'Headers/SalesforceNetwork'
       networksdk.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       networksdk.requires_arc = true
+      networksdk.frameworks = 'MobileCoreServices'
 
   end
 
