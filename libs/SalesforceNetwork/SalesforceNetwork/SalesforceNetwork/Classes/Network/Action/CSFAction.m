@@ -61,17 +61,17 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return nil;
     }
     
-    NSString *host = [action.enqueuedNetwork.account.credentials.instanceUrl host];
+    NSString *baseUrlString = [action.enqueuedNetwork.account.credentials.apiUrl absoluteString];
     NSString *path = [NSMutableString stringWithFormat:@"%@%@", action.basePath, action.verb];
     
     // Make sure path is not empty
-    if (!host || host.length == 0) {
+    if (baseUrlString.length == 0) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                      code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have an instance host",
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have an API URL",
                                              CSFNetworkErrorActionKey: action }];
         return nil;
-    } else if (!path || path.length == 0) {
+    } else if (path.length == 0) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                      code:CSFNetworkURLCredentialsError
                                  userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
@@ -79,8 +79,8 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return nil;
     }
     
-    NSString *scheme = @"https";
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@%@", scheme, host, path]];
+    NSString *urlString = [baseUrlString stringByAppendingPathComponent:path];
+    NSURL *url = [NSURL URLWithString:urlString];
     return url;
 }
 
