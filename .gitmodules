@@ -6,7 +6,7 @@
 	url = https://github.com/apache/cordova-ios.git
 [submodule "external/ThirdPartyDependencies"]
 	path = external/ThirdPartyDependencies
-	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
+	url = https://github.com/wmathurin/SalesforceMobileSDK-iOS-Dependencies.git
 [submodule "external/ocmock"]
 	path = external/ocmock
 	url = https://github.com/erikdoe/ocmock.git
