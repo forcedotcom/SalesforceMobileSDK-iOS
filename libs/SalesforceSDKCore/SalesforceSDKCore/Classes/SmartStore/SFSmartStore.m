@@ -971,6 +971,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [createTableStmt appendFormat:@", %@ INTEGER",CREATED_COL];
     [createTableStmt appendFormat:@", %@ INTEGER",LAST_MODIFIED_COL];
     
+    NSMutableString *createFtsStmt = [NSMutableString new];
+    NSMutableArray *columnsForFts = [NSMutableArray new];
     
     for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
         SFSoupIndex *indexSpec = (SFSoupIndex*) indexSpecs[i];
@@ -980,6 +982,11 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString * columnType = [indexSpec columnType];
         [createTableStmt appendFormat:@", %@ %@ ",columnName,columnType];
         [self log:SFLogLevelDebug format:@"adding indexPath: %@ %@  ('%@')",columnName, columnType, [indexSpec path]];
+        
+        // for fts
+        if ([indexSpec.indexType isEqualToString:kSoupIndexTypeFullText]) {
+            [columnsForFts addObject:columnName];
+        }
         
         // for inserting into meta mapping table
         NSMutableDictionary *values = [[NSMutableDictionary alloc] init ];
@@ -999,8 +1006,20 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [createTableStmt appendString:@")"];
     [self log:SFLogLevelDebug format:@"createTableStmt:\n %@",createTableStmt];
     
+    // fts
+    if (columnsForFts.count > 0) {
+        [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts4(%@)", soupTableName, [columnsForFts componentsJoinedByString:@","]];
+        [self log:SFLogLevelDebug format:@"createFtsStmt:\n %@",createFtsStmt];
+    }
+    
     // create the main soup table
     [self  executeUpdateThrows:createTableStmt withDb:db];
+
+    // fts
+    if (columnsForFts.count > 0) {
+        [self executeUpdateThrows:createFtsStmt withDb:db];
+    }
+    
     // create indices for this soup
     for (NSString *createIndexStmt in createIndexStmts) {
         [self log:SFLogLevelDebug format:@"createIndexStmt: %@",createIndexStmt];
@@ -1023,6 +1042,12 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     NSString *dropSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@",soupTableName];
     [self executeUpdateThrows:dropSql withDb:db];
+
+    // fts
+    if ([self hasFts:soupName withDb:db]) {
+        NSString *dropFtsSql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_fts",soupTableName];
+        [self executeUpdateThrows:dropFtsSql withDb:db];
+    }
     
     NSString *deleteIndexSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                                 SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, soupName];
@@ -1469,6 +1494,11 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@",
                                soupTableName,pred];
         [self executeUpdateThrows:deleteSql withDb:db];
+        // fts
+        if ([self hasFts:soupName withDb:db]) {
+            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, pred];
+            [self executeUpdateThrows:deleteFtsSql withDb:db];
+        }
     }
 }
 
@@ -1486,6 +1516,11 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@", soupTableName];
         [self executeUpdateThrows:deleteSql withDb:db];
+        // fts
+        if ([self hasFts:soupName withDb:db]) {
+            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts", soupTableName];
+            [self executeUpdateThrows:deleteFtsSql withDb:db];
+        }
     }
 }
 
@@ -1545,6 +1580,12 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     else {
         return NO;
     }
+}
+
+- (BOOL) hasFts:(NSString*)soupName withDb:(FMDatabase *)db
+{
+    NSArray *indices = [self indicesForSoup:soupName withDb:db];
+    return [SFSoupIndex hasFts:indices];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
