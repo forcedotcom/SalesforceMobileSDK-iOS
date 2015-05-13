@@ -976,7 +976,7 @@ static NSException *authException = nil;
     NSMutableArray* updatedAccounts = [NSMutableArray new];
     for (NSString* accountId in idToNamesLocallyUpdated) {
         NSString* updatedName = idToNamesLocallyUpdated[accountId];
-        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ACCOUNT_ID withMatchKey:accountId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ACCOUNT_ID withMatchKey:accountId withOrderPath:ACCOUNT_ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
         NSArray* results = [store queryWithQuerySpec:query pageIndex:0 error:nil];
         NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
         account[ACCOUNT_NAME] = updatedName;
@@ -993,7 +993,7 @@ static NSException *authException = nil;
 {
     NSMutableArray* deletedAccounts = [NSMutableArray new];
     for (NSString* accountId in idsLocallyDeleted) {
-        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ACCOUNT_ID withMatchKey:accountId withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+        SFQuerySpec* query = [SFQuerySpec newExactQuerySpec:ACCOUNTS_SOUP withPath:ACCOUNT_ID withMatchKey:accountId withOrderPath:ACCOUNT_ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
         NSArray* results = [store queryWithQuerySpec:query pageIndex:0 error:nil];
         NSMutableDictionary* account = [[NSMutableDictionary alloc] initWithDictionary:results[0]];
         account[kSyncManagerLocal] = @YES;

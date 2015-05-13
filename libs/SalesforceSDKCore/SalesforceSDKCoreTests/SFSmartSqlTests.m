@@ -198,7 +198,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningSoupStringAndInteger 
 {
     [self loadData];
-    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrderPath:@"employeeId" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
     XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
@@ -227,7 +227,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryWithSpecialFields 
 {
     [self loadData];
-    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrderPath:@"employeeId" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
     XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];

@@ -387,7 +387,7 @@ static NSMutableDictionary *cacheMgrList = nil;
         return nil;
     }
     
-    SFQuerySpec *querySpec = [SFQuerySpec newExactQuerySpec:cacheType withPath:kSmartStoreCacheKeyPath withMatchKey:cacheKey withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    SFQuerySpec *querySpec = [SFQuerySpec newExactQuerySpec:cacheType withPath:kSmartStoreCacheKeyPath withMatchKey:cacheKey withOrderPath:kSmartStoreCacheKeyPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     NSError *queryError = nil;
     
     NSArray *results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:&queryError];
