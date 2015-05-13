@@ -77,7 +77,7 @@ class RootViewController : UITableViewController, SFRestDelegate
     // MARK: - SFRestAPIDelegate
     func request(request: SFRestRequest!, didLoadResponse jsonResponse: AnyObject!)
     {
-        self.dataRows = jsonResponse["files"] as [NSDictionary]
+        self.dataRows = jsonResponse["files"] as! [NSDictionary]
         self.log(SFLogLevelDebug, msg: "request:didLoadResponse: #files: \(self.dataRows.count)")
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
@@ -111,7 +111,7 @@ class RootViewController : UITableViewController, SFRestDelegate
         }
             // cache miss
         else {
-            self.downloadThumbnail(fileId, {
+            self.downloadThumbnail(fileId, completeBlock:{
                 [weak self]
                 image in
                 // size it
@@ -163,11 +163,11 @@ class RootViewController : UITableViewController, SFRestDelegate
         
         // Configure the cell to show the data.
         let obj = dataRows[indexPath.row]
-        let fileId = obj["id"] as String
+        let fileId = obj["id"] as! String
         let tag = fileId.hash
         
         cell!.textLabel!.text =  obj["title"] as? String
-        cell!.detailTextLabel!.text = (obj["owner"] as NSDictionary)["name"] as? String
+        cell!.detailTextLabel!.text = (obj["owner"] as! NSDictionary)["name"] as? String
         cell!.tag = tag;
         self.getThumbnail(fileId, completeBlock: {
             thumbnailImage in

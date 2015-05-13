@@ -72,7 +72,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     // MARK: - App delegate lifecycle
     
-    func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]!) -> Bool
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
     {
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.initializeAppViewState();
@@ -89,7 +89,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         return true
     }
     
-    func application(application: UIApplication!, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData!)
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData)
     {
         //
         // Uncomment the code below to register your device token with the push notification manager
@@ -103,7 +103,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
     
     
-    func application(application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError!)
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError )
     {
         // Respond to any push notification registration errors here.
     }
@@ -150,7 +150,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             // your app does not support multiple accounts.  The logic below will work either way.
             
             var numberOfAccounts : Int;
-            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts as [SFUserAccount]?
+            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts as! [SFUserAccount]?
             if allAccounts != nil {
                 numberOfAccounts = allAccounts!.count;
             } else {
