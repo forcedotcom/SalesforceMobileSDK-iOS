@@ -313,7 +313,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 }
 
 - (NSString*)computeSoupFtsReference {
-    return [@[@"{", self.soupName, @"_fts", @"}"] componentsJoinedByString:@""];
+    return [@[@"{", self.soupName, @"}_fts"] componentsJoinedByString:@""];
 }
 
 - (NSString*)sqlSortOrder {
