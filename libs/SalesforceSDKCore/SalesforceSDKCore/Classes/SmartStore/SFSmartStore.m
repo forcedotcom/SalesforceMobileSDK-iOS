@@ -81,6 +81,9 @@ NSString *const CREATED_COL = @"created";
 NSString *const LAST_MODIFIED_COL = @"lastModified";
 NSString *const SOUP_COL = @"soup";
 
+// Columns of a soup fts table
+NSString *const DOCID_COL = @"docid";
+
 // Table to keep track of status of long operations in flight
 NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
 
@@ -681,7 +684,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
 }
 
-- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*) db
+- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId idCol:(NSString*)idCol withDb:(FMDatabase*) db
 {
     NSAssert(entryId != nil, @"Entry ID must have a value.");
     
@@ -704,7 +707,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     
     NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@ = ?",
-                           tableName, fieldEntries, ID_COL];
+                           tableName, fieldEntries, idCol];
     //[self log:SFLogLevelDebug format:@"upsertSql: %@ binds: %@",upsertSql,binds];
     [self executeUpdateThrows:updateSql withArgumentsInArray:binds withDb:db];
 }
@@ -1302,22 +1305,15 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices withDb:(FMDatabase*) db
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
-    NSMutableDictionary *baseColumns = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                         @"", SOUP_COL,
                                         nowVal, CREATED_COL,
                                         nowVal, LAST_MODIFIED_COL,
                                         nil];
     
     //build up the set of index column values for this new row
-    for (SFSoupIndex *idx in indices) {
-        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
-        if (nil != indexColVal) {//not every entry will have a value for each index column
-            NSString *colName = [idx columnName];
-            baseColumns[colName] = indexColVal;
-        }
-    }
-    
-    [self insertIntoTable:soupTableName values:baseColumns withDb:db];
+    [self projectIndexedPaths:entry values:values indices:indices typeFilter:nil];
+    [self insertIntoTable:soupTableName values:values withDb:db];
     
     //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
     NSNumber *newEntryId = [NSNumber numberWithLongLong:[db lastInsertRowId]];
@@ -1335,6 +1331,15 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     //    [self log:SFLogLevelDebug format:@"updateSql: \n %@ \n binds: %@",updateSql,binds];
     
     [self executeUpdateThrows:updateSql withArgumentsInArray:binds withDb:db];
+
+    // fts
+    if ([SFSoupIndex hasFts:indices]) {
+        NSMutableDictionary *ftsValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                          newEntryId, DOCID_COL,
+                                          nil];
+        [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kSoupIndexTypeFullText];
+        [self insertIntoTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues withDb:db];
+    }
     
     return mutableEntry;
 }
@@ -1348,26 +1353,27 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
     
-    NSMutableDictionary *colVals = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     nowVal, LAST_MODIFIED_COL,
                                     nil];
     
     //build up the set of index column values for this row
-    for (SFSoupIndex *idx in indices) {
-        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
-        if (nil != indexColVal) { //not every entry will have a value for each index column
-            NSString *colName = [idx columnName];
-            colVals[colName] = indexColVal;
-        }
-    }
+    [self projectIndexedPaths:entry values:values indices:indices typeFilter:nil];
     
     //clone the entry so that we can modify SOUP_LAST_MODIFIED_DATE
     NSMutableDictionary *mutableEntry = [entry mutableCopy];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
     [mutableEntry setValue:entryId forKey:SOUP_ENTRY_ID];
     NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
-    colVals[SOUP_COL] = rawJson;
-    [self updateTable:soupTableName values:colVals entryId:entryId withDb:db];
+    values[SOUP_COL] = rawJson;
+    [self updateTable:soupTableName values:values entryId:entryId idCol:ID_COL withDb:db];
+
+    // fts
+    if ([SFSoupIndex hasFts:indices]) {
+        NSMutableDictionary *ftsValues = [NSMutableDictionary new];
+        [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kSoupIndexTypeFullText];
+        [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
+    }
     
     return mutableEntry;
     
@@ -1555,25 +1561,38 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     if ([self soupExists:soupName withDb:db]) {
         NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
         NSDictionary *mapIndexSpecs = [SFSoupIndex mapForSoupIndexes:[self indicesForSoup:soupName withDb:db]];
-
+        NSMutableArray* indices = [NSMutableArray new];
+        
+        BOOL hasFts = NO;
+        for (NSString* indexPath in  indexPaths) {
+            SFSoupIndex *idx = mapIndexSpecs[indexPath];
+            if (idx) {
+                [indices addObject:idx];
+                if ([idx.indexType isEqualToString:kSoupIndexTypeFullText]) {
+                    hasFts = YES;
+                }
+            }
+        }
+        
         FMResultSet* frs = [self queryTable:soupTableName forColumns:@[ID_COL, SOUP_COL] orderBy:nil limit:nil whereClause:nil whereArgs:nil withDb:db];
     
         while([frs next]) {
             NSNumber *entryId = @([frs longForColumn:ID_COL]);
             NSString *soupElt = [frs stringForColumn:SOUP_COL];
             NSDictionary *entry = [SFJsonUtils objectFromJSONString:soupElt];
-            NSMutableDictionary *colVals = [NSMutableDictionary dictionary];
-            //build up the set of index column values for this row
-            for (NSString *indexPath in indexPaths) {
-                SFSoupIndex *idx = mapIndexSpecs[indexPath];
-                NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:idx.path];
-                if (nil != indexColVal) { //not every entry will have a value for each index column
-                    NSString *colName = [idx columnName];
-                    colVals[colName] = indexColVal;
+            NSMutableDictionary *values = [NSMutableDictionary dictionary];
+            [self projectIndexedPaths:entry values:values indices:indices typeFilter:nil];
+            if ([values count] > 0) {
+                [self updateTable:soupTableName values:values entryId:entryId idCol:ID_COL withDb:db];
+            }
+            // fts
+            if (hasFts) {
+                NSMutableDictionary *ftsValues = [NSMutableDictionary dictionary];
+                [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kSoupIndexTypeFullText];
+                if ([ftsValues count] > 0) {
+                    [self updateTable:soupTableName values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
                 }
             }
-            if ([colVals count] > 0)
-                [self updateTable:soupTableName values:colVals entryId:entryId withDb:db];
         }
         return YES;
     }
@@ -1593,6 +1612,22 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
     [[self class] removeAllStoresForUser:user];
+}
+
+#pragma mark - Misc
+
+- (void) projectIndexedPaths:(NSDictionary*)entry values:(NSMutableDictionary*)values indices:(NSArray*)indices typeFilter:(NSString*)typeFilter
+{
+    //build up the set of index column values for this row
+    for (SFSoupIndex *idx in indices) {
+        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
+        if (nil != indexColVal //not every entry will have a value for each index column
+            && (typeFilter == nil || [typeFilter isEqualToString:idx.indexType]))
+        {
+            NSString *colName = [idx columnName];
+            values[colName] = indexColVal;
+        }
+    }
 }
 
 @end

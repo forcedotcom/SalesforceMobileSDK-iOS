@@ -294,7 +294,7 @@
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
         values[STATUS_COL] = [NSNumber numberWithUnsignedInteger:newStatus];
         values[LAST_MODIFIED_COL] = now;
-        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) withDb:db];
+        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) idCol:ID_COL withDb:db];
     }
 }
 
