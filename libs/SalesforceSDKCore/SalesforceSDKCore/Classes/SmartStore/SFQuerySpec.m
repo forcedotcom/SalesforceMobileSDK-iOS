@@ -185,16 +185,20 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
             break;
             
         case kSFSoupQueryTypeLike:
-            if (nil != self.beginKey)
-                result = @[self.beginKey];
+            if (nil != self.likeKey)
+                result = @[self.likeKey];
             break;
             
         case kSFSoupQueryTypeExact:
-            if (nil != self.beginKey)
-                result = @[self.beginKey];
+            if (nil != self.matchKey)
+                result = @[self.matchKey];
+            break;
+
+        case kSFSoupQueryTypeMatch:
+            // baking matchKey into query
             break;
             
-        default:
+        case kSFSoupQueryTypeSmart:
             break;
     }
     
