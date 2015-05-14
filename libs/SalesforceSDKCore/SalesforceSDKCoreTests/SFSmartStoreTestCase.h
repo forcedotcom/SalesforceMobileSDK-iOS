@@ -30,5 +30,10 @@
 - (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message;
 - (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message;
 - (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*) actual message:(NSString*) message;
+- (NSDictionary*) createStringIndexSpec:(NSString*) path;
+- (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
+- (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
+- (NSDictionary*) createFullTextIndexSpec:(NSString*) path;
+- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
 
 @end

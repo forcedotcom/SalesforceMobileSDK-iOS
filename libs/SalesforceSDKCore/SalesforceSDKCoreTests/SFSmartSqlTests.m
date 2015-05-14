@@ -29,13 +29,6 @@
 #import "SFQuerySpec.h"
 #import "SFJsonUtils.h"
 
-@interface SFSmartSqlTests ()
-- (NSDictionary*) createStringIndexSpec:(NSString*) path;
-- (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
-- (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
-- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
-@end
-
 @implementation SFSmartSqlTests
 
 NSString* const kTestStore            = @"testSmartSqlStore";
@@ -60,12 +53,12 @@ NSString* const kName                 = @"name";
     // Employees soup
     [_store registerSoup:kEmployeesSoup                              // should be TABLE_1
           withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          @[[self createStringIndexSpec:kFirstName],
-                           [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
-                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
-                           [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
-                           [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
-                           [self createFloatingIndexSpec:kSalary]]]];
+                          @[[self createStringIndexSpec:kFirstName], // should be TABLE_1_0
+                           [self createStringIndexSpec:kLastName],   // should be TABLE_1_1
+                           [self createStringIndexSpec:kDeptCode],   // should be TABLE_1_2
+                           [self createStringIndexSpec:kEmployeeId], // should be TABLE_1_3
+                           [self createStringIndexSpec:kManagerId],  // should be TABLE_1_4
+                           [self createFloatingIndexSpec:kSalary]]]];// should be TABLE_1_5
 
     // Departments soup
     [_store registerSoup:kDepartmentsSoup                            // should be TABLE_2
@@ -239,26 +232,6 @@ NSString* const kName                 = @"name";
 }
 
 #pragma mark - helper methods
-- (NSDictionary*) createIntegerIndexSpec:(NSString*) path
-{
-    return [self createSimpleIndexSpec:path withType:@"integer"];
-}
-
-- (NSDictionary*) createFloatingIndexSpec:(NSString*) path
-{
-    return [self createSimpleIndexSpec:path withType:@"floating"];
-}
-
-- (NSDictionary*) createStringIndexSpec:(NSString*) path
-{
-    return [self createSimpleIndexSpec:path withType:@"string"];
-}
-
-- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
-{
-    return @{@"path": path, @"type": pathType};
-}
-
 - (void) loadData
 {
     // Employees

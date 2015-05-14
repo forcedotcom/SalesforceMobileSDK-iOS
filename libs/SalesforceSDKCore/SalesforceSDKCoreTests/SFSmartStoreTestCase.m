@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartStoreTestCase.h"
+#import "SFSoupIndex.h"
 #import "SFJsonUtils.h"
 
 @implementation SFSmartStoreTestCase
@@ -84,6 +85,31 @@
     while (key = [enumator nextObject]) {
         [self assertSameJSONWithExpected:expected[key] actual:actual[key] message:message];
     }
+}
+
+- (NSDictionary*) createIntegerIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeInteger];
+}
+
+- (NSDictionary*) createFloatingIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeFloating];
+}
+
+- (NSDictionary*) createFullTextIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeFullText];
+}
+
+- (NSDictionary*) createStringIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeString];
+}
+
+- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
+{
+    return @{@"path": path, @"type": pathType};
 }
 
 @end
