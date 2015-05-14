@@ -61,8 +61,8 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return nil;
     }
     
-    NSString *baseUrlString = [action.enqueuedNetwork.account.credentials.apiUrl absoluteString];
-    NSString *path = [NSMutableString stringWithFormat:@"%@%@", action.basePath, action.verb];
+    NSMutableString *baseUrlString = [NSMutableString stringWithString:[action.enqueuedNetwork.account.credentials.apiUrl absoluteString]];
+    NSMutableString *path = [NSMutableString stringWithFormat:@"%@%@", action.basePath, action.verb];
     
     // Make sure path is not empty
     if (baseUrlString.length == 0) {
@@ -79,7 +79,9 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return nil;
     }
     
-    NSString *urlString = [baseUrlString stringByAppendingPathComponent:path];
+    if (![baseUrlString hasSuffix:@"/"]) [baseUrlString appendString:@"/"];
+    if ([path hasPrefix:@"/"]) [path deleteCharactersInRange:NSMakeRange(0, 1)];
+    NSString *urlString = [baseUrlString stringByAppendingString:path];
     NSURL *url = [NSURL URLWithString:urlString];
     return url;
 }
