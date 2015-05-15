@@ -74,6 +74,28 @@
 #pragma mark - Tests
 
 /**
+ * Test register/drop soup that uses full-text search indices
+ */
+- (void) testRegisterDropSoup
+{
+    NSString* soupTableName = [self getSoupTableName:kEmployeesSoup store:self.store];
+    XCTAssertEqualObjects(@"TABLE_1", soupTableName, @"getSoupTableName should have returned TABLE_1");
+    XCTAssertTrue([self hasTable:@"TABLE_1" store:self.store], @"Table for soup employees does exit");
+    XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
+    XCTAssertTrue([self.store soupExists:kEmployeesSoup], @"Register soup failed");
+
+    // Drop
+    [self.store removeSoup:kEmployeesSoup];
+
+    // After
+    XCTAssertFalse([self.store soupExists:kEmployeesSoup], @"Soup employees should no longer exist");
+    XCTAssertNil([self getSoupTableName:kEmployeesSoup store:self.store], "Soup employees should no longer exist");
+    XCTAssertFalse([self hasTable:@"TABLE_1" store:self.store], @"Table for soup employees should not exit");
+    XCTAssertFalse([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees should not exit");
+}
+
+
+/**
  * Test search on single field returning no results
  */
 - (void) testSearchSingleFielNoResults
