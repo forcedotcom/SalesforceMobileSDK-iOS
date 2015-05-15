@@ -864,34 +864,13 @@ NSString * const kTestSoupName   = @"testSoup";
             // Check data
             [store.storeQueue inDatabase:^(FMDatabase *db) {
                 FMResultSet* frs = [store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
-                [self checkRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
-                [self checkRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
+                [self checkSoupRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
+                [self checkSoupRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
                 XCTAssertFalse([frs next], @"Only two rows should have been returned");
                 [frs close];
             }];
         }
     }
-}
-
-- (void) checkRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
-{
-    XCTAssertTrue([frs next], @"Expected rows to be returned");
-    // Check id
-    XCTAssertEqualObjects(@([frs longForColumn:ID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
-    
-    /*
-     // FIXME value coming back is an int - needs to be investigated and fixed in 2.2
-     STAssertEqualObjects([NSNumber numberWithLong:[frs longForColumn:LAST_MODIFIED_COL]], expectedEntry[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
-     */
-    
-    for (SFSoupIndex* soupIndex in arraySoupIndexes)
-    {
-        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
-        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
-        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
-        
-    }
-    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
 }
 
 - (void) checkIndexSpecs:(NSArray*)actualSoupIndexes withExpectedIndexSpecs:(NSArray*)expectedSoupIndexes checkColumnName:(BOOL)checkColumnName

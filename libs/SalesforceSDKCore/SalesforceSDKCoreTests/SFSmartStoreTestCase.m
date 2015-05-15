@@ -141,5 +141,45 @@
     
 }
 
+- (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
+{
+    XCTAssertTrue([frs next], @"Expected rows to be returned");
+    // Check id
+    XCTAssertEqualObjects(@([frs longForColumn:ID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    
+    /*
+     // FIXME value coming back is an int - needs to be investigated and fixed in 2.2
+     STAssertEqualObjects([NSNumber numberWithLong:[frs longForColumn:LAST_MODIFIED_COL]], expectedEntry[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
+     */
+    
+    // Check indexed columns
+    for (SFSoupIndex* soupIndex in arraySoupIndexes)
+    {
+        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+    }
+    
+    // Check soup column
+    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+}
+
+- (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
+{
+    XCTAssertTrue([frs next], @"Expected rows to be returned");
+    
+    // Check docid
+    XCTAssertEqualObjects(@([frs longForColumn:DOCID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+
+    // Check indexed columns
+    for (SFSoupIndex* soupIndex in arraySoupIndexes)
+    {
+        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeFullText]) {
+            NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+            NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+            XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        }
+    }
+}
 
 @end

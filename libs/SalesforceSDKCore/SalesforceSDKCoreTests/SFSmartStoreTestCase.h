@@ -24,6 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSmartStore.h"
+#import "FMResultSet.h"
 
 @interface SFSmartStoreTestCase : XCTestCase
 
@@ -39,5 +40,7 @@
 
 - (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
 - (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store;
+- (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
+- (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
 
 @end
