@@ -175,7 +175,7 @@ NSString* const kName                 = @"name";
 - (void) testSmartQueryReturningOneRowWithTwoIntegers 
 {
     [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson'" withPageSize:1];
+    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where mgr.{employees:employeeId} = e.{employees:managerId} and e.{employees:lastName} = 'Thompson'" withPageSize:1];
     NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
     [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10,120000.10]]"] actual:result message:@"Wrong result"];
 }
