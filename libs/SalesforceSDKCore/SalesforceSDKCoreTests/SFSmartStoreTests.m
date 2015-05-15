@@ -52,15 +52,8 @@ NSString * const kTestSoupName   = @"testSoup";
 @interface SFSmartStoreTests ()
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
-
-- (BOOL) hasTable:(NSString*)tableName;
-- (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr;
-- (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail;
-- (void)createTestTable:(NSString *)tableName db:(FMDatabase *)db;
-- (int)rowCountForTable:(NSString *)tableName db:(FMDatabase *)db;
-- (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db;
-- (BOOL)canReadDatabase:(FMDatabase *)db;
-- (void)clearAllStores;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *globalStore;
 
 @end
 
@@ -75,14 +68,14 @@ NSString * const kTestSoupName   = @"testSoup";
     [super setUp];
     [SFLogger setLogLevel:SFLogLevelDebug];
     [self setUpSmartStoreUser];
-    _store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
-    _globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
+    self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
+    self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
 }
 
 - (void) tearDown
 {
-    _store = nil;
-    _globalStore = nil;
+    self.store = nil;
+    self.globalStore = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestSmartStoreName];
     [self tearDownSmartStoreUser];
@@ -136,10 +129,12 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMetaDataTablesCreated
 {
-    BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map"];
-    XCTAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
-    BOOL hasTableSoupNames = [self hasTable:@"soup_names"];
-    XCTAssertTrue(hasTableSoupNames, @"Soup names table not found");
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map" store:store];
+        XCTAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
+        BOOL hasTableSoupNames = [self hasTable:@"soup_names" store:store];
+        XCTAssertTrue(hasTableSoupNames, @"Soup names table not found");
+    }
 }
 
 /**
@@ -150,7 +145,7 @@ NSString * const kTestSoupName   = @"testSoup";
     NSUInteger const numRegisterAndDropIterations = 10;
     
     // Make sure you can register, drop, and re-add a soup through n iterations.
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         for (NSUInteger i = 0; i < numRegisterAndDropIterations; i++) {
             // Before
             XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %lu: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
@@ -174,7 +169,7 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMultipleRegisterSameSoup
 {
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         BOOL testSoupExists = [store soupExists:kTestSoupName];
         XCTAssertFalse(testSoupExists, @"Soup %@ should not exist", kTestSoupName);
@@ -381,8 +376,8 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testAllStoreNames
 {
     // Test with no stores. (Note: Have to get rid of the 'default' store created at setup.)
-    _store = nil;
-    _globalStore = nil;
+    self.store = nil;
+    self.globalStore = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestSmartStoreName];
     
@@ -625,7 +620,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void) testGetDatabaseSize
 {
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         unsigned long long initialSize = [store getDatabaseSize];
         
@@ -718,24 +713,6 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
-- (BOOL) hasTable:(NSString*)tableName
-{
-    __block NSInteger result = NSNotFound;
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
-        [store.storeQueue inDatabase:^(FMDatabase* db) {
-            FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:@[@"table", tableName]];
-            
-            if ([frs next]) {
-                result = [frs intForColumnIndex:0];
-            }
-            [frs close];
-        }];
-        if (result != 1) break;
-    }
-    
-    return result == 1;
-}
-
 - (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
 {
     NSError *createError = nil;
@@ -823,7 +800,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)clearAllStores
 {
-    _store = nil;
+    self.store = nil;
     [SFSmartStore removeAllStores];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     NSUInteger allStoreCount = [allStoreNames count];
@@ -832,7 +809,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void) tryAlterSoupInterruptResume:(SFAlterSoupStep)toStep
 {
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         XCTAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
         

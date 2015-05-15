@@ -25,9 +25,12 @@
 #import "SFSmartStoreTestCase.h"
 #import "SFSoupIndex.h"
 #import "SFJsonUtils.h"
+#import "SFSmartStore+Internal.h"
+#import "FMDatabaseQueue.h"
+#import "FMDatabase.h"
+#import "FMResultSet.h"
 
 @implementation SFSmartStoreTestCase
-
 
 #pragma mark - helper methods for comparing json
 
@@ -111,5 +114,32 @@
 {
     return @{@"path": path, @"type": pathType};
 }
+
+- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store
+{
+    __block NSInteger result = NSNotFound;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:@[@"table", tableName]];
+        
+        if ([frs next]) {
+            result = [frs intForColumnIndex:0];
+        }
+        [frs close];
+    }];
+    
+    return result == 1;
+}
+
+- (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store
+{
+    __block NSString* result;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [store tableNameForSoup:soupName withDb:db];
+    }];
+    
+    return result;
+    
+}
+
 
 @end

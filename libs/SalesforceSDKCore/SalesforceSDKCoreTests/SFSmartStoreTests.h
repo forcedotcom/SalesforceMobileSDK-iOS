@@ -28,8 +28,5 @@
 #import "SFSmartStoreTestCase.h"
 #import "SFSmartStore.h"
 
-@interface SFSmartStoreTests : SFSmartStoreTestCase {
-    SFSmartStore* _store;
-    SFSmartStore* _globalStore;
-}
+@interface SFSmartStoreTests : SFSmartStoreTestCase
 @end
