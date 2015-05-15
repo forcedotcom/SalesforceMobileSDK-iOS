@@ -89,7 +89,7 @@
     [self trySearch:@[] path:kLastName matchKey:@"Stel*" orderPath:nil];
 
     // One field - set operation - no results
-// FIXME    [self trySearch:@[] path:kFirstName matchKey:@"Ei* -Eileen" orderPath:nil];
+    [self trySearch:@[] path:kFirstName matchKey:@"Ei* -Eileen" orderPath:nil];
 }
 
 /**
@@ -108,7 +108,7 @@
     [self trySearch:@[self.irvingSternId] path:kLastName matchKey:@"Ste*" orderPath:nil];
     
     // One field - set operation - one result
-// FIXME    [self trySearch:@[self.eileenEvaId] path:kFirstName matchKey:@"E* -Eva" orderPath:nil];
+    [self trySearch:@[self.eileenEvaId] path:kFirstName matchKey:@"E* -Eva" orderPath:nil];
 }
 
 /**
@@ -148,7 +148,7 @@
     [self trySearch:@[] path:nil matchKey:@"Haas Christina" orderPath:nil];
 
     // All fields - set operation - no results
-//FIXME    [self trySearch:@[] path:nil matchKey:@"Christine -Haas" orderPath:nil];
+    [self trySearch:@[] path:nil matchKey:@"Christine -Haas" orderPath:nil];
 }
 
 /**
@@ -168,7 +168,7 @@
     [self trySearch:@[self.christineHaasId] path:nil matchKey:@"Haas Christine" orderPath:nil];
 
     // All fields - set operation - one result
-// FIXME    [self trySearch:@[self.aliHaasId] path:nil matchKey:@"Haas -Christine" orderPath:nil];
+    [self trySearch:@[self.aliHaasId] path:nil matchKey:@"Haas -Christine" orderPath:nil];
 }
 
 /**
@@ -189,8 +189,8 @@
     // All fields - set operation - more than result
     [self trySearch:@[self.michaelThompsonId, self.aliHaasId] path:nil matchKey:@"Thompson OR Ali" orderPath:kEmployeeId];
     [self trySearch:@[self.aliHaasId, self.michaelThompsonId] path:nil matchKey:@"Thompson OR Ali" orderPath:kFirstName];
-// FIXME    [self trySearch:@[self.christineHaasId, self.evaPulaskiId, self.eileenEvaId] path:nil matchKey:@"Eva OR Haas -Ali" orderPath:kEmployeeId];
-// FIXME    [self trySearch:@[self.christineHaasId, self.eileenEvaId, self.evaPulaskiId] path:nil matchKey:@"Eva OR Haas -Ali" orderPath:kFirstName];
+    [self trySearch:@[self.christineHaasId, self.evaPulaskiId, self.eileenEvaId] path:nil matchKey:@"Eva OR Haas -Ali" orderPath:kEmployeeId];
+    [self trySearch:@[self.christineHaasId, self.eileenEvaId, self.evaPulaskiId] path:nil matchKey:@"Eva OR Haas -Ali" orderPath:kFirstName];
 }
 
 /**
@@ -217,8 +217,8 @@
     // All fields - set operation - more than result
     [self trySearch:@[self.michaelThompsonId, self.aliHaasId] path:nil matchKey:@"{employees:lastName}:Thompson OR {employees:firstName}:Ali" orderPath:kEmployeeId];
     [self trySearch:@[self.aliHaasId, self.michaelThompsonId] path:nil matchKey:@"{employees:lastName}:Thompson OR {employees:firstName}:Ali" orderPath:kFirstName];
-// FIXME    [self trySearch:@[self.christineHaasId, self.eileenEvaId] path:nil matchKey:@"{employees:lastName}:Eva OR Haas -Ali" orderPath:kEmployeeId];
-// FIXME    [self trySearch:@[self.eileenEvaId, self.christineHaasId] path:nil matchKey:@"{employees:lastName}:Eva OR Haas -Ali" orderPath:kLastName];
+    [self trySearch:@[self.christineHaasId, self.eileenEvaId] path:nil matchKey:@"{employees:lastName}:Eva OR Haas -Ali" orderPath:kEmployeeId];
+    [self trySearch:@[self.eileenEvaId, self.christineHaasId] path:nil matchKey:@"{employees:lastName}:Eva OR Haas -Ali" orderPath:kLastName];
 }
 
 
