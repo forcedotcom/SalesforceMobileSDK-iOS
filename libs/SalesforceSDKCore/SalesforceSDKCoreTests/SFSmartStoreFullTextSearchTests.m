@@ -27,6 +27,9 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import "SFJsonUtils.h"
+#import "FMDatabaseQueue.h"
+#import "FMDatabase.h"
+#import "FMResultSet.h"
 
 @interface SFSmartStoreFullTextSearchTests ()
 
@@ -55,20 +58,21 @@
 {
     [super setUp];
     self.store = [SFSmartStore sharedGlobalStoreWithName:kTestStore];
-    
+    NSArray* soupIndices = [SFSoupIndex asArraySoupIndexes:
+                            @[[self createFullTextIndexSpec:kFirstName],    // should be TABLE_1_0
+                              [self createFullTextIndexSpec:kLastName],     // should be TABLE_1_1
+                              [self createStringIndexSpec:kEmployeeId]]];   // should be TABLE_1_2
     // Employees soup
-    [self.store registerSoup:kEmployeesSoup                               // should be TABLE_1
-          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          @[[self createFullTextIndexSpec:kFirstName],    // should be TABLE_1_0
-                            [self createFullTextIndexSpec:kLastName],     // should be TABLE_1_1
-                            [self createStringIndexSpec:kEmployeeId]]]];  // should be TABLE_1_2
+    [self.store registerSoup:kEmployeesSoup                             // should be TABLE_1
+              withIndexSpecs:soupIndices];
 }
 
 - (void) tearDown
 {
-    self.store = nil;
+    [self.store removeSoup:kEmployeesSoup];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestStore];
     [super tearDown];
+    self.store = nil;
 }
 
 #pragma mark - Tests
@@ -94,6 +98,43 @@
     XCTAssertFalse([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees should not exit");
 }
 
+/**
+ * Test inserting rows
+ */
+- (void) testInsert
+{
+    // Insert a couple of rows
+    NSDictionary* firstEmployee = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
+    NSDictionary* secondEmployee = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
+
+    // Getting index specs from db
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kEmployeesSoup];
+    
+    // Check DB
+    NSString* soupTableName = [self getSoupTableName:kEmployeesSoup store:self.store];
+    XCTAssertEqualObjects(@"TABLE_1", soupTableName, @"getSoupTableName should have returned TABLE_1");
+    XCTAssertTrue([self hasTable:@"TABLE_1" store:self.store], @"Table for soup employees does exit");
+    XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
+    
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1" forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
+        [self checkSoupRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
+        [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+}
 
 /**
  * Test search on single field returning no results
@@ -259,20 +300,19 @@
 
 - (void) loadData
 {
-    self.christineHaasId = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
-    self.michaelThompsonId = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
-    self.aliHaasId = [self createEmployeeWithFirstName:@"Ali" lastName:@"Haas" employeeId:@"00030"];
-    self.johnGeyerId = [self createEmployeeWithFirstName:@"John" lastName:@"Geyer" employeeId:@"00040"];
-    self.irvingSternId = [self createEmployeeWithFirstName:@"Irving" lastName:@"Stern" employeeId:@"00050"];
-    self.evaPulaskiId = [self createEmployeeWithFirstName:@"Eva" lastName:@"Pulaski" employeeId:@"00060"];
-    self.eileenEvaId = [self createEmployeeWithFirstName:@"Eileen" lastName:@"Eva" employeeId:@"00070"];
+    self.christineHaasId = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"][SOUP_ENTRY_ID];
+    self.michaelThompsonId = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"][SOUP_ENTRY_ID];
+    self.aliHaasId = [self createEmployeeWithFirstName:@"Ali" lastName:@"Haas" employeeId:@"00030"][SOUP_ENTRY_ID];
+    self.johnGeyerId = [self createEmployeeWithFirstName:@"John" lastName:@"Geyer" employeeId:@"00040"][SOUP_ENTRY_ID];
+    self.irvingSternId = [self createEmployeeWithFirstName:@"Irving" lastName:@"Stern" employeeId:@"00050"][SOUP_ENTRY_ID];
+    self.evaPulaskiId = [self createEmployeeWithFirstName:@"Eva" lastName:@"Pulaski" employeeId:@"00060"][SOUP_ENTRY_ID];
+    self.eileenEvaId = [self createEmployeeWithFirstName:@"Eileen" lastName:@"Eva" employeeId:@"00070"][SOUP_ENTRY_ID];
 }
 
-- (NSNumber*) createEmployeeWithFirstName:(NSString*)firstName lastName:(NSString*)lastName employeeId:(NSString*)employeeId
+- (NSDictionary*) createEmployeeWithFirstName:(NSString*)firstName lastName:(NSString*)lastName employeeId:(NSString*)employeeId
 {
     NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kEmployeeId: employeeId};
-    NSDictionary* employeeSaved = [_store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
-    return employeeSaved[SOUP_ENTRY_ID];
+    return [_store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
 }
 
 @end
