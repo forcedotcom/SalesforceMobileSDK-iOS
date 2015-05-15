@@ -1257,10 +1257,10 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     return result;
 }
 
-- (NSString *)soupEntryIdsPredicate:(NSArray *)soupEntryIds
+- (NSString *)idsInPredicate:(NSArray *)ids idCol:(NSString*)idCol
 {
-    NSString *allIds = [soupEntryIds componentsJoinedByString:@","];
-    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ",ID_COL,allIds];
+    NSString *allIds = [ids componentsJoinedByString:@","];
+    NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ", idCol, allIds];
     return pred;
 }
 
@@ -1284,7 +1284,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         return result;
     }
     
-    NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
+    NSString *pred = [self idsInPredicate:soupEntryIds idCol:ID_COL];
     NSString *querySql = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@",
                           SOUP_COL,soupTableName,pred];
     FMResultSet *frs = [self executeQueryThrows:querySql withDb:db];
@@ -1496,13 +1496,11 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 {
     if ([self soupExists:soupName withDb:db]) {
         NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
-        NSString *pred = [self soupEntryIdsPredicate:soupEntryIds];
-        NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@",
-                               soupTableName,pred];
+        NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:ID_COL]];
         [self executeUpdateThrows:deleteSql withDb:db];
         // fts
         if ([self hasFts:soupName withDb:db]) {
-            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, pred];
+            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:DOCID_COL]];
             [self executeUpdateThrows:deleteFtsSql withDb:db];
         }
     }

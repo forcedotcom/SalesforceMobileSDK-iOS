@@ -148,12 +148,6 @@
     // Getting index specs from db
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kEmployeesSoup];
     
-    // Check DB
-    NSString* soupTableName = [self getSoupTableName:kEmployeesSoup store:self.store];
-    XCTAssertEqualObjects(@"TABLE_1", soupTableName, @"getSoupTableName should have returned TABLE_1");
-    XCTAssertTrue([self hasTable:@"TABLE_1" store:self.store], @"Table for soup employees does exit");
-    XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
-
     // Update second employee
     NSDictionary* secondEmployeeUpdated = [self updateEnployeeWithFirstName:@"Michael-updated" lastName:@"Thompson" employeeId:@"00020-updated" soupEntryId:secondEmployee[SOUP_ENTRY_ID]];
     
@@ -172,6 +166,82 @@
         [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
         [self checkFtsRow:frs withExpectedEntry:secondEmployeeUpdated withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+}
+
+/**
+ * Test deleting rows
+ */
+- (void) testDelete
+{
+    // Insert a couple of rows
+    NSDictionary* firstEmployee = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
+    NSDictionary* secondEmployee = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
+    
+    // Getting index specs from db
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kEmployeesSoup];
+    
+    // Delete first employee
+    [self.store removeEntries:@[firstEmployee[SOUP_ENTRY_ID]] fromSoup:kEmployeesSoup];
+
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1" forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only one row should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only one should have been returned");
+        [frs close];
+    }];
+
+    // Delete second employee
+    [self.store removeEntries:@[secondEmployee[SOUP_ENTRY_ID]] fromSoup:kEmployeesSoup];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1" forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        XCTAssertFalse([frs next], @"No rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        XCTAssertFalse([frs next], @"No rows should have been returned");
+        [frs close];
+    }];
+}
+
+/**
+ * Test clearing soup
+ */
+- (void) testClear
+{
+    // Insert a couple of rows
+    [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
+    [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
+
+    // Clear soup
+    [self.store clearSoup:kEmployeesSoup];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1" forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        XCTAssertFalse([frs next], @"No rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        XCTAssertFalse([frs next], @"No rows should have been returned");
         [frs close];
     }];
 }
