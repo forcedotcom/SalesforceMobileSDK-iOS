@@ -146,18 +146,18 @@
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         for (NSUInteger i = 0; i < numRegisterAndDropIterations; i++) {
             // Before
-            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %lu: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
+            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
             
             // Register
             NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
             [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
             
             // Remove
             [store removeSoup:kTestSoupName];
             testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertFalse(testSoupExists, @"In iteration %lu: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
+            XCTAssertFalse(testSoupExists, @"In iteration %u: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
         }
     }
 }

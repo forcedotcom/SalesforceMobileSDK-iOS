@@ -421,13 +421,13 @@
 - (NSDictionary*) createEmployeeWithFirstName:(NSString*)firstName lastName:(NSString*)lastName employeeId:(NSString*)employeeId
 {
     NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kEmployeeId: employeeId};
-    return [_store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
+    return [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
 }
 
 - (NSDictionary*) updateEnployeeWithFirstName:(NSString*)firstName lastName:(NSString*)lastName employeeId:(NSString*)employeeId soupEntryId:(NSNumber*)soupEntryId
 {
     NSDictionary* employee = @{SOUP_ENTRY_ID:soupEntryId, kFirstName: firstName, kLastName: lastName, kEmployeeId: employeeId};
-    return [_store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
+    return [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup][0];
 }
 
 @end

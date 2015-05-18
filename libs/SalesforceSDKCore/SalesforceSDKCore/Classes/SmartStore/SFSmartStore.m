@@ -1007,12 +1007,12 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     }
     
     [createTableStmt appendString:@")"];
-    [self log:SFLogLevelDebug format:@"createTableStmt:\n %@",createTableStmt];
+    [self log:SFLogLevelDebug format:@"createTableStmt: %@",createTableStmt];
     
     // fts
     if (columnsForFts.count > 0) {
         [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts4(%@)", soupTableName, [columnsForFts componentsJoinedByString:@","]];
-        [self log:SFLogLevelDebug format:@"createFtsStmt:\n %@",createFtsStmt];
+        [self log:SFLogLevelDebug format:@"createFtsStmt: %@",createFtsStmt];
     }
     
     // create the main soup table
@@ -1588,7 +1588,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                 NSMutableDictionary *ftsValues = [NSMutableDictionary dictionary];
                 [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kSoupIndexTypeFullText];
                 if ([ftsValues count] > 0) {
-                    [self updateTable:soupTableName values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
+                    [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
                 }
             }
         }

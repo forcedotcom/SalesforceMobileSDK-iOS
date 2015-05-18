@@ -43,6 +43,16 @@
 
 #define kTestSmartStoreName   @"testSmartStore"
 #define kTestSoupName         @"testSoup"
+#define kName                 @"name"
+#define kPopulation           @"population"
+#define kCity                 @"city"
+#define kCountry              @"country"
+#define kTestSoupTableName    @"TABLE_1"
+#define kTestSoupFtsTableName @"TABLE_1_fts"
+#define kCityCol              @"TABLE_1_0"
+#define kCountryCol           @"TABLE_1_1"
+
+
 
 
 #pragma mark - setup and teardown
@@ -70,6 +80,198 @@
 }
 
 #pragma mark - tests
+
+/**
+ * Test for alterSoup with column type change from string to integer
+ */
+-(void) testAlterSoupTypeChangeStringToInteger
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kName, @"type": @"string"}, @{@"path": kPopulation, @"type": @"string"}]];
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+    
+    [self.store upsertEntries:@[@{kName:@"San Francisco", kPopulation:@825863}, @{kName:@"Paris", kPopulation:@2234105}]
+                       toSoup:kTestSoupName];
+
+    // Query all sorted by population ascending - we should get Paris first because we indexed population as a string
+    NSArray* results = [self.store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:kPopulation withOrder:kSFSoupQuerySortOrderAscending withPageSize:2 ] pageIndex:0 error:nil];
+    XCTAssertEqualObjects(results[0][kName], @"Paris", "Paris should be first");
+    XCTAssertEqualObjects(results[1][kName], @"San Francisco", "San Francisco should be second");
+
+    // Alter soup - index population as integer
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kName, @"type": @"string"}, @{@"path": kPopulation, @"type": @"integer"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
+
+    // Query all sorted by population ascending - we should get San Francisco first because we indexed population as an integer
+    NSArray* results2 = [self.store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:kPopulation withOrder:kSFSoupQuerySortOrderAscending withPageSize:2 ] pageIndex:0 error:nil];
+    XCTAssertEqualObjects(results2[0][kName], @"San Francisco", "San Francisco should be first");
+    XCTAssertEqualObjects(results2[1][kName], @"Paris", "Paris should be second");
+}
+
+/**
+ * Test for alterSoup with column type change from string to full_text
+ */
+-(void) testAlterSoupTypeChangeStringToFullText
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"string"}, @{@"path": kCountry, @"type": @"string"}]];
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+
+    NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
+                                               toSoup:kTestSoupName];
+    
+    // Check indices
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
+
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecs];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    XCTAssertFalse([self hasTable:kTestSoupFtsTableName store:self.store], "No fts table expected");
+
+    // Alter soup - country now full_text
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"string"}, @{@"path": kCountry, @"type": @"full_text"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
+
+    // Check indices
+    NSArray* actualIndexSpecsNew = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecsNew withExpectedIndexSpecs:indexSpecsNew checkColumnName:NO];
+
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCountryCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Alter soup - city now full_text
+    NSArray* indexSpecsNew2 = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"full_text"}, @{@"path": kCountry, @"type": @"full_text"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew2 reIndexData:YES];
+    
+    // Check indices
+    NSArray* actualIndexSpecsNew2 = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecsNew2 withExpectedIndexSpecs:indexSpecsNew2 checkColumnName:NO];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew2];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew2];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCityCol, kCountryCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew2];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew2];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+}
+
+/**
+ * Test for alterSoup with column type change from full_text to string
+ */
+- (void) testAlterSoupTypeChangeFullTextToString
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"full_text"}, @{@"path": kCountry, @"type": @"full_text"}]];
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+
+    NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
+                                               toSoup:kTestSoupName];
+    
+    // Check indices
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
+
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecs];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCityCol, kCountryCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecs];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+
+    // Alter soup - country now string
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"full_text"}, @{@"path": kCountry, @"type": @"string"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
+
+    // Check indices
+    NSArray* actualIndexSpecsNew = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecsNew withExpectedIndexSpecs:indexSpecsNew checkColumnName:NO];
+
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+
+    // Check fts table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCityCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew];
+        [self checkFtsRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Alter soup - city now string
+    NSArray* indexSpecsNew2 = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"string"}, @{@"path": kCountry, @"type": @"string"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew2 reIndexData:YES];
+    
+    // Check indices
+    NSArray* actualIndexSpecsNew2 = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecsNew2 withExpectedIndexSpecs:indexSpecsNew2 checkColumnName:NO];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecsNew2];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecsNew2];
+        XCTAssertFalse([frs next], @"Only two rows should have been returned");
+        [frs close];
+    }];
+    
+    // Check fts table
+    XCTAssertFalse([self hasTable:kTestSoupFtsTableName store:self.store], "No fts table expected");
+}
 
 -(void) testAlterSoupResumeAfterRenameOldSoupTable
 {
