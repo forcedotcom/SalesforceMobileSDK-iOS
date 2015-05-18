@@ -30,9 +30,7 @@
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
-#import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
-#import "SFAlterSoupLongOperation.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUpgrade+Internal.h"
@@ -40,14 +38,13 @@
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
 #import "SFSecurityLockout+Internal.h"
-#import "SFUserAccountManager.h"
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFEncryptionKey.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 
-NSString * const kTestSmartStoreName   = @"testSmartStore";
-NSString * const kTestSoupName   = @"testSoup";
+#define kTestSmartStoreName  @"testSmartStore"
+#define kTestSoupName        @"testSoup"
 
 @interface SFSmartStoreTests ()
 
@@ -62,24 +59,25 @@ NSString * const kTestSoupName   = @"testSoup";
 
 #pragma mark - setup and teardown
 
-
 - (void) setUp
 {
     [super setUp];
     [SFLogger setLogLevel:SFLogLevelDebug];
-    [self setUpSmartStoreUser];
+    self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
 }
 
 - (void) tearDown
 {
-    self.store = nil;
-    self.globalStore = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestSmartStoreName];
-    [self tearDownSmartStoreUser];
+    [self tearDownSmartStoreUser:self.smartStoreUser];
     [super tearDown];
+
+    self.smartStoreUser = nil;
+    self.store = nil;
+    self.globalStore = nil;
 }
 
 
@@ -643,57 +641,7 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
--(void) testAlterSoupResumeAfterRenameOldSoupTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepRenameOldSoupTable];
-}
-
--(void) testAlterSoupResumeAfterDropOldIndexes
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldIndexes];
-}
-
--(void) testAlterSoupResumeAfterRegisterSoupUsingTableName
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepRegisterSoupUsingTableName];
-}
-
--(void) testAlterSoupResumeAfterCopyTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepCopyTable];
-}
-
--(void) testAlterSoupResumeAfterReIndexSoup
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepReIndexSoup];
-}
-
--(void) testAlterSoupResumeAfterDropOldTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldTable];
-}
-
 #pragma mark - helper methods
-
-- (void)setUpSmartStoreUser
-{
-    u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
-    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
-    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
-    
-    self.smartStoreUser = user;
-    [[SFUserAccountManager sharedInstance] addAccount:self.smartStoreUser];
-    [SFUserAccountManager sharedInstance].currentUser = self.smartStoreUser;
-}
-
-- (void)tearDownSmartStoreUser
-{
-    [[SFUserAccountManager sharedInstance] deleteAccountForUser:self.smartStoreUser error:nil];
-    [SFUserAccountManager sharedInstance].currentUser = nil;
-    self.smartStoreUser = nil;
-}
 
 - (SFSmartStore *)smartStoreForManager:(SFSmartStoreDatabaseManager *)dbMgr withName:(NSString *)storeName
 {
@@ -805,86 +753,6 @@ NSString * const kTestSoupName   = @"testSoup";
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     NSUInteger allStoreCount = [allStoreNames count];
     XCTAssertEqual(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
-}
-
-- (void) tryAlterSoupInterruptResume:(SFAlterSoupStep)toStep
-{
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-        // Before
-        XCTAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
-        
-        // Register
-        NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
-        NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
-        [store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
-        BOOL testSoupExists = [store soupExists:kTestSoupName];
-        XCTAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
-        __block NSString* soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kTestSoupName withDb:db];
-        }];
-        
-        // Populate soup
-        NSArray* entries = [SFJsonUtils objectFromJSONString:@"[{\"lastName\":\"Doe\", \"address\":{\"city\":\"San Francisco\",\"street\":\"1 market\"}},"
-                            "{\"lastName\":\"Jackson\", \"address\":{\"city\":\"Los Angeles\",\"street\":\"100 mission\"}}]"];
-        NSArray* insertedEntries  =[store upsertEntries:entries toSoup:kTestSoupName];
-        
-        // Partial alter - up to toStep included
-        NSDictionary* citySoupIndex = @{@"path": @"address.city",@"type": @"string"};
-        NSDictionary* streetSoupIndex = @{@"path": @"address.street",@"type": @"string"};
-        NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex, citySoupIndex, streetSoupIndex]];
-        SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:store soupName:kTestSoupName newIndexSpecs:indexSpecsNew reIndexData:YES];
-        [operation runToStep:toStep];
-        
-        // Validate long_operations_status table
-        NSArray* operations = [store getLongOperations];
-        NSInteger expectedCount = (toStep == kLastStep ? 0 : 1);
-        XCTAssertTrue([operations count] == expectedCount, @"Wrong number of long operations found");
-        if ([operations count] > 0) {
-            // Check details
-            SFAlterSoupLongOperation* actualOperation = (SFAlterSoupLongOperation*)operations[0];
-            XCTAssertEqualObjects(actualOperation.soupName, kTestSoupName, @"Wrong soup name");
-            XCTAssertEqualObjects(actualOperation.soupTableName, soupTableName, @"Wrong soup name");
-            XCTAssertTrue(actualOperation.reIndexData, @"Wrong re-index data");
-            
-            // Check last step completed
-            XCTAssertEqual(actualOperation.afterStep, toStep, @"Wrong step");
-            
-            // Simulate restart (clear cache and call resumeLongOperations)
-            // TODO clear memory cache
-            [store resumeLongOperations];
-            
-            // Check that long operations table is now empty
-            XCTAssertTrue([[store getLongOperations] count] == 0, @"There should be no long operations left");
-            
-            // Check index specs
-            NSArray* actualIndexSpecs = [store indicesForSoup:kTestSoupName];
-            [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:[SFSoupIndex asArraySoupIndexes:indexSpecsNew] checkColumnName:NO];
-            
-            // Check data
-            [store.storeQueue inDatabase:^(FMDatabase *db) {
-                FMResultSet* frs = [store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
-                [self checkSoupRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
-                [self checkSoupRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
-                XCTAssertFalse([frs next], @"Only two rows should have been returned");
-                [frs close];
-            }];
-        }
-    }
-}
-
-- (void) checkIndexSpecs:(NSArray*)actualSoupIndexes withExpectedIndexSpecs:(NSArray*)expectedSoupIndexes checkColumnName:(BOOL)checkColumnName
-{
-    XCTAssertTrue([actualSoupIndexes count] == [expectedSoupIndexes count], @"Wrong number of index specs");
-    for (int i = 0; i<[expectedSoupIndexes count]; i++) {
-        SFSoupIndex* actualSoupIndex = ((SFSoupIndex*)actualSoupIndexes[i]);
-        SFSoupIndex* expectedSoupIndex = ((SFSoupIndex*)expectedSoupIndexes[i]);
-        XCTAssertEqualObjects(actualSoupIndex.path, expectedSoupIndex.path, @"Wrong path");
-        XCTAssertEqualObjects(actualSoupIndex.indexType, expectedSoupIndex.indexType, @"Wrong type");
-        if (checkColumnName) {
-            XCTAssertEqualObjects(actualSoupIndex.columnName, expectedSoupIndex.columnName, @"Wrong column name");
-        }
-    }
 }
 
 @end

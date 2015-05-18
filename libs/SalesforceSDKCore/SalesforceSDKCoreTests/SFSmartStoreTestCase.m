@@ -28,7 +28,6 @@
 #import "SFSmartStore+Internal.h"
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
-#import "FMResultSet.h"
 
 @implementation SFSmartStoreTestCase
 
@@ -181,5 +180,26 @@
         }
     }
 }
+
+- (SFUserAccount*)setUpSmartStoreUser
+{
+    u_int32_t userIdentifier = arc4random();
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
+    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    
+    [[SFUserAccountManager sharedInstance] addAccount:user];
+    [SFUserAccountManager sharedInstance].currentUser = user;
+    
+    return user;
+}
+
+- (void)tearDownSmartStoreUser:(SFUserAccount*)user
+{
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
+    [SFUserAccountManager sharedInstance].currentUser = nil;
+}
+
 
 @end

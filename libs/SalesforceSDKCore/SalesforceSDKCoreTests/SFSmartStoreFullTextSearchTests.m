@@ -29,7 +29,6 @@
 #import "SFJsonUtils.h"
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
-#import "FMResultSet.h"
 
 @interface SFSmartStoreFullTextSearchTests ()
 
