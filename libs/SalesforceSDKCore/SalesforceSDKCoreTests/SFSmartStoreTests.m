@@ -82,7 +82,33 @@
 
 
 #pragma mark - tests
-// All code under test must be linked into the Unit Test bundle
+/** 
+ * Test to check compile options
+ */
+- (void) testCompileOptions
+{
+    __block NSMutableArray* options = [NSMutableArray new];
+
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        
+        FMResultSet *rs = [db executeQuery:@"pragma compile_options"];
+        
+        while ([rs next]) {
+            [options addObject:[rs stringForColumnIndex:0]];
+        }
+        
+        [rs close];
+    }];
+
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS3"]);
+    XCTAssertFalse([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]); // we use the standard syntax
+}
+
+- (void) testSqliteVersion
+{
+    NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
+    XCTAssertEqualObjects(version, @"3.8.8.3");
+}
 
 /**
  * Testing method with paths to top level string/integer/array/map as well as edge cases (nil object/nil or empty path)
