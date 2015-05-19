@@ -51,9 +51,13 @@
 #define kTestSoupFtsTableName @"TABLE_1_fts"
 #define kCityCol              @"TABLE_1_0"
 #define kCountryCol           @"TABLE_1_1"
-
-
-
+#define kLastName             @"lastName"
+#define kAddress              @"address"
+#define kStreet               @"street"
+#define kAddressCity          @"address.city"
+#define kAddressStreet        @"address.street"
+#define kLastNameCol          @"TABLE_1_0"
+#define kAddressStreetCol     @"TABLE_1_1"
 
 #pragma mark - setup and teardown
 
@@ -80,6 +84,44 @@
 }
 
 #pragma mark - tests
+
+/**
+ * Test for getSoupIndexSpecs
+ */
+- (void) testGetSoupIndexSpecs {
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": @"lastName", @"type": @"string"},
+                                                            @{@"path": @"address.city", @"type": @"string"},
+                                                            @{@"path": @"salary", @"type": @"integer"},
+                                                            @{@"path": @"interest", @"type": @"floating"},
+                                                            @{@"path": @"note", @"type": @"full_text"}
+                                                            ]];
+    
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+
+    
+    // Check indices
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
+}
+
+/**
+ * Test for alterSoup with reIndexData = false
+ */
+- (void) testAlterSoupNoReIndexing
+{
+    [self alterSoupHelper:NO];
+}
+
+/**
+ * Test for alterSoup with reIndexData = true
+ */
+- (void) testAlterSoupWithReIndexing
+{
+    [self alterSoupHelper:YES];
+}
+
 
 /**
  * Test for alterSoup with column type change from string to integer
@@ -305,12 +347,67 @@
 
 #pragma mark - helper methods
 
+- (void) alterSoupHelper:(BOOL)reIndexData
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kLastName, @"type": @"string"}, @{@"path": kAddressCity, @"type": @"string"}]];
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+    
+    NSArray* savedEntries = [self.store upsertEntries:@[@{kLastName:@"Doe", kAddress: @{kCity: @"San Francisco", kStreet: @"1 market"}},
+                                                        @{kLastName:@"Jackson", kAddress: @{kCity: @"Los Angeles", kStreet: @"100 mission"}},
+                                                        @{kLastName:@"Watson", kAddress: @{kCity: @"London", kStreet: @"50 market"}}]
+                                               toSoup:kTestSoupName];
+    
+
+    // Check indices
+    NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[0] withSoupIndexes:actualIndexSpecs];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[1] withSoupIndexes:actualIndexSpecs];
+        [self checkSoupRow:frs withExpectedEntry:savedEntries[2] withSoupIndexes:actualIndexSpecs];
+        XCTAssertFalse([frs next], @"Only three rows should have been returned");
+        [frs close];
+    }];
+    
+    // Alter soup - country now string
+    NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kLastName, @"type": @"string"}, @{@"path": kAddressStreet, @"type": @"string"}]];
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:reIndexData];
+    
+    // Check indices
+    NSArray* actualIndexSpecsNew = [self.store indicesForSoup:kTestSoupName];
+    [self checkIndexSpecs:actualIndexSpecsNew withExpectedIndexSpecs:indexSpecsNew checkColumnName:NO];
+    
+    // Check soup table
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        
+        for (int i=0; i<3; i++) {
+            [frs next];
+            XCTAssertEqualObjects(@([frs longForColumn:ID_COL]), savedEntries[i][SOUP_ENTRY_ID], "Wrong id");
+            XCTAssertEqualObjects([frs stringForColumn:kLastNameCol], savedEntries[i][kLastName], "Wrong name");
+            if (reIndexData) {
+                XCTAssertEqualObjects([frs stringForColumn:kAddressStreetCol], savedEntries[i][kAddress][kStreet], "Wrong street");
+            }
+            else {
+                XCTAssertNil([frs stringForColumn:kAddressStreetCol], "Wrong street - nil expected");
+            }
+        }
+        XCTAssertFalse([frs next], @"Only three rows should have been returned");
+        [frs close];
+    }];
+}
+
 - (void) tryAlterSoupInterruptResume:(SFAlterSoupStep)toStep
 {
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         XCTAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
-        
+ 
         // Register
         NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
         NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
