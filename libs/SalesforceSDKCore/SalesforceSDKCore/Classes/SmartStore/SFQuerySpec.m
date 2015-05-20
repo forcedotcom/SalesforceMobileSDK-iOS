@@ -333,6 +333,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithInteger:self.pageSize],kQuerySpecParamPageSize,
                                    nil];
+    
     if (nil != self.path) {
         result[kQuerySpecParamIndexPath] = self.path;
     }
@@ -349,6 +350,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
      
     switch (self.queryType) {
         case kSFSoupQueryTypeRange:
+            result[kQuerySpecParamQueryType] = kQuerySpecTypeRange;
             if (nil != self.beginKey)
                 result[kQuerySpecParamBeginKey] = self.beginKey;
             if (nil != self.endKey)
@@ -356,20 +358,22 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
             break;
 
         case kSFSoupQueryTypeLike:
-            if (nil != self.beginKey)
-                result[kQuerySpecParamLikeKey] = self.likeKey;
+            result[kQuerySpecParamQueryType] = kQuerySpecTypeLike;
+            result[kQuerySpecParamLikeKey] = self.likeKey;
             break;
             
         case kSFSoupQueryTypeExact:
-            if (nil != self.beginKey)
-                result[kQuerySpecParamMatchKey] = self.matchKey;
+            result[kQuerySpecParamQueryType] = kQuerySpecTypeExact;
+            result[kQuerySpecParamMatchKey] = self.matchKey;
             break;
 
         case kSFSoupQueryTypeSmart:
+            result[kQuerySpecParamQueryType] = kQuerySpecTypeSmart;
             result[kQuerySpecParamSmartSql] = self.smartSql;
             break;
 
         case kSFSoupQueryTypeMatch:
+            result[kQuerySpecParamQueryType] = kQuerySpecTypeMatch;
             result[kQuerySpecParamMatchKey] = self.matchKey;
             break;
         }

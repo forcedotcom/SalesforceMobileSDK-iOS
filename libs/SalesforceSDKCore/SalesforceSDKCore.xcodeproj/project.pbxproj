@@ -36,6 +36,7 @@
 		4F2FA7731B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA7721B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m */; };
 		4F3A72EB19DB87D900E6F468 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3A72EA19DB87D900E6F468 /* test_credentials.json */; };
 		4F8AE46E1B0A7A570036C2EC /* SFSmartStoreAlterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8AE46D1B0A7A570036C2EC /* SFSmartStoreAlterTests.m */; };
+		4F8AE4711B0BCE1B0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8AE4701B0BCE1B0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.m */; };
 		4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F95CBCD1808BA16006FC87E /* SFPushNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */; };
 		4F9BB825192AA7CB0000712D /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */; };
@@ -204,6 +205,8 @@
 		4F3A72EA19DB87D900E6F468 /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		4F8AE46C1B0A7A1B0036C2EC /* SFSmartStoreAlterTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreAlterTests.h; sourceTree = "<group>"; };
 		4F8AE46D1B0A7A570036C2EC /* SFSmartStoreAlterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreAlterTests.m; sourceTree = "<group>"; };
+		4F8AE46F1B0BCDFF0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreFullTextSearchSpeedTests.h; sourceTree = "<group>"; };
+		4F8AE4701B0BCE1B0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreFullTextSearchSpeedTests.m; sourceTree = "<group>"; };
 		4F95CBCA1808BA16006FC87E /* SFPushNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPushNotificationManager.h; path = PushNotification/SFPushNotificationManager.h; sourceTree = "<group>"; };
 		4F95CBCB1808BA16006FC87E /* SFPushNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPushNotificationManager.m; path = PushNotification/SFPushNotificationManager.m; sourceTree = "<group>"; };
 		4F9BB823192AA7CB0000712D /* SFSmartStoreInspectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreInspectorViewController.m; sourceTree = "<group>"; };
@@ -733,14 +736,16 @@
 				82D4646319C7CBD30006BDFE /* SFSecurityLockoutTests.m */,
 				82D4646419C7CBD30006BDFE /* SFSmartSqlTests.h */,
 				82D4646519C7CBD30006BDFE /* SFSmartSqlTests.m */,
+				4F8AE46C1B0A7A1B0036C2EC /* SFSmartStoreAlterTests.h */,
+				4F8AE46D1B0A7A570036C2EC /* SFSmartStoreAlterTests.m */,
+				4F8AE46F1B0BCDFF0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.h */,
+				4F8AE4701B0BCE1B0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.m */,
+				4F2FA7701B041D4100A7EE11 /* SFSmartStoreFullTextSearchTests.h */,
+				4F2FA7721B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m */,
 				82D4646619C7CBD30006BDFE /* SFSmartStoreTestCase.h */,
 				82D4646719C7CBD30006BDFE /* SFSmartStoreTestCase.m */,
 				82D4646819C7CBD30006BDFE /* SFSmartStoreTests.h */,
 				82D4646919C7CBD30006BDFE /* SFSmartStoreTests.m */,
-				4F2FA7721B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m */,
-				4F2FA7701B041D4100A7EE11 /* SFSmartStoreFullTextSearchTests.h */,
-				4F8AE46C1B0A7A1B0036C2EC /* SFSmartStoreAlterTests.h */,
-				4F8AE46D1B0A7A570036C2EC /* SFSmartStoreAlterTests.m */,
 				82D4646A19C7CBD30006BDFE /* SFUserAccountManagerTests.m */,
 				82D4644B19C7C8180006BDFE /* Supporting Files */,
 			);
@@ -1064,6 +1069,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F8AE4711B0BCE1B0036C2EC /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */,
 				82D4646F19C7CBD30006BDFE /* SFSmartSqlTests.m in Sources */,
 				82D4647219C7CBD30006BDFE /* SFUserAccountManagerTests.m in Sources */,
 				4F8AE46E1B0A7A570036C2EC /* SFSmartStoreAlterTests.m in Sources */,
