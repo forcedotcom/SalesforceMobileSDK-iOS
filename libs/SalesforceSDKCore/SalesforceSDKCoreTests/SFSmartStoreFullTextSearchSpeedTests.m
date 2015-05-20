@@ -83,6 +83,9 @@
     [self trySearch:40 matchingRowsPerAnimal:40];
 }
 
+/*
+// Slow - uncomment when collecting performance data
+
 - (void) testSearch10000RowsOneMatch
 {
     [self trySearch:400 matchingRowsPerAnimal:1];
@@ -93,8 +96,6 @@
     [self trySearch:400 matchingRowsPerAnimal:400];
 }
 
-/*
-// Slow - uncomment when collecting performance data
 - (void) testSearch100000RowsManyMatches
 {
     [self trySearch:4000 matchingRowsPerAnimal:1];
