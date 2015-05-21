@@ -100,10 +100,11 @@
  Helper method to update existing values in a table.
  @param tableName The name of the table to update.
  @param values The column name/value mapping to update.
- @param entryId The ID column used to determine what to update.
+ @param entryId The ID value used to determine what to update.
+ @param idCol The name of the ID column
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId withDb:(FMDatabase*)db;
+- (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber*)entryId idCol:(NSString*)idCol withDb:(FMDatabase*)db;
 
 
 /**

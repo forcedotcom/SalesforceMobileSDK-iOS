@@ -10,3 +10,6 @@
 [submodule "external/ocmock"]
 	path = external/ocmock
 	url = https://github.com/erikdoe/ocmock.git
+[submodule "external/fmdb"]
+	path = external/fmdb
+	url = https://github.com/forcedotcom/fmdb

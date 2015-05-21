@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,29 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <XCTest/XCTest.h>
-#import "SFSmartStore.h"
-#import "FMResultSet.h"
-#import "SFUserAccountManager.h"
+//  Logic unit tests contain unit test code that is designed to be linked into an independent test executable.
+//  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
-@interface SFSmartStoreTestCase : XCTestCase
+#import "SFSmartStoreTestCase.h"
 
-- (void) assertSameJSONWithExpected:(id)expected actual:(id) actual message:(NSString*) message;
-- (void) assertSameJSONArrayWithExpected:(NSArray*)expected actual:(NSArray*) actual message:(NSString*) message;
-- (void) assertSameJSONMapWithExpected:(NSDictionary*)expected actual:(NSDictionary*) actual message:(NSString*) message;
-
-- (NSDictionary*) createStringIndexSpec:(NSString*) path;
-- (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
-- (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
-- (NSDictionary*) createFullTextIndexSpec:(NSString*) path;
-- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
-
-- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
-- (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store;
-- (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
-- (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
-
-- (SFUserAccount*) setUpSmartStoreUser;
-- (void) tearDownSmartStoreUser:(SFUserAccount*)user;
-
+@interface SFSmartStoreAlterTests : SFSmartStoreTestCase
 @end

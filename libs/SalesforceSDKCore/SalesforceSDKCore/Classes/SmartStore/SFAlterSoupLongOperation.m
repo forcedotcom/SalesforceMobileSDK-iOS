@@ -29,33 +29,36 @@
 #import "SFSoupIndex.h"
 #import "SFJsonUtils.h"
 
+@interface SFAlterSoupLongOperation ()
+
+@property (nonatomic, readwrite, strong) NSString *soupName;
+@property (nonatomic, readwrite, strong) NSString *soupTableName;
+@property (nonatomic, readwrite, assign) SFAlterSoupStep afterStep;
+@property (nonatomic, readwrite, strong) NSArray *indexSpecs;
+@property (nonatomic, readwrite, strong) NSArray *oldIndexSpecs;
+@property (nonatomic, readwrite, assign) BOOL  reIndexData;
+@property (nonatomic, readwrite, strong) SFSmartStore *store;
+@property (nonatomic, readwrite, strong) FMDatabaseQueue *queue;
+@property (nonatomic, readwrite, assign) long long rowId;
+
+@end
+
 @implementation SFAlterSoupLongOperation
-
-@synthesize store = _store;
-@synthesize queue = _queue;
-@synthesize soupName = _soupName;
-@synthesize soupTableName = _soupTableName;
-@synthesize reIndexData = _reIndexData;
-@synthesize rowId = _rowId;
-@synthesize indexSpecs = _indexSpecs;
-@synthesize oldIndexSpecs = _oldIndexSpecs;
-@synthesize afterStep = _afterStep;
-
 
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
 {
     self = [super init];
     if (nil != self) {
-        _store = store;
-        _queue = store.storeQueue;
-        _soupName = soupName;
-        _indexSpecs = [SFSoupIndex asArraySoupIndexes:newIndexSpecs];
-        _oldIndexSpecs = [store indicesForSoup:soupName];
-        _reIndexData = reIndexData;
-        _afterStep = SFAlterSoupStepStarting;
+        self.store = store;
+        self.queue = store.storeQueue;
+        self.soupName = soupName;
+        self.indexSpecs = [SFSoupIndex asArraySoupIndexes:newIndexSpecs];
+        self.oldIndexSpecs = [store indicesForSoup:soupName];
+        self.reIndexData = reIndexData;
+        self.afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            _soupTableName = [store tableNameForSoup:soupName withDb:db];
-            _rowId = [self createLongOperationDbRowWithDb:db];
+            self.soupTableName = [store tableNameForSoup:soupName withDb:db];
+            self.rowId = [self createLongOperationDbRowWithDb:db];
         }];
     }
     return self;
@@ -65,15 +68,15 @@
 {
     self = [super init];
     if (nil != self) {
-        _store = store;
-        _queue = store.storeQueue;
-        _rowId = rowId;
-        _soupName = details[SOUP_NAME];
-        _soupTableName = details[SOUP_TABLE_NAME];
-        _indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
-        _oldIndexSpecs = [SFSoupIndex asArraySoupIndexes:details[OLD_INDEX_SPECS]];
-        _reIndexData = [details[RE_INDEX_DATA] boolValue];
-        _afterStep = status;
+        self.store = store;
+        self.queue = store.storeQueue;
+        self.rowId = rowId;
+        self.soupName = details[SOUP_NAME];
+        self.soupTableName = details[SOUP_TABLE_NAME];
+        self.indexSpecs = [SFSoupIndex asArraySoupIndexes:details[NEW_INDEX_SPECS]];
+        self.oldIndexSpecs = [SFSoupIndex asArraySoupIndexes:details[OLD_INDEX_SPECS]];
+        self.reIndexData = [details[RE_INDEX_DATA] boolValue];
+        self.afterStep = status;
     }
     return self;
 }
@@ -132,12 +135,18 @@
  */
 - (void) renameOldSoupTable
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         //TODO if app crashed after alter and before status row update, the re-play would fail
         //     we should only do the alter table if the x_old table is not found
         // Rename backing table for soup
         NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@ RENAME TO %@_old", self.soupTableName, self.soupTableName];
-        [db executeUpdate:sql];
+        [self executeUpdate:db sql:sql context:@"renameOldSoupTable"];
+        
+        // Renaming fts table if any
+        if ([SFSoupIndex hasFts:self.oldIndexSpecs]) {
+            NSString* sql = [NSString stringWithFormat:@"ALTER TABLE %@_fts RENAME TO %@_fts_old", self.soupTableName, self.soupTableName];
+            [self executeUpdate:db sql:sql context:@"renameOldSoupTable-fts"];
+        }
         
         // Update row in alter status table
         [self updateLongOperationDbRow:SFAlterSoupStepRenameOldSoupTable withDb:db];
@@ -150,16 +159,16 @@
  */
 - (void) dropOldIndexes
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // Removing db indexes on table (otherwise registerSoup will fail to create indexes with the same name)
         for (int i=0; i<[self.oldIndexSpecs count]; i++) {
             NSString* sql = [NSString stringWithFormat:@"DROP INDEX IF EXISTS %@_%d_idx", self.soupTableName, i];
-            [db executeUpdate:sql];
+            [self executeUpdate:db sql:sql context:@"dropOldIndexes"];
         }
         
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                          SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
-        [db executeUpdate:sql];
+        [self executeUpdate:db sql:sql context:@"dropOldIndexes"];
         
         // Update row in alter status table
         [self updateLongOperationDbRow:SFAlterSoupStepDropOldIndexes withDb:db];
@@ -175,7 +184,7 @@
  */
 - (void) registerSoupUsingTableName
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         [self.store registerSoup:self.soupName withIndexSpecs:self.indexSpecs withSoupTableName:self.soupTableName withDb:db];
         
         // Update row in alter status table -auto commit
@@ -189,14 +198,68 @@
  */
 - (void) copyTable
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // We need column names in the index specs
         _indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
 		
         // Move data (core columns + indexed paths that we are still indexing)
-        NSString* copySql = [self computeCopyTableStatement];
-        [db executeUpdate:copySql];
+        NSDictionary* mapOldSpecs = [SFSoupIndex mapForSoupIndexes:self.oldIndexSpecs];
+        NSDictionary* mapNewSpecs = [SFSoupIndex mapForSoupIndexes:self.indexSpecs];
         
+        // Figuring out paths we are keeping
+        NSSet* oldPaths = [NSSet setWithArray:[mapOldSpecs allKeys]];
+        NSMutableSet* keptPaths = [NSMutableSet setWithArray:[mapNewSpecs allKeys]];
+        [keptPaths intersectSet:oldPaths];
+        
+        // Compute list of columns to copy from / list of columns to copy into
+        NSMutableArray* oldColumns = [NSMutableArray arrayWithObjects:ID_COL, SOUP_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
+        NSMutableArray* newColumns = [NSMutableArray arrayWithObjects:ID_COL, SOUP_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
+        
+        // Adding indexed path columns that we are keeping
+        for (NSString* keptPath in keptPaths) {
+            SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
+            SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
+            if ([oldIndexSpec.columnType isEqualToString:newIndexSpec.columnType]) {
+                [oldColumns addObject:oldIndexSpec.columnName];
+                [newColumns addObject:newIndexSpec.columnName];
+            }
+        }
+        
+        // Compute copy statement
+        NSString* copySql = [NSString stringWithFormat:@"INSERT INTO %@ (%@) SELECT %@ FROM %@_old",
+                             self.soupTableName,
+                             [newColumns componentsJoinedByString:@","],
+                             [oldColumns componentsJoinedByString:@","],
+                             self.soupTableName
+                             ];
+        [self executeUpdate:db sql:copySql context:@"copyTable"];
+        
+        // Fts
+        if ([SFSoupIndex hasFts:self.indexSpecs]) {
+            NSMutableArray* oldColumnsFts = [NSMutableArray arrayWithObjects:ID_COL, nil];
+            NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:DOCID_COL, nil];
+
+            // Adding indexed path columns that we are keeping
+            for (NSString* keptPath in keptPaths) {
+                SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
+                SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
+                if ([oldIndexSpec.columnType isEqualToString:newIndexSpec.columnType]
+                    && [newIndexSpec.indexType isEqualToString:kSoupIndexTypeFullText]) {
+                    [oldColumnsFts addObject:oldIndexSpec.columnName];
+                    [newColumnsFts addObject:newIndexSpec.columnName];
+                }
+            }
+
+            // Compute copy statement for fts table
+            NSString* copyFtsSql = [NSString stringWithFormat:@"INSERT INTO %@_fts (%@) SELECT %@ FROM %@_old",
+                                    self.soupTableName,
+                                    [newColumnsFts componentsJoinedByString:@","],
+                                    [oldColumnsFts componentsJoinedByString:@","],
+                                    self.soupTableName
+                                    ];
+            [self executeUpdate:db sql:copyFtsSql context:@"copyTable-fts"];
+        }
+ 
         // Update row in alter status table
         [self updateLongOperationDbRow:SFAlterSoupStepCopyTable withDb:db];
     }];
@@ -208,7 +271,7 @@
  */
 - (void) reIndexSoup
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         NSMutableSet* oldPathTypeSet = [NSMutableSet set];
         // Putting path--type of old index specs in a set
         for(SFSoupIndex* oldIndexSpec in self.oldIndexSpecs) {
@@ -238,10 +301,16 @@
  */
 - (void) dropOldTable
 {
-    [_queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // Drop old table
-        NSString* sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_old", _soupTableName];
-        [db executeUpdate:sql];
+        NSString* sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_old", self.soupTableName];
+        [self executeUpdate:db sql:sql context:@"dropOldTable"];
+        
+        // Dropping fts table if any
+        if ([SFSoupIndex hasFts:self.oldIndexSpecs]) {
+            NSString* sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@_fts_old", self.soupTableName];
+            [self executeUpdate:db sql:sql context:@"dropOldTable-fts"];
+        }
         
         // Update status row - auto commit
         [self updateLongOperationDbRow:SFAlterSoupStepDropOldTable withDb:db];
@@ -294,45 +363,14 @@
         NSMutableDictionary* values = [NSMutableDictionary dictionary];
         values[STATUS_COL] = [NSNumber numberWithUnsignedInteger:newStatus];
         values[LAST_MODIFIED_COL] = now;
-        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) withDb:db];
+        [self.store updateTable:LONG_OPERATIONS_STATUS_TABLE values:values entryId:@(self.rowId) idCol:ID_COL withDb:db];
     }
 }
 
-/**
- Helper method
- @return insert statement to copy data from soup old backing table to soup new backing table
- */
-- (NSString*) computeCopyTableStatement
+-(void)executeUpdate:(FMDatabase*)db sql:(NSString*)sql context:(NSString*)context
 {
-    NSDictionary* mapOldSpecs = [SFSoupIndex mapForSoupIndexes:self.oldIndexSpecs];
-    NSDictionary* mapNewSpecs = [SFSoupIndex mapForSoupIndexes:self.indexSpecs];
-    
-    // Figuring out paths we are keeping
-    NSSet* oldPaths = [NSSet setWithArray:[mapOldSpecs allKeys]];
-    NSMutableSet* keptPaths = [NSMutableSet setWithArray:[mapNewSpecs allKeys]];
-    [keptPaths intersectSet:oldPaths];
-    
-    // Compute list of columns to copy from / list of columns to copy into
-    NSMutableArray* oldColumns = [NSMutableArray arrayWithObjects:ID_COL, SOUP_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
-    NSMutableArray* newColumns = [NSMutableArray arrayWithObjects:ID_COL, SOUP_COL, CREATED_COL, LAST_MODIFIED_COL, nil];
-    
-    // Adding indexed path columns that we are keeping
-    for (NSString* keptPath in keptPaths) {
-        SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
-        SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
-        if ([oldIndexSpec.indexType isEqualToString:newIndexSpec.indexType]) {
-            [oldColumns addObject:oldIndexSpec.columnName];
-            [newColumns addObject:newIndexSpec.columnName];
-        }
-    }
-    
-    // Compute and return statement
-    return [NSString stringWithFormat:@"INSERT INTO %@ (%@) SELECT %@ FROM %@_old",
-            self.soupTableName,
-            [newColumns componentsJoinedByString:@","],
-            [oldColumns componentsJoinedByString:@","],
-            self.soupTableName
-            ];
+    [self log:SFLogLevelDebug format:@"%@: %@", context, sql];
+    [self.store executeUpdateThrows:sql withDb:db];
 }
 
 @end

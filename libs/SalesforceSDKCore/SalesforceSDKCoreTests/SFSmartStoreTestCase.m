@@ -23,10 +23,13 @@
  */
 
 #import "SFSmartStoreTestCase.h"
+#import "SFSoupIndex.h"
 #import "SFJsonUtils.h"
+#import "SFSmartStore+Internal.h"
+#import "FMDatabaseQueue.h"
+#import "FMDatabase.h"
 
 @implementation SFSmartStoreTestCase
-
 
 #pragma mark - helper methods for comparing json
 
@@ -85,5 +88,118 @@
         [self assertSameJSONWithExpected:expected[key] actual:actual[key] message:message];
     }
 }
+
+- (NSDictionary*) createIntegerIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeInteger];
+}
+
+- (NSDictionary*) createFloatingIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeFloating];
+}
+
+- (NSDictionary*) createFullTextIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeFullText];
+}
+
+- (NSDictionary*) createStringIndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeString];
+}
+
+- (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
+{
+    return @{@"path": path, @"type": pathType};
+}
+
+- (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store
+{
+    __block NSInteger result = NSNotFound;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:@[@"table", tableName]];
+        
+        if ([frs next]) {
+            result = [frs intForColumnIndex:0];
+        }
+        [frs close];
+    }];
+    
+    return result == 1;
+}
+
+- (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store
+{
+    __block NSString* result;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        result = [store tableNameForSoup:soupName withDb:db];
+    }];
+    
+    return result;
+    
+}
+
+- (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
+{
+    XCTAssertTrue([frs next], @"Expected rows to be returned");
+    // Check id
+    XCTAssertEqualObjects(@([frs longForColumn:ID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    
+    /*
+     // FIXME value coming back is an int - needs to be investigated and fixed in 2.2
+     STAssertEqualObjects([NSNumber numberWithLong:[frs longForColumn:LAST_MODIFIED_COL]], expectedEntry[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
+     */
+    
+    // Check indexed columns
+    for (SFSoupIndex* soupIndex in arraySoupIndexes)
+    {
+        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+    }
+    
+    // Check soup column
+    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+}
+
+- (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
+{
+    XCTAssertTrue([frs next], @"Expected rows to be returned");
+    
+    // Check docid
+    XCTAssertEqualObjects(@([frs longForColumn:DOCID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+
+    // Check indexed columns
+    for (SFSoupIndex* soupIndex in arraySoupIndexes)
+    {
+        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeFullText]) {
+            NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+            NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+            XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        }
+    }
+}
+
+- (SFUserAccount*)setUpSmartStoreUser
+{
+    u_int32_t userIdentifier = arc4random();
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
+    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
+    
+    [[SFUserAccountManager sharedInstance] addAccount:user];
+    [SFUserAccountManager sharedInstance].currentUser = user;
+    
+    return user;
+}
+
+- (void)tearDownSmartStoreUser:(SFUserAccount*)user
+{
+    [[SFUserAccountManager sharedInstance] deleteAccountForUser:user error:nil];
+    [SFUserAccountManager sharedInstance].currentUser = nil;
+}
+
 
 @end

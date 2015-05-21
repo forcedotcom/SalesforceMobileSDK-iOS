@@ -160,7 +160,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self registerSoup];
     }
     
-    SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
+    SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
     [self log:SFLogLevelDebug msg:@"Got local query results.  Populating data rows."];
