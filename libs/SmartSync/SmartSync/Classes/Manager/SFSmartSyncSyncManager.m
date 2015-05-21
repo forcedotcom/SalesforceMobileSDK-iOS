@@ -219,8 +219,8 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    if (sync.status != SFSyncStateStatusDone) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:not done:%@", syncId, [SFSyncState syncStatusToString:sync.status]];
+    if (sync.status == SFSyncStateStatusRunning) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
     
@@ -375,6 +375,7 @@ static NSMutableDictionary *syncMgrList = nil;
     // Call smartstore
     NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self soupName:soupName];
     NSUInteger totalSize = [dirtyRecordIds count];
+    updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
     if (totalSize == 0) {
         return;
     }
