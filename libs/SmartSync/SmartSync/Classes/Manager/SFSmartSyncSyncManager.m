@@ -375,6 +375,7 @@ static NSMutableDictionary *syncMgrList = nil;
     // Call smartstore
     NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self soupName:soupName];
     NSUInteger totalSize = [dirtyRecordIds count];
+    updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
     if (totalSize == 0) {
         return;
     }
