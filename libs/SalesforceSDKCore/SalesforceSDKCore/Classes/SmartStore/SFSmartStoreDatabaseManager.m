@@ -158,6 +158,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
     if ([db open]) {
+        [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = '4000'"] close];
+        // the new default for sqlcipher 3.x (64000) is too slow
+        // also that way we can open 2.x databases without any migration]
         [db setKey:key];
         return db;
     } else {
@@ -275,9 +278,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                      userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
         }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
     fileOpSuccess = [[NSFileManager defaultManager] moveItemAtPath:encDbPath toPath:storePath error:error];
     if (!fileOpSuccess) {
@@ -289,9 +290,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:backupPath toPath:storePath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
     
     FMDatabase *encDb = [self openDatabaseWithPath:storePath key:newKey error:nil];
@@ -301,9 +300,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     } else {
         [[NSFileManager defaultManager] removeItemAtPath:storePath error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:backupPath toPath:storePath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
 }
 
