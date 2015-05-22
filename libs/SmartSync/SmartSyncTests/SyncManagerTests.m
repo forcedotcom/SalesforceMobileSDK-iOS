@@ -271,6 +271,44 @@ static NSException *authException = nil;
 }
 
 /**
+ * Sync down the test accounts, modify none, sync up, check smartstore and server afterwards
+ */
+-(void)testSyncUpWithNoLocalUpdates
+{
+    // Create test data
+    [self createTestData];
+    
+    // first sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Sync up
+    [self trySyncUp:0 mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Check that db doesn't show entries as locally modified
+    NSArray* ids = [idToNames allKeys];
+    NSString* idsClause = [self buildInClause:ids];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+    }
+    
+    // Check server
+    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSArray* records = [self sendSyncRequest:request][RECORDS];
+    for (NSDictionary* record in records) {
+        XCTAssertEqualObjects(idToNames[record[ACCOUNT_ID]], record[ACCOUNT_NAME]);
+    }
+}
+
+
+/**
  * Sync down the test accounts, modify a few, sync up, check smartstore and server afterwards
  */
 -(void)testSyncUpWithLocallyUpdatedRecords
@@ -797,9 +835,11 @@ static NSException *authException = nil;
     
     // Check status updates
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
-    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
-    for (int i=1; i<actualNumberChanges; i++) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
+    if (actualNumberChanges > 0) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:numberChanges];
+        for (int i=1; i<actualNumberChanges; i++) {
+            [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:i*100/numberChanges expectedTotalSize:numberChanges];
+        }
     }
     
     if (completionStatus == SFSyncStateStatusDone) {
