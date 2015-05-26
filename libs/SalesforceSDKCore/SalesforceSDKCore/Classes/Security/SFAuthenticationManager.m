@@ -821,10 +821,8 @@ static Class InstanceClass = nil;
     
     [SFAuthenticationManager removeAllCookies];
     [self.coordinator stopAuthentication];
-    self.coordinator.delegate = nil;
-    self.idCoordinator.delegate = nil;
-    SFRelease(_idCoordinator);
-    SFRelease(_coordinator);
+    self.idCoordinator.idData = nil;
+    self.coordinator.credentials = nil;
 }
 
 - (void)cleanupStatusAlert
