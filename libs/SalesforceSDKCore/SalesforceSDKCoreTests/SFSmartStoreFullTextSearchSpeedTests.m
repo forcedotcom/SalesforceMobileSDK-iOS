@@ -83,9 +83,9 @@
     [self trySearch:40 matchingRowsPerAnimal:40];
 }
 
-/*
-// Slow - uncomment when collecting performance data
 
+// Slow - uncomment when collecting performance data
+/*
 - (void) testSearch10000RowsOneMatch
 {
     [self trySearch:400 matchingRowsPerAnimal:1];
@@ -101,7 +101,7 @@
     [self trySearch:4000 matchingRowsPerAnimal:1];
 }
 */
-
+ 
 #pragma mark - Helper methods
 
 - (void) trySearch:(int)rowsPerAnimal matchingRowsPerAnimal:(int)matchingRowsPerAnimal
@@ -130,10 +130,11 @@
     NSArray* soupIndices = [SFSoupIndex asArraySoupIndexes:@[@{kSoupIndexPath:kText, kSoupIndexType:textFieldType}]];
     [self.store registerSoup:kAnimalsSoup withIndexSpecs:soupIndices];
 
+    __block int rowCount = 0;
     __block double totalInsertTime = 0.0;
-    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        for (int i=0; i < 25; i++) {
-            int charToMatch = i + 'a';
+    for (int i=0; i < 25; i++) {
+        __block int charToMatch = i + 'a';
+        [self.store.storeQueue inDatabase:^(FMDatabase *db) {
             for (int j=0; j < rowsPerAnimal; j++) {
                 NSString* prefix = [NSString stringWithFormat:@"%07d", j % (rowsPerAnimal / matchingRowsPerAnimal)];
                 NSMutableString* text = [NSMutableString new];
@@ -144,10 +145,12 @@
                 }
                 NSDate *start = [NSDate date];
                 [self.store upsertEntries:@[ @{kText: text} ] toSoup:kAnimalsSoup withExternalIdPath:nil error:nil withDb:db];
+                rowCount++;
+                if (rowCount % 100 == 0) { NSLog(@"Rows inserted %d", rowCount); }
                 totalInsertTime += [[NSDate date] timeIntervalSinceDate:start];
             }
-        }
-    }];
+        }];
+    }
     
     return totalInsertTime;
 }
