@@ -1052,16 +1052,6 @@ static Class InstanceClass = nil;
             [delegate authManagerWillBeginAuthWithView:self];
         }
     }];
-
-    // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
-    // to be added to a superview by the end of this method.
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            self.authViewHandler.authViewDisplayBlock(self, view);
-        });
-    } else {
-        self.authViewHandler.authViewDisplayBlock(self, view);
-    }
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
@@ -1093,6 +1083,16 @@ static Class InstanceClass = nil;
             [delegate authManager:self willDisplayAuthWebView:view];
         }
     }];
+    
+    // Ensure this runs on the main thread.  Has to be sync, because the coordinator expects the auth view
+    // to be added to a superview by the end of this method.
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.authViewHandler.authViewDisplayBlock(self, view);
+        });
+    } else {
+        self.authViewHandler.authViewDisplayBlock(self, view);
+    }
 }
 
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
