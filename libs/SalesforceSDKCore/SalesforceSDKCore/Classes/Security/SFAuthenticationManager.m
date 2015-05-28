@@ -58,6 +58,10 @@ NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
+// Public notification name user info keys
+
+NSString * const kSFUserAccountKey = @"account";
+
 // Auth error handler name constants
 
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
@@ -431,7 +435,7 @@ static Class InstanceClass = nil;
     
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
     
-    NSDictionary *userInfo = @{ @"account": user };
+    NSDictionary *userInfo = @{ kSFUserAccountKey: user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
                                                       userInfo:userInfo];
@@ -471,7 +475,9 @@ static Class InstanceClass = nil;
     userAccountManager.currentUser = nil;
     [self didChangeValueForKey:@"haveValidSession"];
     
-    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification object:self];
+    NSNotification *logoutNotification = [NSNotification notificationWithName:kSFUserLogoutNotification
+                                                                       object:self
+                                                                     userInfo:userInfo];
     [[NSNotificationCenter defaultCenter] postNotification:logoutNotification];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManagerDidLogout:)]) {
