@@ -27,7 +27,6 @@
 
 #import "SFPasscodeViewController.h"
 #import <SalesforceSecurity/SFPasscodeManager.h>
-#import <LocalAuthentication/LocalAuthentication.h>
 #import "SFSDKResourceUtils.h"
 
 // Private view layout constants
@@ -48,9 +47,6 @@ static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static CGFloat      const kUseTouchIdButtonWidth            = 150.0f;
 static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
-
-// Passcode cached in memory (needed for touch id)
-static  NSString * cachedPasscode;
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
@@ -173,16 +169,6 @@ static  NSString * cachedPasscode;
  */
 - (void)forgotPassAction;
 
-/**
- * Action performed when the 'Use TouchId' button is clicked.
- */
-- (void)useTouchIdAction;
-
-/**
- * Return YES if 'Use TouchId' button should be shown.
- */
-- (BOOL)canUseTouchId;
-
 @end
 
 @implementation SFPasscodeViewController
@@ -282,7 +268,7 @@ static  NSString * cachedPasscode;
     self.useTouchIdButton.backgroundColor = [UIColor whiteColor];
     [self.useTouchIdButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.useTouchIdButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.useTouchIdButton addTarget:self action:@selector(useTouchIdAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.useTouchIdButton addTarget:self action:@selector(showTouchId) forControlEvents:UIControlEventTouchUpInside];
     self.useTouchIdButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"useTouchIdTitle"];
     self.useTouchIdButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
     [self.useTouchIdButton setHidden:YES];
@@ -303,29 +289,9 @@ static  NSString * cachedPasscode;
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"]];
     } else {
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
-        [self.useTouchIdButton setHidden:![self canUseTouchId]];
+        [self.useTouchIdButton setHidden:![self canShowTouchId]];
         [self.forgotPasscodeButton setHidden:NO];
     }
-}
-
-- (BOOL) canUseTouchId
-{
-    LAContext *context = [[LAContext alloc] init];
-    return cachedPasscode != nil && [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
-}
-
-- (void) useTouchIdAction
-{
-    LAContext *context = [[LAContext alloc] init];
-    [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"touchIdReason"] reply:^(BOOL success, NSError *authenticationError){
-        if (success) {
-            self.passcodeField.text = cachedPasscode;
-            [self finishedValidatePasscode];
-        }
-        else {
-            
-        }
-    }];
 }
 
 - (void)forgotPassAction
@@ -481,7 +447,6 @@ static  NSString * cachedPasscode;
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
         [self validatePasscodeConfirmed:checkPasscode];
-        cachedPasscode = checkPasscode;
     } else {
         if ([self decrementPasscodeAttempts]) {
             self.passcodeField.text = @"";
