@@ -653,9 +653,6 @@ static Class InstanceClass = nil;
     [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     // Notify the session is ready
-    [self willChangeValueForKey:@"currentUser"];
-    [self didChangeValueForKey:@"currentUser"];
-    
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
     
