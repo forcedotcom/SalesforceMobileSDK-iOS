@@ -77,5 +77,9 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
     /** The community ID changed
      */
     SFUserAccountChangeCommunityId  = 1 << 5,
+
+    /** The ID data changed
+     */
+    SFUserAccountChangeIdData = 1 << 5,
 };
 
