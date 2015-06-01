@@ -260,16 +260,20 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor blackColor]];
     [self log:SFLogLevelDebug msg:@"SFPasscodeViewController viewDidLoad"];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
     } else if (self.mode == SFPasscodeControllerModeChange) {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"]];
     } else {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
         [self.forgotPasscodeButton setHidden:NO];
     }
@@ -414,6 +418,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 {
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
+        [self.passcodeField resignFirstResponder];
         [self validatePasscodeConfirmed:checkPasscode];
     } else {
         if ([self decrementPasscodeAttempts]) {
@@ -472,6 +477,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                           action:@selector(resetInitialCreateView)];
     [self.navigationItem setLeftBarButtonItem:bbi];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"confirmPasscodeNavTitle"]];
+    [self.passcodeField becomeFirstResponder];
 }
 
 - (void)addPasscodeVerificationNav
