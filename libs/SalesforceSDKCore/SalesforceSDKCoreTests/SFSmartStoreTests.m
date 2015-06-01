@@ -100,8 +100,8 @@
         [rs close];
     }];
 
-    XCTAssertTrue([options containsObject:@"ENABLE_FTS3"]);
-    XCTAssertFalse([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]); // we use the standard syntax
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
 }
 
 - (void) testSqliteVersion
