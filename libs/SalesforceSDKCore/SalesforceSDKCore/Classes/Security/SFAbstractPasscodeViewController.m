@@ -24,13 +24,18 @@
 
 #import "SFAbstractPasscodeViewController.h"
 #import "SFSecurityLockout.h"
+#import "SFSDKResourceUtils.h"
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
+#import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants
 NSString * const kRemainingAttemptsKey = @"remainingAttempts";
 NSUInteger const kMaxNumberofAttempts = 10;
+
+// Passcode cached in memory (needed for touch id)
+static  NSString * cachedPasscode;
 
 @interface SFAbstractPasscodeViewController ()
 
@@ -82,6 +87,7 @@ NSUInteger const kMaxNumberofAttempts = 10;
 {
     [[SFPasscodeManager sharedManager] setEncryptionKeyForPasscode:validPasscode];
     [self setupPasscode:validPasscode];
+    cachedPasscode = validPasscode;
 }
 
 - (BOOL)decrementPasscodeAttempts
@@ -103,6 +109,25 @@ NSUInteger const kMaxNumberofAttempts = 10;
         [SFSecurityLockout unlock:NO action:SFSecurityLockoutActionNone passcodeConfig:self.configData];
     });
 }
+
+- (BOOL) canShowTouchId;
+{
+    LAContext *context = [[LAContext alloc] init];
+    return cachedPasscode != nil && [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+}
+
+- (void) showTouchId
+{
+    if ([self canShowTouchId]) {
+        LAContext *context = [[LAContext alloc] init];
+        [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics localizedReason:[SFSDKResourceUtils localizedString:@"touchIdReason"] reply:^(BOOL success, NSError *authenticationError){
+            if (success &&[[SFPasscodeManager sharedManager] verifyPasscode:cachedPasscode]) {
+                    [self validatePasscodeConfirmed:cachedPasscode];
+            }
+        }];
+    }
+}
+
 
 - (NSInteger)remainingAttempts
 {

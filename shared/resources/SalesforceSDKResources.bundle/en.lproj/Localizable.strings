@@ -37,6 +37,8 @@
 "passcodesDoNotMatchError" = "Passcodes do not match!";
 "passcodeInvalidError" = "The passcode you entered was invalid.";
 "forgotPasscodeTitle" = "Forgot Passcode?";
+"useTouchIdTitle" = "Use TouchId";
+"touchIdReason" = "Please authenticate to proceed.";
 "logoutAlertViewTitle" = "Are you sure you want to logout?";
 "logoutNo" = "No";
 "logoutYes" = "Yes";
