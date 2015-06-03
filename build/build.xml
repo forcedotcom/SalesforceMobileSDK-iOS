@@ -29,11 +29,6 @@
         <copy todir="${nativeTemplateDependenciesDir}/SalesforceCommonUtils">
             <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
         </copy>
-        <copy todir="${nativeTemplateDependenciesDir}/openssl">
-            <fileset dir="${thirdPartyLibDir}/openssl">
-                <exclude name="openssl/**" />
-            </fileset>
-        </copy>
         <copy todir="${nativeTemplateDependenciesDir}/sqlcipher">
             <fileset dir="${thirdPartyLibDir}/sqlcipher" />
         </copy>

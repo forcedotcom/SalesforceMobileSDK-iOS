@@ -36,8 +36,6 @@
 		82D53D5E1A377D3B00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D5D1A377D3B00E46F8F /* libSalesforceSDKCommon.a */; };
 		CE006E5A176A822300411A4C /* ResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CE006E59176A822300411A4C /* ResultViewController.xib */; };
 		CE006E5E176A829200411A4C /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE006E5D176A829100411A4C /* ResultViewController.m */; };
-		CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E5F176BD23B00411A4C /* libcrypto.a */; };
-		CE006E62176BD23B00411A4C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E60176BD23B00411A4C /* libssl.a */; };
 		CE006E66176BD25B00411A4C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */; };
 		CE006E68176BD26700411A4C /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E67176BD26700411A4C /* libsqlcipher.a */; };
 		CE006E6D176BD2AB00411A4C /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */; };
@@ -107,8 +105,6 @@
 				82AA406C18E3B2E100BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				CE006E68176BD26700411A4C /* libsqlcipher.a in Frameworks */,
 				CE006E66176BD25B00411A4C /* libSalesforceCommonUtils.a in Frameworks */,
-				CE006E61176BD23B00411A4C /* libcrypto.a in Frameworks */,
-				CE006E62176BD23B00411A4C /* libssl.a in Frameworks */,
 				824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9FEA1725099600C9BD79 /* libz.dylib in Frameworks */,
 				4F473D7017E26DC7000CCDF3 /* ImageIO.framework in Frameworks */,

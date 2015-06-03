@@ -71,10 +71,8 @@
 		8251CA5916ED3BC400BD1EA2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5516ED3BC400BD1EA2 /* libSalesforceOAuth.a */; };
 		8251CA5A16ED3BC400BD1EA2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5616ED3BC400BD1EA2 /* libSalesforceSDKCore.a */; };
 		8251CA5C16ED3BE100BD1EA2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5B16ED3BE100BD1EA2 /* libxml2.dylib */; };
-		8251CA5E16ED3C3C00BD1EA2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5D16ED3C3C00BD1EA2 /* libcrypto.a */; };
 		8251CA6016ED3C5700BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA5F16ED3C5700BD1EA2 /* libSalesforceCommonUtils.a */; };
 		8251CA6216ED3CA900BD1EA2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6116ED3CA900BD1EA2 /* libsqlcipher.a */; };
-		8251CA6416ED3CB000BD1EA2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6316ED3CB000BD1EA2 /* libssl.a */; };
 		8251CA6616ED3CD200BD1EA2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA6516ED3CD200BD1EA2 /* CoreData.framework */; };
 		8258804F1AA42431000C551E /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8258804E1AA42431000C551E /* libSalesforceNetwork.a */; };
 		82638F1B19B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F1A19B8F0FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
@@ -313,14 +311,12 @@
 				4F22157119DF5AEB00FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
 				4F22157219DF5AEB00FF2D26 /* libSmartSync.a in Frameworks */,
 				8251CA5716ED3BC400BD1EA2 /* libCordova.a in Frameworks */,
-				8251CA5E16ED3C3C00BD1EA2 /* libcrypto.a in Frameworks */,
 				8251CA6016ED3C5700BD1EA2 /* libSalesforceCommonUtils.a in Frameworks */,
 				8251CA5816ED3BC400BD1EA2 /* libSalesforceHybridSDK.a in Frameworks */,
 				8251CA5916ED3BC400BD1EA2 /* libSalesforceOAuth.a in Frameworks */,
 				8251CA5A16ED3BC400BD1EA2 /* libSalesforceSDKCore.a in Frameworks */,
 				82AA406418E3B15500BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8251CA6216ED3CA900BD1EA2 /* libsqlcipher.a in Frameworks */,
-				8251CA6416ED3CB000BD1EA2 /* libssl.a in Frameworks */,
 				8251CA5C16ED3BE100BD1EA2 /* libxml2.dylib in Frameworks */,
 				82707C00157C498B00B50291 /* libz.dylib in Frameworks */,
 				4F22157319DF5AEB00FF2D26 /* ImageIO.framework in Frameworks */,
