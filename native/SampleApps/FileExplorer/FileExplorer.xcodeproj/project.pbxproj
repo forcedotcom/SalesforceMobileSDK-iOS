@@ -70,8 +70,6 @@
 		825880441AA41D20000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D53D5B1A377CDE00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F6F65718E4A1CC0033CACD /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CE006E5F176BD23B00411A4C /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
-		CE006E60176BD23B00411A4C /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE006E67176BD26700411A4C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		CE006E6A176BD2AA00411A4C /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,8 +137,6 @@
 				82F6F65718E4A1CC0033CACD /* libSalesforceSecurity.a */,
 				CE006E67176BD26700411A4C /* libsqlcipher.a */,
 				CE006E65176BD25B00411A4C /* libSalesforceCommonUtils.a */,
-				CE006E5F176BD23B00411A4C /* libcrypto.a */,
-				CE006E60176BD23B00411A4C /* libssl.a */,
 				824A9FE71725098F00C9BD79 /* libxml2.dylib */,
 				824A9FE91725099600C9BD79 /* libz.dylib */,
 				824A9FEB17250ADA00C9BD79 /* CFNetwork.framework */,

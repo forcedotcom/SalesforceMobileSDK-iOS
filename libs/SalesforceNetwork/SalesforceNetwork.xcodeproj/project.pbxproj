@@ -26,8 +26,6 @@
 		825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CF1A8AF55B0019FE0B /* MessageUI.framework */; };
 		825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D11A8AF5770019FE0B /* libz.dylib */; };
 		825348D41A8AF5AC0019FE0B /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D31A8AF5AC0019FE0B /* libsqlcipher.a */; };
-		825348D71A8AF5BD0019FE0B /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D51A8AF5BD0019FE0B /* libcrypto.a */; };
-		825348D81A8AF5BD0019FE0B /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D61A8AF5BD0019FE0B /* libssl.a */; };
 		827DD4871A7C006F00519F03 /* NSURL+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */; };
 		827DD4881A7C006F00519F03 /* SFUserAccount+SalesforceNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3FA1A7C006E00519F03 /* SFUserAccount+SalesforceNetwork.m */; };
 		827DD4891A7C006F00519F03 /* CSFAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3FF1A7C006E00519F03 /* CSFAction.m */; };
@@ -151,8 +149,6 @@
 		825348CF1A8AF55B0019FE0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825348D11A8AF5770019FE0B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		825348D31A8AF5AC0019FE0B /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		825348D51A8AF5BD0019FE0B /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
-		825348D61A8AF5BD0019FE0B /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		827DD3DA1A7BF55F00519F03 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827DD3F71A7C006E00519F03 /* NSURL+ActionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ActionValue.h"; sourceTree = "<group>"; };
 		827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ActionValue.m"; sourceTree = "<group>"; };
@@ -235,7 +231,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825348D71A8AF5BD0019FE0B /* libcrypto.a in Frameworks */,
 				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
 				825348CE1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a in Frameworks */,
 				825347FB1A8ADD050019FE0B /* libSalesforceNetwork.a in Frameworks */,
@@ -244,7 +239,6 @@
 				825348C61A8AE87A0019FE0B /* libSalesforceSDKCore.a in Frameworks */,
 				825348CA1A8AE8930019FE0B /* libSalesforceSecurity.a in Frameworks */,
 				825348D41A8AF5AC0019FE0B /* libsqlcipher.a in Frameworks */,
-				825348D81A8AF5BD0019FE0B /* libssl.a in Frameworks */,
 				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
 				82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */,
@@ -518,8 +512,6 @@
 			isa = PBXGroup;
 			children = (
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
-				825348D51A8AF5BD0019FE0B /* libcrypto.a */,
-				825348D61A8AF5BD0019FE0B /* libssl.a */,
 				825348D31A8AF5AC0019FE0B /* libsqlcipher.a */,
 				825348D11A8AF5770019FE0B /* libz.dylib */,
 				825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */,
@@ -822,7 +814,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -854,7 +845,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/openssl",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
