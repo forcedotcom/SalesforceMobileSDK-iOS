@@ -77,8 +77,6 @@
 		822272DB19C3A6AA00FC537E /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */; };
 		822272DD19C3A7F000FC537E /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */; };
 		822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DE19C3A82B00FC537E /* libz.dylib */; };
-		822272E219C3A84100FC537E /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E019C3A84100FC537E /* libcrypto.a */; };
-		822272E319C3A84100FC537E /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E119C3A84100FC537E /* libssl.a */; };
 		822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E419C3A84E00FC537E /* libsqlcipher.a */; };
 		8276EE061A7863360083F7EA /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8276EE051A7863360083F7EA /* libSalesforceSDKCommon.a */; };
 		82A0C3E41A9A2D1000243931 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0C3E31A9A2D1000243931 /* libSalesforceNetwork.a */; };
@@ -324,8 +322,6 @@
 		822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		822272DE19C3A82B00FC537E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		822272E019C3A84100FC537E /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
-		822272E119C3A84100FC537E /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		822272E419C3A84E00FC537E /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		8251CA1116EC3AC100BD1EA2 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		8251CA1316EC3AE300BD1EA2 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -439,14 +435,12 @@
 				4F22159A19DF60A200FF2D26 /* libSmartSync.a in Frameworks */,
 				822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */,
 				822272D519C3A5F100FC537E /* libCordova.a in Frameworks */,
-				822272E219C3A84100FC537E /* libcrypto.a in Frameworks */,
 				822272D919C3A68400FC537E /* libSalesforceCommonUtils.a in Frameworks */,
 				822272BF19C3A1A300FC537E /* libSalesforceHybridSDK.a in Frameworks */,
 				822272DB19C3A6AA00FC537E /* libSalesforceOAuth.a in Frameworks */,
 				822272D719C3A63400FC537E /* libSalesforceSDKCore.a in Frameworks */,
 				822272DD19C3A7F000FC537E /* libSalesforceSecurity.a in Frameworks */,
 				822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */,
-				822272E319C3A84100FC537E /* libssl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,13 +680,11 @@
 				4F22159519DF60A200FF2D26 /* libSmartSync.a */,
 				4F22159619DF60A200FF2D26 /* ImageIO.framework */,
 				822272D419C3A5F100FC537E /* libCordova.a */,
-				822272E019C3A84100FC537E /* libcrypto.a */,
 				822272D819C3A68400FC537E /* libSalesforceCommonUtils.a */,
 				822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */,
 				822272D619C3A63400FC537E /* libSalesforceSDKCore.a */,
 				822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */,
 				822272E419C3A84E00FC537E /* libsqlcipher.a */,
-				822272E119C3A84100FC537E /* libssl.a */,
 				822272DE19C3A82B00FC537E /* libz.dylib */,
 				8251CA2E16ED002300BD1EA2 /* AddressBook.framework */,
 				4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */,

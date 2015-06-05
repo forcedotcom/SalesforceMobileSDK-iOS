@@ -22,9 +22,6 @@
 		824A9E3D1724E9F400C9BD79 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3C1724E9F400C9BD79 /* readme.txt */; };
 		824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E3E1724EC6300C9BD79 /* Settings.bundle */; };
 		824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */; };
-		824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F321725079000C9BD79 /* libcrypto.a */; };
-		824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9F331725079000C9BD79 /* libssl.a */; };
-		824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 824A9F341725079000C9BD79 /* openssl_license.txt */; };
 		824A9FE51725079100C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FDB1725079100C9BD79 /* libsqlcipher.a */; };
 		824A9FE61725079100C9BD79 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 824A9FDC1725079100C9BD79 /* LICENSE */; };
 		824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9FE71725098F00C9BD79 /* libxml2.dylib */; };
@@ -86,9 +83,6 @@
 		824A9E3C1724E9F400C9BD79 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
 		824A9E3E1724EC6300C9BD79 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		824A9E401724ECC600C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SalesforceSDKResources.bundle; sourceTree = "<group>"; };
-		824A9F321725079000C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		824A9F331725079000C9BD79 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
-		824A9F341725079000C9BD79 /* openssl_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openssl_license.txt; sourceTree = "<group>"; };
 		824A9FDB1725079100C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsqlcipher.a; sourceTree = "<group>"; };
 		824A9FDC1725079100C9BD79 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		824A9FE71725098F00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -225,7 +219,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FC109751A0C4FA300AC6284 /* libSmartSync.a in Frameworks */,
-				824A9FDD1725079100C9BD79 /* libcrypto.a in Frameworks */,
 				8273F18A1778F39F005E31A6 /* libSalesforceCommonUtils.a in Frameworks */,
 				825880991AA4CB2B000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82BBB59F1793941D00374DD8 /* libSalesforceRestAPI.a in Frameworks */,
@@ -234,7 +227,6 @@
 				82BBB5C01793946800374DD8 /* libSalesforceSDKCore.a in Frameworks */,
 				82F6F66A18E4D0280033CACD /* libSalesforceSecurity.a in Frameworks */,
 				824A9FE51725079100C9BD79 /* libsqlcipher.a in Frameworks */,
-				824A9FDE1725079100C9BD79 /* libssl.a in Frameworks */,
 				824A9FE81725098F00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9FEA1725099600C9BD79 /* libz.dylib in Frameworks */,
 				824A9DD91724E16400C9BD79 /* UIKit.framework in Frameworks */,
@@ -384,7 +376,6 @@
 		824A9F301725079000C9BD79 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				824A9F311725079000C9BD79 /* openssl */,
 				8273F1641778F39F005E31A6 /* SalesforceCommonUtils */,
 				8258805A1AA4CB2B000C551E /* SalesforceNetwork */,
 				82BBB5971793941D00374DD8 /* SalesforceRestAPI */,
@@ -396,16 +387,6 @@
 				824A9FDA1725079100C9BD79 /* sqlcipher */,
 			);
 			path = Dependencies;
-			sourceTree = "<group>";
-		};
-		824A9F311725079000C9BD79 /* openssl */ = {
-			isa = PBXGroup;
-			children = (
-				824A9F321725079000C9BD79 /* libcrypto.a */,
-				824A9F331725079000C9BD79 /* libssl.a */,
-				824A9F341725079000C9BD79 /* openssl_license.txt */,
-			);
-			path = openssl;
 			sourceTree = "<group>";
 		};
 		824A9FDA1725079100C9BD79 /* sqlcipher */ = {
@@ -752,7 +733,6 @@
 				824A9E3F1724EC6300C9BD79 /* Settings.bundle in Resources */,
 				824A9E411724ECC600C9BD79 /* SalesforceSDKResources.bundle in Resources */,
 				4F7484BF18DD1324006E7D50 /* Images.xcassets in Resources */,
-				824A9FDF1725079100C9BD79 /* openssl_license.txt in Resources */,
 				824A9FE61725079100C9BD79 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -863,7 +843,6 @@
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",
@@ -903,7 +882,6 @@
 				INFOPLIST_FILE = "__NativeTemplateAppName__/__NativeTemplateAppName__-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/openssl",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceRestAPI",
 					"$(SRCROOT)/__NativeTemplateAppName__/Dependencies/SalesforceOAuth",

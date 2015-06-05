@@ -73,8 +73,6 @@
 		CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0E19ACF9910007F22F /* libxml2.dylib */; };
 		CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0F19ACF9910007F22F /* libz.dylib */; };
 		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
-		CE1F0B1619ACFA1A0007F22F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1419ACFA1A0007F22F /* libcrypto.a */; };
-		CE1F0B1719ACFA1A0007F22F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1519ACFA1A0007F22F /* libssl.a */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
 		CE617399196F469A00C63BDE /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -152,8 +150,6 @@
 		CE1F0B0E19ACF9910007F22F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
 		CE1F0B0F19ACF9910007F22F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
-		CE1F0B1419ACFA1A0007F22F /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libcrypto.a"; sourceTree = "<absolute>"; };
-		CE1F0B1519ACFA1A0007F22F /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/openssl/libssl.a"; sourceTree = "<absolute>"; };
 		CE1F0B1819ACFD260007F22F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncConstants.h; sourceTree = "<group>"; };
 		CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncConstants.m; sourceTree = "<group>"; };
@@ -212,13 +208,11 @@
 				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
 				CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */,
 				825880411AA3FC75000C551E /* libSalesforceNetwork.a in Frameworks */,
-				CE1F0B1619ACFA1A0007F22F /* libcrypto.a in Frameworks */,
 				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
 				CECDF84C19ABF9B3007A29E5 /* libSalesforceOAuth.a in Frameworks */,
 				4F3A72EF19DB89CF00E6F468 /* libSalesforceRestAPI.a in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
-				CE1F0B1719ACFA1A0007F22F /* libssl.a in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
 				CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */,
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
@@ -297,8 +291,6 @@
 				CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */,
 				CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */,
 				CECDF84F19ABF9BE007A29E5 /* libSalesforceRestAPI.a */,
-				CE1F0B1419ACFA1A0007F22F /* libcrypto.a */,
-				CE1F0B1519ACFA1A0007F22F /* libssl.a */,
 				CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */,
 				CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */,
 				CE1F0B0E19ACF9910007F22F /* libxml2.dylib */,

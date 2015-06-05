@@ -53,8 +53,6 @@
 		827B321B19F066A000488A75 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B321219F066A000488A75 /* libSmartSync.a */; };
 		827B321D19F068A500488A75 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B321C19F068A500488A75 /* ImageIO.framework */; };
 		827B321F19F068BD00488A75 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B321E19F068BD00488A75 /* libSalesforceCommonUtils.a */; };
-		827B322219F068D500488A75 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322019F068D500488A75 /* libcrypto.a */; };
-		827B322319F068D500488A75 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322119F068D500488A75 /* libssl.a */; };
 		827B322519F068ED00488A75 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322419F068ED00488A75 /* libsqlcipher.a */; };
 		827B322719F069DF00488A75 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322619F069DF00488A75 /* AssetsLibrary.framework */; };
 		827B322919F06A0400488A75 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827B322819F06A0400488A75 /* CoreLocation.framework */; };
@@ -203,8 +201,6 @@
 		827B321219F066A000488A75 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827B321C19F068A500488A75 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		827B321E19F068BD00488A75 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
-		827B322019F068D500488A75 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
-		827B322119F068D500488A75 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		827B322419F068ED00488A75 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		827B322619F069DF00488A75 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		827B322819F06A0400488A75 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -227,7 +223,6 @@
 			files = (
 				825880571AA426CF000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D6C1A37874F00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				827B322219F068D500488A75 /* libcrypto.a in Frameworks */,
 				827B321319F066A000488A75 /* libCordova.a in Frameworks */,
 				827B321F19F068BD00488A75 /* libSalesforceCommonUtils.a in Frameworks */,
 				827B321519F066A000488A75 /* libSalesforceHybridSDK.a in Frameworks */,
@@ -237,7 +232,6 @@
 				827B321A19F066A000488A75 /* libSalesforceSecurity.a in Frameworks */,
 				827B321B19F066A000488A75 /* libSmartSync.a in Frameworks */,
 				827B322519F068ED00488A75 /* libsqlcipher.a in Frameworks */,
-				827B322319F068D500488A75 /* libssl.a in Frameworks */,
 				827B323119F06A9400488A75 /* libz.dylib in Frameworks */,
 				827B322719F069DF00488A75 /* AssetsLibrary.framework in Frameworks */,
 				827B316E19F0595B00488A75 /* CoreGraphics.framework in Frameworks */,
@@ -278,8 +272,6 @@
 				825880561AA426CF000C551E /* libSalesforceNetwork.a */,
 				82D53D6B1A37874F00E46F8F /* libSalesforceSDKCommon.a */,
 				827B322419F068ED00488A75 /* libsqlcipher.a */,
-				827B322019F068D500488A75 /* libcrypto.a */,
-				827B322119F068D500488A75 /* libssl.a */,
 				827B321E19F068BD00488A75 /* libSalesforceCommonUtils.a */,
 				827B320A19F0669F00488A75 /* libCordova.a */,
 				827B320C19F0669F00488A75 /* libSalesforceHybridSDK.a */,
@@ -597,7 +589,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl",
 					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
 				);
@@ -643,7 +634,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl",
 					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
 				);
