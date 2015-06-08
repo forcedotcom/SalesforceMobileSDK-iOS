@@ -176,11 +176,6 @@ extern NSString * const kSFUserLoggedInNotification;
 extern NSString * const kSFAuthenticationManagerFinishedNotification;
 
 /**
- Key for account object present in user info in notifications.
- */
-extern NSString * const kSFUserAccountKey;
-
-/**
  This class handles all the authentication related tasks, which includes login, logout and session refresh
  */
 @interface SFAuthenticationManager : NSObject <SFOAuthCoordinatorDelegate, SFIdentityCoordinatorDelegate, SFUserAccountManagerDelegate>
