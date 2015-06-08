@@ -49,7 +49,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() {
+@interface CSFNetwork() <SFAuthenticationManagerDelegate>{
     //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
     NSString *_defaultConnectCommunityId;
 }
@@ -104,6 +104,16 @@ static NSMutableDictionary *SharedInstances = nil;
     return instance;
 }
 
++ (void)removeSharedInstance:(SFUserAccount*)userAccount {
+    @synchronized (SharedInstances) {
+        NSString *key = CSFNetworkInstanceKey(userAccount);
+        [SharedInstances removeObjectForKey:key];
+    }
+}
+
+#pragma mark -
+#pragma mark object lifecycle
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -121,7 +131,7 @@ static NSMutableDictionary *SharedInstances = nil;
         self.actionQueue = dispatch_queue_create("com.salesforce.network.action", DISPATCH_QUEUE_SERIAL);
         
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        #ifdef SFPlatformiOS
+#ifdef SFPlatformiOS
 		[notificationCenter addObserver:self
 												 selector:@selector(applicationDidBecomeActive:)
 													 name:UIApplicationDidBecomeActiveNotification
@@ -136,6 +146,7 @@ static NSMutableDictionary *SharedInstances = nil;
     self = [self init];
     if (self) {
         self.account = account;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];        
     }
     return self;
 }
@@ -203,13 +214,13 @@ static NSMutableDictionary *SharedInstances = nil;
     // Need to assign our network queue to the action so that the equality test
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
-
+    
     CSFAction *duplicateAction = [self duplicateActionInFlight:action];
     if (duplicateAction) {
         action.duplicateParentAction = duplicateAction;
         [action addDependency:duplicateAction];
     }
-    
+
     [self.queue addOperation:action];
 }
 
@@ -218,7 +229,7 @@ static NSMutableDictionary *SharedInstances = nil;
         if (completionBlock) {
             completionBlock(nil, nil);
         }
-        
+
         return;
     }
 
@@ -236,7 +247,7 @@ static NSMutableDictionary *SharedInstances = nil;
             [self executeAction:action];
         }
     }
-    
+
     [self.queue addOperation:parentOperation];
 }
 
@@ -290,5 +301,12 @@ static NSMutableDictionary *SharedInstances = nil;
 //       is capable of handling the unauthorized response.
 - (void)receivedDevicedUnauthorizedError:(CSFAction *)action {
 }
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
+}
+
 
 @end
