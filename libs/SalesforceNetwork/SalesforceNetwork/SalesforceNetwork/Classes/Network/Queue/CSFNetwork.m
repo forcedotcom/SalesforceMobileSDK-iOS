@@ -49,7 +49,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() {
+@interface CSFNetwork() <SFAuthenticationManagerDelegate>{
     //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
     NSString *_defaultConnectCommunityId;
 }
@@ -104,7 +104,7 @@ static NSMutableDictionary *SharedInstances = nil;
     return instance;
 }
 
-+ (void)cleanupNetworkForUserAccount:(SFUserAccount *)userAccount {
++ (void)removeSharedInstance:(SFUserAccount*)userAccount {
     @synchronized (SharedInstances) {
         NSString *key = CSFNetworkInstanceKey(userAccount);
         [SharedInstances removeObjectForKey:key];
@@ -138,8 +138,6 @@ static NSMutableDictionary *SharedInstances = nil;
 												   object:nil];
         #endif
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
-        [notificationCenter addObserver:self selector:@selector(userWillLogOutNotification:)
-                                   name:kSFUserWillLogoutNotification object:nil];
     }
     return self;
 }
@@ -148,6 +146,7 @@ static NSMutableDictionary *SharedInstances = nil;
     self = [self init];
     if (self) {
         self.account = account;
+        [[SFAuthenticationManager sharedManager] addDelegate:self];        
     }
     return self;
 }
@@ -215,7 +214,7 @@ static NSMutableDictionary *SharedInstances = nil;
     // Need to assign our network queue to the action so that the equality test
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
-
+    
     CSFAction *duplicateAction = [self duplicateActionInFlight:action];
     if (duplicateAction) {
         action.duplicateParentAction = duplicateAction;
@@ -256,7 +255,6 @@ static NSMutableDictionary *SharedInstances = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"context = %@", context];
     return [self.queue.operations filteredArrayUsingPredicate:predicate];
 }
-
 - (void)cancelAllActions {
     [self.queue cancelAllOperations];
 }
@@ -304,11 +302,11 @@ static NSMutableDictionary *SharedInstances = nil;
 - (void)receivedDevicedUnauthorizedError:(CSFAction *)action {
 }
 
-#pragma mark - Handling Login State
+#pragma mark - SFAuthenticationManagerDelegate
 
-- (void)userWillLogOutNotification:(NSNotification *)notification {
-    SFUserAccount *userAccount = notification.userInfo[kSFUserAccountKey];
-    [[self class] cleanupNetworkForUserAccount:userAccount];
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedInstance:user];
 }
+
 
 @end
