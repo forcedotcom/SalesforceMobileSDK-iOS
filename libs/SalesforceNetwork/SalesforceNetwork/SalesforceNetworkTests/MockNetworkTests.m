@@ -57,6 +57,10 @@
     CSFSalesforceAction *action1 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     
+    // Setting verbs and methods (values do not matter - but can't be nil otherwise it confuses duplicateActionInFlight/isEqualToAction
+    action1.method = action2.method = @"POST";
+    action1.verb = action2.verb = @"/xyz";
+
     [network executeAction:action1];
     XCTAssertEqual(network.actionCount, 1);
     
@@ -124,6 +128,15 @@
     XCTAssertFalse(action3.cancelled);
     XCTAssertFalse(action4.cancelled);
     XCTAssertFalse(action5.cancelled);
+}
+
+// Test that the cached CSFNetwork is removed on logout
+- (void) testLogout {
+    SFUserAccount *user = [TestDataAction testUserAccount];
+    XCTAssertNotNil([CSFNetwork networkForUserAccount:user]);
+    XCTAssertNotNil([CSFNetwork cachedNetworkForUserAccount:user]);
+    [[SFAuthenticationManager sharedManager] logoutUser:user];
+    XCTAssertNil([CSFNetwork cachedNetworkForUserAccount:user]);
 }
 
 @end

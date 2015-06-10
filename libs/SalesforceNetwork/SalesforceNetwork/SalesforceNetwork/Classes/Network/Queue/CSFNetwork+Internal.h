@@ -73,4 +73,9 @@
 
 - (CSFAction*)actionForSessionTask:(NSURLSessionTask*)task;
 
+/**
+ Provides a mean for test code to check shared instances of CSFNetwork
+ */
++ (instancetype)cachedNetworkForUserAccount:(SFUserAccount*)account;
+
 @end
