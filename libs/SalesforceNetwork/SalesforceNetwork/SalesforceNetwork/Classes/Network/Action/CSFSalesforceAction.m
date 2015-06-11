@@ -43,19 +43,6 @@ static void * kObservingKey = &kObservingKey;
         _apiVersion = CSFSalesforceDefaultAPIVersion;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
-        CSFNetwork *network = self.enqueuedNetwork;
-        [network addObserver:self forKeyPath:@"account.credentials.accessToken"
-                      options:(NSKeyValueObservingOptionInitial |
-                               NSKeyValueObservingOptionNew)
-                      context:kObservingKey];
-        [network addObserver:self forKeyPath:@"account.credentials.instanceUrl"
-                      options:(NSKeyValueObservingOptionInitial |
-                               NSKeyValueObservingOptionNew)
-                      context:kObservingKey];
-        [network addObserver:self forKeyPath:@"account.communityId"
-                      options:(NSKeyValueObservingOptionInitial |
-                               NSKeyValueObservingOptionNew)
-                      context:kObservingKey];
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
                                selector:@selector(userAccountManagerDidChangeCurrentUser:)
@@ -71,6 +58,22 @@ static void * kObservingKey = &kObservingKey;
     [network removeObserver:self forKeyPath:@"account.credentials.instanceUrl" context:kObservingKey];
     [network removeObserver:self forKeyPath:@"account.communityId" context:kObservingKey];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)setEnqueuedNetwork:(CSFNetwork *)network {
+    _enqueuedNetwork = network;
+    [network addObserver:self forKeyPath:@"account.credentials.accessToken"
+                 options:(NSKeyValueObservingOptionInitial |
+                          NSKeyValueObservingOptionNew)
+                 context:kObservingKey];
+    [network addObserver:self forKeyPath:@"account.credentials.instanceUrl"
+                 options:(NSKeyValueObservingOptionInitial |
+                          NSKeyValueObservingOptionNew)
+                 context:kObservingKey];
+    [network addObserver:self forKeyPath:@"account.communityId"
+                 options:(NSKeyValueObservingOptionInitial |
+                          NSKeyValueObservingOptionNew)
+                 context:kObservingKey];
 }
 
 - (NSDictionary *)headersForAction {
