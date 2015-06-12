@@ -94,6 +94,10 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
  */
 + (void) setupSyncsSoupIfNeeded:(SFSmartStore*)store;
 
+/** Marking syncs that were running when app was stopped as failed
+ */
++ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store pageSize:(int)pageSize;
+
 /** Factory methods
  */
 + (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
