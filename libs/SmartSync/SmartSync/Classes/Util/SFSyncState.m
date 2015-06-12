@@ -84,16 +84,15 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
     [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs];
 }
 
-+ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store {
++ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store pageSize:(int)pageSize{
     int i = 0;
-    int pageSize = 25;
     NSArray* syncs;
     do {
         // We don't have an index on status - so getting all syncs
-        syncs = [store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kSFSyncStateSyncsSoupName withOrderPath:nil withOrder:nil withPageSize:pageSize] pageIndex:i error:nil];
+        syncs = [store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kSFSyncStateSyncsSoupName withOrderPath:nil withOrder:kSFSoupQuerySortOrderAscending withPageSize:pageSize] pageIndex:i error:nil];
         NSMutableArray* modifiedSyncs = [NSMutableArray new];
         for (NSDictionary* sync in syncs) {
-            if (sync[kSFSyncStateStatus] == kSFSyncStateStatusRunning) {
+            if ([SFSyncState syncStatusFromString:sync[kSFSyncStateStatus]] == SFSyncStateStatusRunning) {
                 NSMutableDictionary* modifiedSync = [sync mutableCopy];
                 modifiedSync[kSFSyncStateStatus] = kSFSyncStateStatusFailed;
                 [modifiedSyncs addObject:modifiedSync];
