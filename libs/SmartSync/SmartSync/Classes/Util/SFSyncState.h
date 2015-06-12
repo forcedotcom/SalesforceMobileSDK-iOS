@@ -96,7 +96,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Marking syncs that were running when app was stopped as failed
  */
-+ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store;
++ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store pageSize:(int)pageSize;
 
 /** Factory methods
  */

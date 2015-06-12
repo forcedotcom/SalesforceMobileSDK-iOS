@@ -128,7 +128,7 @@ static NSMutableDictionary *syncMgrList = nil;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
-        [SFSyncState cleanupUnfinishedSyncs:self.store];
+        [SFSyncState cleanupUnfinishedSyncs:self.store pageSize:kSyncManagerPageSize];
     }
     return self;
 }

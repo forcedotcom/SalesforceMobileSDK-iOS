@@ -763,6 +763,42 @@ static NSException *authException = nil;
     }
 }
 
+- (void) testCleanupUnfinishedSyncs
+{
+    // Create 5 syncs
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:@"blah blah"];
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    SFSyncState* sync1 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState* sync2 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState* sync3 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState* sync4 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState* sync5 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+
+    // Mark 3 syncs as running
+    sync1.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
+    [sync1 save:store];
+    sync4.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
+    [sync4 save:store];
+    sync5.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
+    [sync5 save:store];
+
+    // Call cleanupUnfinishedSyncs with a page size 2
+    [SFSyncState cleanupUnfinishedSyncs:store pageSize:2];
+
+    // Checking all syncs
+    NSArray* retrievedSyncs = [store retrieveEntries:@[ [NSNumber numberWithInteger:sync1.syncId],
+                                                        [NSNumber numberWithInteger:sync2.syncId],
+                                                        [NSNumber numberWithInteger:sync3.syncId],
+                                                        [NSNumber numberWithInteger:sync4.syncId],
+                                                        [NSNumber numberWithInteger:sync5.syncId]]
+                                            fromSoup:kSFSyncStateSyncsSoupName];
+    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[0][kSFSyncStateStatus]);
+    XCTAssertEqualObjects(kSFSyncStateStatusNew, retrievedSyncs[1][kSFSyncStateStatus]);
+    XCTAssertEqualObjects(kSFSyncStateStatusNew, retrievedSyncs[2][kSFSyncStateStatus]);
+    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[3][kSFSyncStateStatus]);
+    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[4][kSFSyncStateStatus]);
+}
+
 
 #pragma mark - helper methods
 
@@ -976,7 +1012,7 @@ static NSException *authException = nil;
 
 - (void) deleteSyncs
 {
-    [store clearSoup:ACCOUNTS_SOUP];
+    [store clearSoup:kSFSyncStateSyncsSoupName];
 }
 
 - (NSDictionary*) makeSomeLocalChanges
