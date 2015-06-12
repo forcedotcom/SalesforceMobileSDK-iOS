@@ -28,6 +28,7 @@
 #import "SFSyncUpTarget.h"
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SalesforceSDKcore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 // soups and soup fields
@@ -81,6 +82,33 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
                             ];
     
     [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs];
+}
+
++ (void) cleanupUnfinishedSyncs:(SFSmartStore*)store {
+    int i = 0;
+    int pageSize = 25;
+    NSArray* syncs;
+    do {
+        // We don't have an index on status - so getting all syncs
+        syncs = [store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kSFSyncStateSyncsSoupName withOrderPath:nil withOrder:nil withPageSize:pageSize] pageIndex:i error:nil];
+        NSMutableArray* modifiedSyncs = [NSMutableArray new];
+        for (NSDictionary* sync in syncs) {
+            if (sync[kSFSyncStateStatus] == kSFSyncStateStatusRunning) {
+                NSMutableDictionary* modifiedSync = [sync mutableCopy];
+                modifiedSync[kSFSyncStateStatus] = kSFSyncStateStatusFailed;
+                [modifiedSyncs addObject:modifiedSync];
+            }
+        }
+        
+        // Saving that batch
+        if (modifiedSyncs.count > 0) {
+            [store upsertEntries:modifiedSyncs toSoup:kSFSyncStateSyncsSoupName];
+        }
+        
+        // Next batch
+        i++;
+    }
+    while (syncs.count == pageSize);
 }
 
 #pragma mark - Factory methods
