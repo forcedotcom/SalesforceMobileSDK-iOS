@@ -57,6 +57,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
+@property (atomic) NSInteger syncIdRunning;
 
 @end
 
@@ -128,7 +129,6 @@ static NSMutableDictionary *syncMgrList = nil;
         self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
-        [SFSyncState cleanupUnfinishedSyncs:self.store pageSize:kSyncManagerPageSize];
     }
     return self;
 }
@@ -165,6 +165,19 @@ static NSMutableDictionary *syncMgrList = nil;
         [sync save:weakSelf.store];
         
         [weakSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
+        
+        
+        switch (sync.status) {
+            case SFSyncStateStatusNew:
+                break; // should not happen
+            case SFSyncStateStatusRunning:
+                weakSelf.syncIdRunning = sync.syncId;
+                break;
+            case SFSyncStateStatusDone:
+            case SFSyncStateStatusFailed:
+                weakSelf.syncIdRunning = -1;
+                break;
+        }
         
         if (updateBlock)
             updateBlock(sync);
@@ -210,6 +223,11 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    if (syncId.integerValue == self.syncIdRunning) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
+        return nil;
+    }
+    
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     
     if (sync == nil) {
@@ -220,11 +238,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    if (sync.status == SFSyncStateStatusRunning) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
-        return nil;
-    }
-    
     sync.totalSize = -1;
     [sync save:self.store];
     

@@ -48,6 +48,50 @@
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
 
+@interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
+@end
+
+@implementation SlowSoqlSyncDownTarget
+
++ (SlowSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
+    SlowSoqlSyncDownTarget* syncTarget = [[SlowSoqlSyncDownTarget alloc] init];
+    syncTarget.query = query;
+    return syncTarget;
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
+    return dict;
+}
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [NSThread sleepForTimeInterval:1.0];
+    [super startFetch:syncManager maxTimeStamp:maxTimeStamp errorBlock:errorBlock completeBlock:completeBlock];
+}
+
+@end
+
+
 @interface SyncManagerTests : XCTestCase
 {
     SFUserAccount *currentUser;
@@ -763,40 +807,39 @@ static NSException *authException = nil;
     }
 }
 
-- (void) testCleanupUnfinishedSyncs
+- (void) testResyncRunningSync
 {
-    // Create 5 syncs
-    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:@"blah blah"];
+    // Create test data
+    [self createTestData];
+    
+    // Ids clause
+    NSString* idsClause = [self buildInClause:[idToNames allKeys]];
+    
+    // Create sync
+    NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
+    SlowSoqlSyncDownTarget* target = [SlowSoqlSyncDownTarget newSyncTarget:soql];
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-    SFSyncState* sync1 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
-    SFSyncState* sync2 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
-    SFSyncState* sync3 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
-    SFSyncState* sync4 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
-    SFSyncState* sync5 = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
 
-    // Mark 3 syncs as running
-    sync1.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
-    [sync1 save:store];
-    sync4.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
-    [sync4 save:store];
-    sync5.status = [SFSyncState syncStatusFromString:kSFSyncStateStatusRunning];
-    [sync5 save:store];
+    // Run sync -- will freeze during fetch
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:syncManager];
+    
+    // Wait for sync to be running
+    [queue getNextSyncUpdate];
 
-    // Call cleanupUnfinishedSyncs with a page size 2
-    [SFSyncState cleanupUnfinishedSyncs:store pageSize:2];
+    // Calling reSync -- expect nil
+    XCTAssertNil([syncManager reSync:syncId updateBlock:nil]);
+    
+    // Wait for sync to complete successfully
+    while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
+    
+    // Calling reSync again -- should return the SFSyncState
+    XCTAssertEqual(sync.syncId, [queue runReSync:syncId syncManager:syncManager].syncId);
 
-    // Checking all syncs
-    NSArray* retrievedSyncs = [store retrieveEntries:@[ [NSNumber numberWithInteger:sync1.syncId],
-                                                        [NSNumber numberWithInteger:sync2.syncId],
-                                                        [NSNumber numberWithInteger:sync3.syncId],
-                                                        [NSNumber numberWithInteger:sync4.syncId],
-                                                        [NSNumber numberWithInteger:sync5.syncId]]
-                                            fromSoup:kSFSyncStateSyncsSoupName];
-    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[0][kSFSyncStateStatus]);
-    XCTAssertEqualObjects(kSFSyncStateStatusNew, retrievedSyncs[1][kSFSyncStateStatus]);
-    XCTAssertEqualObjects(kSFSyncStateStatusNew, retrievedSyncs[2][kSFSyncStateStatus]);
-    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[3][kSFSyncStateStatus]);
-    XCTAssertEqualObjects(kSFSyncStateStatusFailed, retrievedSyncs[4][kSFSyncStateStatus]);
+    // Waiting for reSync to complete successfully
+    while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
 
 
