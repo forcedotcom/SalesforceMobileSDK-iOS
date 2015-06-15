@@ -157,7 +157,12 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  reSync:syncId updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
+        if (sync) {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
+        }
+        else {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        }
     } command:command];
 }
 

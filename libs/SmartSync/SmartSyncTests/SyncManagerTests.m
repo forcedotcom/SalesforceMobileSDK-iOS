@@ -48,6 +48,9 @@
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
 
+/**
+ Soql sync down target that pauses for a second at the beginning of the fetch
+ */
 @interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
 @end
 
