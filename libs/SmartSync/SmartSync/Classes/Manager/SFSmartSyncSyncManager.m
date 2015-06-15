@@ -57,7 +57,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
-@property (atomic) NSInteger syncIdRunning;
+@property (nonatomic, strong) NSMutableSet *runningSyncIds;
 
 @end
 
@@ -125,8 +125,9 @@ static NSMutableDictionary *syncMgrList = nil;
 - (instancetype)initWithStore:(SFSmartStore *)store {
     self = [super init];
     if (self) {
+        self.runningSyncIds = [NSMutableSet new];
         self.store = store;
-        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
@@ -171,11 +172,11 @@ static NSMutableDictionary *syncMgrList = nil;
             case SFSyncStateStatusNew:
                 break; // should not happen
             case SFSyncStateStatusRunning:
-                weakSelf.syncIdRunning = sync.syncId;
+                [weakSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
-                weakSelf.syncIdRunning = -1;
+                [weakSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
         
@@ -223,7 +224,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    if (syncId.integerValue == self.syncIdRunning) {
+    if ([self.runningSyncIds containsObject:syncId]) {
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
