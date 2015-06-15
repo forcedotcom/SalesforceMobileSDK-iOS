@@ -807,7 +807,7 @@ static NSException *authException = nil;
     }
 }
 
-- (void) testResyncRunningSync
+- (void) testReSyncRunningSync
 {
     // Create test data
     [self createTestData];
