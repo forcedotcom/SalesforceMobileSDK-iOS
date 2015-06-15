@@ -36,7 +36,7 @@
 /**
  Run re-sync
  */
-- (void)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
+- (SFSyncState*)runReSync:(NSNumber*)syncId syncManager:(SFSmartSyncSyncManager*)syncManager;
 
 /**
  Get next sync update

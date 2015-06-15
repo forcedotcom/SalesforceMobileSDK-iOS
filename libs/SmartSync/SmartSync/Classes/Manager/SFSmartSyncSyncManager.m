@@ -57,6 +57,7 @@ typedef void (^SyncFailBlock) (NSString* message, NSError* error);
 
 @property (nonatomic, strong) SFSmartStore *store;
 @property (nonatomic, strong) dispatch_queue_t queue;
+@property (nonatomic, strong) NSMutableSet *runningSyncIds;
 
 @end
 
@@ -124,8 +125,9 @@ static NSMutableDictionary *syncMgrList = nil;
 - (instancetype)initWithStore:(SFSmartStore *)store {
     self = [super init];
     if (self) {
+        self.runningSyncIds = [NSMutableSet new];
         self.store = store;
-        self.queue = dispatch_queue_create(kSyncManagerQueue,  NULL);
+        self.queue = dispatch_queue_create(kSyncManagerQueue,  DISPATCH_QUEUE_SERIAL);
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [SFSyncState setupSyncsSoupIfNeeded:self.store];
     }
@@ -164,6 +166,19 @@ static NSMutableDictionary *syncMgrList = nil;
         [sync save:weakSelf.store];
         
         [weakSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
+        
+        
+        switch (sync.status) {
+            case SFSyncStateStatusNew:
+                break; // should not happen
+            case SFSyncStateStatusRunning:
+                [weakSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
+                break;
+            case SFSyncStateStatusDone:
+            case SFSyncStateStatusFailed:
+                [weakSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
+                break;
+        }
         
         if (updateBlock)
             updateBlock(sync);
@@ -209,6 +224,11 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Resync
  */
 - (SFSyncState*) reSync:(NSNumber*)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
+    if ([self.runningSyncIds containsObject:syncId]) {
+        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
+        return nil;
+    }
+    
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     
     if (sync == nil) {
@@ -219,11 +239,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    if (sync.status == SFSyncStateStatusRunning) {
-        [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
-        return nil;
-    }
-    
     sync.totalSize = -1;
     [sync save:self.store];
     
