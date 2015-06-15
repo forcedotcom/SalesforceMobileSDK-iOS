@@ -70,7 +70,7 @@ static NSError *sLastError = nil;
     NSError *err = nil;
     NSData *jsonData = nil;
     
-    if (nil != obj) {
+    if ([NSJSONSerialization isValidJSONObject:obj]) {
         NSJSONWritingOptions options = 0;
 #ifdef DEBUG
         options = NSJSONWritingPrettyPrinted;
@@ -90,7 +90,7 @@ static NSError *sLastError = nil;
         }
         
     } else {
-        [self log:SFLogLevelDebug format:@"nil object passed to JSONDataRepresentation???"];
+        [self log:SFLogLevelDebug format:@"invalid object passed to JSONDataRepresentation???"];
     }
     return  jsonData;
 }
