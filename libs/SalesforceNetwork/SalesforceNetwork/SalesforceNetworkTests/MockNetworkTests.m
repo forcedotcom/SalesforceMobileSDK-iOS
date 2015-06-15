@@ -29,6 +29,52 @@
 #import "CSFNetwork+Internal.h"
 #import "CSFSalesforceAction.h"
 
+@interface MockAction : CSFAction
+
+@property (nonatomic, strong) NSString *actionName;
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
+
+- (instancetype) initWithName:(NSString*)actionName;
+
+@end
+
+@implementation MockAction
+
+- (instancetype) initWithName:(NSString*)actionName {
+    self = [super initWithResponseBlock:nil];
+    if (self) {
+        self.actionName = actionName;
+        self.semaphore = dispatch_semaphore_create(0);
+    }
+    return self;
+}
+
+- (void) completeAction {
+    dispatch_semaphore_signal(self.semaphore);
+}
+
+- (NSURLRequest*)createURLRequest:(NSError**)error {
+    NSURL* url = [NSURL URLWithString:@"https://cs1.salesforce.com/services/data"];
+    return [NSMutableURLRequest requestWithURL:url];
+}
+
+- (void)completeOperationWithError:(NSError *)error {
+    long result = dispatch_semaphore_wait(self.semaphore, dispatch_time(DISPATCH_TIME_NOW, 15LL * NSEC_PER_SEC)); // at most 15s
+    if (result != 0 && error == nil) {
+        error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                    code:CSFNetworkInternalError
+                                userInfo:@{ NSLocalizedDescriptionKey: @"Semaphore wait timed out",
+                                            CSFNetworkErrorActionKey: self }];
+    }
+    [super completeOperationWithError:error];
+}
+
+- (BOOL)isEqualToAction:(CSFAction *)action {
+    return [action isKindOfClass:[MockAction class]] && [self.actionName isEqualToString:((MockAction*)action).actionName];
+}
+
+@end
+
 @interface MockNetworkTests : XCTestCase
 
 @end
@@ -57,6 +103,10 @@
     CSFSalesforceAction *action1 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     
+    // Setting verbs and methods (values do not matter - but can't be nil otherwise it confuses duplicateActionInFlight/isEqualToAction
+    action1.method = action2.method = @"POST";
+    action1.verb = action2.verb = @"/xyz";
+
     [network executeAction:action1];
     XCTAssertEqual(network.actionCount, 1);
     
@@ -125,5 +175,51 @@
     XCTAssertFalse(action4.cancelled);
     XCTAssertFalse(action5.cancelled);
 }
+
+// Test that the cached CSFNetwork is removed on logout
+- (void) testLogout {
+    SFUserAccount *user = [TestDataAction testUserAccount];
+    XCTAssertNotNil([CSFNetwork networkForUserAccount:user]);
+    XCTAssertNotNil([CSFNetwork cachedNetworkForUserAccount:user]);
+    [[SFAuthenticationManager sharedManager] logoutUser:user];
+    XCTAssertNil([CSFNetwork cachedNetworkForUserAccount:user]);
+}
+
+// Test that dependent actions run after parent completes
+- (void)testDependentActions {
+    SFUserAccount *user = [TestDataAction testUserAccount];
+    CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:user];
+    
+    MockAction *action1 = [[MockAction alloc] initWithName:@"action"];
+    MockAction *action2 = [[MockAction alloc] initWithName:@"action"];
+
+    [network executeAction:action1];
+    [network executeAction:action2];
+
+    // Expect two actions in queue, second one depending on first one
+    XCTAssertEqual(network.actionCount, 2);
+    XCTAssertTrue([action2.dependencies containsObject:action1]);
+
+    // Expect only first action running
+    XCTAssertTrue(action1.isExecuting);
+    XCTAssertFalse(action2.isExecuting);
+
+    // Finishing first one
+    [action1 completeAction];
+    [action1 waitUntilFinished];
+
+    // Expect only second action running
+    XCTAssertFalse(action1.isExecuting);
+    XCTAssertTrue(action2.isExecuting);
+
+    // Finishing second one
+    [action2 completeAction];
+    [action2 waitUntilFinished];
+
+    // Expect no actions running
+    XCTAssertFalse(action1.isExecuting);
+    XCTAssertFalse(action2.isExecuting);
+}
+
 
 @end

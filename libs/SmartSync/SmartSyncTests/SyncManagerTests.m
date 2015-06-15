@@ -48,6 +48,53 @@
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
 
+/**
+ Soql sync down target that pauses for a second at the beginning of the fetch
+ */
+@interface SlowSoqlSyncDownTarget : SFSoqlSyncDownTarget
+@end
+
+@implementation SlowSoqlSyncDownTarget
+
++ (SlowSoqlSyncDownTarget*) newSyncTarget:(NSString*)query {
+    SlowSoqlSyncDownTarget* syncTarget = [[SlowSoqlSyncDownTarget alloc] init];
+    syncTarget.query = query;
+    return syncTarget;
+}
+
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    self = [super initWithDict:dict];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.queryType = SFSyncDownTargetQueryTypeCustom;
+    }
+    return self;
+}
+
+- (NSMutableDictionary*) asDict {
+    NSMutableDictionary *dict = [super asDict];
+    dict[kSFSyncTargetiOSImplKey] = NSStringFromClass([self class]);
+    return dict;
+}
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [NSThread sleepForTimeInterval:1.0];
+    [super startFetch:syncManager maxTimeStamp:maxTimeStamp errorBlock:errorBlock completeBlock:completeBlock];
+}
+
+@end
+
+
 @interface SyncManagerTests : XCTestCase
 {
     SFUserAccount *currentUser;
@@ -763,6 +810,41 @@ static NSException *authException = nil;
     }
 }
 
+- (void) testReSyncRunningSync
+{
+    // Create test data
+    [self createTestData];
+    
+    // Ids clause
+    NSString* idsClause = [self buildInClause:[idToNames allKeys]];
+    
+    // Create sync
+    NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
+    SlowSoqlSyncDownTarget* target = [SlowSoqlSyncDownTarget newSyncTarget:soql];
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    NSNumber* syncId = [NSNumber numberWithInteger:sync.syncId];
+
+    // Run sync -- will freeze during fetch
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:syncManager];
+    
+    // Wait for sync to be running
+    [queue getNextSyncUpdate];
+
+    // Calling reSync -- expect nil
+    XCTAssertNil([syncManager reSync:syncId updateBlock:nil]);
+    
+    // Wait for sync to complete successfully
+    while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
+    
+    // Calling reSync again -- should return the SFSyncState
+    XCTAssertEqual(sync.syncId, [queue runReSync:syncId syncManager:syncManager].syncId);
+
+    // Waiting for reSync to complete successfully
+    while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
+}
+
 
 #pragma mark - helper methods
 
@@ -976,7 +1058,7 @@ static NSException *authException = nil;
 
 - (void) deleteSyncs
 {
-    [store clearSoup:ACCOUNTS_SOUP];
+    [store clearSoup:kSFSyncStateSyncsSoupName];
 }
 
 - (NSDictionary*) makeSomeLocalChanges
