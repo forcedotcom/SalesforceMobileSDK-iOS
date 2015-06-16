@@ -155,12 +155,12 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
         [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
-        NSError* error;
+        NSError* error = nil;
         SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
-        if (cursor) {
-            if ([self isGlobal:argsDict]) {
+        if (cursor.cursorId) {
+            if ([self isGlobal:argsDict] && self.globalCursorCache) {
                 (self.globalCursorCache)[cursor.cursorId] = cursor;
-            } else {
+            } else if (self.userCursorCache) {
                 (self.userCursorCache)[cursor.cursorId] = cursor;
             }
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
