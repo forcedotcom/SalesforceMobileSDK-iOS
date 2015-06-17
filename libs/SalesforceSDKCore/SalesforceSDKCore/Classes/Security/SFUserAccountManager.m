@@ -567,7 +567,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     self.previousCommunityId = self.activeCommunityId;
     
     SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = nil;
+    account.communityId = self.previousCommunityId;
     self.currentUser = account;
     
     // update the client ID in case it's changed (via settings, etc)
