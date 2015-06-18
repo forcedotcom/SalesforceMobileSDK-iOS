@@ -157,18 +157,30 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 + (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
-    if ([db open]) {
-        [[db executeQuery:@"PRAGMA cipher_default_kdf_iter = '4000'"] close];
-        // the new default for sqlcipher 3.x (64000) is too slow
-        // also that way we can open 2.x databases without any migration]
-        [db setKey:key];
-        return db;
-    } else {
+    FMDatabase* unlockedDb = [self unlockDatabase:db key:key kdfIter:4000];
+    
+    if (!unlockedDb) {
+        // You must be have created your database with SDK 3.2 or 3.1 and cocoapods
+        // And therefore you are using sqlcipher 3.1 with 64000 iterations
+        unlockedDb = [self unlockDatabase:db key:key kdfIter:64000];
+    }
+    
+    if (!unlockedDb) {
         [self log:SFLogLevelDebug format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
             *error = [db lastError];
-        return nil;
     }
+    
+    return unlockedDb;
+}
+
++ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key kdfIter:(int)kdfIter {
+    if ([db open]) {
+        NSString* pragmaQuery = [NSString stringWithFormat:@"PRAGMA cipher_default_kdf_iter = '%d'", kdfIter];
+        [[db executeQuery:pragmaQuery] close];
+        [db setKey:key];
+    }
+    return [self verifyDatabaseAccess:db error:nil] ? db : nil;
 }
 
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error
