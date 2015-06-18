@@ -212,32 +212,17 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 // Called when first setting up the database
 - (BOOL)firstTimeStoreDatabaseSetup {
     BOOL result = NO;
-    NSError *createErr = nil, *protectErr = nil;
-    
-    if (![self isFileDataProtectionActive]) {
-        //This is expected on simulator and when user does not have unlock passcode set
-        [self log:SFLogLevelDebug format:@"WARNING file data protection inactive when creating store db."];
-    }
+    NSError *createErr = nil;
     
     // Ensure that the store directory exists.
     [self.dbMgr createStoreDir:self.storeName error:&createErr];
     if (nil == createErr) {
-        // Need to create the db file itself before we can encrypt it.
-        if ([self openStoreDatabase]) {
-            if ([self createMetaTables]) {
-                [self.storeQueue close];
-                self.storeQueue = nil; // Need to close before setting encryption.
-                [self.dbMgr protectStoreDir:self.storeName error:&protectErr];
-                if (protectErr != nil) {
-                    [self log:SFLogLevelError format:@"Couldn't protect store: %@", protectErr];
-                } else {
-                    //reopen the storeDb now that it's protected
-                    result = [self openStoreDatabase];
-                }
-            }
+        result = [self openStoreDatabase];
+        if (result) {
+            result = [self createMetaTables];
         }
     }
-    
+
     if (!result) {
         [self log:SFLogLevelError format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
         [self.dbMgr removeStoreDir:self.storeName];
@@ -252,8 +237,22 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 // Called when opening a database setup previously
 - (BOOL)subsequentTimesStoreDatabaseSetup {
-
     BOOL result = NO;
+    NSError *err = nil;
+
+    // Disabling filesystem protection if on to allow for background writes
+    if ([self.dbMgr isStoreDirProtected:self.storeName error:&err]) {
+        if (nil == err) {
+            result = [self.dbMgr unprotectStoreDir:self.storeName error:&err];
+        }
+
+        if (!result) {
+            [self log:SFLogLevelError format:@"Deleting store dir since we can't set it up properly: %@", self.storeName];
+            [self.dbMgr removeStoreDir:self.storeName];
+            return result;
+        }
+    }
+    
     if ([self openStoreDatabase]) {
         // like the onUpgrade for android - create long operations table if needed (if db was created with sdk 2.2 or before)
         [self createLongOperationsStatusTable];

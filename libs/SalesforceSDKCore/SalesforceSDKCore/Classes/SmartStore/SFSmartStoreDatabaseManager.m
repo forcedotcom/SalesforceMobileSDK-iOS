@@ -349,11 +349,18 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
 }
 
-- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error
+- (BOOL)isStoreDirProtected:(NSString *)storeName error:(NSError **)error
 {
-    // Setup the database file with filesystem encryption.
     NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
-    NSDictionary *attr = @{NSFileProtectionKey: NSFileProtectionComplete};
+    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:dbFilePath error:error];
+    return (attr[NSFileProtectionKey] != NSFileProtectionNone);
+}
+
+
+- (BOOL)unprotectStoreDir:(NSString *)storeName error:(NSError **)error
+{
+    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
+    NSDictionary *attr = @{NSFileProtectionKey: NSFileProtectionNone};
     return [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:error];
 }
 
