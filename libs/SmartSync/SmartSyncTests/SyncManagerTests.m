@@ -614,6 +614,130 @@ static NSException *authException = nil;
     XCTAssertEqual(0, records.count);
 }
 
+/**
+ * Sync down the test accounts, delete account on server, update same account locally, sync up, check smartstore and server afterwards
+ */
+-(void) testSyncUpWithDeletedRecordsOnServer
+{
+    // Create test data
+    [self createTestData];
+
+    // First sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Make some local change
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    NSArray* names = [idToNamesLocallyUpdated allValues];
+    
+    // Delete record on server
+    NSString* remotelyDeletedId = [idToNamesLocallyUpdated allKeys][0];
+    [self deleteAccountsOnServer:@[remotelyDeletedId]];
+
+    // Name of locally recorded record that was deleted on server
+    NSString* locallyUpdatedRemotelyDeletedName = idToNamesLocallyUpdated[remotelyDeletedId];
+    
+    // Sync up
+    [self trySyncUp:3 mergeMode:SFSyncStateMergeModeOverwrite];
+    
+    // Check that db doesn't show entries as locally updated anymore
+    NSString* namesClause = [self buildInClause:names];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Name} IN %@", namesClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:names.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    NSMutableDictionary* idToNamesUpdated = [NSMutableDictionary new];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        NSString* accountId = account[ACCOUNT_ID];
+        NSString* accountName = account[ACCOUNT_NAME];
+        idToNamesUpdated[accountId] = accountName;
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+        XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+
+        // Check that locally updated / remotely deleted record has new id (not in idToNames)
+        if ([accountName isEqualToString:locallyUpdatedRemotelyDeletedName]) {
+            XCTAssertNil(idToNames[accountId]);
+        }
+        // Otherwise should be a known id (in idToNames)
+        else {
+            XCTAssertNotNil(idToNames[accountId]);
+        }
+    }
+    
+    // Check server
+    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Name IN %@", namesClause];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSArray* records = [self sendSyncRequest:request][RECORDS];
+    XCTAssertEqual([names count], [records count]);
+    for (NSDictionary* record in records) {
+        XCTAssertEqualObjects(idToNamesUpdated[record[ACCOUNT_ID]], record[ACCOUNT_NAME]);
+    }
+    
+    // Adding to idToNames so that they get deleted in tearDown
+    [idToNames setDictionary:idToNamesUpdated];
+}
+
+/**
+ * Sync down the test accounts, delete account on server, update same account locally, sync up with merge mode LEAVE_IF_CHANGED, check smartstore and server afterwards
+ */
+-(void) testSyncUpWithDeletedRecordsOnServerWithoutOverwrite
+{
+    // Create test data
+    [self createTestData];
+    
+    // First sync down
+    [self trySyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Make some local change
+    NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
+    NSArray* ids = [idToNamesLocallyUpdated allKeys];
+    NSArray* names = [idToNamesLocallyUpdated allValues];
+    
+    // Delete record on server
+    NSString* remotelyDeletedId = [idToNamesLocallyUpdated allKeys][0];
+    [self deleteAccountsOnServer:@[remotelyDeletedId]];
+    
+    // Sync up
+    [self trySyncUp:3 mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Check that db only shows remotely deleted record as locally updated
+    NSString* idsClause = [self buildInClause:ids];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:ids.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        NSDictionary* account = row[0];
+        if ([account[ACCOUNT_ID] isEqualToString:remotelyDeletedId]) {
+            XCTAssertEqualObjects(@YES, account[kSyncManagerLocal]);
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+            XCTAssertEqualObjects(@YES, account[kSyncManagerLocallyUpdated]);
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        }
+        else {
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocal]);
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyCreated]);
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyUpdated]);
+            XCTAssertEqualObjects(@NO, account[kSyncManagerLocallyDeleted]);
+        }
+    }
+    
+    // Check server
+    NSString* soql = [NSString stringWithFormat:@"SELECT Id, Name FROM Account WHERE Id IN %@", idsClause];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    NSArray* records = [self sendSyncRequest:request][RECORDS];
+    NSMutableArray* idsOnServer = [NSMutableArray new];
+    for (NSDictionary* record in records) {
+        [idsOnServer addObject:record[ACCOUNT_ID]];
+        XCTAssertEqualObjects(idToNamesLocallyUpdated[record[ACCOUNT_ID]], record[ACCOUNT_NAME]);
+    }
+    // Deleted id should not have been returned
+    XCTAssertFalse([idsOnServer containsObject:remotelyDeletedId]);
+
+    // There should be one less record on the server
+    XCTAssertEqual([ids count] - 1, [idsOnServer count]);
+}
+
 -(void) testCustomSyncUpWithLocallyDeletedRecords
 {
     // Create test data
@@ -997,12 +1121,12 @@ static NSException *authException = nil;
 - (void)createTestData
 {
     [self createAccountsSoup];
-    idToNames = [[NSMutableDictionary alloc] initWithDictionary:[self createTestAccountsOnServer:COUNT_TEST_ACCOUNTS]];
+    idToNames = [[NSMutableDictionary alloc] initWithDictionary:[self createAccountsOnServer:COUNT_TEST_ACCOUNTS]];
 }
 
 - (void)deleteTestData
 {
-    [self deleteTestAccountsOnServer:idToNames];
+    [self deleteAccountsOnServer:[idToNames allKeys]];
     [self dropAccountsSoup];
     [self deleteSyncs];
 }
@@ -1023,7 +1147,7 @@ static NSException *authException = nil;
     [store removeSoup:ACCOUNTS_SOUP];
 }
 
-- (NSDictionary*)createTestAccountsOnServer:(NSUInteger)count
+- (NSDictionary*)createAccountsOnServer:(NSUInteger)count
 {
     NSMutableDictionary* dict = [NSMutableDictionary dictionary];
     for (NSUInteger i=0; i<count; i++) {
@@ -1038,9 +1162,9 @@ static NSException *authException = nil;
     return dict;
 }
 
-- (void)deleteTestAccountsOnServer:(NSDictionary*)dict
+- (void)deleteAccountsOnServer:(NSArray*)ids
 {
-    for (NSString* accountId in dict) {
+    for (NSString* accountId in ids) {
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:ACCOUNT_TYPE objectId:accountId];
         [self sendSyncRequest:request ignoreNotFound:YES];
     }
