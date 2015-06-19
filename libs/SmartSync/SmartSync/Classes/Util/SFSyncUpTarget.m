@@ -128,7 +128,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     };
     
     id completeBlock = ^(NSDictionary *response) {
-        if (nil != response) {
+        if (nil != response && [response[@"records"] count] > 0) {
             NSDictionary *record = response[@"records"][0];
             if (nil != record) {
                 NSString *serverLastModifiedStr = record[self.modificationDateFieldName];

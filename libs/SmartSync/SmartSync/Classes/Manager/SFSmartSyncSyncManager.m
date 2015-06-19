@@ -491,9 +491,27 @@ static NSMutableDictionary *syncMgrList = nil;
                   updateSync:(SyncUpdateBlock)updateSync
                    failBlock:(SFSyncUpTargetErrorBlock)failBlock {
     
+    SFSyncStateMergeMode mergeMode = sync.mergeMode;
     SFSyncUpTarget *target = (SFSyncUpTarget *)sync.target;
     NSString* soupName = sync.soupName;
     NSNumber* soupEntryId = record[SOUP_ENTRY_ID];
+    NSArray *fieldList = sync.options.fieldlist;
+    
+    // Getting type and id
+    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
+    NSString* objectId = record[target.idFieldName];
+
+    // Fields to save (in the case of create or update)
+    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
+    if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
+        for (NSString *fieldName in fieldList) {
+            if (![fieldName isEqualToString:target.idFieldName] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
+                NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
+                if (fieldValue != nil)
+                    fields[fieldName] = fieldValue;
+            }
+        }
+    }
     
     // Delete handler
     SFSyncUpTargetCompleteBlock completeBlockDelete = ^(NSDictionary *d) {
@@ -526,31 +544,30 @@ static NSMutableDictionary *syncMgrList = nil;
         completeBlockUpdate(d);
     };
     
-    NSArray *fieldList = sync.options.fieldlist;
-    
-    // Getting type and id
-    NSString* objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
-    NSString* objectId = record[target.idFieldName];
-    
-    // Fields to save (in the case of create or update)
-    NSMutableDictionary* fields = [NSMutableDictionary dictionary];
-    if (action == SFSyncUpTargetActionCreate || action == SFSyncUpTargetActionUpdate) {
-        for (NSString *fieldName in fieldList) {
-            if (![fieldName isEqualToString:target.idFieldName] && ![fieldName isEqualToString:target.modificationDateFieldName]) {
-                NSObject* fieldValue = [SFJsonUtils projectIntoJson:record path:fieldName];
-                if (fieldValue != nil)
-                    fields[fieldName] = fieldValue;
+    // Update failure handler
+    SFSyncUpTargetErrorBlock failBlockUpdate = ^ (NSError* err){
+        // Handling remotely deleted records
+        if (err.code == 404) {
+            if (mergeMode == SFSyncStateMergeModeOverwrite) {
+                [target createOnServer:objectType fields:fields completionBlock:completeBlockCreate failBlock:failBlock];
+            }
+            else {
+                // Next
+                [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
             }
         }
-    }
+        else {
+            failBlock(err);
+        }
     
+    };
     
     switch(action) {
         case SFSyncUpTargetActionCreate:
             [target createOnServer:objectType fields:fields completionBlock:completeBlockCreate failBlock:failBlock];
             break;
         case SFSyncUpTargetActionUpdate:
-            [target updateOnServer:objectType objectId:objectId fields:fields completionBlock:completeBlockUpdate failBlock:failBlock];
+            [target updateOnServer:objectType objectId:objectId fields:fields completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
             break;
         case SFSyncUpTargetActionDelete:
             [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlock];
