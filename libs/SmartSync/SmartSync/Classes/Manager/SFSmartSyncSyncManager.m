@@ -559,7 +559,17 @@ static NSMutableDictionary *syncMgrList = nil;
         else {
             failBlock(err);
         }
+    };
     
+    // Delete failure handler
+    SFSyncUpTargetErrorBlock failBlockDelete = ^ (NSError* err){
+        // Handling remotely deleted records
+        if (err.code == 404) {
+            completeBlockDelete(nil);
+        }
+        else {
+            failBlock(err);
+        }
     };
     
     switch(action) {
@@ -570,7 +580,7 @@ static NSMutableDictionary *syncMgrList = nil;
             [target updateOnServer:objectType objectId:objectId fields:fields completionBlock:completeBlockUpdate failBlock:failBlockUpdate];
             break;
         case SFSyncUpTargetActionDelete:
-            [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlock];
+            [target deleteOnServer:objectType objectId:objectId completionBlock:completeBlockDelete failBlock:failBlockDelete];
             break;
         default:
             // Action is unsupported here.  Move on.
