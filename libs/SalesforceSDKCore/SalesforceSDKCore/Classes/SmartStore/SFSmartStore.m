@@ -212,14 +212,25 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 // Called when first setting up the database
 - (BOOL)firstTimeStoreDatabaseSetup {
     BOOL result = NO;
-    NSError *createErr = nil;
+    NSError *createErr = nil, *protectErr = nil;
     
     // Ensure that the store directory exists.
     [self.dbMgr createStoreDir:self.storeName error:&createErr];
     if (nil == createErr) {
-        result = [self openStoreDatabase];
-        if (result) {
-            result = [self createMetaTables];
+        // Need to create the db file itself before we can protection it.
+        if ([self openStoreDatabase]) {
+            if ([self createMetaTables]) {
+                [self.storeQueue close];
+                self.storeQueue = nil; // Need to close before setting protection.
+                [self.dbMgr protectStoreDir:self.storeName error:&createErr protection:NSFileProtectionCompleteUntilFirstUserAuthentication];
+                
+                if (protectErr != nil) {
+                    [self log:SFLogLevelError format:@"Couldn't protect store: %@", protectErr];
+                } else {
+                    //reopen the storeDb now that it's protected
+                    result = [self openStoreDatabase];
+                }
+            }
         }
     }
 
@@ -240,10 +251,19 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     BOOL result = NO;
     NSError *err = nil;
 
-    // Disabling filesystem protection if on to allow for background writes
-    if ([self.dbMgr isStoreDirProtected:self.storeName error:&err]) {
+    // Adjusting filesystem protection if needed
+    if ([self.dbMgr getStoreDirProtection:self.storeName error:&err] != NSFileProtectionCompleteUntilFirstUserAuthentication)
+    {
+        if (err != nil) {
+            [self log:SFLogLevelError format:@"Couldn't read store file system protection: %@", err];
+        }
+
         if (nil == err) {
-            result = [self.dbMgr unprotectStoreDir:self.storeName error:&err];
+            result = [self.dbMgr protectStoreDir:self.storeName error:&err protection:NSFileProtectionCompleteUntilFirstUserAuthentication];
+            
+            if (err != nil) {
+                [self log:SFLogLevelError format:@"Couldn't protect store: %@", err];
+            }
         }
 
         if (!result) {
