@@ -704,6 +704,7 @@ static NSException *authException = nil;
     // Make some local change
     NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
     NSArray* ids = [idToNamesLocallyUpdated allKeys];
+    NSArray* names = [idToNamesLocallyUpdated allValues];
     
     // Delete record on server
     NSString* remotelyDeletedId = [idToNamesLocallyUpdated allKeys][0];
