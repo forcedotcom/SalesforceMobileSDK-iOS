@@ -283,9 +283,16 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
 /** Invoke this method to apply the specified credentials to the
  current user. If no user exists, a new one is created.
+ This will post user update notification.
  @param credentials The credentials to apply
  */
 - (void)applyCredentials:(SFOAuthCredentials*)credentials;
+
+/** Invoke this method to apply the specified id data to the
+ current user. This will post user update notification.
+ @param credentials The id data to apply
+ */
+- (void)applyIdData:(SFIdentityData *)idData;
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted

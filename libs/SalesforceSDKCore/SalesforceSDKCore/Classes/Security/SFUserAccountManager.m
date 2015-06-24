@@ -904,9 +904,17 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     [self userChanged:change];
 }
 
+- (void)applyIdData:(SFIdentityData *)idData {
+    self.currentUser.idData = idData;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
 - (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key {
     [self.currentUser setCustomDataObject:object forKey:key];
 }
+
+#pragma mark -
+#pragma mark Switching Users
 
 - (void)switchToNewUser {
     [self switchToUser:nil];
@@ -937,6 +945,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         }
     }];
 }
+
+#pragma mark -
+#pragma mark User Change Notifications
 
 - (void)userChanged:(SFUserAccountChange)change {
     if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {

@@ -646,15 +646,12 @@ static Class InstanceClass = nil;
     
     // Assign the identity data to the current user
     NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
-    [SFUserAccountManager sharedInstance].currentUser.idData = self.idCoordinator.idData;
-    
+    [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
+
     // Save the accounts
     [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     // Notify the session is ready
-    [self willChangeValueForKey:@"currentUser"];
-    [self didChangeValueForKey:@"currentUser"];
-    
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
     
