@@ -80,6 +80,6 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
 
     /** The ID data changed
      */
-    SFUserAccountChangeIdData = 1 << 5,
+    SFUserAccountChangeIdData = 1 << 6
 };
 
