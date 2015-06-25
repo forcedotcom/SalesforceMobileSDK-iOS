@@ -46,7 +46,7 @@ static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
 // Random id to uniquely identify user
-static NSString* uid;
+static NSString* uid = nil;
 
 // Incremented every time the app is foregrounded
 static int countForegrounds = 1;
