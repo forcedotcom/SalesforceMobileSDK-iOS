@@ -117,27 +117,7 @@
 
     if ([object isKindOfClass:[NSFileWrapper class]]) {
         result = CSFParameterStyleMultipart;
-    }
-
-    else if ([object isKindOfClass:[NSData class]]) {
-        NSData *data = (NSData*)object;
-        if (data.length > CSFParameterMaximumQueryStringDataLength) {
-            result = CSFParameterStyleURLEncoded;
-        } else {
-            result = CSFParameterStyleQueryString;
-        }
-    }
-
-    else if ([object isKindOfClass:[NSString class]]) {
-        NSString *string = (NSString*)object;
-        if (string.length > CSFParameterMaximumQueryStringDataLength) {
-            result = CSFParameterStyleURLEncoded;
-        } else {
-            result = CSFParameterStyleQueryString;
-        }
-    }
-
-    else if (object) {
+    } else if (object) {
         result = CSFParameterStyleQueryString;
     }
 
