@@ -64,7 +64,6 @@ CSF_EXTERN NSURL * CSFCachePath(SFUserAccount *account, NSString *suffix);
 CSF_EXTERN NSString *CSFNetworkInstanceKey(SFUserAccount *user);
 CSF_EXTERN BOOL CSFNetworkShouldUseQueryStringForHTTPMethod(NSString *method);
 
-CSF_EXTERN NSUInteger const CSFParameterMaximumQueryStringDataLength;
 CSF_EXTERN CSFParameterStyle CSFRequiredParameterStyleForHTTPMethod(NSString *method);
 
 CSF_EXTERN NSString * const CSFChatterAttributeSegmentType;

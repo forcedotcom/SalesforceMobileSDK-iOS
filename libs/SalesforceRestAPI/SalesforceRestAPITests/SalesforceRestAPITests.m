@@ -1347,4 +1347,51 @@ XCTAssertNil( e, @"%@ errored but should not have. Error: %@",testName,e); \
                  @"Complex SOSL search does not match.");
 }
 
+// - create a contact (requestForCreateWithObjectType)
+// - get ID of the created contact
+// - form 'IN' clause for SOQL
+// - run long SOQL query
+// - ensure query works
+// - delete the contact (requestForDeleteWithObjectType)
+- (void)testReallyLongSOQL {
+
+    // Creates a contact.
+    NSString *lastName = [NSString stringWithFormat:@"Silver-%@", [NSDate date]];
+    NSDictionary *fields = @{@"FirstName": @"LongJohn", @"LastName": lastName};
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+
+    // Ensures we get an ID back.
+    NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
+    XCTAssertNotNil(contactId, @"id not present");
+    [self log:SFLogLevelDebug format:@"## contact created with id: %@", contactId];
+
+    // Creates a long SOQL query.
+    NSMutableString *queryString = [[NSMutableString alloc] init];
+    [queryString appendString:@"SELECT Id, FirstName, LastName FROM Contact WHERE Id IN ('"];
+    for (int i = 0; i < 100; i++) {
+        [queryString appendString:contactId];
+        [queryString appendString:@"', '"];
+    }
+    [queryString appendString:@"')"];
+    [self log:SFLogLevelDebug format:@"## length of query: %d", [queryString length]];
+
+    // Runs the query.
+    @try {
+        request = [[SFRestAPI sharedInstance] requestForQuery:queryString];
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        NSArray *records = ((NSDictionary *)listener.dataResponse)[@"records"];
+        XCTAssertEqual((int)[records count], 1, @"expected 1 record");
+    }
+    @finally {
+
+        // Deletes the contact we created.
+        request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    }
+}
+
 @end
