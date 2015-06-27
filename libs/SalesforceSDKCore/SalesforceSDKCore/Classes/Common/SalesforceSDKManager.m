@@ -46,12 +46,8 @@ static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 // app when it is re-opened.
 static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
-// Random id to uniquely identify user
+// Device id
 static NSString* uid = nil;
-
-// Incremented every time the app is foregrounded
-static int countForegrounds = 1;
-
 
 @implementation SalesforceSDKManager
 
@@ -60,7 +56,7 @@ static int countForegrounds = 1;
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred, ^{
-        uid = [SalesforceSDKManager randomStringWithLength:12];
+        uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 		sdkManager = [[self alloc] init];
 	});
     return sdkManager;
@@ -329,8 +325,6 @@ static int countForegrounds = 1;
 - (void)handleAppForeground:(NSNotification *)notification
 {
     [self log:SFLogLevelDebug msg:@"App is entering the foreground."];
-
-    countForegrounds++;
     
     [self enumerateDelegates:^(NSObject<SalesforceSDKManagerDelegate> *delegate) {
         if ([delegate respondsToSelector:@selector(sdkManagerWillEnterForeground)]) {
@@ -622,7 +616,7 @@ static int countForegrounds = 1;
         NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@/fg_%d %@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ %@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -631,7 +625,7 @@ static int countForegrounds = 1;
                                  appVersion,
                                  [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid, countForegrounds,
+                                 uid,
                                  currentUserAgent
                                  ];
         
@@ -669,18 +663,6 @@ static int countForegrounds = 1;
             }
         }];
     }
-}
-
-
-+ (NSString *) randomStringWithLength: (int) len {
-    static NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    NSMutableString *randomString = [NSMutableString stringWithCapacity: len];
-    
-    for (int i=0; i<len; i++) {
-        [randomString appendFormat: @"%C", [letters characterAtIndex: arc4random_uniform([letters length])]];
-    }
-    
-    return randomString;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

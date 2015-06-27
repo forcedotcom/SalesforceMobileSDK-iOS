@@ -140,7 +140,7 @@ static BOOL kIsTestRun;
 /**
  Set a user agent string based on the mobile SDK version.
  We are building a user agent of the form:
- SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion Native [Current User Agent]
+ SalesforceMobileSDK/1.0 iPhone OS/3.2.0 (iPad) AppName/AppVersion Native uid_<device id> [Current User Agent]
  */
 + (NSString *)userAgentString {
     return [SFRestAPI userAgentString:@""];
