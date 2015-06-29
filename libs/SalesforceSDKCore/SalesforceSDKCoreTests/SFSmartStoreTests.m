@@ -271,7 +271,7 @@
         NSString *storeName = @"xyzpdq";
         BOOL persistentStoreExists = [dbMgr persistentStoreExists:storeName];
         XCTAssertFalse(persistentStoreExists, @"Store should not exist at this point.");
-        [dbMgr createStoreDir:storeName];
+        [self createDbDir:storeName withManager:dbMgr];
         FMDatabase *db = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         persistentStoreExists = [dbMgr persistentStoreExists:storeName];
         XCTAssertTrue(persistentStoreExists, @"Store should exist after creation.");
@@ -287,7 +287,7 @@
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create a new DB.  Verify its emptiness.
         NSString *storeName = @"awesometown";
-        [dbMgr createStoreDir:storeName];
+        [self createDbDir:storeName withManager:dbMgr];
         FMDatabase *createDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         int actualRowCount = [self rowCountForTable:@"sqlite_master" db:createDb];
         XCTAssertEqual(actualRowCount, 0, @"%@ should be a new database with no schema.", storeName);
@@ -315,7 +315,7 @@
     
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create the unencrypted database, add a table.
-        [dbMgr createStoreDir:storeName];
+        [self createDbDir:storeName withManager:dbMgr];
         FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         NSString *tableName = @"My_Table";
         [self createTestTable:tableName db:unencryptedDb];
@@ -333,16 +333,10 @@
         [encryptedDb close];
         
         // Try to open the DB with an empty key, verify no read access.
-        FMDatabase *unencryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:unencryptedDb2];
-        XCTAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-        [unencryptedDb2 close];
+        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
         
         // Try to read the encrypted database with the wrong key.
-        FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:NO];
-        canReadDb = [self canReadDatabase:encryptedDb2];
-        XCTAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened with the wrong key.");
-        [encryptedDb2 close];
+        [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
         
         // Finally, try to re-open the encrypted database with the right key.  Verify read access.
         FMDatabase *encryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
@@ -360,7 +354,7 @@
     
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create the encrypted database, add a table.
-        [dbMgr createStoreDir:storeName];
+        [self createDbDir:storeName withManager:dbMgr];
         NSString *encKey = @"GiantSecret";
         FMDatabase *encryptedDb = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSString *tableName = @"My_Table";
@@ -370,10 +364,7 @@
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:unencryptedDb];
-        XCTAssertFalse(canReadDb, @"Should not be able to read encrypted database with no key.");
-        [unencryptedDb close];
+        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
         
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
@@ -418,7 +409,7 @@
         NSString *tableName = @"My_Table";
         for (int i = 0; i < numStores; i++) {
             NSString *storeName = [NSString stringWithFormat:@"myStore%d", (i + 1)];
-            [dbMgr createStoreDir:storeName];
+            [self createDbDir:storeName withManager:dbMgr];
             FMDatabase *db = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
             [self createTestTable:tableName db:db];
             [db close];
@@ -451,13 +442,8 @@
             BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newNoPasscodeStore.storeQueue close];
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
-            [rawDb close];
-            rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read DB with SmartStore key.", passcodeProviderName);
+            [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
             [rawDb close];
             
             // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
@@ -471,13 +457,8 @@
             canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newPasscodeStore.storeQueue close];
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
-            [rawDb close];
+            [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
             rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:passcodeKey openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read DB with passcode key.", passcodeProviderName);
             [rawDb close];
             
             // Make sure existing stores have the expected keys associated with them, between launches.
@@ -521,11 +502,9 @@
                 [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
                 NSString *encryptionKey = [SFSmartStore encKey];
                 FMDatabase *db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                BOOL canReadDb = [self canReadDatabase:db];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 [db close];
                 SFSmartStore *store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
-                canReadDb = [self canReadDatabaseQueue:store.storeQueue];
+                BOOL canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 BOOL usesDefault = [SFSmartStoreUpgrade usesLegacyDefaultKey:kTestSmartStoreName];
                 XCTAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- The store should not be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
@@ -533,8 +512,6 @@
                 // Passcode to no passcode.
                 [[SFPasscodeManager sharedManager] changePasscode:@""];
                 db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                canReadDb = [self canReadDatabase:db];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 [db close];
                 store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
                 canReadDb = [self canReadDatabaseQueue:store.storeQueue];
@@ -631,8 +608,6 @@
     // Verify that all good key store DBs are now accessible through the same store encryption.
     for (NSString *storeName in goodKeyStoreNames) {
         storeDb = [self openDatabase:storeName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:storeDb];
-        XCTAssertTrue(canReadDb, @"Should be able to read encrypted database on encryption upgrade for store '%@'.", storeName);
     }
     
     // Verify that a bad key store will be removed as part of the upgrade process.
@@ -687,6 +662,12 @@
     }
 }
 
+- (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
+{
+    BOOL result = [dbMgr createStoreDir:dbName];
+    XCTAssertTrue(result, @"Create db dir failed");
+}
+
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
     NSError *openDbError = nil;
@@ -713,19 +694,6 @@
     [self log:SFLogLevelDebug format:@"rowCountQuery: %@", rowCountQuery];
     int rowCount = [db intForQuery:rowCountQuery];
     return rowCount;
-}
-
-- (BOOL)canReadDatabase:(FMDatabase *)db
-{
-    // Turn off hard errors from FMDB first.
-    BOOL origCrashOnErrors = [db crashOnErrors];
-    [db setCrashOnErrors:NO];
-    
-    NSString *querySql = @"SELECT * FROM sqlite_master LIMIT 1";
-    FMResultSet *rs = [db executeQuery:querySql];
-    [rs close];
-    [db setCrashOnErrors:origCrashOnErrors];
-    return (rs != nil);
 }
 
 - (BOOL)canReadDatabaseQueue:(FMDatabaseQueue *)queue
