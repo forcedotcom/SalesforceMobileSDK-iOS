@@ -33,24 +33,17 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 3.2
-
-**SmartSync Library Enhancements**
-- SmartSync now supports incremental sync, which allows the developer to download only data that has been updated on the server, rather than the entire data set.
-- The sync up operation now offers merge modes that let the developer decide whether to overwrite data that has been modified on the server or discard local changes.
-- SmartSync now supports custom targets, which can manage the data interchange in sync operations. Custom targets let you tailor network interactions to the specific demands of the sync operation.
+### What's New in 3.3
 
 **SmartStore Library Enhancements**
-- SmartStore now provides the ability to obtain a global (app-level) SmartStore instance. A global SmartStore instance can be populated with user-agnostic data that will not be deleted when users log out.
+- SmartStore now provides the ability to perform full text search (FTS). Refer to the SmartStore chapter in the Mobile SDK Development Guide for details on how to use this feature.
+- An enhanced query syntax has been added to support this feature.
 
-**Network Library Enhancements**
-- The underlying network library used by the Mobile SDK is now SalesforceNetwork, which replaces SalesforceNetworkSDK and MKNetworkKit.
-
-**Sample App Updates**
-- A new sample app, `NoteSync`, has been added to demonstrate the syncing of content notes using custom targets.
+**Security Enhancements**
+- It is now possible to use Touch ID instead of a numeric PIN on passcode enabled orgs.
 
 **Other Technical Improvements**
-- It is now possible to obtain an unauthenticated RestClient instance for use with APIs that do not require authentication.
+- Upgraded SQLCipher to 3.3.
 - Various bug fixes.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials
