@@ -271,7 +271,7 @@
         NSString *storeName = @"xyzpdq";
         BOOL persistentStoreExists = [dbMgr persistentStoreExists:storeName];
         XCTAssertFalse(persistentStoreExists, @"Store should not exist at this point.");
-        [self createDbDir:storeName withManager:dbMgr];
+        [dbMgr createStoreDir:storeName];
         FMDatabase *db = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         persistentStoreExists = [dbMgr persistentStoreExists:storeName];
         XCTAssertTrue(persistentStoreExists, @"Store should exist after creation.");
@@ -287,7 +287,7 @@
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create a new DB.  Verify its emptiness.
         NSString *storeName = @"awesometown";
-        [self createDbDir:storeName withManager:dbMgr];
+        [dbMgr createStoreDir:storeName];
         FMDatabase *createDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         int actualRowCount = [self rowCountForTable:@"sqlite_master" db:createDb];
         XCTAssertEqual(actualRowCount, 0, @"%@ should be a new database with no schema.", storeName);
@@ -315,7 +315,7 @@
     
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create the unencrypted database, add a table.
-        [self createDbDir:storeName withManager:dbMgr];
+        [dbMgr createStoreDir:storeName];
         FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
         NSString *tableName = @"My_Table";
         [self createTestTable:tableName db:unencryptedDb];
@@ -360,7 +360,7 @@
     
     for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
         // Create the encrypted database, add a table.
-        [self createDbDir:storeName withManager:dbMgr];
+        [dbMgr createStoreDir:storeName];
         NSString *encKey = @"GiantSecret";
         FMDatabase *encryptedDb = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSString *tableName = @"My_Table";
@@ -418,7 +418,7 @@
         NSString *tableName = @"My_Table";
         for (int i = 0; i < numStores; i++) {
             NSString *storeName = [NSString stringWithFormat:@"myStore%d", (i + 1)];
-            [self createDbDir:storeName withManager:dbMgr];
+            [dbMgr createStoreDir:storeName];
             FMDatabase *db = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
             [self createTestTable:tableName db:db];
             [db close];
@@ -685,13 +685,6 @@
     } else {
         [SFSmartStore removeSharedStoreWithName:storeName];
     }
-}
-
-- (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
-{
-    NSError *createError = nil;
-    [dbMgr createStoreDir:dbName];
-    XCTAssertNil(createError, @"Error creating store dir: %@", [createError localizedDescription]);
 }
 
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
