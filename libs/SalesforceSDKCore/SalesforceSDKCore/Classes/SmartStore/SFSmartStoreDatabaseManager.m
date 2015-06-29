@@ -180,7 +180,14 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         [[db executeQuery:pragmaQuery] close];
         [db setKey:key];
     }
-    return [self verifyDatabaseAccess:db error:nil] ? db : nil;
+    BOOL accessible = [self verifyDatabaseAccess:db error:nil];
+    if (accessible) {
+        return db;
+    }
+    else {
+        [db close];
+        return nil;
+    }
 }
 
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error
