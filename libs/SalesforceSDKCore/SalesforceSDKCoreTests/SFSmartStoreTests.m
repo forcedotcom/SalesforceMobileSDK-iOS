@@ -690,7 +690,7 @@
 - (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
 {
     NSError *createError = nil;
-    [dbMgr createStoreDir:dbName error:&createError];
+    [dbMgr createStoreDir:dbName];
     XCTAssertNil(createError, @"Error creating store dir: %@", [createError localizedDescription]);
 }
 
