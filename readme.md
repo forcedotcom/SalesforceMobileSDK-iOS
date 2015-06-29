@@ -43,6 +43,7 @@ Introduction
 - It is now possible to use Touch ID instead of a numeric PIN on passcode enabled orgs.
 
 **Other Technical Improvements**
+- Upgraded SQLCipher to 3.3.
 - Various bug fixes.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials
