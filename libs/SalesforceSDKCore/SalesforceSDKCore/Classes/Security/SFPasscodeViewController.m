@@ -44,6 +44,8 @@ static CGFloat      const kInstructionsLabelHeight          = 50.0f;
 static CGFloat      const kLabelPadding                     = 10.0f;
 static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
 static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
+static CGFloat      const kUseTouchIdButtonWidth            = 150.0f;
+static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @interface SFPasscodeViewController() {
@@ -69,6 +71,11 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
  * The 'Forgot Passcode' button.
  */
 @property (nonatomic, strong) UIButton *forgotPasscodeButton;
+
+/**
+ * The 'Use TouchId' button.
+ */
+@property (nonatomic, strong) UIButton *useTouchIdButton;
 
 /**
  * Keeps a copy of the initial passcode of the passcode creation process.
@@ -116,6 +123,11 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 - (void)layoutInstructionsLabel;
 
 /**
+ * Lays out the 'Use TouchId' button on the screen.
+ */
+- (void)layoutUseTouchIdButton;
+
+/**
  * Lays out the 'Forgot Passcode' button on the screen.
  */
 - (void)layoutForgotPasscodeButton;
@@ -160,12 +172,6 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 @end
 
 @implementation SFPasscodeViewController
-
-@synthesize passcodeField = _passcodeField;
-@synthesize errorLabel = _errorLabel;
-@synthesize instructionsLabel = _instructionsLabel;
-@synthesize initialPasscode = _initialPasscode;
-@synthesize forgotPasscodeButton = _forgotPasscodeButton;
 
 - (id)initForPasscodeVerification
 {
@@ -255,22 +261,39 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     self.forgotPasscodeButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
     [self.forgotPasscodeButton setHidden:YES];
     [self.view addSubview:self.forgotPasscodeButton];
+
+    // 'Use TouchId' button
+    self.useTouchIdButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.useTouchIdButton setTitle:[SFSDKResourceUtils localizedString:@"useTouchIdTitle"] forState:UIControlStateNormal];
+    self.useTouchIdButton.backgroundColor = [UIColor whiteColor];
+    [self.useTouchIdButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.useTouchIdButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.useTouchIdButton addTarget:self action:@selector(showTouchId) forControlEvents:UIControlEventTouchUpInside];
+    self.useTouchIdButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"useTouchIdTitle"];
+    self.useTouchIdButton.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
+    [self.useTouchIdButton setHidden:YES];
+    [self.view addSubview:self.useTouchIdButton];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[UIColor blackColor]];
     [self log:SFLogLevelDebug msg:@"SFPasscodeViewController viewDidLoad"];
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
     [self layoutSubviews];
     if (self.mode == SFPasscodeControllerModeCreate) {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeCreateInstructions"]];
     } else if (self.mode == SFPasscodeControllerModeChange) {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeChangeInstructions"]];
     } else {
+        [self.passcodeField becomeFirstResponder];
         [self updateInstructionsLabel:[SFSDKResourceUtils localizedString:@"passcodeVerifyInstructions"]];
+        [self.useTouchIdButton setHidden:![self canShowTouchId]];
         [self.forgotPasscodeButton setHidden:NO];
     }
 }
@@ -318,6 +341,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     [self layoutErrorLabel];
     [self layoutInstructionsLabel];
     [self layoutForgotPasscodeButton];
+    [self layoutUseTouchIdButton];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -350,6 +374,17 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
     self.forgotPasscodeButton.frame = CGRectMake(x, y, w, h);
     self.forgotPasscodeButton.layer.cornerRadius = 10;
     self.forgotPasscodeButton.clipsToBounds = YES;
+}
+
+- (void)layoutUseTouchIdButton
+{
+    CGFloat w = kUseTouchIdButtonWidth;
+    CGFloat h = kUseTouchIdButtonHeight;
+    CGFloat x = CGRectGetMidX(self.view.frame) - (self.useTouchIdButton.frame.size.width / 2.0);
+    CGFloat y = CGRectGetMaxY(self.forgotPasscodeButton.frame) + kControlPadding;
+    self.useTouchIdButton.frame = CGRectMake(x, y, w, h);
+    self.useTouchIdButton.layer.cornerRadius = 10;
+    self.useTouchIdButton.clipsToBounds = YES;
 }
 
 - (void)layoutErrorLabel
@@ -412,8 +447,10 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 - (void)finishedValidatePasscode
 {
+    [self.view endEditing:YES];
     NSString *checkPasscode = [self.passcodeField text];
     if ([[SFPasscodeManager sharedManager] verifyPasscode:checkPasscode]) {
+        [self.passcodeField resignFirstResponder];
         [self validatePasscodeConfirmed:checkPasscode];
     } else {
         if ([self decrementPasscodeAttempts]) {
@@ -472,6 +509,7 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
                                           action:@selector(resetInitialCreateView)];
     [self.navigationItem setLeftBarButtonItem:bbi];
     [self.navigationItem setTitle:[SFSDKResourceUtils localizedString:@"confirmPasscodeNavTitle"]];
+    [self.passcodeField becomeFirstResponder];
 }
 
 - (void)addPasscodeVerificationNav

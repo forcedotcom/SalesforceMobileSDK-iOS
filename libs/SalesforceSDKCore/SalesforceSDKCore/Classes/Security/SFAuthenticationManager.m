@@ -447,16 +447,15 @@ static Class InstanceClass = nil;
     // If it's not the current user, this is really just about clearing the account data and
     // user-specific state for the given account.
     if (![user isEqual:userAccountManager.currentUser]) {
+        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         [userAccountManager deleteAccountForUser:user error:nil];
         [self revokeRefreshToken:user];
-        [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications:user];
         return;
     }
     
     // Otherwise, the current user is being logged out.  Supply the user account to the
     // "Will Logout" notification before the credentials are revoked.  This will ensure
     // that databases and other resources keyed off of the userID can be destroyed/cleaned up.
-    
     if ([SFPushNotificationManager sharedInstance].deviceSalesforceId) {
         [[SFPushNotificationManager sharedInstance] unregisterSalesforceNotifications];
     }
@@ -647,15 +646,12 @@ static Class InstanceClass = nil;
     
     // Assign the identity data to the current user
     NSAssert([SFUserAccountManager sharedInstance].currentUser != nil, @"Current user should not be nil at this point.");
-    [SFUserAccountManager sharedInstance].currentUser.idData = self.idCoordinator.idData;
-    
+    [[SFUserAccountManager sharedInstance] applyIdData:self.idCoordinator.idData];
+
     // Save the accounts
     [[SFUserAccountManager sharedInstance] saveAccounts:nil];
 
     // Notify the session is ready
-    [self willChangeValueForKey:@"currentUser"];
-    [self didChangeValueForKey:@"currentUser"];
-    
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
     
@@ -822,10 +818,8 @@ static Class InstanceClass = nil;
     
     [SFAuthenticationManager removeAllCookies];
     [self.coordinator stopAuthentication];
-    self.coordinator.delegate = nil;
-    self.idCoordinator.delegate = nil;
-    SFRelease(_idCoordinator);
-    SFRelease(_coordinator);
+    self.idCoordinator.idData = nil;
+    self.coordinator.credentials = nil;
 }
 
 - (void)cleanupStatusAlert

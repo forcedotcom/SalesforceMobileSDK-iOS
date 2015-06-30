@@ -12,4 +12,4 @@ GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 PRODUCT_NAME = SalesforceRestAPI
 
 HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers" $(inherited)
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" "$(SRCROOT)/../../external/ThirdPartyDependencies/openssl" $(inherited)
+LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)"

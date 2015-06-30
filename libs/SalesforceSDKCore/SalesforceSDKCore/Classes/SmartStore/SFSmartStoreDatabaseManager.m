@@ -157,13 +157,35 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 + (FMDatabase*) setKeyForDb:(FMDatabase*) db key:(NSString *)key error:(NSError **)error {
     [db setLogsErrors:YES];
     [db setCrashOnErrors:NO];
-    if ([db open]) {
-        [db setKey:key];
-        return db;
-    } else {
+    FMDatabase* unlockedDb = [self unlockDatabase:db key:key kdfIter:4000];
+    
+    if (!unlockedDb) {
+        // You must be have created your database with SDK 3.2 or 3.1 and cocoapods
+        // And therefore you are using sqlcipher 3.1 with 64000 iterations
+        unlockedDb = [self unlockDatabase:db key:key kdfIter:64000];
+    }
+    
+    if (!unlockedDb) {
         [self log:SFLogLevelDebug format:@"Couldn't open store db at: %@ error: %@", [db databasePath],[db lastErrorMessage]];
         if (error != nil)
             *error = [db lastError];
+    }
+    
+    return unlockedDb;
+}
+
++ (FMDatabase*) unlockDatabase:(FMDatabase*)db key:(NSString*)key kdfIter:(int)kdfIter {
+    if ([db open]) {
+        NSString* pragmaQuery = [NSString stringWithFormat:@"PRAGMA cipher_default_kdf_iter = '%d'", kdfIter];
+        [[db executeQuery:pragmaQuery] close];
+        [db setKey:key];
+    }
+    BOOL accessible = [self verifyDatabaseAccess:db error:nil];
+    if (accessible) {
+        return db;
+    }
+    else {
+        [db close];
         return nil;
     }
 }
@@ -275,9 +297,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
                                      userInfo:@{NSLocalizedDescriptionKey: errorDesc}];
         }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
     fileOpSuccess = [[NSFileManager defaultManager] moveItemAtPath:encDbPath toPath:storePath error:error];
     if (!fileOpSuccess) {
@@ -289,9 +309,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         }
         [[NSFileManager defaultManager] removeItemAtPath:encDbPath error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:backupPath toPath:storePath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
     
     FMDatabase *encDb = [self openDatabaseWithPath:storePath key:newKey error:nil];
@@ -301,9 +319,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     } else {
         [[NSFileManager defaultManager] removeItemAtPath:storePath error:nil];
         [[NSFileManager defaultManager] moveItemAtPath:backupPath toPath:storePath error:nil];
-        [db open];
-        [db setKey:oldKey];
-        return db;
+        return [self setKeyForDb:db key:oldKey error:nil];
     }
 }
 
@@ -329,23 +345,51 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 
 #pragma mark - Utilities
 
-- (BOOL)createStoreDir:(NSString *)storeName error:(NSError **)error
+- (BOOL)createStoreDir:(NSString *)storeName
 {
+    NSError* error = nil;
+    BOOL result = YES;
     NSString *storeDir = [self storeDirectoryForStoreName:storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
         // This store has not yet been created; create it.
-        return [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:error];
+        result = [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:&error];
+        
+        if (error != nil) {
+            [self log:SFLogLevelError format:@"Couldn't create store dir for store: %@ - error:%@", storeName, error];
+        }
     } else {
         return YES;
     }
+    return result;
 }
 
-- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error
+- (NSString*)getStoreDirProtection:(NSString *)storeName
 {
-    // Setup the database file with filesystem encryption.
+    NSError* error = nil;
     NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
-    NSDictionary *attr = @{NSFileProtectionKey: NSFileProtectionComplete};
-    return [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:error];
+    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:dbFilePath error:&error];
+    NSString* result = attr[NSFileProtectionKey];
+    if (error != nil) {
+        [self log:SFLogLevelError format:@"Couldn't get protection for store: %@ - error:%@", storeName, error];
+    }
+    return result;
+}
+
+- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString*)protection
+{
+    if ([self getStoreDirProtection:storeName] == protection) {
+        // already has the protection we want
+        return YES;
+    }
+
+    NSError* error= nil;
+    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
+    NSDictionary *attr = @{NSFileProtectionKey: protection};
+    BOOL result = [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:&error];
+    if (error != nil) {
+        [self log:SFLogLevelError format:@"Couldn't protect store: %@ - error:%@", storeName, error];
+    }
+    return result;
 }
 
 - (void)removeStoreDir:(NSString *)storeName

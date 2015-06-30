@@ -65,6 +65,13 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
         __weak AppDelegate *weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            //
+            // If you wish to register for push notifications, uncomment the line below.  Note that,
+            // if you want to receive push notifications from Salesforce, you will also need to
+            // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
+            //
+            //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
+            //
             [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [weakSelf setupRootViewController];
         };
@@ -88,15 +95,6 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
-    
-    //
-    // If you wish to register for push notifications, uncomment the line below.  Note that,
-    // if you want to receive push notifications from Salesforce, you will also need to
-    // implement the application:didRegisterForRemoteNotificationsWithDeviceToken: method (below).
-    //
-    //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
-    //
-    
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }

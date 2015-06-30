@@ -30,9 +30,7 @@
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
-#import "SFSmartStore.h"
 #import "SFSmartStore+Internal.h"
-#import "SFAlterSoupLongOperation.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUpgrade+Internal.h"
@@ -40,27 +38,19 @@
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
 #import "SFSecurityLockout+Internal.h"
-#import "SFUserAccountManager.h"
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFEncryptionKey.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 
-NSString * const kTestSmartStoreName   = @"testSmartStore";
-NSString * const kTestSoupName   = @"testSoup";
+#define kTestSmartStoreName  @"testSmartStore"
+#define kTestSoupName        @"testSoup"
 
 @interface SFSmartStoreTests ()
 
 @property (nonatomic, strong) SFUserAccount *smartStoreUser;
-
-- (BOOL) hasTable:(NSString*)tableName;
-- (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr;
-- (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail;
-- (void)createTestTable:(NSString *)tableName db:(FMDatabase *)db;
-- (int)rowCountForTable:(NSString *)tableName db:(FMDatabase *)db;
-- (BOOL)tableNameInMaster:(NSString *)tableName db:(FMDatabase *)db;
-- (BOOL)canReadDatabase:(FMDatabase *)db;
-- (void)clearAllStores;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *globalStore;
 
 @end
 
@@ -69,29 +59,56 @@ NSString * const kTestSoupName   = @"testSoup";
 
 #pragma mark - setup and teardown
 
-
 - (void) setUp
 {
     [super setUp];
     [SFLogger setLogLevel:SFLogLevelDebug];
-    [self setUpSmartStoreUser];
-    _store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
-    _globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
+    self.smartStoreUser = [self setUpSmartStoreUser];
+    self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
+    self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
 }
 
 - (void) tearDown
 {
-    _store = nil;
-    _globalStore = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestSmartStoreName];
-    [self tearDownSmartStoreUser];
+    [self tearDownSmartStoreUser:self.smartStoreUser];
     [super tearDown];
+
+    self.smartStoreUser = nil;
+    self.store = nil;
+    self.globalStore = nil;
 }
 
 
 #pragma mark - tests
-// All code under test must be linked into the Unit Test bundle
+/** 
+ * Test to check compile options
+ */
+- (void) testCompileOptions
+{
+    __block NSMutableArray* options = [NSMutableArray new];
+
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        
+        FMResultSet *rs = [db executeQuery:@"pragma compile_options"];
+        
+        while ([rs next]) {
+            [options addObject:[rs stringForColumnIndex:0]];
+        }
+        
+        [rs close];
+    }];
+
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
+}
+
+- (void) testSqliteVersion
+{
+    NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
+    XCTAssertEqualObjects(version, @"3.8.8.3");
+}
 
 /**
  * Testing method with paths to top level string/integer/array/map as well as edge cases (nil object/nil or empty path)
@@ -136,10 +153,12 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMetaDataTablesCreated
 {
-    BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map"];
-    XCTAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
-    BOOL hasTableSoupNames = [self hasTable:@"soup_names"];
-    XCTAssertTrue(hasTableSoupNames, @"Soup names table not found");
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map" store:store];
+        XCTAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
+        BOOL hasTableSoupNames = [self hasTable:@"soup_names" store:store];
+        XCTAssertTrue(hasTableSoupNames, @"Soup names table not found");
+    }
 }
 
 /**
@@ -150,21 +169,21 @@ NSString * const kTestSoupName   = @"testSoup";
     NSUInteger const numRegisterAndDropIterations = 10;
     
     // Make sure you can register, drop, and re-add a soup through n iterations.
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         for (NSUInteger i = 0; i < numRegisterAndDropIterations; i++) {
             // Before
-            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %lu: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
+            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
             
             // Register
             NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
             [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
             
             // Remove
             [store removeSoup:kTestSoupName];
             testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertFalse(testSoupExists, @"In iteration %lu: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
+            XCTAssertFalse(testSoupExists, @"In iteration %u: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
         }
     }
 }
@@ -174,7 +193,7 @@ NSString * const kTestSoupName   = @"testSoup";
  */
 - (void) testMultipleRegisterSameSoup
 {
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         BOOL testSoupExists = [store soupExists:kTestSoupName];
         XCTAssertFalse(testSoupExists, @"Soup %@ should not exist", kTestSoupName);
@@ -314,16 +333,10 @@ NSString * const kTestSoupName   = @"testSoup";
         [encryptedDb close];
         
         // Try to open the DB with an empty key, verify no read access.
-        FMDatabase *unencryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:unencryptedDb2];
-        XCTAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-        [unencryptedDb2 close];
+        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
         
         // Try to read the encrypted database with the wrong key.
-        FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:NO];
-        canReadDb = [self canReadDatabase:encryptedDb2];
-        XCTAssertFalse(canReadDb, @"Shouldn't be able to read encrypted database, opened with the wrong key.");
-        [encryptedDb2 close];
+        [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
         
         // Finally, try to re-open the encrypted database with the right key.  Verify read access.
         FMDatabase *encryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
@@ -351,10 +364,7 @@ NSString * const kTestSoupName   = @"testSoup";
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:unencryptedDb];
-        XCTAssertFalse(canReadDb, @"Should not be able to read encrypted database with no key.");
-        [unencryptedDb close];
+        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
         
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
@@ -381,8 +391,8 @@ NSString * const kTestSoupName   = @"testSoup";
 - (void)testAllStoreNames
 {
     // Test with no stores. (Note: Have to get rid of the 'default' store created at setup.)
-    _store = nil;
-    _globalStore = nil;
+    self.store = nil;
+    self.globalStore = nil;
     [SFSmartStore removeSharedStoreWithName:kTestSmartStoreName];
     [SFSmartStore removeSharedGlobalStoreWithName:kTestSmartStoreName];
     
@@ -432,13 +442,8 @@ NSString * const kTestSoupName   = @"testSoup";
             BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newNoPasscodeStore.storeQueue close];
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
-            [rawDb close];
-            rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read DB with SmartStore key.", passcodeProviderName);
+            [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
             [rawDb close];
             
             // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
@@ -452,13 +457,8 @@ NSString * const kTestSoupName   = @"testSoup";
             canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newPasscodeStore.storeQueue close];
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertFalse(canReadSmartStoreDb, @"For provider '%@': Shouldn't be able to read store with no key.", passcodeProviderName);
-            [rawDb close];
+            [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
             rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:passcodeKey openShouldFail:NO];
-            canReadSmartStoreDb = [self canReadDatabase:rawDb];
-            XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Should be able to read DB with passcode key.", passcodeProviderName);
             [rawDb close];
             
             // Make sure existing stores have the expected keys associated with them, between launches.
@@ -502,11 +502,9 @@ NSString * const kTestSoupName   = @"testSoup";
                 [[SFPasscodeManager sharedManager] changePasscode:newPasscode];
                 NSString *encryptionKey = [SFSmartStore encKey];
                 FMDatabase *db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                BOOL canReadDb = [self canReadDatabase:db];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 [db close];
                 SFSmartStore *store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
-                canReadDb = [self canReadDatabaseQueue:store.storeQueue];
+                BOOL canReadDb = [self canReadDatabaseQueue:store.storeQueue];
                 XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 BOOL usesDefault = [SFSmartStoreUpgrade usesLegacyDefaultKey:kTestSmartStoreName];
                 XCTAssertFalse(usesDefault, @"Preferred provider: '%@', Current provider: '%@' -- The store should not be configured with the default passcode.", preferredPasscodeProviderName, currentPasscodeProviderName);
@@ -514,8 +512,6 @@ NSString * const kTestSoupName   = @"testSoup";
                 // Passcode to no passcode.
                 [[SFPasscodeManager sharedManager] changePasscode:@""];
                 db = [self openDatabase:kTestSmartStoreName withManager:dbMgr key:encryptionKey openShouldFail:NO];
-                canReadDb = [self canReadDatabase:db];
-                XCTAssertTrue(canReadDb, @"Preferred provider: '%@', Current provider: '%@' -- Cannot read DB of store with store name '%@'", preferredPasscodeProviderName, currentPasscodeProviderName, kTestSmartStoreName);
                 [db close];
                 store = [self smartStoreForManager:dbMgr withName:kTestSmartStoreName];
                 canReadDb = [self canReadDatabaseQueue:store.storeQueue];
@@ -612,8 +608,6 @@ NSString * const kTestSoupName   = @"testSoup";
     // Verify that all good key store DBs are now accessible through the same store encryption.
     for (NSString *storeName in goodKeyStoreNames) {
         storeDb = [self openDatabase:storeName withManager:[SFSmartStoreDatabaseManager sharedManager] key:encKey openShouldFail:NO];
-        BOOL canReadDb = [self canReadDatabase:storeDb];
-        XCTAssertTrue(canReadDb, @"Should be able to read encrypted database on encryption upgrade for store '%@'.", storeName);
     }
     
     // Verify that a bad key store will be removed as part of the upgrade process.
@@ -625,7 +619,7 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void) testGetDatabaseSize
 {
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         unsigned long long initialSize = [store getDatabaseSize];
         
@@ -648,57 +642,7 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
--(void) testAlterSoupResumeAfterRenameOldSoupTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepRenameOldSoupTable];
-}
-
--(void) testAlterSoupResumeAfterDropOldIndexes
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldIndexes];
-}
-
--(void) testAlterSoupResumeAfterRegisterSoupUsingTableName
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepRegisterSoupUsingTableName];
-}
-
--(void) testAlterSoupResumeAfterCopyTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepCopyTable];
-}
-
--(void) testAlterSoupResumeAfterReIndexSoup
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepReIndexSoup];
-}
-
--(void) testAlterSoupResumeAfterDropOldTable
-{
-    [self tryAlterSoupInterruptResume:SFAlterSoupStepDropOldTable];
-}
-
 #pragma mark - helper methods
-
-- (void)setUpSmartStoreUser
-{
-    u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
-    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
-    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://login.salesforce.com/id/%@/%@", orgId, userId]];
-    
-    self.smartStoreUser = user;
-    [[SFUserAccountManager sharedInstance] addAccount:self.smartStoreUser];
-    [SFUserAccountManager sharedInstance].currentUser = self.smartStoreUser;
-}
-
-- (void)tearDownSmartStoreUser
-{
-    [[SFUserAccountManager sharedInstance] deleteAccountForUser:self.smartStoreUser error:nil];
-    [SFUserAccountManager sharedInstance].currentUser = nil;
-    self.smartStoreUser = nil;
-}
 
 - (SFSmartStore *)smartStoreForManager:(SFSmartStoreDatabaseManager *)dbMgr withName:(NSString *)storeName
 {
@@ -718,29 +662,10 @@ NSString * const kTestSoupName   = @"testSoup";
     }
 }
 
-- (BOOL) hasTable:(NSString*)tableName
-{
-    __block NSInteger result = NSNotFound;
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
-        [store.storeQueue inDatabase:^(FMDatabase* db) {
-            FMResultSet *frs = [db executeQuery:@"select count(1) from sqlite_master where type = ? and name = ?" withArgumentsInArray:@[@"table", tableName]];
-            
-            if ([frs next]) {
-                result = [frs intForColumnIndex:0];
-            }
-            [frs close];
-        }];
-        if (result != 1) break;
-    }
-    
-    return result == 1;
-}
-
 - (void)createDbDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
 {
-    NSError *createError = nil;
-    [dbMgr createStoreDir:dbName error:&createError];
-    XCTAssertNil(createError, @"Error creating store dir: %@", [createError localizedDescription]);
+    BOOL result = [dbMgr createStoreDir:dbName];
+    XCTAssertTrue(result, @"Create db dir failed");
 }
 
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
@@ -769,19 +694,6 @@ NSString * const kTestSoupName   = @"testSoup";
     [self log:SFLogLevelDebug format:@"rowCountQuery: %@", rowCountQuery];
     int rowCount = [db intForQuery:rowCountQuery];
     return rowCount;
-}
-
-- (BOOL)canReadDatabase:(FMDatabase *)db
-{
-    // Turn off hard errors from FMDB first.
-    BOOL origCrashOnErrors = [db crashOnErrors];
-    [db setCrashOnErrors:NO];
-    
-    NSString *querySql = @"SELECT * FROM sqlite_master LIMIT 1";
-    FMResultSet *rs = [db executeQuery:querySql];
-    [rs close];
-    [db setCrashOnErrors:origCrashOnErrors];
-    return (rs != nil);
 }
 
 - (BOOL)canReadDatabaseQueue:(FMDatabaseQueue *)queue
@@ -823,112 +735,11 @@ NSString * const kTestSoupName   = @"testSoup";
 
 - (void)clearAllStores
 {
-    _store = nil;
+    self.store = nil;
     [SFSmartStore removeAllStores];
     NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManager] allStoreNames];
     NSUInteger allStoreCount = [allStoreNames count];
     XCTAssertEqual(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
-}
-
-- (void) tryAlterSoupInterruptResume:(SFAlterSoupStep)toStep
-{
-    for (SFSmartStore *store in @[ _store, _globalStore ]) {
-        // Before
-        XCTAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
-        
-        // Register
-        NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
-        NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
-        [store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
-        BOOL testSoupExists = [store soupExists:kTestSoupName];
-        XCTAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
-        __block NSString* soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kTestSoupName withDb:db];
-        }];
-        
-        // Populate soup
-        NSArray* entries = [SFJsonUtils objectFromJSONString:@"[{\"lastName\":\"Doe\", \"address\":{\"city\":\"San Francisco\",\"street\":\"1 market\"}},"
-                            "{\"lastName\":\"Jackson\", \"address\":{\"city\":\"Los Angeles\",\"street\":\"100 mission\"}}]"];
-        NSArray* insertedEntries  =[store upsertEntries:entries toSoup:kTestSoupName];
-        
-        // Partial alter - up to toStep included
-        NSDictionary* citySoupIndex = @{@"path": @"address.city",@"type": @"string"};
-        NSDictionary* streetSoupIndex = @{@"path": @"address.street",@"type": @"string"};
-        NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex, citySoupIndex, streetSoupIndex]];
-        SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:store soupName:kTestSoupName newIndexSpecs:indexSpecsNew reIndexData:YES];
-        [operation runToStep:toStep];
-        
-        // Validate long_operations_status table
-        NSArray* operations = [store getLongOperations];
-        NSInteger expectedCount = (toStep == kLastStep ? 0 : 1);
-        XCTAssertTrue([operations count] == expectedCount, @"Wrong number of long operations found");
-        if ([operations count] > 0) {
-            // Check details
-            SFAlterSoupLongOperation* actualOperation = (SFAlterSoupLongOperation*)operations[0];
-            XCTAssertEqualObjects(actualOperation.soupName, kTestSoupName, @"Wrong soup name");
-            XCTAssertEqualObjects(actualOperation.soupTableName, soupTableName, @"Wrong soup name");
-            XCTAssertTrue(actualOperation.reIndexData, @"Wrong re-index data");
-            
-            // Check last step completed
-            XCTAssertEqual(actualOperation.afterStep, toStep, @"Wrong step");
-            
-            // Simulate restart (clear cache and call resumeLongOperations)
-            // TODO clear memory cache
-            [store resumeLongOperations];
-            
-            // Check that long operations table is now empty
-            XCTAssertTrue([[store getLongOperations] count] == 0, @"There should be no long operations left");
-            
-            // Check index specs
-            NSArray* actualIndexSpecs = [store indicesForSoup:kTestSoupName];
-            [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:[SFSoupIndex asArraySoupIndexes:indexSpecsNew] checkColumnName:NO];
-            
-            // Check data
-            [store.storeQueue inDatabase:^(FMDatabase *db) {
-                FMResultSet* frs = [store queryTable:soupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
-                [self checkRow:frs withExpectedEntry:insertedEntries[0] withSoupIndexes:actualIndexSpecs];
-                [self checkRow:frs withExpectedEntry:insertedEntries[1] withSoupIndexes:actualIndexSpecs];
-                XCTAssertFalse([frs next], @"Only two rows should have been returned");
-                [frs close];
-            }];
-        }
-    }
-}
-
-- (void) checkRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
-{
-    XCTAssertTrue([frs next], @"Expected rows to be returned");
-    // Check id
-    XCTAssertEqualObjects(@([frs longForColumn:ID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
-    
-    /*
-     // FIXME value coming back is an int - needs to be investigated and fixed in 2.2
-     STAssertEqualObjects([NSNumber numberWithLong:[frs longForColumn:LAST_MODIFIED_COL]], expectedEntry[SOUP_LAST_MODIFIED_DATE], @"Wrong last modified date");
-     */
-    
-    for (SFSoupIndex* soupIndex in arraySoupIndexes)
-    {
-        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
-        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
-        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
-        
-    }
-    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
-}
-
-- (void) checkIndexSpecs:(NSArray*)actualSoupIndexes withExpectedIndexSpecs:(NSArray*)expectedSoupIndexes checkColumnName:(BOOL)checkColumnName
-{
-    XCTAssertTrue([actualSoupIndexes count] == [expectedSoupIndexes count], @"Wrong number of index specs");
-    for (int i = 0; i<[expectedSoupIndexes count]; i++) {
-        SFSoupIndex* actualSoupIndex = ((SFSoupIndex*)actualSoupIndexes[i]);
-        SFSoupIndex* expectedSoupIndex = ((SFSoupIndex*)expectedSoupIndexes[i]);
-        XCTAssertEqualObjects(actualSoupIndex.path, expectedSoupIndex.path, @"Wrong path");
-        XCTAssertEqualObjects(actualSoupIndex.indexType, expectedSoupIndex.indexType, @"Wrong type");
-        if (checkColumnName) {
-            XCTAssertEqualObjects(actualSoupIndex.columnName, expectedSoupIndex.columnName, @"Wrong column name");
-        }
-    }
 }
 
 @end

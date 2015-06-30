@@ -1,14 +1,14 @@
-## 3.1 to 3.2 upgrade
+## 3.2 to 3.3 upgrade
 
 To upgrade native and hybrid, we strongly recommend creating a new app from the app templates in [the forceios npm package](https://npmjs.org/package/forceios), then migrating the artifacts specific to your app into the new template.  The other recommended approach would be to upgrade using [Cocoapods](https://cocoapods.org/pods/SalesforceMobileSDK-iOS).  Read on if you prefer to update the Mobile SDK artifacts in your existing app.
 
 NOTE: Starting with our 3.2 release, we don't use MKNetworkKit and SalesforceNetworkSDK as our networking libraries.  Instead, we use SalesforceNetwork as our library for networking.  If you use MKNetworkKit APIs directly, you will need to replace those calls with equivalent API calls in our new library.
 
-### Hybrid 3.1 to 3.2 upgrade
+### Hybrid 3.2 to 3.3 upgrade
 
-The 3.2 version of the Mobile SDK still supports a minimum Cordova version of 3.5, has been tested through Cordova 3.6.3, and is expected to work with Cordova 3.7.
+The 3.3 version of the Mobile SDK still supports a minimum Cordova version of 3.5, has been tested through Cordova 3.6.3, and is expected to work with Cordova 3.7.
 
-Upgrading your hybrid app from 3.1 to 3.2 should be a simple matter of upgrading the Salesforce Cordova plugins themselves.  This can be done by using the Cordova command-line tool to remove, then re-add the plugin:
+Upgrading your hybrid app from 3.2 to 3.3 should be a simple matter of upgrading the Salesforce Cordova plugins themselves.  This can be done by using the Cordova command-line tool to remove, then re-add the plugin:
 
         $ cd MyCordovaAppDir
         $ cordova plugin rm com.salesforce
@@ -17,10 +17,10 @@ Upgrading your hybrid app from 3.1 to 3.2 should be a simple matter of upgrading
 
 See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 3.2 SDK.
 
-### Native 3.1 to 3.2 upgrade
+### Native 3.2 to 3.3 upgrade
 
-#### Apple prerequisites for Mobile SDK 3.2
-- iOS 7.0 is a requirement for using the 3.2 version of the SDK.  Your app is not guaranteed to work with earlier versions of iOS.
+#### Apple prerequisites for Mobile SDK 3.3
+- iOS 7.0 is a requirement for using the 3.3 version of the SDK.  Your app is not guaranteed to work with earlier versions of iOS.
 - Xcode 6 is the minimum version of Xcode required to work with the SDK.  Backward compatibility is not guaranteed for earlier versions of Xcode.
 
 #### Update the Mobile SDK library packages

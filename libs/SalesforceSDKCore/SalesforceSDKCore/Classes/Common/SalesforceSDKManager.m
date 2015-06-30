@@ -28,6 +28,7 @@
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
+#import "SFSmartStore.h"
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
@@ -45,6 +46,9 @@ static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
 // app when it is re-opened.
 static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 
+// Device id
+static NSString* uid = nil;
+
 @implementation SalesforceSDKManager
 
 + (instancetype)sharedManager
@@ -52,6 +56,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred, ^{
+        uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 		sdkManager = [[self alloc] init];
 	});
     return sdkManager;
@@ -611,7 +616,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
         NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ %@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ %@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -620,6 +625,7 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
                                  appVersion,
                                  [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
                                  (qualifier != nil ? qualifier : @""),
+                                 uid,
                                  currentUserAgent
                                  ];
         
@@ -664,6 +670,11 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 - (void)authManagerDidLogout:(SFAuthenticationManager *)manager
 {
     [self.sdkManagerFlow handlePostLogout];
+}
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
+{
+    [SFSmartStore removeAllStoresForUser:user];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

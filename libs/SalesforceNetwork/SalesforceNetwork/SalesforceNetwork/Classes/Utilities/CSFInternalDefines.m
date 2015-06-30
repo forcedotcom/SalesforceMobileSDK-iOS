@@ -40,8 +40,6 @@ NSString * const CSFPropertySetterNameKey = @"setter";
 NSString * const CSFPropertyClassKey = @"class";
 NSString * const CSFPropertyTypeKey = @"type";
 
-NSUInteger const CSFParameterMaximumQueryStringDataLength = 1024;
-
 id CSFNotNull(id value, Class classType) {
     if ([value isEqual:[NSNull null]]) {
         return nil;

@@ -56,6 +56,11 @@ extern NSString *const LAST_MODIFIED_COL;
 extern NSString *const SOUP_COL;
 
 /**
+ The columns of a soup fts table
+ */
+extern NSString *const DOCID_COL;
+
+/**
  Soup index map table
  */
 extern NSString *const SOUP_INDEX_MAP_TABLE;
@@ -64,7 +69,6 @@ extern NSString *const SOUP_INDEX_MAP_TABLE;
  Table to keep track of status of long operations in flight
 */
 extern NSString *const LONG_OPERATIONS_STATUS_TABLE;
-
 
 /*
  Columns of the soup index map table

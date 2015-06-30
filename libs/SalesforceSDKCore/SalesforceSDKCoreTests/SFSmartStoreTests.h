@@ -26,10 +26,6 @@
 //  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
 #import "SFSmartStoreTestCase.h"
-#import "SFSmartStore.h"
 
-@interface SFSmartStoreTests : SFSmartStoreTestCase {
-    SFSmartStore* _store;
-    SFSmartStore* _globalStore;
-}
+@interface SFSmartStoreTests : SFSmartStoreTestCase
 @end

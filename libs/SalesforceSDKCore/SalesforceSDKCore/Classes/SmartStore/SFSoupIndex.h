@@ -29,6 +29,7 @@ extern NSString * const kSoupIndexType;
 extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeInteger;
 extern NSString * const kSoupIndexTypeFloating;
+extern NSString * const kSoupIndexTypeFullText;
 
 /**
  * Definition of an index on a given soup.
@@ -106,6 +107,12 @@ extern NSString * const kSoupIndexTypeFloating;
  * @param soupIndexes array of SFSoupIndex objects
  */
 + (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes;
+
+/*
+ * Return YES if any of the indices are full text
+ * @param soupIndexes array of SFSoupIndex objects
+ */
++ (BOOL) hasFts:(NSArray*)soupIndexes;
 
 /*
  * Return path -- type
