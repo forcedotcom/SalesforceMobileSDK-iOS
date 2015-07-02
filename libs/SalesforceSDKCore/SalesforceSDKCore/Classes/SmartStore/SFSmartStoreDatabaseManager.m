@@ -352,7 +352,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSString *storeDir = [self storeDirectoryForStoreName:storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
         // This store has not yet been created; create it.
-        result = [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:&error];
+        result = [SFDirectoryManager ensureDirectoryExists:storeDir error:&error];
         
         if (error != nil) {
             [self log:SFLogLevelError format:@"Couldn't create store dir for store: %@ - error:%@", storeName, error];
