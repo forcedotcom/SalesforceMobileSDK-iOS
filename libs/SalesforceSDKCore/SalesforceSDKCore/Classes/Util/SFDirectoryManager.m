@@ -45,7 +45,7 @@ static NSString * const kDefaultCommunityName = @"internal";
     if (![manager fileExistsAtPath:directory]) {
         return [manager createDirectoryAtPath:directory
                   withIntermediateDirectories:YES
-                                   attributes:@{NSFileProtectionKey: NSFileProtectionComplete}
+                                   attributes:@{NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication}
                                         error:error];
     } else {
         return YES;
