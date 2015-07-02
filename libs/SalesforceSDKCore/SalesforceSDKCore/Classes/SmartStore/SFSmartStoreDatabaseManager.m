@@ -352,7 +352,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     NSString *storeDir = [self storeDirectoryForStoreName:storeName];
     if (![[NSFileManager defaultManager] fileExistsAtPath:storeDir]) {
         // This store has not yet been created; create it.
-        result = [[NSFileManager defaultManager] createDirectoryAtPath:storeDir withIntermediateDirectories:YES attributes:nil error:&error];
+        result = [SFDirectoryManager ensureDirectoryExists:storeDir error:&error];
         
         if (error != nil) {
             [self log:SFLogLevelError format:@"Couldn't create store dir for store: %@ - error:%@", storeName, error];
@@ -363,33 +363,48 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return result;
 }
 
-- (NSString*)getStoreDirProtection:(NSString *)storeName
+- (NSString*)getDirProtection:(NSString *)dirPath
 {
     NSError* error = nil;
-    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
-    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:dbFilePath error:&error];
+    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:dirPath error:&error];
     NSString* result = attr[NSFileProtectionKey];
     if (error != nil) {
-        [self log:SFLogLevelError format:@"Couldn't get protection for store: %@ - error:%@", storeName, error];
+        [self log:SFLogLevelError format:@"Couldn't get protection of dir: %@ - error:%@", dirPath, error];
     }
     return result;
 }
 
-- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString*)protection
-{
-    if ([self getStoreDirProtection:storeName] == protection) {
-        // already has the protection we want
+- (BOOL) protectDir:(NSString*)dirPath protection:(NSString*)protection {
+    NSString* currentProtection = [self getDirProtection:dirPath];
+    if (currentProtection == nil) {
+        // We don't own the dir, we are done
         return YES;
     }
-
-    NSError* error= nil;
-    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
-    NSDictionary *attr = @{NSFileProtectionKey: protection};
-    BOOL result = [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dbFilePath error:&error];
-    if (error != nil) {
-        [self log:SFLogLevelError format:@"Couldn't protect store: %@ - error:%@", storeName, error];
+    else {
+        // Change protection if not the one desired
+        if (![currentProtection isEqualToString:protection]) {
+            NSError* error = nil;
+            NSDictionary *attr = @{NSFileProtectionKey: protection};
+            BOOL result = [[NSFileManager defaultManager] setAttributes:attr ofItemAtPath:dirPath error:&error];
+            if (error != nil || !result) {
+                [self log:SFLogLevelError format:@"Couldn't protect dir: %@ - error:%@", dirPath, error];
+                return NO;
+            }
+            else {
+                [self log:SFLogLevelDebug format:@"Protecting dir: %@ with %@", dirPath, protection];
+            }
+        }
+        // Go to parent directory
+        NSString* parentDirPath = [dirPath stringByDeletingLastPathComponent];
+        return [self protectDir:parentDirPath protection:protection];
     }
-    return result;
+}
+
+
+- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString*)protection
+{
+    NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
+    return [self protectDir:dbFilePath protection:NSFileProtectionCompleteUntilFirstUserAuthentication];
 }
 
 - (void)removeStoreDir:(NSString *)storeName

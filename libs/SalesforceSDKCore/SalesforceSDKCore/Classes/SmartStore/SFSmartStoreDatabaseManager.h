@@ -110,7 +110,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 - (BOOL)createStoreDir:(NSString *)storeName;
 
 /**
- Sets filesystem protection on the store DB contents.
+ Sets filesystem protection on the store DB file, directory and ancestor directories.
  @param storeName The store associated with the protection.
  @param protection The file system protection desired.
  @return YES if the call completes without errors, NO otherwise.
