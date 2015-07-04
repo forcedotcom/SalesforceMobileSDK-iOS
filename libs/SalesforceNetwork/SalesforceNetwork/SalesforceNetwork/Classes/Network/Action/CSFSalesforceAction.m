@@ -217,8 +217,7 @@ static void * kObservingKey = &kObservingKey;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
-        [self willChangeValueForKey:@"ready"];
-        [self didChangeValueForKey:@"ready"];
+        [self willChangeValueForKey:@"isReady"];
         if ([self requiresAuthentication] && (self.enqueuedNetwork.account == object)) {
             if ([keyPath isEqualToString:@"communityId"]) {
                 self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
@@ -231,6 +230,7 @@ static void * kObservingKey = &kObservingKey;
                 self.credentialsReady = NO;
             }
         }
+        [self didChangeValueForKey:@"isReady"];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
