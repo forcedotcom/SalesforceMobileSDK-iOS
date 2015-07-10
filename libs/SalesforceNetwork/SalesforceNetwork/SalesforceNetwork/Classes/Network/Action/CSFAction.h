@@ -204,4 +204,6 @@
  */
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
 
+- (NSURLRequest*)createURLRequest:(NSError**)error;
+
 @end

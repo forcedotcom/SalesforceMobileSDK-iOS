@@ -273,4 +273,9 @@ static void * kObservingKey = &kObservingKey;
     }
 }
 
+- (NSURLRequest*)createURLRequest:(NSError**)error {
+    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
+    return [super createURLRequest:error];
+}
+
 @end
