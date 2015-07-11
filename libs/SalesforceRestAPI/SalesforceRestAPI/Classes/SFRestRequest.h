@@ -189,10 +189,10 @@ extern NSString * const kSFDefaultRestEndpoint;
 
 /**
  * Sets a custom request body based on an NSInputStream representation.
- * @param bodyData The NSInputStream object representing the request body.
+ * @param bodyStreamBlock The block that will return an NSInputStream object representing the request body.
  * @param contentType The content type associated with this request.
  */
-- (void)setCustomRequestBodyStream:(NSInputStream *)bodyInputStream contentType:(NSString *)contentType;
+- (void)setCustomRequestBodyStream:(NSInputStream* (^)(void))bodyStreamBlock contentType:(NSString *)contentType;
 
 /**
  * Returns YES if error is a network error
