@@ -35,5 +35,6 @@
 @property (nonatomic, readonly) NSString *clientId;
 @property (nonatomic, readonly) NSString *redirectUri;
 @property (nonatomic, readonly) NSString *loginHost;
+@property (nonatomic, readonly) NSString *communityUrl;
 
 @end
