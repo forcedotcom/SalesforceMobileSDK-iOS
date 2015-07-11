@@ -72,6 +72,10 @@ static BOOL sPopulatedAuthCredentials = NO;
     SFOAuthCredentials *credentials = accountMgr.currentUser.credentials;
     credentials.instanceUrl = [NSURL URLWithString:credsData.instanceUrl];
     credentials.identityUrl = [NSURL URLWithString:credsData.identityUrl];
+    NSString *communityUrlString = credsData.communityUrl;
+    if (communityUrlString.length > 0) {
+        credentials.communityUrl = [NSURL URLWithString:communityUrlString];
+    }
     credentials.accessToken = credsData.accessToken;
     credentials.refreshToken = credsData.refreshToken;
     

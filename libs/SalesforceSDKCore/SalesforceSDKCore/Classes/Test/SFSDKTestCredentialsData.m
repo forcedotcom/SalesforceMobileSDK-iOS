@@ -78,4 +78,9 @@
     return _credentialsDict[@"test_login_domain"];
 }
 
+- (NSString *)communityUrl
+{
+    return _credentialsDict[@"community_url"];
+}
+
 @end
