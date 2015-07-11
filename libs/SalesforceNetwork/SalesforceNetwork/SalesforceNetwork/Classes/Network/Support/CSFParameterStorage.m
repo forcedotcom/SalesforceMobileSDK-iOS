@@ -156,8 +156,8 @@
     BOOL result = YES;
     NSError *resultError = nil;
 
-    if (self.bodyStream) {
-        request.HTTPBodyStream = self.bodyStream;
+    if (self.bodyStreamBlock) {
+        request.HTTPBodyStream = self.bodyStreamBlock();
     } else {
         // Add explicit query string keys here, only if we are posting multipart or URLEncoded
         // bodies.  If we are doing a querystring request already, then simply wait for the

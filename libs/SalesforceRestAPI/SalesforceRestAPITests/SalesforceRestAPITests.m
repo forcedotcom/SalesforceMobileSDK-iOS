@@ -764,7 +764,7 @@ static NSException *authException = nil;
 //   - do a oauth token exchange to get a new valid accessToken
 //   - reissue the REST request
 // - make sure the query gets replayed properly (and succeed)
-- (void)testInvalidAccessTokenWithValidRequest {
+- (void)testInvalidAccessTokenWithValidGetRequest {
     // save invalid token
     NSString *invalidAccessToken = @"xyz";
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
@@ -778,6 +778,30 @@ static NSException *authException = nil;
     // let's make sure we have another access token
     NSString *newAccessToken = _currentUser.credentials.accessToken;
     XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+}
+
+- (void)testInvalidAccessTokenWithValidPostRequest {
+    // save invalid token
+    NSString *invalidAccessToken = @"xyz";
+    [self changeOauthTokens:invalidAccessToken refreshToken:nil];
+    
+    // request (valid)
+    NSDictionary *fields = @{@"FirstName": @"John",
+                             @"LastName": [NSString stringWithFormat:@"Johnson%u", arc4random()]};
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:@"Contact" fields:fields];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+    NSString *contactId = ((NSDictionary *)listener.dataResponse)[@"id"];
+    XCTAssertNotNil(contactId, @"Contact create result should contain an ID value.");
+    [self log:SFLogLevelDebug format:@"latest access token: %@", _currentUser.credentials.accessToken];
+    
+    // let's make sure we have another access token
+    NSString *newAccessToken = _currentUser.credentials.accessToken;
+    XCTAssertFalse([newAccessToken isEqualToString:invalidAccessToken], @"access token wasn't refreshed");
+    
+    request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:@"Contact" objectId:contactId];
+    listener = [self sendSyncRequest:request];
+    XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
 // - sets an invalid accessToken

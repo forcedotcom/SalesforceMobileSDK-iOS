@@ -26,7 +26,7 @@
 
 @interface SFRestRequest ()
 
-@property (nonatomic, strong) NSInputStream *requestBodyStream;
+@property (nonatomic, copy) NSInputStream *(^requestBodyStreamBlock)(void);
 @property (nonatomic, copy) NSString *requestContentType;
 
 @end
