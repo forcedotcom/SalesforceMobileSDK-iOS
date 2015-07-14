@@ -63,7 +63,7 @@
     if (![self.mimetypes isEqualToDictionary:object.mimetypes])
         return NO;
 
-    if (![self.bodyStreamBlock isEqual:object.bodyStreamBlock])
+    if (!((self.bodyStreamBlock == nil && object.bodyStreamBlock == nil) || [self.bodyStreamBlock isEqual:object.bodyStreamBlock]))
         return NO;
 
     return YES;
