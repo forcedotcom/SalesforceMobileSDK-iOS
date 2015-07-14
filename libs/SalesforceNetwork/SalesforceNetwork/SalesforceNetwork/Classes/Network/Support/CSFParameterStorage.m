@@ -63,6 +63,9 @@
     if (![self.mimetypes isEqualToDictionary:object.mimetypes])
         return NO;
 
+    if (![self.bodyStreamBlock isEqual:object.bodyStreamBlock])
+        return NO;
+
     return YES;
 }
 
