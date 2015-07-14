@@ -51,16 +51,19 @@
     if (![object isMemberOfClass:self.class])
         return NO;
     
-    if (![object.HTTPMethod isEqualToString:self.HTTPMethod])
+    if (!((self.HTTPMethod == nil && object.HTTPMethod == nil) || [object.HTTPMethod isEqualToString:self.HTTPMethod]))
         return NO;
 
-    if (![self.parameters isEqualToDictionary:object.parameters])
+    if (!((self.parameters == nil && object.parameters == nil) || [self.parameters isEqualToDictionary:object.parameters]))
         return NO;
     
-    if (![self.filenames isEqualToDictionary:object.filenames])
+    if (!((self.filenames == nil && object.filenames == nil) || [self.filenames isEqualToDictionary:object.filenames]))
         return NO;
     
-    if (![self.mimetypes isEqualToDictionary:object.mimetypes])
+    if (!((self.mimetypes == nil && object.mimetypes == nil) || [self.mimetypes isEqualToDictionary:object.mimetypes]))
+        return NO;
+
+    if (!((self.bodyStreamBlock == nil && object.bodyStreamBlock == nil) || [self.bodyStreamBlock isEqual:object.bodyStreamBlock]))
         return NO;
 
     return YES;
