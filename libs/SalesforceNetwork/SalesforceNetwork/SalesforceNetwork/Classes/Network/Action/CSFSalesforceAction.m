@@ -109,11 +109,12 @@ static void * kObservingKey = &kObservingKey;
             NSDictionary *errorDict = jsonArray[0];
             if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
                 msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
-                errorCode = errorDict[@"errorCode"] ;
+                errorCode = errorDict[@"errorCode"];
             }
         } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
             NSDictionary *errorDict = (NSDictionary*)content;
             msgObj = errorDict[@"msg"];
+            errorCode = errorDict[@"errorCode"];
         }
         
         CSFNetwork *network = self.enqueuedNetwork;
