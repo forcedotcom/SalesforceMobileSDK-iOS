@@ -197,12 +197,19 @@ static void * kObservingKey = &kObservingKey;
                 network.securityToken = securityToken;
             }
         }
+    } else if (!content && !responseError && self.statusCodeToRaiseErrorWithEmptyResponse.count > 0) {
+
+        // no error and no content, check to see if the response status is one of the status codes
+        // we need to raise error on. If yes, make it an error
+        if([self.statusCodeToRaiseErrorWithEmptyResponse containsObject:@(response.statusCode)]) {
+            responseError = [NSError errorWithDomain:CSFNetworkErrorDomain
+                             code:response.statusCode
+                             userInfo:response.allHeaderFields];
+        }
     }
-    
     if (error) {
         *error = responseError;
     }
-
     return content;
 }
 

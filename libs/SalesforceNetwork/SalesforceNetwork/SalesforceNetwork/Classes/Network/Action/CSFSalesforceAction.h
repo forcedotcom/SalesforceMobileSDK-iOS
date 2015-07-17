@@ -46,4 +46,10 @@ CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 @property (nonatomic, copy) NSString *pathPrefix;
 @property (nonatomic, copy) NSString *apiVersion;
 
+/**
+ List of HTTP status codes that this `CSFSalesforceAction` instance should treat response as
+ error when empty response is received with a successful request and response code matches one of the status codes specified in the list
+ */
+@property (nonatomic, strong) NSArray *statusCodeToRaiseErrorWithEmptyResponse;
+
 @end
