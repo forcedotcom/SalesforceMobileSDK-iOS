@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6FE556D31B5C8DFB00756807 /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		6FE556D41B5C8DFB00756807 /* CSFPrivateDefines.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE556D21B5C8DFB00756807 /* CSFPrivateDefines.m */; };
 		820053F81ACDBE7200C96578 /* NSDate+ActionValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */; };
 		820053FA1ACDBE7200C96578 /* NSDate+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */; };
 		82225A4C1A9D6F0700DE1E07 /* CSFNetwork+Caching.m in Sources */ = {isa = PBXBuildFile; fileRef = 82225A4B1A9D6F0700DE1E07 /* CSFNetwork+Caching.m */; };
@@ -128,6 +130,8 @@
 		6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Test.xcconfig"; sourceTree = "<group>"; };
+		6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFPrivateDefines.h; sourceTree = "<group>"; };
+		6FE556D21B5C8DFB00756807 /* CSFPrivateDefines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFPrivateDefines.m; sourceTree = "<group>"; };
 		820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+ActionValue.h"; sourceTree = "<group>"; };
 		820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ActionValue.m"; sourceTree = "<group>"; };
 		82225A4B1A9D6F0700DE1E07 /* CSFNetwork+Caching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSFNetwork+Caching.m"; sourceTree = "<group>"; };
@@ -475,6 +479,8 @@
 				827DD4791A7C006F00519F03 /* CSFForceDefines.m */,
 				827DD47A1A7C006F00519F03 /* CSFInternalDefines.h */,
 				827DD47B1A7C006F00519F03 /* CSFInternalDefines.m */,
+				6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */,
+				6FE556D21B5C8DFB00756807 /* CSFPrivateDefines.m */,
 				827DD47C1A7C006F00519F03 /* CSFISO8601DateFormatter.h */,
 				827DD47D1A7C006F00519F03 /* CSFISO8601DateFormatter.m */,
 				827DD47E1A7C006F00519F03 /* ValueTransformers */,
@@ -582,6 +588,7 @@
 				827DD4FB1A7C05BA00519F03 /* CSFActionModel.h in Headers */,
 				827DD4CB1A7C057000519F03 /* CSFInput.h in Headers */,
 				827DD4C11A7C050900519F03 /* SFUserAccount+SalesforceNetwork.h in Headers */,
+				6FE556D31B5C8DFB00756807 /* CSFPrivateDefines.h in Headers */,
 				827DD4C71A7C055C00519F03 /* CSFSalesforceAction_Internal.h in Headers */,
 				82A0C3AB1A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.h in Headers */,
 				827DD4F61A7C059300519F03 /* CSFOAuthTokenRefreshInput.h in Headers */,
@@ -764,6 +771,7 @@
 				82225A4C1A9D6F0700DE1E07 /* CSFNetwork+Caching.m in Sources */,
 				82A0C3AC1A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.m in Sources */,
 				827DD4BE1A7C006F00519F03 /* CSFDateValueTransformer.m in Sources */,
+				6FE556D41B5C8DFB00756807 /* CSFPrivateDefines.m in Sources */,
 				827DD4B61A7C006F00519F03 /* CSFOAuthTokenRefreshInput.m in Sources */,
 				82A0C3D21A99107800243931 /* CSFPNGImageValueTransformer.m in Sources */,
 				82A0C3D41A99107800243931 /* CSFUTF8StringValueTransformer.m in Sources */,

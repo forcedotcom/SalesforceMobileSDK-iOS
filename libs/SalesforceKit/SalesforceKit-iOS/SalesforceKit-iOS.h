@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ SalesforceKit.h
+ SalesforceKit
+
+ Created by Michael Nachbaur on Sun Jul 19 14:54:50 HST 2015.
+
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,34 +27,3 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFPasscodeManager.h"
-
-@interface SFPasscodeManager ()
-{
-    NSMutableOrderedSet *_delegates;
-}
-
-/**
- Executes the given block against the set of delegates.
- @param block The block to execute against each delegate.
- */
-- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block;
-
-/**
- Set a value for the encryption key.  Note: this is just the internal setter for
- the encryptionKey property.  I.e. the value you set should be the end-result
- encryption key value.  Call setEncryptionKeyForPasscode if you want validation
- and encryption based on a plain-text passcode value.
- @param newEncryptionKey The new value for the encryption key.
- */
-- (void)setEncryptionKey:(NSString *)newEncryptionKey;
-
-/**
- Set the value of the encryption key, based on the input passcode.  Note: this method
- will not set the encryption key if a verification passcode is not set and valid, in
- the interests of maintaining a consistent passcode state.
- @param passcode The passcode to convert into an encryption key.
- */
-- (void)setEncryptionKeyForPasscode:(NSString *)passcode;
-
-@end

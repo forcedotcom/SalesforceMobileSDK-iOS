@@ -23,7 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCrypto.h>
 
 @class SFPBKDFData;
 
