@@ -109,6 +109,19 @@
  */
 @property (nonatomic, strong, readonly) id outputContent;
 
+@property (nonatomic, strong, readonly) NSData *outputData;
+
+@property (nonatomic, assign, readonly) BOOL isDuplicateAction;
+
+/**
+ If the content was downloaded to a temporary file on disk, this property represents the file URL to that temporary content.
+ 
+ @warning
+ The file this URL points to will be deleted after the action is complete, so you must move the file to another location on disk within the completion
+ handlers of this action if you want to persist this content.
+ */
+@property (nonatomic, strong, readonly) NSURL *downloadLocation;
+
 @property (nonatomic, assign) BOOL requiresAuthentication;
 @property (nonatomic, strong) Class<CSFActionModel> modelClass;
 @property (nonatomic, strong) Class authRefreshClass;
@@ -116,6 +129,17 @@
 @property (nonatomic, strong) NSHTTPURLResponse *httpResponse;
 @property (nonatomic, readonly) NSUInteger retryCount;
 @property (nonatomic) NSUInteger maxRetryCount;
+@property (nonatomic) BOOL requireBackgroundSession NS_AVAILABLE(10_10, 8_0);
+
+/** Takes an URL and assign it to this action by decomposing its components in the proper
+ fields. For example, all the parameters will be added using addParameterWithName:value:.
+ */
+@property (nonatomic, copy) NSURL *url;
+
+/**
+ Reports progress information for the current action.
+ */
+@property (nonatomic, strong, readonly) NSProgress *progress;
 
 /**
  Indicates if the action should cache the response in the local database.
@@ -132,7 +156,7 @@
  fields. For example, all the parameters will be added using addParameterWithName:value:.
  @param url The URL to add
  */
-- (void)setURL:(NSURL*)url;
+- (void)setURL:(NSURL*)url __deprecated_msg("Use the url property instead.");
 
 /**
  Returns the value for the indicated HTTP header field.
@@ -203,5 +227,32 @@
  @return `YES` if the network request should be overridden, otherwise `NO`.
  */
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
+
+@end
+
+CSF_EXTERN NSString * const kCSFActionTimingTotalTimeKey;
+CSF_EXTERN NSString * const kCSFActionTimingNetworkTimeKey;
+CSF_EXTERN NSString * const kCSFActionTimingStartDelayKey;
+CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
+
+@interface CSFAction (Timing)
+
+/**
+ Returns timing information for this request based on the supplied option.
+ 
+ @discussion
+ Different keys supplied can permit the caller to choose what time-range within the request to use.
+ * kCSFActionTimingTotalTimeKey -- Returns the total end-to-end time for the request from when it was initially enqueued, and when it returned.
+ * kCSFActionTimingNetworkTimeKey -- Returns the time the network request itself took.
+ * kCSFActionTimingStartDelayKey -- Returns the time delay until the action was able to begin communicating on the network.
+ * kCSFActionTimingPostProcessingKey -- Returns the time any post-processing actions took, including response processing and any caching operations that occurred.
+ 
+ If not enough information has been gathered, for example if the request has not yet completed, then the timing result will include the timing up until now.
+ 
+ @param key Key for the timing option to return, or `nil` to return the total action time.
+ 
+ @return The time interval for the requested key, or `0` if the key is invalid or if the request hasn't gathered enough information to supply that value yet.
+ */
+- (NSTimeInterval)intervalForTimingKey:(NSString*)key;
 
 @end

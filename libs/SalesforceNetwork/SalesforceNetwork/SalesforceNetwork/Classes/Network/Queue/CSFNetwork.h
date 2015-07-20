@@ -80,6 +80,8 @@
  */
 @property (atomic, readonly, getter=isRefreshingAccessToken) BOOL refreshingAccessToken;
 
+@property (nonatomic, strong, readonly) NSProgress *progress;
+
 /**
  Returns the network instance for the currently active user account.
  

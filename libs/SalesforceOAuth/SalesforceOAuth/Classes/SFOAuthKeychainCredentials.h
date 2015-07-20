@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,27 +22,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthCredentials.h"
-#import <SalesforceSecurity/SFEncryptionKey.h>
-#import <SalesforceCommonUtils/SalesforceCommonUtils.h>
+#import "SFOAuthCredentials+Internal.h"
 
-typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
-    kSFOAuthCredsEncryptionTypeNotSet,
-    kSFOAuthCredsEncryptionTypeMac,
-    kSFOAuthCredsEncryptionTypeIdForVendor,
-    kSFOAuthCredsEncryptionTypeBaseAppId,
-    kSFOAuthCredsEncryptionTypeKeyStore
-};
+@interface SFOAuthKeychainCredentials : SFOAuthCredentials
 
-extern NSString * const kSFOAuthEncryptionTypeKey;
-extern NSString * const kSFOAuthServiceAccess;
-extern NSString * const kSFOAuthServiceRefresh;
-extern NSString * const kSFOAuthServiceActivation;
+- (NSData *)keyMacForService:(NSString *)service;
+- (NSData *)keyVendorIdForService:(NSString *)service;
+- (NSData *)keyBaseAppIdForService:(NSString*)service;
+- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
+- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
+- (NSString *)refreshTokenWithKey:(NSData *)key;
+- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
+- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
+- (NSString *)accessTokenWithKey:(NSData *)key;
+- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
+- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
+- (void)updateTokenEncryption;
 
-extern NSException * SFOAuthInvalidIdentifierException();
-
-@interface SFOAuthCredentials ()
+// These are only for unit tests of legacy functionality.  Do not use in app code!
+- (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
+- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 
 @end
-
-

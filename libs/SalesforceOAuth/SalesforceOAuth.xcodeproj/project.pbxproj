@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		6F1A48AC1B5CAC1400826955 /* SFOAuthKeychainCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F1A48AA1B5CAC1300826955 /* SFOAuthKeychainCredentials.h */; };
+		6F1A48AD1B5CAC1400826955 /* SFOAuthKeychainCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F1A48AB1B5CAC1300826955 /* SFOAuthKeychainCredentials.m */; };
 		6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */; };
 		8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */; };
 		8201F1AD1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */; };
@@ -89,6 +91,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6F1A48AA1B5CAC1300826955 /* SFOAuthKeychainCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthKeychainCredentials.h; path = SalesforceOAuth/Classes/SFOAuthKeychainCredentials.h; sourceTree = SOURCE_ROOT; };
+		6F1A48AB1B5CAC1300826955 /* SFOAuthKeychainCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthKeychainCredentials.m; path = SalesforceOAuth/Classes/SFOAuthKeychainCredentials.m; sourceTree = SOURCE_ROOT; };
 		6F644CA51A9FCEEB009BF92A /* SalesforceOAuth-Common-Static.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		6F644D0F1A9FD846009BF92A /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 		6F8960781A9E9ADF00A48FF1 /* SalesforceOAuth-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceOAuth-Common.xcconfig"; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 				6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */,
 				CF19784513B510EC00AFCA56 /* SFOAuthCredentials.h */,
 				CF19784613B510EC00AFCA56 /* SFOAuthCredentials.m */,
+				6F1A48AA1B5CAC1300826955 /* SFOAuthKeychainCredentials.h */,
+				6F1A48AB1B5CAC1300826955 /* SFOAuthKeychainCredentials.m */,
 				BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */,
 				BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */,
 				82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */,
@@ -351,6 +357,7 @@
 				82C2B71017BBF2EB0023218F /* SFOAuthCoordinator+Internal.h in Headers */,
 				82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */,
 				82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */,
+				6F1A48AC1B5CAC1400826955 /* SFOAuthKeychainCredentials.h in Headers */,
 				8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -561,6 +568,7 @@
 				CF19784A13B510EC00AFCA56 /* SFOAuthCredentials.m in Sources */,
 				8201F1AD1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */,
+				6F1A48AD1B5CAC1400826955 /* SFOAuthKeychainCredentials.m in Sources */,
 				BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */,
 				82B0FC1615F5AE420054B066 /* SFOAuthInfo.m in Sources */,
 			);
