@@ -36,8 +36,7 @@
 		6F0FDB411B5C532E00DB0EC2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDAD91B5C50AC00DB0EC2 /* libSalesforceSDKCore.a */; };
 		6F0FDB421B5C532E00DB0EC2 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDAB71B5C507000DB0EC2 /* libSalesforceSecurity.a */; };
 		6F0FDB431B5C532E00DB0EC2 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDAF51B5C50E000DB0EC2 /* libSmartSync.a */; };
-		6F0FDB461B5C532E00DB0EC2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDB441B5C532E00DB0EC2 /* libcrypto.a */; };
-		6F0FDB471B5C532E00DB0EC2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDB451B5C532E00DB0EC2 /* libsqlcipher.a */; };
+		6F2F87E11B5EDD84002A7126 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */; };
 		6F55E92B1B5C7606000B7E6B /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */; };
 /* End PBXBuildFile section */
 
@@ -239,8 +238,7 @@
 		6F0FDB371B5C52FE00DB0EC2 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/usr/lib/libxml2.dylib; sourceTree = DEVELOPER_DIR; };
 		6F0FDB391B5C530800DB0EC2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		6F0FDB3B1B5C530E00DB0EC2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		6F0FDB441B5C532E00DB0EC2 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = "../../../../CoreSalesforce/Dependencies/openssl-xcode/build/Debug/libcrypto.a"; sourceTree = "<group>"; };
-		6F0FDB451B5C532E00DB0EC2 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "../../../../CoreSalesforce/Dependencies/sqlcipher/build/Debug-iphoneos/libsqlcipher.a"; sourceTree = "<group>"; };
+		6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		6F55E95C1B5C7D2E000B7E6B /* SalesforceKit.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = SalesforceKit.modulemap; sourceTree = "<group>"; };
 		6FE556E51B5C935000756807 /* SalesforceKit.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = SalesforceKit.private.modulemap; sourceTree = "<group>"; };
@@ -257,13 +255,12 @@
 				6F0FDB381B5C52FE00DB0EC2 /* libxml2.dylib in Frameworks */,
 				6F0FDB361B5C52F800DB0EC2 /* libz.dylib in Frameworks */,
 				6F0FDB341B5C52F100DB0EC2 /* libsqlite3.dylib in Frameworks */,
-				6F0FDB461B5C532E00DB0EC2 /* libcrypto.a in Frameworks */,
-				6F0FDB471B5C532E00DB0EC2 /* libsqlcipher.a in Frameworks */,
 				6F55E92B1B5C7606000B7E6B /* libSalesforceCommonUtils.a in Frameworks */,
 				6F0FDB3D1B5C532E00DB0EC2 /* libSalesforceNetwork.a in Frameworks */,
 				6F0FDB3E1B5C532E00DB0EC2 /* libSalesforceOAuth.a in Frameworks */,
 				6F0FDB3F1B5C532E00DB0EC2 /* libSalesforceRestAPI.a in Frameworks */,
 				6F0FDB401B5C532E00DB0EC2 /* libSalesforceSDKCommon.a in Frameworks */,
+				6F2F87E11B5EDD84002A7126 /* libsqlcipher.a in Frameworks */,
 				6F0FDB411B5C532E00DB0EC2 /* libSalesforceSDKCore.a in Frameworks */,
 				6F0FDB421B5C532E00DB0EC2 /* libSalesforceSecurity.a in Frameworks */,
 				6F0FDB431B5C532E00DB0EC2 /* libSmartSync.a in Frameworks */,
@@ -298,8 +295,7 @@
 		6F0FDAAF1B5C500000DB0EC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6F0FDB441B5C532E00DB0EC2 /* libcrypto.a */,
-				6F0FDB451B5C532E00DB0EC2 /* libsqlcipher.a */,
+				6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */,
 				6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */,
 				6F0FDB3B1B5C530E00DB0EC2 /* UIKit.framework */,
 				6F0FDB391B5C530800DB0EC2 /* MessageUI.framework */,
@@ -716,8 +712,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script is based on Jacob Van Order's answer on apple dev forums\n#\n# https://devforums.apple.com/message/971277\n# See also http://spin.atomicobject.com/2011/12/13/building-a-universal-framework-for-ios/ for the start\n\n\n# To get this to work with a Xcode 6 Cocoa Touch Framework, create Framework\n# Then create a new Aggregate Target. Throw this script into a Build Script Phrase on the Aggregate\n\n\n######################\n# Options\n######################\n\nFrameworkTarget=$(echo $TARGET_NAME | sed 's/-Aggregate//')\nREVEAL_ARCHIVE_IN_FINDER=true\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -target ${FrameworkTarget} -configuration ${CONFIGURATION} clean build ONLY_ACTIVE_ARCH=NO CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator | echo\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -target ${FrameworkTarget} -configuration ${CONFIGURATION} clean build ONLY_ACTIVE_ARCH=NO CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos | echo\n\n#xcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" | echo\n\n#xcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" | echo\n\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make fat universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n\n######################\n# On Release, copy the result to desktop folder\n######################\n\nif [ \"${CONFIGURATION}\" == \"Release\" ]; then\nmkdir \"${HOME}/Desktop/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\ncp -r \"${FRAMEWORK}\" \"${HOME}/Desktop/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\nfi\n\n\n######################\n# If needed, open the Framework folder\n######################\n\nif [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\nif [ \"${CONFIGURATION}\" == \"Release\" ]; then\nopen \"${HOME}/Desktop/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\nelse\nopen \"${UNIVERSAL_LIBRARY_DIR}/\"\nfi\nfi\n";
+			shellPath = "/bin/bash -ex";
+			shellScript = "# This script is based on Jacob Van Order's answer on apple dev forums\n#\n# https://devforums.apple.com/message/971277\n# See also http://spin.atomicobject.com/2011/12/13/building-a-universal-framework-for-ios/ for the start\n\n\n# To get this to work with a Xcode 6 Cocoa Touch Framework, create Framework\n# Then create a new Aggregate Target. Throw this script into a Build Script Phrase on the Aggregate\n\n\n######################\n# Options\n######################\n\nFrameworkTarget=$(echo $TARGET_NAME | sed 's/-Aggregate//')\n\nFRAMEWORK_NAME=\"${PROJECT_NAME}\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -scheme ${FrameworkTarget} -configuration ${CONFIGURATION} clean build ONLY_ACTIVE_ARCH=NO VALID_ARCHS=\"i386 x86_64\" CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator\n\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -scheme ${FrameworkTarget} -configuration ${CONFIGURATION} clean build ONLY_ACTIVE_ARCH=NO VALID_ARCHS=\"armv7 armv7s arm64\" CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n#xcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" | echo\n\n#xcodebuild -target ${PROJECT_NAME} ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphonesimulator  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" | echo\n\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make fat universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n";
 		};
 		6F55E95E1B5C7DD3000B7E6B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -816,7 +812,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
-					armv7s,
 					arm64,
 					i386,
 					x86_64,
@@ -868,13 +863,14 @@
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/openssl-xcode/build/Debug",
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/sqlcipher/build/Debug-iphoneos",
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -891,7 +887,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = (
 					armv7,
-					armv7s,
 					arm64,
 					i386,
 					x86_64,
@@ -937,12 +932,13 @@
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/openssl-xcode/build/Debug",
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/sqlcipher/build/Debug-iphoneos",
 					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
