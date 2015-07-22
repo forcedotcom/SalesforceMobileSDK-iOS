@@ -1,3 +1,3 @@
 language: objective-c
 xcode_project: libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj
-xcode_scheme: libs/SalesforceSDKCore/SalesforceSDKCoreUnitTestApp
+xcode_scheme: libs/SalesforceSDKCore
