@@ -860,10 +860,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/openssl-xcode/build/Debug",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/sqlcipher/build/Debug-iphoneos",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/SalesforceCommonUtils",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
@@ -929,10 +927,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/openssl-xcode/build/Debug",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/CoreSalesforce/Dependencies/sqlcipher/build/Debug-iphoneos",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/SalesforceCommonUtils",
-					"/Users/mnachbaur/Desktop/Projects/Xcode/ServiceSDK-iOS-FixShit/Dependencies/CoreSalesforce/Dependencies/SalesforceMobileSDK/external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
