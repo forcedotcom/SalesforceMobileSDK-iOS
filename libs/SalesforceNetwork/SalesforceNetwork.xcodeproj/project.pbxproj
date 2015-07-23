@@ -106,6 +106,34 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6F7EAA9B1B61917700F4C242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8220B74C16D804CA00EC3921;
+			remoteInfo = SalesforceSDKCore;
+		};
+		6F7EAA9D1B61917700F4C242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
+			remoteInfo = SalesforceSDKCoreUnitTestApp;
+		};
+		6F7EAA9F1B61917700F4C242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
+			remoteInfo = SalesforceSDKCoreTests;
+		};
+		6F7EAAA11B61918400F4C242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8220B74B16D804CA00EC3921;
+			remoteInfo = SalesforceSDKCore;
+		};
 		825347FC1A8ADD050019FE0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82DBBAEC1A798B290093A54C /* Project object */;
@@ -132,6 +160,7 @@
 		6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Test.xcconfig"; sourceTree = "<group>"; };
+		6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		6FE34D3E1B6179B8009A290C /* CSFNetwork+Salesforce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSFNetwork+Salesforce.m"; sourceTree = "<group>"; };
 		6FE34D411B617D02009A290C /* CSFNetwork+Salesforce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSFNetwork+Salesforce.h"; sourceTree = "<group>"; };
 		6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFPrivateDefines.h; sourceTree = "<group>"; };
@@ -274,6 +303,16 @@
 			);
 			name = Configuration;
 			path = SalesforceNetwork/Configuration;
+			sourceTree = "<group>";
+		};
+		6F7EAA951B61917700F4C242 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */,
+				6F7EAA9E1B61917700F4C242 /* SalesforceSDKCoreUnitTestApp.app */,
+				6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		825348011A8ADD220019FE0B /* SalesforceNetworkiOSTests */ = {
@@ -523,6 +562,7 @@
 		827DD5091A7C090000519F03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */,
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
 				825348D31A8AF5AC0019FE0B /* libsqlcipher.a */,
 				825348D11A8AF5770019FE0B /* libz.dylib */,
@@ -658,6 +698,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6F7EAAA21B61918400F4C242 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetworkiOS;
 			productName = SalesforceNetworkiOS;
@@ -691,6 +732,12 @@
 			mainGroup = 82DBBAEB1A798B290093A54C;
 			productRefGroup = 82DBBAF51A798B290093A54C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6F7EAA951B61917700F4C242 /* Products */;
+					ProjectRef = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				827DD3D91A7BF55F00519F03 /* SalesforceNetworkiOS */,
@@ -698,6 +745,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceSDKCore.a;
+			remoteRef = 6F7EAA9B1B61917700F4C242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6F7EAA9E1B61917700F4C242 /* SalesforceSDKCoreUnitTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SalesforceSDKCoreUnitTestApp.app;
+			remoteRef = 6F7EAA9D1B61917700F4C242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SalesforceSDKCoreTests.xctest;
+			remoteRef = 6F7EAA9F1B61917700F4C242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		825347F31A8ADD050019FE0B /* Resources */ = {
@@ -798,6 +869,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6F7EAAA21B61918400F4C242 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCore;
+			targetProxy = 6F7EAAA11B61918400F4C242 /* PBXContainerItemProxy */;
+		};
 		825347FD1A8ADD050019FE0B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 827DD3D91A7BF55F00519F03 /* SalesforceNetworkiOS */;

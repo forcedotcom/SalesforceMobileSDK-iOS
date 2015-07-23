@@ -74,6 +74,13 @@
 			remoteGlobalIDString = 82D53D3C1A3618CD00E46F8F;
 			remoteInfo = SalesforceSDKCommonTests;
 		};
+		6F7EAABD1B6191D000F4C242 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F644D0F1A9FD846009BF92A /* SalesforceSDKCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82D53D301A3618CD00E46F8F;
+			remoteInfo = SalesforceSDKCommon;
+		};
 		829A08781A3235DE00DC17A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CFA9ADCB13AA86D80024260E /* Project object */;
@@ -414,6 +421,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6F7EAABE1B6191D000F4C242 /* PBXTargetDependency */,
 			);
 			name = SalesforceOAuth;
 			productName = SalesforceOAuth;
@@ -577,6 +585,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6F7EAABE1B6191D000F4C242 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCommon;
+			targetProxy = 6F7EAABD1B6191D000F4C242 /* PBXContainerItemProxy */;
+		};
 		829A08791A3235DE00DC17A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CF7F346113B52B4E001AB761 /* SalesforceOAuthTest */;
