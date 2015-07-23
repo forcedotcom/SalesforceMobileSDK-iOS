@@ -1,3 +1,8 @@
+branches:
+   only:
+     -unstable
+
+
 language: objective-c
 xcode_project: libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj
 xcode_scheme: SalesforceSDKCoreUnitTestApp
