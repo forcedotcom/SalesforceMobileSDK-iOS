@@ -509,8 +509,8 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     } else if (!self.credentialsReady) {
         result = NO;
     } else {
-        if ([self.authRefreshClass isSubclassOfClass:[CSFAuthRefresh class]]) {
-            result = ![self.authRefreshClass isRefreshing];
+        if ([self.authRefreshClass isSubclassOfClass:[CSFAuthRefresh class]] && [self.authRefreshClass isRefreshing]) {
+            result = NO;
         }
     }
     

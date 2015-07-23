@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+
 #import "CSFSalesforceAction_Internal.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFInternalDefines.h"
@@ -43,37 +45,43 @@ static void * kObservingKey = &kObservingKey;
         _apiVersion = CSFSalesforceDefaultAPIVersion;
         _pathPrefix = CSFSalesforceActionDefaultPathPrefix;
         self.authRefreshClass = [CSFSalesforceOAuthRefresh class];
-        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter addObserver:self
-                               selector:@selector(userAccountManagerDidChangeCurrentUser:)
-                               name:SFUserAccountManagerDidChangeCurrentUserNotification
-                               object:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-    CSFNetwork *network = self.enqueuedNetwork;
-    [network removeObserver:self forKeyPath:@"account.credentials.accessToken" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"account.credentials.instanceUrl" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"account.communityId" context:kObservingKey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.enqueuedNetwork = nil;
 }
 
 - (void)setEnqueuedNetwork:(CSFNetwork *)network {
+    if (_enqueuedNetwork != network) {
+        if (_enqueuedNetwork) {
+            [_enqueuedNetwork removeObserver:self
+                                  forKeyPath:@"account.credentials.accessToken"
+                                     context:kObservingKey];
+            [_enqueuedNetwork removeObserver:self
+                                  forKeyPath:@"account.credentials.instanceUrl"
+                                     context:kObservingKey];
+            [_enqueuedNetwork removeObserver:self
+                                  forKeyPath:@"account.communityId"
+                                     context:kObservingKey];
+        }
+    }
     _enqueuedNetwork = network;
-    [network addObserver:self forKeyPath:@"account.credentials.accessToken"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
-    [network addObserver:self forKeyPath:@"account.credentials.instanceUrl"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
-    [network addObserver:self forKeyPath:@"account.communityId"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
+    if (_enqueuedNetwork) {
+        [_enqueuedNetwork addObserver:self forKeyPath:@"account.credentials.accessToken"
+                              options:(NSKeyValueObservingOptionInitial |
+                                       NSKeyValueObservingOptionNew)
+                              context:kObservingKey];
+        [_enqueuedNetwork addObserver:self forKeyPath:@"account.credentials.instanceUrl"
+                              options:(NSKeyValueObservingOptionInitial |
+                                       NSKeyValueObservingOptionNew)
+                              context:kObservingKey];
+        [_enqueuedNetwork addObserver:self forKeyPath:@"account.communityId"
+                              options:(NSKeyValueObservingOptionInitial |
+                                       NSKeyValueObservingOptionNew)
+                              context:kObservingKey];
+    }
 }
 
 - (NSDictionary *)headersForAction {
@@ -218,19 +226,17 @@ static void * kObservingKey = &kObservingKey;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
         [self willChangeValueForKey:@"ready"];
-        [self didChangeValueForKey:@"ready"];
-        if ([self requiresAuthentication] && (self.enqueuedNetwork.account == object)) {
-            if ([keyPath isEqualToString:@"communityId"]) {
-                self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
-            } else if (self.enqueuedNetwork.account.credentials.accessToken
-                       && self.enqueuedNetwork.account.credentials.instanceUrl) {
-                self.enqueuedNetwork.networkSuspended = NO;
+        if ([self requiresAuthentication] && (self.enqueuedNetwork == object)) {
+            SFUserAccount *account = self.enqueuedNetwork.account;
+            if ([keyPath isEqualToString:@"account.communityId"]) {
+                self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
+            } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
             } else {
-                self.enqueuedNetwork.networkSuspended = YES;
                 self.credentialsReady = NO;
             }
         }
+        [self didChangeValueForKey:@"ready"];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -254,23 +260,6 @@ static void * kObservingKey = &kObservingKey;
     }
     
     return YES;
-}
-
-#pragma mark SFAuthenticationManagerDelegate
-
-- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
-    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
-    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
-        if (![accountManager.currentUserIdentity isEqual:self.enqueuedNetwork.account.accountIdentity]) {
-            self.enqueuedNetwork.networkSuspended = YES;
-        } else {
-            [self.enqueuedNetwork resetSession];
-            self.enqueuedNetwork.networkSuspended = NO;
-        }
-        if (accountManager.currentCommunityId != self.enqueuedNetwork.defaultConnectCommunityId) {
-            self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
-        }
-    }
 }
 
 @end

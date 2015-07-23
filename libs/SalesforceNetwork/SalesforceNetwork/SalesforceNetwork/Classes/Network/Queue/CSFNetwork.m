@@ -23,10 +23,11 @@
  */
 
 #import <objc/runtime.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFNetwork+Internal.h"
+#import "CSFNetwork+Salesforce.h"
 #import "CSFAction+Internal.h"
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFInternalDefines.h"
 
@@ -49,10 +50,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() <SFAuthenticationManagerDelegate>{
-    //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
-    NSString *_defaultConnectCommunityId;
-}
+@interface CSFNetwork() <SFAuthenticationManagerDelegate>
 
 // This cache holds all the actions that have a limit per session
 @property (nonatomic, retain) NSCache *actionSessionLimitCache;
@@ -155,6 +153,9 @@ static NSMutableDictionary *SharedInstances = nil;
 												   object:nil];
         #endif
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
+        
+        // In Salesforce category
+        [self setupSalesforceObserver];
     }
     return self;
 }
@@ -173,6 +174,14 @@ static NSMutableDictionary *SharedInstances = nil;
     [self.queue cancelAllOperations];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[SFAuthenticationManager sharedManager] removeDelegate:self];
+}
+
+- (void)setAccount:(SFUserAccount *)account {
+    if (_account != account) {
+        _account = account;
+        
+        self.networkSuspended = NO;
+    }
 }
 
 - (void)setNetworkSuspended:(BOOL)networkSuspended {

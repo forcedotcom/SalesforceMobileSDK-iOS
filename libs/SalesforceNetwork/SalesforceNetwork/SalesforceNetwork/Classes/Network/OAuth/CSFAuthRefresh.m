@@ -76,9 +76,14 @@ static NSObject *AuthRefreshLock = nil;
 }
 
 + (BOOL)isRefreshing {
+    BOOL result = NO;
     @synchronized (AuthRefreshLock) {
-        return [RefreshingClasses[[self class]] boolValue];
+        NSNumber *value = RefreshingClasses[self];
+        if (value && [value boolValue]) {
+            result = YES;
+        }
     }
+    return result;
 }
 
 - (void)refreshAuth {

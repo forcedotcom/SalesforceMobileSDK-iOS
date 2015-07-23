@@ -56,20 +56,6 @@
  */
 @property (nonatomic, strong, readonly) SFUserAccount *account;
 
-/** The ID for the Chatter Community that all Connect actions should use.
- 
- Not all actions are Chatter Connect requests, nor do all Connect requests need to be
- made against a Chatter Community.  But if a CHConnectAction request is enqueued that
- has a nil [CHConnectAction communityId] value, then this property will be used to set
- the default value that should be used.
- 
- If this value is `nil` then all CHConnectAction requests whose communityId value is
- `nil` will not be altered.
- 
- @see [CSFChatterAction communityId]
- */
-@property (nonatomic, copy) NSString *defaultConnectCommunityId;
-
 /**
  * Indicates if the access token for this user account is being refreshed.
  *
@@ -131,6 +117,24 @@
  requests that change state (i.e. POST).
  */
 @property (nonatomic, copy) NSString *securityToken;
+
+@end
+
+@interface CSFNetwork (Salesforce)
+
+/** The ID for the Chatter Community that all Connect actions should use.
+ 
+ Not all actions are Chatter Connect requests, nor do all Connect requests need to be
+ made against a Chatter Community.  But if a CHConnectAction request is enqueued that
+ has a nil [CHConnectAction communityId] value, then this property will be used to set
+ the default value that should be used.
+ 
+ If this value is `nil` then all CHConnectAction requests whose communityId value is
+ `nil` will not be altered.
+ 
+ @see [CSFChatterAction communityId]
+ */
+@property (nonatomic, copy) NSString *defaultConnectCommunityId;
 
 @end
 

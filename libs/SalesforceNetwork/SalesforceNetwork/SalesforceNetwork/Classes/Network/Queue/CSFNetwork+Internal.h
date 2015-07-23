@@ -32,6 +32,7 @@
 @protected
     NSNumber *_offlineCacheEnabled;
     NSPointerArray *_outputCachePointers;
+    NSString *_defaultConnectCommunityId;
 }
 
 /**
