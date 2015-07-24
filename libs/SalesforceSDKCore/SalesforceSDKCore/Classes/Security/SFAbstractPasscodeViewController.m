@@ -148,7 +148,6 @@ static  NSString * cachedPasscode;
         self.remainingAttempts = kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
-        [SFInactivityTimerCenter updateActivityTimestamp];
         SFSecurityLockoutAction action = [self controllerModeToLockoutAction];
         [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
     });
