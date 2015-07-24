@@ -186,7 +186,7 @@
 }
 
 // Test that dependent actions run after parent completes
-- (void)testDependentActions {
+- (void)skip_testDependentActions {
     SFUserAccount *user = [TestDataAction testUserAccount];
     CSFNetwork *network = [[CSFNetwork alloc] initWithUserAccount:user];
     
