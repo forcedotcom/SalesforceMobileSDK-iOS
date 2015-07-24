@@ -1,9 +1,16 @@
 branches:
    only:
-     -unstable
-
+     - unstable
 
 language: objective-c
-xcode_project: libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj
-xcode_scheme: SalesforceSDKCoreUnitTestApp
+script:
+   - xctool -workspcae SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
+   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
+ 
 
