@@ -66,10 +66,6 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize encrypted                 = _encrypted;
 @synthesize legacyIdentityInformation = _legacyIdentityInformation;
 
-@dynamic refreshToken;   // stored in keychain
-@dynamic accessToken;    // stored in keychain
-@dynamic activationCode; // stored in keychain
-
 - (id)initWithCoder:(NSCoder *)coder {
     NSString *clusterClassName = [coder decodeObjectOfClass:[NSString class] forKey:kSFOAuthClusterImplementationKey];
     Class clusterClass = NSClassFromString(clusterClassName) ?: self.class;
