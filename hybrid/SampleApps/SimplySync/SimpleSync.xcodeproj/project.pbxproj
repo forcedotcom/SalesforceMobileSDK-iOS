@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */; };
-		4F22154D19DF44E100FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */; };
 		4F22154E19DF44E100FF2D26 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */; };
 		4F22154F19DF44E100FF2D26 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22154B19DF44E000FF2D26 /* libSmartSync.a */; };
 		4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22155E19DF549400FF2D26 /* ImageIO.framework */; };
@@ -24,11 +22,8 @@
 		4FC276B519DCBC88008F4AA6 /* styles.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC2768D19DCBB1B008F4AA6 /* styles.css */; };
 		4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2768F19DCBB1B008F4AA6 /* auth.js */; };
 		4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769019DCBB1B008F4AA6 /* backbone-min.js */; };
-		4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769119DCBB1B008F4AA6 /* backbone.js */; };
-		4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769219DCBB1B008F4AA6 /* cordova.force.js */; };
 		4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769319DCBB1B008F4AA6 /* fastclick.js */; };
 		4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */; };
-		4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */; };
 		4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769619DCBB1B008F4AA6 /* jquery.min.js */; };
 		4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769A19DCBB1B008F4AA6 /* smartsync.js */; };
 		4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */; };
@@ -50,13 +45,11 @@
 		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
 		824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */; };
 		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
-		824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D921724C7C400C9BD79 /* libcrypto.a */; };
 		824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */; };
 		824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */; };
 		824A9D991724C86100C9BD79 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */; };
 		824A9D9B1724C8B800C9BD79 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */; };
 		824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9C1724C92400C9BD79 /* libsqlcipher.a */; };
-		824A9D9F1724C93A00C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9E1724C93A00C9BD79 /* libssl.a */; };
 		824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA01724C95D00C9BD79 /* libxml2.dylib */; };
 		824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA21724C96D00C9BD79 /* libz.dylib */; };
 		824A9DA61724C98900C9BD79 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA41724C98900C9BD79 /* AddressBook.framework */; };
@@ -73,6 +66,7 @@
 		824A9DBB1724CAB100C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBA1724CAB100C9BD79 /* QuartzCore.framework */; };
 		824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBC1724CAB900C9BD79 /* Security.framework */; };
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
+		825880531AA42574000C551E /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825880521AA42574000C551E /* libSalesforceNetwork.a */; };
 		82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		8272301C19D764160066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272301B19D764160066A350 /* InitialViewController.m */; };
 		828B294D174AE06400741BBE /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828B294C174AE06400741BBE /* libCordova.a */; };
@@ -120,11 +114,8 @@
 			files = (
 				4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */,
 				4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */,
-				4FC276B819DCBC93008F4AA6 /* backbone.js in Copy js Files */,
-				4FC276B919DCBC93008F4AA6 /* cordova.force.js in Copy js Files */,
 				4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */,
 				4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */,
-				4FC276BC19DCBC93008F4AA6 /* forcetk.ui.js in Copy js Files */,
 				4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */,
 				4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */,
 				4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */,
@@ -168,8 +159,6 @@
 
 /* Begin PBXFileReference section */
 		4F2147AC193D20C80010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
-		4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libMKNetworkKit-iOS.a"; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libMKNetworkKit-iOS.a"; sourceTree = "<group>"; };
-		4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetworkSDK.a; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-cspizxfxaauahuedtafqaxewrbra/Build/Products/Debug-iphoneos/libSalesforceNetworkSDK.a"; sourceTree = "<group>"; };
 		4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		4F22154B19DF44E000FF2D26 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
 		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -184,15 +173,9 @@
 		4FC2768D19DCBB1B008F4AA6 /* styles.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = styles.css; sourceTree = "<group>"; };
 		4FC2768F19DCBB1B008F4AA6 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
 		4FC2769019DCBB1B008F4AA6 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
-		4FC2769119DCBB1B008F4AA6 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
-		4FC2769219DCBB1B008F4AA6 /* cordova.force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova.force.js; sourceTree = "<group>"; };
 		4FC2769319DCBB1B008F4AA6 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
 		4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
-		4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.ui.js; sourceTree = "<group>"; };
 		4FC2769619DCBB1B008F4AA6 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
-		4FC2769719DCBB1B008F4AA6 /* MockCordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockCordova.js; sourceTree = "<group>"; };
-		4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartStore.js; sourceTree = "<group>"; };
-		4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MockSmartSyncPlugin.js; sourceTree = "<group>"; };
 		4FC2769A19DCBB1B008F4AA6 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
@@ -218,13 +201,11 @@
 		824A9BDF1721FCA400C9BD79 /* SimpleSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleSync-Prefix.pch"; sourceTree = "<group>"; };
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
-		824A9D921724C7C400C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
 		824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Libraries/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9D9C1724C92400C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		824A9D9E1724C93A00C9BD79 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
 		824A9DA01724C95D00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		824A9DA21724C96D00C9BD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		824A9DA41724C98900C9BD79 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -242,6 +223,7 @@
 		824A9DBC1724CAB900C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
+		825880521AA42574000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82638F0A19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		8272301A19D764160066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
@@ -253,7 +235,7 @@
 		82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AE51A0DADA4006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
-		82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,20 +243,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				825880531AA42574000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D681A37862B00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				4F22154C19DF44E100FF2D26 /* libMKNetworkKit-iOS.a in Frameworks */,
-				4F22154D19DF44E100FF2D26 /* libSalesforceNetworkSDK.a in Frameworks */,
 				4F22154E19DF44E100FF2D26 /* libSalesforceRestAPI.a in Frameworks */,
 				4F22154F19DF44E100FF2D26 /* libSmartSync.a in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
-				824A9D931724C7C400C9BD79 /* libcrypto.a in Frameworks */,
 				824A9D951724C7DC00C9BD79 /* libSalesforceCommonUtils.a in Frameworks */,
 				824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */,
 				824A9D991724C86100C9BD79 /* libSalesforceOAuth.a in Frameworks */,
 				824A9D9B1724C8B800C9BD79 /* libSalesforceSDKCore.a in Frameworks */,
 				82AA406218E3B0D200BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */,
-				824A9D9F1724C93A00C9BD79 /* libssl.a in Frameworks */,
 				824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */,
 				4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */,
@@ -318,15 +297,9 @@
 			children = (
 				4FC2768F19DCBB1B008F4AA6 /* auth.js */,
 				4FC2769019DCBB1B008F4AA6 /* backbone-min.js */,
-				4FC2769119DCBB1B008F4AA6 /* backbone.js */,
-				4FC2769219DCBB1B008F4AA6 /* cordova.force.js */,
 				4FC2769319DCBB1B008F4AA6 /* fastclick.js */,
 				4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */,
-				4FC2769519DCBB1B008F4AA6 /* forcetk.ui.js */,
 				4FC2769619DCBB1B008F4AA6 /* jquery.min.js */,
-				4FC2769719DCBB1B008F4AA6 /* MockCordova.js */,
-				4FC2769819DCBB1B008F4AA6 /* MockSmartStore.js */,
-				4FC2769919DCBB1B008F4AA6 /* MockSmartSyncPlugin.js */,
 				4FC2769A19DCBB1B008F4AA6 /* smartsync.js */,
 				4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */,
 				4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */,
@@ -381,22 +354,19 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				825880521AA42574000C551E /* libSalesforceNetwork.a */,
 				82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */,
 				4F22155E19DF549400FF2D26 /* ImageIO.framework */,
-				4F22154819DF44E000FF2D26 /* libMKNetworkKit-iOS.a */,
-				4F22154919DF44E000FF2D26 /* libSalesforceNetworkSDK.a */,
 				4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */,
 				4F22154B19DF44E000FF2D26 /* libSmartSync.a */,
 				4FF15E25190884C600705FE0 /* AssetsLibrary.framework */,
 				828B294C174AE06400741BBE /* libCordova.a */,
-				824A9D921724C7C400C9BD79 /* libcrypto.a */,
 				824A9D941724C7DC00C9BD79 /* libSalesforceCommonUtils.a */,
 				824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */,
 				824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */,
 				824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */,
 				82AA406118E3B0D200BD34D8 /* libSalesforceSecurity.a */,
 				824A9D9C1724C92400C9BD79 /* libsqlcipher.a */,
-				824A9D9E1724C93A00C9BD79 /* libssl.a */,
 				824A9DA01724C95D00C9BD79 /* libxml2.dylib */,
 				824A9DA21724C96D00C9BD79 /* libz.dylib */,
 				824A9DA41724C98900C9BD79 /* AddressBook.framework */,
@@ -654,7 +624,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
@@ -691,7 +660,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
@@ -709,6 +677,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
 				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";
@@ -726,6 +695,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SimpleSync/SimpleSync-Prefix.pch";
 				INFOPLIST_FILE = "SimpleSync/SimpleSync-Info.plist";

@@ -24,11 +24,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+
 #import "SFCommunityData.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 #import "SFIdentityData.h"
+
+@class SFOAuthCredentials;
 
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
@@ -93,6 +95,10 @@
  */
 @property (nonatomic, copy) NSArray *communities;
 
+/** Indicates whether or not the receiver represents a guest user account.
+ */
+@property (nonatomic, readonly, getter = isGuestUser) BOOL guestUser;
+
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
  */
@@ -102,7 +108,12 @@
  @param identifier The user identifier
  @return the account instance
  */
-- (id)initWithIdentifier:(NSString*)identifier;
+- (instancetype)initWithIdentifier:(NSString*)identifier NS_DESIGNATED_INITIALIZER;
+
+/** Designated initializer to construct a user account with a guest user account.
+ @return The guest user account instance.
+ */
+- (instancetype)initWithGuestUser NS_DESIGNATED_INITIALIZER;
 
 /** Returns the community API url for a particular
  community ID if it exists in the communities array

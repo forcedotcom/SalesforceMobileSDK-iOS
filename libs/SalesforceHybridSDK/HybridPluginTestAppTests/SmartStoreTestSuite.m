@@ -58,140 +58,171 @@
     [super tearDown];
 }
 
-- (void)testGetDatabaseSize {
+- (void) testGetDatabaseSize {
     [self runTest:@"testGetDatabaseSize"];
 }
 
-- (void)testRegisterRemoveSoup {
+- (void) testRegisterRemoveSoupGlobalStore {
+    [self runTest:@"testRegisterRemoveSoupGlobalStore"];
+}
+
+- (void) testRegisterRemoveSoup {
     [self runTest:@"testRegisterRemoveSoup"];
 }
 
-- (void)testRegisterBogusSoup {
+- (void) testRegisterBogusSoup {
     [self runTest:@"testRegisterBogusSoup"];
 }
 
-- (void)testRegisterSoupNoIndices {
+- (void) testRegisterSoupNoIndices {
     [self runTest:@"testRegisterSoupNoIndices"];
 }
 
-- (void)testUpsertSoupEntries {
+- (void) testUpsertSoupEntries {
     [self runTest:@"testUpsertSoupEntries"];
 }
 
-- (void)testUpsertSoupEntriesWithExternalId {
+- (void) testUpsertSoupEntriesWithExternalId {
     [self runTest:@"testUpsertSoupEntriesWithExternalId"];
 }
-    
-- (void)testUpsertToNonexistentSoup {
+
+- (void) testUpsertToNonexistentSoup {
     [self runTest:@"testUpsertToNonexistentSoup"];
 }
 
-- (void)testRetrieveSoupEntries {
+- (void) testRetrieveSoupEntries {
     [self runTest:@"testRetrieveSoupEntries"];
 }
 
-- (void)testRemoveFromSoup {
+- (void) testRemoveFromSoup {
     [self runTest:@"testRemoveFromSoup"];
 }
 
-- (void)testQuerySoup {
-    [self runTest:@"testQuerySoup"];
+- (void) testQuerySoupWithExactQuery {
+    [self runTest:@"testQuerySoupWithExactQuery"];
 }
 
-- (void)testQuerySoupDescending {
-    [self runTest:@"testQuerySoupDescending"];
+- (void) testQuerySoupWithAllQueryDescending {
+    [self runTest:@"testQuerySoupWithAllQueryDescending"];
 }
-    
-- (void)testQuerySoupBadQuerySpec {
+
+- (void) testQuerySoupWithRangeQueryWithOrderPath {
+    [self runTest:@"testQuerySoupWithRangeQueryWithOrderPath"];
+}
+
+- (void) testQuerySoupBadQuerySpec {
     [self runTest:@"testQuerySoupBadQuerySpec"];
 }
 
-- (void)testQuerySoupEndKeyNoBeginKey {
+- (void) testQuerySoupEndKeyNoBeginKey {
     [self runTest:@"testQuerySoupEndKeyNoBeginKey"];
 }
 
-- (void)testQuerySoupBeginKeyNoEndKey {
+- (void) testQuerySoupBeginKeyNoEndKey {
     [self runTest:@"testQuerySoupBeginKeyNoEndKey"];
 }
 
-- (void)testManipulateCursor {
+- (void) testManipulateCursor {
     [self runTest:@"testManipulateCursor"];
 }
 
-- (void)testMoveCursorToPreviousPageFromFirstPage {
+- (void) testMoveCursorToPreviousPageFromFirstPage {
     [self runTest:@"testMoveCursorToPreviousPageFromFirstPage"];
 }
 
-- (void)testMoveCursorToNextPageFromLastPage {
+- (void) testMoveCursorToNextPageFromLastPage {
     [self runTest:@"testMoveCursorToNextPageFromLastPage"];
 }
 
-- (void)testArbitrarySoupNames {
+- (void) testArbitrarySoupNames {
     [self runTest:@"testArbitrarySoupNames"];
 }
 
-- (void)testQuerySpecFactories {
+- (void) testQuerySpecFactories {
     [self runTest:@"testQuerySpecFactories"];
 }
 
-- (void)testLikeQuerySpecStartsWith {
+- (void) testLikeQuerySpecStartsWith {
     [self runTest:@"testLikeQuerySpecStartsWith"];
 }
 
-- (void)testLikeQuerySpecEndsWith {
+- (void) testLikeQuerySpecEndsWith {
     [self runTest:@"testLikeQuerySpecEndsWith"];
 }
 
-- (void)testLikeQueryInnerText {
+- (void) testLikeQueryInnerText {
     [self runTest:@"testLikeQueryInnerText"];
 }
 
-- (void)testCompoundQueryPath {
+- (void) testFullTextSearch {
+    [self runTest:@"testFullTextSearch"];
+}
+
+- (void) testCompoundQueryPath {
     [self runTest:@"testCompoundQueryPath"];
 }
 
-- (void)testEmptyQuerySpec {
+- (void) testEmptyQuerySpec {
     [self runTest:@"testEmptyQuerySpec"];
 }
 
-- (void)testIntegerQuerySpec {
+- (void) testIntegerQuerySpec {
     [self runTest:@"testIntegerQuerySpec"];
 }
-    
-- (void)testSmartQueryWithCount {
+
+- (void) testSmartQueryWithCount {
     [self runTest:@"testSmartQueryWithCount"];
 }
 
-- (void)testSmartQueryWithSpecialFields {
+- (void) testSmartQueryWithIntegerCompare {
+    [self runTest:@"testSmartQueryWithIntegerCompare"];
+}
+
+- (void) testSmartQueryWithWhereLikeClause {
+    [self runTest:@"testSmartQueryWithWhereLikeClause"];
+}
+
+- (void) testSmartQueryWithWhereLikeClauseOrdered {
+    [self runTest:@"testSmartQueryWithWhereLikeClauseOrdered"];
+}
+
+- (void) testSmartQueryWithSingleFieldAndWhereInClause {
+    [self runTest:@"testSmartQueryWithSingleFieldAndWhereInClause"];
+}
+
+- (void) testSmartQueryWithMultipleFieldsAndWhereInClause {
+    [self runTest:@"testSmartQueryWithMultipleFieldsAndWhereInClause"];
+}
+
+- (void) testSmartQueryWithSpecialFields {
     [self runTest:@"testSmartQueryWithSpecialFields"];
 }
 
-- (void)testGetSoupIndexSpecs {
+- (void) testGetSoupIndexSpecs {
     [self runTest:@"testGetSoupIndexSpecs"];
 }
-    
-- (void)testGetSoupIndexSpecsWithBogusSoupName {
+
+- (void) testGetSoupIndexSpecsWithBogusSoupName {
     [self runTest:@"testGetSoupIndexSpecsWithBogusSoupName"];
 }
-    
 
-- (void)testAlterSoupNoReIndexing {
+- (void) testAlterSoupNoReIndexing {
     [self runTest:@"testAlterSoupNoReIndexing"];
 }
 
-- (void)testAlterSoupWithReIndexing {
+- (void) testAlterSoupWithReIndexing {
     [self runTest:@"testAlterSoupWithReIndexing"];
 }
 
-- (void)testAlterSoupWithBogusSoupName {
+- (void) testAlterSoupWithBogusSoupName {
     [self runTest:@"testAlterSoupWithBogusSoupName"];
 }
 
-- (void)testReIndexSoup {
+- (void) testReIndexSoup {
     [self runTest:@"testReIndexSoup"];
 }
 
-- (void)testClearSoup {
+- (void) testClearSoup {
     [self runTest:@"testClearSoup"];
 }
 

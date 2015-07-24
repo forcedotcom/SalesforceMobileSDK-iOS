@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-14, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,11 +34,10 @@
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVInvokedUrlCommand.h>
 
-//NOTE: must match value in Cordova's config.xml file
+// NOTE: must match value in Cordova's config.xml file
 NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
-
 NSString * const kSoupNameArg         = @"soupName";
 NSString * const kEntryIdsArg         = @"entryIds";
 NSString * const kCursorIdArg         = @"cursorId";
@@ -49,28 +48,24 @@ NSString * const kEntriesArg          = @"entries";
 NSString * const kExternalIdPathArg   = @"externalIdPath";
 NSString * const kPathsArg            = @"paths";
 NSString * const kReIndexDataArg      = @"reIndexData";
-
+NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 @interface SFSmartStorePlugin() 
 
-- (void)closeCursorWithId:(NSString *)cursorId;
+@property (nonatomic, strong) SFSmartStoreInspectorViewController *inspector;
+@property (nonatomic, strong) SFSmartStoreInspectorViewController *globalInspector;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *globalStore;
+@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
+@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
 
 @end
 
-
-
-
-
 @implementation SFSmartStorePlugin
-
-
-@synthesize cursorCache = _cursorCache;
-@synthesize store = _store;
-
 
 - (void)resetSharedStore
 {
-    [[self cursorCache] removeAllObjects];
+    [[self userCursorCache] removeAllObjects];
 }
 
 - (SFSmartStore *)store
@@ -78,37 +73,41 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
+- (SFSmartStore *)globalStore
+{
+    return [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
+}
+
+- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
 {
     self = [super initWithWebView:theWebView];
-    
     if (nil != self)  {
         [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
-        _cursorCache = [[NSMutableDictionary alloc] init];
+        self.userCursorCache = [[NSMutableDictionary alloc] init];
+        self.globalCursorCache = [[NSMutableDictionary alloc] init];
+        self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
+        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
     }
     return self;
 }
 
-- (void) dealloc
-{
-    SFRelease(_store);
-}
-
 #pragma mark - Object bridging helpers
 
-
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal
 {
-    return _cursorCache[cursorId];
+    return (isGlobal ? self.globalCursorCache[cursorId] : self.userCursorCache[cursorId]);
 }
 
-
-- (void)closeCursorWithId:(NSString *)cursorId
+- (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal
 {
-    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId isGlobal:isGlobal];
     if (nil != cursor) {
         [cursor close];
-        [self.cursorCache removeObjectForKey:cursorId];
+        if (isGlobal) {
+            [self.globalCursorCache removeObjectForKey:cursorId];
+        } else {
+            [self.userCursorCache removeObjectForKey:cursorId];
+        }
     } 
 }
 
@@ -119,8 +118,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         [self log:SFLogLevelDebug format:@"pgSoupExists with soup name '%@'.", soupName];
-        
-        BOOL exists = [self.store soupExists:soupName];
+        BOOL exists = [[self getStoreInst:argsDict] soupExists:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:exists];
     } command:command];
 }
@@ -131,8 +129,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
-        
-        BOOL regOk = [self.store registerSoup:soupName withIndexSpecs:indexSpecs];
+        BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs];
         if (regOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
@@ -146,9 +143,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         [self log:SFLogLevelDebug format:@"pgRemoveSoup with name: %@", soupName];
-        
-        [self.store removeSoup:soupName];
-        
+        [[self getStoreInst:argsDict] removeSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
@@ -160,14 +155,16 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
         SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
         [self log:SFLogLevelDebug format:@"pgQuerySoup with name: %@, querySpec: %@", soupName, querySpecDict];
-        
-        NSError* error;
-        SFStoreCursor* cursor = [self runQuery:querySpec error:&error];
-        if (cursor) {
-            (self.cursorCache)[cursor.cursorId] = cursor;
+        NSError* error = nil;
+        SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
+        if (cursor.cursorId) {
+            if ([self isGlobal:argsDict] && self.globalCursorCache) {
+                (self.globalCursorCache)[cursor.cursorId] = cursor;
+            } else if (self.userCursorCache) {
+                (self.userCursorCache)[cursor.cursorId] = cursor;
+            }
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
-        }
-        else {
+        } else {
             [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
         }
@@ -179,23 +176,20 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self pgQuerySoup:command];
 }
 
-- (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error
+- (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error argsDict:(NSDictionary*)argsDict
 {
     if (!querySpec) {
         // XXX we could populate error
         return nil;
     }
-    
-    NSUInteger totalEntries = [self.store countWithQuerySpec:querySpec error:error];
+    NSUInteger totalEntries = [[self getStoreInst:argsDict] countWithQuerySpec:querySpec error:error];
     if (*error) {
         return nil;
     }
-    
     NSArray* firstPageEntries = (totalEntries > 0
-                                 ? [self.store queryWithQuerySpec:querySpec pageIndex:0 error:error]
+                                 ? [[self getStoreInst:argsDict] queryWithQuerySpec:querySpec pageIndex:0 error:error]
                                  : @[]);
-    
-    return [[SFStoreCursor alloc] initWithStore:self.store querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
+    return [[SFStoreCursor alloc] initWithStore:[self getStoreInst:argsDict] querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
 }
 
 - (void)pgRetrieveSoupEntries:(CDVInvokedUrlCommand *)command
@@ -204,8 +198,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *rawIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
         [self log:SFLogLevelDebug format:@"pgRetrieveSoupEntries with soup name: %@", soupName];
-        
-        NSArray *entries = [self.store retrieveEntries:rawIds fromSoup:soupName];
+        NSArray *entries = [[self getStoreInst:argsDict] retrieveEntries:rawIds fromSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:entries];
     } command:command];
 }
@@ -217,9 +210,8 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSArray *entries = [argsDict nonNullObjectForKey:kEntriesArg];
         NSString *externalIdPath = [argsDict nonNullObjectForKey:kExternalIdPathArg];
         [self log:SFLogLevelDebug format:@"pgUpsertSoupEntries with soup name: %@, external ID path: %@", soupName, externalIdPath];
-        
         NSError *error = nil;
-        NSArray *resultEntries = [self.store upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
+        NSArray *resultEntries = [[self getStoreInst:argsDict] upsertEntries:entries toSoup:soupName withExternalIdPath:externalIdPath error:&error];
         if (nil != resultEntries) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:resultEntries];
         } else {
@@ -234,9 +226,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
         [self log:SFLogLevelDebug format:@"pgRemoveFromSoup with soup name: %@", soupName];
-        
-        [self.store removeEntries:entryIds fromSoup:soupName];
-        
+        [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
@@ -246,9 +236,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         [self log:SFLogLevelDebug format:@"pgCloseCursor with cursor ID: %@", cursorId];
-        
-        [self closeCursorWithId:cursorId];
-        
+        [self closeCursorWithId:cursorId isGlobal:[self isGlobal:argsDict]];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
@@ -259,10 +247,8 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
         NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
         [self log:SFLogLevelDebug format:@"pgMoveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
-        
-        SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
+        SFStoreCursor *cursor = [self cursorByCursorId:cursorId isGlobal:[self isGlobal:argsDict]];
         [cursor setCurrentPageIndex:newPageIndex];
-        
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[cursor asDictionary]];
     } command:command];
 }
@@ -272,9 +258,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         [self log:SFLogLevelDebug format:@"pgClearSoup with name: %@", soupName];
-        
-        [self.store clearSoup:soupName];
-        
+        [[self getStoreInst:argsDict] clearSoup:soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
@@ -282,14 +266,13 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)pgGetDatabaseSize:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        unsigned long long databaseSize = [self.store getDatabaseSize];
+        unsigned long long databaseSize = [[self getStoreInst:argsDict] getDatabaseSize];
         if (databaseSize > INT_MAX) {
             // This is the best we can do. Cordova can't return an "unsigned long long" (or anything close).
             // TODO: Change this once https://issues.apache.org/jira/browse/CB-8365 has been completed.
             databaseSize = INT_MAX;
         }
-        
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:databaseSize];
+        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)databaseSize];
     } command:command];
 }
 
@@ -300,8 +283,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
         [self log:SFLogLevelDebug format:@"pgAlterSoup with soup name: %@, indexSpecs: %@, reIndexData: %@", soupName, indexSpecs, reIndexData ? @"true" : @"false"];
-        
-        BOOL alterOk = [self.store alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
         if (alterOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
@@ -316,8 +298,7 @@ NSString * const kReIndexDataArg      = @"reIndexData";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexPaths = [argsDict nonNullObjectForKey:kPathsArg];
         [self log:SFLogLevelDebug format:@"pgReIndexSoup with soup name: %@, indexPaths: %@", soupName, indexPaths];
-
-        BOOL regOk = [self.store reIndexSoup:soupName withIndexPaths:indexPaths];
+        BOOL regOk = [[self getStoreInst:argsDict] reIndexSoup:soupName withIndexPaths:indexPaths];
         if (regOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
@@ -329,7 +310,9 @@ NSString * const kReIndexDataArg      = @"reIndexData";
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        [SFSmartStoreInspectorViewController present];
+        BOOL isGlobal = [self isGlobal:argsDict];
+        SFSmartStoreInspectorViewController* inspector = isGlobal ? self.globalInspector : self.inspector;
+        [inspector present:self.viewController];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }
@@ -339,14 +322,23 @@ NSString * const kReIndexDataArg      = @"reIndexData";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         [self log:SFLogLevelDebug format:@"pgGetSoupIndexSpecs with soup name: %@", soupName];
-        
-        NSArray *indexSpecsAsDicts = [SFSoupIndex asArrayOfDictionaries:[self.store indicesForSoup:soupName] withColumnName:NO];
+        NSArray *indexSpecsAsDicts = [SFSoupIndex asArrayOfDictionaries:[[self getStoreInst:argsDict] indicesForSoup:soupName] withColumnName:NO];
         if ([indexSpecsAsDicts count] > 0) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:indexSpecsAsDicts];
         } else {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
         }
     } command:command];
+}
+
+- (SFSmartStore *)getStoreInst:(NSDictionary *)args
+{
+    return ([self isGlobal:args] ? self.globalStore : self.store);
+}
+
+- (BOOL)isGlobal:(NSDictionary *)args
+{
+    return args[kIsGlobalStoreArg] != nil && [args[kIsGlobalStoreArg] boolValue];
 }
 
 @end

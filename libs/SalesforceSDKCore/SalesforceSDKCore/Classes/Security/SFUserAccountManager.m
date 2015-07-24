@@ -567,7 +567,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     self.previousCommunityId = self.activeCommunityId;
     
     SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = nil;
+    account.communityId = self.previousCommunityId;
     self.currentUser = account;
     
     // update the client ID in case it's changed (via settings, etc)
@@ -624,14 +624,16 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    for (SFUserAccountIdentity *userIdentity in [self.userAccountMap copy]) {
+    NSDictionary *userAccountMap = [self.userAccountMap copy];
+    
+    for (SFUserAccountIdentity *userIdentity in userAccountMap) {
         // Don't save the temporary user id
         if ([userIdentity isEqual:self.temporaryUserIdentity]) {
             continue;
         }
         
         // Grab the user account...
-        SFUserAccount *user = self.userAccountMap[userIdentity];
+        SFUserAccount *user = userAccountMap[userIdentity];
         
         // And it's persistent file path
         NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
@@ -902,9 +904,17 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     [self userChanged:change];
 }
 
+- (void)applyIdData:(SFIdentityData *)idData {
+    self.currentUser.idData = idData;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
 - (void)setObjectForCurrentUserCustomData:(NSObject<NSCoding> *)object forKey:(NSString *)key {
     [self.currentUser setCustomDataObject:object forKey:key];
 }
+
+#pragma mark -
+#pragma mark Switching Users
 
 - (void)switchToNewUser {
     [self switchToUser:nil];
@@ -935,6 +945,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         }
     }];
 }
+
+#pragma mark -
+#pragma mark User Change Notifications
 
 - (void)userChanged:(SFUserAccountChange)change {
     if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {

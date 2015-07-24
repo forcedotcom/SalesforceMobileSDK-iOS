@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,7 +24,6 @@
 
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
-#import <SalesforceNetworkSDK/SFNetworkEngine.h>
 
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
@@ -39,7 +38,7 @@ extern NSInteger const kSFRestErrorCode;
 
 
 /*
- * Default API version (currently "v31.0")
+ * Default API version (currently "v33.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
@@ -140,9 +139,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  The error passed will be a standard `RestKit` error with an error domain of `RKRestKitErrorDomain`. 
 
  */
-@interface SFRestAPI : NSObject<SFNetworkEngineDelegate> {
-    NSString *_apiVersion;
-}
+@interface SFRestAPI : NSObject
 
 /**
  * Gets or sets the value of the `SFOAuthCoordinator` instance associated with SFRestAPI requests.
@@ -154,7 +151,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
- * The default value is `kSFRestDefaultAPIVersion` (currently "v31.0")
+ * The default value is `kSFRestDefaultAPIVersion` (currently "v33.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
@@ -192,7 +189,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * This overwrites the delegate property of the request.
  * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (SFNetworkOperation*)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
+- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods

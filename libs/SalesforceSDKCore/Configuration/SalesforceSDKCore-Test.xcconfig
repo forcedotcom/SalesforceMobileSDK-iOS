@@ -1,0 +1,10 @@
+//
+//  SalesforceSDKCore-Test.xcconfig
+//  SalesforceSDKCore
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//  Copyright (c) 2015 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-Test.xcconfig"
+#include "SalesforceSDKCore-Static-iOS-Debug.xcconfig"

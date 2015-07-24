@@ -83,4 +83,8 @@
  */
 - (void)synchronize;
 
+/** Remove all saved objects 
+ */
+- (void)removeAllObjects;
+
 @end

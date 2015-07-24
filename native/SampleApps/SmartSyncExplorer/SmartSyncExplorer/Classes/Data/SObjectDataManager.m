@@ -27,6 +27,9 @@
 #import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
+// Will go away once we are done refactoring SFSyncTarget
+#import <SmartSync/SFSoqlSyncDownTarget.h>
+
 static NSUInteger kMaxQueryPageSize = 1000;
 static NSUInteger kSyncLimit = 10000;
 static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.searchFilterQueue";
@@ -42,6 +45,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
+@property (nonatomic) NSInteger syncDownId;
 
 @end
 
@@ -71,19 +75,30 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self registerSoup];
     }
     
-    NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
-    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
-    SFSyncTarget *syncTarget = [SFSyncTarget newSyncTargetForSOQLSyncDown:soqlQuery];
     __weak SObjectDataManager *weakSelf = self;
-    [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
+    SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
+            weakSelf.syncDownId = sync.syncId;
             [weakSelf refreshLocalData];
         }
-    }];
+    };
+
+    
+    if (self.syncDownId == 0) {
+        // first time
+        NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@, LastModifiedDate FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
+        SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
+        SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
+        [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
+    }
+    else {
+        // subsequent times
+        [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
+    }
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
-    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames];
+    SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncUp:self.dataSpec.fieldNames mergeMode:SFSyncStateMergeModeLeaveIfChanged];
     [self.syncMgr syncUpWithOptions:syncOptions soupName:self.dataSpec.soupName updateBlock:^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             completionBlock(sync);
@@ -145,7 +160,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self registerSoup];
     }
     
-    SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
+    SFQuerySpec *sobjectsQuerySpec = [SFQuerySpec newAllQuerySpec:self.dataSpec.soupName withOrderPath:self.dataSpec.orderByFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:kMaxQueryPageSize];
     NSError *queryError = nil;
     NSArray *queryResults = [self.store queryWithQuerySpec:sobjectsQuerySpec pageIndex:0 error:&queryError];
     [self log:SFLogLevelDebug msg:@"Got local query results.  Populating data rows."];

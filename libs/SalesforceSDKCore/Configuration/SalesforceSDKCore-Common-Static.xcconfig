@@ -1,0 +1,14 @@
+//
+//  SalesforceSDKCore-Static.xcconfig
+//  SalesforceSDKCore
+//
+//  Created by Michael Nachbaur on 2/25/15.
+//  Copyright (c) 2015 salesforce.com. All rights reserved.
+//
+
+#include "SalesforceSDKCore-Common.xcconfig"
+
+INSTALL_PATH = /
+SKIP_INSTALL = YES
+
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(inherited)

@@ -34,6 +34,7 @@ typedef void (^SFRestFailBlock) (NSError *e);
 typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 typedef void (^SFRestDataResponseBlock) (NSData* data);
+typedef void (^SFRestResponseBlock) (id response);
 
 + (NSError *)errorWithDescription:(NSString *)description;
 
@@ -44,7 +45,7 @@ typedef void (^SFRestDataResponseBlock) (NSData* data);
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
  */
-- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(id)completeBlock;    
+- (void) sendRESTRequest:(SFRestRequest *)request failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestResponseBlock)completeBlock;    
 
 // Various request types.
 

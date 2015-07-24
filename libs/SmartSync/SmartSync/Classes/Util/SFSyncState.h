@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 
 @class SFSyncTarget;
+@class SFSyncDownTarget;
+@class SFSyncUpTarget;
 @class SFSyncOptions;
 @class SFSmartStore;
 
@@ -41,6 +43,7 @@ extern NSString * const kSFSyncStateOptions;
 extern NSString * const kSFSyncStateStatus;
 extern NSString * const kSFSyncStateProgress;
 extern NSString * const kSFSyncStateTotalSize;
+extern NSString * const kSFSyncStateMaxTimeStamp;
 
 // Possible values for sync type
 typedef enum {
@@ -74,7 +77,7 @@ typedef enum {
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
-@interface SFSyncState : NSObject
+@interface SFSyncState : NSObject <NSCopying>
 
 @property (nonatomic, readonly) NSInteger syncId;
 @property (nonatomic, readonly) SFSyncStateSyncType type;
@@ -85,6 +88,7 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 @property (nonatomic) NSInteger progress;
 @property (nonatomic) NSInteger totalSize;
 @property (nonatomic) SFSyncStateMergeMode mergeMode;
+@property (nonatomic) long long maxTimeStamp;
 
 /** Setup soup that keeps track of sync operations
  */
@@ -92,8 +96,9 @@ extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;
 
 /** Factory methods
  */
-+ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncDownWithOptions:(SFSyncOptions*)options target:(SFSyncDownTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 + (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName store:(SFSmartStore*)store;
++ (SFSyncState*) newSyncUpWithOptions:(SFSyncOptions*)options target:(SFSyncUpTarget*)target soupName:(NSString*)soupName store:(SFSmartStore*)store;
 
 /** Methods to save/retrieve from smartstore
  */

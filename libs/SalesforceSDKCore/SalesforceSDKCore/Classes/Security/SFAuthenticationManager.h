@@ -208,7 +208,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  The class instance to be used to instantiate the singleton.
  */
-+ (void)setInstanceClass:(Class)class;
++ (void)setInstanceClass:(Class)className;
 
 /**
  The singleton instance of the SFAuthenticationManager class.

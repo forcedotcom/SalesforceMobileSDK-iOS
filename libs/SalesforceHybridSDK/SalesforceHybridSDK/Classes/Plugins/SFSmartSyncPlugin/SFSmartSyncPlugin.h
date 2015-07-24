@@ -39,14 +39,14 @@ extern NSString * const kSmartSyncPluginIdentifier;
 - (void)resetSyncManager;
 
 /**
- * Return details about a sync operation previously created. See [SFSyncManager:getSyncStatus].
+ * Return details about a sync operation previously created. See [SFSmartSyncSyncManager:getSyncStatus].
  * @param command Cordova arguments object containing "syncId".
  *
  */
 - (void)getSyncStatus:(CDVInvokedUrlCommand *)command;
 
 /**
- * Starts a sync up operation. See [SFSyncManager syncUp].
+ * Starts a sync up operation. See [SFSmartSyncSyncManager syncUp].
  * @param command Cordova arguments object containing "soupName" and "options".
  *
  */
@@ -54,11 +54,18 @@ extern NSString * const kSmartSyncPluginIdentifier;
 
 
 /**
- * Starts a sync up operation. See [SFSyncManager syncDown].
- * @param command Cordova arguments object containing "soupName".
+ * Starts a sync down operation. See [SFSmartSyncSyncManager syncDown].
+ * @param command Cordova arguments object containing "soupName", "target" and "options".
  *
  */
 - (void)syncDown:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Starts a re-sync operation. See [SFSmartSyncSyncManager reSync].
+ * @param command Cordova arguments object containing "syncId".
+ *
+ */
+- (void)reSync:(CDVInvokedUrlCommand *)command;
 
 
 @end

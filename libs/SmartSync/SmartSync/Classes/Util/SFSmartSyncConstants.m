@@ -34,6 +34,11 @@ NSString * const kAttributes = @"attributes";
 NSString * const kRecentlyViewed = @"RecentlyViewed";
 NSString * const kRawData = @"rawData";
 NSString * const kObjectTypeField = @"attributes.type";
+NSString * const kLastModifiedDate = @"LastModifiedDate";
+NSString * const kResponseRecords = @"records";
+NSString * const kResponseTotalSize = @"totalSize";
+NSString * const kResponseNextRecordsUrl = @"nextRecordsUrl";
+NSString * const kRecentItems = @"recentItems";
 
 NSString * const kAccount = @"Account";
 NSString * const kLead = @"Lead";
@@ -68,3 +73,8 @@ NSString * const kLayoutLabelField = @"label";
 NSString * const kLayoutLimitsField = @"limitRows";
 NSString * const kLayoutColumnsField = @"searchColumns";
 NSString * const kLayoutObjectTypeField = @"objectType";
+
+NSString * const kSFSyncTargetTypeKey = @"type";
+NSString * const kSFSyncTargetiOSImplKey = @"iOSImpl";
+NSString * const kSFSyncTargetIdFieldNameKey = @"idFieldName";
+NSString * const kSFSyncTargetModificationDateFieldNameKey = @"modificationDateFieldName";

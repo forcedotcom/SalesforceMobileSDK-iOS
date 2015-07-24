@@ -25,10 +25,10 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFOAuthCryptoOperation) {
     SFOAEncrypt = 0,
     SFOADecrypt
-} SFOAuthCryptoOperation;
+};
 
 /**
  Provides a wrapper for cryptographic services.

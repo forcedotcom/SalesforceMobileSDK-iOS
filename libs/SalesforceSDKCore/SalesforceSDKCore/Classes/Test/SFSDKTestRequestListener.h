@@ -34,11 +34,11 @@ extern NSString* const kTestRequestStatusDidFail;
 extern NSString* const kTestRequestStatusDidCancel;
 extern NSString* const kTestRequestStatusDidTimeout;
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFAccountManagerServiceType) {
     SFAccountManagerServiceTypeNone = 0,
     SFAccountManagerServiceTypeOAuth,
     SFAccountManagerServiceTypeIdentity
-} SFAccountManagerServiceType;
+};
 
 @interface SFSDKTestRequestListener : NSObject <SFIdentityCoordinatorDelegate, SFOAuthCoordinatorDelegate> {
     id _dataResponse;

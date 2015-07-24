@@ -81,6 +81,13 @@
 		00AB96A31A1444AF0029E119 /* SFEncryptionKeyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFEncryptionKeyTests.m; sourceTree = "<group>"; };
 		00AB96A51A1445C40029E119 /* SFSecurityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityTests.m; sourceTree = "<group>"; };
 		00D46DCE1A12C74C000C1008 /* SFKeyStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFKeyStoreManagerTests.m; sourceTree = "<group>"; };
+		6F644CF21A9FD4FC009BF92A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		6F644CF41A9FD506009BF92A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/usr/lib/libz.dylib; sourceTree = DEVELOPER_DIR; };
+		6F644CF61A9FD516009BF92A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
+		6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Common.xcconfig"; sourceTree = "<group>"; };
+		6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSecurity-Test.xcconfig"; sourceTree = "<group>"; };
 		820AB72418E230EC00E25E1D /* libSalesforceSecurity.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820AB72718E230EC00E25E1D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		820AB72B18E230EC00E25E1D /* SalesforceSecurity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceSecurity-Prefix.pch"; sourceTree = "<group>"; };
@@ -153,9 +160,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F8960891A9E9ECD00A48FF1 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				6F89608A1A9E9ECD00A48FF1 /* SalesforceSecurity-Common.xcconfig */,
+				6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */,
+				6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */,
+				6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		820AB71B18E230EC00E25E1D = {
 			isa = PBXGroup;
 			children = (
+				6F8960891A9E9ECD00A48FF1 /* Configuration */,
 				820AB72918E230EC00E25E1D /* SalesforceSecurity */,
 				820AB73D18E230EC00E25E1D /* SalesforceSecurityTests */,
 				820AB72618E230EC00E25E1D /* Frameworks */,
@@ -175,6 +194,9 @@
 		820AB72618E230EC00E25E1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6F644CF61A9FD516009BF92A /* MessageUI.framework */,
+				6F644CF41A9FD506009BF92A /* libz.dylib */,
+				6F644CF21A9FD4FC009BF92A /* UIKit.framework */,
 				82AA405B18E3ADE100BD34D8 /* MessageUI.framework */,
 				82AA405918E3ADAA00BD34D8 /* libz.dylib */,
 				82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */,
@@ -297,6 +319,8 @@
 				820AB72018E230EC00E25E1D /* Sources */,
 				820AB72118E230EC00E25E1D /* Frameworks */,
 				82AA403018E398AF00BD34D8 /* Headers */,
+				827DD5151A83060D00519F03 /* ShellScript */,
+				825BE4821AE025660048E6DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -378,6 +402,32 @@
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceSecurity/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
+		825BE4821AE025660048E6DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s salesforcesecurity";
+		};
+		827DD5151A83060D00519F03 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -438,113 +488,44 @@
 		820AB74518E230EC00E25E1D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
 		820AB74618E230EC00E25E1D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
 				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
 		820AB74818E230EC00E25E1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F89608F1A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceSecurity.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSecurity/SalesforceSecurity-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		820AB74918E230EC00E25E1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960901A9E9ECD00A48FF1 /* SalesforceSecurity-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SalesforceSecurity.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSecurity/SalesforceSecurity-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		820AB74B18E230EC00E25E1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -571,6 +552,7 @@
 		};
 		820AB74C18E230EC00E25E1D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F8960911A9E9ECD00A48FF1 /* SalesforceSecurity-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

@@ -24,38 +24,24 @@
 
 #import "SFOAuthCredentials.h"
 #import <SalesforceSecurity/SFEncryptionKey.h>
+#import <SalesforceCommonUtils/SalesforceCommonUtils.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeNotSet,
     kSFOAuthCredsEncryptionTypeMac,
     kSFOAuthCredsEncryptionTypeIdForVendor,
     kSFOAuthCredsEncryptionTypeBaseAppId,
     kSFOAuthCredsEncryptionTypeKeyStore
-} SFOAuthCredsEncryptionType;
+};
 
 extern NSString * const kSFOAuthEncryptionTypeKey;
 extern NSString * const kSFOAuthServiceAccess;
 extern NSString * const kSFOAuthServiceRefresh;
 extern NSString * const kSFOAuthServiceActivation;
 
+extern NSException * SFOAuthInvalidIdentifierException();
+
 @interface SFOAuthCredentials ()
-
-- (NSData *)keyMacForService:(NSString *)service;
-- (NSData *)keyVendorIdForService:(NSString *)service;
-- (NSData *)keyBaseAppIdForService:(NSString*)service;
-- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
-- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
-- (NSString *)refreshTokenWithKey:(NSData *)key;
-- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
-- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
-- (NSString *)accessTokenWithKey:(NSData *)key;
-- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
-- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
-- (void)updateTokenEncryption;
-
-// These are only for unit tests of legacy functionality.  Do not use in app code!
-- (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
-- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 
 @end
 

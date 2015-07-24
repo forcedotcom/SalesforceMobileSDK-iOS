@@ -34,6 +34,11 @@ extern NSString * const kAttributes;
 extern NSString * const kRecentlyViewed;
 extern NSString * const kRawData;
 extern NSString * const kObjectTypeField;
+extern NSString * const kLastModifiedDate;
+extern NSString * const kResponseRecords;
+extern NSString * const kResponseTotalSize;
+extern NSString * const kResponseNextRecordsUrl;
+extern NSString * const kRecentItems;
 
 /**
  * Salesforce object types.
@@ -80,3 +85,11 @@ extern NSString * const kLayoutLabelField;
 extern NSString * const kLayoutLimitsField;
 extern NSString * const kLayoutColumnsField;
 extern NSString * const kLayoutObjectTypeField;
+
+/**
+ * Sync target constants.
+ */
+extern NSString * const kSFSyncTargetTypeKey;
+extern NSString * const kSFSyncTargetiOSImplKey;
+extern NSString * const kSFSyncTargetIdFieldNameKey;
+extern NSString * const kSFSyncTargetModificationDateFieldNameKey;

@@ -23,6 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
 #import "SFSecurityLockout.h"
 #import "SFPasscodeViewControllerTypes.h"
 
@@ -95,5 +97,18 @@ extern const NSUInteger kMaxNumberofAttempts;
  * need to do so.
  */
 - (void)validatePasscodeFailed;
+
+/**
+ * Method returns touch id can be shown
+ * Touch id can only be shown on device that supports it and the passcode has been entered manually since app was launched
+ */
+- (BOOL) canShowTouchId;
+
+/**
+ * Method to bring up touch id to authenticate device owner
+ * If successful, the app will be unlocked
+ * Will do nothing if touch id is supported on the device or the passcode has never been entered manually since app was launched
+ */
+- (void) showTouchId;
 
 @end

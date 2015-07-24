@@ -30,6 +30,7 @@ static NSString * const kStoresDirectory          = @"stores";
 @interface SFSmartStoreDatabaseManager ()
 
 @property (nonatomic, strong) SFUserAccount *user;
+@property (nonatomic, assign) BOOL isGlobalManager;
 
 /**
  @param storeName The name of the store.
@@ -48,6 +49,12 @@ static NSString * const kStoresDirectory          = @"stores";
                               newKey:(NSString *)newKey
                                error:(NSError **)error;
 
-- (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
++ (FMDatabase *)openDatabaseWithPath:(NSString *)dbPath key:(NSString *)key error:(NSError **)error;
++ (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db
+                                name:(NSString *)storeName
+                                path:(NSString *)storePath
+                              oldKey:(NSString *)oldKey
+                              newKey:(NSString *)newKey
+                               error:(NSError **)error;
 
 @end

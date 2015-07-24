@@ -23,140 +23,38 @@
  */
 
 #import "SFSyncTarget.h"
-
-NSString * const kSFSyncTargetQueryType = @"type";
-NSString * const kSFSyncTargetQuery = @"query";
-NSString * const kSFSyncTargetObjectType = @"sobjectType";
-NSString * const kSFSyncTargetFieldlist = @"fieldlist";
-
-// query types
-NSString * const kSFSyncTargetQueryTypeMru = @"mru";
-NSString * const kSFSyncTargetQueryTypeSoql = @"soql";
-NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
-
-@interface SFSyncTarget ()
-
-@property (nonatomic, readwrite)            SFSyncTargetQueryType queryType;
-@property (nonatomic, strong, readwrite) NSString* query;
-@property (nonatomic, strong, readwrite) NSString* objectType;
-@property (nonatomic, strong, readwrite) NSArray*  fieldlist;
-
-// true when initiazed from empty dictionary
-@property (nonatomic) BOOL isUndefined;
-
-@end
+#import "SFSmartSyncConstants.h"
+#import <SalesforceSDKCore/SalesforceSDKConstants.h>
 
 @implementation SFSyncTarget
 
-#pragma mark - Factory methods
-
-+ (SFSyncTarget*) newSyncTargetForMRUSyncDown:(NSString*)objectType fieldlist:(NSArray*)fieldlist {
-    SFSyncTarget* syncTarget = [[SFSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeMru;
-    syncTarget.objectType = objectType;
-    syncTarget.fieldlist = fieldlist;
-    syncTarget.isUndefined = NO;
-    return syncTarget;
-}
-
-+ (SFSyncTarget*) newSyncTargetForSOSLSyncDown:(NSString*)query {
-    SFSyncTarget* syncTarget = [[SFSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeSosl;
-    syncTarget.query = query;
-    syncTarget.isUndefined = NO;
-    return syncTarget;
-}
-
-+ (SFSyncTarget*) newSyncTargetForSOQLSyncDown:(NSString*)query {
-    SFSyncTarget* syncTarget = [[SFSyncTarget alloc] init];
-    syncTarget.queryType = SFSyncTargetQueryTypeSoql;
-    syncTarget.query = query;
-    syncTarget.isUndefined = NO;
-    return syncTarget;
-}
-
-
-#pragma mark - From/to dictionary
-
-+ (SFSyncTarget*) newFromDict:(NSDictionary*)dict {
-    SFSyncTarget* syncTarget = [[SFSyncTarget alloc] init];
-    if (syncTarget) {
-        if (dict == nil || [dict count] == 0) {
-            syncTarget.isUndefined = YES;
-        }
-        else {
-            syncTarget.isUndefined = NO;
-            syncTarget.queryType = [SFSyncTarget queryTypeFromString:dict[kSFSyncTargetQueryType]];
-            switch (syncTarget.queryType) {
-                case SFSyncTargetQueryTypeMru:
-                    syncTarget.objectType = dict[kSFSyncTargetObjectType];
-                    syncTarget.fieldlist = dict[kSFSyncTargetFieldlist];
-                    break;
-                case SFSyncTargetQueryTypeSosl:
-                    syncTarget.query = dict[kSFSyncTargetQuery];
-                    break;
-                case SFSyncTargetQueryTypeSoql:
-                    syncTarget.query = dict[kSFSyncTargetQuery];
-                    break;
-            }
-        }
-    }
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    if (dict == nil) return nil;
     
-    return syncTarget;
+    self = [super init];
+    if (self) {
+        NSString *idFieldName = dict[kSFSyncTargetIdFieldNameKey];
+        NSString *modificationDateFieldName = dict[kSFSyncTargetModificationDateFieldNameKey];
+        self.idFieldName = (idFieldName.length > 0 ? idFieldName : kId);
+        self.modificationDateFieldName = (modificationDateFieldName.length > 0 ? modificationDateFieldName : kLastModifiedDate);
+    }
+    return self;
 }
 
-- (NSDictionary*) asDict {
-    NSDictionary* dict;
-
-    if (self.isUndefined) {
-        dict = @{};
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.idFieldName = kId;
+        self.modificationDateFieldName = kLastModifiedDate;
     }
-    else {
-        switch (self.queryType) {
-            case SFSyncTargetQueryTypeSoql:
-                dict = @{
-                         kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-                         kSFSyncTargetQuery: self.query
-                         };
-                break;
-            case SFSyncTargetQueryTypeSosl:
-                dict = @{
-                         kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-                         kSFSyncTargetQuery: self.query
-                         };
-                break;
-            case SFSyncTargetQueryTypeMru:
-                dict = @{
-                         kSFSyncTargetQueryType: [SFSyncTarget queryTypeToString:self.queryType],
-                         kSFSyncTargetObjectType: self.objectType,
-                         kSFSyncTargetFieldlist: self.fieldlist
-                         };
-                break;
-        }
-    }
+    return self;
+}
 
+- (NSMutableDictionary *)asDict {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[kSFSyncTargetIdFieldNameKey] = self.idFieldName;
+    dict[kSFSyncTargetModificationDateFieldNameKey] = self.modificationDateFieldName;
     return dict;
-}
-
-#pragma mark - string to/from enum for query type
-
-+ (SFSyncTargetQueryType) queryTypeFromString:(NSString*)queryType {
-    if ([queryType isEqualToString:kSFSyncTargetQueryTypeSoql]) {
-        return SFSyncTargetQueryTypeSoql;
-    }
-    if ([queryType isEqualToString:kSFSyncTargetQueryTypeMru]) {
-        return SFSyncTargetQueryTypeMru;
-    }
-    // Must be SOSL
-    return SFSyncTargetQueryTypeSosl;
-}
-
-+ (NSString*) queryTypeToString:(SFSyncTargetQueryType)queryType {
-    switch (queryType) {
-        case SFSyncTargetQueryTypeMru:  return kSFSyncTargetQueryTypeMru;
-        case SFSyncTargetQueryTypeSosl: return kSFSyncTargetQueryTypeSosl;
-        case SFSyncTargetQueryTypeSoql: return kSFSyncTargetQueryTypeSoql;
-    }
 }
 
 @end

@@ -33,15 +33,17 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 3.1
+### What's New in 3.3
 
-**SmartSync Library Enhancements**
-- The sync down operation now offers multiple modes that let the developer decide whether to overwrite locally modified data.
+**SmartStore Library Enhancements**
+- SmartStore now provides the ability to perform full text search (FTS). Refer to the SmartStore chapter in the Mobile SDK Development Guide for details on how to use this feature.
+- An enhanced query syntax has been added to support this feature.
 
-**MDM Features**
-- MDM providers can now configure the default login host, remote access consumer key and callback URL at runtime, for applications built on Mobile SDK 3.1.
+**Security Enhancements**
+- It is now possible to use Touch ID instead of a numeric PIN on passcode enabled orgs.
 
 **Other Technical Improvements**
+- Upgraded SQLCipher to 3.3.
 - Various bug fixes.
 
 Check http://developer.force.com/mobilesdk for additional articles and tutorials

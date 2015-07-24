@@ -24,12 +24,16 @@
 
 #import "NSData+SFSDKUtils.h"
 
+/*!
+ * @category NSData(SFSDKUtilsInternal)
+ * @abstract Internal definitions for the Mobile SDK NSData utilities.
+ */
 @interface NSData (SFSDKUtilsInternal)
 
-/**
- Replace the base64 characters that are invalid in a base64url string.
- @param base64String The input string with characters to replace.
- @return The base64 string with the URL chars replaced (i.e. the base64url string).
+/*!
+ * @brief Replace the base64 characters that are invalid in a base64url string.
+ * @param base64String The input string with characters to replace.
+ * @return The base64 string with the URL chars replaced (i.e. the base64url string).
  */
 + (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String;
 

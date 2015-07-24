@@ -86,6 +86,10 @@
     [self runTest:@"testStoreCacheAddLocalFields"];
 }
 
+- (void)testStoreCacheWithGlobalStore {
+    [self runTest:@"testStoreCacheWithGlobalStore"];
+}
+
 - (void)testSObjectTypeDescribe {
     [self runTest:@"testSObjectTypeDescribe"];
 }
@@ -226,16 +230,36 @@
     [self runTest:@"testSyncDown"];
 }
 
+- (void)testSyncDownToGlobalStore {
+    [self runTest:@"testSyncDownToGlobalStore"];
+}
+
 - (void)testSyncDownWithNoOverwrite {
     [self runTest:@"testSyncDownWithNoOverwrite"];
+}
+
+- (void)testReSync {
+    [self runTest:@"testReSync"];
 }
 
 - (void)testSyncUpLocallyUpdated {
     [self runTest:@"testSyncUpLocallyUpdated"];
 }
 
+- (void)testSyncUpLocallyUpdatedWithGlobalStore {
+    [self runTest:@"testSyncUpLocallyUpdatedWithGlobalStore"];
+}
+
+- (void)testSyncUpLocallyUpdatedWithNoOverwrite {
+    [self runTest:@"testSyncUpLocallyUpdatedWithNoOverwrite"];
+}
+
 - (void)testSyncUpLocallyDeleted {
     [self runTest:@"testSyncUpLocallyDeleted"];
+}
+
+- (void)testSyncUpLocallyDeletedWithNoOverwrite {
+    [self runTest:@"testSyncUpLocallyDeletedWithNoOverwrite"];
 }
 
 - (void)testSyncUpLocallyCreated {

@@ -34,7 +34,7 @@
 #import "SFSmartSyncPersistableObject+Internal.h"
 
 // Default API version.
-static NSString * kDefaultApiVersion = @"v31.0";
+static NSString * kDefaultApiVersion = @"v33.0";
 
 // Error constants.
 static NSInteger kSFNetworkRequestFailedDueToNoModification = 304;
@@ -369,7 +369,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             if (![SFSmartSyncObjectUtils isEmpty:self.communityId]) {
                 whereClause = [NSString stringWithFormat:@"%@ AND NetworkId = '%@'", whereClause, self.communityId];
             }
-            [queryBuilder where:whereClause];
+            [queryBuilder whereClause:whereClause];
             [queryBuilder limit:limit];
         } else {
             BOOL objectContainedLastViewedDate = NO;
@@ -401,7 +401,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                     whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
                 }
             }
-            [queryBuilder where:whereClause];
+            [queryBuilder whereClause:whereClause];
         }
         NSString * queryString = [queryBuilder build];
         
@@ -824,8 +824,8 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         if (![SFSmartSyncObjectUtils isEmpty:self.communityId] && ![SFSmartSyncObjectUtils isEmpty:networkFieldName]) {
             whereClause = [NSString stringWithFormat:@"%@ AND %@ = '%@'", whereClause, networkFieldName, self.communityId];
         }
-        queryBuilder = [queryBuilder where:whereClause];
-        NSString *queryString = [[queryBuilder where:whereClause] build];
+        queryBuilder = [queryBuilder whereClause:whereClause];
+        NSString *queryString = [[queryBuilder whereClause:whereClause] build];
         
         SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
             NSArray *records = responseAsJson[@"records"];

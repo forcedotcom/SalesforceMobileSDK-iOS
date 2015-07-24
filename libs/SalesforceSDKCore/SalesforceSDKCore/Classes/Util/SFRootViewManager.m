@@ -24,6 +24,12 @@
 
 #import "SFRootViewManager.h"
 
+@interface SFRootViewManager()
+
+@property (nonatomic, weak) UIWindow* previousKeyWindow;
+
+@end
+
 @implementation SFRootViewManager
 
 @synthesize mainWindow = _mainWindow;
@@ -82,23 +88,19 @@
         if (currentViewController != nil) {
             if (currentViewController != viewController) {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
-                __block BOOL presentCompleted = NO;
-                [currentViewController presentViewController:viewController animated:NO completion:^{ presentCompleted = YES; }];
-                [weakSelf waitForPresentCompletion:&presentCompleted];
+                [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
             }
         } else {
             [weakSelf log:SFLogLevelDebug format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
             weakSelf.mainWindow.rootViewController = viewController;
+            [self saveCurrentKeyWindow];
+            [weakSelf.mainWindow makeKeyAndVisible];
         }
     };
     
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), pushControllerBlock);
-    } else {
-        pushControllerBlock();
-    }
+    dispatch_async(dispatch_get_main_queue(), pushControllerBlock);
 }
 
 - (void)popViewController:(UIViewController *)viewController
@@ -109,6 +111,7 @@
         if (currentViewController == viewController) {
             [weakSelf log:SFLogLevelDebug format:@"popViewController: Removing rootViewController (%@).", viewController];
             weakSelf.mainWindow.rootViewController = nil;
+            [self restorePreviousKeyWindow];
         } else {
             while ((currentViewController != nil) && (currentViewController != viewController)) {
                 currentViewController = [currentViewController presentedViewController];
@@ -118,25 +121,30 @@
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
-                __block BOOL dismissCompleted = NO;
-                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{ dismissCompleted = YES; }];
-                [weakSelf waitForPresentCompletion:&dismissCompleted];
+                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:NULL];
             }
         }
     };
     
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), popControllerBlock);
-    } else {
-        popControllerBlock();
+    dispatch_async(dispatch_get_main_queue(), popControllerBlock);
+}
+
+#pragma mark - Private
+
+- (void)saveCurrentKeyWindow
+{
+    for (UIWindow* w in [UIApplication sharedApplication].windows) {
+        if ([w isKeyWindow]) {
+            self.previousKeyWindow = w;
+            break;
+        }
     }
 }
 
-- (void)waitForPresentCompletion:(BOOL *)completionVar
+- (void)restorePreviousKeyWindow
 {
-    while (*completionVar == NO) {
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]];
-    }
+    [self.previousKeyWindow makeKeyAndVisible];
+    self.previousKeyWindow = nil;
 }
 
 @end

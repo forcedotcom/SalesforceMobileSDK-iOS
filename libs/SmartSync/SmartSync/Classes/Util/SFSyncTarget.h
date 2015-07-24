@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,40 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
-typedef enum {
-  SFSyncTargetQueryTypeMru,
-  SFSyncTargetQueryTypeSosl,
-  SFSyncTargetQueryTypeSoql
-} SFSyncTargetQueryType;
-
-extern NSString * const kSFSyncTargetQueryType;
-extern NSString * const kSFSyncTargetQuery;
-extern NSString * const kSFSyncTargetObjectType;
-extern NSString * const kSFSyncTargetFieldlist;
-
 @interface SFSyncTarget : NSObject
 
-@property (nonatomic, readonly)         SFSyncTargetQueryType queryType;
-@property (nonatomic, strong, readonly) NSString* query;
-@property (nonatomic, strong, readonly) NSString* objectType;
-@property (nonatomic, strong, readonly) NSArray*  fieldlist;
-
-/** Factory methods
+/**
+ The field name of the ID field of the record.  Defaults to "Id".
  */
-+ (SFSyncTarget*) newSyncTargetForSOQLSyncDown:(NSString*)query;
-+ (SFSyncTarget*) newSyncTargetForSOSLSyncDown:(NSString*)query;
-+ (SFSyncTarget*) newSyncTargetForMRUSyncDown:(NSString*)objectType fieldlist:(NSArray*)fieldlist;
+@property (nonatomic, copy) NSString *idFieldName;
 
-/** Methods to translate to/from dictionary
+/**
+ The field name of the modification date field of the record.  Defaults to "LastModifiedDate".
  */
-+ (SFSyncTarget*) newFromDict:(NSDictionary *)dict;
-- (NSDictionary*) asDict;
+@property (nonatomic, copy) NSString *modificationDateFieldName;
 
-/** Enum to/from string helper methods
+/**
+ Designated initializer that initializes a sync target from the given dictionary.
+ @param dict The sync target serialized to an NSDictionary.
  */
-+ (SFSyncTargetQueryType) queryTypeFromString:(NSString*)queryType;
-+ (NSString*) queryTypeToString:(SFSyncTargetQueryType)queryType;
+- (instancetype)initWithDict:(NSDictionary *)dict;
+
+/**
+ The target represented as a dictionary.  Note: inheriting classes should initialize their
+ dictionary from the super representation, as each parent class can add fields to the
+ dictionary along the way.
+ @return The target represented as a dictionary.
+ */
+- (NSMutableDictionary *)asDict;
 
 @end

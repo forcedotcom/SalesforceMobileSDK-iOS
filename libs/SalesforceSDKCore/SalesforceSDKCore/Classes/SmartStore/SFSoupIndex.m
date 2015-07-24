@@ -27,6 +27,7 @@
 NSString * const kSoupIndexTypeString   = @"string";
 NSString * const kSoupIndexTypeInteger  = @"integer";
 NSString * const kSoupIndexTypeFloating = @"floating";
+NSString * const kSoupIndexTypeFullText = @"full_text";
 NSString * const kSoupIndexPath         = @"path";
 NSString * const kSoupIndexType         = @"type";
 NSString * const kSoupIndexColumnName   = @"columnName";
@@ -68,6 +69,8 @@ NSString * const kSoupIndexColumnName   = @"columnName";
 - (NSString*)columnType {
     NSString *result = @"TEXT";
     if ([self.indexType isEqualToString:kSoupIndexTypeString]) {
+        result = @"TEXT";
+    } else if ([self.indexType isEqualToString:kSoupIndexTypeFullText]) {
         result = @"TEXT";
     } else if ([self.indexType isEqualToString:kSoupIndexTypeInteger]) {
         result = @"INTEGER";
@@ -128,6 +131,16 @@ NSString * const kSoupIndexColumnName   = @"columnName";
         map[soupIndex.path] = soupIndex;
     }
     return map;
+}
+
++ (BOOL) hasFts:(NSArray*)soupIndexes
+{
+    for (SFSoupIndex* soupIndex in soupIndexes) {
+        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeFullText]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (NSString*) getPathType

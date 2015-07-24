@@ -47,6 +47,11 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 + (SFSmartStoreDatabaseManager *)sharedManagerForUser:(SFUserAccount *)user;
 
 /**
+ Gets the shared instance of the database manager of global stores.
+ */
++ (SFSmartStoreDatabaseManager *)sharedGlobalManager;
+
+/**
  Removes the shared database manager associated with the given user.
  @param user The user configured for the shared database manager.
  */
@@ -100,18 +105,17 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 /**
  Creates the directory for the store, on the filesystem.
  @param storeName The name of the store to be created.
- @param error Returned if the creation process fails.
  @return YES if the call completed with no errors, NO otherwise.
  */
-- (BOOL)createStoreDir:(NSString *)storeName error:(NSError **)error;
+- (BOOL)createStoreDir:(NSString *)storeName;
 
 /**
- Sets filesystem protection on the store DB contents.
+ Sets filesystem protection on the store DB file, directory and ancestor directories.
  @param storeName The store associated with the protection.
- @param error Returned if protection fails.
+ @param protection The file system protection desired.
  @return YES if the call completes without errors, NO otherwise.
  */
-- (BOOL)protectStoreDir:(NSString *)storeName error:(NSError **)error;
+- (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString*)protection;
 
 /**
  Removes the store directory and all of its contents from the filesystem.
@@ -137,6 +141,6 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error The output NSError parameter that will be populated in the event of an error.
  @return YES if the database can be read, NO otherwise.
  */
-- (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
++ (BOOL)verifyDatabaseAccess:(FMDatabase *)dbPath error:(NSError **)error;
 
 @end

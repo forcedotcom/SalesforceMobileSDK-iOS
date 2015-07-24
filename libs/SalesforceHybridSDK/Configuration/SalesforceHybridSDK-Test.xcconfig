@@ -1,0 +1,10 @@
+//
+//  SalesforceHybridSDK-Test.xcconfig
+//  SalesforceHybridSDK
+//
+//  Created by Bharath Hariharan on 4/7/15.
+//  Copyright (c) 2015 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-Test.xcconfig"
+#include "SalesforceHybridSDK-Static-iOS-Debug.xcconfig"
