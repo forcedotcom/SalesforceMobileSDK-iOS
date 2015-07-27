@@ -118,44 +118,10 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         
         self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
         [self.responseData appendData:data];
-        [self processResponse];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self processResponse];
+        });
     }] resume];
-     
-        /*
-         #pragma mark - NSURLConnectionDataDelegate methods
-         
-         // TODO: Add retry for auth failure.
-         
-         - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-         {
-         [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:connection:didFailWithError: %@", error];
-         [self notifyDelegateOfFailure:error];
-         }
-         
-         - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-         if (statusCode != 200) {
-         self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-         description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
-         }
-         
-         // reset the response data for a new refresh response
-         self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
-         }
-         
-         - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-         [self.responseData appendData:data];
-         }
-         
-         - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-         [self processResponse];
-         }
-         
-         - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-         return nil;
-         }
-        */
 }
 
 - (void)cancelRetrieval

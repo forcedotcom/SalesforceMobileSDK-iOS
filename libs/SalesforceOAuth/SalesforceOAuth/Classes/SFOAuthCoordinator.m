@@ -604,47 +604,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self.responseData appendData:data];
         [self.oauthCoordinatorFlow handleTokenEndpointResponse];
     }] resume];
-        
-    /*
-     
-     #pragma mark - NSURLConnectionDelegate (Refresh Token Flow)
-     
-     - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-     NSURL *requestUrl = [[connection currentRequest] URL];
-     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
-     [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:connection:didFailWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-     [self stopRefreshFlowConnectionTimer];
-     [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-     }
-     
-     - (NSURLRequest *)connection:(NSURLConnection *)connection
-     willSendRequest:(NSURLRequest *)request
-     redirectResponse:(NSURLResponse *)response {
-     
-     if (nil != response) {
-     if (![[request HTTPMethod] isEqualToString:kHttpMethodPost]) {
-     // convert the request to a post method if necessary
-     NSMutableURLRequest *newRequest = [request mutableCopy];
-     [newRequest setHTTPMethod:kHttpMethodPost];
-     request = newRequest;
-     }
-     }
-     return request;
-     }
-     
-     - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-     // reset the response data for a new refresh response
-     self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
-     }
-     
-     - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-     [self.responseData appendData:data];
-     }
-     
-     - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-     [self.oauthCoordinatorFlow handleTokenEndpointResponse];
-     }
-     */
 }
 
 /* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
