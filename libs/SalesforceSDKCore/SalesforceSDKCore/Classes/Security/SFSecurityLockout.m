@@ -187,7 +187,6 @@ static BOOL _showPasscode = YES;
         } 
         else {
             [SFSecurityLockout setupTimer];
-            [SFInactivityTimerCenter updateActivityTimestamp];
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];  // "Unlock" was successful, as locking wasn't required.
         }
     } else {
@@ -353,6 +352,7 @@ static BOOL _showPasscode = YES;
                                       selector:@selector(timerExpired:)
                                  timerInterval:securityLockoutTime];
 	}
+    [SFInactivityTimerCenter updateActivityTimestamp];
 }
 
 + (void)removeTimer

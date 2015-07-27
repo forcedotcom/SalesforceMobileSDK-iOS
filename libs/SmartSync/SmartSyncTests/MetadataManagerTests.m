@@ -412,7 +412,8 @@ static NSString* const kCaseOneName = @"00001007";
 {
     NSString *dirPath = [[NSBundle bundleForClass:[self class]] pathForResource:filePath ofType:@"json"];
     NSAssert(nil != dirPath, @"Test config file not found!");
-    NSData *jsonData = [[NSFileManager defaultManager] contentsAtPath:dirPath];
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSData *jsonData = [fm contentsAtPath:dirPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:jsonData];
     NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
     NSDictionary *response = (NSDictionary *)jsonResponse;
