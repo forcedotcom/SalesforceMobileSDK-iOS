@@ -232,13 +232,18 @@ static NSMutableDictionary *SharedInstances = nil;
     if (!action)
         return;
 
-    [self.progress becomeCurrentWithPendingUnitCount:self.queue.operationCount + 1];
+    BOOL contributeProgress = [action shouldReportProgressToParent];
+    if (contributeProgress) {
+        [self.progress becomeCurrentWithPendingUnitCount:self.queue.operationCount + 1];
+    }
 
     // Need to assign our network queue to the action so that the equality test
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
     
-    [self.progress resignCurrent];
+    if (contributeProgress) {
+        [self.progress resignCurrent];
+    }
 
     CSFAction *duplicateAction = [self duplicateActionInFlight:action];
     if (duplicateAction) {
@@ -280,6 +285,7 @@ static NSMutableDictionary *SharedInstances = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"context = %@", context];
     return [self.queue.operations filteredArrayUsingPredicate:predicate];
 }
+
 - (void)cancelAllActions {
     [self.queue cancelAllOperations];
 }

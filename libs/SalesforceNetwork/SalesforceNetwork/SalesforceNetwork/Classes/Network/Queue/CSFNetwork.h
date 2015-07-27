@@ -66,6 +66,9 @@
  */
 @property (atomic, readonly, getter=isRefreshingAccessToken) BOOL refreshingAccessToken;
 
+/**
+ Reports aggregated progress information for all actions currently enqueued in this network instance.
+ */
 @property (nonatomic, strong, readonly) NSProgress *progress;
 
 /**

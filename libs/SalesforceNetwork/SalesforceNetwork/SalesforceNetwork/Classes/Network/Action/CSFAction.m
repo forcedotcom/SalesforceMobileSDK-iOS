@@ -66,6 +66,10 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @implementation CSFAction
 
++ (NSSet*)keyPathsForValuesAffectingIsDuplicateAction {
+    return [NSSet setWithObject:@"duplicateParentAction"];
+}
+
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
     if (!baseURL && _host && _scheme) {
@@ -302,6 +306,10 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (BOOL)isDuplicateAction {
     return (self.duplicateParentAction != nil);
+}
+
+- (BOOL)shouldReportProgressToParent {
+    return YES;
 }
 
 - (NSUInteger)hash {

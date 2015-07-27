@@ -67,17 +67,22 @@ static void * kObservingKey = &kObservingKey;
                                      context:kObservingKey];
         }
     }
+    
     _enqueuedNetwork = network;
+    
     if (_enqueuedNetwork) {
-        [_enqueuedNetwork addObserver:self forKeyPath:@"account.credentials.accessToken"
+        [_enqueuedNetwork addObserver:self
+                           forKeyPath:@"account.credentials.accessToken"
                               options:(NSKeyValueObservingOptionInitial |
                                        NSKeyValueObservingOptionNew)
                               context:kObservingKey];
-        [_enqueuedNetwork addObserver:self forKeyPath:@"account.credentials.instanceUrl"
+        [_enqueuedNetwork addObserver:self
+                           forKeyPath:@"account.credentials.instanceUrl"
                               options:(NSKeyValueObservingOptionInitial |
                                        NSKeyValueObservingOptionNew)
                               context:kObservingKey];
-        [_enqueuedNetwork addObserver:self forKeyPath:@"account.communityId"
+        [_enqueuedNetwork addObserver:self
+                           forKeyPath:@"account.communityId"
                               options:(NSKeyValueObservingOptionInitial |
                                        NSKeyValueObservingOptionNew)
                               context:kObservingKey];
