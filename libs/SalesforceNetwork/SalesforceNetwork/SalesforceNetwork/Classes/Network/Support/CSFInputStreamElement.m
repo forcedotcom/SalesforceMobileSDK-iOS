@@ -148,8 +148,8 @@ static NSString * const kCSFInputStreamHeaderFullFormat = @"--%@\r\nContent-Disp
         }
 
         NSError *error = nil;
-        NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:fileUrl.path
-                                                                                    error:&error];
+        NSFileManager *manager = [[NSFileManager alloc] init];
+        NSDictionary *attributes = [manager attributesOfItemAtPath:fileUrl.path error:&error];
 
         if (error) {
             NSLog(@"Unexpected error while reading filesystem attributes: %@", error);

@@ -69,10 +69,11 @@
     
     NSData* data = nil;
     NSString* mimeType = @"text/plain";
+    NSFileManager *manager = [[NSFileManager alloc] init];
     if (![filePath hasPrefix:wwwDirPath]) {
         [self log:SFLogLevelError format:@"Trying to access files outside www: %@", url];
     }
-    else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    else if (![manager fileExistsAtPath:filePath]) {
         [self log:SFLogLevelError format:@"Trying to access non-existent file: %@", url];
     }
     else {
