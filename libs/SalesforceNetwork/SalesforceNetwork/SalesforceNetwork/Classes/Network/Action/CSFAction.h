@@ -109,8 +109,15 @@
  */
 @property (nonatomic, strong, readonly) id outputContent;
 
+/**
+ @brief The original NSData retrieved from the HTTP response.
+ @discussion When creating custom subclasses that process non-JSON data (e.g. images, other downloadable resources, etc) this property may be necessary to handle custom processing of the response data.
+ */
 @property (nonatomic, strong, readonly) NSData *outputData;
 
+/**
+ Returns `YES` when this action is a duplicate of another request in the queue.
+ */
 @property (nonatomic, assign, readonly) BOOL isDuplicateAction;
 
 /**
@@ -129,6 +136,11 @@
 @property (nonatomic, strong) NSHTTPURLResponse *httpResponse;
 @property (nonatomic, readonly) NSUInteger retryCount;
 @property (nonatomic) NSUInteger maxRetryCount;
+
+/**
+ @brief Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.
+ @discussion Most actions transfer JSON or other informational data and therefore run on the default NSURLSession.  However, if a request is capable of running on a background session (e.g. the request is performing a download that can be performed when the app is not running), settings this value to `YES` will utilize a background session when creating a task for this request.
+ */
 @property (nonatomic) BOOL requireBackgroundSession NS_AVAILABLE(10_10, 8_0);
 
 /** Takes an URL and assign it to this action by decomposing its components in the proper
@@ -227,6 +239,12 @@
  @return `YES` if the network request should be overridden, otherwise `NO`.
  */
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
+
+/**
+ @brief Overridable method that permits subclasses to opt-out of contributing its progress to the parent CSFNetwork instance.
+ @discussion The default implementation will return `YES`, but for requests that shouldn't propagate progress to the network, this method can be overridden to return `NO`.
+ */
+- (BOOL)shouldReportProgressToParent;
 
 @end
 
