@@ -43,9 +43,9 @@
 @property (assign) BOOL retrievingData;
 
 /**
- * The NSURLConnection associated with the ID request.
+ * The NSURLSession associated with the ID request.
  */
-@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSURLSession *session;
 
 /**
  * Dictionary mapping error codes to their respective types.

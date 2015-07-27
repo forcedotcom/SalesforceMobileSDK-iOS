@@ -117,7 +117,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 // private
 
 @synthesize authenticating              = _authenticating;
-@synthesize connection                  = _connection;
+@synthesize session                     = _session;
 @synthesize responseData                = _responseData;
 @synthesize initialRequestLoaded        = _initialRequestLoaded;
 @synthesize approvalCode                = _approvalCode;
@@ -154,7 +154,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)dealloc {
     _approvalCode = nil;
-    _connection = nil;
+    _session = nil;
     _credentials = nil;
     _responseData = nil;
     _scopes = nil;
@@ -263,8 +263,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)stopAuthentication {
     [self.view stopLoading];
-    [self.connection cancel];
-    self.connection = nil;
+    [self.session invalidateAndCancel];
+    self.session = nil;
     [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
@@ -367,51 +367,49 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                                                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                                 timeoutInterval:self.timeout];
     orgConfigRequest.HTTPShouldHandleCookies = NO;
-    [NSURLConnection sendAsynchronousRequest:orgConfigRequest
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-                               if (connectionError) {
-                                   [self log:SFLogLevelError format:@"%@ Error retrieving org auth config: %@", NSStringFromSelector(_cmd), [connectionError localizedDescription]];
-                                   if (retrievedAuthConfigBlock != NULL) {
-                                       retrievedAuthConfigBlock(nil, connectionError);
-                                       return;
-                                   }
-                               }
-                               
-                               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                               if (httpResponse.statusCode != 200) {
-                                   // Anything other than a 200 means we didn't get data back, which means advanced
-                                   // auth isn't supported for any orgs on that login host.
-                                   [self log:SFLogLevelInfo format:@"%@ No org auth config found at %@ (Status code: %ld)", NSStringFromSelector(_cmd), orgConfigUrl, httpResponse.statusCode];
-                                   if (retrievedAuthConfigBlock != NULL) {
-                                       retrievedAuthConfigBlock(nil, nil);
-                                   }
-                                   return;
-                               }
-                               
-                               if (data == nil) {
-                                   [self log:SFLogLevelInfo format:@"%@ No org auth config data returned from %@", NSStringFromSelector(_cmd), orgConfigUrl];
-                                   if (retrievedAuthConfigBlock != NULL) {
-                                       retrievedAuthConfigBlock(nil, nil);
-                                       return;
-                                   }
-                               }
-                               
-                               NSError *jsonParseError = nil;
-                               NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
-                               if (jsonParseError) {
-                                   [self log:SFLogLevelInfo format:@"%@ Could not parse org auth config response from %@: %@", NSStringFromSelector(_cmd), orgConfigUrl, [jsonParseError localizedDescription]];
-                                   if (retrievedAuthConfigBlock != NULL) {
-                                       retrievedAuthConfigBlock(nil, nil);
-                                   }
-                               }
-                               
-                               [self log:SFLogLevelInfo format:@"%@ Successfully retrieved org auth config data from %@", NSStringFromSelector(_cmd), orgConfigUrl];
-                               SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
-                               if (retrievedAuthConfigBlock != NULL) {
-                                   retrievedAuthConfigBlock(orgAuthConfig, nil);
-                               }
-                           }];
+    [[self.session dataTaskWithRequest:orgConfigRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *connectionError) {
+        if (connectionError) {
+            [self log:SFLogLevelError format:@"%@ Error retrieving org auth config: %@", NSStringFromSelector(_cmd), [connectionError localizedDescription]];
+            if (retrievedAuthConfigBlock != NULL) {
+                retrievedAuthConfigBlock(nil, connectionError);
+                return;
+            }
+        }
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if (httpResponse.statusCode != 200) {
+            // Anything other than a 200 means we didn't get data back, which means advanced
+            // auth isn't supported for any orgs on that login host.
+            [self log:SFLogLevelInfo format:@"%@ No org auth config found at %@ (Status code: %ld)", NSStringFromSelector(_cmd), orgConfigUrl, httpResponse.statusCode];
+            if (retrievedAuthConfigBlock != NULL) {
+                retrievedAuthConfigBlock(nil, nil);
+            }
+            return;
+        }
+        
+        if (data == nil) {
+            [self log:SFLogLevelInfo format:@"%@ No org auth config data returned from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+            if (retrievedAuthConfigBlock != NULL) {
+                retrievedAuthConfigBlock(nil, nil);
+                return;
+            }
+        }
+        
+        NSError *jsonParseError = nil;
+        NSDictionary *configDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
+        if (jsonParseError) {
+            [self log:SFLogLevelInfo format:@"%@ Could not parse org auth config response from %@: %@", NSStringFromSelector(_cmd), orgConfigUrl, [jsonParseError localizedDescription]];
+            if (retrievedAuthConfigBlock != NULL) {
+                retrievedAuthConfigBlock(nil, nil);
+            }
+        }
+        
+        [self log:SFLogLevelInfo format:@"%@ Successfully retrieved org auth config data from %@", NSStringFromSelector(_cmd), orgConfigUrl];
+        SFOAuthOrgAuthConfiguration *orgAuthConfig = [[SFOAuthOrgAuthConfiguration alloc] initWithConfigDict:configDict];
+        if (retrievedAuthConfigBlock != NULL) {
+            retrievedAuthConfigBlock(orgAuthConfig, nil);
+        }
+    }] resume];
 }
 
 - (void)beginNativeBrowserFlow {
@@ -590,8 +588,63 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // the timeout with an NSTimer, which gets started here.
     [self startRefreshFlowConnectionTimer];
     
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    self.connection = urlConnection;
+    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSURL *requestUrl = [request URL];
+            NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+            [self log:SFLogLevelDebug format:@"SFOAuthCoordinator session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
+            [self stopRefreshFlowConnectionTimer];
+            [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+            
+            return;
+        }
+        // reset the response data for a new refresh response
+        self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
+        [self.responseData appendData:data];
+        [self.oauthCoordinatorFlow handleTokenEndpointResponse];
+    }] resume];
+        
+    /*
+     
+     #pragma mark - NSURLConnectionDelegate (Refresh Token Flow)
+     
+     - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+     NSURL *requestUrl = [[connection currentRequest] URL];
+     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+     [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:connection:didFailWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
+     [self stopRefreshFlowConnectionTimer];
+     [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+     }
+     
+     - (NSURLRequest *)connection:(NSURLConnection *)connection
+     willSendRequest:(NSURLRequest *)request
+     redirectResponse:(NSURLResponse *)response {
+     
+     if (nil != response) {
+     if (![[request HTTPMethod] isEqualToString:kHttpMethodPost]) {
+     // convert the request to a post method if necessary
+     NSMutableURLRequest *newRequest = [request mutableCopy];
+     [newRequest setHTTPMethod:kHttpMethodPost];
+     request = newRequest;
+     }
+     }
+     return request;
+     }
+     
+     - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+     // reset the response data for a new refresh response
+     self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
+     }
+     
+     - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+     [self.responseData appendData:data];
+     }
+     
+     - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+     [self.oauthCoordinatorFlow handleTokenEndpointResponse];
+     }
+     */
 }
 
 /* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
@@ -891,43 +944,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
 }
 
-#pragma mark - NSURLConnectionDelegate (Refresh Token Flow)
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSURL *requestUrl = [[connection currentRequest] URL];
-    NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
-	[self log:SFLogLevelDebug format:@"SFOAuthCoordinator:connection:didFailWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
-    [self stopRefreshFlowConnectionTimer];
-    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-}
-
-- (NSURLRequest *)connection:(NSURLConnection *)connection 
-             willSendRequest:(NSURLRequest *)request 
-            redirectResponse:(NSURLResponse *)response {
-    
-	if (nil != response) {
-        if (![[request HTTPMethod] isEqualToString:kHttpMethodPost]) {
-            // convert the request to a post method if necessary
-            NSMutableURLRequest *newRequest = [request mutableCopy];
-            [newRequest setHTTPMethod:kHttpMethodPost];
-            request = newRequest;
-        }
-	}
-	return request;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-	// reset the response data for a new refresh response
-    self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[self.responseData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[self.oauthCoordinatorFlow handleTokenEndpointResponse];
-}
 
 #pragma mark - Utilities
 

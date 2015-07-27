@@ -56,7 +56,7 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 @synthesize delegate = _delegate;
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
-@synthesize connection = _connection;
+@synthesize session = _session;
 @synthesize httpError = _httpError;
 
 #pragma mark - init / dealloc
@@ -99,13 +99,68 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 	[request setTimeoutInterval:self.timeout];
     [request setHTTPShouldHandleCookies:NO];
     [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    self.connection = urlConnection;
+    
+    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            [self log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
+            [self notifyDelegateOfFailure:error];
+            return;
+            
+        }
+
+        // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if (statusCode != 200) {
+            self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
+                                     description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
+        }
+        
+        self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
+        [self.responseData appendData:data];
+        [self processResponse];
+    }] resume];
+     
+        /*
+         #pragma mark - NSURLConnectionDataDelegate methods
+         
+         // TODO: Add retry for auth failure.
+         
+         - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+         {
+         [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:connection:didFailWithError: %@", error];
+         [self notifyDelegateOfFailure:error];
+         }
+         
+         - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+         // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
+         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+         if (statusCode != 200) {
+         self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
+         description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
+         }
+         
+         // reset the response data for a new refresh response
+         self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
+         }
+         
+         - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+         [self.responseData appendData:data];
+         }
+         
+         - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+         [self processResponse];
+         }
+         
+         - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+         return nil;
+         }
+        */
 }
 
 - (void)cancelRetrieval
 {
-    [self.connection cancel];
+    [self.session invalidateAndCancel];
     [self cleanupData];
 }
 
@@ -151,13 +206,13 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     SFRelease(_credentials);
     SFRelease(_idData);
     SFRelease(_responseData);
-    SFRelease(_connection);
+    SFRelease(_session);
     SFRelease(_httpError);
 }
 
 - (void)cleanupData
 {
-    SFRelease(_connection);
+    SFRelease(_session);
     SFRelease(_responseData);
     SFRelease(_httpError);
     self.retrievingData = NO;
@@ -221,40 +276,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     }
     
     return _typeToCodeDict;
-}
-
-#pragma mark - NSURLConnectionDataDelegate methods
-
-// TODO: Add retry for auth failure.
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:connection:didFailWithError: %@", error];
-    [self notifyDelegateOfFailure:error];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-    NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-    if (statusCode != 200) {
-        self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-                                 description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
-    }
-    
-	// reset the response data for a new refresh response
-    self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-	[self.responseData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	[self processResponse];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
-    return nil;
 }
 
 @end
