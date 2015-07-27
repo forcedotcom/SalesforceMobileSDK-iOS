@@ -1524,7 +1524,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (unsigned long long)getDatabaseSize
 {
     NSString *dbPath = [self.dbMgr fullDbFilePathForStoreName:_storeName];
-    return [[[NSFileManager defaultManager] attributesOfItemAtPath:dbPath error:nil] fileSize];
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    return [[manager attributesOfItemAtPath:dbPath error:nil] fileSize];
 }
 
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData
