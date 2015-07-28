@@ -649,13 +649,13 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 }
 
 - (void)completeOperationWithError:(NSError *)error {
-    [self willChangeValueForKey:@"executing"];
-    [self willChangeValueForKey:@"finished"];
+    [self willChangeValueForKey:@"isExecuting"];
+    [self willChangeValueForKey:@"isFinished"];
     _executing = NO;
     _finished = YES;
     self.error = error;
-    [self didChangeValueForKey:@"executing"];
-    [self didChangeValueForKey:@"finished"];
+    [self didChangeValueForKey:@"isExecuting"];
+    [self didChangeValueForKey:@"isFinished"];
     
     self.responseData = nil;
     self.timingValues[@"endTime"] = [NSDate date];
