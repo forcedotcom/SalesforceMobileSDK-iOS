@@ -588,13 +588,16 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     @try {
         SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
         
-        // Upgrade step.  If we got this far, the file is in the old plaintext format, and we'll
-        // convert it to the encrypted format before returning the object.
-        BOOL encryptUserAccountSuccess = [self saveUserAccount:plainTextUserAccount toFile:filePath];
-        if (!encryptUserAccountSuccess) {
-            // Specific error messages will already be logged.  Make sure old user account file is removed.
-            [manager removeItemAtPath:filePath error:nil];
-            return nil;
+        // On iOS9, it won't throw an exception, but will return nil instead
+        if (plainTextUserAccount) {
+            // Upgrade step.  If we got this far, the file is in the old plaintext format, and we'll
+            // convert it to the encrypted format before returning the object.
+            BOOL encryptUserAccountSuccess = [self saveUserAccount:plainTextUserAccount toFile:filePath];
+            if (!encryptUserAccountSuccess) {
+                // Specific error messages will already be logged.  Make sure old user account file is removed.
+                [manager removeItemAtPath:filePath error:nil];
+                return nil;
+            }
         }
     }
     @finally {
