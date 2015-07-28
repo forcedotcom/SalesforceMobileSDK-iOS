@@ -740,8 +740,8 @@ static Class InstanceClass = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-        [urlConnection start];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+        [[session dataTaskWithRequest:request] resume];
     }
     [user.credentials revoke];
 }

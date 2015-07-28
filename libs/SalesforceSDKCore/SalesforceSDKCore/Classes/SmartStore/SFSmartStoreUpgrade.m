@@ -57,8 +57,8 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
             [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"Successfully migrated store '%@'", storeName];
         }
     }
-    
-    [[NSFileManager defaultManager] removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    [manager removeItemAtPath:[SFSmartStoreUpgrade legacyRootStoreDirectory] error:nil];
 }
 
 + (BOOL)updateStoreLocationForStore:(NSString *)storeName
@@ -67,31 +67,32 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
     NSString *origStoreFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
     NSString *newStoreDirPath = [[SFSmartStoreDatabaseManager sharedManager] storeDirectoryForStoreName:storeName];
     NSString *newStoreFilePath = [[SFSmartStoreDatabaseManager sharedManager] fullDbFilePathForStoreName:storeName];
-    
+
     // No store in the original location?  Nothing to do.
-    if (![[NSFileManager defaultManager] fileExistsAtPath:origStoreFilePath]) {
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    if (![manager fileExistsAtPath:origStoreFilePath]) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo format:@"File for store '%@' does not exist at legacy path.  Nothing to do.", storeName];
-        [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+        [manager removeItemAtPath:origStoreDirPath error:nil];
         return YES;
     }
     
     // Create the new store directory.
     NSError *fileIoError = nil;
-    BOOL createdNewStoreDir = [[NSFileManager defaultManager] createDirectoryAtPath:newStoreDirPath withIntermediateDirectories:YES attributes:nil error:&fileIoError];
+    BOOL createdNewStoreDir = [manager createDirectoryAtPath:newStoreDirPath withIntermediateDirectories:YES attributes:nil error:&fileIoError];
     if (!createdNewStoreDir) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error creating new store directory for store '%@': %@", storeName, [fileIoError localizedDescription]];
         return NO;
     }
     
     // Move the store from the old directory to the new one.
-    BOOL movedStore = [[NSFileManager defaultManager] moveItemAtPath:origStoreFilePath toPath:newStoreFilePath error:&fileIoError];
+    BOOL movedStore = [manager moveItemAtPath:origStoreFilePath toPath:newStoreFilePath error:&fileIoError];
     if (!movedStore) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelError format:@"Error moving store '%@' to new directory: %@", storeName, [fileIoError localizedDescription]];
         return NO;
     }
     
     // Remove the old store directory.
-    [[NSFileManager defaultManager] removeItemAtPath:origStoreDirPath error:nil];
+    [manager removeItemAtPath:origStoreDirPath error:nil];
     return YES;
 }
 
@@ -285,17 +286,18 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 {
     NSString *rootDir = [SFSmartStoreUpgrade legacyRootStoreDirectory];
     NSError *getStoresError = nil;
+    NSFileManager *manager = [[NSFileManager alloc] init];
     
     // First see if the legacy root folder exists.
     BOOL rootDirIsDirectory = NO;
-    BOOL rootDirExists = [[NSFileManager defaultManager] fileExistsAtPath:rootDir isDirectory:&rootDirIsDirectory];
+    BOOL rootDirExists = [manager fileExistsAtPath:rootDir isDirectory:&rootDirIsDirectory];
     if (!rootDirExists || !rootDirIsDirectory) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelInfo msg:@"Legacy SmartStore directory does not exist.  Nothing to do."];
         return nil;
     }
     
     // Get the folder paths of the legacy stores.
-    NSArray *storesDirNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:rootDir error:&getStoresError];
+    NSArray *storesDirNames = [manager contentsOfDirectoryAtPath:rootDir error:&getStoresError];
     if (getStoresError) {
         [SFLogger log:[SFSmartStoreUpgrade class] level:SFLogLevelWarning format:@"Problem retrieving store names from legacy SmartStore directory: %@.  Will not continue.", [getStoresError localizedDescription]];
         return nil;
@@ -313,7 +315,8 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 + (BOOL)legacyPersistentStoreExists:(NSString *)storeName
 {
     NSString *fullDbFilePath = [SFSmartStoreUpgrade legacyFullDbFilePathForStoreName:storeName];
-    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:fullDbFilePath];
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    BOOL result = [manager fileExistsAtPath:fullDbFilePath];
     return result;
 }
 

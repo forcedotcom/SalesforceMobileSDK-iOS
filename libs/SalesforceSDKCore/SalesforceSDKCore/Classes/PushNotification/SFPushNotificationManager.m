@@ -198,27 +198,27 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
-    [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if (error != nil) {
-             [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
-         }
-         else {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-             NSInteger statusCode = httpResponse.statusCode;
-             if (statusCode < 200 || statusCode >= 300) {
-                 [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
-                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
-             }
-             else {
-                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
-                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                 _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                 [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
-                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
-             }
-         }
-     }];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
+        }
+        else {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+            NSInteger statusCode = httpResponse.statusCode;
+            if (statusCode < 200 || statusCode >= 300) {
+                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
+            }
+            else {
+                [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
+                NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
+                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+                [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
+            }
+        }
+    }] resume];
     
     return YES;
 }
@@ -264,8 +264,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     [request setHTTPShouldHandleCookies:NO];
     
     // Send (fire and forget)
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [urlConnection start];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[session dataTaskWithRequest:request] resume];
     [self log:SFLogLevelInfo msg:@"Unregister from notifications with Salesforce sent"];
     return YES;
 }

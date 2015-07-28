@@ -109,11 +109,12 @@ static void * kObservingKey = &kObservingKey;
             NSDictionary *errorDict = jsonArray[0];
             if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
                 msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
-                errorCode = errorDict[@"errorCode"] ;
+                errorCode = errorDict[@"errorCode"];
             }
         } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
             NSDictionary *errorDict = (NSDictionary*)content;
             msgObj = errorDict[@"msg"];
+            errorCode = errorDict[@"errorCode"];
         }
         
         CSFNetwork *network = self.enqueuedNetwork;
@@ -217,8 +218,7 @@ static void * kObservingKey = &kObservingKey;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
-        [self willChangeValueForKey:@"ready"];
-        [self didChangeValueForKey:@"ready"];
+        [self willChangeValueForKey:@"isReady"];
         if ([self requiresAuthentication] && (self.enqueuedNetwork.account == object)) {
             if ([keyPath isEqualToString:@"communityId"]) {
                 self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
@@ -231,6 +231,7 @@ static void * kObservingKey = &kObservingKey;
                 self.credentialsReady = NO;
             }
         }
+        [self didChangeValueForKey:@"isReady"];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -271,6 +272,11 @@ static void * kObservingKey = &kObservingKey;
             self.enqueuedNetwork.defaultConnectCommunityId = accountManager.currentCommunityId;
         }
     }
+}
+
+- (NSURLRequest*)createURLRequest:(NSError**)error {
+    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
+    return [super createURLRequest:error];
 }
 
 @end

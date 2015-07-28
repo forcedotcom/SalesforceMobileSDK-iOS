@@ -71,12 +71,11 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
-    [[NSFileManager defaultManager] removeItemAtPath:globalLibraryDirectory error:nil];
+    [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
 
     // Ensure the user account manager doesn't contain any account
     self.uam = [SFUserAccountManager sharedInstance];
     [self.uam clearAllAccountState];
-    
     [super setUp];
 }
 
@@ -173,7 +172,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSString *expectedLocation = [[SFDirectoryManager sharedManager] directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:nil type:NSLibraryDirectory components:nil];
     expectedLocation = [expectedLocation stringByAppendingPathComponent:@"UserAccount.plist"];
     XCTAssertEqualObjects(expectedLocation, [SFUserAccountManager userAccountPlistFileForUser:user], @"Mismatching user account paths");
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    XCTAssertTrue([fm fileExistsAtPath:expectedLocation], @"Unable to find new UserAccount.plist");
     
     // Now remove all the users and re-load
     [self.uam clearAllAccountState];
@@ -190,7 +190,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Create 10 users
     [self createAndVerifyUserAccounts:10];
-    
+    NSFileManager *fm = [[NSFileManager alloc] init];
     NSError *error = nil;
     XCTAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
 
@@ -201,7 +201,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
             NSString *userId = [NSString stringWithFormat:kUserIdFormatString, (unsigned long)index];
             NSString *location = [[SFDirectoryManager sharedManager] directoryForOrg:orgId user:userId community:nil type:NSLibraryDirectory components:nil];
             location = [location stringByAppendingPathComponent:@"UserAccount.plist"];
-            XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"Unable to find new UserAccount.plist at %@", location);
+            XCTAssertTrue([fm fileExistsAtPath:location], @"Unable to find new UserAccount.plist at %@", location);
         }
     }
     
@@ -240,7 +240,7 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
         
         SFUserAccount *userAccount = [self.uam userAccountForUserIdentity:accountIdentity];
         XCTAssertNotNil(userAccount, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-        XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
+        XCTAssertTrue([fm fileExistsAtPath:location], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
         
         [self deleteUserAndVerify:userAccount userDir:location];
     }
@@ -297,7 +297,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:userId orgId:orgId];
     SFUserAccount *account = [self.uam userAccountForUserIdentity:accountIdentity];
     XCTAssertNotNil(account, @"User acccount with User ID '%@' and Org ID '%@' should exist.", userId, orgId);
-    XCTAssertTrue([[NSFileManager defaultManager] fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    XCTAssertTrue([fm fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
     
     // Verify that the user data is now encrypted on the filesystem.
     XCTAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
@@ -370,7 +371,8 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     NSError *deleteAccountError = nil;
     [self.uam deleteAccountForUser:user error:&deleteAccountError];
     XCTAssertNil(deleteAccountError, @"Error deleting account with User ID '%@' and Org ID '%@': %@", identity.userId, identity.orgId, [deleteAccountError localizedDescription]);
-    XCTAssertFalse([[NSFileManager defaultManager] fileExistsAtPath:userDir], @"User directory for User ID '%@' and Org ID '%@' should be removed.", identity.userId, identity.orgId);
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    XCTAssertFalse([fm fileExistsAtPath:userDir], @"User directory for User ID '%@' and Org ID '%@' should be removed.", identity.userId, identity.orgId);
     SFUserAccount *inMemoryAccount = [self.uam userAccountForUserIdentity:identity];
     XCTAssertNil(inMemoryAccount, @"deleteUser should have removed user account with User ID '%@' and OrgID '%@' from the list of users.", identity.userId, identity.orgId);
 }
