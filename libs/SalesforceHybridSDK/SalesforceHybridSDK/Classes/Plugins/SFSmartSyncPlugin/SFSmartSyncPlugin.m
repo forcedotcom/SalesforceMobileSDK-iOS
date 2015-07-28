@@ -87,27 +87,31 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        NSMutableDictionary* detailDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
-        detailDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
-        NSData *detailData = [NSJSONSerialization dataWithJSONObject:detailDict
-                                                             options:0 // non-pretty printing
-                                                               error:&error];
-        if(error) {
-            [self log:SFLogLevelError format:@"JSON Parsing Error: %@", error];
-        }
-        else {
-            NSString* detailAsString = [[NSString alloc] initWithData:detailData encoding:NSUTF8StringEncoding];
-            NSString* js = [
-                            @[@"document.dispatchEvent(new CustomEvent(\"",
-                              kSyncEventType,
-                              @"\", { \"",
-                              kSyncDetail,
-                              @"\": ",
-                              detailAsString,
-                              @"}))" ]
-                            componentsJoinedByString:@""
-                            ];
-            [self.commandDelegate evalJs:js];
+        if ([NSJSONSerialization isValidJSONObject:[sync asDict]]) {
+            NSMutableDictionary* detailDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
+            detailDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
+            NSData *detailData = [NSJSONSerialization dataWithJSONObject:detailDict
+                                                                 options:0 // non-pretty printing
+                                                                   error:&error];
+            if(error) {
+                [self log:SFLogLevelError format:@"JSON Parsing Error: %@", error];
+            }
+            else {
+                NSString* detailAsString = [[NSString alloc] initWithData:detailData encoding:NSUTF8StringEncoding];
+                NSString* js = [
+                                @[@"document.dispatchEvent(new CustomEvent(\"",
+                                  kSyncEventType,
+                                  @"\", { \"",
+                                  kSyncDetail,
+                                  @"\": ",
+                                  detailAsString,
+                                  @"}))" ]
+                                componentsJoinedByString:@""
+                                ];
+                [self.commandDelegate evalJs:js];
+            }
+        } else {
+            [self log:SFLogLevelDebug format:@"invalid object passed to JSONDataRepresentation???"];
         }
     });
 }
