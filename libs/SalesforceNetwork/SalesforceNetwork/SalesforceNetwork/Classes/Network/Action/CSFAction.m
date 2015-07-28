@@ -541,8 +541,8 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
     }
     
-    // If it's an error here, it's a basic parsing error.
-    if (jsonParseError && error) {
+    // If it's an error here, it's a basic parsing error and error is not 500 internal server error.
+    if (jsonParseError && error && response.statusCode != 500) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                          code:CSFNetworkJSONInvalidError
                                      userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
