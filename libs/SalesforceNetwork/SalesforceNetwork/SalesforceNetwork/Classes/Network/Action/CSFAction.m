@@ -370,6 +370,10 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self updateProgress];
 }
 
+- (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    [self updateProgress];
+}
+
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didFinishDownloadingToURL:(NSURL *)location {
     NSURL *temporaryUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
     

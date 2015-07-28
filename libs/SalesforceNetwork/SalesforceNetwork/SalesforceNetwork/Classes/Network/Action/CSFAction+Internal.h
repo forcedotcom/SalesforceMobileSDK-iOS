@@ -79,6 +79,7 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 
 - (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
+- (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didFinishDownloadingToURL:(NSURL *)location;
 - (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error;
 
