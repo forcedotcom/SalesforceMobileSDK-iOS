@@ -108,12 +108,14 @@ static void * kObservingKey = &kObservingKey;
             NSArray *jsonArray = (NSArray*)content;
             NSDictionary *errorDict = jsonArray[0];
             if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
-                msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
+                msgObj = errorDict[@"message"] ?: (errorDict[@"msg"] ? :errorDict[@"errorMsg"]);
                 errorCode = errorDict[@"errorCode"];
             }
         } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
             NSDictionary *errorDict = (NSDictionary*)content;
-            msgObj = errorDict[@"msg"];
+
+            // sadly, our server does return the combination of message, msg and errorMsg
+            msgObj = errorDict[@"message"] ?: (errorDict[@"msg"] ? :errorDict[@"errorMsg"]);
             errorCode = errorDict[@"errorCode"];
         }
         
