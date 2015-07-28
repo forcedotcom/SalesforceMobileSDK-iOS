@@ -329,6 +329,11 @@ static NSMutableDictionary *SharedInstances = nil;
     [action sessionDownloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
 }
 
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    CSFAction *action = [self actionForSessionTask:task];
+    [action sessionUploadTask:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
+}
+
 #pragma mark - Device Authorization support
 
 // TODO: This should probably be relocated to the CSFSalesforceAction logic, and cleaned up
