@@ -9,4 +9,4 @@ echo "{
   	"test_login_domain" : "login.salesforce.com",
   	"access_token" : "__NOT_REQUIRED__"
 }" > /shared/test/test_credentials.json
-cat test_credentials.json
+cat /shared/test/test_credentials.json
