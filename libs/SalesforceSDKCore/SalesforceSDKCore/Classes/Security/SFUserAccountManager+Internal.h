@@ -29,6 +29,9 @@
     NSMutableOrderedSet *_delegates;
 }
 
+@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;
+@property (nonatomic, strong, readwrite) SFUserAccount *anonymousUser;
+
 /** A map of user accounts by user ID
  */
 @property (nonatomic, strong) NSMutableDictionary *userAccountMap;

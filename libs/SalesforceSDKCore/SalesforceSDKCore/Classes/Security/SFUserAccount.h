@@ -106,6 +106,13 @@
  */
 - (id)initWithIdentifier:(NSString*)identifier;
 
+/** Initialize with identifier and client id
+ @param identifier The user identifier
+ @param clientId The client id
+ @return the account instance
+ */
+- (id)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId;
+
 /** Returns the community API url for a particular
  community ID if it exists in the communities array
  
