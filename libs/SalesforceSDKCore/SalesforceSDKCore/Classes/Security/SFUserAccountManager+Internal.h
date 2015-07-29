@@ -74,4 +74,15 @@
  */
 - (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)credentials;
 
+/** Setup the anonymous user according
+ to the existing settings.
+ Note: method exposed only to unit tests
+ */
+- (void)setupAnonymousUser:(BOOL)supportsAnonymousUser autocreateAnonymousUser:(BOOL)autocreateAnonymousUser;
+
+/** Delete and disable the anonymous user
+ Note: method exposed only to unit tests
+ */
+- (void)disableAnonymousAccount;
+
 @end
