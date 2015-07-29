@@ -8,5 +8,5 @@ echo "{
   	"identity_url" : "https:\/\/test.salesforce.com\/id\/00DS0000000HDptMAG\/005S0000003yaERIAY",
   	"test_login_domain" : "login.salesforce.com",
   	"access_token" : "__NOT_REQUIRED__"
-}" > /shared/test/test_credentials.json
-cat /shared/test/test_credentials.json
+}" > ../shared/test/test_credentials.json
+cat ../shared/test/test_credentials.json
