@@ -22,15 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CSFSalesforceAction.h"
-#import "CSFAction+Internal.h"
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "CSFNetwork+Internal.h"
 
-CSF_EXTERN NSString * const CSFAuthorizationHeaderValueFormat;
-CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
+@interface CSFNetwork (SalesforcePrivate) <SFUserAccountManagerDelegate>
 
-@interface CSFSalesforceAction()
-
-@property (nonatomic, readwrite) BOOL requiresSecurityToken;
-@property (nonatomic, readwrite) BOOL returnsSecurityToken;
+- (void)setupSalesforceObserver;
 
 @end

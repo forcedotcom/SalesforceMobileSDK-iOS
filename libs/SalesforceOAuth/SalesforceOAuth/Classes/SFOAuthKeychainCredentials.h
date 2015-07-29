@@ -22,15 +22,25 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CSFSalesforceAction.h"
-#import "CSFAction+Internal.h"
+#import "SFOAuthCredentials+Internal.h"
 
-CSF_EXTERN NSString * const CSFAuthorizationHeaderValueFormat;
-CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
+@interface SFOAuthKeychainCredentials : SFOAuthCredentials
 
-@interface CSFSalesforceAction()
+- (NSData *)keyMacForService:(NSString *)service;
+- (NSData *)keyVendorIdForService:(NSString *)service;
+- (NSData *)keyBaseAppIdForService:(NSString*)service;
+- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service;
+- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service;
+- (NSString *)refreshTokenWithKey:(NSData *)key;
+- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
+- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
+- (NSString *)accessTokenWithKey:(NSData *)key;
+- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey;
+- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key;
+- (void)updateTokenEncryption;
 
-@property (nonatomic, readwrite) BOOL requiresSecurityToken;
-@property (nonatomic, readwrite) BOOL returnsSecurityToken;
+// These are only for unit tests of legacy functionality.  Do not use in app code!
+- (void)setAccessToken:(NSString *)token withKey:(NSData *)key;
+- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key;
 
 @end

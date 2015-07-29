@@ -1,4 +1,9 @@
 /*
+ SalesforceKit.h
+ SalesforceKit
+
+ Created by Michael Nachbaur on Sun Jul 19 14:54:50 HST 2015.
+
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -22,15 +27,3 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CSFSalesforceAction.h"
-#import "CSFAction+Internal.h"
-
-CSF_EXTERN NSString * const CSFAuthorizationHeaderValueFormat;
-CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
-
-@interface CSFSalesforceAction()
-
-@property (nonatomic, readwrite) BOOL requiresSecurityToken;
-@property (nonatomic, readwrite) BOOL returnsSecurityToken;
-
-@end

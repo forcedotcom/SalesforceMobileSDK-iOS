@@ -22,15 +22,38 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "CSFSalesforceAction.h"
-#import "CSFAction+Internal.h"
+#import "CSFNetwork+Salesforce.h"
 
-CSF_EXTERN NSString * const CSFAuthorizationHeaderValueFormat;
-CSF_EXTERN NSString * const CSFAuthorizationHeaderName;
+@implementation CSFNetwork (Salesforce)
 
-@interface CSFSalesforceAction()
+- (NSString*)defaultConnectCommunityId {
+    return _defaultConnectCommunityId;
+}
 
-@property (nonatomic, readwrite) BOOL requiresSecurityToken;
-@property (nonatomic, readwrite) BOOL returnsSecurityToken;
+- (void)setDefaultConnectCommunityId:(NSString *)defaultConnectCommunityId {
+    if (_defaultConnectCommunityId != defaultConnectCommunityId) {
+        _defaultConnectCommunityId = [defaultConnectCommunityId copy];
+    }
+}
+
+- (void)setupSalesforceObserver {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userAccountManagerDidChangeCurrentUser:)
+                                                 name:SFUserAccountManagerDidChangeCurrentUserNotification
+                                               object:nil];
+}
+
+#pragma mark SFAuthenticationManagerDelegate
+
+- (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
+    SFUserAccountManager *accountManager = (SFUserAccountManager*)notification.object;
+    if ([accountManager isKindOfClass:[SFUserAccountManager class]]) {
+        if ([accountManager.currentUserIdentity isEqual:self.account.accountIdentity] &&
+            ![accountManager.currentCommunityId isEqualToString:self.defaultConnectCommunityId])
+        {
+            self.defaultConnectCommunityId = accountManager.currentCommunityId;
+        }
+    }
+}
 
 @end

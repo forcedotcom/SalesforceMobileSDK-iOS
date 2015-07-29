@@ -34,6 +34,20 @@ typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
     kSFOAuthLogLevelError
 };
 
+/**
+ @enum OAuth credential storage type
+ */
+typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
+    /**
+     No storage or persistence of OAuth credentials will be attempted
+     */
+    SFOAuthCredentialsStorageTypeNone = -1,
+    /**
+     OAuth credentials will be stored securely within the keychain.
+     */
+    SFOAuthCredentialsStorageTypeKeychain,
+};
+
 /** Object representing an individual user account's logon credentials.
  
  This object represents information about a user account necessary to authenticate and
@@ -218,7 +232,9 @@ typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
  @param encrypted Determines if the sensitive data like refreshToken and accessToken should be encrypted
  @return An initialized authentication credential object.
  */
-- (id)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
+- (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
+
+- (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type;
 
 /** Revoke the OAuth access and refresh tokens.
  

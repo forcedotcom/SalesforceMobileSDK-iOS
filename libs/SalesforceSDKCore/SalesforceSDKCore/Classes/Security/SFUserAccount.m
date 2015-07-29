@@ -53,6 +53,9 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 @property (nonatomic, strong) NSMutableDictionary *customData;
+@property (nonatomic, readwrite, getter = isGuestUser) BOOL guestUser;
+
+- (id)initWithCoder:(NSCoder*)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -66,11 +69,11 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return [NSSet setWithObjects:@"communityId", @"credentials", nil];
 }
 
-- (id)init {
+- (instancetype)init {
     return [self initWithIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
 }
 
-- (id)initWithIdentifier:(NSString*)identifier {
+- (instancetype)initWithIdentifier:(NSString*)identifier {
     self = [super init];
     if (self) {
         _observingCredentials = NO;
@@ -78,6 +81,14 @@ static NSString * const kGlobalScopingKey = @"-global-";
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
+    }
+    return self;
+}
+
+- (instancetype)initWithGuestUser {
+    self = [super init];
+    if (self) {
+        self.guestUser = YES;
     }
     return self;
 }
