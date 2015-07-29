@@ -3,6 +3,10 @@ branches:
      - unstable
 
 language: objective-c
+
+before_script:
+   - ./build/pre-build
+
 script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
@@ -13,4 +17,4 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
  
-
+   - xctool test -workspace SalesforceMobileSDK.worksapce -scheme SalesforceSDKCommon
