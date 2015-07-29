@@ -98,6 +98,13 @@ static NSString * const kUserPrefix = @"005";
 // Label for encryption key for user account persistence.
 static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
 
+// Error domain and codes
+static NSString * const SFUserAccountManagerErrorDomain = @"SFUserAccountManager";
+
+static const NSUInteger SFUserAccountManagerCannotReadDecryptedArchive = 10001;
+static const NSUInteger SFUserAccountManagerCannotReadPlainTextArchive = 10002;
+static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
+
 #pragma mark - SFLoginHostUpdateResult
 
 @implementation SFLoginHostUpdateResult
@@ -646,16 +653,17 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         [self log:SFLogLevelDebug format:@"No account data exists at '%@'", filePath];
         return nil;
     }
-    SFUserAccount *user = [self loadUserAccountFromFile:filePath encrypted:YES];
-    if (user) {
+
+    // Try to load the user account assuming it is encrypted
+    SFUserAccount *user = nil;
+    if ([self loadUserAccountFromFile:filePath encrypted:YES account:&user error:nil]) {
         return user;
     } else {
 
-        // Unable to retrieve the encrypted user, maybe it's still
-        // in the old plain text format?
-        user = [self loadUserAccountFromFile:filePath encrypted:NO];
-        if (user) {
-
+        // Unable to retrieve the encrypted user, maybe it's still in the old plain text format?
+        NSError *error = nil;
+        if ([self loadUserAccountFromFile:filePath encrypted:NO account:&user error:&error]) {
+        
             // Upgrade step.  The file is in the old plaintext format, and we'll
             // convert it to the encrypted format.
             BOOL encryptUserAccountSuccess = [self saveUserAccount:user toFile:filePath];
@@ -665,44 +673,80 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
                 [manager removeItemAtPath:filePath error:nil];
                 return nil;
             }
+        } else {
+
+            // Nope, unable to read it from the plain text format so let's remove that file
+            [self log:SFLogLevelError format:@"Error deserializing the user account data: %@", [error description]];
+            [manager removeItemAtPath:filePath error:nil];
         }
     }
     return user;
 }
 
-- (SFUserAccount *)loadUserAccountFromFile:(NSString *)filePath encrypted:(BOOL)encrypted {
+/** Loads a user account from a specified file
+ @param filePath The file to load the user account from
+ @param encrypted YES if the file contains the user account encrypted, NO otherwise
+ @param account On output, contains the user account or nil if an error occurred
+ @param error On output, contains the error if the method returned NO
+ @return YES if the method succeeded, NO otherwise
+ */
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath encrypted:(BOOL)encrypted account:(SFUserAccount**)account error:(NSError**)error {
     NSFileManager *manager = [[NSFileManager alloc] init];
     if (encrypted) {
         NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
         if (!encryptedUserAccountData) {
-            [self log:SFLogLevelDebug format:@"Could not retrieve user account data from '%@'", filePath];
-            return nil;
+            NSString *reason = [NSString stringWithFormat:@"Could not retrieve user account data from '%@'", filePath];
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotRetrieveUserData
+                                         userInfo:@{ NSLocalizedDescriptionKey : reason } ];
+            }
+            [self log:SFLogLevelDebug msg:reason];
+            return NO;
         }
-        
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
         NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
         if (!decryptedArchiveData) {
-            [self log:SFLogLevelDebug msg:@"User account data could not be decrypted.  Can't load account."];
-            [manager removeItemAtPath:filePath error:nil];
-            return nil;
+            NSString *reason = @"User account data could not be decrypted.  Can't load account.";
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotRetrieveUserData
+                                         userInfo:@{ NSLocalizedDescriptionKey : reason } ];
+            }
+            [self log:SFLogLevelWarning msg:reason];
+            return NO;
         }
         
         @try {
             SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
-            return decryptedAccount;
+            if (account) {
+                *account = decryptedAccount;
+            }
+            return YES;
         }
         @catch (NSException *exception) {
-            [self log:SFLogLevelDebug format:@"Error deserializing the user account data: %@", [exception reason]];
-            [manager removeItemAtPath:filePath error:nil];
-            return nil;
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotReadDecryptedArchive
+                                         userInfo:@{ NSLocalizedDescriptionKey : [exception reason]} ];
+            }
+            return NO;
         }
     } else {
         @try {
             SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-                return plainTextUserAccount;
+            if (account) {
+                *account = plainTextUserAccount;
             }
+            return YES;
+        }
         @catch (NSException *exception) {
-            return nil;
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotReadPlainTextArchive
+                                         userInfo:@{ NSLocalizedDescriptionKey : [exception reason]} ];
+            }
+            return NO;
         }
     }
 }

@@ -67,11 +67,14 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @implementation SFUserAccountManagerTests
 
 - (void)setUp {
-    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
 
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
     [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
+
+    // Set the oauth client ID after deleting the content of the global library directory
+    // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
+    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
 
     // Ensure the user account manager doesn't contain any account
     self.uam = [SFUserAccountManager sharedInstance];
