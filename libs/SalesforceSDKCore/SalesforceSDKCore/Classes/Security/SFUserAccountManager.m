@@ -171,9 +171,12 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
         // If there is no current user but the application support anonymous user
         // and wants it to be created automatically, then create it now.
-        if (nil == self.currentUser && self.supportsAnonymousUser && self.autocreateAnonymousUser) {
+        if (self.supportsAnonymousUser && self.autocreateAnonymousUser && nil == self.anonymousUser) {
             [self log:SFLogLevelInfo msg:@"Creating anonymous user"];
             [self enableAnonymousAccount];
+            if (nil == self.currentUser) {
+                self.currentUser = self.anonymousUser;
+            }
         }
 	}
 	return self;
@@ -385,7 +388,33 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
 }
 
+#pragma mark - Temporary User
+
++ (BOOL)isUserTemporary:(SFUserAccount*)user {
+    if (nil == user.accountIdentity) {
+        return NO;
+    }
+    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
+        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
+}
+
+- (SFUserAccount *)temporaryUser {
+    SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
+    if (tempAccount == nil) {
+        tempAccount = [self createUserAccount];
+    }
+    return tempAccount;
+}
+
 #pragma mark - Anonymous User
+
++ (BOOL)isUserAnonymous:(SFUserAccount*)user {
+    if (nil == user.accountIdentity) {
+        return NO;
+    }
+    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerAnonymousUserAccountUserId] &&
+        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerAnonymousUserAccountOrgId];
+}
 
 - (BOOL)supportsAnonymousUser {
     return [[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountSupportAnonymousUsage] boolValue];
@@ -396,12 +425,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (BOOL)isCurrentUserAnonymous {
-    SFUserAccountIdentity *identity = self.currentUserIdentity;
-    if (nil == identity) {
-        return NO;
-    }
-    return [identity.userId isEqualToString:SFUserAccountManagerAnonymousUserAccountUserId] &&
-            [identity.orgId isEqualToString:SFUserAccountManagerAnonymousUserAccountOrgId];
+    return [[self class] isUserAnonymous:self.currentUser];
 }
 
 - (SFUserAccount *)anonymousUser {
@@ -429,7 +453,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         creds.accessToken = [NSUUID UUID].UUIDString;
         [self addAccount:self.anonymousUser];
         [self saveAccounts:nil];
-        self.currentUser = self.anonymousUser;
     }
 }
 
@@ -828,14 +851,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     return YES;
-}
-
-- (SFUserAccount *)temporaryUser {
-    SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
-    if (tempAccount == nil) {
-        tempAccount = [self createUserAccount];
-    }
-    return tempAccount;
 }
 
 - (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity {

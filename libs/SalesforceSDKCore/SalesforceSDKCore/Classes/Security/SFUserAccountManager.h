@@ -270,7 +270,8 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 - (SFUserAccount*)createUserAccount;
 
-/** This method ensures the anonymous user exists and makes it the current user.
+/** This method ensures the anonymous user exists and if not, creates the anonymous
+ user and saves it with the other users. This method doesn't change the current user.
  
  Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
  */
