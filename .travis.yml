@@ -17,4 +17,4 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
  
-   - xctool test -workspace SalesforceMobileSDK.worksapce -scheme SalesforceSDKCommon
+   - xctool test -workspace SalesforceMobileSDK.xcworksapce -scheme SalesforceSDKCommon
