@@ -17,4 +17,4 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
 
-   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
