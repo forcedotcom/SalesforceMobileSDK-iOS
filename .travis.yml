@@ -1,9 +1,11 @@
+#build only for unstable branch
 branches:
    only:
      - unstable
 
 language: objective-c
 
+#before the script is run for the build, inject data into test_credentials file
 before_script:
    - ./build/pre-build
 
