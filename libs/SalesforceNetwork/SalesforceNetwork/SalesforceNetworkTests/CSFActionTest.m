@@ -26,6 +26,10 @@
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
 
+@interface TestBasePathAction : CSFAction
+
+@property (nonatomic)
+@end
 @interface CSFActionTest : XCTestCase
 
 @property (nonatomic, strong) CSFNetwork *networkMock;
@@ -89,6 +93,26 @@
     [self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {
         XCTAssertNil(error);
     }];
+}
+
+- (void)testBaseURL {
+    CSFAction *action = [[CSFAction alloc] initWithResponseBlock:nil];
+    XCTAssertNotNil(action);
+    
+    action.baseURL = [NSURL URLWithString:@"http://example.com"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/");
+
+    action.verb = @"some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/some/relative/path");
+
+    action.verb = @"/some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/some/relative/path");
+    
+    action.baseURL = [NSURL URLWithString:@"http://example.com/v1/root"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/v1/root/");
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/v1/root/some/relative/path");
+    
+    action.url = [NSURL URLWithString:@"http://another.example.com]
 }
 
 @end
