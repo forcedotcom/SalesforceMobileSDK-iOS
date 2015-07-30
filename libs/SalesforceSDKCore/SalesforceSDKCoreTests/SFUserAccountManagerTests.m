@@ -1,13 +1,29 @@
-//
-//  SFUserAccountManagerTests.m
-//  SalesforceSDKCore
-//
-//  Created by Jean Bovet on 2/18/14.
-//  Copyright (c) 2014 salesforce.com. All rights reserved.
-//
+/*
+ Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import <XCTest/XCTest.h>
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFUserAccount.h"
 #import "SFDirectoryManager.h"
 
@@ -67,15 +83,20 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 @implementation SFUserAccountManagerTests
 
 - (void)setUp {
-    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
 
     // Delete the content of the global library directory
     NSString *globalLibraryDirectory = [[SFDirectoryManager sharedManager] directoryForUser:nil type:NSLibraryDirectory components:nil];
     [[[NSFileManager alloc] init] removeItemAtPath:globalLibraryDirectory error:nil];
 
+    // Set the oauth client ID after deleting the content of the global library directory
+    // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
+    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
+
     // Ensure the user account manager doesn't contain any account
     self.uam = [SFUserAccountManager sharedInstance];
     [self.uam clearAllAccountState];
+    [self.uam disableAnonymousAccount];
+    self.uam.currentUser = nil;
     [super setUp];
 }
 
@@ -255,6 +276,36 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertEqual(tempAccount1, tempAccount2, @"Temp account references should be equal.");
 }
 
+- (void)testAnonymousUser {
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccount *origUser = accounts[0];
+    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
+    XCTAssertNil(self.uam.currentUser, @"Current user shouldn't be set yet");
+    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:NO];
+    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
+    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:YES];
+    XCTAssertNotNil(self.uam.anonymousUser, @"Anonymous user should exist now");
+    XCTAssertTrue(self.uam.currentUser == self.uam.anonymousUser, @"Current user should be the anonymous user");
+    self.uam.currentUser = origUser;
+    XCTAssertTrue(self.uam.anonymousUser.isAnonymousUser, @"Anonymous user should be who he is");
+    XCTAssertFalse(self.uam.anonymousUser.isTemporaryUser, @"Anonymous user shouldn't be temporary");
+    XCTAssertFalse(self.uam.currentUser.isAnonymousUser, @"Current user shouldn't be anonymous");
+    XCTAssertFalse(self.uam.currentUser.isTemporaryUser, @"Current user shouldn't be temporary");
+}
+
+- (void)testAnonymousUserFromPreviousVersion {
+    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
+    XCTAssertNil(self.uam.currentUser, @"Current user shouldn't be set yet");
+    NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    SFUserAccount *origUser = accounts[0];
+    self.uam.currentUser = origUser;
+    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:NO];
+    XCTAssertNil(self.uam.anonymousUser, @"Anonymous user shouldn't exist yet");
+    [self.uam setupAnonymousUser:YES autocreateAnonymousUser:YES];
+    XCTAssertNotNil(self.uam.anonymousUser, @"Anonymous user should exist now");
+    XCTAssertTrue(self.uam.currentUser == origUser, @"Current user should be the anonymous user");
+}
+
 - (void)testSwitchToNewUser {
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
     SFUserAccount *origUser = accounts[0];
@@ -308,24 +359,24 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 }
 
 - (void)testActiveIdentityUpgrade {
+
     // Ensure we start with a clean state
     XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
-    
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
+    self.uam.currentUser = accounts[0];
     SFUserAccountIdentity *accountIdentity = ((SFUserAccount *)accounts[0]).accountIdentity;
     SFUserAccountIdentity *activeIdentity = self.uam.activeUserIdentity;
     XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Active identity should be account identity.");
-    
     NSError *error = nil;
     XCTAssertTrue([self.uam saveAccounts:&error], @"Unable to save user accounts: %@", error);
-    
+
     // Setup legacy active user id
     NSString *userId = accountIdentity.userId;
     [self.uam clearAllAccountState];
     self.uam.activeUserIdentity = nil;
     [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"LastUserId"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // Reload accounts, verify updates.
     XCTAssertTrue([self.uam loadAccounts:&error], @"Load accounts failed: %@", [error localizedDescription]);
     SFUserAccount *verifyAccount = [self.uam userAccountForUserIdentity:accountIdentity];

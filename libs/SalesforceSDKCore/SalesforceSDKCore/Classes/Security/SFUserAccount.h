@@ -100,11 +100,32 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** Returns YES if the user is a temporary user.
+ Note: a temporary user is created when a new user
+ is requested, for example during the login into
+ a new org, and is replaced by the real user once
+ the login is finished.
+ */
+@property (nonatomic, readonly) BOOL isTemporaryUser;
+
+/** Returns YES if the user is an anonymous user.
+ Note: an anonymous user is a user that doesn't require
+ credentials towards a server.
+ */
+@property (nonatomic, readonly) BOOL isAnonymousUser;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance
  */
 - (id)initWithIdentifier:(NSString*)identifier;
+
+/** Initialize with identifier and client id
+ @param identifier The user identifier
+ @param clientId The client id
+ @return the account instance
+ */
+- (id)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId;
 
 /** Returns the community API url for a particular
  community ID if it exists in the communities array

@@ -404,10 +404,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [[SFAuthenticationManager sharedManager] logout];
-    }];
-	[SFSecurityLockout lock];
+    [SFSecurityLockout lock];
 }
 
 + (void)setForcePasscodeDisplay:(BOOL)forceDisplay

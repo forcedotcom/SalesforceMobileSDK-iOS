@@ -23,7 +23,7 @@
  */
 
 #import "SFUserAccount.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
 
 #import <SalesforceOAuth/SFOAuthCredentials.h>
@@ -71,10 +71,13 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (id)initWithIdentifier:(NSString*)identifier {
+    return [self initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId];
+}
+
+- (id)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId {
     self = [super init];
     if (self) {
         _observingCredentials = NO;
-        NSString *clientId = [SFUserAccountManager sharedInstance].oauthClientId;
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
@@ -252,9 +255,18 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isSessionValid {
+
     // A session is considered "valid" when the user
     // has an access token as well as the identity data
     return self.credentials.accessToken != nil && self.idData != nil;
+}
+
+- (BOOL)isTemporaryUser {
+    return [SFUserAccountManager isUserTemporary:self];
+}
+
+- (BOOL)isAnonymousUser {
+    return [SFUserAccountManager isUserAnonymous:self];
 }
 
 - (NSString*)description {
