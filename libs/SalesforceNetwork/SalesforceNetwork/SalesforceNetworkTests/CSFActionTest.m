@@ -26,10 +26,6 @@
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
 
-@interface TestBasePathAction : CSFAction
-
-@property (nonatomic)
-@end
 @interface CSFActionTest : XCTestCase
 
 @property (nonatomic, strong) CSFNetwork *networkMock;
