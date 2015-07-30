@@ -33,6 +33,8 @@
  */
 @protocol CSFActionModel <NSObject>
 
+@optional
+
 /** Designated initializer to construct a model object from its JSON representation.
  
  @param json    Dictionary of structured data from the network.

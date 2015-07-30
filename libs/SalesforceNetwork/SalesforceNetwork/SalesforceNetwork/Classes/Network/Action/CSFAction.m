@@ -723,13 +723,17 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     } else {
         CSFNetwork *network = self.enqueuedNetwork;
         if (self.modelClass && CSFClassOrAncestorConformsToProtocol(self.modelClass, @protocol(CSFActionModel))) {
-            NSMutableDictionary *context = [NSMutableDictionary new];
-            
-            NSURL *serverUrl = network.account.credentials.instanceUrl;
-            if (serverUrl) {
-                context[@"serverURL"] = serverUrl;
+            if ([self.outputContent isKindOfClass:self.modelClass]) {
+                self.outputModel = self.outputContent;
+            } else {
+                NSMutableDictionary *context = [NSMutableDictionary new];
+                
+                NSURL *serverUrl = network.account.credentials.instanceUrl;
+                if (serverUrl) {
+                    context[@"serverURL"] = serverUrl;
+                }
+                self.outputModel = [[(Class)self.modelClass alloc] initWithJSON:self.outputContent context:context];
             }
-            self.outputModel = [[(Class)self.modelClass alloc] initWithJSON:self.outputContent context:context];
         }
         
         if ([self shouldCacheResponse]) {
