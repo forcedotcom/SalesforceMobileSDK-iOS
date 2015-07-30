@@ -727,6 +727,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
  */
 - (BOOL)loadUserAccountFromFile:(NSString *)filePath encrypted:(BOOL)encrypted account:(SFUserAccount**)account error:(NSError**)error {
     NSFileManager *manager = [[NSFileManager alloc] init];
+    NSString *reason = @"User account data could not be decrypted. Can't load account.";
     if (encrypted) {
         NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
         if (!encryptedUserAccountData) {
@@ -742,7 +743,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
         NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
         if (!decryptedArchiveData) {
-            NSString *reason = @"User account data could not be decrypted.  Can't load account.";
             if (error) {
                 *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
                                              code:SFUserAccountManagerCannotRetrieveUserData
@@ -770,10 +770,21 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     } else {
         @try {
             SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
-            if (account) {
-                *account = plainTextUserAccount;
+
+            // On iOS9, it won't throw an exception, but will return nil instead.
+            if (plainTextUserAccount) {
+                if (account) {
+                    *account = plainTextUserAccount;
+                }
+                return YES;
+            } else {
+                if (error) {
+                    *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                 code:SFUserAccountManagerCannotReadPlainTextArchive
+                                             userInfo:@{ NSLocalizedDescriptionKey : reason} ];
+                }
+                return NO;
             }
-            return YES;
         }
         @catch (NSException *exception) {
             if (error) {
