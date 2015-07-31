@@ -13,7 +13,23 @@
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFSalesforceAction.h"
+#import "CSFSalesforceOAuthRefresh.h"
+#import "CSFAuthRefresh+Internal.h"
 #import "CSFNetwork+Internal.h"
+
+@interface RevokedTokenAuthRefresh : CSFSalesforceOAuthRefresh
+@end
+@implementation RevokedTokenAuthRefresh
+
+- (void)refreshAuth {
+    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
+                                         code:kSFOAuthErrorInvalidGrant
+                                     userInfo:@{ @"error": @"invalid_grant",
+                                                 NSLocalizedDescriptionKey: @"expired access/refresh token" }];
+    [self finishWithOutput:nil error:error];
+}
+
+@end
 
 @interface TestRevokedTokenAction : CSFSalesforceAction
 @end
@@ -22,9 +38,9 @@
 
 - (BOOL)overrideRequest:(NSURLRequest *)request withResponseData:(NSData *__autoreleasing *)data andHTTPResponse:(NSHTTPURLResponse *__autoreleasing *)response {
     
-    *data = nil;
+    *data = [@"{\"message\":\"Session expired or invalid\",\"errorCode\":\"INVALID_SESSION_ID\"}" dataUsingEncoding:NSUTF8StringEncoding];
     *response = [[NSHTTPURLResponse alloc] initWithURL:request.URL
-                                            statusCode:400
+                                            statusCode:401
                                            HTTPVersion:@"1.1"
                                           headerFields:@{ @"Cache-Control": @"no-cache, no-store, no-cache, no-store",
                                                           @"Content-Type": @"application/json;charset=UTF-8",
@@ -68,9 +84,10 @@
         [revokedExpectation fulfill];
     }];
     action.url = [NSURL URLWithString:@"http://example.org/path/to/request"];
+    action.authRefreshClass = [RevokedTokenAuthRefresh class];
     [network executeAction:action];
     
-    [self waitForExpectationsWithTimeout:1 handler:^(NSError *error) {
+    [self waitForExpectationsWithTimeout:10000 handler:^(NSError *error) {
         XCTAssertNil(error);
         
         XCTAssertTrue(userLogoutNotificationReceived);

@@ -116,13 +116,7 @@ static void * kObservingKey = &kObservingKey;
     NSError *responseError = nil;
     id content = [super contentFromData:data fromResponse:response error:&responseError];
 
-    // Special case for handling revoked access tokens
-    if (content == nil && response.statusCode == 400) {
-        [[SFAuthenticationManager sharedManager] logoutUser:self.enqueuedNetwork.account];
-    }
-    
-    // All other response handling
-    else if (content && !responseError) {
+    if (content && !responseError) {
         NSObject *msgObj = nil;
         NSString *errorCode = nil;
         
@@ -136,7 +130,7 @@ static void * kObservingKey = &kObservingKey;
             }
         } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
             NSDictionary *errorDict = (NSDictionary*)content;
-            msgObj = errorDict[@"msg"];
+            msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
             errorCode = errorDict[@"errorCode"];
         }
         
