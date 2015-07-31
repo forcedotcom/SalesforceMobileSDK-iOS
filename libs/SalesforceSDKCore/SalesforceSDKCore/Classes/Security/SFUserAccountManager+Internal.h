@@ -29,6 +29,9 @@
     NSMutableOrderedSet *_delegates;
 }
 
+@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;
+@property (nonatomic, strong, readwrite) SFUserAccount *anonymousUser;
+
 /** A map of user accounts by user ID
  */
 @property (nonatomic, strong) NSMutableDictionary *userAccountMap;
@@ -36,6 +39,20 @@
 @property (nonatomic, strong) NSString *lastChangedOrgId;
 @property (nonatomic, strong) NSString *lastChangedUserId;
 @property (nonatomic, strong) NSString *lastChangedCommunityId;
+
+/** Returns YES if the specified user is anonymous.
+ Note: an anonymous user is a user that doesn't require
+ credentials towards a server.
+ */
++ (BOOL)isUserAnonymous:(SFUserAccount*)user;
+
+/** Returns YES if the specified user is temporary.
+ Note: a temporary user is created when a new user
+ is requested, for example during the login into
+ a new org, and is replaced by the real user once
+ the login is finished.
+ */
++ (BOOL)isUserTemporary:(SFUserAccount*)user;
 
 /**
  Executes the given block for each configured delegate.
@@ -56,5 +73,16 @@
  @return The new user account with the given credentials.
  */
 - (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)credentials;
+
+/** Setup the anonymous user according
+ to the existing settings.
+ Note: method exposed only to unit tests
+ */
+- (void)setupAnonymousUser:(BOOL)supportsAnonymousUser autocreateAnonymousUser:(BOOL)autocreateAnonymousUser;
+
+/** Delete and disable the anonymous user
+ Note: method exposed only to unit tests
+ */
+- (void)disableAnonymousAccount;
 
 @end
