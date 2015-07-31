@@ -108,7 +108,9 @@
     XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/v1/root/");
     XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/v1/root/some/relative/path");
     
-    action.url = [NSURL URLWithString:@"http://another.example.com]
+    action.url = [NSURL URLWithString:@"http://another.example.com/some/path/to/a/request"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://another.example.com/");
+    XCTAssertEqualObjects(action.verb, @"some/path/to/a/request");
 }
 
 @end

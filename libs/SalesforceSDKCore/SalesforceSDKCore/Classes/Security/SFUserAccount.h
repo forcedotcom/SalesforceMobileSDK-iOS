@@ -104,6 +104,10 @@
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** Indicates if this account was deleted.  Returns `YES` if this account was deleted since being created.
+ */
+@property (nonatomic, readonly, getter = isUserDeleted) BOOL userDeleted;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance

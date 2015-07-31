@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F8E03B01B6BE51700F3AE59 /* CSFSalesforceOAuthRefreshTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F8E03AF1B6BE51700F3AE59 /* CSFSalesforceOAuthRefreshTests.m */; };
 		6FE34D401B6179B8009A290C /* CSFNetwork+Salesforce.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE34D3E1B6179B8009A290C /* CSFNetwork+Salesforce.m */; };
 		6FE34D431B617D02009A290C /* CSFNetwork+Salesforce.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE34D411B617D02009A290C /* CSFNetwork+Salesforce.h */; };
 		6FE556D31B5C8DFB00756807 /* CSFPrivateDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -197,6 +198,7 @@
 		6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Test.xcconfig"; sourceTree = "<group>"; };
 		6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../external/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
+		6F8E03AF1B6BE51700F3AE59 /* CSFSalesforceOAuthRefreshTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFSalesforceOAuthRefreshTests.m; sourceTree = "<group>"; };
 		6FE34D3E1B6179B8009A290C /* CSFNetwork+Salesforce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSFNetwork+Salesforce.m"; sourceTree = "<group>"; };
 		6FE34D411B617D02009A290C /* CSFNetwork+Salesforce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSFNetwork+Salesforce.h"; sourceTree = "<group>"; };
 		6FE556D11B5C8DFB00756807 /* CSFPrivateDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFPrivateDefines.h; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */,
 				825348D91A8AF6570019FE0B /* Resources */,
 				825348601A8ADD220019FE0B /* Utilities */,
+				6F8E03AF1B6BE51700F3AE59 /* CSFSalesforceOAuthRefreshTests.m */,
 			);
 			name = SalesforceNetworkTests;
 			path = SalesforceNetwork/SalesforceNetworkTests;
@@ -898,6 +901,7 @@
 			files = (
 				8253486B1A8ADD220019FE0B /* InternalFunctionTests.m in Sources */,
 				82A0C3B61A990FDB00243931 /* ValueTransformerTests.m in Sources */,
+				6F8E03B01B6BE51700F3AE59 /* CSFSalesforceOAuthRefreshTests.m in Sources */,
 				82A0C3DB1A99115300243931 /* CSFMultipartInputStreamTests.m in Sources */,
 				825348651A8ADD220019FE0B /* CSFActionTest.m in Sources */,
 				825348671A8ADD220019FE0B /* CSFInputTests.m in Sources */,

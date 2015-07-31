@@ -28,6 +28,7 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 #import "SFManagedPreferences.h"
+#import "SFUserAccount_Internal.h"
 
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFKeyStoreKey.h>
@@ -765,6 +766,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         } else {
             [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", user.userName];
         }
+        user.userDeleted = YES;
         [self.userAccountMap removeObjectForKey:user.accountIdentity];
     }
     return YES;
