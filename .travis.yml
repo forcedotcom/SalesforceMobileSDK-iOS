@@ -20,3 +20,9 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
 
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
