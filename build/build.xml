@@ -6,101 +6,16 @@
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
     <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
-    <property name="baseTemplateFilesDir" location="app_template_files" />
-    <property name="srcAppCreationScript" value="${baseTemplateFilesDir}/createApp.sh.base" />
-    <property name="destAppCreationScriptName" value="createApp.sh" />
-    <property name="destNativeTemplateDir" value="${artifactsDir}/NativeAppTemplate" />
-    <property name="destNativeTemplateName" value="__NativeTemplateAppName__" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
     
-    <target name="all" description="Cleans the projects and builds all libraries and templates">
+    <target name="all" description="Cleans the projects and builds all libraries">
         <antcall target="clean" />
         <antcall target="buildAll" />
     </target>
     
-    <target name="buildAll" depends="nativeAppTemplate" />
+    <target name="buildAll" />
     
     <target name="libPackages" depends="packageSmartSync, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore, packageSalesforceOAuth, packageSalesforceSecurity, packageSalesforceSDKCommon" />
-    
-    <target name="nativeAppTemplate" depends="libPackages, nativeAppTemplateShell" description="Creates the native app template">
-        <property name="nativeTemplateDependenciesDir" value="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/Dependencies" />
-        
-        <!-- Copy in the third party dependencies -->
-        <copy todir="${nativeTemplateDependenciesDir}/SalesforceCommonUtils">
-            <fileset dir="${thirdPartyLibDir}/SalesforceCommonUtils" />
-        </copy>
-        <copy todir="${nativeTemplateDependenciesDir}/sqlcipher">
-            <fileset dir="${thirdPartyLibDir}/sqlcipher" />
-        </copy>
-        
-        <!-- Add the SDK dependencies -->
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceRestAPI-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceRestAPI-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceRestAPI" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceOAuth-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceOAuth-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceOAuth" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceSDKCore-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceSDKCore-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSDKCore" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceNetwork-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceNetwork-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceNetwork" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceSecurity-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceSecurity-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSecurity" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SmartSync-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SmartSync-Debug" tofile="${nativeTemplateDependenciesDir}/SmartSync" />
-        <exec executable="unzip" failonerror="true" logError="true">
-            <arg value="-d" />
-            <arg file="${nativeTemplateDependenciesDir}" />
-            <arg file="${artifactsDir}/SalesforceSDKCommon-Debug.zip" />
-        </exec>
-        <move file="${nativeTemplateDependenciesDir}/SalesforceSDKCommon-Debug" tofile="${nativeTemplateDependenciesDir}/SalesforceSDKCommon" />
-
-        <!-- SDK resources -->
-        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkResourcesBundleName}">
-            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
-        </copy>
-        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}/${destNativeTemplateName}/${sdkAppSettingsBundleName}">
-            <fileset dir="${sharedResourcesDir}/${sdkAppSettingsBundleName}" />
-        </copy>
-        
-    </target>
-    
-    <target name="nativeAppTemplateShell" description="Creates the basic native template shell, minus dependenies.  NB: npm package will use this.">
-        <property name="srcNativeTemplateFilesDir" value="${baseTemplateFilesDir}/__NativeTemplateAppFiles__" />
-        
-        <!-- Copy over the native template -->
-        <delete dir="${destNativeTemplateDir}" />
-        <mkdir dir="${destNativeTemplateDir}" />
-        <copy todir="${destNativeTemplateDir}/${destNativeTemplateName}">
-            <fileset dir="${srcNativeTemplateFilesDir}" />
-        </copy>
-        
-        <!-- App generator script -->
-        <copy file="${srcAppCreationScript}" tofile="${destNativeTemplateDir}/${destAppCreationScriptName}" />
-        <chmod file="${destNativeTemplateDir}/${destAppCreationScriptName}" perm="755" />
-    </target>
     
     <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
         <antcall target="packageLib">
