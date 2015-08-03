@@ -42,10 +42,6 @@ OPT_APP_ID="3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRW
 OPT_REDIRECT_URI="testsfdc:///mobilesdk/detect/oauth/done"
 OPT_OUTPUT_FOLDER=`pwd`
 
-# Defaults for start page
-DEF_START_PAGE_REMOTE="/apex/VFStartPage"
-DEF_START_PAGE_LOCAL="index.html"
-
 # Template substitution keys
 SUB_NATIVE_APP_NAME="__NativeTemplateAppName__"
 SUB_COMPANY_ID="__CompanyIdentifier__"

@@ -36,7 +36,7 @@
  }
 
 var path = require('path');
-var repoUtils = require('./HybridShared/node/repoUtils');
+var repoUtils = require('../external/shared/node/repoUtils');
 var absGitRepoPath = path.resolve(__dirname);
 
 // Make hard copies of symlink files.  npm does not pack symlinks.

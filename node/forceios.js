@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-var version = '3.3.0',
+var version = '4.0.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
     path = require('path'),
-    commandLineUtils = require('./HybridShared/node/commandLineUtils'),
-    miscUtils = require('./HybridShared/node/utils'),
-    cordovaHelper = require('./HybridShared/node/cordovaHelper');
+    commandLineUtils = require('../external/shared/node/commandLineUtils'),
+    miscUtils = require('../external/shared/node/utils'),
+    cordovaHelper = require('../external/shared/node/cordovaHelper');
 
 var minimumCordovaVersion = '3.5';
 
@@ -130,7 +130,7 @@ function createHybridApp(config) {
 
     // Copy the sample app, if a local app was selected.
     if (config.apptype === 'hybrid_local') {
-        var sampleAppFolder = path.join(__dirname, 'HybridShared', 'samples', 'userlist');
+        var sampleAppFolder = path.join(__dirname, 'external', 'shared', 'samples', 'userlist');
         shelljs.cp('-R', path.join(sampleAppFolder, '*'), 'www');
     }
 
@@ -176,7 +176,7 @@ function createHybridApp(config) {
 // Helper to create native application
 //
 function createNativeApp(config) {
-    var createAppExecutable = path.join(__dirname, 'Templates', 'NativeAppTemplate', 'createApp.sh');
+    var createAppExecutable = path.join(__dirname, '..', 'build', 'app_template_files', 'createApp.sh');
 
     // Calling out to the shell, so re-quote the command line arguments.
     var newCommandLineArgs = buildArgsFromArgMap(config);
@@ -229,10 +229,6 @@ function buildArgsFromArgMap(config) {
         argLine += ' -o "' + config.outputdir + '"';
     if (config.appid)
         argLine += ' -a "' + config.appid + '"';
-    if (config.callbackuri)
-        argLine += ' -u "' + config.callbackuri + '"';
-    if (config.startpage)
-        argLine += ' -s "' + config.startpage + '"';
 
     return argLine;
 }

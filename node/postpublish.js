@@ -29,7 +29,7 @@
 
 var path = require('path');
 var fs = require('fs');
-var repoUtils = require('./HybridShared/node/repoUtils');
+var repoUtils = require('../external/shared/node/repoUtils');
 
 var fullInputPath = path.resolve(path.join(__dirname, 'changed_symlink_files'));
 var symLinkEntries = repoUtils.readSymLinkInput(fullInputPath);
