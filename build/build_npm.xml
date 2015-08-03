@@ -23,7 +23,7 @@
         <!-- Reset the repo (post-publish) -->
         <echo>--- Reverting the symbolic links ---</echo>
         <exec executable="node" failonerror="true" logError="true">
-            <arg file="node/postpublish.js" />
+            <arg file="external/shared/node/postpublish.js" />
         </exec>
     </target>
 </project>
