@@ -29,7 +29,7 @@ set -u
 #set -x
 
 #
-# Creates a native or hybrid app, based on the respective app template and user
+# Creates a native app based on the respective app template and user
 # configuration.  See the usage() function (or run without arguments) for details.
 #
 
@@ -41,8 +41,6 @@ OPT_ORG_NAME=""
 OPT_APP_ID="3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa"
 OPT_REDIRECT_URI="testsfdc:///mobilesdk/detect/oauth/done"
 OPT_OUTPUT_FOLDER=`pwd`
-OPT_HYBRID_APP_START_PAGE=""
-OPT_HYBRID_APP_IS_LOCAL=""
 
 # Defaults for start page
 DEF_START_PAGE_REMOTE="/apex/VFStartPage"
@@ -50,13 +48,10 @@ DEF_START_PAGE_LOCAL="index.html"
 
 # Template substitution keys
 SUB_NATIVE_APP_NAME="__NativeTemplateAppName__"
-SUB_HYBRID_APP_NAME="__HybridTemplateAppName__"
 SUB_COMPANY_ID="__CompanyIdentifier__"
 SUB_ORG_NAME="__OrganizationName__"
 SUB_APP_ID="__ConnectedAppIdentifier__"
 SUB_REDIRECT_URI="__ConnectedAppRedirectUri__"
-SUB_HYBRID_APP_IS_LOCAL="__AppIsLocal__"
-SUB_HYBRID_APP_START_PAGE="__StartPage__"
 
 # Term color codes
 TERM_COLOR_RED="\x1b[31;1m"
@@ -76,14 +71,13 @@ function usage()
   local appName=`basename $0`
   echoColor $TERM_COLOR_CYAN "Usage:"
   echoColor $TERM_COLOR_MAGENTA "$appName"
-  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native, hybrid_remote, hybrid_local)"
+  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native)"
   echoColor $TERM_COLOR_MAGENTA "   -n <Application Name>"
   echoColor $TERM_COLOR_MAGENTA "   -c <Company Identifier> (com.myCompany.myApp)"
   echoColor $TERM_COLOR_MAGENTA "   -g <Organization Name> (your company's/organization's name"
   echoColor $TERM_COLOR_MAGENTA "   [-o <Output directory> (defaults to this script's directory)]"
   echoColor $TERM_COLOR_MAGENTA "   [-a <Salesforce App Identifier>] (the Consumer Key for your app)]"
   echoColor $TERM_COLOR_MAGENTA "   [-u <Salesforce App Callback URL] (the Callback URL for your app)]"
-  echoColor $TERM_COLOR_MAGENTA "   [-s <App Start Page> (defaults to index.html for hybrid_local, and /apex/VFStartPage for hybrid_remote)]"
 }
 
 function parseOpts()
@@ -93,8 +87,8 @@ function parseOpts()
       t)
         appType=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         appType=`echo ${appType} | tr '[:upper:]' '[:lower:]'`
-        if [[ "${appType}" != "native" && "${appType}" != "hybrid_remote" && "${appType}" != "hybrid_local" ]]; then
-          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native', 'hybrid_remote', or 'hybrid_local'."
+        if [[ "${appType}" != "native" ]]; then
+          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native'."
           usage
           exit 3
         fi
@@ -156,14 +150,6 @@ function parseOpts()
           exit 10
         fi
         OPT_REDIRECT_URI=${redirectUri};;
-      s)
-        startPage=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
-        if [[ -z ${startPage} ]]; then
-          echoColor $TERM_COLOR_RED "Start page must have a value."
-          usage
-          exit 11
-        fi
-        OPT_HYBRID_APP_START_PAGE=${startPage};;
       ?)
         echoColor $TERM_COLOR_RED "Unknown option '-${OPTARG}'."
         usage
@@ -173,7 +159,7 @@ function parseOpts()
   
   # Validate that we got the required command line args.
   if [[ "${OPT_APP_TYPE}" == "" ]]; then
-    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native' or 'hybrid'."
+    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native'."
     usage
     exit 12
   fi
@@ -214,22 +200,7 @@ function replaceTokens()
   if [[ "$1" == "native" ]]; then
     # Native app substitutions.
     appNameToken=${SUB_NATIVE_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/${appNameToken}/Classes/AppDelegate.m"
-  elif [[ "$1" == "hybrid_remote" || "$1" == "hybrid_local" ]]; then
-    # Hybrid app substitutions.
-    appNameToken=${SUB_HYBRID_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/${appNameToken}/www/bootconfig.json"
-    if [[ "$1" == "hybrid_remote" ]]; then
-      OPT_HYBRID_APP_IS_LOCAL="false"
-      if [[ "${OPT_HYBRID_APP_START_PAGE}" == "" ]]; then
-        OPT_HYBRID_APP_START_PAGE=${DEF_START_PAGE_REMOTE}
-      fi
-    elif [[ "$1" == "hybrid_local" ]]; then
-      OPT_HYBRID_APP_IS_LOCAL="true"
-      if [[ "${OPT_HYBRID_APP_START_PAGE}" == "" ]]; then
-        OPT_HYBRID_APP_START_PAGE=${DEF_START_PAGE_LOCAL}
-      fi
-    fi
+    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
   else
     echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
     exit 16
@@ -259,11 +230,13 @@ function replaceTokens()
   cp -R "${resourcesFolder}/${appNameToken}" "${workingFolder}"
   cd "${workingFolder}"
 
+  local inputPodFile="${appNameToken}/PodFile"
   local inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
-  local inputInfoFile="${appNameToken}/${appNameToken}/${appNameToken}-Info.plist"
+  local inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
   local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
 
   # App name
+  tokenSubstituteInFile "${inputPodFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
   
@@ -279,25 +252,9 @@ function replaceTokens()
   # Redirect URI
   tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_REDIRECT_URI}" "${OPT_REDIRECT_URI}"
   
-  # For hybrid, start URLs, remote vs. local.
-  if [[ "$1" == "hybrid_remote" || "$1" == "hybrid_local" ]]; then
-    tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_HYBRID_APP_START_PAGE}" "${OPT_HYBRID_APP_START_PAGE}"
-    tokenSubstituteInFile "${inputConnectedAppFile}" "${SUB_HYBRID_APP_IS_LOCAL}" "${OPT_HYBRID_APP_IS_LOCAL}"
-  fi
-
-  # If it's a hybrid remote app, remove unnecessary www/ contents.
-  if [[ "$1" == "hybrid_remote" ]]; then
-    for wwwFile in `ls -1 "${appNameToken}/${appNameToken}/www/"`; do
-      if [[ "$wwwFile" != "bootconfig.json" ]]; then
-        rm -rf "${appNameToken}/${appNameToken}/www/${wwwFile}"
-      fi
-    done
-  fi
-
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
   mv "${inputPrefixFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Prefix.pch"
-  mv "${inputInfoFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Info.plist"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
   mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
@@ -307,6 +264,16 @@ function replaceTokens()
   rm -rf "${workingFolder}"
 }
 
+function runPodInstall()
+{
+  local origWorkingFolder=`pwd`
+  
+  # Run pod install
+  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
+  pod install --silent
+  cd "${origWorkingFolder}"
+}
+
 if [[ "$@" == "" ]]; then
   usage
   exit 1
@@ -314,5 +281,6 @@ fi
 
 parseOpts "$@"
 replaceTokens ${OPT_APP_TYPE}
+runPodInstall
 
 echoColor $TERM_COLOR_GREEN "Successfully created ${OPT_APP_TYPE} app '${OPT_APP_NAME}'."
