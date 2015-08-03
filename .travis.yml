@@ -1,3 +1,4 @@
+
 #build only for unstable branch
 branches:
    only:
@@ -10,6 +11,7 @@ before_script:
    - ./build/pre-build
 
 script:
+   #build all schemes
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
@@ -18,7 +20,7 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
-
+   # run all tests
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
@@ -26,3 +28,4 @@ script:
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO

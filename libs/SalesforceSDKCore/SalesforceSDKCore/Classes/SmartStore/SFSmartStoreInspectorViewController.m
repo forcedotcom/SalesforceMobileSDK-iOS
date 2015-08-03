@@ -140,9 +140,8 @@ static NSUInteger   const kLabelTag              = 99;
     NSInteger pageSize = [self.pageSizeField.text integerValue];
     pageSize = (pageSize <= 0 && ![self.pageSizeField.text isEqualToString:@"0"] ? 10 : pageSize);
     NSInteger pageIndex = [self.pageIndexField.text integerValue];
-    SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
     NSError* error = nil;
-    NSArray* results = [store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex error:&error];
+    NSArray* results = [self.store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex error:&error];
     if (error) {
         [self showAlert:[error localizedDescription]];
     }
@@ -159,13 +158,10 @@ static NSUInteger   const kLabelTag              = 99;
 
 - (void) soupsButtonClicked
 {
-    SFSmartStore* store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-    NSArray* names = [store allSoupNames];
-    
+    NSArray* names = [self.store allSoupNames];
     if ([names count] > 10) {
         self.queryField.text = @"SELECT soupName from soup_nameSFs";
-    }
-    else {
+    } else {
         NSMutableString* q = [NSMutableString string];
         BOOL first = YES;
         for (NSString* name in names) {
