@@ -49,10 +49,6 @@ function main(args) {
         processorList = createArgProcessorList(); 
         commandHandler = createApp;
         break;
-    case 'update':
-        processorList = updateArgProcessorList();
-        commandHandler = updateApp;
-        break;
     default:
         usage();
         process.exit(1);
@@ -67,7 +63,7 @@ function main(args) {
 //
 function usage() {
     console.log(outputColors.cyan + 'Usage:\n');
-    console.log(outputColors.magenta + 'forceios create/update');
+    console.log(outputColors.magenta + 'forceios create');
     console.log('    --apptype=<Application Type> (native, hybrid_remote, hybrid_local)');
     console.log('    --appname=<Application Name>');
     console.log('    --companyid=<Company Identifier> (com.myCompany.myApp)');
@@ -190,35 +186,6 @@ function createNativeApp(config) {
     });
 }
 
-//
-// Helper for 'update' command
-//
-function updateApp(config) {
-    var appType = config.apptype;
-    if (appType !== 'native' && appType !== 'hybrid_remote' && appType !== 'hybrid_local') {
-        console.log(outputColors.red + 'Unrecognized app type: \'' + appType + '\'.' + outputColors.reset + 'App type must be native, hybrid_remote, or hybrid_local.');
-        usage();
-        process.exit(4);
-    }
-
-    //
-    // FIXME
-    // 
-
-    /*
-    // Copy dependencies
-    copyDependencies(config, function(success, msg) {
-        if (success) {
-            if (msg) console.log(outputColors.green + msg + outputColors.reset);
-            console.log(outputColors.green + 'Congratulations!  You have successfully updated your app.' + outputColors.reset);
-        } else {
-            if (msg) console.log(outputColors.red + msg + outputColors.reset);
-            console.log(outputColors.red + 'There was an error updating the app.' + outputColors.reset);
-        }
-    });
-    */
-}
-
 function buildArgsFromArgMap(config) {
     var argLine = '';
     argLine += ' -t "' + config.apptype + '"';
@@ -238,7 +205,8 @@ function buildArgsFromArgMap(config) {
 // Input argument validation / processing.
 // -----
 
-function updateArgProcessorList() {
+function createArgProcessorList() {
+    
     var argProcessorList = new commandLineUtils.ArgProcessorList();
 
     // App type
@@ -250,22 +218,12 @@ function updateArgProcessorList() {
 
     // Output dir
     addProcessorForOptional(argProcessorList, 'outputdir', 'Enter the output directory for your app (defaults to the current directory):');
-    return argProcessorList;
-}
-
-function createArgProcessorList() {
-    
-    var argProcessorList = updateArgProcessorList();
 
     // Company Identifier
     addProcessorFor(argProcessorList, 'companyid', 'Enter the package name for your app (com.mycompany.my_app):', 'Invalid value for company identifier: \'$val\'', /^[a-z]+[a-z0-9_]*(\.[a-z]+[a-z0-9_]*)*$/);
 
     // Organization
     addProcessorFor(argProcessorList, 'organization', 'Enter your organization name (Acme, Inc.):', 'Invalid value for organization: \'$val\'.',  /\S+/);
-
-    // Start page
-    addProcessorFor(argProcessorList, 'startpage', 'Enter the start page for your app (only applicable for hybrid_remote apps):', 'Invalid value for start page: \'$val\'.', /\S+/, 
-                    function(argsMap) { return (argsMap['apptype'] === 'hybrid_remote'); });
 
     // Connected App ID
     addProcessorForOptional(argProcessorList, 'appid', 'Enter your Connected App ID (defaults to the sample app\'s ID):');
