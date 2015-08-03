@@ -553,7 +553,7 @@ static NSString* uid = nil;
 
 - (void)authValidationAtLaunch
 {
-    if (![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
+    if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
         [self.sdkManagerFlow authAtLaunch];

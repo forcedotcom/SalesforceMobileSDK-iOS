@@ -23,7 +23,7 @@
  */
 
 #import "SFUserAccount.h"
-#import "SFUserAccountManager.h"
+#import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
 
 #import <SalesforceOAuth/SFOAuthCredentials.h>
@@ -71,10 +71,13 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (id)initWithIdentifier:(NSString*)identifier {
+    return [self initWithIdentifier:identifier clientId:[SFUserAccountManager sharedInstance].oauthClientId];
+}
+
+- (id)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId {
     self = [super init];
     if (self) {
         _observingCredentials = NO;
-        NSString *clientId = [SFUserAccountManager sharedInstance].oauthClientId;
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
@@ -168,7 +171,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (UIImage*)photo {
     if (nil == _photo) {
         NSString *photoPath = [self photoPath];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:photoPath]) {
+        NSFileManager *manager = [[NSFileManager alloc] init];
+        if ([manager fileExistsAtPath:photoPath]) {
             _photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
         }
     }
@@ -178,7 +182,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setPhoto:(UIImage *)photo {
     NSError *error = nil;
     NSString *photoPath = [self photoPath];
-    NSFileManager *fm = [NSFileManager defaultManager];
+    NSFileManager *fm = [[NSFileManager alloc] init];
     if ([fm fileExistsAtPath:photoPath]) {
         if (![fm removeItemAtPath:photoPath error:&error]) {
             [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
@@ -251,9 +255,18 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isSessionValid {
+
     // A session is considered "valid" when the user
     // has an access token as well as the identity data
     return self.credentials.accessToken != nil && self.idData != nil;
+}
+
+- (BOOL)isTemporaryUser {
+    return [SFUserAccountManager isUserTemporary:self];
+}
+
+- (BOOL)isAnonymousUser {
+    return [SFUserAccountManager isUserAnonymous:self];
 }
 
 - (NSString*)description {

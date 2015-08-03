@@ -1524,7 +1524,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (unsigned long long)getDatabaseSize
 {
     NSString *dbPath = [self.dbMgr fullDbFilePathForStoreName:_storeName];
-    return [[[NSFileManager defaultManager] attributesOfItemAtPath:dbPath error:nil] fileSize];
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    return [[manager attributesOfItemAtPath:dbPath error:nil] fileSize];
 }
 
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData
@@ -1605,11 +1606,13 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     //build up the set of index column values for this row
     for (SFSoupIndex *idx in indices) {
         NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
+        NSString *colName = [idx columnName];
         if (nil != indexColVal //not every entry will have a value for each index column
             && (typeFilter == nil || [typeFilter isEqualToString:idx.indexType]))
         {
-            NSString *colName = [idx columnName];
             values[colName] = indexColVal;
+        } else {
+            values[colName] = [NSNull null];
         }
     }
 }

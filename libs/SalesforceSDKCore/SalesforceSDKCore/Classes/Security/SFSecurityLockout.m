@@ -187,7 +187,6 @@ static BOOL _showPasscode = YES;
         } 
         else {
             [SFSecurityLockout setupTimer];
-            [SFInactivityTimerCenter updateActivityTimestamp];
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];  // "Unlock" was successful, as locking wasn't required.
         }
     } else {
@@ -353,6 +352,7 @@ static BOOL _showPasscode = YES;
                                       selector:@selector(timerExpired:)
                                  timerInterval:securityLockoutTime];
 	}
+    [SFInactivityTimerCenter updateActivityTimestamp];
 }
 
 + (void)removeTimer
@@ -404,10 +404,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [[SFAuthenticationManager sharedManager] logout];
-    }];
-	[SFSecurityLockout lock];
+    [SFSecurityLockout lock];
 }
 
 + (void)setForcePasscodeDisplay:(BOOL)forceDisplay
