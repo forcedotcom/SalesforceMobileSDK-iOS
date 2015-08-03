@@ -35,16 +35,37 @@
  	process.exit(1);
  }
 
+var fs = require('fs');
 var path = require('path');
+var exec = require('child_process').exec;
 var repoUtils = require('../external/shared/node/repoUtils');
-var absGitRepoPath = path.resolve(__dirname);
 
-// Make hard copies of symlink files.  npm does not pack symlinks.
-var symLinkFileEntries = repoUtils.getSymLinkFiles(absGitRepoPath);
-repoUtils.writeSymLinkOutput(symLinkFileEntries, path.join(absGitRepoPath, 'changed_symlink_files'));
-repoUtils.resolveSymLinks(symLinkFileEntries, function(success, msg) {
-	if (msg) console.log(msg);
-	if (!success) {
-		process.exit(1);
+// Use npm.md as the README for the package.
+var absGitRepoPath = path.resolve(path.join(__dirname, '..'));
+var readmePath = path.join(absGitRepoPath, 'README.md');
+var readmeBackupPath = readmePath + '.orig';
+var npmMdPath = path.join(absGitRepoPath, 'npm.md');
+console.log('Using ' + npmMdPath + ' as the README.md file for the package.');
+exec('mv "' + readmePath + '" "' + readmeBackupPath + '"', function (error, stdout, stderr) {
+	if (error) {
+		console.log('FATAL: Could not move ' + readmePath + ' to ' + readmeBackupPath + '.');
+		process.exit(3);
 	}
+
+	exec('cp "' + npmMdPath + '" "' + readmePath + '"', function (error, stdout, stderr) {
+		if (error) {
+			console.log('FATAL: Could not copy ' + npmMdPath + ' to ' + readmePath + '.');
+			process.exit(4);
+		}
+
+		// Make hard copies of symlink files.  npm does not pack symlinks.
+		var symLinkFileEntries = repoUtils.getSymLinkFiles(absGitRepoPath);
+		repoUtils.writeSymLinkOutput(symLinkFileEntries, path.join(__dirname, 'changed_symlink_files'));
+		repoUtils.resolveSymLinks(symLinkFileEntries, function(success, msg) {
+			if (msg) console.log(msg);
+			if (!success) {
+				process.exit(2);
+			}
+		});
+	});
 });

@@ -130,7 +130,7 @@ function createHybridApp(config) {
 
     // Copy the sample app, if a local app was selected.
     if (config.apptype === 'hybrid_local') {
-        var sampleAppFolder = path.join(__dirname, 'external', 'shared', 'samples', 'userlist');
+        var sampleAppFolder = path.join(__dirname, '..', 'external', 'shared', 'samples', 'userlist');
         shelljs.cp('-R', path.join(sampleAppFolder, '*'), 'www');
     }
 

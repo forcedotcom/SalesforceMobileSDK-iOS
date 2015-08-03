@@ -27,6 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 var repoUtils = require('../external/shared/node/repoUtils');
@@ -34,10 +35,21 @@ var repoUtils = require('../external/shared/node/repoUtils');
 var fullInputPath = path.resolve(path.join(__dirname, 'changed_symlink_files'));
 var symLinkEntries = repoUtils.readSymLinkInput(fullInputPath);
 
-// Revert symlinks from the root of the git repo.
-var absGitRepoPath = path.resolve(__dirname);
-process.chdir(absGitRepoPath);
-repoUtils.revertSymLinks(symLinkEntries, absGitRepoPath, function() {
-	console.log('Finished reverting symlink files in git.');
-	fs.unlinkSync(fullInputPath);
+// Move the original README back into place.
+var absGitRepoPath = path.resolve(path.join(__dirname, '..'));
+var readmePath = path.join(absGitRepoPath, 'README.md');
+var readmeBackupPath = readmePath + '.orig';
+console.log('Moving original repo README file back into place.');
+exec('mv "' + readmeBackupPath + '" "' + readmePath + '"', function (error, stdout, stderr) {
+	if (error) {
+		console.log('WARNING: Could not move ' + readmeBackupPath + ' to ' + readmePath + ': ' + error);
+	}
+
+	// Revert symlinks from the root of the git repo.
+	process.chdir(absGitRepoPath);
+
+	repoUtils.revertSymLinks(symLinkEntries, absGitRepoPath, function() {
+		console.log('Finished reverting symlink files in git.');
+		fs.unlinkSync(fullInputPath);
+	});
 });
