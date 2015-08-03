@@ -1,0 +1,16 @@
+configuration/
+external/appledoc
+external/cordova-ios
+external/fmdb
+external/ocmock
+external/ThirdPartyDependencies
+external/shared/samples/accounteditor/
+external/shared/samples/contactexplorer/
+external/shared/samples/fileexplorer/
+external/shared/samples/simplesync/
+external/shared/samples/smartstoreexplorer/
+external/shared/samples/userandgroupsearch/
+external/shared/samples/usersearch/
+hybrid/
+libs/
+native/
