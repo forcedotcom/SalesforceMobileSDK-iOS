@@ -225,6 +225,10 @@ function createArgProcessorList() {
     // Organization
     addProcessorFor(argProcessorList, 'organization', 'Enter your organization name (Acme, Inc.):', 'Invalid value for organization: \'$val\'.',  /\S+/);
 
+    // Start page
+    addProcessorFor(argProcessorList, 'startpage', 'Enter the start page for your app (only applicable for hybrid_remote apps):', 'Invalid value for start page: \'$val\'.', /\S+/, 
+                    function(argsMap) { return (argsMap['apptype'] === 'hybrid_remote'); });
+
     // Connected App ID
     addProcessorForOptional(argProcessorList, 'appid', 'Enter your Connected App ID (defaults to the sample app\'s ID):');
 
