@@ -13,7 +13,7 @@ before_script:
 script:
    #build all schemes
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
-   - after_success:"cat /home/travis/builds/kchitalia/SalesforceMobileSDK-iOS/SalesforceSDKCommon.log"
+   after_success:"cat /home/travis/builds/kchitalia/SalesforceMobileSDK-iOS/SalesforceSDKCommon.log"
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore
