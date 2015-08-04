@@ -42,14 +42,8 @@
 
 @interface SalesforceRestAPITests ()
 {
-    NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion
     SFUserAccount *_currentUser;
 }
-- (SFNativeRestRequestListener *)sendSyncRequest:(SFRestRequest *)request;
-- (BOOL)waitForAllBlockCompletions;
-- (void)changeOauthTokens:(NSString*)accessToken refreshToken:(NSString*)refreshToken;
-- (void) compareFileAttributes:(NSDictionary *)actualFileAttrs expectedAttrs:(NSDictionary *)expectedFileAttrs;
-- (void)compareMultipleFileAttributes:(NSArray *)actualFileAttrsArray expected:(NSArray *)expectedFileAttrsArray;
 @end
 
 static NSException *authException = nil;
@@ -985,304 +979,294 @@ static NSException *authException = nil;
 
 #pragma mark - testing block functions
 
-// A success block that expects a non-nil response
-#define DICT_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
-_blocksUncompletedCount--; \
-XCTAssertNotNil( d, @"%@ success block did not include a valid response.",testName); \
-}
-
-// A success block that expects a nil response
-#define EMPTY_SUCCESS_BLOCK(testName) ^(NSDictionary *d) { \
-_blocksUncompletedCount--; \
-XCTAssertNil( d, @"%@ success block should have included nil response.",testName); \
-}
-
-// A fail block that should not have failed
-#define UNEXPECTED_ERROR_BLOCK(testName) ^(NSError *e) { \
-_blocksUncompletedCount--; \
-XCTAssertNil( e, @"%@ errored but should not have. Error: %@",testName,e); \
-}
-
-- (BOOL)waitForAllBlockCompletions {
-    NSDate *startTime = [NSDate date] ;
-    BOOL completionTimedOut = NO;
-    while (_blocksUncompletedCount > 0) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
-            [self log:SFLogLevelDebug format:@"request took too long (%f) to complete: %d",elapsed,_blocksUncompletedCount];
-            completionTimedOut = YES;
-            break;
-        }
-        
-        [self log:SFLogLevelDebug format:@"## sleeping...%d",_blocksUncompletedCount];
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+- (BOOL) waitForCompletion:(NSString*)action semaphore:(dispatch_semaphore_t)semaphore {
+    [self log:SFLogLevelDebug format:@"Waiting for %@ to complete", action];
+    long result = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 15LL * NSEC_PER_SEC)); // at most 15s
+    if (result > 0) {
+        XCTFail(@"%@ took too long to complete", action);
+        return YES;
     }
-    
-    return completionTimedOut;
+    else {
+        [self log:SFLogLevelDebug format:@"Completed %@", action];
+        return NO;
+    }
 }
-
 
 
 // These block functions are just a category on SFRestAPI, so we verify here
 // only that the proper blocks were called for each
 
 - (void)testBlockUpdate {
-    _blocksUncompletedCount = 0;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    
+    SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
+        XCTFail("Unexpected error %@", e);
+        dispatch_semaphore_signal(semaphore);
+    };
+    
+    SFRestDictionaryResponseBlock nilResponseSuccessBlock = ^(NSDictionary *d) {
+        XCTAssertNil(d);
+        dispatch_semaphore_signal(semaphore);
+    };
+    
+    
     SFRestAPI *api = [SFRestAPI sharedInstance];
-
+    
     NSString *lastName = [NSString stringWithFormat:@"Doe-BLOCK-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
     NSMutableDictionary *fields = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           @"John", @"FirstName", 
-                                           lastName, @"LastName", 
-                                           nil];
-
+                                   @"John", @"FirstName",
+                                   lastName, @"LastName",
+                                   nil];
+    __block NSString *recordId;
+    
+    [self log:SFLogLevelDebug format:@"Creating Contact"];
     [api performCreateWithObjectType:@"Contact"
                               fields:fields
-                           failBlock:UNEXPECTED_ERROR_BLOCK(@"performCreateWithObjectType")
+                           failBlock:failWithUnexpectedFail
                        completeBlock:^(NSDictionary *d) {
-                           _blocksUncompletedCount--;
-                           __strong NSString *recordId = d[@"id"];
-                           [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
-                           [api performRetrieveWithObjectType:@"Contact"
-                                                     objectId:recordId
-                                                    fieldList:@[@"LastName"]
-                                                    failBlock:UNEXPECTED_ERROR_BLOCK(@"performRetrieveWithObjectType")
-                                                completeBlock:DICT_SUCCESS_BLOCK(@"performRetrieveWithObjectType")
-                            ];
-                           _blocksUncompletedCount++;
-                           [self log:SFLogLevelDebug format:@"Updating LastName for recordId: %@",recordId];
-                           fields[@"LastName"] = updatedLastName;
-                           [api performUpdateWithObjectType:@"Contact"
-                                                   objectId:recordId
-                                                     fields:fields
-                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performUpdateWithObjectType")
-                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpdateWithObjectType")
-                            ];
-                           _blocksUncompletedCount++;
-                           
-                           //Note: this performUpsertWithObjectType test requires that your test user credentials
-                           //have proper permissions, otherwise you will get "insufficient access rights on cross-reference id"
-                           [self log:SFLogLevelDebug format:@"Reverting LastName for recordId: %@",recordId];
-                           fields[@"LastName"] = lastName;
-                           [api performUpsertWithObjectType:@"Contact"
-                                            externalIdField:@"Id"
-                                                 externalId:recordId
-                                                     fields:fields
-                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performUpsertWithObjectType")
-                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performUpsertWithObjectType")
-                            ];
-                           _blocksUncompletedCount++;
-                           
-                           //need to wait until all updates of record complete before deleting record,
-                           //since these operations sometimes complete out-of-order (flapper)
-                           // TODO: This causes hangs with the new Network SDK.  This test needs refactoring.
-//                           BOOL updatesTimedOut = [self waitForAllBlockCompletions];
-//                           XCTAssertTrue(!updatesTimedOut, @"Timed out waiting for blocks completion");
-
-                           [api performDeleteWithObjectType:@"Contact"
-                                                   objectId:recordId
-                                                  failBlock:UNEXPECTED_ERROR_BLOCK(@"performDeleteWithObjectType")
-                                              completeBlock:EMPTY_SUCCESS_BLOCK(@"performDeleteWithObjectType")
-                            ];
-                           _blocksUncompletedCount++;
+                           recordId = (NSString*) d[@"id"];
+                           dispatch_semaphore_signal(semaphore);
                        }];
+    [self waitForCompletion:@"performCreateWithObjectType" semaphore:semaphore];
     
-    _blocksUncompletedCount++;
-
     
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-
+    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    [api performRetrieveWithObjectType:@"Contact"
+                              objectId:recordId
+                             fieldList:@[@"LastName"]
+                             failBlock:failWithUnexpectedFail
+                         completeBlock:^(NSDictionary *d) {
+                             XCTAssertEqualObjects(lastName, d[@"LastName"]);
+                             dispatch_semaphore_signal(semaphore);
+                         }];
+    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    
+    [self log:SFLogLevelDebug format:@"Updating Contact: %@",recordId];
+    fields[@"LastName"] = updatedLastName;
+    [api performUpdateWithObjectType:@"Contact"
+                            objectId:recordId
+                              fields:fields
+                           failBlock:failWithUnexpectedFail
+                       completeBlock:nilResponseSuccessBlock
+     ];
+    [self waitForCompletion:@"performUpdateWithObjectType" semaphore:semaphore];
+    
+    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    [api performRetrieveWithObjectType:@"Contact"
+                              objectId:recordId
+                             fieldList:@[@"LastName"]
+                             failBlock:failWithUnexpectedFail
+                         completeBlock:^(NSDictionary *d) {
+                             XCTAssertEqualObjects(updatedLastName, d[@"LastName"]);
+                             dispatch_semaphore_signal(semaphore);
+                         }];
+    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    
+    [self log:SFLogLevelDebug format:@"Upserting Contact: %@",recordId];
+    fields[@"LastName"] = lastName;
+    [api performUpsertWithObjectType:@"Contact"
+                     externalIdField:@"Id"
+                          externalId:recordId
+                              fields:fields
+                           failBlock:failWithUnexpectedFail
+                       completeBlock:nilResponseSuccessBlock
+     ];
+    [self waitForCompletion:@"performUpsertWithObjectType" semaphore:semaphore];
+    
+    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    [api performRetrieveWithObjectType:@"Contact"
+                              objectId:recordId
+                             fieldList:@[@"LastName"]
+                             failBlock:failWithUnexpectedFail
+                         completeBlock:^(NSDictionary *d) {
+                             XCTAssertEqualObjects(lastName, d[@"LastName"]);
+                             dispatch_semaphore_signal(semaphore);
+                         }];
+    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    
+    [self log:SFLogLevelDebug format:@"Deleting Contact: %@",recordId];
+    [api performDeleteWithObjectType:@"Contact"
+                            objectId:recordId
+                           failBlock:failWithUnexpectedFail
+                       completeBlock:nilResponseSuccessBlock
+     ];
+    [self waitForCompletion:@"performDeleteWithObjectType" semaphore:semaphore];
 }
 
 - (void) testBlocks {
-    _blocksUncompletedCount = 0;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     SFRestAPI *api = [SFRestAPI sharedInstance];
     
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        _blocksUncompletedCount--;
-        XCTAssertNotNil( e, @"Failure block didn't include an error." );
+        dispatch_semaphore_signal(semaphore);
     };
     
     // A fail block that should not have failed
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        _blocksUncompletedCount--;
-        XCTAssertNil( e, @"Failure block errored but should not have.");
+        XCTFail("Unexpected error %@", e);
+        dispatch_semaphore_signal(semaphore);
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        _blocksUncompletedCount--;
-        XCTAssertNil( d, @"Success block succeeded but should not have.");
+        XCTFail("Unexpected success %@", d);
+        dispatch_semaphore_signal(semaphore);
+    };
+    
+    // An success block that we expected to succeed
+    SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d) {
+        dispatch_semaphore_signal(semaphore);
     };
     
     // An array success block that we expected to succeed
     SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr) {
-        _blocksUncompletedCount--;
-        XCTAssertNotNil( arr, @"Success block did not include a valid response.");
-    };
-    
-    // An array success block that should not have succeeded
-    SFRestArrayResponseBlock arrayUnexpectedSuccessBlock = ^(NSArray *arr) {
-        _blocksUncompletedCount--;
-        XCTAssertNil( arr, @"Success block succeeded but should not have.");
+        dispatch_semaphore_signal(semaphore);
     };
     
     // Class helper function that creates an error.
     NSString *errorStr = @"Sample error.";
-    
-    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]], 
-                 @"Generated error should match description." );
-
+    XCTAssertTrue( [errorStr isEqualToString:[[SFRestAPI errorWithDescription:errorStr] localizedDescription]],
+                  @"Generated error should match description." );
     
     // Block functions that should always fail
     [api performDeleteWithObjectType:nil objectId:nil
-                                                  failBlock:failWithExpectedFail
-                                              completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performCreateWithObjectType:nil fields:nil
-                                                  failBlock:failWithExpectedFail
-                                              completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performDescribeWithObjectType:nil
-                                                    failBlock:failWithExpectedFail
-                                                completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performMetadataWithObjectType:nil
-                                                    failBlock:failWithExpectedFail
-                                                completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
-                                                    failBlock:failWithExpectedFail
-                                                completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performUpdateWithObjectType:nil objectId:nil fields:nil
-                                                  failBlock:failWithExpectedFail
-                                              completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
-                                                     fields:nil
-                                                  failBlock:failWithExpectedFail
-                                              completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performSOQLQuery:nil 
-                                       failBlock:failWithExpectedFail
-                                   completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
-    [api performSOQLQueryAll:nil 
-                                       failBlock:failWithExpectedFail
-                                   completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount++;
+                           failBlock:failWithExpectedFail
+                       completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performDeleteWithObjectType:nil" semaphore:semaphore];
     
-    // Commenting this out, for further consideration.  This test previously blew up, because of a nil boundary
-    // condition not being checked.  Once that was fixed, it turns out that calling the search API endpoint with no
-    // query params returns what is effectively a describe dictionary for search.  Given that an NSDictionary
-    // is otherwise an unexpected return type from the search endpoint (NSArray is expected), that we
-    // don't have an input validation scheme for SFRestAPI in general, and that the current response blocks scheme
-    // makes it difficult to selectively change the return type for a given factory method, this is going to have to
-    // be a blind spot for the time being.  This problem goes away with the new Network SDK.
-    // TODO: Find a way to account for the different data types coming back from the SOSL API endpoint.
-//    [api performSOSLSearch:nil
-//                                        failBlock:failWithExpectedFail
-//                                    completeBlock:arrayUnexpectedSuccessBlock];
-//    _blocksUncompletedCount++;
+    [api performCreateWithObjectType:nil fields:nil
+                           failBlock:failWithExpectedFail
+                       completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performCreateWithObjectType:nil" semaphore:semaphore];
+    
+    [api performMetadataWithObjectType:nil
+                             failBlock:failWithExpectedFail
+                         completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performMetadataWithObjectType:nil" semaphore:semaphore];
+    
+    [api performDescribeWithObjectType:nil
+                             failBlock:failWithExpectedFail
+                         completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performDescribeWithObjectType:nil" semaphore:semaphore];
+    
+    [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
+                             failBlock:failWithExpectedFail
+                         completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performRetrieveWithObjectType:nil" semaphore:semaphore];
+    
+    [api performUpdateWithObjectType:nil objectId:nil fields:nil
+                           failBlock:failWithExpectedFail
+                       completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performUpdateWithObjectType:nil" semaphore:semaphore];
+    
+    [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
+                              fields:nil
+                           failBlock:failWithExpectedFail
+                       completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performUpsertWithObjectType:nil" semaphore:semaphore];
+    
+    [api performSOQLQuery:nil
+                failBlock:failWithExpectedFail
+            completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performSOQLQuery:nil" semaphore:semaphore];
+    
+    [api performSOQLQueryAll:nil
+                   failBlock:failWithExpectedFail
+               completeBlock:successWithUnexpectedSuccessBlock];
+    [self waitForCompletion:@"performSOQLQueryAll:nil" semaphore:semaphore];
+
+    // NB: sosl with nil used to fail but now returns the dict { layout = "/services/data/v33.0/search/layout" ... }
+    //     as a result performSOSLSearch can't be used since it expects an array in the response
     
     // Block functions that should always succeed
     [api performRequestForResourcesWithFailBlock:failWithUnexpectedFail
-                                                          completeBlock:DICT_SUCCESS_BLOCK(@"performRequestForResourcesWithFailBlock")
-     ];
-    _blocksUncompletedCount++;
-    [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
-                                                         completeBlock:DICT_SUCCESS_BLOCK(@"performRequestForVersionsWithFailBlock")
-     ];
-    _blocksUncompletedCount++;
-    [api performDescribeGlobalWithFailBlock:failWithUnexpectedFail
-                                                     completeBlock:DICT_SUCCESS_BLOCK(@"performDescribeGlobalWithFailBlock")
-     ];
-    _blocksUncompletedCount++;
-    [api performSOQLQuery:@"select id from user limit 10"
-                                       failBlock:failWithUnexpectedFail
-                                   completeBlock:DICT_SUCCESS_BLOCK(@"performSOQLQuery")
-     ];
-    _blocksUncompletedCount++;
-    [api performSOQLQueryAll:@"select id from user limit 10"
-                                       failBlock:failWithUnexpectedFail
-                                   completeBlock:DICT_SUCCESS_BLOCK(@"performSOQLQueryAll")
-     ];
-    _blocksUncompletedCount++;
-    [api performSOSLSearch:@"find {batman}"
-                                        failBlock:failWithUnexpectedFail
-                                    completeBlock:arraySuccessBlock];
-    _blocksUncompletedCount++;
-    [api performDescribeWithObjectType:@"Contact"
-                                                    failBlock:failWithUnexpectedFail
-                                                completeBlock:DICT_SUCCESS_BLOCK(@"performDescribeWithObjectType")
-     ];
-    _blocksUncompletedCount++;
-    [api performMetadataWithObjectType:@"Contact"
-                                                    failBlock:failWithUnexpectedFail
-                                                completeBlock:DICT_SUCCESS_BLOCK(@"performMetadataWithObjectType")
-     ];
-    _blocksUncompletedCount++;
-    
-    
-    
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+                                   completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performRequestForResourcesWithFailBlock" semaphore:semaphore];
 
-        
-    
+    [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
+                                  completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performRequestForVersionsWithFailBlock" semaphore:semaphore];
+
+    [api performDescribeGlobalWithFailBlock:failWithUnexpectedFail
+                              completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performDescribeGlobalWithFailBlock" semaphore:semaphore];
+
+    [api performSOQLQuery:@"select id from user limit 10"
+                failBlock:failWithUnexpectedFail
+            completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performSOQLQuery:select id from user limit 10" semaphore:semaphore];
+
+    [api performSOQLQueryAll:@"select id from user limit 10"
+                   failBlock:failWithUnexpectedFail
+               completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performSOQLQueryAll:select id from user limit 10" semaphore:semaphore];
+
+    [api performSOSLSearch:@"find {batman}"
+                 failBlock:failWithUnexpectedFail
+             completeBlock:arraySuccessBlock];
+    [self waitForCompletion:@"performSOSLSearch:find {batman}" semaphore:semaphore];
+
+    [api performDescribeWithObjectType:@"Contact"
+                             failBlock:failWithUnexpectedFail
+                         completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performDescribeWithObjectType:Contact" semaphore:semaphore];
+
+    [api performMetadataWithObjectType:@"Contact"
+                             failBlock:failWithUnexpectedFail
+                         completeBlock:dictSuccessBlock];
+    [self waitForCompletion:@"performMetadataWithObjectType:Contact" semaphore:semaphore];
 }
 
 
 - (void)testBlocksCancel {
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        _blocksUncompletedCount--;
-        XCTAssertNotNil( e, @"Failure block didn't include an error." );
+        dispatch_semaphore_signal(semaphore);
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        _blocksUncompletedCount--;
-        XCTAssertNil( d, @"Success block succeeded but should not have.");
+        XCTFail("Unexpected success %@", d);
+        dispatch_semaphore_signal(semaphore);
     };
     
-    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
-                                                          completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount  = 1;
-
-    [[SFRestAPI sharedInstance] cancelAllRequests];
+    [api performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
     
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-
+    [api cancelAllRequests];
+    
+    BOOL completionTimedOut = [self waitForCompletion:@"performRequestForResourcesWithFailBlock-with-cancel" semaphore:semaphore];
+    XCTAssertTrue(!completionTimedOut);
 }
 
 - (void)testBlocksTimeout {
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    SFRestAPI *api = [SFRestAPI sharedInstance];
+    
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        _blocksUncompletedCount--;
-        XCTAssertNotNil( e, @"Failure block didn't include an error." );
+        dispatch_semaphore_signal(semaphore);
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        _blocksUncompletedCount--;
-        XCTAssertNil( d, @"Success block succeeded but should not have.");
+        XCTFail("Unexpected success %@", d);
+        dispatch_semaphore_signal(semaphore);
     };
     
-    [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:failWithExpectedFail
-                                                          completeBlock:successWithUnexpectedSuccessBlock];
-    _blocksUncompletedCount = 1;
+    [api performRequestForResourcesWithFailBlock:failWithExpectedFail
+                                   completeBlock:successWithUnexpectedSuccessBlock];
     
-    BOOL found = [[SFRestAPI sharedInstance] forceTimeoutRequest:nil];
+    BOOL found = [api forceTimeoutRequest:nil];
     XCTAssertTrue(found , @"Could not find request to force a timeout");
 
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
+    BOOL completionTimedOut = [self waitForCompletion:@"performRequestForResourcesWithFailBlock-with-forced-timeout" semaphore:semaphore];
+    XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
 
 #pragma mark - SFRestAPI utility tests
