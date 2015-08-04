@@ -29,3 +29,5 @@ script:
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOSTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
