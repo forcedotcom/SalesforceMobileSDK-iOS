@@ -387,7 +387,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
             NSString *whereClause = nil;
             if (objectContainedLastViewedDate) {
-                [queryBuilder from:[NSString stringWithFormat:@"%@ using MRU", objectTypeName]];
+                [queryBuilder from:[NSString stringWithFormat:@"%@ using SCOPE MRU", objectTypeName]];
                 whereClause = @"LastViewedDate != NULL";
                 [queryBuilder orderBy:@"LastViewedDate DESC"];
                 [queryBuilder limit:limit];
