@@ -13,6 +13,7 @@ before_script:
 script:
    #build all schemes
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
+   - after_success:"cat /home/travis/builds/kchitalia/SalesforceMobileSDK-iOS/SalesforceSDKCommon.log"
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore
@@ -29,5 +30,5 @@ script:
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
-   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   #- xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
    - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOSTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
