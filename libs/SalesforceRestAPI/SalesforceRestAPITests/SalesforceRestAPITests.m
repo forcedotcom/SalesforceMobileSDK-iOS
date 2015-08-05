@@ -44,6 +44,8 @@
 {
     SFUserAccount *_currentUser;
 }
+@property (nonatomic, strong) XCTestExpectation *currentExpectation;
+
 @end
 
 static NSException *authException = nil;
@@ -979,17 +981,21 @@ static NSException *authException = nil;
 
 #pragma mark - testing block functions
 
-- (BOOL) waitForCompletion:(NSString*)action semaphore:(dispatch_semaphore_t)semaphore {
-    [self log:SFLogLevelDebug format:@"Waiting for %@ to complete", action];
-    long result = dispatch_semaphore_wait(semaphore, dispatch_time(DISPATCH_TIME_NOW, 15LL * NSEC_PER_SEC)); // at most 15s
-    if (result > 0) {
-        XCTFail(@"%@ took too long to complete", action);
-        return YES;
-    }
-    else {
-        [self log:SFLogLevelDebug format:@"Completed %@", action];
-        return NO;
-    }
+- (BOOL) waitForExpectation {
+    [self log:SFLogLevelDebug format:@"Waiting for %@ to complete", self.currentExpectation.description];
+
+    __block BOOL timedout;
+    [self waitForExpectationsWithTimeout:15 handler:^(NSError *error) {
+        if (error) {
+            XCTFail(@"%@ took too long to complete", self.currentExpectation.description);
+            timedout = YES;
+        }
+        else {
+            [self log:SFLogLevelDebug format:@"Completed %@", self.currentExpectation.description];
+            timedout = NO;
+        }
+    }];
+    return timedout;
 }
 
 
@@ -997,16 +1003,14 @@ static NSException *authException = nil;
 // only that the proper blocks were called for each
 
 - (void)testBlockUpdate {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-    
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
         XCTFail("Unexpected error %@", e);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     SFRestDictionaryResponseBlock nilResponseSuccessBlock = ^(NSDictionary *d) {
         XCTAssertNil(d);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     
@@ -1020,29 +1024,29 @@ static NSException *authException = nil;
                                    nil];
     __block NSString *recordId;
     
-    [self log:SFLogLevelDebug format:@"Creating Contact"];
+    self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-creating contact"];
     [api performCreateWithObjectType:@"Contact"
                               fields:fields
                            failBlock:failWithUnexpectedFail
                        completeBlock:^(NSDictionary *d) {
                            recordId = (NSString*) d[@"id"];
-                           dispatch_semaphore_signal(semaphore);
+                           [self.currentExpectation fulfill];
                        }];
-    [self waitForCompletion:@"performCreateWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
     
-    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:@"Contact"
                               objectId:recordId
                              fieldList:@[@"LastName"]
                              failBlock:failWithUnexpectedFail
                          completeBlock:^(NSDictionary *d) {
                              XCTAssertEqualObjects(lastName, d[@"LastName"]);
-                             dispatch_semaphore_signal(semaphore);
+                             [self.currentExpectation fulfill];
                          }];
-    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
-    [self log:SFLogLevelDebug format:@"Updating Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-updating contact"];
     fields[@"LastName"] = updatedLastName;
     [api performUpdateWithObjectType:@"Contact"
                             objectId:recordId
@@ -1050,20 +1054,20 @@ static NSException *authException = nil;
                            failBlock:failWithUnexpectedFail
                        completeBlock:nilResponseSuccessBlock
      ];
-    [self waitForCompletion:@"performUpdateWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
-    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:@"Contact"
                               objectId:recordId
                              fieldList:@[@"LastName"]
                              failBlock:failWithUnexpectedFail
                          completeBlock:^(NSDictionary *d) {
                              XCTAssertEqualObjects(updatedLastName, d[@"LastName"]);
-                             dispatch_semaphore_signal(semaphore);
+                             [self.currentExpectation fulfill];
                          }];
-    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
-    [self log:SFLogLevelDebug format:@"Upserting Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-upserting contact"];
     fields[@"LastName"] = lastName;
     [api performUpsertWithObjectType:@"Contact"
                      externalIdField:@"Id"
@@ -1072,57 +1076,57 @@ static NSException *authException = nil;
                            failBlock:failWithUnexpectedFail
                        completeBlock:nilResponseSuccessBlock
      ];
-    [self waitForCompletion:@"performUpsertWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
-    [self log:SFLogLevelDebug format:@"Retrieving Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-retrieving contact"];
     [api performRetrieveWithObjectType:@"Contact"
                               objectId:recordId
                              fieldList:@[@"LastName"]
                              failBlock:failWithUnexpectedFail
                          completeBlock:^(NSDictionary *d) {
                              XCTAssertEqualObjects(lastName, d[@"LastName"]);
-                             dispatch_semaphore_signal(semaphore);
+                             [self.currentExpectation fulfill];
                          }];
-    [self waitForCompletion:@"performRetrieveWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
     
-    [self log:SFLogLevelDebug format:@"Deleting Contact: %@",recordId];
+    self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-deleting contact"];
     [api performDeleteWithObjectType:@"Contact"
                             objectId:recordId
                            failBlock:failWithUnexpectedFail
                        completeBlock:nilResponseSuccessBlock
      ];
-    [self waitForCompletion:@"performDeleteWithObjectType" semaphore:semaphore];
+    [self waitForExpectation];
 }
 
 - (void) testBlocks {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
     SFRestAPI *api = [SFRestAPI sharedInstance];
     
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
-    
+
     // A fail block that should not have failed
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
         XCTFail("Unexpected error %@", e);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
+    
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         XCTFail("Unexpected success %@", d);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     // An success block that we expected to succeed
     SFRestDictionaryResponseBlock dictSuccessBlock = ^(NSDictionary *d) {
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     // An array success block that we expected to succeed
     SFRestArrayResponseBlock arraySuccessBlock = ^(NSArray *arr) {
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     // Class helper function that creates an error.
@@ -1131,108 +1135,125 @@ static NSException *authException = nil;
                   @"Generated error should match description." );
     
     // Block functions that should always fail
+    self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
     [api performDeleteWithObjectType:nil objectId:nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performDeleteWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-nil"];
     [api performCreateWithObjectType:nil fields:nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performCreateWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-nil"];
     [api performMetadataWithObjectType:nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performMetadataWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-nil"];
     [api performDescribeWithObjectType:nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performDescribeWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-nil"];
     [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performRetrieveWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-nil"];
     [api performUpdateWithObjectType:nil objectId:nil fields:nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performUpdateWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-nil"];
     [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
                               fields:nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performUpsertWithObjectType:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-nil"];
     [api performSOQLQuery:nil
                 failBlock:failWithExpectedFail
             completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performSOQLQuery:nil" semaphore:semaphore];
+    [self waitForExpectation];
     
+    self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-nil"];
     [api performSOQLQueryAll:nil
                    failBlock:failWithExpectedFail
                completeBlock:successWithUnexpectedSuccessBlock];
-    [self waitForCompletion:@"performSOQLQueryAll:nil" semaphore:semaphore];
+    [self waitForExpectation];
 
     // NB: sosl with nil used to fail but now returns the dict { layout = "/services/data/v33.0/search/layout" ... }
     //     as a result performSOSLSearch can't be used since it expects an array in the response
     
     // Block functions that should always succeed
+    self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock"];
     [api performRequestForResourcesWithFailBlock:failWithUnexpectedFail
                                    completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performRequestForResourcesWithFailBlock" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performRequestForVersionsWithFailBlock"];
     [api performRequestForVersionsWithFailBlock:failWithUnexpectedFail
                                   completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performRequestForVersionsWithFailBlock" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performDescribeGlobalWithFailBlock"];
     [api performDescribeGlobalWithFailBlock:failWithUnexpectedFail
                               completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performDescribeGlobalWithFailBlock" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-select id from user limit 10"];
     [api performSOQLQuery:@"select id from user limit 10"
                 failBlock:failWithUnexpectedFail
             completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performSOQLQuery:select id from user limit 10" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-select id from user limit 10"];
     [api performSOQLQueryAll:@"select id from user limit 10"
                    failBlock:failWithUnexpectedFail
                completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performSOQLQueryAll:select id from user limit 10" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performSOSLSearch-find {batman}"];
     [api performSOSLSearch:@"find {batman}"
                  failBlock:failWithUnexpectedFail
              completeBlock:arraySuccessBlock];
-    [self waitForCompletion:@"performSOSLSearch:find {batman}" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-Contact"];
     [api performDescribeWithObjectType:@"Contact"
                              failBlock:failWithUnexpectedFail
                          completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performDescribeWithObjectType:Contact" semaphore:semaphore];
+    [self waitForExpectation];
 
+    self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-Contact"];
     [api performMetadataWithObjectType:@"Contact"
                              failBlock:failWithUnexpectedFail
                          completeBlock:dictSuccessBlock];
-    [self waitForCompletion:@"performMetadataWithObjectType:Contact" semaphore:semaphore];
+    [self waitForExpectation];
 }
 
 
 - (void)testBlocksCancel {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock-with-cancel"];
     SFRestAPI *api = [SFRestAPI sharedInstance];
     
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         XCTFail("Unexpected success %@", d);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     [api performRequestForResourcesWithFailBlock:failWithExpectedFail
@@ -1240,23 +1261,23 @@ static NSException *authException = nil;
     
     [api cancelAllRequests];
     
-    BOOL completionTimedOut = [self waitForCompletion:@"performRequestForResourcesWithFailBlock-with-cancel" semaphore:semaphore];
+    BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertTrue(!completionTimedOut);
 }
 
 - (void)testBlocksTimeout {
-    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    self.currentExpectation = [self expectationWithDescription:@"performRequestForResourcesWithFailBlock-with-forced-timeout"];
     SFRestAPI *api = [SFRestAPI sharedInstance];
     
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         XCTFail("Unexpected success %@", d);
-        dispatch_semaphore_signal(semaphore);
+        [self.currentExpectation fulfill];
     };
     
     [api performRequestForResourcesWithFailBlock:failWithExpectedFail
@@ -1265,7 +1286,7 @@ static NSException *authException = nil;
     BOOL found = [api forceTimeoutRequest:nil];
     XCTAssertTrue(found , @"Could not find request to force a timeout");
 
-    BOOL completionTimedOut = [self waitForCompletion:@"performRequestForResourcesWithFailBlock-with-forced-timeout" semaphore:semaphore];
+    BOOL completionTimedOut = [self waitForExpectation];
     XCTAssertTrue(!completionTimedOut); // when we force timeout the request, its error handler gets invoked right away, so the semaphore-wait should not time out
 }
 
