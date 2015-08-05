@@ -104,7 +104,7 @@
     CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     
     // Setting verbs and methods (values do not matter - but can't be nil otherwise it confuses duplicateActionInFlight/isEqualToAction
-    action1.method = action2.method = @"POST";
+    action1.method = action2.method = @"GET";
     action1.verb = action2.verb = @"/xyz";
 
     [network executeAction:action1];
