@@ -60,4 +60,23 @@ framework module SalesforceKit {
         use SalesforceSDKCore
         use SalesforceCommonUtils
     }
+    
+    framework module SalesforceRestAPI {
+        umbrella header "SalesforceRestAPI.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSDKCore
+        use SalesforceNetwork
+    }
+    
+    framework module SmartSync {
+        umbrella header "SmartSync.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceRestAPI
+    }
 }
