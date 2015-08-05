@@ -424,13 +424,13 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                 [returnList addObject:object];
             }
             recentItems = returnList;
-            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-                completionBlock(recentItems, NO, needToReloadCache);
-            }
-            
+
             // Save data to the cache.
             if ([self shouldCacheData:cachePolicy]) {
                 [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
+            }
+            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                completionBlock(recentItems, NO, needToReloadCache);
             }
         };
         
