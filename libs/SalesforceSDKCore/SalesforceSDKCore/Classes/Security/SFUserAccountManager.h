@@ -134,6 +134,29 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 @property (nonatomic, readonly) SFUserAccount *temporaryUser;
 
+/** Returns YES if the application supports anonymous user, no otherwise.
+ 
+ Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+ to its Info.plist file in order to enable this flag.
+ */
+@property (nonatomic, readonly) BOOL supportsAnonymousUser;
+
+/** Returns YES if the application wants the anonymous user to be
+  created automatically at startup, no otherwise.
+  
+  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+  to its Info.plist file in order to enable this flag.
+  */
+@property (nonatomic, readonly) BOOL autocreateAnonymousUser;
+
+/** Returns the anonymous user or nil if none exists
+  */
+@property (nonatomic, strong, readonly) SFUserAccount *anonymousUser;
+
+/** Returns YES if the current user is anonymous, no otherwise
+  */
+@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
+
 /**  Convenience property to retrieve the current user's identity.
  */
 @property (nonatomic, readonly) SFUserAccountIdentity *currentUserIdentity;
@@ -246,6 +269,13 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  Otherwise, use `login` to allow SFUserAccountManager to automatically create an account when necessary.
  */
 - (SFUserAccount*)createUserAccount;
+
+/** This method ensures the anonymous user exists and if not, creates the anonymous
+ user and saves it with the other users. This method doesn't change the current user.
+ 
+ Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
+ */
+- (void)enableAnonymousAccount;
 
 /** Allows you to lookup the user account associated with a given user identity.
  */

@@ -1,9 +1,16 @@
+#run build only for unstable branch
 branches:
    only:
      - unstable
 
 language: objective-c
+
+# before running the build script, rn the script to inject test credentials
+before_script:
+   - ./build/pre-build
+
 script:
+   #build all schemes
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
@@ -12,5 +19,6 @@ script:
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
    - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
- 
 
+   #run all tests
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO

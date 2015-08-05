@@ -675,21 +675,24 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
     id content = nil;
-    
+    BOOL requestSucceeded = (response.statusCode >= 200 && response.statusCode < 300);
+
+    // try to parse response if response is not an error or response status code is between the specified status code range
+    // 2xx is for successful request
+    // 4xx is for client error that may contains valuable error information in response
     NSError *jsonParseError = nil;
     if ([self.responseData length] > 0) {
         content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
     }
     
-    // If it's an error here, it's a basic parsing error.
-    if (jsonParseError && error) {
+    // Surface error back if we run into JSON parsing error on a successful HTTP response
+    if (jsonParseError && error && requestSucceeded) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                         code:CSFNetworkJSONInvalidError
-                                     userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
-                                                 NSUnderlyingErrorKey: jsonParseError,
-                                                 CSFNetworkErrorActionKey: self }];
+                                     code:CSFNetworkJSONInvalidError
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
+                                             NSUnderlyingErrorKey: jsonParseError,
+                                             CSFNetworkErrorActionKey: self }];
     }
-    
     return content;
 }
 

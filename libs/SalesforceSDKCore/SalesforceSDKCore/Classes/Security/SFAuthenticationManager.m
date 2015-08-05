@@ -423,14 +423,19 @@ static Class InstanceClass = nil;
 
 - (void)logoutUser:(SFUserAccount *)user
 {
+
     // No-op, if the user is not valid.
     if (user == nil) {
         [self log:SFLogLevelInfo msg:@"logoutUser: user is nil.  No action taken."];
         return;
     }
-    
+
+    // No-op if the user is anonymous.
+    if (user == [SFUserAccountManager sharedInstance].anonymousUser) {
+        [self log:SFLogLevelDebug msg:@"logoutUser: user is anonymous.  No action taken."];
+        return;
+    }
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
-    
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self

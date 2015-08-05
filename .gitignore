@@ -10,3 +10,4 @@ artifacts
 /libs/SalesforceOAuth/build/
 /libs/SalesforceRestAPI/build/
 /native/SampleApps/RestAPIExplorer/build/
+node_modules/
