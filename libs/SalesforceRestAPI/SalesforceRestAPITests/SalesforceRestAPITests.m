@@ -279,6 +279,7 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         records = (NSArray *)listener.dataResponse;
         XCTAssertEqual((int)[records count], 1, @"expected just one search result");
+//        records = (NSArray *)listener.dataResponse;
     }
     @finally {
         // now delete object
