@@ -79,6 +79,7 @@
         XCTAssertEqual(error.code, CSFNetworkJSONInvalidError);
         [responseBlockExpectation fulfill];
     } testString:@"What the heck, this isn't JSON?"];
+    testAction.url = [NSURL URLWithString:@"http://example.com/foo/bar"];
     testAction.testResponseObject = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@"http://example.com/foo/bar"]
                                                                 statusCode:200
                                                                HTTPVersion:@"1.1"
@@ -110,7 +111,8 @@
     
     action.url = [NSURL URLWithString:@"http://another.example.com/some/path/to/a/request"];
     XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://another.example.com/");
-    XCTAssertEqualObjects(action.verb, @"some/path/to/a/request");
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://another.example.com/some/path/to/a/request");
+    XCTAssertEqualObjects(action.verb, @"/some/path/to/a/request");
 }
 
 @end

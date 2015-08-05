@@ -56,8 +56,6 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     NSMutableDictionary *_timingValues;
     NSData  *_jsonData;
     BOOL _enqueueIfNoNetwork;
-    NSString *_scheme;
-    NSString *_host;
 }
 
 @property (nonatomic, strong, readonly) NSMutableDictionary *timingValues;
@@ -72,20 +70,10 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
-    if (!baseURL && _host && _scheme) {
-        baseURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@/", _scheme, _host]];
-    } else if (!baseURL) {
-        NSMutableString *instanceString = [self.enqueuedNetwork.account.credentials.instanceUrl.absoluteString mutableCopy];
-        if (![instanceString hasSuffix:@"/"]) {
-            [instanceString appendString:@"/"];
-        }
-        baseURL = [NSURL URLWithString:instanceString];
-    }
-    
     if (!baseURL) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                      code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL, or instance host",
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
                                              CSFNetworkErrorActionKey: self }];
         return nil;
     }
@@ -242,9 +230,13 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     // query -> page=2012-04-26T04%3A50%3A14Z%2C0D53000000qpC2ZCAU&pageSize=20
     
     NSString *path = [localURL path];
+    NSString *baseUrlString = [url absoluteString];
+    NSRange pathRange = [baseUrlString rangeOfString:path];
+    if (pathRange.location != NSNotFound && pathRange.location > 0) {
+        self.baseURL = [NSURL URLWithString:[baseUrlString substringToIndex:pathRange.location]];
+    }
+
     self.verb = path;
-    _host = [localURL host];
-    _scheme = [localURL scheme];
     
     NSString *query = [localURL query];
     for (NSString *param in [query componentsSeparatedByString:@"&"]) {
