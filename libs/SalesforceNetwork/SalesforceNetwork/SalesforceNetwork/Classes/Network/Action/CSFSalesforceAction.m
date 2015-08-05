@@ -35,6 +35,9 @@ NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
 NSString * const CSFSalesforceDefaultAPIVersion = @"v33.0";
 
 static void * kObservingKey = &kObservingKey;
+static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
+    return errorDict[@"message"] ?: (errorDict[@"msg"] ?: errorDict[@"errorMsg"]);
+}
 
 @implementation CSFSalesforceAction
 
@@ -125,12 +128,12 @@ static void * kObservingKey = &kObservingKey;
             NSArray *jsonArray = (NSArray*)content;
             NSDictionary *errorDict = jsonArray[0];
             if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
-                msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
+                msgObj = CSFSalesforceErrorMessage(errorDict);
                 errorCode = errorDict[@"errorCode"];
             }
         } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
             NSDictionary *errorDict = (NSDictionary*)content;
-            msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
+            msgObj = CSFSalesforceErrorMessage(errorDict);
             errorCode = errorDict[@"errorCode"];
         }
         
