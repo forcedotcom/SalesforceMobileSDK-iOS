@@ -15,22 +15,22 @@ before_script:
 
 script:
    #build all schemes
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK | xcpretty -c && exit ${PIPESTATUS[0]}
    # run all tests
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   #- xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOSTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   #- xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOSTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c && exit ${PIPESTATUS[0]}
