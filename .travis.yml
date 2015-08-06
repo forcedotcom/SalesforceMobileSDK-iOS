@@ -20,7 +20,7 @@ script:
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth | xcpretty -c
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore | xcpretty -c
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS | xcpretty -c
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI | xcprety -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI | xcpretty -c
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty -c
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK | xcpretty -c
    # run all tests
