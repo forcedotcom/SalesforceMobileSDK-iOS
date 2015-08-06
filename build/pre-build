@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "{
 	\"instance_url\" : \"${INSTANCE_URL}\",
   	\"test_client_id\" : \"${TEST_CLIENT_ID}\",
@@ -8,4 +10,3 @@ echo "{
   	\"access_token\" : \"${ACCESS_TOKEN}\"
 }" > ./shared/test/test_credentials.json
 cat ./shared/test/test_credentials.json
-
