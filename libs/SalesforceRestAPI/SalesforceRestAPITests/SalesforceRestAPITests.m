@@ -1257,14 +1257,12 @@ static NSException *authException = nil;
     
     // A fail block that we expected to fail
     SFRestFailBlock failWithExpectedFail = ^(NSError *e) {
-        NSLog(@"In fail block %@", e.domain);
         [self.currentExpectation fulfill];
     };
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
         XCTFail("Unexpected success %@", d);
-        NSLog(@"In sucess block");
         [self.currentExpectation fulfill];
     };
     
