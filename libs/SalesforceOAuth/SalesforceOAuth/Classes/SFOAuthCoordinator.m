@@ -732,20 +732,15 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 {
     self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
     self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
-    
-    if (!tokenRefresh) {
-        self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
-        self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
-        
-        NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
-        if (nil != communityId) {
-            self.credentials.communityId = communityId;
-        }
-        
-        NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
-        if (nil != communityUrl) {
-            self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
-        }
+    self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
+    self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
+    NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
+    if (nil != communityId) {
+        self.credentials.communityId = communityId;
+    }
+    NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
+    if (nil != communityUrl) {
+        self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
     }
 }
 
