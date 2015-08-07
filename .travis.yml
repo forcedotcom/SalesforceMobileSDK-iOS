@@ -29,7 +29,7 @@ script:
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
