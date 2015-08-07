@@ -275,7 +275,7 @@ static NSException *authException = nil;
         
         // now search object
         // Record is not available for search right away - so waiting a bit to prevent the test from flapping
-        [NSThread sleepForTimeInterval:3.0f];
+        [NSThread sleepForTimeInterval:5.0f];
         request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", lastName]];
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -1014,7 +1014,7 @@ static NSException *authException = nil;
 
 - (void)testBlockUpdate {
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        XCTFail("Unexpected error %@", e);
+        XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
     
@@ -1118,14 +1118,14 @@ static NSException *authException = nil;
 
     // A fail block that should not have failed
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        XCTFail("Unexpected error %@", e);
+        XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
     
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        XCTFail("Unexpected success %@", d);
+        XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
     
@@ -1262,7 +1262,7 @@ static NSException *authException = nil;
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        XCTFail("Unexpected success %@", d);
+        XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
     

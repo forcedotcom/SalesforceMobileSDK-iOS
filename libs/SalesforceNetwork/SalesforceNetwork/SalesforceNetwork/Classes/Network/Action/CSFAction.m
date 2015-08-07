@@ -45,6 +45,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     BOOL _ready;
     BOOL _executing;
     BOOL _finished;
+    BOOL _completeCalled;
     
     CSFParameterStorage *_parameters;
     NSMutableDictionary *_HTTPHeaders;
@@ -389,7 +390,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
 - (void)cancel {
     [super cancel];
-    [self.sessionTask cancel];
+        [self.sessionTask cancel];
     
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
@@ -518,14 +519,23 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 }
 
 - (void)completeOperationWithError:(NSError *)error {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    _executing = NO;
-    _finished = YES;
-    self.error = error;
-    [self didChangeValueForKey:@"isExecuting"];
-    [self didChangeValueForKey:@"isFinished"];
+    if (_completeCalled) {
+        return;
+    }
+    else {
+        _completeCalled = YES;
+    }
+
+    if (self.isExecuting) {
+        [self willChangeValueForKey:@"isExecuting"];
+        [self willChangeValueForKey:@"isFinished"];
+        _executing = NO;
+        _finished = YES;
+        [self didChangeValueForKey:@"isExecuting"];
+        [self didChangeValueForKey:@"isFinished"];
+    }
     
+    self.error = error;
     self.responseData = nil;
     
     if (self.responseBlock) {
