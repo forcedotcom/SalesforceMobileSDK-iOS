@@ -518,13 +518,12 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         }
 
-        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-            completionBlock(returnList, NO);
-        }
-        
         // Save data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(returnList, NO);
         }
     };
     
@@ -592,18 +591,17 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
         return;
     }
-    
+
     SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
         SFObjectType *objectType = nil;
         objectType = [[SFObjectType alloc] initWithDictionary:data];
 
-        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-            completionBlock(objectType, NO);
-        }
-        
         // Saves data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObjects:@[ objectType ] cacheType:cacheType cacheKey:cacheKey];
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(objectType, NO);
         }
     };
     

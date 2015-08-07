@@ -119,24 +119,23 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     NSError *responseError = nil;
     id content = [super contentFromData:data fromResponse:response error:&responseError];
 
-    if (content && !responseError) {
+    if (!responseError) {
         NSObject *msgObj = nil;
         NSString *errorCode = nil;
-        
-        // TODO: I think this code can be cleaned up to be a bit more tidy.
-        if ([content isKindOfClass:[NSArray class]] && [(NSArray*)content count] > 0) {
-            NSArray *jsonArray = (NSArray*)content;
-            NSDictionary *errorDict = jsonArray[0];
-            if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+        if (content) {
+            if ([content isKindOfClass:[NSArray class]] && [(NSArray*)content count] > 0) {
+                NSArray *jsonArray = (NSArray*)content;
+                NSDictionary *errorDict = jsonArray[0];
+                if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+                    msgObj = CSFSalesforceErrorMessage(errorDict);
+                    errorCode = errorDict[@"errorCode"];
+                }
+            } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDict = (NSDictionary*)content;
                 msgObj = CSFSalesforceErrorMessage(errorDict);
                 errorCode = errorDict[@"errorCode"];
             }
-        } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *errorDict = (NSDictionary*)content;
-            msgObj = CSFSalesforceErrorMessage(errorDict);
-            errorCode = errorDict[@"errorCode"];
         }
-        
         CSFNetwork *network = self.enqueuedNetwork;
         if (response.statusCode >= 400) {
             

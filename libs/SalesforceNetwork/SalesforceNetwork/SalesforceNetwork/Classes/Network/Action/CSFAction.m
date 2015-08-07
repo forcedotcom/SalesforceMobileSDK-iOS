@@ -50,6 +50,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     BOOL _ready;
     BOOL _executing;
     BOOL _finished;
+    BOOL _completeCalled;
     
     CSFParameterStorage *_parameters;
     NSMutableDictionary *_HTTPHeaders;
@@ -510,7 +511,6 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     [super cancel];
     [self.sessionTask cancel];
     [self.progress cancel];
-
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
                                                      userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
@@ -657,14 +657,23 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 }
 
 - (void)completeOperationWithError:(NSError *)error {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    _executing = NO;
-    _finished = YES;
-    self.error = error;
-    [self didChangeValueForKey:@"isExecuting"];
-    [self didChangeValueForKey:@"isFinished"];
+    if (_completeCalled) {
+        return;
+    }
+    else {
+        _completeCalled = YES;
+    }
+
+    if (self.isExecuting) {
+        [self willChangeValueForKey:@"isExecuting"];
+        [self willChangeValueForKey:@"isFinished"];
+        _executing = NO;
+        _finished = YES;
+        [self didChangeValueForKey:@"isExecuting"];
+        [self didChangeValueForKey:@"isFinished"];
+    }
     
+    self.error = error;
     self.responseData = nil;
     self.timingValues[@"endTime"] = [NSDate date];
 

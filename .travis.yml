@@ -1,24 +1,37 @@
-#run build only for unstable branch
+
+#build only for unstable branch
 branches:
    only:
      - unstable
 
 language: objective-c
 
-# before running the build script, rn the script to inject test credentials
+before_install:
+   - gem install xcpretty
+
+#before the script is run for the build, inject data into test_credentials file
 before_script:
    - ./build/pre-build
 
 script:
    #build all schemes
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync
-   - xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK
-
-   #run all tests
-   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuth | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty -c
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK | xcpretty -c
+   # run all tests
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   #- xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOSTests -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty -c

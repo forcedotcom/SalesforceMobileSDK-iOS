@@ -274,6 +274,8 @@ static NSException *authException = nil;
         XCTAssertEqual((int)[records count], 1, @"expected just one query result");
         
         // now search object
+        // Record is not available for search right away - so waiting a bit to prevent the test from flapping
+        [NSThread sleepForTimeInterval:5.0f];
         request = [[SFRestAPI sharedInstance] requestForSearch:[NSString stringWithFormat:@"Find {%@}", lastName]];
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
@@ -633,12 +635,20 @@ static NSException *authException = nil;
     request = [[SFRestAPI sharedInstance] requestForFileShares:fileAttrs[@"id"] page:0];
     listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
-    XCTAssertEqual((int)[listener.dataResponse[@"shares"] count], 2, @"expected two shares");
-    XCTAssertEqualObjects([listener.dataResponse[@"shares"][0][@"entity"][@"id"] substringToIndex:15], _currentUser.credentials.userId, @"expected share with current user");
-    XCTAssertEqualObjects(listener.dataResponse[@"shares"][0][@"sharingType"], @"I", @"wrong sharing type");
-    XCTAssertEqualObjects(listener.dataResponse[@"shares"][1][@"entity"][@"id"], otherUserId, @"expected share with other user");
-    XCTAssertEqualObjects(listener.dataResponse[@"shares"][1][@"sharingType"], @"V", @"wrong sharing type");
-
+    NSMutableDictionary* actualUserIdToType = [NSMutableDictionary new];
+    for (int i=0; i < [listener.dataResponse[@"shares"] count]; i++) {
+        NSDictionary* share = listener.dataResponse[@"shares"][i];
+        NSString* shareEntityId = [(NSString*) share[@"entity"][@"id"] substringToIndex:15];
+        NSString* shareType = share[@"sharingType"];
+        actualUserIdToType[shareEntityId] = shareType;
+    }
+    NSString* otherUserId15 = [otherUserId substringToIndex:15];
+    XCTAssertEqual([actualUserIdToType count], 2, @"expected two shares");
+    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:_currentUser.credentials.userId], @"expected share with current user");
+    XCTAssertEqualObjects(actualUserIdToType[_currentUser.credentials.userId], @"I", @"wrong sharing type for current user");
+    XCTAssertTrue([[actualUserIdToType allKeys] containsObject:otherUserId15], @"expected shared with other user");
+    XCTAssertEqualObjects(actualUserIdToType[otherUserId15], @"V", @"wrong sharing type for other user");
+    
     // get count files shared with other user
     request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:otherUserId page:0];
     listener = [self sendSyncRequest:request];
@@ -1004,7 +1014,7 @@ static NSException *authException = nil;
 
 - (void)testBlockUpdate {
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        XCTFail("Unexpected error %@", e);
+        XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
     
@@ -1108,14 +1118,14 @@ static NSException *authException = nil;
 
     // A fail block that should not have failed
     SFRestFailBlock failWithUnexpectedFail = ^(NSError *e) {
-        XCTFail("Unexpected error %@", e);
+        XCTFail(@"Unexpected error %@", e);
         [self.currentExpectation fulfill];
     };
     
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        XCTFail("Unexpected success %@", d);
+        XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
     
@@ -1252,7 +1262,7 @@ static NSException *authException = nil;
     
     // A success block that should not have succeeded
     SFRestDictionaryResponseBlock successWithUnexpectedSuccessBlock = ^(NSDictionary *d) {
-        XCTFail("Unexpected success %@", d);
+        XCTFail(@"Unexpected success %@", d);
         [self.currentExpectation fulfill];
     };
     
