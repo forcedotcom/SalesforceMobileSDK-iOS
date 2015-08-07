@@ -23,9 +23,9 @@
  */
 
 #import "CSFDefines.h"
-#import <objc/runtime.h>
+#import "CSFPrivateDefines.h"
 
-#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+#if (TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE)
 #import <UIKit/UIKit.h>
 #define CSFPlatformiOS
 #define NSUIImage UIImage
@@ -45,22 +45,6 @@ CSF_EXTERN NSString * const CSFUTF8StringValueTransformerName;
 
 CSF_EXTERN NSString * CSFMIMETypeForExtension(NSString * extension);
 
-CSF_EXTERN id CSFNotNull(id value, Class classType);
-CSF_EXTERN NSURL * CSFNotNullURL(id value);
-CSF_EXTERN NSURL * CSFNotNullURLRelative(id value, NSURL *baseURL);
-CSF_EXTERN NSDate * CSFNotNullDate(id value);
-
-CSF_EXTERN NSString * CSFURLEncode(NSString *txt);
-CSF_EXTERN NSString * CSFURLDecode(NSString *txt);
-CSF_EXTERN NSString * CSFURLFormEncode(NSDictionary *info, NSError **error);
-CSF_EXTERN NSDictionary * CSFURLFormDecode(NSString *info, NSError **error);
-
-CSF_EXTERN NSString * CSFNotNullString(id value);
-#define CSFNotNullNumber(_value) CSFNotNull(_value, [NSNumber class])
-#define CSFNotNullArray(_value) CSFNotNull(_value, [NSArray class])
-#define CSFNotNullDictionary(_value) CSFNotNull(_value, [NSDictionary class])
-
-CSF_EXTERN NSURL * CSFCachePath(SFUserAccount *account, NSString *suffix);
 CSF_EXTERN NSString *CSFNetworkInstanceKey(SFUserAccount *user);
 CSF_EXTERN BOOL CSFNetworkShouldUseQueryStringForHTTPMethod(NSString *method);
 
@@ -75,25 +59,11 @@ CSF_EXTERN NSString * const CSFChatterAttributeMentionUserType;
 CSF_EXTERN NSString * const CSFChatterAttributeOriginalEntityId;
 CSF_EXTERN NSString * const CSFChatterAttributeMentionUserAccessible;
 
-CSF_EXTERN NSArray * CSFClassProperties(Class currentClass);
 CSF_EXTERN NSDictionary * CSFClassIvars(Class currentClass);
 CSF_EXTERN Class CSFClassFromEncoding(NSString *encoding);
 CSF_EXTERN NSString * CSFPropertyNameFromIvarName(NSString *ivarName);
-CSF_EXTERN NSArray * CSFProtocolProperties(Protocol *proto);
-CSF_EXTERN objc_property_t CSFPropertyWithName(Class currentClass, NSString *propertyName);
 CSF_EXTERN NSString * CSFPropertyNameFromSelector(SEL selector);
 CSF_EXTERN BOOL CSFPropertyIsReadonly(objc_property_t property);
-CSF_EXTERN NSDictionary * CSFPropertyAttributes(Class currentClass, NSString *propertyName);
-CSF_EXTERN BOOL CSFClassOrAncestorConformsToProtocol(Class klass, Protocol *proto);
-CSF_EXTERN NSArray * CSFClassesConformingToProtocol(Protocol *prot);
-
-CSF_EXTERN NSString * const CSFPropertyReadonlyKey;
-CSF_EXTERN NSString * const CSFPropertyAtomicKey;
-CSF_EXTERN NSString * const CSFPropertyRetainPolicyKey;
-CSF_EXTERN NSString * const CSFPropertyGetterNameKey;
-CSF_EXTERN NSString * const CSFPropertySetterNameKey;
-CSF_EXTERN NSString * const CSFPropertyClassKey;
-CSF_EXTERN NSString * const CSFPropertyTypeKey;
 
 CSF_EXTERN void CSFPrimitiveIntFormatter(id value, CSFPrimitivePointer outputStruct);
 CSF_EXTERN void CSFPrimitiveUnsignedIntFormatter(id value, CSFPrimitivePointer outputStruct);

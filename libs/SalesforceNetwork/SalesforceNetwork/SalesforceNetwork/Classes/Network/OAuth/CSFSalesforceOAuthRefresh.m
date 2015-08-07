@@ -70,6 +70,14 @@
     });
 }
 
+- (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
+    if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
+        [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
+    }
+    
+    [super finishWithOutput:refreshOutput error:error];
+}
+
 #pragma mark - SFOAuthCoordinatorDelegate
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {

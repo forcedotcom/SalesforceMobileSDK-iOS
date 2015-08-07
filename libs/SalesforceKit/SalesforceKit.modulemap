@@ -1,0 +1,82 @@
+framework module SalesforceKit {
+    umbrella header "SalesforceKit.h"
+    
+    export *
+    module * { export * }
+    
+    framework module SalesforceCommonUtils {
+        umbrella header "SalesforceCommonUtils.h"
+        
+        export *
+        module * { export * }
+        
+        link "System"
+        link "z"
+    }
+    
+    framework module SalesforceOAuth {
+        umbrella header "SalesforceOAuth.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSecurity
+        use SalesforceCommonUtils
+    }
+    
+    framework module SalesforceSecurity {
+        umbrella header "SalesforceSecurity.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceCommonUtils
+    }
+    
+    framework module SalesforceSDKCommon {
+        umbrella header "SalesforceSDKCommon.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceCommonUtils
+    }
+    
+    framework module SalesforceSDKCore {
+        umbrella header "SalesforceSDKCore.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceCommonUtils
+    }
+    
+    framework module SalesforceNetwork {
+        umbrella header "SalesforceNetwork.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSDKCore
+        use SalesforceCommonUtils
+    }
+    
+    framework module SalesforceRestAPI {
+        umbrella header "SalesforceRestAPI.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSDKCore
+        use SalesforceNetwork
+    }
+    
+    framework module SmartSync {
+        umbrella header "SmartSync.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceRestAPI
+    }
+}

@@ -40,6 +40,8 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 /** Internal interface to be used only by subclasses of CHAction and CHActionExecuter.
  */
 @interface CSFAction () {
+    NSProgress *_progress;
+    
     @protected
     NSString *_verb;
     NSNumber *_shouldCacheResponse;
@@ -65,15 +67,19 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance;
+@property (nonatomic, strong, readwrite) NSURL *downloadLocation;
 @property (nonatomic) BOOL credentialsReady;
 
-+ (NSURL*)urlForAction:(CSFAction*)action error:(NSError**)error;
 + (NSError *)errorInResponseDataForAction:(CSFAction*)action;
+
+- (NSURL*)urlForActionWithError:(NSError**)error;
 
 - (void)completeOperationWithError:(NSError*)error;
 - (void)completeOperationWithResponse:(NSHTTPURLResponse*)response;
 
 - (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
+- (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
+- (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didFinishDownloadingToURL:(NSURL *)location;
 - (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error;
 

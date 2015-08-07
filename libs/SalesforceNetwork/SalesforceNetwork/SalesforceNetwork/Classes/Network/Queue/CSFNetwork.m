@@ -23,10 +23,11 @@
  */
 
 #import <objc/runtime.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFNetwork+Internal.h"
+#import "CSFNetwork+Salesforce.h"
 #import "CSFAction+Internal.h"
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFInternalDefines.h"
 
@@ -49,10 +50,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
     return [NSString stringWithFormat:@"%@-%@-%@", user.credentials.organizationId, user.credentials.userId, user.communityId];
 }
 
-@interface CSFNetwork() <SFAuthenticationManagerDelegate>{
-    //Flag to ensure that we file CSFActionsRequiredByUICompletedNotification only once through out the application's life cycle
-    NSString *_defaultConnectCommunityId;
-}
+@interface CSFNetwork() <SFAuthenticationManagerDelegate>
 
 // This cache holds all the actions that have a limit per session
 @property (nonatomic, retain) NSCache *actionSessionLimitCache;
@@ -63,6 +61,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
 
 
 @implementation CSFNetwork
+@dynamic outputCachePointers;
 
 #pragma mark -
 #pragma mark object lifecycle
@@ -125,23 +124,37 @@ static NSMutableDictionary *SharedInstances = nil;
         [self.queue addObserver:self forKeyPath:@"operationCount" options:NSKeyValueObservingOptionNew context:kObservingKey];
         _online = YES;
 
+        // Start the queue suspended, so we can unsuspend it when the user account object is set
+        self.queue.suspended = YES;
+        _networkSuspended = YES;
+        
+        self.progress = [NSProgress progressWithTotalUnitCount:0];
+        
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         self.ephemeralSession = [NSURLSession sessionWithConfiguration:configuration
                                                               delegate:self
                                                          delegateQueue:nil];
-        
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+        self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
+                                                               delegate:self
+                                                          delegateQueue:nil];
+        #endif
+
         self.actionSessionLimitCache = [[NSCache alloc] init];
         
         self.actionQueue = dispatch_queue_create("com.salesforce.network.action", DISPATCH_QUEUE_SERIAL);
         
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-#ifdef SFPlatformiOS
+        #ifdef SFPlatformiOS
 		[notificationCenter addObserver:self
 												 selector:@selector(applicationDidBecomeActive:)
 													 name:UIApplicationDidBecomeActiveNotification
 												   object:nil];
         #endif
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
+        
+        // In Salesforce category
+        [self setupSalesforceObserver];
     }
     return self;
 }
@@ -160,11 +173,14 @@ static NSMutableDictionary *SharedInstances = nil;
     [self.queue removeObserver:self forKeyPath:@"operationCount" context:kObservingKey];
     [self.queue cancelAllOperations];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[SFAuthenticationManager sharedManager] removeDelegate:self];
 }
 
 - (void)setAccount:(SFUserAccount *)account {
     if (_account != account) {
         _account = account;
+        
+        self.networkSuspended = NO;
     }
 }
 
@@ -220,10 +236,19 @@ static NSMutableDictionary *SharedInstances = nil;
     if (!action)
         return;
 
+    BOOL contributeProgress = [action shouldReportProgressToParent];
+    if (contributeProgress) {
+        [self.progress becomeCurrentWithPendingUnitCount:self.queue.operationCount + 1];
+    }
+
     // Need to assign our network queue to the action so that the equality test
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
     
+    if (contributeProgress) {
+        [self.progress resignCurrent];
+    }
+
     CSFAction *duplicateAction = [self duplicateActionInFlight:action];
     if (duplicateAction) {
         action.duplicateParentAction = duplicateAction;
@@ -264,6 +289,7 @@ static NSMutableDictionary *SharedInstances = nil;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"context = %@", context];
     return [self.queue.operations filteredArrayUsingPredicate:predicate];
 }
+
 - (void)cancelAllActions {
     [self.queue cancelAllOperations];
 }
@@ -300,6 +326,16 @@ static NSMutableDictionary *SharedInstances = nil;
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
     CSFAction *action = [self actionForSessionTask:downloadTask];
     [action sessionDownloadTask:downloadTask didFinishDownloadingToURL:location];
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    CSFAction *action = [self actionForSessionTask:downloadTask];
+    [action sessionDownloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    CSFAction *action = [self actionForSessionTask:task];
+    [action sessionUploadTask:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
 }
 
 #pragma mark - Device Authorization support

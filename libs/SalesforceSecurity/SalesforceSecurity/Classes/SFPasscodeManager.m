@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFPasscodeProviderManager.h"
 
