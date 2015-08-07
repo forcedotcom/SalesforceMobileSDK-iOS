@@ -183,11 +183,13 @@ function tokenSubstituteInFile()
   local token=$2
   local replacement=$3
 
-  # Sanitize the replacement value for sed.  (Assume $token is fine—we control that value.)
-  replacement=`echo "${replacement}" | sed 's/[\&/]/\\\&/g'`
+  if [[ -e "${subFile}" ]]; then
+      # Sanitize the replacement value for sed.  (Assume $token is fine—we control that value.)
+      replacement=`echo "${replacement}" | sed 's/[\&/]/\\\&/g'`
 
-  cat "${subFile}" | sed "s/${token}/${replacement}/g" > "${subFile}.new"
-  mv "${subFile}.new" "${subFile}"
+      cat "${subFile}" | sed "s/${token}/${replacement}/g" > "${subFile}.new"
+      mv "${subFile}.new" "${subFile}"
+  fi
 }
 
 function replaceTokens()
@@ -230,14 +232,14 @@ function replaceTokens()
   cd "${workingFolder}"
 
   local inputPodFile="${appNameToken}/PodFile"
-  local inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
+  local inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
   local inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
   local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
 
   # App name
   tokenSubstituteInFile "${inputPodFile}" "${appNameToken}" "${OPT_APP_NAME}"
-  tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   
   # Company identifier
   tokenSubstituteInFile "${inputInfoFile}" "${SUB_COMPANY_ID}" "${OPT_COMPANY_ID}"
@@ -253,7 +255,6 @@ function replaceTokens()
   
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
-  mv "${inputPrefixFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Prefix.pch"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
   mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
