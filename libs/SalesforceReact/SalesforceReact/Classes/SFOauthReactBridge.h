@@ -25,14 +25,7 @@
 #import <Foundation/Foundation.h>
 
 #import <React/RCTBridgeModule.h>
-#import <JavaScriptCore/JavaScriptCore.h>
 
-
-@protocol SFOauthReactBridgeJSExport <JSExport>
+@interface SFOauthReactBridge : NSObject <RCTBridgeModule>
 
 @end
-
-@interface SFOauthReactBridge : UIViewController <RCTBridgeModule,SFOauthReactBridgeJSExport>
-
-@end
-

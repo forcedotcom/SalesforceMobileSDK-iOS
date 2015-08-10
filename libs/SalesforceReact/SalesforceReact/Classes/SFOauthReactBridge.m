@@ -33,15 +33,15 @@
 
 @implementation SFOauthReactBridge
 
+RCT_EXPORT_MODULE();
+
 #pragma mark - Bridged methods
 
-- (void) getAccessToken:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+RCT_EXPORT_METHOD(getAccessToken:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    RCT_EXPORT();
-    
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     
-    callback(@[ creds.accessToken ]);
+    callback(@[[NSNull null], creds.accessToken]);
 }
 
 @end

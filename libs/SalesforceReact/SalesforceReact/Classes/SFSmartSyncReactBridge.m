@@ -53,21 +53,19 @@ NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
 
 #pragma mark - Bridged methods
 
-- (void) getSyncStatus:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+RCT_EXPORT_METHOD(getSyncStatus:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    RCT_EXPORT();
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
     
     [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
     
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] getSyncStatus:syncId];
-    callback( @[ [sync asDict] ]);
+    callback(@[[NSNull null], [sync asDict]]);
 }
 
-- (void) syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    RCT_EXPORT();
     NSString *soupName = [args nonNullObjectForKey:kSyncSoupNameArg];
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
@@ -75,29 +73,28 @@ NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
     
     [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
 }
 
-- (void) reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    RCT_EXPORT();
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
     
+    [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
+    
     __weak SFSmartSyncReactBridge *weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
-    
-    [self log:SFLogLevelDebug format:@"reSync # %d from soup: %@", sync.syncId, sync.soupName];
+
 }
 
-- (void) syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    RCT_EXPORT();
     NSString *soupName = [args nonNullObjectForKey:kSyncSoupNameArg];
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
@@ -105,7 +102,7 @@ NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
-        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback callbackErr:callbackErr];
+        [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
     
     [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
@@ -134,15 +131,15 @@ NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
     return args[kSyncIsGlobalStoreArg] != nil && [args[kSyncIsGlobalStoreArg] boolValue];
 }
 
-- (void)handleSyncUpdate:(SFSyncState*)sync isGlobal:(BOOL)isGlobal callback:(RCTResponseSenderBlock)callback callbackErr:(RCTResponseSenderBlock)callbackErr
+- (void)handleSyncUpdate:(SFSyncState*)sync isGlobal:(BOOL)isGlobal callback:(RCTResponseSenderBlock)callback
 {
     NSMutableDictionary* syncDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
     syncDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
     if (sync.status == SFSyncStateStatusDone) {
-        callback( @[ syncDict ]);
+        callback(@[[NSNull null], syncDict]);
     }
     else if (sync.status == SFSyncStateStatusFailed) {
-        callbackErr( @ [ syncDict ]);
+        callback(@[RCTMakeError(@"Sync failed", nil, nil), syncDict]);
     }
 }
 

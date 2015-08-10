@@ -22,17 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #import <Foundation/Foundation.h>
-
 #import <React/RCTBridgeModule.h>
-#import <JavaScriptCore/JavaScriptCore.h>
 
-
-@protocol SFSmartSyncReactBridgeJSExport <JSExport>
+@interface SFSmartSyncReactBridge : NSObject <RCTBridgeModule>
 
 @end
-
-@interface SFSmartSyncReactBridge : UIViewController <RCTBridgeModule,SFSmartSyncReactBridgeJSExport>
-
-@end
-
