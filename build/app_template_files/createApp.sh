@@ -44,6 +44,7 @@ OPT_OUTPUT_FOLDER=`pwd`
 
 # Template substitution keys
 SUB_NATIVE_APP_NAME="__NativeTemplateAppName__"
+SUB_NATIVE_SWIFT_APP_NAME="__NativeSwiftTemplateAppName__"
 SUB_COMPANY_ID="__CompanyIdentifier__"
 SUB_ORG_NAME="__OrganizationName__"
 SUB_APP_ID="__ConnectedAppIdentifier__"
@@ -67,7 +68,7 @@ function usage()
   local appName=`basename $0`
   echoColor $TERM_COLOR_CYAN "Usage:"
   echoColor $TERM_COLOR_MAGENTA "$appName"
-  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native)"
+  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native, native_swift)"
   echoColor $TERM_COLOR_MAGENTA "   -n <Application Name>"
   echoColor $TERM_COLOR_MAGENTA "   -c <Company Identifier> (com.myCompany.myApp)"
   echoColor $TERM_COLOR_MAGENTA "   -g <Organization Name> (your company's/organization's name"
@@ -83,8 +84,8 @@ function parseOpts()
       t)
         appType=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         appType=`echo ${appType} | tr '[:upper:]' '[:lower:]'`
-        if [[ "${appType}" != "native" ]]; then
-          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native'."
+        if [[ "${appType}" != "native" && "${appType}" != "native_swift" ]]; then
+          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native' or 'native_swift'."
           usage
           exit 3
         fi
@@ -155,7 +156,7 @@ function parseOpts()
   
   # Validate that we got the required command line args.
   if [[ "${OPT_APP_TYPE}" == "" ]]; then
-    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native'."
+    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native' or 'native_swift'."
     usage
     exit 12
   fi
@@ -182,11 +183,13 @@ function tokenSubstituteInFile()
   local token=$2
   local replacement=$3
 
-  # Sanitize the replacement value for sed.  (Assume $token is fine—we control that value.)
-  replacement=`echo "${replacement}" | sed 's/[\&/]/\\\&/g'`
+  if [[ -e "${subFile}" ]]; then
+      # Sanitize the replacement value for sed.  (Assume $token is fine—we control that value.)
+      replacement=`echo "${replacement}" | sed 's/[\&/]/\\\&/g'`
 
-  cat "${subFile}" | sed "s/${token}/${replacement}/g" > "${subFile}.new"
-  mv "${subFile}.new" "${subFile}"
+      cat "${subFile}" | sed "s/${token}/${replacement}/g" > "${subFile}.new"
+      mv "${subFile}.new" "${subFile}"
+  fi
 }
 
 function replaceTokens()
@@ -194,9 +197,11 @@ function replaceTokens()
   local appNameToken
   local inputConnectedAppFile
   if [[ "$1" == "native" ]]; then
-    # Native app substitutions.
     appNameToken=${SUB_NATIVE_APP_NAME}
     inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
+  elif [[ "$1" == "native_swift" ]]; then
+    appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
+    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
   else
     echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
     exit 16
@@ -227,14 +232,14 @@ function replaceTokens()
   cd "${workingFolder}"
 
   local inputPodFile="${appNameToken}/PodFile"
-  local inputPrefixFile="${appNameToken}/${appNameToken}/${appNameToken}-Prefix.pch"
+  local inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
   local inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
   local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
 
   # App name
   tokenSubstituteInFile "${inputPodFile}" "${appNameToken}" "${OPT_APP_NAME}"
-  tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   
   # Company identifier
   tokenSubstituteInFile "${inputInfoFile}" "${SUB_COMPANY_ID}" "${OPT_COMPANY_ID}"
@@ -250,7 +255,6 @@ function replaceTokens()
   
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
-  mv "${inputPrefixFile}" "${appNameToken}/${appNameToken}/${OPT_APP_NAME}-Prefix.pch"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
   mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
