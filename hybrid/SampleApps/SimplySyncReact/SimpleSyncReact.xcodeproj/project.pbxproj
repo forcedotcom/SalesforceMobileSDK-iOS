@@ -1,0 +1,509 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F2214241AA12CD7002818BA /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22141F1AA12CD7002818BA /* InitialViewController.m */; };
+		4F2214251AA12CD7002818BA /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F2214201AA12CD7002818BA /* InitialViewController.xib */; };
+		4F2214261AA12CD7002818BA /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2214211AA12CD7002818BA /* RootViewController.m */; };
+		4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22155E19DF549400FF2D26 /* ImageIO.framework */; };
+		4FABF0721AA7CC7000D31E3F /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 4FABF0711AA7CC7000D31E3F /* main.jsbundle */; };
+		4FB2CF591AD35EA9003B3857 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB2CF581AD35EA9003B3857 /* libSalesforceCommonUtils.a */; };
+		4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
+		4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
+		4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
+		4FDB90451A9FDA230010ED5E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDB90431A9FDA230010ED5E /* AppDelegate.m */; };
+		4FE141731ACE12B2004DE953 /* Footer.js in Resources */ = {isa = PBXBuildFile; fileRef = 4FE1416F1ACE12B2004DE953 /* Footer.js */; };
+		4FE141741ACE12B2004DE953 /* SearchScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 4FE141701ACE12B2004DE953 /* SearchScreen.js */; };
+		4FE141751ACE12B2004DE953 /* UserCell.js in Resources */ = {isa = PBXBuildFile; fileRef = 4FE141711ACE12B2004DE953 /* UserCell.js */; };
+		4FE141761ACE12B2004DE953 /* UserScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 4FE141721ACE12B2004DE953 /* UserScreen.js */; };
+		4FE141B21AD34E9C004DE953 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141A91AD34E9C004DE953 /* libReact.a */; };
+		4FE141B31AD34E9C004DE953 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AA1AD34E9C004DE953 /* libSalesforceNetwork.a */; };
+		4FE141B41AD34E9C004DE953 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AB1AD34E9C004DE953 /* libSalesforceOAuth.a */; };
+		4FE141B51AD34E9C004DE953 /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AC1AD34E9C004DE953 /* libSalesforceReact.a */; };
+		4FE141B61AD34E9C004DE953 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AD1AD34E9C004DE953 /* libSalesforceRestAPI.a */; };
+		4FE141B71AD34E9C004DE953 /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AE1AD34E9C004DE953 /* libSalesforceSDKCommon.a */; };
+		4FE141B81AD34E9C004DE953 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141AF1AD34E9C004DE953 /* libSalesforceSDKCore.a */; };
+		4FE141B91AD34E9C004DE953 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141B01AD34E9C004DE953 /* libSalesforceSecurity.a */; };
+		4FE141BA1AD34E9C004DE953 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE141B11AD34E9C004DE953 /* libSmartSync.a */; };
+		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
+		8230E2461A24181500EFE764 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8230E2451A24181500EFE764 /* Images.xcassets */; };
+		824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD11721FCA400C9BD79 /* UIKit.framework */; };
+		824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD31721FCA400C9BD79 /* Foundation.framework */; };
+		824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */; };
+		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
+		824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9C1724C92400C9BD79 /* libsqlcipher.a */; };
+		824A9D9F1724C93A00C9BD79 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9E1724C93A00C9BD79 /* libssl.a */; };
+		824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA01724C95D00C9BD79 /* libxml2.dylib */; };
+		824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA21724C96D00C9BD79 /* libz.dylib */; };
+		824A9DA61724C98900C9BD79 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA41724C98900C9BD79 /* AddressBook.framework */; };
+		824A9DA71724C98900C9BD79 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA51724C98900C9BD79 /* AddressBookUI.framework */; };
+		824A9DA91724C99800C9BD79 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA81724C99800C9BD79 /* AudioToolbox.framework */; };
+		824A9DAB1724C9C900C9BD79 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DAA1724C9C900C9BD79 /* AVFoundation.framework */; };
+		824A9DAD1724C9D100C9BD79 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DAC1724C9D100C9BD79 /* CFNetwork.framework */; };
+		824A9DAF1724C9DB00C9BD79 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DAE1724C9DB00C9BD79 /* CoreData.framework */; };
+		824A9DB11724CA1400C9BD79 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DB01724CA1400C9BD79 /* CoreLocation.framework */; };
+		824A9DB31724CA1C00C9BD79 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DB21724CA1C00C9BD79 /* CoreMedia.framework */; };
+		824A9DB51724CA5000C9BD79 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DB41724CA5000C9BD79 /* MediaPlayer.framework */; };
+		824A9DB71724CA5700C9BD79 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DB61724CA5700C9BD79 /* MessageUI.framework */; };
+		824A9DB91724CAA900C9BD79 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DB81724CAA900C9BD79 /* MobileCoreServices.framework */; };
+		824A9DBB1724CAB100C9BD79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBA1724CAB100C9BD79 /* QuartzCore.framework */; };
+		824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBC1724CAB900C9BD79 /* Security.framework */; };
+		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4F2147AC193D20C80010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
+		4F22141E1AA12CD7002818BA /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
+		4F22141F1AA12CD7002818BA /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
+		4F2214201AA12CD7002818BA /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
+		4F2214211AA12CD7002818BA /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
+		4F2214A51AA1461D002818BA /* App.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = App.js; sourceTree = "<group>"; };
+		4F2214AA1AA14E6B002818BA /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
+		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4FABF0711AA7CC7000D31E3F /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		4FB2CF581AD35EA9003B3857 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
+		4FDB90421A9FDA230010ED5E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
+		4FDB90431A9FDA230010ED5E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Classes/AppDelegate.m; sourceTree = "<group>"; };
+		4FE1416F1ACE12B2004DE953 /* Footer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Footer.js; sourceTree = "<group>"; };
+		4FE141701ACE12B2004DE953 /* SearchScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SearchScreen.js; sourceTree = "<group>"; };
+		4FE141711ACE12B2004DE953 /* UserCell.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = UserCell.js; sourceTree = "<group>"; };
+		4FE141721ACE12B2004DE953 /* UserScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = UserScreen.js; sourceTree = "<group>"; };
+		4FE141A91AD34E9C004DE953 /* libReact.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libReact.a; path = "../../../external/react-native/React/build/Debug-iphoneos/libReact.a"; sourceTree = "<group>"; };
+		4FE141AA1AD34E9C004DE953 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = "../../../libs/SalesforceNetwork/build/Debug-iphoneos/libSalesforceNetwork.a"; sourceTree = "<group>"; };
+		4FE141AB1AD34E9C004DE953 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceOAuth.a; path = "../../../libs/SalesforceOAuth/build/Debug-iphoneos/libSalesforceOAuth.a"; sourceTree = "<group>"; };
+		4FE141AC1AD34E9C004DE953 /* libSalesforceReact.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceReact.a; path = "../../../libs/SalesforceReact/build/Debug-iphoneos/libSalesforceReact.a"; sourceTree = "<group>"; };
+		4FE141AD1AD34E9C004DE953 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
+		4FE141AE1AD34E9C004DE953 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = "../../../libs/SalesforceSDKCommon/build/Debug-iphoneos/libSalesforceSDKCommon.a"; sourceTree = "<group>"; };
+		4FE141AF1AD34E9C004DE953 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../../../libs/SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
+		4FE141B01AD34E9C004DE953 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSecurity.a; path = "../../../libs/SalesforceSecurity/build/Debug-iphoneos/libSalesforceSecurity.a"; sourceTree = "<group>"; };
+		4FE141B11AD34E9C004DE953 /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartSync.a; path = "../../../libs/SmartSync/build/Debug-iphoneos/libSmartSync.a"; sourceTree = "<group>"; };
+		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		8230E2451A24181500EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
+		824A9BCE1721FCA400C9BD79 /* SimpleSyncReact.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleSyncReact.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		824A9BD31721FCA400C9BD79 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		824A9BD91721FCA400C9BD79 /* SimpleSyncReact-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimpleSyncReact-Info.plist"; sourceTree = "<group>"; };
+		824A9BDB1721FCA400C9BD79 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		824A9BDD1721FCA400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		824A9BDF1721FCA400C9BD79 /* SimpleSyncReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleSyncReact-Prefix.pch"; sourceTree = "<group>"; };
+		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		824A9D921724C7C400C9BD79 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../external/ThirdPartyDependencies/openssl/libcrypto.a; sourceTree = "<group>"; };
+		824A9D9C1724C92400C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
+		824A9D9E1724C93A00C9BD79 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = ../../../external/ThirdPartyDependencies/openssl/libssl.a; sourceTree = "<group>"; };
+		824A9DA01724C95D00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		824A9DA21724C96D00C9BD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		824A9DA41724C98900C9BD79 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		824A9DA51724C98900C9BD79 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		824A9DA81724C99800C9BD79 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		824A9DAA1724C9C900C9BD79 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		824A9DAC1724C9D100C9BD79 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		824A9DAE1724C9DB00C9BD79 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		824A9DB01724CA1400C9BD79 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		824A9DB21724CA1C00C9BD79 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		824A9DB41724CA5000C9BD79 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		824A9DB61724CA5700C9BD79 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		824A9DB81724CAA900C9BD79 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		824A9DBA1724CAB100C9BD79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		824A9DBC1724CAB900C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		824A9BCB1721FCA400C9BD79 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FE141B21AD34E9C004DE953 /* libReact.a in Frameworks */,
+				4FE141B31AD34E9C004DE953 /* libSalesforceNetwork.a in Frameworks */,
+				4FE141B41AD34E9C004DE953 /* libSalesforceOAuth.a in Frameworks */,
+				4FE141B51AD34E9C004DE953 /* libSalesforceReact.a in Frameworks */,
+				4FE141B61AD34E9C004DE953 /* libSalesforceRestAPI.a in Frameworks */,
+				4FE141B71AD34E9C004DE953 /* libSalesforceSDKCommon.a in Frameworks */,
+				4FE141B81AD34E9C004DE953 /* libSalesforceSDKCore.a in Frameworks */,
+				4FE141B91AD34E9C004DE953 /* libSalesforceSecurity.a in Frameworks */,
+				4FE141BA1AD34E9C004DE953 /* libSmartSync.a in Frameworks */,
+				824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */,
+				824A9D9F1724C93A00C9BD79 /* libssl.a in Frameworks */,
+				824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */,
+				824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */,
+				4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */,
+				4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */,
+				824A9DA61724C98900C9BD79 /* AddressBook.framework in Frameworks */,
+				824A9DA71724C98900C9BD79 /* AddressBookUI.framework in Frameworks */,
+				824A9DA91724C99800C9BD79 /* AudioToolbox.framework in Frameworks */,
+				824A9DAB1724C9C900C9BD79 /* AVFoundation.framework in Frameworks */,
+				824A9DAD1724C9D100C9BD79 /* CFNetwork.framework in Frameworks */,
+				824A9DAF1724C9DB00C9BD79 /* CoreData.framework in Frameworks */,
+				824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */,
+				824A9DB11724CA1400C9BD79 /* CoreLocation.framework in Frameworks */,
+				824A9DB31724CA1C00C9BD79 /* CoreMedia.framework in Frameworks */,
+				824A9BD41721FCA400C9BD79 /* Foundation.framework in Frameworks */,
+				4FB2CF591AD35EA9003B3857 /* libSalesforceCommonUtils.a in Frameworks */,
+				824A9DB51724CA5000C9BD79 /* MediaPlayer.framework in Frameworks */,
+				824A9DB71724CA5700C9BD79 /* MessageUI.framework in Frameworks */,
+				824A9DB91724CAA900C9BD79 /* MobileCoreServices.framework in Frameworks */,
+				824A9DBB1724CAB100C9BD79 /* QuartzCore.framework in Frameworks */,
+				824A9DBD1724CAB900C9BD79 /* Security.framework in Frameworks */,
+				824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */,
+				824A9BD21721FCA400C9BD79 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F2214A41AA1461D002818BA /* js */ = {
+			isa = PBXGroup;
+			children = (
+				4FE1416F1ACE12B2004DE953 /* Footer.js */,
+				4FE141701ACE12B2004DE953 /* SearchScreen.js */,
+				4FE141711ACE12B2004DE953 /* UserCell.js */,
+				4FE141721ACE12B2004DE953 /* UserScreen.js */,
+				4F2214A51AA1461D002818BA /* App.js */,
+			);
+			path = js;
+			sourceTree = "<group>";
+		};
+		824A9BC51721FCA400C9BD79 = {
+			isa = PBXGroup;
+			children = (
+				824A9BD71721FCA400C9BD79 /* SimpleSyncReact */,
+				824A9BD01721FCA400C9BD79 /* Frameworks */,
+				824A9BCF1721FCA400C9BD79 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		824A9BCF1721FCA400C9BD79 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				824A9BCE1721FCA400C9BD79 /* SimpleSyncReact.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4FB2CF581AD35EA9003B3857 /* libSalesforceCommonUtils.a */,
+				4FE141A91AD34E9C004DE953 /* libReact.a */,
+				4FE141AA1AD34E9C004DE953 /* libSalesforceNetwork.a */,
+				4FE141AB1AD34E9C004DE953 /* libSalesforceOAuth.a */,
+				4FE141AC1AD34E9C004DE953 /* libSalesforceReact.a */,
+				4FE141AD1AD34E9C004DE953 /* libSalesforceRestAPI.a */,
+				4FE141AE1AD34E9C004DE953 /* libSalesforceSDKCommon.a */,
+				4FE141AF1AD34E9C004DE953 /* libSalesforceSDKCore.a */,
+				4FE141B01AD34E9C004DE953 /* libSalesforceSecurity.a */,
+				4FE141B11AD34E9C004DE953 /* libSmartSync.a */,
+				4F22155E19DF549400FF2D26 /* ImageIO.framework */,
+				4FF15E25190884C600705FE0 /* AssetsLibrary.framework */,
+				824A9D921724C7C400C9BD79 /* libcrypto.a */,
+				824A9D9C1724C92400C9BD79 /* libsqlcipher.a */,
+				824A9D9E1724C93A00C9BD79 /* libssl.a */,
+				824A9DA01724C95D00C9BD79 /* libxml2.dylib */,
+				824A9DA21724C96D00C9BD79 /* libz.dylib */,
+				824A9DA41724C98900C9BD79 /* AddressBook.framework */,
+				824A9DA51724C98900C9BD79 /* AddressBookUI.framework */,
+				824A9DA81724C99800C9BD79 /* AudioToolbox.framework */,
+				824A9DAA1724C9C900C9BD79 /* AVFoundation.framework */,
+				824A9DAC1724C9D100C9BD79 /* CFNetwork.framework */,
+				824A9DAE1724C9DB00C9BD79 /* CoreData.framework */,
+				824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */,
+				824A9DB01724CA1400C9BD79 /* CoreLocation.framework */,
+				824A9DB21724CA1C00C9BD79 /* CoreMedia.framework */,
+				824A9BD31721FCA400C9BD79 /* Foundation.framework */,
+				824A9DB41724CA5000C9BD79 /* MediaPlayer.framework */,
+				824A9DB61724CA5700C9BD79 /* MessageUI.framework */,
+				824A9DB81724CAA900C9BD79 /* MobileCoreServices.framework */,
+				824A9DBA1724CAB100C9BD79 /* QuartzCore.framework */,
+				824A9DBC1724CAB900C9BD79 /* Security.framework */,
+				824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */,
+				824A9BD11721FCA400C9BD79 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		824A9BD71721FCA400C9BD79 /* SimpleSyncReact */ = {
+			isa = PBXGroup;
+			children = (
+				4F2214A41AA1461D002818BA /* js */,
+				824A9C5E1722021D00C9BD79 /* Classes */,
+				824A9C5B1722018E00C9BD79 /* Resources */,
+				824A9BD81721FCA400C9BD79 /* Supporting Files */,
+			);
+			path = SimpleSyncReact;
+			sourceTree = "<group>";
+		};
+		824A9BD81721FCA400C9BD79 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0711AA7CC7000D31E3F /* main.jsbundle */,
+				824A9BD91721FCA400C9BD79 /* SimpleSyncReact-Info.plist */,
+				824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */,
+				824A9BDD1721FCA400C9BD79 /* main.m */,
+				824A9BDF1721FCA400C9BD79 /* SimpleSyncReact-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		824A9C5B1722018E00C9BD79 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8230E2451A24181500EFE764 /* Images.xcassets */,
+				4F2147AC193D20C80010F9D3 /* Settings.bundle */,
+				824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		824A9C5E1722021D00C9BD79 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4F2214AA1AA14E6B002818BA /* RootViewController.h */,
+				4F22141E1AA12CD7002818BA /* InitialViewController.h */,
+				4F22141F1AA12CD7002818BA /* InitialViewController.m */,
+				4F2214201AA12CD7002818BA /* InitialViewController.xib */,
+				4F2214211AA12CD7002818BA /* RootViewController.m */,
+				4FDB90421A9FDA230010ED5E /* AppDelegate.h */,
+				4FDB90431A9FDA230010ED5E /* AppDelegate.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		824A9BCD1721FCA400C9BD79 /* SimpleSyncReact */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "SimpleSyncReact" */;
+			buildPhases = (
+				824A9BCA1721FCA400C9BD79 /* Sources */,
+				824A9BCB1721FCA400C9BD79 /* Frameworks */,
+				824A9BCC1721FCA400C9BD79 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SimpleSyncReact;
+			productName = SimpleSyncReact;
+			productReference = 824A9BCE1721FCA400C9BD79 /* SimpleSyncReact.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		824A9BC61721FCA400C9BD79 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = salesforce.com;
+			};
+			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "SimpleSyncReact" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 824A9BC51721FCA400C9BD79;
+			productRefGroup = 824A9BCF1721FCA400C9BD79 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				824A9BCD1721FCA400C9BD79 /* SimpleSyncReact */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		824A9BCC1721FCA400C9BD79 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FE141741ACE12B2004DE953 /* SearchScreen.js in Resources */,
+				4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */,
+				4FE141751ACE12B2004DE953 /* UserCell.js in Resources */,
+				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
+				4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */,
+				4FE141731ACE12B2004DE953 /* Footer.js in Resources */,
+				4FABF0721AA7CC7000D31E3F /* main.jsbundle in Resources */,
+				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
+				4F2214251AA12CD7002818BA /* InitialViewController.xib in Resources */,
+				4FE141761ACE12B2004DE953 /* UserScreen.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		824A9BCA1721FCA400C9BD79 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FDB90451A9FDA230010ED5E /* AppDelegate.m in Sources */,
+				824A9BDE1721FCA400C9BD79 /* main.m in Sources */,
+				4F2214241AA12CD7002818BA /* InitialViewController.m in Sources */,
+				4F2214261AA12CD7002818BA /* RootViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				824A9BDB1721FCA400C9BD79 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		824A9BF21721FCA400C9BD79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
+					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl",
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../../external/react-native/React",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		824A9BF31721FCA400C9BD79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(OBJROOT)/UninstalledProducts/Headers",
+					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/openssl",
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
+					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
+					"$(SRCROOT)/../../../external/react-native/React",
+				);
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		824A9BF51721FCA400C9BD79 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Simplesyncreact/SimpleSyncReact-Prefix.pch";
+				INFOPLIST_FILE = "Simplesyncreact/SimpleSyncReact-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		824A9BF61721FCA400C9BD79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "Simplesyncreact/SimpleSyncReact-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "SimpleSyncReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824A9BF21721FCA400C9BD79 /* Debug */,
+				824A9BF31721FCA400C9BD79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		824A9BF41721FCA400C9BD79 /* Build configuration list for PBXNativeTarget "SimpleSyncReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				824A9BF51721FCA400C9BD79 /* Debug */,
+				824A9BF61721FCA400C9BD79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 824A9BC61721FCA400C9BD79 /* Project object */;
+}

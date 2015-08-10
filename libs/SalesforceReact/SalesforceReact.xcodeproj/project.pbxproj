@@ -1,0 +1,484 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4FABF0521AA51F9000D31E3F /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */; };
+		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
+		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
+		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4FABF0531AA51F9000D31E3F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F36189E1AA51E3900AE3A65 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4FABF0451AA51F9000D31E3F;
+			remoteInfo = SalesforceReact;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4FABF0441AA51F9000D31E3F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
+		4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
+		4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FABF0571AA51F9000D31E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
+		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
+		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
+		4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOauthReactBridge.m; path = Classes/SFOauthReactBridge.m; sourceTree = "<group>"; };
+		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4FABF0431AA51F9000D31E3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FABF04E1AA51F9000D31E3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FABF0521AA51F9000D31E3F /* libSalesforceReact.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F36189D1AA51E3900AE3A65 = {
+			isa = PBXGroup;
+			children = (
+				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
+				4FABF0551AA51F9000D31E3F /* SalesforceReactTests */,
+				4FABF0471AA51F9000D31E3F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4FABF0471AA51F9000D31E3F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */,
+				4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FABF0481AA51F9000D31E3F /* SalesforceReact */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF06C1AA52ECF00D31E3F /* Classes */,
+				4FABF0641AA5226400D31E3F /* Supporting Files */,
+			);
+			path = SalesforceReact;
+			sourceTree = "<group>";
+		};
+		4FABF0551AA51F9000D31E3F /* SalesforceReactTests */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0561AA51F9000D31E3F /* Supporting Files */,
+			);
+			path = SalesforceReactTests;
+			sourceTree = "<group>";
+		};
+		4FABF0561AA51F9000D31E3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0571AA51F9000D31E3F /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FABF0641AA5226400D31E3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FABF06C1AA52ECF00D31E3F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */,
+				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
+				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
+				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
+				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
+				4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4FABF0451AA51F9000D31E3F /* SalesforceReact */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */;
+			buildPhases = (
+				4FABF0421AA51F9000D31E3F /* Sources */,
+				4FABF0431AA51F9000D31E3F /* Frameworks */,
+				4FABF0441AA51F9000D31E3F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceReact;
+			productName = SalesforceReact;
+			productReference = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4FABF0501AA51F9000D31E3F /* SalesforceReactTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FABF05D1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReactTests" */;
+			buildPhases = (
+				4FABF04D1AA51F9000D31E3F /* Sources */,
+				4FABF04E1AA51F9000D31E3F /* Frameworks */,
+				4FABF04F1AA51F9000D31E3F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4FABF0541AA51F9000D31E3F /* PBXTargetDependency */,
+			);
+			name = SalesforceReactTests;
+			productName = SalesforceReactTests;
+			productReference = 4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F36189E1AA51E3900AE3A65 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					4FABF0451AA51F9000D31E3F = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					4FABF0501AA51F9000D31E3F = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4F36189D1AA51E3900AE3A65;
+			productRefGroup = 4FABF0471AA51F9000D31E3F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
+				4FABF0501AA51F9000D31E3F /* SalesforceReactTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4FABF04F1AA51F9000D31E3F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4FABF0421AA51F9000D31E3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */,
+				4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */,
+				4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4FABF04D1AA51F9000D31E3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4FABF0541AA51F9000D31E3F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4FABF0451AA51F9000D31E3F /* SalesforceReact */;
+			targetProxy = 4FABF0531AA51F9000D31E3F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		4F3618A21AA51E3900AE3A65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		4F3618A31AA51E3900AE3A65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		4FABF0581AA51F9000D31E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4FABF0591AA51F9000D31E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4FABF05A1AA51F9000D31E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceReactTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4FABF05B1AA51F9000D31E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceReactTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3618A21AA51E3900AE3A65 /* Debug */,
+				4F3618A31AA51E3900AE3A65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FABF0581AA51F9000D31E3F /* Debug */,
+				4FABF0591AA51F9000D31E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FABF05D1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReactTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FABF05A1AA51F9000D31E3F /* Debug */,
+				4FABF05B1AA51F9000D31E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F36189E1AA51E3900AE3A65 /* Project object */;
+}
