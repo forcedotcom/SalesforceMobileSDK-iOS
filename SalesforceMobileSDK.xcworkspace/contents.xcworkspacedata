@@ -89,9 +89,6 @@
          location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/SimplySync/../SimplySyncReact/SimpleSyncReact.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
       </FileRef>
       <FileRef
