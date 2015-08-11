@@ -38,6 +38,10 @@
 /* Begin PBXFileReference section */
 		4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
 		4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
+		4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Common.xcconfig"; path = "Configuration/SalesforceReact-Common.xcconfig"; sourceTree = "<group>"; };
+		4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
 		4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FABF0571AA51F9000D31E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -70,10 +74,22 @@
 		4F36189D1AA51E3900AE3A65 = {
 			isa = PBXGroup;
 			children = (
+				4F67FECC1B7970C300A957A3 /* Configuration */,
 				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4FABF0551AA51F9000D31E3F /* SalesforceReactTests */,
 				4FABF0471AA51F9000D31E3F /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		4F67FECC1B7970C300A957A3 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */,
+				4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */,
+				4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */,
+				4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */,
+			);
+			name = Configuration;
 			sourceTree = "<group>";
 		};
 		4FABF0471AA51F9000D31E3F /* Products */ = {
