@@ -143,4 +143,27 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'SalesforceReact' do |salesforcereact|
+
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SmartSync'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceRestAPI'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceNetwork'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceOAuth'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceCommonUtils'
+      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
+      salesforcereact.dependency 'SQLCipher', '~> 3.1'
+      salesforcereact.dependency 'SQLCipher/fts', '~> 3.1'
+      salesforcereact.source_files = 'libs/SalesforceReact/SalesforceReact/Classes/**/*.{h,m}'
+      salesforcereact.public_header_files = 'libs/SalesforceReact/SalesforceReact/Classes/SFOauthReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartStoreReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartSyncReactBridge.h'
+      salesforcereact.header_dir = 'Headers/SalesforceReact'
+      salesforcereact.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
+      salesforcereact.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
+      salesforcereact.requires_arc = true
+
+  end
+
+
 end
