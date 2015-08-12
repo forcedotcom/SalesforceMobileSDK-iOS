@@ -64,7 +64,7 @@ function main(args) {
 function usage() {
     console.log(outputColors.cyan + 'Usage:\n');
     console.log(outputColors.magenta + 'forceios create');
-    console.log('    --apptype=<Application Type> (native, native_swift, hybrid_remote, hybrid_local)');
+    console.log('    --apptype=<Application Type> (native, native_swift, react_native, hybrid_remote, hybrid_local)');
     console.log('    --appname=<Application Name>');
     console.log('    --companyid=<Company Identifier> (com.myCompany.myApp)');
     console.log('    --organization=<Organization Name> (Your company\'s/organization\'s name)');
@@ -81,7 +81,7 @@ function usage() {
 //
 function createApp(config) {
     // Native app creation
-    if (config.apptype === 'native' || config.apptype === 'native_swift') {
+    if (config.apptype === 'native' || config.apptype === 'native_swift' || config.apptype === 'react_native') {
         createNativeApp(config);
     }
     // Hybrid app creation
@@ -210,8 +210,8 @@ function createArgProcessorList() {
     var argProcessorList = new commandLineUtils.ArgProcessorList();
 
     // App type
-    addProcessorFor(argProcessorList, 'apptype', 'Enter your application type (native, native_swift, hybrid_remote, or hybrid_local):', 'App type must be native, native_swift, hybrid_remote, or hybrid_local.', 
-                    function(val) { return ['native', 'native_swift', 'hybrid_remote', 'hybrid_local'].indexOf(val) >= 0; });
+    addProcessorFor(argProcessorList, 'apptype', 'Enter your application type (native, native_swift, react_native, hybrid_remote, or hybrid_local):', 'App type must be native, native_swift, react_native, hybrid_remote, or hybrid_local.', 
+                    function(val) { return ['native', 'native_swift', 'react_native', 'hybrid_remote', 'hybrid_local'].indexOf(val) >= 0; });
 
     // App name
     addProcessorFor(argProcessorList, 'appname', 'Enter your application name:', 'Invalid value for application name: \'$val\'.', /^\S+$/);

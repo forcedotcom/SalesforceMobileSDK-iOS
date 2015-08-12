@@ -45,6 +45,7 @@ OPT_OUTPUT_FOLDER=`pwd`
 # Template substitution keys
 SUB_NATIVE_APP_NAME="__NativeTemplateAppName__"
 SUB_NATIVE_SWIFT_APP_NAME="__NativeSwiftTemplateAppName__"
+SUB_REACT_NATIVE_APP_NAME="__ReactNativeTemplateAppName__"
 SUB_COMPANY_ID="__CompanyIdentifier__"
 SUB_ORG_NAME="__OrganizationName__"
 SUB_APP_ID="__ConnectedAppIdentifier__"
@@ -68,7 +69,7 @@ function usage()
   local appName=`basename $0`
   echoColor $TERM_COLOR_CYAN "Usage:"
   echoColor $TERM_COLOR_MAGENTA "$appName"
-  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native, native_swift)"
+  echoColor $TERM_COLOR_MAGENTA "   -t <Application Type> (native, native_swift, react_native)"
   echoColor $TERM_COLOR_MAGENTA "   -n <Application Name>"
   echoColor $TERM_COLOR_MAGENTA "   -c <Company Identifier> (com.myCompany.myApp)"
   echoColor $TERM_COLOR_MAGENTA "   -g <Organization Name> (your company's/organization's name"
@@ -84,8 +85,8 @@ function parseOpts()
       t)
         appType=`echo ${OPTARG} | sed -e 's/^ *//g' -e 's/ *$//g'`
         appType=`echo ${appType} | tr '[:upper:]' '[:lower:]'`
-        if [[ "${appType}" != "native" && "${appType}" != "native_swift" ]]; then
-          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native' or 'native_swift'."
+        if [[ "${appType}" != "native" && "${appType}" != "native_swift" && "${appType}" != "react_native" ]]; then
+          echoColor $TERM_COLOR_RED "'${appType}' is not a valid application type.  Should be 'native' or 'native_swift' or 'react_native'."
           usage
           exit 3
         fi
@@ -156,7 +157,7 @@ function parseOpts()
   
   # Validate that we got the required command line args.
   if [[ "${OPT_APP_TYPE}" == "" ]]; then
-    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native' or 'native_swift'."
+    echoColor $TERM_COLOR_RED "No option specified for Application Type.  Must be 'native' or 'native_swift' or 'react_native'."
     usage
     exit 12
   fi
@@ -202,6 +203,9 @@ function replaceTokens()
   elif [[ "$1" == "native_swift" ]]; then
     appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
     inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
+  elif [[ "$1" == "react_native" ]]; then
+    appNameToken=${SUB_REACT_NATIVE_APP_NAME}
+    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
   else
     echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
     exit 16
