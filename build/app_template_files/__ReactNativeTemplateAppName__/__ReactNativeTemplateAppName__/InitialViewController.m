@@ -24,10 +24,6 @@
 
 #import "InitialViewController.h"
 
-@interface InitialViewController ()
-
-@end
-
 @implementation InitialViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

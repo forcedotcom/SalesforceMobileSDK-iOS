@@ -24,7 +24,7 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import "RootViewController.h"
+#import "RCTRootView.h"
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -35,24 +35,7 @@
 static NSString * const RemoteAccessConsumerKey = @"__ConnectedAppIdentifier__";
 static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__";
 
-@interface AppDelegate ()
-
-/**
- * Convenience method for setting up the main UIViewController and setting self.window's rootViewController
- * property accordingly.
- */
-- (void)setupRootViewController;
-
-/**
- * (Re-)sets the view state when the app first loads (or post-logout).
- */
-- (void)initializeAppViewState;
-
-@end
-
 @implementation AppDelegate
-
-@synthesize window = _window;
 
 - (id)init
 {
@@ -93,6 +76,7 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.launchOptions = launchOptions;
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];
@@ -126,9 +110,44 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 
 - (void)setupRootViewController
 {
-    RootViewController *rootVC = [[RootViewController alloc] initWithNibName:nil bundle:nil];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:rootVC];
-    self.window.rootViewController = navVC;
+    NSURL *jsCodeLocation;
+    
+    /**
+     * Loading JavaScript code - uncomment the one you want.
+     *
+     * OPTION 1
+     * Load from development server. Start the server from the repository root:
+     *
+     * $ npm start
+     *
+     * To run on device, change `localhost` to the IP address of your computer
+     * (you can get this by typing `ifconfig` into the terminal and selecting the
+     * `inet` value under `en0:`) and make sure your computer and iOS device are
+     * on the same Wi-Fi network.
+     */
+    
+    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+    
+    /**
+     * OPTION 2
+     * Load from pre-bundled file on disk. To re-generate the static bundle
+     * from the root of your project directory, run
+     *
+     * $ react-native bundle --minify
+     *
+     * see http://facebook.github.io/react-native/docs/runningondevice.html
+     */
+    
+    //   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+    
+    RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+                                                        moduleName:@"NativeR2"
+                                                     launchOptions:self.launchOptions];
+    
+
+    UIViewController *rootViewController = [[UIViewController alloc] init];
+    rootViewController.view = rootView;
+    self.window.rootViewController = rootViewController;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock

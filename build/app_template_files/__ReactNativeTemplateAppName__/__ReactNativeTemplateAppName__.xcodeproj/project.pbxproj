@@ -12,7 +12,6 @@
 		4F8D5EA61B6C0568005E64D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5EA51B6C0568005E64D4 /* AppDelegate.m */; };
 		4F8D5EAE1B6C0568005E64D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8D5EAD1B6C0568005E64D4 /* Images.xcassets */; };
 		4F8D5EC81B6C0F94005E64D4 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5EC71B6C0F94005E64D4 /* InitialViewController.m */; };
-		4F8D5ECB1B6C0FE4005E64D4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5ECA1B6C0FE4005E64D4 /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +23,6 @@
 		4F8D5EAD1B6C0568005E64D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4F8D5EC61B6C0F94005E64D4 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
 		4F8D5EC71B6C0F94005E64D4 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
-		4F8D5EC91B6C0FE4005E64D4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		4F8D5ECA1B6C0FE4005E64D4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		641A79C6255C9F5C2DC614D8 /* Pods-__ReactNativeTemplateAppName__.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__ReactNativeTemplateAppName__.release.xcconfig"; path = "Pods/Target Support Files/Pods-__ReactNativeTemplateAppName__/Pods-__ReactNativeTemplateAppName__.release.xcconfig"; sourceTree = "<group>"; };
 		90400F35EE8FD2C6D3B8B7E7 /* Pods-__ReactNativeTemplateAppName__.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__ReactNativeTemplateAppName__.debug.xcconfig"; path = "Pods/Target Support Files/Pods-__ReactNativeTemplateAppName__/Pods-__ReactNativeTemplateAppName__.debug.xcconfig"; sourceTree = "<group>"; };
 		E606AE0C7CABF6DAF27DF3CC /* libPods-__ReactNativeTemplateAppName__.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-__ReactNativeTemplateAppName__.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,8 +88,6 @@
 		4F8D5ECC1B6C1021005E64D4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4F8D5EC91B6C0FE4005E64D4 /* RootViewController.h */,
-				4F8D5ECA1B6C0FE4005E64D4 /* RootViewController.m */,
 				4F8D5EC61B6C0F94005E64D4 /* InitialViewController.h */,
 				4F8D5EC71B6C0F94005E64D4 /* InitialViewController.m */,
 				4F8D5EA41B6C0568005E64D4 /* AppDelegate.h */,
@@ -215,7 +210,6 @@
 			files = (
 				4F8D5EA61B6C0568005E64D4 /* AppDelegate.m in Sources */,
 				4F8D5EA31B6C0568005E64D4 /* main.m in Sources */,
-				4F8D5ECB1B6C0FE4005E64D4 /* RootViewController.m in Sources */,
 				4F8D5EC81B6C0F94005E64D4 /* InitialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
