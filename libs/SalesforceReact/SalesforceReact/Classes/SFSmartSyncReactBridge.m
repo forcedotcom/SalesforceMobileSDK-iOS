@@ -51,6 +51,8 @@ NSString * const kSyncIsGlobalStoreArg = @"isGlobalStore";
 
 @implementation SFSmartSyncReactBridge
 
+RCT_EXPORT_MODULE();
+
 #pragma mark - Bridged methods
 
 RCT_EXPORT_METHOD(getSyncStatus:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
