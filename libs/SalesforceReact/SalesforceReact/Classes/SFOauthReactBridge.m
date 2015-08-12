@@ -24,9 +24,9 @@
 
 #import "SFOauthReactBridge.h"
 
-#import <React/RCTAssert.h>
-#import <React/RCTLog.h>
-#import <React/RCTUtils.h>
+#import "RCTAssert.h"
+#import "RCTLog.h"
+#import "RCTUtils.h"
 
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 

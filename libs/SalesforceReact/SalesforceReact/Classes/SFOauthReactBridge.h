@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import <React/RCTBridgeModule.h>
+#import "RCTBridgeModule.h"
 
 @interface SFOauthReactBridge : NSObject <RCTBridgeModule>
 

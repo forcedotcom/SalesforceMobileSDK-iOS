@@ -7,21 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4FABF0521AA51F9000D31E3F /* libSalesforceReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */; };
 		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		4FABF0531AA51F9000D31E3F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F36189E1AA51E3900AE3A65 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FABF0451AA51F9000D31E3F;
-			remoteInfo = SalesforceReact;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4FABF0441AA51F9000D31E3F /* CopyFiles */ = {
@@ -43,8 +32,6 @@
 		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
 		4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceReactTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4FABF0571AA51F9000D31E3F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
 		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
 		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
@@ -60,14 +47,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4FABF04E1AA51F9000D31E3F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FABF0521AA51F9000D31E3F /* libSalesforceReact.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -76,7 +55,6 @@
 			children = (
 				4F67FECC1B7970C300A957A3 /* Configuration */,
 				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
-				4FABF0551AA51F9000D31E3F /* SalesforceReactTests */,
 				4FABF0471AA51F9000D31E3F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -96,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */,
-				4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -108,22 +85,6 @@
 				4FABF0641AA5226400D31E3F /* Supporting Files */,
 			);
 			path = SalesforceReact;
-			sourceTree = "<group>";
-		};
-		4FABF0551AA51F9000D31E3F /* SalesforceReactTests */ = {
-			isa = PBXGroup;
-			children = (
-				4FABF0561AA51F9000D31E3F /* Supporting Files */,
-			);
-			path = SalesforceReactTests;
-			sourceTree = "<group>";
-		};
-		4FABF0561AA51F9000D31E3F /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				4FABF0571AA51F9000D31E3F /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		4FABF0641AA5226400D31E3F /* Supporting Files */ = {
@@ -167,24 +128,6 @@
 			productReference = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		4FABF0501AA51F9000D31E3F /* SalesforceReactTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4FABF05D1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReactTests" */;
-			buildPhases = (
-				4FABF04D1AA51F9000D31E3F /* Sources */,
-				4FABF04E1AA51F9000D31E3F /* Frameworks */,
-				4FABF04F1AA51F9000D31E3F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4FABF0541AA51F9000D31E3F /* PBXTargetDependency */,
-			);
-			name = SalesforceReactTests;
-			productName = SalesforceReactTests;
-			productReference = 4FABF0511AA51F9000D31E3F /* SalesforceReactTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -194,9 +137,6 @@
 				LastUpgradeCheck = 0610;
 				TargetAttributes = {
 					4FABF0451AA51F9000D31E3F = {
-						CreatedOnToolsVersion = 6.1.1;
-					};
-					4FABF0501AA51F9000D31E3F = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
 				};
@@ -214,20 +154,9 @@
 			projectRoot = "";
 			targets = (
 				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
-				4FABF0501AA51F9000D31E3F /* SalesforceReactTests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXResourcesBuildPhase section */
-		4FABF04F1AA51F9000D31E3F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4FABF0421AA51F9000D31E3F /* Sources */ = {
@@ -240,22 +169,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4FABF04D1AA51F9000D31E3F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		4FABF0541AA51F9000D31E3F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4FABF0451AA51F9000D31E3F /* SalesforceReact */;
-			targetProxy = 4FABF0531AA51F9000D31E3F /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		4F3618A21AA51E3900AE3A65 /* Debug */ = {
@@ -310,56 +224,6 @@
 			};
 			name = Release;
 		};
-		4FABF05A1AA51F9000D31E3F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "SalesforceReactTests/SalesforceReactTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					XCTest,
-					"-ObjC",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		4FABF05B1AA51F9000D31E3F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
-				INFOPLIST_FILE = "SalesforceReactTests/SalesforceReactTests-Info.plist";
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					XCTest,
-					"-ObjC",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -377,15 +241,6 @@
 			buildConfigurations = (
 				4FABF0581AA51F9000D31E3F /* Debug */,
 				4FABF0591AA51F9000D31E3F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4FABF05D1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReactTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4FABF05A1AA51F9000D31E3F /* Debug */,
-				4FABF05B1AA51F9000D31E3F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
