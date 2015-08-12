@@ -232,7 +232,7 @@ function replaceTokens()
   local workingFolderTemplate="/tmp/${workingFolderPrefix}.XXXXXX"
   local workingFolder=`mktemp -d ${workingFolderTemplate}`
   local resourcesFolder=`dirname "${BASH_SOURCE[0]}"`
-  cp -R "${resourcesFolder}/${appNameToken}" "${workingFolder}"
+  cp -RL "${resourcesFolder}/${appNameToken}" "${workingFolder}"
   cd "${workingFolder}"
 
   local inputPodFile="${appNameToken}/PodFile"
