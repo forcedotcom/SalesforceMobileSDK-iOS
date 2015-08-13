@@ -1,1 +1,0 @@
-../../../external/react-ios/linter.js
