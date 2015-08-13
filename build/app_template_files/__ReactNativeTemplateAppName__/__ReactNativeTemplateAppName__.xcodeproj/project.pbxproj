@@ -304,6 +304,7 @@
 			baseConfigurationReference = 90400F35EE8FD2C6D3B8B7E7 /* Pods-__ReactNativeTemplateAppName__.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = __ReactNativeTemplateAppName__/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -315,6 +316,7 @@
 			baseConfigurationReference = 641A79C6255C9F5C2DC614D8 /* Pods-__ReactNativeTemplateAppName__.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = __ReactNativeTemplateAppName__/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
