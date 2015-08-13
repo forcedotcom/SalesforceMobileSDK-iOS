@@ -23,4 +23,4 @@ class SimpleApp extends React.Component {
   }
 }
 
-React.AppRegistry.registerComponent('SimpleApp', () => SimpleApp);
+React.AppRegistry.registerComponent('__ReactNativeTemplateAppName__', () => SimpleApp);

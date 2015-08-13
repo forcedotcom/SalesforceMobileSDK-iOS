@@ -141,7 +141,7 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
     //   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
     
     RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                        moduleName:@"NativeR2"
+                                                        moduleName:@"__ReactNativeTemplateAppName__"
                                                      launchOptions:self.launchOptions];
     
 
