@@ -8,15 +8,15 @@ var accessToken = undefined;
  * exec
  */
 var exec = function(successCB, errorCB, methodName, args) {
-    storeConsole.debug("SFOauthReactBridge." + methodName + " called: " + JSON.stringify(args));
+    console.log("SFOauthReactBridge." + methodName + " called: " + JSON.stringify(args));
     SFOauthReactBridge[methodName](args, function(result) {
-        if (result.length == 0) {
-            storeConsole.debug(methodName + " failed: " + resullt[0]);
-            if (errorCB) errorCB(result[0]);
+        if (error) {
+            console.log(func + " failed: " + error);
+            if (errorCB) errorCB(error);
         }
         else {
-            storeConsole.debug(methodName + " succeeded");
-            if (successCB) successCB(result[1]);
+            console.log(func + " succeeded");
+            if (successCB) successCB(result);
         }
     });
 };

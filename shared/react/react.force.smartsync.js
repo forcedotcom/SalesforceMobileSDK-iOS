@@ -6,41 +6,25 @@ var { SFSmartSyncReactBridge } = require('react-native').NativeModules;
  * exec
  */
 var exec = function(successCB, errorCB, methodName, args) {
-    storeConsole.debug("SFSmartSyncReactBridge." + methodName + " called: " + JSON.stringify(args));
-    SFSmartStoreReactBridge[methodName](args, function(result) {
-        if (result.length == 0) {
-            storeConsole.debug(methodName + " failed: " + resullt[0]);
-            if (errorCB) errorCB(result[0]);
+    var func = "SFSmartSyncReactBridge." + methodName;
+    console.log(func + " called: " + JSON.stringify(args));
+    SFSmartSyncReactBridge[methodName](args, function(error, result) {
+        if (error) {
+            console.log(func + " failed: " + error);
+            if (errorCB) errorCB(error);
         }
         else {
-            storeConsole.debug(methodName + " succeeded");
-            if (successCB) successCB(result[1]);
+            console.log(func + " succeeded");
+            if (successCB) successCB(result);
         }
     });
 };
 
-
-// NB: also in smartstore plugin
-var checkFirstArg = function(argumentsOfCaller) {
-    var args = Array.prototype.slice.call(argumentsOfCaller);
-    if (typeof(args[0]) !== "boolean") {
-        args.unshift(false);
-        argumentsOfCaller.callee.apply(null, args);
-        return true;
-    }
-    else {
-        return false;
-    }
-};
-
-
 var syncDown = function(isGlobalStore, target, soupName, options, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "syncDown", {"target": target, "soupName": soupName, "options": options, "isGlobalStore":isGlobalStore});        
 };
 
 var reSync = function(isGlobalStore, syncId, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "reSync", {"syncId": syncId, "isGlobalStore":isGlobalStore});        
 };
 
@@ -71,7 +55,6 @@ var syncUp = function(isGlobalStore, target, soupName, options, successCB, error
 };
 
 var getSyncStatus = function(isGlobalStore, syncId, successCB, errorCB) {
-    if (checkFirstArg(arguments, "boolean", false)) return;
     exec(successCB, errorCB, "getSyncStatus", {"syncId": syncId, "isGlobalStore":isGlobalStore});        
 };
 

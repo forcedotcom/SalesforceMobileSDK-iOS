@@ -1,20 +1,21 @@
 'use strict';
 
-var { SFSmartStoreReactBridge } = Require('react-native').NativeModules;
+var { SFSmartStoreReactBridge } = require('react-native').NativeModules;
 
 /**
  * exec
  */
 var exec = function(successCB, errorCB, methodName, args) {
-    storeConsole.debug("SFSmartStoreReactBridge." + methodName + " called: " + JSON.stringify(args));
-    SFSmartStoreReactBridge[methodName](args, function(result) {
-        if (result.length == 0) {
-            storeConsole.debug(methodName + " failed: " + resullt[0]);
-            if (errorCB) errorCB(result[0]);
+    var func = "SFSmartStoreReactBridge." + methodName;
+    console.log(func + " called: " + JSON.stringify(args));
+    SFSmartStoreReactBridge[methodName](args, function(error, result) {
+        if (error) {
+            storeConsole.debug(func + " failed: " + error);
+            if (errorCB) errorCB(error);
         }
         else {
-            storeConsole.debug(methodName + " succeeded");
-            if (successCB) successCB(result[1]);
+            storeConsole.debug(func + " succeeded");
+            if (successCB) successCB(result);
         }
     });
 };
@@ -169,60 +170,32 @@ var buildSmartQuerySpec = function (smartSql, pageSize) {
     return inst;
 };
 
-// Helper function to handle calls that don't specify isGlobalStore as first argument
-// If missing, the caller is re-invoked with false prepended to the arguments list and true is returned
-// Otherwise, false is returned
-var checkFirstArg = function(argumentsOfCaller) {
-    // Turning arguments into array
-    var args = Array.prototype.slice.call(argumentsOfCaller);
-    // If first argument is not a boolean
-    if (typeof(args[0]) !== "boolean") {
-        // Pre-pending false
-        args.unshift(false);
-        // Re-invoking function
-        argumentsOfCaller.callee.apply(null, args);
-        return true;
-    }
-    // First argument is a boolean
-    else {
-        return false;
-    }
-};
-
-
 // ====== Soup manipulation ======
 var getDatabaseSize = function (isGlobalStore, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "getDatabaseSize", {"isGlobalStore": isGlobalStore});
 };
 
 var registerSoup = function (isGlobalStore, soupName, indexSpecs, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "registerSoup", {"soupName": soupName, "indexes": indexSpecs, "isGlobalStore": isGlobalStore});
 };
 
 var removeSoup = function (isGlobalStore, soupName, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "removeSoup", {"soupName": soupName, "isGlobalStore": isGlobalStore});
 };
 
 var getSoupIndexSpecs = function(isGlobalStore, soupName, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "getSoupIndexSpecs", {"soupName": soupName, "isGlobalStore": isGlobalStore});
 };
 
 var alterSoup = function (isGlobalStore, soupName, indexSpecs, reIndexData, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "alterSoup", {"soupName": soupName, "indexes": indexSpecs, "reIndexData": reIndexData, "isGlobalStore": isGlobalStore});
 };
 
 var reIndexSoup = function (isGlobalStore, soupName, paths, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "reIndexSoup", {"soupName": soupName, "paths": paths, "isGlobalStore": isGlobalStore});
 };
 
 var clearSoup = function (isGlobalStore, soupName, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "clearSoup", {"soupName": soupName, "isGlobalStore": isGlobalStore});
 };
 
@@ -232,52 +205,43 @@ var showInspector = function(isGlobalStore) {
 };
 
 var soupExists = function (isGlobalStore, soupName, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "soupExists", {"soupName": soupName, "isGlobalStore": isGlobalStore});
 };
 
 var querySoup = function (isGlobalStore, soupName, querySpec, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     if (querySpec.queryType == "smart") throw new Error("Smart queries can only be run using runSmartQuery");
     if (querySpec.order != null && querySpec.orderPath == null) querySpec.orderPath = querySpec.indexPath; // for backward compatibility with pre-3.3 code
     exec(successCB, errorCB, "querySoup", {"soupName": soupName, "querySpec": querySpec, "isGlobalStore": isGlobalStore});
 };
 
 var runSmartQuery = function (isGlobalStore, querySpec, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     if (querySpec.queryType != "smart") throw new Error("runSmartQuery can only run smart queries");
     exec(successCB, errorCB, "runSmartQuery", {"querySpec": querySpec, "isGlobalStore": isGlobalStore});
 };
 
 var retrieveSoupEntries = function (isGlobalStore, soupName, entryIds, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "retrieveSoupEntries", {"soupName": soupName, "entryIds": entryIds, "isGlobalStore": isGlobalStore});
 };
 
 var upsertSoupEntries = function (isGlobalStore, soupName, entries, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     upsertSoupEntriesWithExternalId(isGlobalStore, soupName, entries, "_soupEntryId", successCB, errorCB);
 };
 
 var upsertSoupEntriesWithExternalId = function (isGlobalStore, soupName, entries, externalIdPath, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "upsertSoupEntries", {"soupName": soupName, "entries": entries, "externalIdPath": externalIdPath, "isGlobalStore": isGlobalStore});
 };
 
 var removeFromSoup = function (isGlobalStore, soupName, entryIds, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     isGlobalStore = isGlobalStore || false;
     exec(successCB, errorCB, "removeFromSoup", {"soupName": soupName, "entryIds": entryIds, "isGlobalStore": isGlobalStore});
 };
 
 //====== Cursor manipulation ======
 var moveCursorToPageIndex = function (isGlobalStore, cursor, newPageIndex, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "moveCursorToPageIndex", {"cursorId": cursor.cursorId, "index": newPageIndex, "isGlobalStore": isGlobalStore});
 };
 
 var moveCursorToNextPage = function (isGlobalStore, cursor, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     var newPageIndex = cursor.currentPageIndex + 1;
     if (newPageIndex >= cursor.totalPages) {
         errorCB(cursor, new Error("moveCursorToNextPage called while on last page"));
@@ -287,7 +251,6 @@ var moveCursorToNextPage = function (isGlobalStore, cursor, successCB, errorCB) 
 };
 
 var moveCursorToPreviousPage = function (isGlobalStore, cursor, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     var newPageIndex = cursor.currentPageIndex - 1;
     if (newPageIndex < 0) {
         errorCB(cursor, new Error("moveCursorToPreviousPage called while on first page"));
@@ -297,7 +260,6 @@ var moveCursorToPreviousPage = function (isGlobalStore, cursor, successCB, error
 };
 
 var closeCursor = function (isGlobalStore, cursor, successCB, errorCB) {
-    if (checkFirstArg(arguments)) return;
     exec(successCB, errorCB, "closeCursor", {"cursorId": cursor.cursorId, "isGlobalStore": isGlobalStore});
 };
 
