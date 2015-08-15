@@ -10,29 +10,72 @@ var {
     PixelRatio,
     NavigatorIOS
 } = React;
+var smartstore = require('./react.force.smartstore.js');
+var smartsync = require('./react.force.smartsync.js');
 
 var App = React.createClass({
-  render: function() {
-    return (
-      <NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          title: 'Mobile SDK Sample App',
-          component: UserList,
-        }}
-      />
-    );
-  }
+    render: function() {
+        return (
+            <NavigatorIOS
+                style={styles.container}
+                initialRoute={{
+                    title: 'Mobile SDK Sample App',
+                    component: UserList,
+                }}
+            />
+        );
+    }
 });
 
 var UserList = React.createClass({
     getInitialState: function() {
       var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       return {
-          dataSource: ds.cloneWithRows(['User 1', 'User 2', 'User 3']),
+          dataSource: ds.cloneWithRows([]),
       };
     },
     
+    componentDidMount: function() {
+        var that = this;
+        smartstore.registerSoup(false,
+                                "users", 
+                                [ {path:"Id", type:"string"}, 
+                                  {path:"Name", type:"string"}, 
+                                  {path:"__local__", type:"string"} ],
+                                function() {
+                                    that.runSync();
+                                });
+    },
+
+    runSync: function() {
+        var that = this;
+        var fieldlist = ["Id", "Name"];
+        var target = {type:"soql", query:"SELECT " + fieldlist.join(",") + " FROM User LIMIT 10"};
+        smartsync.syncDown(false, target, "users", {mergeMode:smartsync.MERGE_MODE.OVERWRITE}, function(result) {
+            smartstore.querySoup(false,
+                                 "users",
+                                 smartstore.buildAllQuerySpec("Name"),                             
+                                 function(cursor) {
+                                     that.handleData(cursor);
+                                 });
+        });
+    },
+
+    handleData: function(cursor) {
+        var data = [];
+        for (var i in cursor.currentPageOrderedEntries) {
+            data.push(cursor.currentPageOrderedEntries[i]["Name"]);
+        }
+
+        this.setState({
+            dataSource: this.getDataSource(data),
+        });
+    },
+
+    getDataSource: function(users: Array<any>): ListViewDataSource {
+        return this.state.dataSource.cloneWithRows(users);
+    },
+
     render: function() {
         return (
             <ListView
@@ -78,5 +121,6 @@ var styles = StyleSheet.create({
         marginLeft: 4,
     },
 });
+
 
 React.AppRegistry.registerComponent('__ReactNativeTemplateAppName__', () => App);
