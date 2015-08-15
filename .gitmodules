@@ -12,4 +12,4 @@
 	url = https://github.com/forcedotcom/fmdb
 [submodule "external/react-native"]
 	path = external/react-native
-	url = https://github.com/wmathurin/react-native.git
+	url = https://github.com/forcedotcom/react-native.git
