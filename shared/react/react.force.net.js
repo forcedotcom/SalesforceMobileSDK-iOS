@@ -5,17 +5,16 @@ var { SFNetReactBridge } = require('react-native').NativeModules;
 /**
  * exec
  */
-var exec = function(path, callbackCB, errorCB, method, payload, headerParams) {
-    var func = "SFNetReactBridge." + methodName;
+var exec = function(path, successCB, errorCB, method, payload, headerParams) {
     var args = {path:path, method:method, queryParams:payload, headerParams:headerParams};
-    console.log(func + " called with path:" + path + " and method:" + method);
-    SFNetReactBridge[methodName](args, function(error, result) {
+    console.log("SFNetReactBridge.sendRequest called with path:" + path + " and method:" + method);
+    SFNetReactBridge.sendRequest(args, function(error, result) {
         if (error) {
-            storeConsole.debug(func + " failed: " + error);
+            console.log("SFNetReactBridge.sendRequest failed: " + error);
             if (errorCB) errorCB(error);
         }
         else {
-            storeConsole.debug(func + " succeeded");
+            console.log("SFNetReactBridge.sendRequest succeeded");
             if (successCB) successCB(result);
         }
     });
