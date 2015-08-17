@@ -10,8 +10,7 @@ var {
     PixelRatio,
     NavigatorIOS
 } = React;
-var smartstore = require('./react.force.smartstore.js');
-var smartsync = require('./react.force.smartsync.js');
+var forceClient = require('./react.force.net.js');
 
 var App = React.createClass({
     render: function() {
@@ -37,39 +36,20 @@ var UserList = React.createClass({
     
     componentDidMount: function() {
         var that = this;
-        smartstore.registerSoup(false,
-                                "users", 
-                                [ {path:"Id", type:"string"}, 
-                                  {path:"Name", type:"string"}, 
-                                  {path:"__local__", type:"string"} ],
-                                function() {
-                                    that.runSync();
-                                });
-    },
+        var soql = 'SELECT Id, Name FROM User LIMIT 10';
+        forceClient.query(soql,
+                          function(response) {
+                              var users = response.records;
+                              var data = [];
+                              for (var i in users) {
+                                  data.push(users[i]["Name"]);
+                              }
 
-    runSync: function() {
-        var that = this;
-        var fieldlist = ["Id", "Name"];
-        var target = {type:"soql", query:"SELECT " + fieldlist.join(",") + " FROM User LIMIT 10"};
-        smartsync.syncDown(false, target, "users", {mergeMode:smartsync.MERGE_MODE.OVERWRITE}, function(result) {
-            smartstore.querySoup(false,
-                                 "users",
-                                 smartstore.buildAllQuerySpec("Name"),                             
-                                 function(cursor) {
-                                     that.handleData(cursor);
-                                 });
-        });
-    },
+                              that.setState({
+                                  dataSource: that.getDataSource(data),
+                              });
 
-    handleData: function(cursor) {
-        var data = [];
-        for (var i in cursor.currentPageOrderedEntries) {
-            data.push(cursor.currentPageOrderedEntries[i]["Name"]);
-        }
-
-        this.setState({
-            dataSource: this.getDataSource(data),
-        });
+                          });
     },
 
     getDataSource: function(users: Array<any>): ListViewDataSource {
