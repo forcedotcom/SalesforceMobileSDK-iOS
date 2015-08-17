@@ -1,0 +1,251 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
+		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
+		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4FABF0441AA51F9000D31E3F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
+		4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
+		4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Common.xcconfig"; path = "Configuration/SalesforceReact-Common.xcconfig"; sourceTree = "<group>"; };
+		4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
+		4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
+		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
+		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
+		4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOauthReactBridge.m; path = Classes/SFOauthReactBridge.m; sourceTree = "<group>"; };
+		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4FABF0431AA51F9000D31E3F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F36189D1AA51E3900AE3A65 = {
+			isa = PBXGroup;
+			children = (
+				4F67FECC1B7970C300A957A3 /* Configuration */,
+				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
+				4FABF0471AA51F9000D31E3F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F67FECC1B7970C300A957A3 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */,
+				4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */,
+				4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */,
+				4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */,
+			);
+			name = Configuration;
+			sourceTree = "<group>";
+		};
+		4FABF0471AA51F9000D31E3F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FABF0481AA51F9000D31E3F /* SalesforceReact */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF06C1AA52ECF00D31E3F /* Classes */,
+				4FABF0641AA5226400D31E3F /* Supporting Files */,
+			);
+			path = SalesforceReact;
+			sourceTree = "<group>";
+		};
+		4FABF0641AA5226400D31E3F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4FABF06C1AA52ECF00D31E3F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */,
+				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
+				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
+				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
+				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
+				4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4FABF0451AA51F9000D31E3F /* SalesforceReact */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */;
+			buildPhases = (
+				4FABF0421AA51F9000D31E3F /* Sources */,
+				4FABF0431AA51F9000D31E3F /* Frameworks */,
+				4FABF0441AA51F9000D31E3F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceReact;
+			productName = SalesforceReact;
+			productReference = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F36189E1AA51E3900AE3A65 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					4FABF0451AA51F9000D31E3F = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 4F36189D1AA51E3900AE3A65;
+			productRefGroup = 4FABF0471AA51F9000D31E3F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4FABF0421AA51F9000D31E3F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */,
+				4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */,
+				4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4F3618A21AA51E3900AE3A65 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		4F3618A31AA51E3900AE3A65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		4FABF0581AA51F9000D31E3F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */;
+			buildSettings = {
+				DSTROOT = /tmp/SalesforceReact.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4FABF0591AA51F9000D31E3F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */;
+			buildSettings = {
+				DSTROOT = /tmp/SalesforceReact.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F3618A21AA51E3900AE3A65 /* Debug */,
+				4F3618A31AA51E3900AE3A65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FABF0581AA51F9000D31E3F /* Debug */,
+				4FABF0591AA51F9000D31E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F36189E1AA51E3900AE3A65 /* Project object */;
+}
