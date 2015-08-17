@@ -22,24 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOauthReactBridge.h"
+#import "RCTBridgeModule.h"
 
-#import "RCTUtils.h"
-
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
-
-
-@implementation SFOauthReactBridge
-
-RCT_EXPORT_MODULE();
-
-#pragma mark - Bridged methods
-
-RCT_EXPORT_METHOD(getAccessToken:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
-{
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    
-    callback(@[[NSNull null], creds.accessToken]);
-}
+@interface SFNetReactBridge : NSObject <RCTBridgeModule>
 
 @end
