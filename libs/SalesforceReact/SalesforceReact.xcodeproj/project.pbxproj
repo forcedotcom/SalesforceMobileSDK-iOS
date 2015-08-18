@@ -10,6 +10,7 @@
 		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
+		4FF0BCA31B826D9400ABC91C /* SFNetReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,8 @@
 		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
 		4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOauthReactBridge.m; path = Classes/SFOauthReactBridge.m; sourceTree = "<group>"; };
 		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
+		4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNetReactBridge.h; path = Classes/SFNetReactBridge.h; sourceTree = "<group>"; };
+		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +107,8 @@
 				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
 				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
 				4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */,
+				4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */,
+				4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -164,6 +169,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */,
+				4FF0BCA31B826D9400ABC91C /* SFNetReactBridge.m in Sources */,
 				4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */,
 				4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */,
 			);

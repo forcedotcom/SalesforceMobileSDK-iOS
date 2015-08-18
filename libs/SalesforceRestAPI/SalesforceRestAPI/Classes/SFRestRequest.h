@@ -199,6 +199,11 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 + (BOOL)isNetworkError:(NSError *)error;
 
+/**
+ * Return SFRestMethod from string
+ */
++ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
+
 
 ///---------------------------------------------------------------------------------------
 /// @name Initialization

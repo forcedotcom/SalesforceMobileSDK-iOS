@@ -22,24 +22,44 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOauthReactBridge.h"
+#import "SFNetReactBridge.h"
 
 #import "RCTUtils.h"
 
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 
-@implementation SFOauthReactBridge
+// Private constants
+NSString * const kMethodArg       = @"method";
+NSString * const kPathArg         = @"path";
+NSString * const kQueryParams     = @"queryParams";
+NSString * const kHeaderParams    = @"headerParams";
+
+@implementation SFNetReactBridge
 
 RCT_EXPORT_MODULE();
 
 #pragma mark - Bridged methods
 
-RCT_EXPORT_METHOD(getAccessToken:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
-    SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
+    SFRestMethod method = [SFRestRequest sfRestMethodFromHTTPMethod:[argsDict nonNullObjectForKey:kMethodArg]];
+    NSString* path = [argsDict nonNullObjectForKey:kPathArg];
+    NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
+    NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     
-    callback(@[[NSNull null], creds.accessToken]);
+    SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    [request setCustomHeaders:headerParams];
+    
+    [[SFRestAPI sharedInstance] sendRESTRequest:request
+                                      failBlock:^(NSError *e) {
+                                          callback(@[RCTMakeError(@"sendRequest failed", e, nil)]);
+                                      }
+                                  completeBlock:^(id response) {
+                                      callback(@[[NSNull null], response]);
+                                  }
+     ];
 }
 
 @end

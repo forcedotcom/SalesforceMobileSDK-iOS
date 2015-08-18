@@ -24,8 +24,6 @@
 
 #import "SFSmartStoreReactBridge.h"
 
-#import "RCTAssert.h"
-#import "RCTLog.h"
 #import "RCTUtils.h"
 #import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>

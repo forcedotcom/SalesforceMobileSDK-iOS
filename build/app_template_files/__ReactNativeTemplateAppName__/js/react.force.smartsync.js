@@ -1,0 +1,1 @@
+../../../../shared/react/react.force.smartsync.js
