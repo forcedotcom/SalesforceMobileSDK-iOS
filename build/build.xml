@@ -11,6 +11,7 @@
     <target name="all" description="Cleans the projects and builds all libraries">
         <antcall target="clean" />
         <antcall target="buildAll" />
+        <antcall target="libPackages" />
     </target>
     
     <target name="buildAll" />
