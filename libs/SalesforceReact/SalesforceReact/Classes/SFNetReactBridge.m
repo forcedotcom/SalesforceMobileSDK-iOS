@@ -38,7 +38,7 @@ NSString * const kHeaderParams    = @"headerParams";
 
 // User agent
 NSString * const kUserAgent       = @"User-Agent";
-NSString * const kReactNative     = @"react_native";
+NSString * const kReactNative     = @"React";
 
 @implementation SFNetReactBridge
 
