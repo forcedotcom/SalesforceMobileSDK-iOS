@@ -36,6 +36,10 @@ NSString * const kPathArg         = @"path";
 NSString * const kQueryParams     = @"queryParams";
 NSString * const kHeaderParams    = @"headerParams";
 
+// User agent
+NSString * const kUserAgent       = @"User-Agent";
+NSString * const kReactNative     = @"react_native";
+
 @implementation SFNetReactBridge
 
 RCT_EXPORT_MODULE();
@@ -51,6 +55,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
     [request setCustomHeaders:headerParams];
+    [request setHeaderValue:[SFRestAPI userAgentString:kReactNative] forHeaderName:kUserAgent];
     
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e) {
