@@ -17,7 +17,8 @@ pod 'React/RCTVibration', '~> 0.9.0'
 pod 'React/RCTWebSocket', '~> 0.9.0'
 pod 'React/RCTLinkingIOS', '~> 0.9.0'
 
-pod 'SalesforceMobileSDK-iOS', :path => '/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS'
+pod 'SalesforceMobileSDK-iOS', :git => 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git', :branch => 'unstable', :submodules => 'true'
+# pod 'SalesforceMobileSDK-iOS', :path => '/Users/wmathurin/Development/github/wmathurin/SalesforceMobileSDK-iOS'
 # pod 'SalesforceMobileSDK-iOS'
 
 end
