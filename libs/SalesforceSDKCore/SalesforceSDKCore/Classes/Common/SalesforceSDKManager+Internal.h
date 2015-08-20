@@ -28,7 +28,7 @@
     NSMutableOrderedSet *_delegates;
 }
 
-@property (nonatomic, assign) BOOL isNative;
+@property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup;
 @property (nonatomic, assign) SFSDKLaunchAction launchActions;

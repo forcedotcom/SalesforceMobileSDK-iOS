@@ -41,6 +41,7 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // User agent constants
 static NSString * const kSFMobileSDKNativeDesignator = @"Native";
 static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
+static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 
 // Key for whether or not the user has chosen the app setting to logout of the
 // app when it is re-opened.
@@ -78,7 +79,17 @@ static NSString* uid = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAuthCompleted:) name:kSFAuthenticationManagerFinishedNotification object:nil];
         
         [SFPasscodeManager sharedManager].preferredPasscodeProvider = kSFPasscodeProviderPBKDF2;
-        self.isNative = NSClassFromString(@"SFHybridViewController") == nil;
+        if (NSClassFromString(@"SFHybridViewController") != nil) {
+            self.appType = kSFAppTypeHybrid;
+        }
+        else {
+            if (NSClassFromString(@"SFNetReactBridge") != nil) {
+                self.appType = kSFAppTypeReactNative;
+            }
+            else {
+                self.appType = kSFAppTypeNative;
+            }            
+        }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
         self.userAgentString = [self defaultUserAgentString];
@@ -615,6 +626,14 @@ static NSString* uid = nil;
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
         NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         
+        // App type
+        NSString* appTypeStr;
+        switch (self.appType) {
+            case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
+            case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
+            case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
+        }
+        
         NSString *myUserAgent = [NSString stringWithFormat:
                                  @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ %@",
                                  SALESFORCE_SDK_VERSION,
@@ -623,7 +642,7 @@ static NSString* uid = nil;
                                  [curDevice model],
                                  appName,
                                  appVersion,
-                                 [SalesforceSDKManager sharedManager].isNative ? kSFMobileSDKNativeDesignator : kSFMobileSDKHybridDesignator,
+                                 appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
                                  currentUserAgent
