@@ -29,6 +29,13 @@
 
 @class SFUserAccount, SFSDKAppConfig;
 
+typedef NS_ENUM(NSUInteger, SFAppType) {
+    kSFAppTypeNative,
+    kSFAppTypeHybrid,
+    kSFAppTypeReactNative
+};
+
+
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -74,10 +81,11 @@
  */
 @property (nonatomic, readonly) BOOL isLaunching;
 
+
 /**
- Whether or not the SDK is currently in the middle of a launch process.
+ App type (native, hybrid or react native)
  */
-@property (nonatomic, readonly) BOOL isNative;
+@property (nonatomic, readonly) SFAppType appType;
 
 /**
  The Connected App ID configured for this application.
