@@ -78,28 +78,32 @@ end
 
 def build(scheme, timeout, verbose) 
   printHeader("Building #{scheme}")
-  filter = verbose ? "" : " | grep '^\*\*\ BUILD'"
-  exec_with_timeout("xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} 2>&1 #{filter}", timeout)
+  cmd = "xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} 2>&1  | grep '^\*\*\ BUILD'"
+  if verbose
+    puts cmd
+  end
+  exec_with_timeout(cmd, timeout)
 end
 
 def test(scheme, timeout, verbose) 
   printHeader("Testing #{scheme}")
-  filter = verbose ? "" : " | grep '^\t-' | sed 's/-/Failed\ /'"
-  exec_with_timeout("xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 2>&1 #{filter}", timeout)
+  cmd = "xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 2>&1 | grep '^\t-' | sed 's/-/Failed\ /'"
+  if verbose
+    puts cmd 
+  end
+  exec_with_timeout(cmd, timeout)
 end
 
 def exec_with_timeout(command, timeout)
-  puts command
   pipe = IO.popen(command, 'r')
-  output = ""
   begin
     status = Timeout::timeout(timeout) {
       Process.waitpid2(pipe.pid)
       print pipe.gets(nil)
     }
   rescue Timeout::Error
-    print pipe.gets(nil)
     Process.kill(15, pipe.pid)
+    print "** Timeout"
   end
   pipe.close
 end
