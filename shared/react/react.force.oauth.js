@@ -26,16 +26,15 @@
 
 'use strict';
 
-var { SFOauthReactBridge } = Require('react-native').NativeModules;
-
-var accessToken = undefined;
+var { SFOauthReactBridge } = require('react-native').NativeModules;
 
 /**
  * exec
  */
 var exec = function(successCB, errorCB, methodName, args) {
-    console.log("SFOauthReactBridge." + methodName + " called: " + JSON.stringify(args));
-    SFOauthReactBridge[methodName](args, function(result) {
+    var func = "SFOauthReactBridge." + methodName;
+    console.log(func + " called: " + JSON.stringify(args));
+    SFOauthReactBridge[methodName](args, function(error, result) {
         if (error) {
             console.log(func + " failed: " + error);
             if (errorCB) errorCB(error);
@@ -47,16 +46,51 @@ var exec = function(successCB, errorCB, methodName, args) {
     });
 };
 
-var getAccessToken  = function(successCB, errorCB) {
-    exec(function(token) {
-        accessToken = token;
-        if (successCB) {
-            successCB(token);
-        }
-    }, errorCB, "getAccessToken", {});
-    return accessToken;
+/**
+ * Whether or not logout has already been initiated.  Can only be initiated once
+ * per page load.
+ */
+var logoutInitiated = false;
+
+/**
+ * Obtain authentication credentials.
+ *   success - The success callback function to use.
+ *   fail    - The failure/error callback function to use.
+ * Returns a dictionary with:
+ *     accessToken
+ *     refreshToken
+ *     clientId
+ *     userId
+ *     orgId
+ *     loginUrl
+ *     instanceUrl
+ *     userAgent
+ */
+var getAuthCredentials = function (success, fail) {
+    exec(success, fail, "getAuthCredentials", {});
 };
 
+/**
+ * Logout the current authenticated user. This removes any current valid session token
+ * as well as any OAuth refresh token.  The user is forced to login again.
+ * This method does not call back with a success or failure callback, as 
+ * (1) this method must not fail and (2) in the success case, the current user
+ * will be logged out and asked to re-authenticate.  Note also that this method can only
+ * be called once per page load.  Initiating logout will ultimately redirect away from
+ * the given page (effectively resetting the logout flag), and calling this method again
+ * while it's currently processing will result in app state issues.
+ */
+var logout = function () {
+    if (!logoutInitiated) {
+        logoutInitiated = true;
+        exec(null, null, "logoutCurrentUser", {});
+    }
+};
+
+/**
+ * Part of the module that is public
+ */
 module.exports = {
-    getAccessToken: getAccessToken
+    getAuthCredentials: getAuthCredentials,
+    logout: logout,
 };

@@ -27,7 +27,16 @@
 #import "RCTUtils.h"
 
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
 
+NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
+NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
+NSString * const kClientIdCredentialsDictKey = @"clientId";
+NSString * const kUserIdCredentialsDictKey = @"userId";
+NSString * const kOrgIdCredentialsDictKey = @"orgId";
+NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
+NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
+NSString * const kUserAgentCredentialsDictKey = @"userAgent";
 
 @implementation SFOauthReactBridge
 
@@ -35,11 +44,37 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - Bridged methods
 
-RCT_EXPORT_METHOD(getAccessToken:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
+    [self log:SFLogLevelDebug format:@"getAuthCredentials: arguments: %@", args];
+    callback(@[[NSNull null], [self credentialsAsDictionary]]);
+}
+
+RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
+{
+    [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
+    [[SFAuthenticationManager sharedManager] logout];
+    callback(@[[NSNull null], @[]]);
+}
+
+- (NSDictionary*) credentialsAsDictionary
+{
+    NSDictionary *credentialsDict = nil;
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
-    
-    callback(@[[NSNull null], creds.accessToken]);
+    if (nil != creds) {
+        NSString *instanceUrl = creds.instanceUrl.absoluteString;
+        NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
+        NSString *uaString = [SalesforceSDKManager sharedManager].userAgentString(@"");
+        credentialsDict = @{kAccessTokenCredentialsDictKey: creds.accessToken,
+                            kRefreshTokenCredentialsDictKey: creds.refreshToken,
+                            kClientIdCredentialsDictKey: creds.clientId,
+                            kUserIdCredentialsDictKey: creds.userId,
+                            kOrgIdCredentialsDictKey: creds.organizationId,
+                            kLoginUrlCredentialsDictKey: loginUrl,
+                            kInstanceUrlCredentialsDictKey: instanceUrl,
+                            kUserAgentCredentialsDictKey: uaString};
+    }
+    return credentialsDict;
 }
 
 @end
