@@ -76,17 +76,20 @@ def printHeader(message)
   puts "---> #{message}"
 end
 
-def build(scheme, timeout) 
+def build(scheme, timeout, verbose) 
   printHeader("Building #{scheme}")
-  exec_with_timeout("xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} 2>&1 | grep '^\*\*\ BUILD'", timeout)
+  filter = verbose ? "" : " | grep '^\*\*\ BUILD'"
+  exec_with_timeout("xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} 2>&1 #{filter}", timeout)
 end
 
-def test(scheme, timeout) 
+def test(scheme, timeout, verbose) 
   printHeader("Testing #{scheme}")
-  exec_with_timeout("xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 2>&1 | grep '^\t-' | sed 's/-/Failed\ /'", timeout)
+  filter = verbose ? "" : " | grep '^\t-' | sed 's/-/Failed\ /'"
+  exec_with_timeout("xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 2>&1 #{filter}", timeout)
 end
 
 def exec_with_timeout(command, timeout)
+  puts command
   pipe = IO.popen(command, 'r')
   output = ""
   begin
@@ -95,23 +98,23 @@ def exec_with_timeout(command, timeout)
       print pipe.gets(nil)
     }
   rescue Timeout::Error
+    print pipe.gets(nil)
     Process.kill(15, pipe.pid)
-    puts "** Killed - took to long"
   end
   pipe.close
 end
 
 # Build all schemes
-def buildAll(timeout)
+def buildAll(timeout,verbose)
   for scheme in SCHEMES_TO_BUILD
-    build(scheme, timeout)
+    build(scheme, timeout, verbose)
   end
 end
 
 # Test all test schemes
-def testAll(timeout)
+def testAll(timeout, verbose)
   for scheme in SCHEMES_TO_TEST
-    test(scheme, timeout)
+    test(scheme, timeout, verbose)
   end
 end
 
@@ -120,9 +123,10 @@ def main(args)
   schemeToBuild = ""
   schemeToTest = ""
   timeout = 30
+  verbose = false
   
   parser = OptionParser.new do |opts|
-    opts.banner = "Usage: ./build/checkAll.sh [options]"
+    opts.banner = "Usage: ./build/sdk.sh [options]"
     opts.on("-b", "--build scheme", "Build given scheme (pass all to build all the schemes)") do |scheme|
       schemeToBuild = scheme
     end
@@ -134,24 +138,32 @@ def main(args)
     opts.on("-m", "--max-time timeout", Integer, "Maximum time that build/test is allowed to run") do |maxtime|
       timeout = maxtime
     end
+
+    opts.on_tail("-v", "--verbose", "Show full output") do 
+      verbose = true
+    end
   end
 
   parser.parse(args)
 
   if (schemeToBuild != "") 
     if (schemeToBuild == "all")
-      buildAll(timeout)
+      buildAll(timeout, verbose)
     else
-      build(schemeToBuild, timeout)
+      build(schemeToBuild, timeout, verbose)
     end
   end
     
   if (schemeToTest != "") 
     if (schemeToTest == "all")
-      testAll(timeout)
+      testAll(timeout, verbose)
     else
-      test(schemeToTest, timeout)
+      test(schemeToTest, timeout, verbose)
     end
+  end
+  
+  if (schemeToBuild == "" && schemeToTest == "")
+    print parser
   end
 end
 
