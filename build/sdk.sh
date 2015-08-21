@@ -103,7 +103,7 @@ def exec_with_timeout(command, timeout)
     }
   rescue Timeout::Error
     Process.kill(15, pipe.pid)
-    print "** Timeout"
+    puts "** Timeout"
   end
   pipe.close
 end
