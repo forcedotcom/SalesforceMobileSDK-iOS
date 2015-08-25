@@ -124,13 +124,20 @@ end
 
 # Main method
 def main(args)
+  if (!File.exist?('build'))
+      puts "Please run from repo root"
+      return
+  end
+
   schemeToBuild = ""
   schemeToTest = ""
   timeout = 30
   verbose = false
+  buildSchemes = SCHEMES_TO_BUILD.join("\n - ")
+  testSchemes  = SCHEMES_TO_TEST.join("\n - ")
   
   parser = OptionParser.new do |opts|
-    opts.banner = "Usage: ./build/sdk.sh [options]"
+    opts.banner = "Usage: ./build/sdk.sh [options]\n\nbuild schemes:\n - #{buildSchemes}\n\ntest schemes:\n - #{testSchemes}\n\nOptions:"
     opts.on("-b", "--build scheme", "Build given scheme (pass all to build all the schemes)") do |scheme|
       schemeToBuild = scheme
     end
