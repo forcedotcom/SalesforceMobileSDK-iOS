@@ -1607,12 +1607,8 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     for (SFSoupIndex *idx in indices) {
         NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
         NSString *colName = [idx columnName];
-        if (nil != indexColVal //not every entry will have a value for each index column
-            && (typeFilter == nil || [typeFilter isEqualToString:idx.indexType]))
-        {
-            values[colName] = indexColVal;
-        } else {
-            values[colName] = [NSNull null];
+        if (typeFilter == nil || [typeFilter isEqualToString:idx.indexType]) {
+            values[colName] = indexColVal != nil ? indexColVal : [NSNull null];
         }
     }
 }
