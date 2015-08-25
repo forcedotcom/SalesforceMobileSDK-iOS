@@ -320,7 +320,13 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (NSDictionary *)customAttributes
 {
-    return (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
+    NSDictionary *attributes = (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
+
+    // sometimes attributes returned as NSNull
+    if (((NSObject *)attributes) == [NSNull null] || ![attributes isKindOfClass:[NSDictionary class]]) {
+        attributes = nil;
+    }
+    return attributes;
 }
 
 - (NSDictionary *)customPermissions
