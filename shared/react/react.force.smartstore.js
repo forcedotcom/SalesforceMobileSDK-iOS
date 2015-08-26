@@ -36,7 +36,7 @@ var exec = function(successCB, errorCB, methodName, args) {
     console.log(func + " called: " + JSON.stringify(args));
     SFSmartStoreReactBridge[methodName](args, function(error, result) {
         if (error) {
-            console.log.log(func + " failed: " + JSON.stringify(error));
+            console.log(func + " failed: " + JSON.stringify(error));
             if (errorCB) errorCB(error);
         }
         else {
