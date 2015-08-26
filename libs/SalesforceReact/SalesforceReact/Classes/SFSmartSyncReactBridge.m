@@ -76,7 +76,7 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
     
-    [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
+    [self log:SFLogLevelDebug format:@"syncDown # %d to soup: %@", sync.syncId, soupName];
 }
 
 RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
@@ -87,10 +87,9 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
     
     __weak SFSmartSyncReactBridge *weakSelf = self;
-    SFSyncState* sync = [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
+    [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
-
 }
 
 RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
