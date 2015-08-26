@@ -37,7 +37,7 @@ var exec = function(path, successCB, errorCB, method, payload, headerParams) {
     console.log(func + " called with path:" + path + " and method:" + method);
     SFNetReactBridge.sendRequest(args, function(error, result) {
         if (error) {
-            console.log(func + " failed: " + error);
+            console.log.log(func + " failed: " + JSON.stringify(error));
             if (errorCB) errorCB(error);
         }
         else {

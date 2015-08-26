@@ -36,11 +36,11 @@ var exec = function(successCB, errorCB, methodName, args) {
     console.log(func + " called: " + JSON.stringify(args));
     SFSmartStoreReactBridge[methodName](args, function(error, result) {
         if (error) {
-            storeConsole.debug(func + " failed: " + error);
+            console.log.log(func + " failed: " + JSON.stringify(error));
             if (errorCB) errorCB(error);
         }
         else {
-            storeConsole.debug(func + " succeeded");
+            console.log(func + " succeeded");
             if (successCB) successCB(result);
         }
     });
@@ -107,26 +107,6 @@ var StoreCursor = function () {
     this.currentPageIndex = 0;
     //the list of current page entries, ordered as requested in the querySpec
     this.currentPageOrderedEntries = null;
-};
-
-// ====== Logging support ======
-var logLevel;
-var storeConsole = {};
-
-var setLogLevel = function(level) {
-    logLevel = level;
-    var methods = ["error", "info", "warn", "debug"];
-    var levelAsInt = methods.indexOf(level.toLowerCase());
-    for (var i=0; i<methods.length; i++) {
-        storeConsole[methods[i]] = (i <= levelAsInt ? console[methods[i]].bind(console) : function() {});
-    }
-};
-
-// Showing info and above (i.e. error) by default.
-setLogLevel("info");
-
-var getLogLevel = function () {
-    return logLevel;
 };
 
 // ====== querySpec factory methods
@@ -303,7 +283,6 @@ module.exports = {
     clearSoup: clearSoup,
     closeCursor: closeCursor,
     getDatabaseSize: getDatabaseSize,
-    getLogLevel: getLogLevel,
     getSoupIndexSpecs: getSoupIndexSpecs,
     moveCursorToNextPage: moveCursorToNextPage,
     moveCursorToPageIndex: moveCursorToPageIndex,
@@ -315,7 +294,6 @@ module.exports = {
     removeSoup: removeSoup,
     retrieveSoupEntries: retrieveSoupEntries,
     runSmartQuery: runSmartQuery,
-    setLogLevel: setLogLevel,
     showInspector: showInspector,
     soupExists: soupExists,
     upsertSoupEntries: upsertSoupEntries,
