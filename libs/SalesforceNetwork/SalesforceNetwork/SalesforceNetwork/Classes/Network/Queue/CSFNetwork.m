@@ -256,8 +256,9 @@ static NSMutableDictionary *SharedInstances = nil;
         action.duplicateParentAction = duplicateAction;
         [action addDependency:duplicateAction];
     }
-
-    [self.queue addOperation:action];
+    if (!(action.isCancelled || action.isFinished)) {
+        [self.queue addOperation:action];
+    }
 }
 
 - (void)executeActions:(NSArray *)actions completionBlock:(void(^)(NSArray *actions, NSArray *errors))completionBlock {
@@ -283,8 +284,9 @@ static NSMutableDictionary *SharedInstances = nil;
             [self executeAction:action];
         }
     }
-
-    [self.queue addOperation:parentOperation];
+    if (!(parentOperation.isCancelled || parentOperation.isFinished)) {
+        [self.queue addOperation:parentOperation];
+    }
 }
 
 - (NSArray*)actionsWithContext:(id)context {
