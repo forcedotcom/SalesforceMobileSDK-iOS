@@ -135,9 +135,11 @@ static NSMutableDictionary *SharedInstances = nil;
                                                               delegate:self
                                                          delegateQueue:nil];
         #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
-        self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
-                                                               delegate:self
-                                                          delegateQueue:nil];
+        if ([[NSURLSessionConfiguration class] respondsToSelector:@selector(backgroundSessionConfigurationWithIdentifier:)]) {
+            self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
+                                                                   delegate:self
+                                                              delegateQueue:nil];
+        }
         #endif
 
         self.actionSessionLimitCache = [[NSCache alloc] init];
