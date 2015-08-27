@@ -141,7 +141,7 @@ RCT_EXPORT_METHOD(retrieveSoupEntries:(NSDictionary *)argsDict callback:(RCTResp
     callback(@[[NSNull null], entries]);
 }
 
-RCT_EXPORT_METHOD(UpsertSoupEntries:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(upsertSoupEntries:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *entries = [argsDict nonNullObjectForKey:kEntriesArg];
