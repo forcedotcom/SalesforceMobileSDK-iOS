@@ -1,1 +1,0 @@
-Dependencies for native template apps will be copied into here.  This will be done as part of the build process for the Mobile SDK repo, and as part of the app creation process of the node.js package.
