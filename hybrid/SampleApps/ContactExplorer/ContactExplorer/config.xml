@@ -9,6 +9,7 @@
     <access origin="https://*.salesforce.com" />
 
     <!-- Preferences for iOS -->
+    <preference name="BackupWebStorage" value="local"/>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="DisallowOverscroll" value="false" />
     <preference name="EnableViewportScale" value="false" />
