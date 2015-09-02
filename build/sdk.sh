@@ -34,10 +34,6 @@ SCHEMES_TO_BUILD = [
   "OCMockLib",
   "React",
   "AccountEditor",
-  "ContactExplorer",
-  "FileExplorer",
-  "HybridFileExplorer",
-  "NativeSqlAggregator",
   "NoteSync",
   "RestAPIExplorer",
   "SalesforceHybridSDK",
@@ -49,11 +45,8 @@ SCHEMES_TO_BUILD = [
   "SalesforceSDKCore",
   "SalesforceSecurity",
   "SimpleSync",
-  "SmartStoreExplorer",
   "SmartSync",
-  "SmartSyncExplorer",
-  "UserList",
-  "VFConnector"
+  "SmartSyncExplorer"
 ];
 
 

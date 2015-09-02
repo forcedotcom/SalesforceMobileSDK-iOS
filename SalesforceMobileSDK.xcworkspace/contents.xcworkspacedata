@@ -58,12 +58,6 @@
       location = "container:"
       name = "NativeSamples">
       <FileRef
-         location = "group:native/SampleApps/FileExplorer/FileExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:native/SampleApps/NativeSqlAggregator/NativeSqlAggregator.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
       <FileRef
@@ -77,25 +71,10 @@
          location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/NoteSync/NoteSync.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/UserList/UserList.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
       </FileRef>
    </Group>
    <Group
