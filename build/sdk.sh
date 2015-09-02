@@ -30,11 +30,11 @@ require 'optparse'
 
 # Constants
 SCHEMES_TO_BUILD = [
+  "AccountEditor",
+  "NoteSync",
   "OCMock",
   "OCMockLib",
   "React",
-  "AccountEditor",
-  "NoteSync",
   "RestAPIExplorer",
   "SalesforceHybridSDK",
   "SalesforceNetworkiOS",    
@@ -59,7 +59,7 @@ SCHEMES_TO_TEST = [
   "SalesforceSDKCommon",
   "SalesforceSDKCoreUnitTestApp",
   "SalesforceSecurity",
-  "SmartSync", 
+  "SmartSync"
 ];
   
 
