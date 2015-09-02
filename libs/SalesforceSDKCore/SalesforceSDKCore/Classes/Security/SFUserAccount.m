@@ -168,7 +168,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (UIImage*)photo {
     if (nil == _photo) {
         NSString *photoPath = [self photoPath];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:photoPath]) {
+        NSFileManager *manager = [[NSFileManager alloc] init];
+        if ([manager fileExistsAtPath:photoPath]) {
             _photo = [[UIImage alloc] initWithContentsOfFile:photoPath];
         }
     }
@@ -178,7 +179,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setPhoto:(UIImage *)photo {
     NSError *error = nil;
     NSString *photoPath = [self photoPath];
-    NSFileManager *fm = [NSFileManager defaultManager];
+    NSFileManager *fm = [[NSFileManager alloc] init];
     if ([fm fileExistsAtPath:photoPath]) {
         if (![fm removeItemAtPath:photoPath error:&error]) {
             [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];

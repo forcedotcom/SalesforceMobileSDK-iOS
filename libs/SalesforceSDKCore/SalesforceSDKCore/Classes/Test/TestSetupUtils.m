@@ -42,11 +42,10 @@ static BOOL sPopulatedAuthCredentials = NO;
 {
     NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
     NSAssert(nil != tokenPath, @"Test config file not found!");
-    
-    NSData *tokenJson = [[NSFileManager defaultManager] contentsAtPath:tokenPath];
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSData *tokenJson = [fm contentsAtPath:tokenPath];
     id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
     NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
-    
     NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
     SFSDKTestCredentialsData *credsData = [[SFSDKTestCredentialsData alloc] initWithDict:dictResponse];
     NSAssert1(nil != credsData.refreshToken &&

@@ -383,10 +383,10 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (NSURL *)fullFileUrlForPage:(NSString *)page
 {
     NSString *fullPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:self.wwwFolderName] stringByAppendingPathComponent:page];
-    if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath]) {
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    if (![manager fileExistsAtPath:fullPath]) {
         return nil;
     }
-    
     NSURL *fileUrl = [NSURL fileURLWithPath:fullPath];
     return fileUrl;
 }
