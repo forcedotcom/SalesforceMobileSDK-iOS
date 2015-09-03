@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4FEAC2441B97C65C00B08512 /* ActionsPopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FEAC2411B97C65C00B08512 /* ActionsPopupController.xib */; };
+		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
 		820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
@@ -54,6 +56,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4FEAC2411B97C65C00B08512 /* ActionsPopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActionsPopupController.xib; sourceTree = "<group>"; };
+		4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsPopupController.m; sourceTree = "<group>"; };
+		4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsPopupController.h; sourceTree = "<group>"; };
 		820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -146,6 +151,9 @@
 			isa = PBXGroup;
 			children = (
 				820C8B3B19E71A1600E9BE5C /* Data */,
+				4FEAC2411B97C65C00B08512 /* ActionsPopupController.xib */,
+				4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */,
+				4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */,
 				820C8B0C19E6054E00E9BE5C /* AppDelegate.h */,
 				820C8B0D19E6054E00E9BE5C /* AppDelegate.m */,
 				820C8B0F19E6059400E9BE5C /* InitialViewController.h */,
@@ -315,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
+				4FEAC2441B97C65C00B08512 /* ActionsPopupController.xib in Resources */,
 				82D17C9119EF49FB00411734 /* add.png in Resources */,
 				8210BD871A182D2A000AA897 /* local-update.png in Resources */,
 				820C8B3719E63DCC00E9BE5C /* sync@2x.png in Resources */,
@@ -344,6 +353,7 @@
 				820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */,
 				820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */,
 				820C8B4419E75CFB00E9BE5C /* SObjectData.m in Sources */,
+				4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */,
 				8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */,
 				820C8B4719E75DAE00E9BE5C /* ContactSObjectData.m in Sources */,
 				820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */,
