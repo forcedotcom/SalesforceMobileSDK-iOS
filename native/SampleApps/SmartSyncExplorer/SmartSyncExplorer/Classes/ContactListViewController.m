@@ -77,6 +77,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (!self.dataMgr) {
+        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+    }
     [self.dataMgr refreshLocalData];
     if ([self.dataMgr.dataRows count] == 0)
         [self.dataMgr refreshRemoteData];
