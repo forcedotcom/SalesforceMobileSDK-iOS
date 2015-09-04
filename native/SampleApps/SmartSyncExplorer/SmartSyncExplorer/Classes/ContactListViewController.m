@@ -32,6 +32,7 @@
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
 
@@ -77,6 +78,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 @implementation ContactListViewController
 
+#pragma mark - init/setup
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -86,11 +89,23 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.dataMgr refreshLocalData];
     if ([self.dataMgr.dataRows count] == 0)
         [self.dataMgr refreshRemoteData];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearPopovers:)
+                                                 name:kSFPasscodeFlowWillBegin
+                                               object:nil];
 }
 
 - (void)loadView {
@@ -374,10 +389,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
     
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
+    popoverContent.preferredContentSize = CGSizeMake(260,130);
     self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
     
+    
     [self.popOverController presentPopoverFromBarButtonItem:self.moreButton
-                                   permittedArrowDirections:UIPopoverArrowDirectionAny
+                                   permittedArrowDirections:WYPopoverArrowDirectionAny
                                                    animated:YES];
 }
 
@@ -557,6 +574,19 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     UIGraphicsEndImageContext();
     
     return imageFromGraphicsContext;
+}
+
+#pragma mark - Passcode handling
+
+- (void)clearPopovers:(NSNotification *)note
+{
+    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
+    if (self.popOverController) {
+        [self.popOverController dismissPopoverAnimated:NO];
+    }
+    if (self.logoutActionSheet) {
+        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
+    }
 }
 
 #pragma mark - UIActionSheetDelegate
