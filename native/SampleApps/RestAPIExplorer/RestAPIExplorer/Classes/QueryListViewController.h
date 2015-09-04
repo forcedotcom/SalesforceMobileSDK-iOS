@@ -40,6 +40,8 @@ extern NSString *const kActionUpdateObject;
 extern NSString *const kActionDeleteObject;
 extern NSString *const kActionQuery;
 extern NSString *const kActionSearch;
+extern NSString *const kActionSearchScopeAndOrder;
+extern NSString *const kActionSearchResultLayout;
 extern NSString *const kActionLogout;
 extern NSString *const kActionSwitchUser;
 extern NSString *const kActionUserInfo;

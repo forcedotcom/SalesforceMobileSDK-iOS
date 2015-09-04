@@ -46,26 +46,6 @@
 
 @implementation RestAPIExplorerViewController
 
-// action based query
-@synthesize popoverController=__popoverController;
-@synthesize toolBar = _toolBar;
-@synthesize tfObjectType = _tfObjectType;
-@synthesize tfObjectId = _tfObjectId;
-@synthesize tfExternalId = _tfExternalId;
-@synthesize tfSearch = _tfSearch;
-@synthesize tfQuery = _tfQuery;
-@synthesize tfExternalFieldId = _tfExternalFieldId;
-@synthesize tfFieldList = _tfFieldList;
-@synthesize tvFields = _tvFields;
-@synthesize logoutActionSheet = _logoutActionSheet;
-// manual query
-@synthesize tfPath=_tfPath;
-@synthesize tvParams=_tvParams;
-@synthesize segmentMethod=_segmentMethod;
-// response
-@synthesize tfResponseFor=_tfResponseFor;
-@synthesize tfResult=_tfResult;
-
 #pragma mark - init/setup
 
 - (void)dealloc
@@ -89,7 +69,7 @@
 - (void)viewDidUnload
 {
     // action based query
-    self.popoverController = nil;
+    self.popOverController = nil;
     self.toolBar = nil;
     self.logoutActionSheet = nil;
     self.tfObjectType = nil;
@@ -127,19 +107,19 @@
 }
 
 - (void)hideKeyboard {
-    [_tfPath resignFirstResponder];
-    [_tfResult resignFirstResponder];
-    [_tfResponseFor resignFirstResponder];
-    [_tvParams resignFirstResponder];
-    [_segmentMethod resignFirstResponder];
-    [_tfObjectType resignFirstResponder];
-    [_tfObjectId resignFirstResponder];
-    [_tfExternalId resignFirstResponder];
-    [_tfSearch resignFirstResponder];
-    [_tfQuery resignFirstResponder];
-    [_tfExternalFieldId resignFirstResponder];
-    [_tfFieldList resignFirstResponder];
-    [_tvFields resignFirstResponder];
+    [self.tfPath resignFirstResponder];
+    [self.tfResult resignFirstResponder];
+    [self.tfResponseFor resignFirstResponder];
+    [self.tvParams resignFirstResponder];
+    [self.segmentMethod resignFirstResponder];
+    [self.tfObjectType resignFirstResponder];
+    [self.tfObjectId resignFirstResponder];
+    [self.tfExternalId resignFirstResponder];
+    [self.tfSearch resignFirstResponder];
+    [self.tfQuery resignFirstResponder];
+    [self.tfExternalFieldId resignFirstResponder];
+    [self.tfFieldList resignFirstResponder];
+    [self.tvFields resignFirstResponder];
 }
 
 - (void)showMissingFieldError:(NSString *)missingFields {
@@ -155,14 +135,14 @@
 
 - (IBAction)btnGoPressed:(id)sender {
     [self hideKeyboard];
-    NSString *params = _tvParams.text;
+    NSString *params = self.tvParams.text;
 
     NSDictionary *queryParams = ([params length] == 0
                                  ? nil
                                  : (NSDictionary *)[SFJsonUtils objectFromJSONString:params]
                                  );
                                  
-    SFRestMethod method = (SFRestMethod)_segmentMethod.selectedSegmentIndex;
+    SFRestMethod method = (SFRestMethod)self.segmentMethod.selectedSegmentIndex;
     NSString *path = self.tfPath.text;
     SFRestRequest *request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
@@ -172,23 +152,23 @@
 - (IBAction)btnActionPressed:(id)sender {
     [self hideKeyboard];
 
-    if([self.popoverController isPopoverVisible]){
-        [self.popoverController dismissPopoverAnimated:YES];
+    if([self.popOverController isPopoverVisible]){
+        [self.popOverController dismissPopoverAnimated:YES];
         return;
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
     popoverContent.preferredContentSize = CGSizeMake(500,700);
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
-    self.popoverController = myPopover;
+    self.popOverController = myPopover;
     
-    [self.popoverController presentPopoverFromBarButtonItem:sender
+    [self.popOverController presentPopoverFromBarButtonItem:sender
                                    permittedArrowDirections:UIPopoverArrowDirectionAny 
                                                    animated:YES];
 }
 
 - (void)popoverOptionSelected:(NSString *)text {
-    [self.popoverController dismissPopoverAnimated:YES];
+    [self.popOverController dismissPopoverAnimated:YES];
 
     SFRestRequest *request = nil;
 
@@ -196,7 +176,8 @@
     NSString *objectType = self.tfObjectType.text;
     NSString *objectId = self.tfObjectId.text;
     NSString *fieldList = self.tfFieldList.text;
-    NSDictionary *fields = [SFJsonUtils objectFromJSONString:self.tvFields.text]; 
+    NSString *objectList = self.tfObjectList.text;
+    NSDictionary *fields = [SFJsonUtils objectFromJSONString:self.tvFields.text];
     NSString *search = self.tfSearch.text;
     NSString *query = self.tfQuery.text;
     NSString *externalId = self.tfExternalId.text;
@@ -209,6 +190,8 @@
         objectId = nil;
     if (!fieldList.length)
         fieldList = nil;
+    if (!objectList.length)
+        objectList = nil;
     if (!fields.count)
         fields = nil;
     if (!search.length)
@@ -293,6 +276,16 @@
         }
         request = [[SFRestAPI sharedInstance] requestForSearch:search];
     }
+    else if ([text isEqualToString:kActionSearchScopeAndOrder]) {
+        request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
+    }
+    else if ([text isEqualToString:kActionSearchResultLayout]) {
+        if (!objectList) {
+            [self showMissingFieldError:@"objectList"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:objectList];
+    }
     else if ([text isEqualToString:kActionUserInfo]) {
         SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
         NSString *userInfoString = [NSString stringWithFormat:@"Name: %@\nID: %@\nEmail: %@",
@@ -340,8 +333,8 @@
 - (void)clearPopovers:(NSNotification *)note
 {
     [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
-    if (self.popoverController) {
-        [self.popoverController dismissPopoverAnimated:NO];
+    if (self.popOverController) {
+        [self.popOverController dismissPopoverAnimated:NO];
     }
     if (self.logoutActionSheet) {
         [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
@@ -371,34 +364,34 @@
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
-        _tfResponseFor.text = [self formatRequest:request];
-        _tfResult.text = [dataResponse description];
+        self.tfResult.backgroundColor = [UIColor colorWithRed:1.0 green:204/255.0 blue:102/255.0 alpha:1.0];
+        self.tfResponseFor.text = [self formatRequest:request];
+        self.tfResult.text = [dataResponse description];
     });
 }
 
 - (void)request:(SFRestRequest*)request didFailLoadWithError:(NSError*)error {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _tfResult.backgroundColor = [UIColor redColor];
-        _tfResponseFor.text = [self formatRequest:request];
-        _tfResult.text = [error description];
+        self.tfResult.backgroundColor = [UIColor redColor];
+        self.tfResponseFor.text = [self formatRequest:request];
+        self.tfResult.text = [error description];
 
     });
 }
 
 - (void)requestDidCancelLoad:(SFRestRequest *)request {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _tfResult.backgroundColor = [UIColor redColor];
-        _tfResponseFor.text = [self formatRequest:request];
-        _tfResult.text =  @"Request was cancelled";
+        self.tfResult.backgroundColor = [UIColor redColor];
+        self.tfResponseFor.text = [self formatRequest:request];
+        self.tfResult.text =  @"Request was cancelled";
     });
 }
 
 - (void)requestDidTimeout:(SFRestRequest *)request {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _tfResult.backgroundColor = [UIColor redColor];
-        _tfResponseFor.text = [self formatRequest:request];
-        _tfResult.text =  @"Request timedout";
+        self.tfResult.backgroundColor = [UIColor redColor];
+        self.tfResponseFor.text = [self formatRequest:request];
+        self.tfResult.text =  @"Request timedout";
     });
 }
 

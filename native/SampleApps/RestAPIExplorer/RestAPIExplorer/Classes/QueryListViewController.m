@@ -38,6 +38,8 @@ NSString *const kActionUpdateObject = @"updateWithObjectType:objectId:fields:";
 NSString *const kActionDeleteObject = @"requestForDeleteWithObjectType:objectId:";
 NSString *const kActionQuery = @"query:";
 NSString *const kActionSearch = @"search:";
+NSString *const kActionSearchScopeAndOrder = @"searchScopeAndOrder:";
+NSString *const kActionSearchResultLayout = @"searchResultLayout:";
 NSString *const kActionLogout = @"logout";
 NSString *const kActionSwitchUser = @"switch user";
 NSString *const kActionUserInfo = @"current user info";
@@ -65,6 +67,8 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionDeleteObject, @"params: objectType, objectId",
                         kActionQuery, @"params: query",
                         kActionSearch, @"params: search",
+                        kActionSearchScopeAndOrder, @"no params",
+                        kActionSearchResultLayout, @"params: objectList",
                         kActionUserInfo, @"no params",
                         kActionLogout, @"no params",
                         kActionSwitchUser, @"no params",
