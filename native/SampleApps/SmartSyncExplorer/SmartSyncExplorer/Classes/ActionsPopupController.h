@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,30 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import "SObjectDataSpec.h"
-#import "SObjectData.h"
+#import <UIKit/UIKit.h>
 
-@interface SObjectDataManager : NSObject
+@class ContactListViewController;
 
-@property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, strong) NSArray *dataRows;
 
-- (id)initWithViewController:(UITableViewController *)parentVc
-                    dataSpec:(SObjectDataSpec *)dataSpec;
+//action constants
+extern NSString *const kActionLogout;
+extern NSString *const kActionSwitchUser;
+extern NSString *const kActionDbInspector;
 
-- (void)refreshLocalData;
-- (void)createLocalData:(SObjectData *)newData;
-- (void)updateLocalData:(SObjectData *)updatedData;
-- (void)deleteLocalData:(SObjectData *)dataToDelete;
-- (BOOL)dataHasLocalChanges:(SObjectData *)data;
-- (BOOL)dataLocallyCreated:(SObjectData *)data;
-- (BOOL)dataLocallyUpdated:(SObjectData *)data;
-- (BOOL)dataLocallyDeleted:(SObjectData *)data;
-- (void)refreshRemoteData;
-- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
-- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
-- (void)resetDataRows;
+@interface ActionsPopupController : UITableViewController
+
+@property (nonatomic, strong) NSArray *actions;
+@property (nonatomic, strong) ContactListViewController *appViewController;
+
+- (id)initWithAppViewController:(ContactListViewController *)appViewController;
 
 @end

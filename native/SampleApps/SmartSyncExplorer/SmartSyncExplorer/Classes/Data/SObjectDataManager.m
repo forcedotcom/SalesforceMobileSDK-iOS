@@ -41,7 +41,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 @property (nonatomic, weak) UITableViewController *parentVc;
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
-@property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
