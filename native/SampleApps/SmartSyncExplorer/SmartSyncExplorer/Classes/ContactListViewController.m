@@ -28,6 +28,7 @@
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
+#import "WYPopoverController.h"
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
@@ -50,9 +51,10 @@ static CGFloat    const kToastMessageFontSize           = 16.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
+
 @interface ContactListViewController () <UISearchBarDelegate>
 
-@property (nonatomic, strong) UIPopoverController *popOverController;
+@property (nonatomic, strong) WYPopoverController *popOverController;
 @property (nonatomic, strong) UIActionSheet *logoutActionSheet;
 
 
@@ -372,7 +374,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     }
     
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
-    self.popOverController = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
+    self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
     
     [self.popOverController presentPopoverFromBarButtonItem:self.moreButton
                                    permittedArrowDirections:UIPopoverArrowDirectionAny
@@ -385,7 +387,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     if ([text isEqualToString:kActionLogout]) {
         self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
                                                              delegate:self
-                                                    cancelButtonTitle:nil
+                                                    cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:@"Confirm Logout"
                                                     otherButtonTitles:nil];
         [self.logoutActionSheet showFromBarButtonItem:self.moreButton animated:YES];
