@@ -12,7 +12,7 @@
 	url = https://github.com/forcedotcom/fmdb
 [submodule "external/wypopovercontroller"]
 	path = external/wypopovercontroller
-	url = https://github.com/nicolaschengdev/WYPopoverController
+	url = https://github.com/sammcewan/WYPopoverController
 [submodule "external/react-native"]
 	path = external/react-native
 	url = https://github.com/forcedotcom/react-native.git
