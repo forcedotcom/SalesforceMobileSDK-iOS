@@ -35,7 +35,7 @@
 
 // action based query
 @property (nonatomic, strong) UIPopoverController *popOverController;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
+@property (nonatomic, strong) IBOutlet UIToolbar   *toolBar;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectType;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectId;
 @property (nonatomic, strong) IBOutlet UITextField *tfExternalId;
@@ -44,7 +44,10 @@
 @property (nonatomic, strong) IBOutlet UITextField *tfExternalFieldId;
 @property (nonatomic, strong) IBOutlet UITextField *tfFieldList;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectList;
-@property (nonatomic, strong) IBOutlet UITextView *tvFields;
+@property (nonatomic, strong) IBOutlet UITextView  *tvFields;
+@property (nonatomic, strong) IBOutlet UITextField *tfUserId;
+@property (nonatomic, strong) IBOutlet UITextField *tfPage;
+@property (nonatomic, strong) IBOutlet UITextField *tfVersion;
 
 // manual query
 @property (nonatomic, strong) IBOutlet UITextField *tfPath;

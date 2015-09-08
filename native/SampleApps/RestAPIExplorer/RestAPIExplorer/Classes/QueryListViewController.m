@@ -35,11 +35,16 @@ NSString *const kActionRetrieveObject = @"retrieveWithObjectType:objectId:fieldL
 NSString *const kActionCreateObject = @"createWithObjectType:fields:";
 NSString *const kActionUpsertObject = @"upsertWithObjectType:externalField:externalId:fields:";
 NSString *const kActionUpdateObject = @"updateWithObjectType:objectId:fields:";
-NSString *const kActionDeleteObject = @"requestForDeleteWithObjectType:objectId:";
+NSString *const kActionDeleteObject = @"deleteWithObjectType:objectId:";
 NSString *const kActionQuery = @"query:";
 NSString *const kActionSearch = @"search:";
 NSString *const kActionSearchScopeAndOrder = @"searchScopeAndOrder:";
 NSString *const kActionSearchResultLayout = @"searchResultLayout:";
+NSString *const kActionOwnedFilesList = @"ownedFilesList:page";
+NSString *const kActionFilesInUsersGroups = @"filesInUsersGroups:page";
+NSString *const kActionFilesSharedWithUser = @"filesSharedWithUser:page";
+NSString *const kActionFileDetails = @"fileDetails:forVersion";
+NSString *const kActionFileShares = @"fileShares:page";
 NSString *const kActionLogout = @"logout";
 NSString *const kActionSwitchUser = @"switch user";
 NSString *const kActionUserInfo = @"current user info";
@@ -69,6 +74,11 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionSearch, @"params: search",
                         kActionSearchScopeAndOrder, @"no params",
                         kActionSearchResultLayout, @"params: objectList",
+                        kActionOwnedFilesList, @"params: userId, page",
+                        kActionFilesInUsersGroups, @"params: userId, page",
+                        kActionFilesSharedWithUser, @"params: userId, page",
+                        kActionFileDetails, @"params: objectId, version",
+                        kActionFileShares, @"params: objectId, page",
                         kActionUserInfo, @"no params",
                         kActionLogout, @"no params",
                         kActionSwitchUser, @"no params",

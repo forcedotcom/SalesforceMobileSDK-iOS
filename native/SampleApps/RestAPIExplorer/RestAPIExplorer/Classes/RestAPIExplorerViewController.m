@@ -29,6 +29,7 @@
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestAPI+Files.h>
 #import <SalesforceRestAPI/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
@@ -59,6 +60,7 @@
 {
     [super viewDidLoad];
     self.title = @"Salesforce API Explorer";
+    self.tfUserId.text = [SFUserAccountManager sharedInstance].currentUser.idData.userId;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearPopovers:)
                                                  name:kSFPasscodeFlowWillBegin
@@ -79,7 +81,11 @@
     self.tfQuery = nil;
     self.tfExternalFieldId = nil;
     self.tfFieldList = nil;
+    self.tfObjectList = nil;
     self.tvFields = nil;
+    self.tfUserId = nil;
+    self.tfPage = nil;
+    self.tfVersion = nil;
     // manual query
     self.tfPath = nil;
     self.tvParams = nil;
@@ -119,7 +125,11 @@
     [self.tfQuery resignFirstResponder];
     [self.tfExternalFieldId resignFirstResponder];
     [self.tfFieldList resignFirstResponder];
+    [self.tfObjectList resignFirstResponder];
     [self.tvFields resignFirstResponder];
+    [self.tfUserId resignFirstResponder];
+    [self.tfPage resignFirstResponder];
+    [self.tfVersion resignFirstResponder];
 }
 
 - (void)showMissingFieldError:(NSString *)missingFields {
@@ -158,7 +168,7 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(500,700);
+    popoverContent.preferredContentSize = CGSizeMake(500,1000);
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
     self.popOverController = myPopover;
     
@@ -182,6 +192,9 @@
     NSString *query = self.tfQuery.text;
     NSString *externalId = self.tfExternalId.text;
     NSString *externalFieldId = self.tfExternalFieldId.text;
+    NSString *userId = self.tfUserId.text;
+    NSUInteger page = [self.tfPage.text integerValue];
+    NSString *version = self.tfVersion.text;
     
     // make sure we set the value to nil if the field is empty
     if (!objectType.length)
@@ -202,7 +215,10 @@
         externalId = nil;
     if (!externalFieldId.length)
         externalFieldId = nil;
-    
+    if (!userId.length)
+        userId = nil;
+    if (!version.length)
+        version = nil;
     
     if ([text isEqualToString:kActionVersions]) {
         request = [[SFRestAPI sharedInstance] requestForVersions];
@@ -285,6 +301,41 @@
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:objectList];
+    }
+    else if ([text isEqualToString:kActionOwnedFilesList]) {
+        if (!userId) {
+            [self showMissingFieldError:@"userId"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForOwnedFilesList:userId page:page];
+    }
+    else if ([text isEqualToString:kActionFilesInUsersGroups]) {
+        if (!userId) {
+            [self showMissingFieldError:@"userId"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForFilesInUsersGroups:userId page:page];
+    }
+    else if ([text isEqualToString:kActionFilesSharedWithUser]) {
+        if (!userId) {
+            [self showMissingFieldError:@"userId"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForFilesSharedWithUser:userId page:page];
+    }
+    else if ([text isEqualToString:kActionFileDetails]) {
+        if (!objectId || !version) {
+            [self showMissingFieldError:@"objectId, version"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForFileDetails:objectId forVersion:version];
+    }
+    else if ([text isEqualToString:kActionFileShares]) {
+        if (!objectId) {
+            [self showMissingFieldError:@"objectId"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForFileShares:objectId page:page];
     }
     else if ([text isEqualToString:kActionUserInfo]) {
         SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;
