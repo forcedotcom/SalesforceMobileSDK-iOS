@@ -27,27 +27,6 @@
 #import <SalesforceRestAPI/SFRestAPI.h>
 
 @interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate, UIActionSheetDelegate>
-{
-    // action based query
-    UIPopoverController *__popoverController;
-    UITextField *_tfObjectType;
-    UITextField *_tfObjectId;
-    UITextField *_tfExternalId;
-    UITextField *_tfSearch;
-    UITextField *_tfQuery;
-    UITextField *_tfExternalFieldId;
-    UITextField *_tfFieldList;
-    UITextView *_tvFields;
-    
-    // manual query
-    UITextField *_tfPath;
-    UITextView *_tvParams;
-    UISegmentedControl *_segmentMethod;
-
-    // response
-    UILabel *_tfResponseFor;
-    UITextView *_tfResult;
-}
 
 - (void)popoverOptionSelected:(NSString *)text;
 
@@ -55,8 +34,8 @@
 - (IBAction)btnActionPressed:(id)sender;
 
 // action based query
-@property (nonatomic, strong) UIPopoverController *popoverController;
-@property (nonatomic, strong) IBOutlet UIToolbar *toolBar;
+@property (nonatomic, strong) UIPopoverController *popOverController;
+@property (nonatomic, strong) IBOutlet UIToolbar   *toolBar;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectType;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectId;
 @property (nonatomic, strong) IBOutlet UITextField *tfExternalId;
@@ -64,7 +43,14 @@
 @property (nonatomic, strong) IBOutlet UITextField *tfQuery;
 @property (nonatomic, strong) IBOutlet UITextField *tfExternalFieldId;
 @property (nonatomic, strong) IBOutlet UITextField *tfFieldList;
-@property (nonatomic, strong) IBOutlet UITextView *tvFields;
+@property (nonatomic, strong) IBOutlet UITextField *tfObjectList;
+@property (nonatomic, strong) IBOutlet UITextView  *tvFields;
+@property (nonatomic, strong) IBOutlet UITextField *tfUserId;
+@property (nonatomic, strong) IBOutlet UITextField *tfPage;
+@property (nonatomic, strong) IBOutlet UITextField *tfVersion;
+@property (nonatomic, strong) IBOutlet UITextField *tfObjectIdList;
+@property (nonatomic, strong) IBOutlet UITextField *tfEntityId;
+@property (nonatomic, strong) IBOutlet UITextField *tfShareType;
 
 // manual query
 @property (nonatomic, strong) IBOutlet UITextField *tfPath;
