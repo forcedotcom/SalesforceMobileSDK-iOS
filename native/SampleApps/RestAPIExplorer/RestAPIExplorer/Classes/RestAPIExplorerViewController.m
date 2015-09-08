@@ -86,6 +86,9 @@
     self.tfUserId = nil;
     self.tfPage = nil;
     self.tfVersion = nil;
+    self.tfObjectIdList = nil;
+    self.tfEntityId = nil;
+    self.tfShareType = nil;
     // manual query
     self.tfPath = nil;
     self.tvParams = nil;
@@ -130,6 +133,9 @@
     [self.tfUserId resignFirstResponder];
     [self.tfPage resignFirstResponder];
     [self.tfVersion resignFirstResponder];
+    [self.tfObjectIdList resignFirstResponder];
+    [self.tfEntityId resignFirstResponder];
+    [self.tfShareType resignFirstResponder];
 }
 
 - (void)showMissingFieldError:(NSString *)missingFields {
@@ -168,7 +174,7 @@
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
-    popoverContent.preferredContentSize = CGSizeMake(500,1000);
+    popoverContent.preferredContentSize = CGSizeMake(500,700);
     UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
     self.popOverController = myPopover;
     
@@ -195,6 +201,9 @@
     NSString *userId = self.tfUserId.text;
     NSUInteger page = [self.tfPage.text integerValue];
     NSString *version = self.tfVersion.text;
+    NSArray *objectIdList = [self.tfObjectIdList.text componentsSeparatedByString:@","];
+    NSString *entityId = self.tfEntityId.text;
+    NSString *shareType = self.tfShareType.text;
     
     // make sure we set the value to nil if the field is empty
     if (!objectType.length)
@@ -219,6 +228,12 @@
         userId = nil;
     if (!version.length)
         version = nil;
+    if (objectIdList.count == 0)
+        objectIdList = nil;
+    if (!entityId.length)
+        entityId = nil;
+    if (!shareType.length)
+        shareType = nil;
     
     if ([text isEqualToString:kActionVersions]) {
         request = [[SFRestAPI sharedInstance] requestForVersions];
@@ -330,12 +345,33 @@
         }
         request = [[SFRestAPI sharedInstance] requestForFileDetails:objectId forVersion:version];
     }
+    else if ([text isEqualToString:kActionBatchFileDetails]) {
+        if (!objectIdList) {
+            [self showMissingFieldError:@"objectIdList"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForBatchFileDetails:objectIdList];
+    }
     else if ([text isEqualToString:kActionFileShares]) {
         if (!objectId) {
             [self showMissingFieldError:@"objectId"];
             return;
         }
         request = [[SFRestAPI sharedInstance] requestForFileShares:objectId page:page];
+    }
+    else if ([text isEqualToString:kActionAddFileShare]) {
+        if (!objectId || !entityId || !shareType) {
+            [self showMissingFieldError:@"objectId, entityId, shareType"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForAddFileShare:objectId entityId:entityId shareType:shareType];
+    }
+    else if ([text isEqualToString:kActionDeleteFileShare]) {
+        if (!objectId) {
+            [self showMissingFieldError:@"objectId"];
+            return;
+        }
+        request = [[SFRestAPI sharedInstance] requestForDeleteFileShare:objectId];
     }
     else if ([text isEqualToString:kActionUserInfo]) {
         SFUserAccount *currentAccount = [SFUserAccountManager sharedInstance].currentUser;

@@ -44,7 +44,10 @@ NSString *const kActionOwnedFilesList = @"ownedFilesList:page";
 NSString *const kActionFilesInUsersGroups = @"filesInUsersGroups:page";
 NSString *const kActionFilesSharedWithUser = @"filesSharedWithUser:page";
 NSString *const kActionFileDetails = @"fileDetails:forVersion";
+NSString *const kActionBatchFileDetails = @"batchFileDetails:";
 NSString *const kActionFileShares = @"fileShares:page";
+NSString *const kActionAddFileShare = @"addFileShare:entityId:shareType";
+NSString *const kActionDeleteFileShare = @"deleteFileShares:";
 NSString *const kActionLogout = @"logout";
 NSString *const kActionSwitchUser = @"switch user";
 NSString *const kActionUserInfo = @"current user info";
@@ -78,7 +81,10 @@ NSString *const kActionExportCredentialsForTesting = @"Export credentials to pas
                         kActionFilesInUsersGroups, @"params: userId, page",
                         kActionFilesSharedWithUser, @"params: userId, page",
                         kActionFileDetails, @"params: objectId, version",
+                        kActionBatchFileDetails, @"params: objectIdList",
                         kActionFileShares, @"params: objectId, page",
+                        kActionAddFileShare, @"params: objectId, entityId, sharedType",
+                        kActionDeleteFileShare, @"params: objectId",
                         kActionUserInfo, @"no params",
                         kActionLogout, @"no params",
                         kActionSwitchUser, @"no params",

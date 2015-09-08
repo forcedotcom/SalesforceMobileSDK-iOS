@@ -48,6 +48,9 @@
 @property (nonatomic, strong) IBOutlet UITextField *tfUserId;
 @property (nonatomic, strong) IBOutlet UITextField *tfPage;
 @property (nonatomic, strong) IBOutlet UITextField *tfVersion;
+@property (nonatomic, strong) IBOutlet UITextField *tfObjectIdList;
+@property (nonatomic, strong) IBOutlet UITextField *tfEntityId;
+@property (nonatomic, strong) IBOutlet UITextField *tfShareType;
 
 // manual query
 @property (nonatomic, strong) IBOutlet UITextField *tfPath;
