@@ -34,7 +34,6 @@ SCHEMES_TO_BUILD = [
   "NoteSync",
   "OCMock",
   "OCMockLib",
-  "React",
   "RestAPIExplorer",
   "SalesforceHybridSDK",
   "SalesforceNetworkiOS",    
