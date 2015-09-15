@@ -29,7 +29,7 @@ script:
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SimpleSync | xcpretty --color --simple
+   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer | xcpretty --color --simple
    # run all tests
