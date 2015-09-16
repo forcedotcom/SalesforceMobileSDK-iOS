@@ -43,7 +43,7 @@ SCHEMES_TO_BUILD = [
   "SalesforceSDKCommon",
   "SalesforceSDKCore",
   "SalesforceSecurity",
-  "SimpleSync",
+  "SmartSyncExplorerHybrid",
   "SmartSync",
   "SmartSyncExplorer"
 ];

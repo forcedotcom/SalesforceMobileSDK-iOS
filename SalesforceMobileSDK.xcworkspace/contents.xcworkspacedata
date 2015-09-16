@@ -74,7 +74,7 @@
          location = "group:hybrid/SampleApps/NoteSync/NoteSync.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
+         location = "group:hybrid/SampleApps/SmartSyncExplorerHybrid/SmartSyncExplorerHybrid.xcodeproj">
       </FileRef>
    </Group>
    <Group

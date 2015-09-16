@@ -141,9 +141,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "824A9BCD1721FCA400C9BD79"
-               BuildableName = "SimpleSync.app"
-               BlueprintName = "SimpleSync"
-               ReferencedContainer = "container:SimpleSync.xcodeproj">
+               BuildableName = "SmartSyncExplorerHybrid.app"
+               BlueprintName = "SmartSyncExplorerHybrid"
+               ReferencedContainer = "container:SmartSyncExplorerHybrid.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -159,9 +159,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "824A9BCD1721FCA400C9BD79"
-            BuildableName = "SimpleSync.app"
-            BlueprintName = "SimpleSync"
-            ReferencedContainer = "container:SimpleSync.xcodeproj">
+            BuildableName = "SmartSyncExplorerHybrid.app"
+            BlueprintName = "SmartSyncExplorerHybrid"
+            ReferencedContainer = "container:SmartSyncExplorerHybrid.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -178,9 +178,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "824A9BCD1721FCA400C9BD79"
-            BuildableName = "SimpleSync.app"
-            BlueprintName = "SimpleSync"
-            ReferencedContainer = "container:SimpleSync.xcodeproj">
+            BuildableName = "SmartSyncExplorerHybrid.app"
+            BlueprintName = "SmartSyncExplorerHybrid"
+            ReferencedContainer = "container:SmartSyncExplorerHybrid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -196,9 +196,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "824A9BCD1721FCA400C9BD79"
-            BuildableName = "SimpleSync.app"
-            BlueprintName = "SimpleSync"
-            ReferencedContainer = "container:SimpleSync.xcodeproj">
+            BuildableName = "SmartSyncExplorerHybrid.app"
+            BlueprintName = "SmartSyncExplorerHybrid"
+            ReferencedContainer = "container:SmartSyncExplorerHybrid.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
