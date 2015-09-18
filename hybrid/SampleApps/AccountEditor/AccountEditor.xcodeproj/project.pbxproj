@@ -220,7 +220,7 @@
 		824A9DBC1724CAB900C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
-		8258804C1AA42340000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8258804C1AA42340000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82638F0A19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		8272301A19D764160066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
@@ -674,6 +674,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
@@ -692,6 +693,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CODE_SIGN_RESOURCE_RULES_PATH = "$(SDKROOT)/ResourceRules.plist";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
