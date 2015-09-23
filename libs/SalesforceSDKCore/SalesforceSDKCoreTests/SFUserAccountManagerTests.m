@@ -352,7 +352,15 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertTrue([fm fileExistsAtPath:userFilePath], @"User directory for User ID '%@' and Org ID '%@' should exist.", userId, orgId);
     
     // Verify that the user data is now encrypted on the filesystem.
-    XCTAssertThrows([NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath], @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
+    @try {
+        // On iOS9, unarchiveObjectWithFile should return nil
+        id res = [NSKeyedUnarchiver unarchiveObjectWithFile:userFilePath];
+        XCTAssertNil(res, @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
+    }
+    @catch(NSException *e) {
+        // Before iOS9, unarchiveObjectWithFile should throw an exception
+        XCTAssertNotNil(e, @"User account data for User ID '%@' and Org ID '%@' should now be encrypted.", userId, orgId);
+    }
     
     // Remove account.
     [self deleteUserAndVerify:account userDir:userFilePath];
