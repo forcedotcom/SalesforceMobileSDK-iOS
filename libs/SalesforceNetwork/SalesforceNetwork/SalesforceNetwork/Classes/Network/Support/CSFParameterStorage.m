@@ -158,6 +158,8 @@
 
     if (self.bodyStream) {
         request.HTTPBodyStream = self.bodyStream;
+    } else if (self.bodyData) {
+        request.HTTPBody = self.bodyData;
     } else {
         // Add explicit query string keys here, only if we are posting multipart or URLEncoded
         // bodies.  If we are doing a querystring request already, then simply wait for the

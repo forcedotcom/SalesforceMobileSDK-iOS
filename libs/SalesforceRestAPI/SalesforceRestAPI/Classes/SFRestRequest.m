@@ -235,8 +235,15 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                  [[SFJsonUtils lastError] localizedDescription]];
                 return;
             }
-            self.action.parameters.bodyStream = [NSInputStream inputStreamWithData:bodyData];
+
+            if (IS_EQUAL_IOS7) {
+                self.action.parameters.bodyData = bodyData;
+            } else {
+                self.action.parameters.bodyStream = [NSInputStream inputStreamWithData:bodyData];
+            }
+
             [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
+            [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length] forHeaderName:@"Content-Length"];
         } else {
             [self convertQueryParamsToActionParams];
         }

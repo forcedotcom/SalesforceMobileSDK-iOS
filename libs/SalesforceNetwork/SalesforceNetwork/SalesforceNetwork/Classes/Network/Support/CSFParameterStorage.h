@@ -52,6 +52,8 @@
  */
 @property (nonatomic, strong) NSInputStream *bodyStream;
 
+@property (nonatomic, strong) NSData *bodyData;
+
 /**
  List of all the parameter keys that have been added to this instance.
  */
