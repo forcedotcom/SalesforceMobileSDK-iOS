@@ -29,6 +29,8 @@
 #define __SALESFORCE_SDK_3_3_0 30300
 #define __SALESFORCE_SDK_3_3_1 30301
 
+#define IS_EQUAL_IOS7 [[UIDevice currentDevice].systemVersion hasPrefix:@"7"]
+
 #define SALESFORCE_SDK_VERSION_MIN_REQUIRED __SALESFORCE_SDK_3_3_1
 
 #define SALESFORCE_SDK_VERSION [NSString stringWithFormat:@"%d.%d.%d%@",              \
