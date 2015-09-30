@@ -755,10 +755,21 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         
         @try {
             SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
-            if (account) {
-                *account = decryptedAccount;
+            
+            // On iOS9, it won't throw an exception, but will return nil instead.
+            if (decryptedAccount) {
+                if (account) {
+                    *account = decryptedAccount;
+                }
+                return YES;
+            } else {
+                if (error) {
+                    *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                 code:SFUserAccountManagerCannotReadDecryptedArchive
+                                             userInfo:@{ NSLocalizedDescriptionKey : reason} ];
+                }
+                return NO;
             }
-            return YES;
         }
         @catch (NSException *exception) {
             if (error) {
