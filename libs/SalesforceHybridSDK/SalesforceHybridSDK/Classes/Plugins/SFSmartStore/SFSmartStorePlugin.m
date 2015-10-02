@@ -129,11 +129,22 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
-        BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs];
+
+        NSMutableString* errStatusString = [[NSMutableString alloc] initWithString:@"pgRegisterSoup error description:"];
+        
+        SFSmartStore* smartStore = [self getStoreInst:argsDict];
+        if (!smartStore) {
+            [errStatusString appendString:@"\nSmartStore instance is nil! (argsDict: %@).", argsDict];
+        }
+        
+        NSError* error = nil;
+        BOOL regOk = [smartStore registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
+        
         if (regOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+            [errStatusString appendFormat:@"\nError: %@.", error];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStatusString];
         }
     } command:command];
 }
