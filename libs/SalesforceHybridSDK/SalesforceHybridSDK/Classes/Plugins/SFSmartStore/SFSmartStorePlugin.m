@@ -134,7 +134,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         
         SFSmartStore* smartStore = [self getStoreInst:argsDict];
         if (!smartStore) {
-            [errStatusString appendString:@"\nSmartStore instance is nil! (argsDict: %@).", argsDict];
+            [errStatusString appendFormat:@"\nSmartStore instance is nil! (argsDict: %@).", argsDict];
         }
         
         NSError* error = nil;
