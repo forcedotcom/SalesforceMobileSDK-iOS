@@ -1194,7 +1194,7 @@ static NSException *authException = nil;
                             [[SFSoupIndex alloc] initWithPath:ACCOUNT_NAME indexType:kSoupIndexTypeString columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:nil]
                             ];
-    [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs];
+    [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }
 
 
