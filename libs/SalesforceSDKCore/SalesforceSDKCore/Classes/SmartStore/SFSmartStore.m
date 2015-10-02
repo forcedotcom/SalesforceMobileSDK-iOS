@@ -924,11 +924,24 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs {
-    NSError* error = nil;
+    return [self registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
+}
+
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error {
+    NSError *localError = nil;
+    
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self registerSoup:soupName withIndexSpecs:indexSpecs withDb:db];
-    } error:&error];
-    return !error;
+    } error:&localError];
+    
+    if (error) {
+        *error = localError;
+    }
+
+    if (localError) {
+        return NO;
+    }
+    return YES;
 }
 
 - (void)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withDb:(FMDatabase*) db

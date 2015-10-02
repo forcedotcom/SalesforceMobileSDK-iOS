@@ -176,9 +176,11 @@
             
             // Register
             NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
-            [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
+            NSError* error = nil;
+            [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertNil(error, @"There should be no errors.");
             
             // Remove
             [store removeSoup:kTestSoupName];
@@ -200,12 +202,14 @@
         
         // Register first time.
         NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
-        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
         testSoupExists = [store soupExists:kTestSoupName];
         XCTAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
         
         // Register second time.  Should only create one soup per unique soup name.
-        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
+        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
         __block int rowCount;
         [store.storeQueue inDatabase:^(FMDatabase* db) {
             rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
@@ -625,7 +629,7 @@
         
         // Register
         NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
-        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]]];
+        [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
         
         // Upserts
         NSMutableArray* entries = [NSMutableArray array];

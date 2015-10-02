@@ -81,7 +81,7 @@ NSString * const kSFSyncStateMergeModeLeaveIfChanged = @"LEAVE_IF_CHANGED";
                             [[SFSoupIndex alloc] initWithPath:kSFSyncStateSyncsSoupSyncType indexType:kSoupIndexTypeString columnName:nil]
                             ];
     
-    [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs];
+    [store registerSoup:kSFSyncStateSyncsSoupName withIndexSpecs:indexSpecs error:nil];
 }
 
 #pragma mark - Factory methods

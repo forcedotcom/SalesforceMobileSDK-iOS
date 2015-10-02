@@ -59,19 +59,21 @@
     // Employees soup
     [self.store registerSoup:kEmployeesSoup                              // should be TABLE_1
           withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          @[[self createStringIndexSpec:kFirstName], // should be TABLE_1_0
-                           [self createStringIndexSpec:kLastName],   // should be TABLE_1_1
-                           [self createStringIndexSpec:kDeptCode],   // should be TABLE_1_2
-                           [self createStringIndexSpec:kEmployeeId], // should be TABLE_1_3
-                           [self createStringIndexSpec:kManagerId],  // should be TABLE_1_4
-                           [self createFloatingIndexSpec:kSalary]]]];// should be TABLE_1_5
+                          @[[self createStringIndexSpec:kFirstName],
+                           [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
+                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
+                           [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
+                           [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
+                           [self createFloatingIndexSpec:kSalary]]]
+                   error:nil];
 
     // Departments soup
     [self.store registerSoup:kDepartmentsSoup                            // should be TABLE_2
           withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
                           @[[self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
                            [self createStringIndexSpec:kName],        // should be TABLE_2_1
-                           [self createIntegerIndexSpec:kBudget]]]];
+                           [self createIntegerIndexSpec:kBudget]]]
+                   error:nil];
 }
 
 - (void) tearDown

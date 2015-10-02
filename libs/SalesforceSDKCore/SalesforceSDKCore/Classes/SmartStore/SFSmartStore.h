@@ -222,10 +222,11 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  
  @param soupName The name of the soup to register
  @param indexSpecs Array of one ore more SFSoupIndex objects
+ @param error Error description
  @return YES if the soup registered OK
  */
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs;
-
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs __attribute__((deprecated("Use -registerSoup:withIndexSpecs:error:")));
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error;
 
 /**
  Get the number of entries that would be returned with the given query spec
