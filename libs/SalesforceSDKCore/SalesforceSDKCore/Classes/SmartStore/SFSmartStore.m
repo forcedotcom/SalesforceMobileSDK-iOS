@@ -928,16 +928,17 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error {
-    NSError*__autoreleasing* localError = nil;
-    if (error == nil) {
-        error = localError;
-    }
+    NSError *localError = nil;
     
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self registerSoup:soupName withIndexSpecs:indexSpecs withDb:db];
-    } error:error];
+    } error:&localError];
+    
+    if (error) {
+        *error = localError;
+    }
 
-    if (*error) {
+    if (localError) {
         return NO;
     }
     return YES;
