@@ -129,22 +129,19 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
-
-        NSMutableString* errStatusString = [[NSMutableString alloc] initWithString:@"pgRegisterSoup error description:"];
-        
-        SFSmartStore* smartStore = [self getStoreInst:argsDict];
-        if (!smartStore) {
-            [errStatusString appendFormat:@"\nSmartStore instance is nil! (argsDict: %@).", argsDict];
-        }
-        
-        NSError* error = nil;
-        BOOL regOk = [smartStore registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
-        
-        if (regOk) {
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        SFSmartStore *smartStore = [self getStoreInst:argsDict];
+        if (smartStore) {
+            NSError *error = nil;
+            BOOL result = [smartStore registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
+            if (result) {
+                return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+            } else {
+                NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, error: %@, `argsDict`: %@.", soupName, error, argsDict];
+                return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+            }
         } else {
-            [errStatusString appendFormat:@"\nError: %@.", error];
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errStatusString];
+            NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, the smart store instance is nil, `argsDict`: %@.", soupName, argsDict];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
         }
     } command:command];
 }
