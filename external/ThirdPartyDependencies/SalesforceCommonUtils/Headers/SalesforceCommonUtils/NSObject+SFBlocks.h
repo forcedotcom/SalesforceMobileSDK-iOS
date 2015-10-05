@@ -15,11 +15,6 @@ typedef void (^SFThreadBlock)(void);
 
 @interface NSObject (SFBlocks)
 
-/** Perform a block asynchronously on the main thread. If the code is running within the context of unit tests,
- the block is instead executed immediately on the current thread.
- */
-- (void)dispatchAsyncOnMain:(dispatch_block_t)block;
-
 /**
  Perform a block on a specific thread.
  @param block The block to execute on the thread
@@ -29,11 +24,18 @@ typedef void (^SFThreadBlock)(void);
 - (void)performBlock:(SFThreadBlock)block onThread:(NSThread*)thread waitUntilDone:(BOOL)waitUntilDone;
 
 /**
- Perform a block on the current thread after a delay.
+ Perform a block on a global queue thread after a delay.
  @param block The block to execute
  @param delay The delay before executing the block
  */
-- (void)performBlock:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay;
+- (void)performBlockOnGlobalQueue:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay;
+
+/**
+ Perform a block on the main thread after a delay.
+ @param block The block to execute
+ @param delay The delay before executing the block
+ */
+- (void)performBlockOnMainThread:(SFThreadBlock)block afterDelay:(NSTimeInterval)delay;
 
 /**
  Wait until a block return value is YES or a time-out happens.
@@ -42,5 +44,25 @@ typedef void (^SFThreadBlock)(void);
  @return YES if the block returned YES or NO if a time-out happened
  */
 - (BOOL)waitForBlockCondition:(BOOL(^)(void))block timeout:(NSTimeInterval)duration;
+
+/**
+ Executes the given block directly if called from the main thread. Otherwise the block
+ is synchronously dispatched for execution on the main thread.
+ @param block The block to execute
+ */
+- (void)synchronouslyExecuteBlockOnMainThread:(void(^)(void))block;
+
+/**
+ The block is asynchronously dispatched for execution on the main thread.
+ @param block The block to execute
+ */
+- (void)asynchronouslyExecuteBlockOnMainThread:(void(^)(void))block;
+
+/**
+ Executes the given block directly if called from the main thread. Otherwise the block
+ is asynchronously dispatched for execution on the main thread.
+ @param block The block to execute
+ */
+- (void)executeBlockOrDispatchIfNotMainThread:(void(^)(void))block;
 
 @end

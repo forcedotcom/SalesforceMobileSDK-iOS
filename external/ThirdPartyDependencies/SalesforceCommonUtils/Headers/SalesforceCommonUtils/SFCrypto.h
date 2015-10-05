@@ -12,16 +12,15 @@
  This class is responsible for encrypting and decrypting the content data for chatter.
  */
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFCryptoMode) {
     SFCryptoModeInMemory,
     SFCryptoModeDisk
-    
-} SFCryptoMode;
+};
 
-typedef enum : uint32_t {
-    kSFEncrypt = 0,
-    kSFDecrypt,
-} SFCryptoOperation;
+typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
+    SFCryptoOperationEncrypt,
+    SFCryptoOperationDecrypt
+};
 
 @interface SFCrypto : NSObject
 
@@ -55,7 +54,7 @@ typedef enum : uint32_t {
 /**
  Encrypts or decrypts the passed in data, the input data is assumed to be passed in as a chunk
  Method requires finalizeCipher to be called
- @param data input data
+ @param inData input data
  */
 - (void)cryptData:(NSData *)inData;
 
