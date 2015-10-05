@@ -33,8 +33,7 @@
 /**Assign delegate to this cover view. 
  
  When user touches any place on the cover view, `coverViewClicked` will be invoked on delegate
- 
-@param delegate Delegate for this cover view. 
  */
 @property (nonatomic, weak) id <SFCoverViewDelegate> delegate;
+
 @end

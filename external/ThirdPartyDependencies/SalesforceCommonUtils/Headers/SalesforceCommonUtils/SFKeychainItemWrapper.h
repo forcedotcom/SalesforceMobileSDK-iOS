@@ -6,7 +6,31 @@
 //  Copyright (c) 2012 salesforce.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+/**
+ This class is left to remain non-ARC INTENTIONALLY!
+ 
+ There is a known issue reported by many developers on Apple Developer Forum and
+ Github, detailing an issue related to error code -34018. Apple acknowledged the
+ issue, yet has not provided a solution or workaround, and has not shared much
+ about the root cause of the issue. Last reported case was encountered on iOS 9
+ beta 2.
+ 
+ Earlier, Kevin Hawkins worked on the issue when S1 encountered it, and the only
+ proven workaround was to keep the class implementation non-ARC.
+ 
+ Until, Apple fixes the issue, please DO NOT ARC this class!
+ 
+ Relevant links and info:
+ - https://devforums.apple.com/thread/246122
+ - https://forums.developer.apple.com/thread/4743
+ - https://github.com/ResearchKit/AppCore/issues/119
+ - https://github.com/soffes/sskeychain/issues/52
+ 
+ Apple parent radar for this issue is 18766047. 'Open' as of 2015-08-27
+ 
+ */
+
+@import Foundation;
 
 // Keychain item exception defines
 
@@ -20,9 +44,17 @@ extern NSString * const kSFKeychainItemExceptionErrorCodeKey;
 /**
  This is a wrapper class used to interact with the keychain.
  */
-@interface SFKeychainItemWrapper : NSObject {
-    NSMutableDictionary *_keychainQuery;
-}
+@interface SFKeychainItemWrapper : NSObject
+
+/*!
+ Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken
+ */
+@property (nonatomic) BOOL encrypted;
+
+/*!
+ Returns the accessible attribute used to store this keychain item
+ */
+@property (nonatomic, readonly) CFTypeRef accessibleAttribute;
 
 /*!
  @return Whether or not keychain access errors cause a fatal exception.  Default is YES.
@@ -36,9 +68,11 @@ extern NSString * const kSFKeychainItemExceptionErrorCodeKey;
 + (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal;
 
 /*!
- Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken
+ Sets the accessible attribute used by this keychain item wrapper class.
+ If the previous attribute value is different, this method will trigger
+ an update of all the items in the keychain.
  */
-@property (nonatomic) BOOL encrypted;
++ (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute;
 
 /*!
  Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.

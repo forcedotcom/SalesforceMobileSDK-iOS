@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 salesforce.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
 /**Extension to NSDictionary object
  
@@ -31,5 +30,7 @@
  @return A new dictionary with nil/null/NSNull key/values removed
  */
 - (id)cleansedDictionary;
+
+- (NSString*)jsonString;
 
 @end

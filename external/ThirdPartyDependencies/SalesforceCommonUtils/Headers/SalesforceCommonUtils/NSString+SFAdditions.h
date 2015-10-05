@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
     SFEntityIdLength15 = 15,
     SFEntityIdLength18 = 18,
     SFEntityIdLengthMin = SFEntityIdLength15,
     SFEntityIdLengthMax = SFEntityIdLength18
-} SFEntityIdLength;
+};
 
 extern NSString * const SFUserAgentAppName;
 
@@ -97,5 +97,16 @@ extern NSString * const SFUserAgentAppName;
  Returns `nil` if the receiver is not a valid Salesforce entity ID.
  */
 - (NSString*)entityId18;
+
+/** Returns a Boolean value that indicates if the given entity ID is equal to the
+ receiver. The comparison properly handles comparing 15 character case-sensitive
+ ID's against 18 character case-insensitive ID's.
+ 
+ @param entityId The entity ID to compare with the receiver.
+ @return Returns `YES` if the given entityId is semantically equal to the receiver,
+ otherwise returns `NO`. Returns `NO` if either the given ID or receiver are not
+ valid Salesforce entity ID's.
+ */
+- (BOOL)isEqualToEntityId:(NSString*)entityId;
 
 @end

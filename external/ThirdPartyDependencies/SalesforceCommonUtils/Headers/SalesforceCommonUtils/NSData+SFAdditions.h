@@ -6,7 +6,7 @@
 //  Copyright (c) 2008-2012 salesforce.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 /**Extension to NSData class to provide common functions
  
@@ -37,6 +37,8 @@
  */
 -(id)initWithBase64String:(NSString *)base64;
 
++(NSData *)dataFromBase64String:(NSString *)encoding;
+
 @end
 
 
@@ -48,7 +50,9 @@
 
 @interface NSData (SFzlib)
 
-/**Return unziped version of the this NSData*/
+/**Return gzip uncompressed version of the this NSData*/
+-(NSData *)gzipInflate;
+/**Return gzip compressed version of the this NSData*/
 -(NSData *)gzipDeflate;
 @end
 

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@import QuartzCore;
 
 /**  This view is designed to create a view with gradient colors and locations 
     that could be used as background view of another view
