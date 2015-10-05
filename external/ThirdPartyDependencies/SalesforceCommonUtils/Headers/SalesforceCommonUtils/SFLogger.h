@@ -13,14 +13,21 @@
 #define NSLog(__FORMAT__, ...)
 #endif
 
-typedef enum SFLogLevel {
+extern NSString * const kSFLogLevelVerboseString;
+extern NSString * const kSFLogLevelDebugString;
+extern NSString * const kSFLogLevelInfoString;
+extern NSString * const kSFLogLevelWarningString;
+extern NSString * const kSFLogLevelErrorString;
+
+typedef NS_ENUM(NSUInteger, SFLogLevel) {
+    SFLogLevelVerbose,
 	SFLogLevelDebug,
 	SFLogLevelInfo,
 	SFLogLevelWarning,
-	SFLogLevelError,
-} SFLogLevel;
+	SFLogLevelError
+};
 
-typedef enum SFLogContext {
+typedef NS_ENUM(NSUInteger, SFLogContext) {
     FeedSDKLogContext = 1,
     PublisherSDKLogContext,
     ChatterSDKLogContext,
@@ -32,8 +39,9 @@ typedef enum SFLogContext {
     WorkGoalSDKLogContext,
     LocalyticsContext,
     S1PerformanceContext,
-    AuraIntegrationContext
-} SFLogContext;
+    AuraIntegrationContext,
+    PushNotificationContext
+};
 
 
 
@@ -111,9 +119,17 @@ if (!(_cond)) { \
  * @param cls The class associated with the log event.
  * @param level The level to log at.
  * @param msg The message to log.
- * @param logContext The context of the log
  */
 + (void)log:(Class)cls level:(SFLogLevel)level msg:(NSString *)msg;
+
+/**
+ * Logs at the Class level.  Should only be used if you don't have an NSObject instance to
+ * log from.
+ * @param cls The class associated with the log event.
+ * @param level The level to log at.
+ * @param logContext The context of the log
+ * @param msg The message to log.
+ */
 + (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg;
 
 
@@ -135,9 +151,17 @@ if (!(_cond)) { \
  * @param level The minimum log level to log at.
  * @param msg The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
- * @param logContext The context of the log
  */
 + (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)msg, ...;
+
+/**
+ * Logs a formatted message with the given log level and format parameters.
+ * @param cls The class associated with the log event.
+ * @param level The minimum log level to log at.
+ * @param logContext The context of the log
+ * @param msg The format message, and optional arguments to expand in the format.
+ * @param ... The arguments to the message format string.
+ */
 + (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...;
 
 
@@ -162,9 +186,15 @@ if (!(_cond)) { \
  */
 + (BOOL)assertionRecordedAndClear;
 
-
-
-
+/**
+ *  Return SFLogLevel for corresponding user readable string. Does
+ *  a case insensitive comparison against "Verbose", "Debug", "Info", "Warning", "Error"
+ *
+ *  @param value One of the above strings
+ *
+ *  @return Corresponding SFLogLevel value
+ */
++ (SFLogLevel)logLevelForString:(NSString *)value;
 
 //Context Based Filtering
 //Two filters: blacklist, whitelist.

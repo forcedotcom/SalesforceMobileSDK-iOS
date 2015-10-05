@@ -6,14 +6,7 @@
 //  Copyright (c) 2010-2012 salesforce.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#if (TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR)
-@import MessageUI;
-@import UIKit;
-#else
-@import AppKit;
-#endif
+#import <UIKit/UIKit.h>
 
 /**This is a utility class that check whether some capability is supported on the current device
  */
@@ -46,6 +39,18 @@
 /**Return YES if device has been set up for sending text only messages
  */
 + (BOOL)canSendMessage;
+
+/**Return YES if device can open excel files
+ */
++ (BOOL)canOpenExcel;
+
+/**Return YES if device can open word files
+ */
++ (BOOL)canOpenWord;
+
+/**Return YES if device can open ppt files
+ */
++ (BOOL)canOpenPowerPoint;
 
 @end
 

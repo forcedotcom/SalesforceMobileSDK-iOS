@@ -10,12 +10,9 @@
  This class manages manages the inactivity timer.
  */
 
-#import <Foundation/Foundation.h>
-
-extern NSString *const DEFAULT_KEY_LAST_ACTIVITY;
+@import Foundation;
 
 @interface SFInactivityTimerCenter : NSObject
-
 /*!
  * Register the timer
  */
