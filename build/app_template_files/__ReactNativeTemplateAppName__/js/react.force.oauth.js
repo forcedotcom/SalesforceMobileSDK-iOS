@@ -1,1 +1,1 @@
-../../../../shared/react/react.force.oauth.js
+../../../../external/shared/libs/react.force.oauth.js

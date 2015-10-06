@@ -1,1 +1,1 @@
-../../../../shared/react/react.force.smartstore.js
+../../../../external/shared/libs/react.force.smartstore.js

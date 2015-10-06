@@ -1,1 +1,1 @@
-../../../../shared/react/react.force.net.js
+../../../../external/shared/libs/react.force.net.js
