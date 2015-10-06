@@ -1,1 +1,1 @@
-../../../../shared/react/react.force.smartsync.js
+../../../../external/shared/libs/react.force.smartsync.js
