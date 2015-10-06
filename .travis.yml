@@ -6,6 +6,19 @@ branches:
 
 language: objective-c
 
+env:
+  matrix:
+    - SDK=iphonesimulator8.1 OS=8.1 NAME=iphone 6
+    - SDK=iphonesimulator8.2 OS=8.2 NAME=iphone 6
+    - SDK=iphonesimulator8.3 OS=8.3 NAME=ihpone 6
+    - SDK=iphonesimulator8.4 OS=8.4 NAME=iphone 6
+    - SDK=iphonesimulator9.0 OS=9.0 NAME=iphone 6
+    - SDK=iphonesimulator8.1 OS=8.1 NAME=ipad 2
+    - SDK=iphonesimulator8.2 OS=8.2 NAME=ipad 2
+    - SDK=iphonesimulator8.3 OS=8.3 NAME=ipad 2
+    - SDK=iphonesimulator8.4 OS=8.4 NAME=ipad 2
+    - SDK=iphonesimulator9.0 OS=9.0 NAME=ipad 2
+
 before_install:
    - gem install xcpretty
 
@@ -33,12 +46,12 @@ script:
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer | xcpretty --color --simple
    # run all tests
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCommon -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSecurity -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
    # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
-   - xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk $SDK -destination 'platform=iOS Simulator,name=$NAME,OS=$OS' | xcpretty --color --simple --test
+   # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
