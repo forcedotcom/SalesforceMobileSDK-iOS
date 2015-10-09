@@ -38,7 +38,7 @@ extern NSInteger const kSFRestErrorCode;
 
 
 /*
- * Default API version (currently "v33.0")
+ * Default API version (currently "v34.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
@@ -151,7 +151,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * The REST API version used for all the calls. This could be "v21.0", "v22.0"...
- * The default value is `kSFRestDefaultAPIVersion` (currently "v33.0")
+ * The default value is `kSFRestDefaultAPIVersion` (currently "v34.0")
  */
 @property (nonatomic, strong) NSString *apiVersion;
 
