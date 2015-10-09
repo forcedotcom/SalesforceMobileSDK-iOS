@@ -48,6 +48,7 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
         self.isNetworkAvailable = YES;  // Network is available by default.
         self.timeBeforeUserAgentCompletion = 1.0;  // 1s default before user agent flow "completes".
         self.userAgentFlowIsSuccessful = YES;
+        self.refreshTokenFlowIsSuccessful = YES;
     }
     return self;
 }
@@ -81,6 +82,41 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     return [NSURL URLWithString:errorUrl];
 }
 
+/* Handle a 'token' endpoint (e.g. refresh, advanced auth) response.
+ Example response:
+ { "id":"https://login.salesforce.com/id/00DD0000000FH54SBH/005D0000001GZXmIAO",
+ "issued_at":"1309481030001",
+ "instance_url":"https://na1.salesforce.com",
+ "signature":"YEguoQhgIvJ3apLALB93vRsq/pUxwG2klsyHp9zX9Wg=",
+ "access_token":"00DD0000000FH84!AQwAQKS7WDhWO9k6YrhbiWBZiDAZC5RzN2dpleOKGKf5dFsatyAN8kck7mtrNvxRGIgN.wE.Z0ZN_No7h6HNqrq828nL6E2J" }
+ 
+ Example error response:
+ { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
+ */
+
+- (NSMutableData *)refreshTokenSuccessData{
+    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
+    NSString *successDataString = [NSString stringWithFormat:successFormatString,
+                            self.coordinator.credentials.redirectUri,
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                            @(1418945872705),
+                            [@"https://na1.salesforce.com" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                            @"some_access_token"];
+     NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSMutableData *)refreshTokenErrorData {
+    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
+    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
+                          self.coordinator.credentials.redirectUri,
+                          @"refresh_token_flow_error_from_unit_test",
+                          [@"Refresh token flow error from unit test" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                          ];
+    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
 #pragma mark - SFOAuthCoordinatorFlow
 
 - (void)beginUserAgentFlow {
@@ -101,6 +137,15 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginTokenEndpointFlowCalled = YES;
     self.tokenEndpointFlowType = flowType;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.refreshTokenFlowIsSuccessful) {
+            [self.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        } else {
+            //[self log:SFLogLevelDebug format:@"%@ Error: response has no payload: %@", NSStringFromSelector(_cmd), ]
+        }
+    });
+    [self.coordinator performSelector:@selector(handleTokenEndpointResponse:) withObject:[self refreshTokenSuccessData] afterDelay:self.timeBeforeUserAgentCompletion];
 }
 
 - (void)beginNativeBrowserFlow {
@@ -115,7 +160,7 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     }
 }
 
-- (void)handleTokenEndpointResponse {
+- (void)handleTokenEndpointResponse:(NSMutableData *) data{
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.handleTokenEndpointResponseCalled = YES;
 }

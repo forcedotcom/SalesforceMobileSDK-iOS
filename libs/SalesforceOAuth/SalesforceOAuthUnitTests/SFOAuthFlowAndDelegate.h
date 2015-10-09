@@ -45,6 +45,7 @@
 @property (nonatomic, assign) BOOL isNetworkAvailable;
 @property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
 @property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
+@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
 
 - (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
 - (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;

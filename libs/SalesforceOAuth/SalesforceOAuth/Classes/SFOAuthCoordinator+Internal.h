@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
-- (void)handleTokenEndpointResponse;
+- (void)handleTokenEndpointResponse:(NSMutableData *)data;
 - (void)beginNativeBrowserFlow;
 - (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
 
