@@ -32,7 +32,7 @@
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
-NSString* const kSFRestDefaultAPIVersion = @"v33.0";
+NSString* const kSFRestDefaultAPIVersion = @"v34.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
 NSInteger const kSFRestErrorCode = 999;
 
