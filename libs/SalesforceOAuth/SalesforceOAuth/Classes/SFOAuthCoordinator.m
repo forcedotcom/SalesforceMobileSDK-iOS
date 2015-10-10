@@ -602,7 +602,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         // reset the response data for a new refresh response
         self.responseData = [NSMutableData dataWithCapacity:kSFOAuthReponseBufferLength];
         [self.responseData appendData:data];
-        [self.oauthCoordinatorFlow handleTokenEndpointResponse];
+        [self.oauthCoordinatorFlow handleTokenEndpointResponse:self.responseData];
     }] resume];
 }
 
@@ -617,9 +617,9 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     Example error response:
         { "error":"invalid_grant","error_description":"authentication failure - Invalid Password" }
  */
-- (void)handleTokenEndpointResponse {
+- (void)handleTokenEndpointResponse:(NSMutableData *) data {
     [self stopRefreshFlowConnectionTimer];
-    
+    self.responseData = data;
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;

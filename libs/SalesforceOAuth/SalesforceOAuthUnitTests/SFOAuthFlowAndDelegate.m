@@ -47,7 +47,9 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
         self.coordinator = coordinator;
         self.isNetworkAvailable = YES;  // Network is available by default.
         self.timeBeforeUserAgentCompletion = 1.0;  // 1s default before user agent flow "completes".
+        self.timeBeforeRefreshTokenCompletion = 1.0;
         self.userAgentFlowIsSuccessful = YES;
+        self.refreshTokenFlowIsSuccessful = YES;
     }
     return self;
 }
@@ -81,6 +83,29 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     return [NSURL URLWithString:errorUrl];
 }
 
+- (NSMutableData *)refreshTokenSuccessData{
+    NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
+    NSString *successDataString = [NSString stringWithFormat:successFormatString,
+                            self.coordinator.credentials.redirectUri,
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                            @(1418945872705),
+                            [@"https://na1.salesforce.com" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                            @"some_access_token"];
+     NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
+- (NSMutableData *)refreshTokenErrorData {
+    NSString *errorFormatString = @"{\"error\":\"%@\",\"error_description\":\"%@\"}";
+    NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
+                          self.coordinator.credentials.redirectUri,
+                          @"refresh_token_flow_error_from_unit_test",
+                          [@"Refresh token flow error from unit test" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                          ];
+    NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
+    return [data mutableCopy];
+}
+
 #pragma mark - SFOAuthCoordinatorFlow
 
 - (void)beginUserAgentFlow {
@@ -94,13 +119,20 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
             [self.coordinator handleUserAgentResponse:[self userAgentErrorUrl]];
         }
     });
-    [self.coordinator performSelector:@selector(handleUserAgentResponse:) withObject:[self userAgentSuccessUrl] afterDelay:self.timeBeforeUserAgentCompletion];
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginTokenEndpointFlowCalled = YES;
     self.tokenEndpointFlowType = flowType;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.timeBeforeRefreshTokenCompletion * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.refreshTokenFlowIsSuccessful) {
+            [self.coordinator handleTokenEndpointResponse:[self refreshTokenSuccessData]];
+        } else {
+            [self.coordinator handleTokenEndpointResponse:[self refreshTokenErrorData]];
+        }
+    });
 }
 
 - (void)beginNativeBrowserFlow {
@@ -115,7 +147,7 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     }
 }
 
-- (void)handleTokenEndpointResponse {
+- (void)handleTokenEndpointResponse:(NSMutableData *) data{
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.handleTokenEndpointResponseCalled = YES;
 }
