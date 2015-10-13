@@ -24,7 +24,7 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import "RCTRootView.h"
+#import <React/Base/RCTRootView.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -123,7 +123,7 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
      * `inet` value under `en0:`) and make sure your computer and iOS device are
      * on the same Wi-Fi network.
      */
-    [self setupReactRootView:[NSURL URLWithString:@"http://localhost:8081/js/index.ios.bundle"]];
+    [self setupReactRootView:[NSURL URLWithString:@"http://localhost:8081/js/index.ios.bundle?platform=ios"]];
     
     /**
      * OPTION 2
