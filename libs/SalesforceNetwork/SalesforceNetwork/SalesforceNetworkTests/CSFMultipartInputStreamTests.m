@@ -135,7 +135,7 @@
     NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *expectedString = [NSMutableString new];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nTest String\r\n", stream.boundary];
-    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T10:21:02Z\r\n", stream.boundary];
+    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T07:21:02Z\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"url\"\r\n\r\nhttp://example.org/path/to?something=else\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"file\"; filename=\"SimpleFile.json\"\r\nContent-Type: application/json\r\n\r\n{\"simple\":{\"json\":\"data\"},\"count\":15}\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@--\r\n", stream.boundary];
