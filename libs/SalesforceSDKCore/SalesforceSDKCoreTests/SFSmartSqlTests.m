@@ -54,7 +54,8 @@
 - (void) setUp
 {
     [super setUp];
-    self.store = [SFSmartStore sharedStoreWithName:kTestStore];
+    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup
     [self.store registerSoup:kEmployeesSoup                              // should be TABLE_1
@@ -78,9 +79,19 @@
 
 - (void) tearDown
 {
-    [SFSmartStore removeSharedStoreWithName:kTestStore];
+    [SFSmartStore removeSharedStoreWithName:kTestStore forUser:[SFUserAccountManager sharedInstance].currentUser];
     self.store = nil;
     [super tearDown];
+}
+
+- (SFUserAccount *)createUserAccount
+{
+    u_int32_t userIdentifier = arc4random();
+    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
+    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
+    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
+    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://test.salesforce.com/id/%@/%@", orgId, userId]];
+    return user;
 }
 
 
