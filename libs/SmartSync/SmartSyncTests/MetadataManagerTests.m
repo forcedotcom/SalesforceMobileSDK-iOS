@@ -44,12 +44,12 @@ static NSException *authException = nil;
 @implementation MetadataManagerTests
 
 static NSInteger const kRefreshInterval = 24 * 60 * 60 * 1000;
-static NSString* const kAccountOneId = @"001O000000m3UBiIAM";
-static NSString* const kAccountOneName = @"TEST ACCOUNT DO NOT TOUCH";
-static NSString* const kOpportunityOneId = @"006O0000006Q787IAC";
-static NSString* const kOpportunityOneName = @"TEST OPP DO NOT TOUCH";
-static NSString* const kCaseOneId = @"500O0000004Lnoa";
-static NSString* const kCaseOneName = @"00001010";
+static NSString* const kAccountOneId = @"001S000000cZ1VVIA0";
+static NSString* const kAccountOneName = @"Acme";
+static NSString* const kOpportunityOneId = @"006S0000006luq4IAA";
+static NSString* const kOpportunityOneName = @"Acme - 1,200 Widgets";
+static NSString* const kCaseOneId = @"500S00000031VPwIAM";
+static NSString* const kCaseOneName = @"00001001";
 
 + (void)setUp
 {
