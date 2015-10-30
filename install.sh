@@ -24,7 +24,7 @@ then
 fi
 
 # Check for Xcode minimum version
-XCODE_MIN_VERSION=60
+XCODE_MIN_VERSION=70
 XCODE_MIN_VERSION_STR="Xcode 7.0"
 xcode_ver=`xcodebuild -version | grep ^Xcode`
 if [[ "$xcode_ver" == "" ]]
