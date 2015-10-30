@@ -31,7 +31,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthLogLevel) {
     kSFOAuthLogLevelDebug,
     kSFOAuthLogLevelInfo,
     kSFOAuthLogLevelWarning,
-    kSFOAuthLogLevelError
+    kSFOAuthLogLevelError,
+    kSFOAuthLogLevelVerbose
 };
 
 /**

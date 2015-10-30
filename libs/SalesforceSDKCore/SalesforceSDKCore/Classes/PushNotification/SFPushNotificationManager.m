@@ -37,11 +37,6 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v34.0/sobje
 #pragma clang diagnostic ignored "-Wunused-const-variable"
 
 //
-// < iOS 8 notification types
-//
-static UIRemoteNotificationType const kiOS7RemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
-
-//
 // >= iOS 8 notification types have to be NSUInteger, for backward compatibility with < iOS 8 build environments.
 //
 // UIUserNotificationTypes:
@@ -121,12 +116,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     
     // register with Apple for remote notifications
     [self log:SFLogLevelInfo msg:@"Registering with Apple for remote push notifications"];
-    
-    // [UIApplication registerUserNotificationSettings:] is how iOS 8 and above registers for notifications.
     if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
         [self registerNotificationsForiOS8];
-    } else {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kiOS7RemoteNotificationTypes];
     }
 }
 

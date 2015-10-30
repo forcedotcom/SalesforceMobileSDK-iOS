@@ -154,6 +154,10 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         case SFLogLevelError:
             credentials.logLevel = kSFOAuthLogLevelError;
             break;
+
+        case SFLogLevelVerbose:
+            credentials.logLevel = kSFOAuthLogLevelVerbose;
+            break;
     }
 }
 
