@@ -44,7 +44,7 @@ script:
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceOAuthTest -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreUnitTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkiOS -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPIUnitTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme OCMockLib -sdk $SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" | xcpretty --color --simple --test
-   # - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme HybridPluginTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
