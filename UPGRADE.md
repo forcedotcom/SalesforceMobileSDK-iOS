@@ -20,8 +20,8 @@ See the [Mobile SDK Development Guide](https://github.com/forcedotcom/Salesforce
 ### Native 3.2 to 3.3 upgrade
 
 #### Apple prerequisites for Mobile SDK 3.3
-- iOS 7.0 is a requirement for using the 3.3 version of the SDK.  Your app is not guaranteed to work with earlier versions of iOS.
-- Xcode 6 is the minimum version of Xcode required to work with the SDK.  Backward compatibility is not guaranteed for earlier versions of Xcode.
+- iOS 8.0 is a requirement for using the 3.3 version of the SDK.  Your app is not guaranteed to work with earlier versions of iOS.
+- Xcode 7 is the minimum version of Xcode required to work with the SDK.  Backward compatibility is not guaranteed for earlier versions of Xcode.
 
 #### Update the Mobile SDK library packages
 The easiest way to do this is to delete everything in the Dependencies folder of your app's Xcode project, and then add the new libraries.
