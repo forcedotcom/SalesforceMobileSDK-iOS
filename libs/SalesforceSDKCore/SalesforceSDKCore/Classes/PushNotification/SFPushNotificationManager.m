@@ -116,12 +116,10 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     
     // register with Apple for remote notifications
     [self log:SFLogLevelInfo msg:@"Registering with Apple for remote push notifications"];
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        [self registerNotificationsForiOS8];
-    }
+    [self registerNotifications];
 }
 
-- (void)registerNotificationsForiOS8
+- (void)registerNotifications
 {
     // This is necessary to build libraries with the iOS 7 runtime, that can execute iOS 8 methods.  When
     // we switch to building libraries with Xcode 6, this can go away.
