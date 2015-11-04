@@ -21,17 +21,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4F2FA7651B02ADAB00A7EE11 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA7591B02ADAB00A7EE11 /* FMDatabase.h */; };
-		4F2FA7661B02ADAB00A7EE11 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA75A1B02ADAB00A7EE11 /* FMDatabase.m */; };
-		4F2FA7671B02ADAB00A7EE11 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA75B1B02ADAB00A7EE11 /* FMDatabaseAdditions.h */; };
-		4F2FA7681B02ADAB00A7EE11 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA75C1B02ADAB00A7EE11 /* FMDatabaseAdditions.m */; };
-		4F2FA7691B02ADAB00A7EE11 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA75D1B02ADAB00A7EE11 /* FMDatabasePool.h */; };
-		4F2FA76A1B02ADAB00A7EE11 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA75E1B02ADAB00A7EE11 /* FMDatabasePool.m */; };
-		4F2FA76B1B02ADAB00A7EE11 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA75F1B02ADAB00A7EE11 /* FMDatabaseQueue.h */; };
-		4F2FA76C1B02ADAB00A7EE11 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA7601B02ADAB00A7EE11 /* FMDatabaseQueue.m */; };
-		4F2FA76D1B02ADAB00A7EE11 /* FMDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA7611B02ADAB00A7EE11 /* FMDB.h */; };
-		4F2FA76E1B02ADAB00A7EE11 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F2FA7621B02ADAB00A7EE11 /* FMResultSet.h */; };
-		4F2FA76F1B02ADAB00A7EE11 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA7631B02ADAB00A7EE11 /* FMResultSet.m */; };
 		4F2FA7711B041D4100A7EE11 /* SFSmartStoreFullTextSearchTests.h in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA7701B041D4100A7EE11 /* SFSmartStoreFullTextSearchTests.h */; };
 		4F2FA7731B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F2FA7721B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m */; };
 		4F3A72EB19DB87D900E6F468 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F3A72EA19DB87D900E6F468 /* test_credentials.json */; };
@@ -64,6 +53,17 @@
 		8222088B19391EC00000C635 /* SFUserAccountManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8222088A19391EC00000C635 /* SFUserAccountManager+Internal.h */; };
 		822E386F19BE628200C92CA3 /* SalesforceSDKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 822E386D19BE628200C92CA3 /* SalesforceSDKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		822E387019BE628200C92CA3 /* SalesforceSDKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */; };
+		825655931BEAA1BC0054146D /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 825655881BEAA1BC0054146D /* FMDatabase.h */; };
+		825655941BEAA1BC0054146D /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 825655891BEAA1BC0054146D /* FMDatabase.m */; };
+		825655951BEAA1BC0054146D /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8256558A1BEAA1BC0054146D /* FMDatabaseAdditions.h */; };
+		825655961BEAA1BC0054146D /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256558B1BEAA1BC0054146D /* FMDatabaseAdditions.m */; };
+		825655971BEAA1BC0054146D /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 8256558C1BEAA1BC0054146D /* FMDatabasePool.h */; };
+		825655981BEAA1BC0054146D /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256558D1BEAA1BC0054146D /* FMDatabasePool.m */; };
+		825655991BEAA1BC0054146D /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 8256558E1BEAA1BC0054146D /* FMDatabaseQueue.h */; };
+		8256559A1BEAA1BC0054146D /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8256558F1BEAA1BC0054146D /* FMDatabaseQueue.m */; };
+		8256559B1BEAA1BC0054146D /* FMDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 825655901BEAA1BC0054146D /* FMDB.h */; };
+		8256559C1BEAA1BC0054146D /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 825655911BEAA1BC0054146D /* FMResultSet.h */; };
+		8256559D1BEAA1BC0054146D /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 825655921BEAA1BC0054146D /* FMResultSet.m */; };
 		8272300C19D5FA520066A350 /* SFSDKAppConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 8272300A19D5FA520066A350 /* SFSDKAppConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8272300D19D5FA520066A350 /* SFSDKAppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272300B19D5FA520066A350 /* SFSDKAppConfig.m */; };
 		8281E90E1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8281E90C1884B4DD002C1B0A /* SFAbstractPasscodeViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -215,18 +215,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4F2FA7591B02ADAB00A7EE11 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../../external/fmdb/src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
-		4F2FA75A1B02ADAB00A7EE11 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../../external/fmdb/src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
-		4F2FA75B1B02ADAB00A7EE11 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = ../../../../../external/fmdb/src/fmdb/FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		4F2FA75C1B02ADAB00A7EE11 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = ../../../../../external/fmdb/src/fmdb/FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		4F2FA75D1B02ADAB00A7EE11 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = ../../../../../external/fmdb/src/fmdb/FMDatabasePool.h; sourceTree = "<group>"; };
-		4F2FA75E1B02ADAB00A7EE11 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = ../../../../../external/fmdb/src/fmdb/FMDatabasePool.m; sourceTree = "<group>"; };
-		4F2FA75F1B02ADAB00A7EE11 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = ../../../../../external/fmdb/src/fmdb/FMDatabaseQueue.h; sourceTree = "<group>"; };
-		4F2FA7601B02ADAB00A7EE11 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../../external/fmdb/src/fmdb/FMDatabaseQueue.m; sourceTree = "<group>"; };
-		4F2FA7611B02ADAB00A7EE11 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = ../../../../../external/fmdb/src/fmdb/FMDB.h; sourceTree = "<group>"; };
-		4F2FA7621B02ADAB00A7EE11 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../../external/fmdb/src/fmdb/FMResultSet.h; sourceTree = "<group>"; };
-		4F2FA7631B02ADAB00A7EE11 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../../external/fmdb/src/fmdb/FMResultSet.m; sourceTree = "<group>"; };
-		4F2FA7641B02ADAB00A7EE11 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../../../../external/fmdb/LICENSE.txt; sourceTree = "<group>"; };
 		4F2FA7701B041D4100A7EE11 /* SFSmartStoreFullTextSearchTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreFullTextSearchTests.h; sourceTree = "<group>"; };
 		4F2FA7721B041D9B00A7EE11 /* SFSmartStoreFullTextSearchTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreFullTextSearchTests.m; sourceTree = "<group>"; };
 		4F3A72EA19DB87D900E6F468 /* test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
@@ -270,6 +258,18 @@
 		8222088A19391EC00000C635 /* SFUserAccountManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccountManager+Internal.h"; sourceTree = "<group>"; };
 		822E386D19BE628200C92CA3 /* SalesforceSDKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKManager.h; sourceTree = "<group>"; };
 		822E386E19BE628200C92CA3 /* SalesforceSDKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManager.m; sourceTree = "<group>"; };
+		825655881BEAA1BC0054146D /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		825655891BEAA1BC0054146D /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		8256558A1BEAA1BC0054146D /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		8256558B1BEAA1BC0054146D /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		8256558C1BEAA1BC0054146D /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		8256558D1BEAA1BC0054146D /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		8256558E1BEAA1BC0054146D /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		8256558F1BEAA1BC0054146D /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		825655901BEAA1BC0054146D /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
+		825655911BEAA1BC0054146D /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		825655921BEAA1BC0054146D /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		8256559E1BEAC7850054146D /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../../LICENSE.txt; sourceTree = "<group>"; };
 		8272300A19D5FA520066A350 /* SFSDKAppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKAppConfig.h; sourceTree = "<group>"; };
 		8272300B19D5FA520066A350 /* SFSDKAppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKAppConfig.m; sourceTree = "<group>"; };
 		8280EBB316E14E9F00768DE8 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -543,23 +543,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8221561B16E0130C002E1F56 /* Fmdb */ = {
+		825655871BEAA1BC0054146D /* fmdb */ = {
 			isa = PBXGroup;
 			children = (
-				4F2FA7591B02ADAB00A7EE11 /* FMDatabase.h */,
-				4F2FA75A1B02ADAB00A7EE11 /* FMDatabase.m */,
-				4F2FA75B1B02ADAB00A7EE11 /* FMDatabaseAdditions.h */,
-				4F2FA75C1B02ADAB00A7EE11 /* FMDatabaseAdditions.m */,
-				4F2FA75D1B02ADAB00A7EE11 /* FMDatabasePool.h */,
-				4F2FA75E1B02ADAB00A7EE11 /* FMDatabasePool.m */,
-				4F2FA75F1B02ADAB00A7EE11 /* FMDatabaseQueue.h */,
-				4F2FA7601B02ADAB00A7EE11 /* FMDatabaseQueue.m */,
-				4F2FA7611B02ADAB00A7EE11 /* FMDB.h */,
-				4F2FA7621B02ADAB00A7EE11 /* FMResultSet.h */,
-				4F2FA7631B02ADAB00A7EE11 /* FMResultSet.m */,
-				4F2FA7641B02ADAB00A7EE11 /* LICENSE.txt */,
+				825655881BEAA1BC0054146D /* FMDatabase.h */,
+				825655891BEAA1BC0054146D /* FMDatabase.m */,
+				8256558A1BEAA1BC0054146D /* FMDatabaseAdditions.h */,
+				8256558B1BEAA1BC0054146D /* FMDatabaseAdditions.m */,
+				8256558C1BEAA1BC0054146D /* FMDatabasePool.h */,
+				8256558D1BEAA1BC0054146D /* FMDatabasePool.m */,
+				8256558E1BEAA1BC0054146D /* FMDatabaseQueue.h */,
+				8256558F1BEAA1BC0054146D /* FMDatabaseQueue.m */,
+				825655901BEAA1BC0054146D /* FMDB.h */,
+				825655911BEAA1BC0054146D /* FMResultSet.h */,
+				825655921BEAA1BC0054146D /* FMResultSet.m */,
+				8256559E1BEAC7850054146D /* LICENSE.txt */,
 			);
-			path = Fmdb;
+			name = fmdb;
+			path = ../../../../external/fmdb/src/fmdb;
 			sourceTree = "<group>";
 		};
 		82AF840C16DFD95F008912EF /* Classes */ = {
@@ -568,7 +569,7 @@
 				6F644C4E1A9FC36F009BF92A /* Protocols */,
 				82C0C7BB16E08A8F0006B3C0 /* Test */,
 				82AF840D16DFD95F008912EF /* Common */,
-				8221561B16E0130C002E1F56 /* Fmdb */,
+				825655871BEAA1BC0054146D /* fmdb */,
 				82AF841316DFD95F008912EF /* Identity */,
 				82AF841916DFD95F008912EF /* Security */,
 				4F95CBC51808A615006FC87E /* PushNotification */,
@@ -814,30 +815,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDBFFDF91893194D00D8C603 /* SFDirectoryManager.h in Headers */,
-				4F2FA76E1B02ADAB00A7EE11 /* FMResultSet.h in Headers */,
 				82BBB56B17909D3100374DD8 /* SalesforceSDKConstants.h in Headers */,
 				82AE8FD61A65F9FC005FF73B /* SFManagedPreferences.h in Headers */,
 				82BBB56D17909D5500374DD8 /* SFApplication.h in Headers */,
 				82BBB56E17909D6800374DD8 /* SFAuthenticationManager.h in Headers */,
 				8272300C19D5FA520066A350 /* SFSDKAppConfig.h in Headers */,
+				8256559C1BEAA1BC0054146D /* FMResultSet.h in Headers */,
 				82867577181C759A007AA18A /* SFAuthenticationViewHandler.h in Headers */,
 				821C8F5718CD162E000FAF96 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				FD62914918AAABFD00A1C2A1 /* SFAuthenticationManager+Internal.h in Headers */,
 				82BBB56F17909D7C00374DD8 /* SFAuthorizingViewController.h in Headers */,
 				82A55A6F182020B00002E22A /* SFAuthErrorHandler.h in Headers */,
+				825655991BEAA1BC0054146D /* FMDatabaseQueue.h in Headers */,
 				4FF99A5019185C6700405BCB /* SFAlterSoupLongOperation.h in Headers */,
 				8222087E19381D020000C635 /* SFSmartStoreUtils.h in Headers */,
 				82A55A741821A48B0002E22A /* SFAuthErrorHandlerList.h in Headers */,
+				825655951BEAA1BC0054146D /* FMDatabaseAdditions.h in Headers */,
 				8222088B19391EC00000C635 /* SFUserAccountManager+Internal.h in Headers */,
 				6F8E03CD1B6BFA0200F3AE59 /* SFUserAccount_Internal.h in Headers */,
 				6F644C591A9FC500009BF92A /* SFSDKAppDelegate.h in Headers */,
 				82BBB57017909D9300374DD8 /* SFIdentityCoordinator.h in Headers */,
 				FDC4611C1891EAA600E4456B /* SFUserAccountManager.h in Headers */,
-				4F2FA76D1B02ADAB00A7EE11 /* FMDB.h in Headers */,
 				82BBB57117909DA500374DD8 /* SFIdentityData.h in Headers */,
+				825655931BEAA1BC0054146D /* FMDatabase.h in Headers */,
 				821C8F5218CBD2D4000FAF96 /* SFDefaultUserManagementDetailViewController.h in Headers */,
-				4F2FA76B1B02ADAB00A7EE11 /* FMDatabaseQueue.h in Headers */,
 				82BBB57217909DBA00374DD8 /* SFJsonUtils.h in Headers */,
+				825655971BEAA1BC0054146D /* FMDatabasePool.h in Headers */,
 				82B211B41921892400154BBC /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				821C8F4A18C980D0000FAF96 /* SFDefaultUserManagementViewController.h in Headers */,
 				FD8BB17218B6B64700F6927C /* SFUserAccountConstants.h in Headers */,
@@ -849,14 +852,13 @@
 				4F95CBCC1808BA16006FC87E /* SFPushNotificationManager.h in Headers */,
 				8288C96A18C154C100FEB73D /* SFSDKTestCredentialsData.h in Headers */,
 				FD8BB16F18B6730B00F6927C /* SFPreferences.h in Headers */,
-				4F2FA7691B02ADAB00A7EE11 /* FMDatabasePool.h in Headers */,
-				4F2FA7671B02ADAB00A7EE11 /* FMDatabaseAdditions.h in Headers */,
 				6F644C541A9FC46B009BF92A /* SalesforceSDKCoreDefines.h in Headers */,
 				82BBB57617909DF000374DD8 /* SFSDKResourceUtils.h in Headers */,
 				82BBB57717909DFE00374DD8 /* SFSDKWebUtils.h in Headers */,
 				822E386F19BE628200C92CA3 /* SalesforceSDKManager.h in Headers */,
 				FDC461191891EAA600E4456B /* SFUserAccount.h in Headers */,
 				82BBB57817909E0D00374DD8 /* SFSecurityLockout.h in Headers */,
+				8256559B1BEAA1BC0054146D /* FMDB.h in Headers */,
 				82B211B1192186F000154BBC /* SFSmartStoreUpgrade.h in Headers */,
 				82BBB57917909E1700374DD8 /* SFSmartStore.h in Headers */,
 				82E11CEA19CE5C7600C91E22 /* SalesforceSDKManager+Internal.h in Headers */,
@@ -870,7 +872,6 @@
 				82E273BE19B1322F00BB004E /* SFUserAccountIdentity.h in Headers */,
 				82E16D7217E7C52D00E019AD /* SFSDKTestRequestListener.h in Headers */,
 				8222088819390D660000C635 /* SFUserAccountManagerUpgrade.h in Headers */,
-				4F2FA7651B02ADAB00A7EE11 /* FMDatabase.h in Headers */,
 				82E16D7317E7C59000E019AD /* TestSetupUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1079,7 +1080,7 @@
 				82E273BF19B1322F00BB004E /* SFUserAccountIdentity.m in Sources */,
 				82AF845016DFD95F008912EF /* SFIdentityData.m in Sources */,
 				82AF845216DFD95F008912EF /* SFAuthenticationManager.m in Sources */,
-				4F2FA76A1B02ADAB00A7EE11 /* FMDatabasePool.m in Sources */,
+				825655981BEAA1BC0054146D /* FMDatabasePool.m in Sources */,
 				82AF845316DFD95F008912EF /* SFAuthorizingViewController.m in Sources */,
 				82AF845616DFD95F008912EF /* SFPasscodeViewController.m in Sources */,
 				82AF845916DFD95F008912EF /* SFSecurityLockout.m in Sources */,
@@ -1092,19 +1093,19 @@
 				82AF845D16DFD95F008912EF /* SFSmartStore.m in Sources */,
 				82B211B2192186F000154BBC /* SFSmartStoreUpgrade.m in Sources */,
 				82AF845E16DFD95F008912EF /* SFSmartStoreDatabaseManager.m in Sources */,
-				4F2FA7681B02ADAB00A7EE11 /* FMDatabaseAdditions.m in Sources */,
+				825655961BEAA1BC0054146D /* FMDatabaseAdditions.m in Sources */,
 				8272300D19D5FA520066A350 /* SFSDKAppConfig.m in Sources */,
 				822E387019BE628200C92CA3 /* SalesforceSDKManager.m in Sources */,
 				8281E90F1884B4DD002C1B0A /* SFAbstractPasscodeViewController.m in Sources */,
 				82AF845F16DFD95F008912EF /* SFSoupIndex.m in Sources */,
-				4F2FA7661B02ADAB00A7EE11 /* FMDatabase.m in Sources */,
-				4F2FA76F1B02ADAB00A7EE11 /* FMResultSet.m in Sources */,
+				825655941BEAA1BC0054146D /* FMDatabase.m in Sources */,
+				8256559D1BEAA1BC0054146D /* FMResultSet.m in Sources */,
 				82AF846016DFD95F008912EF /* SFStoreCursor.m in Sources */,
 				FDC4611D1891EAA600E4456B /* SFUserAccountManager.m in Sources */,
 				821C8F4B18C980D0000FAF96 /* SFDefaultUserManagementViewController.m in Sources */,
 				82AF846116DFD95F008912EF /* SqliteAdditions.c in Sources */,
 				82AF846216DFD95F008912EF /* NSURL+SFStringUtils.m in Sources */,
-				4F2FA76C1B02ADAB00A7EE11 /* FMDatabaseQueue.m in Sources */,
+				8256559A1BEAA1BC0054146D /* FMDatabaseQueue.m in Sources */,
 				82AF846316DFD95F008912EF /* SFJsonUtils.m in Sources */,
 				4F9BB825192AA7CB0000712D /* SFSmartStoreInspectorViewController.m in Sources */,
 				82AF846516DFD95F008912EF /* SFSDKResourceUtils.m in Sources */,
