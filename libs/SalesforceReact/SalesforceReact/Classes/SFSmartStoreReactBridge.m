@@ -64,15 +64,6 @@ RCT_EXPORT_MODULE();
 
 #pragma mark - Bridged methods
 
-RCT_EXPORT_METHOD(showInspector:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
-{
-    // SFSmartStoreInspectorViewController* inspector = [self getInspectorInst:argsDict];
-    // FIXME [inspector present:self.viewController];
-
-    callback(@[[NSNull null], @"OK"]);
-}
-
-
 RCT_EXPORT_METHOD(soupExists:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
