@@ -28,6 +28,7 @@
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import "SFSmartStoreUtils.h"
 #import "SFUserAccountManager.h"
+#import "SFAuthenticationManager.h"
 #import "SFUserAccount.h"
 #import "SFDirectoryManager.h"
 #import "FMDatabase.h"
@@ -52,6 +53,10 @@ static NSInteger  const kSFSmartStoreVerifyDbErrorCode     = 6;
 static NSString * const kSFSmartStoreVerifyDbErrorDesc     = @"Could not open database at path '%@' for verification: %@";
 static NSInteger  const kSFSmartStoreVerifyReadDbErrorCode = 7;
 static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read from database at path '%@', for verification: %@";
+
+@interface SFSmartStoreDatabaseManager () <SFAuthenticationManagerDelegate>
+
+@end
 
 @implementation SFSmartStoreDatabaseManager
 
@@ -113,6 +118,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     if (self) {
         self.user = ([user.accountIdentity isEqual:[SFUserAccountManager sharedInstance].temporaryUserIdentity] ? nil : user);
         self.isGlobalManager = NO;
+        if (self.user) {
+            [[SFAuthenticationManager sharedManager] addDelegate:self];
+        }
     }
     return self;
 }
@@ -124,6 +132,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
         self.isGlobalManager = YES;
     }
     return self;
+}
+
+- (void)dealloc {
+    if (self.user) {
+        [[SFAuthenticationManager sharedManager] removeDelegate:self];
+    }
 }
 
 #pragma mark - Database management methods
@@ -458,5 +472,12 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     }
     return allStoreNames;
 }
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
+    [[self class] removeSharedManagerForUser:user];
+}
+
 
 @end
