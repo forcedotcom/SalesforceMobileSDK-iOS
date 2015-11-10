@@ -127,7 +127,7 @@ static NSMutableDictionary *syncMgrList = nil;
 }
 
 + (NSString*)keyForUser:(SFUserAccount*)user storeName:(NSString*)storeName {
-    NSString* keyPrefix = user == nil ? SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal) : SFKeyForUserAndScope(user, SFUserAccountScopeUser);
+    NSString* keyPrefix = user == nil ? SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal) : SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
     return [NSString  stringWithFormat:@"%@-%@", keyPrefix, storeName];
 }
 
