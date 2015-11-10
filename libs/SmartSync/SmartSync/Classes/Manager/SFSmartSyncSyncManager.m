@@ -90,11 +90,11 @@ static NSMutableDictionary *syncMgrList = nil;
     @synchronized ([SFSmartSyncSyncManager class]) {
         if (store == nil || store.storePath == nil) return nil;
         
-        NSString *storePath = store.storePath;
-        id syncMgr = [syncMgrList objectForKey:storePath];
+        NSString *key = [SFSmartSyncSyncManager keyForStore:store];
+        id syncMgr = [syncMgrList objectForKey:key];
         if (syncMgr == nil) {
             syncMgr = [[self alloc] initWithStore:store];
-            syncMgrList[storePath] = syncMgr;
+            syncMgrList[key] = syncMgr;
         }
         return syncMgr;
     }
@@ -107,18 +107,31 @@ static NSMutableDictionary *syncMgrList = nil;
 + (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName {
     if (user == nil) return;
     if (storeName.length == 0) storeName = kDefaultSmartStoreName;
-    SFSmartStore *store = [SFSmartStore sharedStoreWithName:storeName user:user];
-    [self removeSharedInstanceForStore:store];
+    NSString* key = [SFSmartSyncSyncManager keyForUser:user storeName:storeName];
+    [SFSmartSyncSyncManager removeSharedInstanceForKey:key];
 }
 
-+ (void)removeSharedInstanceForStore:(SFSmartStore *)store {
++ (void)removeSharedInstanceForStore:(SFSmartStore*) store {
+    NSString* key = [SFSmartSyncSyncManager keyForStore:store];
+    [SFSmartSyncSyncManager removeSharedInstanceForKey:key];
+}
+
++ (void)removeSharedInstanceForKey:(NSString*) key {
     @synchronized([SFSmartSyncSyncManager class]) {
-        if (store.storePath.length > 0) {
-            NSString *key = store.storePath;
-            [syncMgrList removeObjectForKey:key];
-        }
+        [syncMgrList removeObjectForKey:key];
     }
 }
+
++ (NSString*)keyForStore:(SFSmartStore*)store {
+    return [SFSmartSyncSyncManager keyForUser:store.user storeName:store.storeName];
+}
+
++ (NSString*)keyForUser:(SFUserAccount*)user storeName:(NSString*)storeName {
+    NSString* keyPrefix = user == nil ? SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal) : SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);
+    return [NSString  stringWithFormat:@"%@-%@", keyPrefix, storeName];
+}
+
+
 
 #pragma mark - init / dealloc
 
@@ -133,6 +146,7 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     return self;
 }
+
 
 
 - (void)dealloc {

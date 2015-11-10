@@ -122,6 +122,10 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  */
 @property (nonatomic, readonly, strong) NSString *storePath;
 
+/**
+ User for this store - nil for global stores
+ */
+@property (nonatomic, strong) SFUserAccount *user;
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.
