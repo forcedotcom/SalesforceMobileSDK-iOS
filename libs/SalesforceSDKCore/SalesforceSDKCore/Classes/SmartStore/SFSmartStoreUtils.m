@@ -29,7 +29,7 @@
 
 + (NSString *)userKeyForUser:(SFUserAccount *)user
 {
-    if (user == nil || [user isEqual:[SFUserAccountManager sharedInstance].temporaryUser]) {
+    if (user == nil || user.isTemporaryUser || user.isAnonymousUser) {
         return SFKeyForUserAndScope(nil, SFUserAccountScopeGlobal);
     } else {
         return SFKeyForUserAndScope(user, SFUserAccountScopeCommunity);

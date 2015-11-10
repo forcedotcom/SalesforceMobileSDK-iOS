@@ -638,7 +638,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 // In a non-IP flow, we already have the refresh token here.
             }
 
-            [self updateCredentials:dict forTokenRefresh:(self.authInfo.authType == SFOAuthTypeRefresh)];
+            [self updateCredentials:dict];
             
             [self notifyDelegateOfSuccess:self.authInfo];
         }
@@ -679,7 +679,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         NSDictionary *params = [[self class] parseQueryString:response];
         NSString *error = params[kSFOAuthError];
         if (nil == error) {
-            [self updateCredentials:params forTokenRefresh:NO];
+            [self updateCredentials:params];
             
             self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
             
@@ -728,8 +728,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
  - communityUrl
  */
 
-- (void)updateCredentials:(NSDictionary*)params forTokenRefresh:(BOOL)tokenRefresh
-{
+- (void)updateCredentials:(NSDictionary*)params {
     self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
     self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
     self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];

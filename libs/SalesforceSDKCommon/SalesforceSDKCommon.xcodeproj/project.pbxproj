@@ -21,6 +21,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		102127B51BF25B4A00E1B752 /* SFSDKDatasharingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */; };
 		8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 8293A8DD1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 8293A8DE1A43AAC600ABC43C /* SFSDKAsyncProcessListener.m */; };
 		82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = 82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,6 +78,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKDatasharingHelper.h; path = Classes/SFSDKDatasharingHelper.h; sourceTree = "<group>"; };
+		102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKDatasharingHelper.m; path = Classes/SFSDKDatasharingHelper.m; sourceTree = "<group>"; };
 		6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSecurity.xcodeproj; path = ../SalesforceSecurity/SalesforceSecurity.xcodeproj; sourceTree = "<group>"; };
 		6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 				82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */,
 				82BB4EFF1A70637B001DAF88 /* SFSDKReachability.h */,
 				82BB4F001A70637B001DAF88 /* SFSDKReachability.m */,
+				102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */,
+				102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -216,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
+				102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */,
 				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
 				82D53D561A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h in Headers */,
 				82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */,
@@ -386,6 +393,7 @@
 				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
 				82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */,
+				102127B51BF25B4A00E1B752 /* SFSDKDatasharingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
