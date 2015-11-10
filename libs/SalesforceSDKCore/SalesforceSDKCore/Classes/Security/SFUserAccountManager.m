@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,6 +34,8 @@
 #import <SalesforceSecurity/SFKeyStoreKey.h>
 #import <SalesforceSecurity/SFSDKCryptoUtils.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -591,8 +593,56 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     return [directory stringByAppendingPathComponent:kUserAccountPlistFileName];
 }
 
+- (void)migrateUserDefaults {
+    //Migrate the defaults to the correct location
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    
+    BOOL isGroupAccessEnabled = [SFSDKDatasharingHelper sharedInstance].appGroupEnabled;
+    BOOL userIdentityShared = [sharedDefaults boolForKey:@"userIdentityShared"];
+    BOOL communityIdShared = [sharedDefaults boolForKey:@"communityIdShared"];
+    
+    if (isGroupAccessEnabled && !userIdentityShared) {
+        //Migrate user identity to shared location
+        NSData *userData = [standardDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+        if (userData) {
+            [sharedDefaults setObject:userData forKey:kUserDefaultsLastUserIdentityKey];
+        }
+        [sharedDefaults setBool:YES forKey:@"userIdentityShared"];
+    }
+    if (!isGroupAccessEnabled && userIdentityShared) {
+        //Migrate base app identifier key to non-shared location
+        NSData *userData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+        if (userData) {
+            [standardDefaults setObject:userData forKey:kUserDefaultsLastUserIdentityKey];
+        }
+        
+        [sharedDefaults setBool:NO forKey:@"userIdentityShared"];
+    } else if (isGroupAccessEnabled && !communityIdShared) {
+        //Migrate communityId to shared location
+        NSString *activeCommunityId = [standardDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
+        if (activeCommunityId) {
+            [sharedDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        }
+        [sharedDefaults setBool:YES forKey:@"communityIdShared"];
+    } else if (!isGroupAccessEnabled && communityIdShared) {
+        //Migrate base app identifier key to non-shared location
+        NSString *activeCommunityId = [sharedDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
+        if (activeCommunityId) {
+            [standardDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        }
+        [sharedDefaults setBool:NO forKey:@"communityIdShared"];
+    }
+    
+    [standardDefaults synchronize];
+    [sharedDefaults synchronize];
+    
+}
+
 // called by init
 - (BOOL)loadAccounts:(NSError**)error {
+    [self migrateUserDefaults];
+    
     // Make sure we start from a blank state
     [self clearAllAccountState];
     
@@ -883,7 +933,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     // Save it.
-    BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : NSFileProtectionComplete }];
+    BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : [SFFileProtectionHelper fileProtectionForPath:filePath] }];
     if (!saveFileSuccess) {
         [self log:SFLogLevelDebug format:@"Could not create user account data file at path '%@'", filePath];
         return NO;
@@ -959,7 +1009,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (SFUserAccountIdentity *)activeUserIdentity {
-    NSData *resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
+    NSData *resultData = nil;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+        resultData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+    } else {
+        resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
+    }
+    
     if (resultData == nil)
         return nil;
     
@@ -978,30 +1035,49 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    NSUserDefaults *standardDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    } else {
+        standardDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    
     if (activeUserIdentity == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserIdentityKey];
+        [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     } else {
         NSMutableData *auiData = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:auiData];
         [archiver encodeObject:activeUserIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
+        [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [standardDefaults synchronize];
 }
 
 - (NSString *)activeCommunityId {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:kUserDefaultsLastUserCommunityIdKey];
+    NSUserDefaults *userDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    } else {
+        userDefaults =  [NSUserDefaults standardUserDefaults];
+    }
+    return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
 - (void)setActiveCommunityId:(NSString *)activeCommunityId {
-    if (activeCommunityId == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+    NSUserDefaults *userDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        userDefaults =  [NSUserDefaults standardUserDefaults];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (activeCommunityId == nil) {
+        [userDefaults removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+    } else {
+        [userDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+    }
+    [userDefaults synchronize];
 }
 
 - (void)setActiveUser:(SFUserAccount *)user {
@@ -1077,6 +1153,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
                 self.currentUser.communities = @[communityData];
             }
         }
+        [self setActiveCommunityId:self.currentUser.communityId];
     }
     
     // If our default user identity is currently the temporary user identity,

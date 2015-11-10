@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceSDKCommon' do |salesforcesdkcommon|
 
       salesforcesdkcommon.source_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/*.{h,m}', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
-      salesforcesdkcommon.public_header_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/NSData+SFSDKUtils.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Test/SFSDKAsyncProcessListener.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/SFSDKReachability.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
+      salesforcesdkcommon.public_header_files = 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/NSData+SFSDKUtils.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/Test/SFSDKAsyncProcessListener.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/SFSDKDatasharingHelper.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/Classes/SFSDKReachability.h', 'libs/SalesforceSDKCommon/SalesforceSDKCommon/SalesforceSDKCommon.h'
       salesforcesdkcommon.header_dir = 'Headers/SalesforceSDKCommon'
       salesforcesdkcommon.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }
       salesforcesdkcommon.requires_arc = true

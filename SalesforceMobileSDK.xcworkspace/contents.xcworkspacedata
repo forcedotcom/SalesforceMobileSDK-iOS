@@ -103,6 +103,9 @@
                location = "group:SalesforceCommonUtils"
                name = "SalesforceCommonUtils">
                <FileRef
+                  location = "group:SFFileProtectionHelper.h">
+               </FileRef>
+               <FileRef
                   location = "group:NSData+SFAdditions.h">
                </FileRef>
                <FileRef
@@ -157,16 +160,7 @@
                   location = "group:SFMD5.h">
                </FileRef>
                <FileRef
-                  location = "group:SFPadPickListViewController.h">
-               </FileRef>
-               <FileRef
                   location = "group:SFPathUtil.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPhonePickListViewController.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPickListViewController.h">
                </FileRef>
                <FileRef
                   location = "group:SFQueryNetworkScopeHelper.h">
@@ -185,12 +179,6 @@
                </FileRef>
                <FileRef
                   location = "group:SFUIUtils.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIActionSheet+SFBlocks.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIAlertView+SFBlocks.h">
                </FileRef>
                <FileRef
                   location = "group:UIBarButtonItem+SFAddtions.h">

@@ -26,6 +26,7 @@
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
 #import "SFSmartStoreUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"
@@ -142,7 +143,25 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
+    
+    // Use the default flags expected by SQLLite
+    int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+    
+    // Determine the appropriate flags to use for the protection level
+    NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:fullDbFilePath];
+    if ([fileProtection isEqualToString:NSFileProtectionComplete]) {
+        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETE;
+    }
+    if ([fileProtection isEqualToString:NSFileProtectionCompleteUnlessOpen]) {
+        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETEUNLESSOPEN;
+    }
+    if ([fileProtection isEqualToString:NSFileProtectionCompleteUntilFirstUserAuthentication]) {
+        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION;
+    }
+    if ([fileProtection isEqualToString:NSFileProtectionNone]) {
+        flags |= SQLITE_OPEN_FILEPROTECTION_NONE;
+    }
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath flags:flags];
     [queue inDatabase:^(FMDatabase* db) {
         result = ([[self class] setKeyForDb:db key:key error:error] != nil);
     }];
@@ -408,7 +427,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 - (BOOL)protectStoreDirIfNeeded:(NSString *)storeName protection:(NSString*)protection
 {
     NSString *dbFilePath = [self fullDbFilePathForStoreName:storeName];
-    return [self protectDir:dbFilePath protection:NSFileProtectionCompleteUntilFirstUserAuthentication];
+    return [self protectDir:dbFilePath protection:protection];
 }
 
 - (void)removeStoreDir:(NSString *)storeName

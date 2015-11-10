@@ -1,10 +1,5 @@
 /*
- SalesforceSDKCommon.h
- SalesforceSDKCommon
-
- Created by Qingqing Liu on Tue Nov 10 09:55:29 PST 2015.
-
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,8 +22,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCommon/NSData+SFSDKUtils.h>
-#import <SalesforceSDKCommon/SFDatasharingHelper.h>
-#import <SalesforceSDKCommon/SFSDKAsyncProcessListener.h>
-#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCommon/SFSDKReachability.h>
+#import <Foundation/Foundation.h>
+
+/*!
+ * @class SFSDKDatasharingHelper
+ * Class used to app data sharing settings 
+ */
+
+@interface SFSDKDatasharingHelper : NSObject
+
+/*!
+ * @brief Set to YES to enable app group.
+ */
+@property (nonatomic) BOOL appGroupEnabled;
+
+/*!
+ * @brief Set to YES to enable keychain sharing.
+ */
+@property (nonatomic) BOOL keychainSharingEnabled;
+
+/*!
+ * @brief Name of the app group to use to share data.
+ */
+@property (nonatomic, strong) NSString *appGroupName;
+
+/*!
+ * @brief Name of the keychain group to use
+ */
+@property (nonatomic, strong) NSString *keychainGroupName;
+
+
+/** Shared singleton
+ */
++ (instancetype)sharedInstance;
+
+
+@end
