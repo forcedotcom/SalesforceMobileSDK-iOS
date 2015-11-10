@@ -34,7 +34,6 @@
 @interface SFSmartStore () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
-@property (nonatomic, strong) SFUserAccount *user;
 @property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
 @property (nonatomic, assign) BOOL isGlobal;
 
