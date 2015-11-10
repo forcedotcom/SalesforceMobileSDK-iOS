@@ -216,10 +216,19 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (CSFAction*)duplicateActionInFlight:(CSFAction*)action {
     CSFAction *result = nil;
+    if ([action.method isEqualToString:@"POST"] || [action.method isEqualToString:@"PUT"]) {
+        // bypass duplicate detection for POST and PUT
+        return result;
+    }
     
     for (CSFAction *operation in self.queue.operations.reverseObjectEnumerator) {
         if (![operation isKindOfClass:[CSFAction class]])
             continue;
+        if ([operation.method isEqualToString:@"POST"] || [operation.method isEqualToString:@"PUT"]) {
+            // bypass duplicate detection for POST and PUT
+            continue;
+        }
+        
  		if (operation.isFinished || operation.isCancelled) {
             // ignore finshed, cancelled ones
             continue;
