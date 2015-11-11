@@ -127,7 +127,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     func resetViewState(postResetBlock: () -> ())
     {
         if let rootViewController = self.window!.rootViewController {
-            if let presentedViewController = rootViewController.presentedViewController {
+            if let _ = rootViewController.presentedViewController {
                 rootViewController.dismissViewControllerAnimated(false, completion: postResetBlock)
                 return
             }

@@ -83,7 +83,7 @@ class RootViewController : UITableViewController, SFRestDelegate
         let cellIdentifier = "CellIdentifier"
 
         // Dequeue or create a cell of the appropriate type.
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? UITableViewCell
+        var cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
         if (cell == nil)
         {
             cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
