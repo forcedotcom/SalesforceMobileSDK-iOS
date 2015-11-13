@@ -573,7 +573,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         }
         NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
-        [self.webViewEngine loadRequest:newRequest];
+        [self.webView loadRequest:newRequest];
     }
 }
 
