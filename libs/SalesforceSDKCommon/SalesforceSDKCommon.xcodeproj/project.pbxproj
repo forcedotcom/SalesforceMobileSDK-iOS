@@ -35,27 +35,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6F7EAAC81B6191E600F4C242 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 820AB72418E230EC00E25E1D;
-			remoteInfo = SalesforceSecurity;
-		};
-		6F7EAACA1B6191E600F4C242 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 820AB73418E230EC00E25E1D;
-			remoteInfo = SalesforceSecurityTests;
-		};
-		6F7EAACD1B6191F200F4C242 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 820AB72318E230EC00E25E1D;
-			remoteInfo = SalesforceSecurity;
-		};
 		82D53D3E1A3618CD00E46F8F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82D53D291A3618CD00E46F8F /* Project object */;
@@ -80,7 +59,6 @@
 /* Begin PBXFileReference section */
 		102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKDatasharingHelper.h; path = Classes/SFSDKDatasharingHelper.h; sourceTree = "<group>"; };
 		102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKDatasharingHelper.m; path = Classes/SFSDKDatasharingHelper.m; sourceTree = "<group>"; };
-		6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSecurity.xcodeproj; path = ../SalesforceSecurity/SalesforceSecurity.xcodeproj; sourceTree = "<group>"; };
 		6F8960811A9E9DCA00A48FF1 /* SalesforceSDKCommon-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960861A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		6F8960871A9E9DCA00A48FF1 /* SalesforceSDKCommon-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCommon-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -117,19 +95,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6F7EAAC31B6191E600F4C242 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6F7EAAC91B6191E600F4C242 /* libSalesforceSecurity.a */,
-				6F7EAACB1B6191E600F4C242 /* SalesforceSecurityTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		6F7EAACC1B6191E900F4C242 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -246,7 +214,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6F7EAACE1B6191F200F4C242 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCommon;
 			productName = SalesforceSDKCommon;
@@ -301,12 +268,6 @@
 			mainGroup = 82D53D281A3618CD00E46F8F;
 			productRefGroup = 82D53D321A3618CD00E46F8F /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6F7EAAC31B6191E600F4C242 /* Products */;
-					ProjectRef = 6F7EAAC21B6191E600F4C242 /* SalesforceSecurity.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */,
@@ -315,23 +276,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		6F7EAAC91B6191E600F4C242 /* libSalesforceSecurity.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceSecurity.a;
-			remoteRef = 6F7EAAC81B6191E600F4C242 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6F7EAACB1B6191E600F4C242 /* SalesforceSecurityTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSecurityTests.xctest;
-			remoteRef = 6F7EAACA1B6191E600F4C242 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		82D53D3A1A3618CD00E46F8F /* Resources */ = {
@@ -408,11 +352,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6F7EAACE1B6191F200F4C242 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceSecurity;
-			targetProxy = 6F7EAACD1B6191F200F4C242 /* PBXContainerItemProxy */;
-		};
 		82D53D3F1A3618CD00E46F8F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82D53D301A3618CD00E46F8F /* SalesforceSDKCommon */;
