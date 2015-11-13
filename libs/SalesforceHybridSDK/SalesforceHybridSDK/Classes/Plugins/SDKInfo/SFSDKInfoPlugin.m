@@ -51,18 +51,6 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @synthesize forcePlugins = _forcePlugins;
 
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
-{
-    self = [super initWithWebView:theWebView];
-    if (self) {
-        
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     SFRelease(_forcePlugins);

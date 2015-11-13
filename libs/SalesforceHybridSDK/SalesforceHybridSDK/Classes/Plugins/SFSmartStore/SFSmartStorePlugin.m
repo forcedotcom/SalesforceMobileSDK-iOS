@@ -78,17 +78,13 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     return [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
 }
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
+- (void)pluginInitialize
 {
-    self = [super initWithWebView:theWebView];
-    if (nil != self)  {
-        [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
-        self.userCursorCache = [[NSMutableDictionary alloc] init];
-        self.globalCursorCache = [[NSMutableDictionary alloc] init];
-        self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
-        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
-    }
-    return self;
+    [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin pluginInitialize"];
+    self.userCursorCache = [[NSMutableDictionary alloc] init];
+    self.globalCursorCache = [[NSMutableDictionary alloc] init];
+    self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
+    self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
 }
 
 #pragma mark - Object bridging helpers
