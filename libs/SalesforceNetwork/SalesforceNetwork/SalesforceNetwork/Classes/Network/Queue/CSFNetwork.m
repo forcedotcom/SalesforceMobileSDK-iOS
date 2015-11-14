@@ -258,6 +258,11 @@ static NSMutableDictionary *SharedInstances = nil;
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
     
+    
+    if (contributeProgress) {
+        [self.progress resignCurrent];
+    }
+    
     // bypass duplicate detection for POST and PUT
     if ([action.method isEqualToString:@"POST"] || [action.method isEqualToString:@"PUT"]) {
         [self.queue addOperation:action];
