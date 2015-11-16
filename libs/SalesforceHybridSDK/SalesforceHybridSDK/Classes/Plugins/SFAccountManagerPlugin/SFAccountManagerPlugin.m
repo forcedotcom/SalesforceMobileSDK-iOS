@@ -55,18 +55,6 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 
 @implementation SFAccountManagerPlugin
 
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
-{
-    self = [super initWithWebView:theWebView];
-    if (self) {
-        // Custom init.
-    }
-    return self;
-}
-
 #pragma mark - Plugin methods
 
 - (void)getUsers:(CDVInvokedUrlCommand *)command

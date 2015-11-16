@@ -24,6 +24,7 @@
  */
 
 #import "SFHybridViewController.h"
+#import "SFHybridConnectionMonitor.h"
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
@@ -32,7 +33,6 @@
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
-#import "SFHybridConnectionMonitor.h"
 
 // Public constants
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
@@ -167,7 +167,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     NSString *hybridViewUserAgentString = [[self class] sfHybridViewUserAgentString];
     [SFSDKWebUtils configureUserAgent:hybridViewUserAgentString];
-    [[self class] overrideCdvOriginalUserAgent:hybridViewUserAgentString];
+    self.baseUserAgent = hybridViewUserAgentString;
     
     // If this app requires authentication at startup, and authentication hasn't happened, that's an error.
     NSString *accessToken = [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken;
@@ -590,27 +590,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
         [self.vfPingPageHiddenWebView loadRequest:pingRequest];
     }
-}
-
-#pragma mark - Cordova overrides
-
-//
-// TODO: Remove this once https://issues.apache.org/jira/browse/CB-2520 is resolved.
-//
-+ (void)overrideCdvOriginalUserAgent:(NSString *)userAgentString
-{
-    NSString * const cdvUserAgentKey = @"Cordova-User-Agent";
-    NSString * const cdvUserAgentVersionKey = @"Cordova-User-Agent-Version";
-    
-    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* systemVersion = [[UIDevice currentDevice] systemVersion];
-    NSString* localeStr = [[NSLocale currentLocale] localeIdentifier];
-    NSString* model = [UIDevice currentDevice].model;
-    NSString* systemAndLocale = [NSString stringWithFormat:@"%@ %@ %@", model, systemVersion, localeStr];
-    
-    [userDefaults setObject:userAgentString forKey:cdvUserAgentKey];
-    [userDefaults setObject:systemAndLocale forKey:cdvUserAgentVersionKey];
-    [userDefaults synchronize];
 }
 
 @end

@@ -24,7 +24,6 @@
 	"author": { "name": "Kevin Hawkins", "email": "khawkins@salesforce.com" },
 	"contributors": [
         { "name": "Wolfgang Mathurin", "email": "wmathurin@salesforce.com" },
-        { "name": "Bharath Hariharan", "email": "bhariharan@salesforce.com" },
-        { "name": "Akhilesh Gupta", "email": "agupta@salesforce.com" }
+        { "name": "Bharath Hariharan", "email": "bhariharan@salesforce.com" }
     ]
 }

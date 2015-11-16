@@ -52,13 +52,6 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 @implementation SFSmartSyncPlugin
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
-{
-    self = [super initWithWebView:theWebView];
-   
-    return self;
-}
-
 - (SFSmartSyncSyncManager *)syncManager
 {
     return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
@@ -67,11 +60,6 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 - (SFSmartSyncSyncManager *)globalSyncManager
 {
     return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
-}
-
-
-- (void) dealloc
-{
 }
 
 - (void)resetSyncManager

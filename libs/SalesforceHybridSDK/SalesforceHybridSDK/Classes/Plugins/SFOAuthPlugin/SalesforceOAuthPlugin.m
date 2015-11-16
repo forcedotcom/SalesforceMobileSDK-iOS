@@ -60,18 +60,6 @@
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
 
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
-{
-    self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
-    if (self) {
-        // Custom init.
-    }
-    return self;
-}
-
 #pragma mark - Cordova plugin methods and helpers
 
 - (void)getAuthCredentials:(CDVInvokedUrlCommand *)command
