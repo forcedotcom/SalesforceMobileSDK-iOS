@@ -9,7 +9,8 @@ var version = '4.0.0',
     miscUtils = require('../external/shared/node/utils'),
     cordovaHelper = require('../external/shared/node/cordovaHelper');
 
-var minimumCordovaVersion = '3.5';
+var minimumCordovaCliVersion = '5.0';
+var cordovaPlatformVersion = '3.9.2';
 
 var outputColors = {
     'red': '\x1b[31;1m',
@@ -94,7 +95,6 @@ function createApp(config) {
 // Helper to create hybrid application
 //
 function createHybridApp(config) {
-    // console.log("Config:" + JSON.stringify(config, null, 2));
     var outputDir = config.outputdir;
     if (!outputDir) outputDir = process.cwd();
     outputDir = path.resolve(outputDir);
@@ -107,10 +107,10 @@ function createHybridApp(config) {
         process.exit(11);
     }
 
-    var minimumCordovaVersionNum = miscUtils.getVersionNumberFromString(minimumCordovaVersion);
+    var minimumCordovaCliVersionNum = miscUtils.getVersionNumberFromString(minimumCordovaCliVersion);
     var cordovaCliVersionNum = miscUtils.getVersionNumberFromString(cordovaCliVersion);
-    if (cordovaCliVersionNum < minimumCordovaVersionNum) {
-        console.log('Installed cordova command line tool version (' + cordovaCliVersion + ') is less than the minimum required version (' + minimumCordovaVersion + ').  Please update your version of Cordova.');
+    if (cordovaCliVersionNum < minimumCordovaCliVersionNum) {
+        console.log('Installed cordova command line tool version (' + cordovaCliVersion + ') is less than the minimum required version (' + minimumCordovaCliVersion + ').  Please update your version of Cordova.');
         process.exit(12);
     }
 
@@ -118,8 +118,8 @@ function createHybridApp(config) {
 
     shelljs.exec('cordova create "' + projectDir + '" ' + config.companyid + ' ' + config.appname);
     shelljs.pushd(projectDir);
-    shelljs.exec('cordova platform add ios');
-    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin');
+    shelljs.exec('cordova platform add ios@' + cordovaPlatformVersion);
+    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#unstable');
 
     // Remove the default Cordova app.
     shelljs.rm('-rf', path.join('www', '*'));
