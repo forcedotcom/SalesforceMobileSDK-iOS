@@ -9,7 +9,7 @@ var version = '4.0.0',
     miscUtils = require('../external/shared/node/utils'),
     cordovaHelper = require('../external/shared/node/cordovaHelper');
 
-var minimumCordovaCliVersion = '5.0';
+var minimumCordovaCliVersion = '5.4.0';
 var cordovaPlatformVersion = '3.9.2';
 
 var outputColors = {
