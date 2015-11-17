@@ -22,14 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthFlowAndDelegate.h"
+#import "SFOAuthTestFlow.h"
 #import "SFOAuthOrgAuthConfiguration.h"
 #import "SFOAuthInfo.h"
 
-static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
-static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transactions not supported in unit test framework.";
-
-@interface SFOAuthFlowAndDelegate ()
+@interface SFOAuthTestFlow ()
 
 @property (nonatomic, weak) SFOAuthCoordinator *coordinator;
 @property (nonatomic, strong) SFOAuthOrgAuthConfiguration *retrieveOrgConf;
@@ -37,7 +34,7 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
 
 @end
 
-@implementation SFOAuthFlowAndDelegate
+@implementation SFOAuthTestFlow
 
 @synthesize coordinator = _coordinator;
 
@@ -45,7 +42,6 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
     self = [super init];
     if (self) {
         self.coordinator = coordinator;
-        self.isNetworkAvailable = YES;  // Network is available by default.
         self.timeBeforeUserAgentCompletion = 1.0;  // 1s default before user agent flow "completes".
         self.timeBeforeRefreshTokenCompletion = 1.0;
         self.userAgentFlowIsSuccessful = YES;
@@ -150,57 +146,6 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
 - (void)handleTokenEndpointResponse:(NSMutableData *) data{
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.handleTokenEndpointResponseCalled = YES;
-}
-
-#pragma mark - SFOAuthCoordinatorDelegate
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    NSString *reason = [NSString stringWithFormat:kWebNotSupportedReasonFormat, NSStringFromSelector(_cmd)];
-    @throw [NSException exceptionWithName:kWebNotSupportedExceptionName reason:reason userInfo:nil];
-}
-
-- (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    self.willBeginAuthenticationCalled = YES;
-    self.authInfo = info;
-}
-
-- (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    self.didAuthenticateCalled = YES;
-    self.authInfo = info;
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    self.didFailWithErrorCalled = YES;
-    self.didFailWithError = error;
-    self.authInfo = info;
-}
-
-- (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator*)coordinator {
-    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
-    self.isNetworkAvailableCalled = YES;
-    return self.isNetworkAvailable;
 }
 
 @end
