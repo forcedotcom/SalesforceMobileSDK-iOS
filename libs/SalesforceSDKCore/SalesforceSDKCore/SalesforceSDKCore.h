@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Kevin Hawkins on Tue Mar 10 17:48:14 PDT 2015.
+ Created by Wolfgang Mathurin on Mon Nov 16 15:18:32 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -44,8 +44,10 @@
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SFIdentityCoordinator.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
+#import <SalesforceSDKCore/SFInstrumentation.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
+#import <SalesforceSDKCore/SFMethodInterceptor.h>
 #import <SalesforceSDKCore/SFPasscodeViewControllerTypes.h>
 #import <SalesforceSDKCore/SFPreferences.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
