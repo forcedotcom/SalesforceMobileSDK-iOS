@@ -22,14 +22,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthFlowAndDelegate.h"
+#import "SFOAuthTestFlow.h"
 #import "SFOAuthOrgAuthConfiguration.h"
 #import "SFOAuthInfo.h"
 
 static NSString * const kWebNotSupportedExceptionName = @"com.salesforce.oauth.tests.WebNotSupported";
 static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transactions not supported in unit test framework.";
 
-@interface SFOAuthFlowAndDelegate ()
+@interface SFOAuthTestFlow ()
 
 @property (nonatomic, weak) SFOAuthCoordinator *coordinator;
 @property (nonatomic, strong) SFOAuthOrgAuthConfiguration *retrieveOrgConf;
@@ -37,7 +37,7 @@ static NSString * const kWebNotSupportedReasonFormat  = @"%@ UIWebView transacti
 
 @end
 
-@implementation SFOAuthFlowAndDelegate
+@implementation SFOAuthTestFlow
 
 @synthesize coordinator = _coordinator;
 

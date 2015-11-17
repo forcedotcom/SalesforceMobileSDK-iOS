@@ -28,7 +28,7 @@
 @class SFOAuthOrgAuthConfiguration;
 @class SFOAuthInfo;
 
-@interface SFOAuthFlowAndDelegate : NSObject <SFOAuthCoordinatorDelegate, SFOAuthCoordinatorFlow>
+@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorDelegate, SFOAuthCoordinatorFlow>
 
 @property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
 @property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
