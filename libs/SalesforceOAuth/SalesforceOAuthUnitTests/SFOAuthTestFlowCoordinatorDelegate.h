@@ -23,25 +23,18 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFOAuthCoordinator+Internal.h"
+#import "SFOAuthCoordinator.h"
 
-@class SFOAuthOrgAuthConfiguration;
 @class SFOAuthInfo;
 
-@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
+@interface SFOAuthTestFlowCoordinatorDelegate : NSObject <SFOAuthCoordinatorDelegate>
 
-@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
-@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
-@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
-@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
-@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
-
-@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
-@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion;
-@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
-@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
-
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;
+@property (nonatomic, assign) BOOL willBeginAuthenticationCalled;
+@property (nonatomic, assign) BOOL didAuthenticateCalled;
+@property (nonatomic, strong) SFOAuthInfo *authInfo;
+@property (nonatomic, assign) BOOL didFailWithErrorCalled;
+@property (nonatomic, assign) BOOL isNetworkAvailableCalled;
+@property (nonatomic, strong) NSError *didFailWithError;
+@property (nonatomic, assign) BOOL isNetworkAvailable;
 
 @end

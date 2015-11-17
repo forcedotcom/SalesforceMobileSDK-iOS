@@ -44,6 +44,7 @@
 		82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */; };
 		82E0D880191AC65100A8FC23 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E0D87F191AC65100A8FC23 /* libSalesforceSecurity.a */; };
 		82F06EB117B5B05300F287A2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82F06EB017B5B05300F287A2 /* Default-568h@2x.png */; };
+		82F9A44C1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A44B1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m */; };
 		BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */; };
 		CF0886C113C397C30022C321 /* SalesforceOAuthTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0886BE13C397C30022C321 /* SalesforceOAuthTestViewController.xib */; };
 		CF19784A13B510EC00AFCA56 /* SFOAuthCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = CF19784613B510EC00AFCA56 /* SFOAuthCredentials.m */; };
@@ -152,6 +153,8 @@
 		82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthInfo.m; path = SalesforceOAuth/Classes/SFOAuthInfo.m; sourceTree = SOURCE_ROOT; };
 		82E0D87F191AC65100A8FC23 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82F06EB017B5B05300F287A2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		82F9A44A1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthTestFlowCoordinatorDelegate.h; sourceTree = "<group>"; };
+		82F9A44B1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthTestFlowCoordinatorDelegate.m; sourceTree = "<group>"; };
 		BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthCrypto.h; path = SalesforceOAuth/Classes/SFOAuthCrypto.h; sourceTree = SOURCE_ROOT; };
 		BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthCrypto.m; path = SalesforceOAuth/Classes/SFOAuthCrypto.m; sourceTree = SOURCE_ROOT; };
 		CF0886BF13C397C30022C321 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SalesforceOAuthTestViewController.xib; sourceTree = "<group>"; };
@@ -251,6 +254,8 @@
 				8293A8D91A43573800ABC43C /* SFOAuthCoordinatorFlowTests.m */,
 				8293A8D61A40FD1100ABC43C /* SFOAuthTestFlow.h */,
 				8293A8D71A40FD1100ABC43C /* SFOAuthTestFlow.m */,
+				82F9A44A1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.h */,
+				82F9A44B1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m */,
 				829A08741A3235DE00DC17A5 /* Supporting Files */,
 			);
 			path = SalesforceOAuthUnitTests;
@@ -605,6 +610,7 @@
 			files = (
 				829A08801A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				8293A8DA1A43573800ABC43C /* SFOAuthCoordinatorFlowTests.m in Sources */,
+				82F9A44C1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,
 				8293A8D81A40FD1100ABC43C /* SFOAuthTestFlow.m in Sources */,
 				829A08771A3235DE00DC17A5 /* SalesforceOAuthUnitTests.m in Sources */,
 			);

@@ -28,11 +28,13 @@
 
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthTestFlow.h"
+#import "SFOAuthTestFlowCoordinatorDelegate.h"
 
 @interface SFOAuthCoordinatorFlowTests : XCTestCase
 
 @property (nonatomic, strong) SFOAuthCoordinator *coordinator;
 @property (nonatomic, strong) SFOAuthTestFlow *oauthTestFlow;
+@property (nonatomic, strong) SFOAuthTestFlowCoordinatorDelegate *testFlowDelegate;
 
 @end
 
@@ -53,7 +55,7 @@
     [self.coordinator authenticate];
     SFSDKAsyncProcessListener *listener = [[SFSDKAsyncProcessListener alloc] initWithExpectedStatus:@YES
                                                                                   actualStatusBlock:^id{
-                                                                                      return [NSNumber numberWithBool:self.oauthTestFlow.didAuthenticateCalled];
+                                                                                      return [NSNumber numberWithBool:self.testFlowDelegate.didAuthenticateCalled];
                                                                                   }
                                                                                             timeout:(self.oauthTestFlow.timeBeforeUserAgentCompletion + 0.5)];
     BOOL userAgentFlowSucceeded = [[listener waitForCompletion] boolValue];
@@ -68,7 +70,7 @@
     [self.coordinator authenticate];
     SFSDKAsyncProcessListener *listener = [[SFSDKAsyncProcessListener alloc] initWithExpectedStatus:@YES
                                                                                   actualStatusBlock:^id{
-                                                                                      return [NSNumber numberWithBool:self.oauthTestFlow.didAuthenticateCalled];
+                                                                                      return [NSNumber numberWithBool:self.testFlowDelegate.didAuthenticateCalled];
                                                                                   }
                                                                                             timeout:(self.oauthTestFlow.timeBeforeUserAgentCompletion + 0.5)];
     BOOL refreshFlowSucceeded = [[listener waitForCompletion] boolValue];
@@ -104,14 +106,16 @@
 
 - (void)configureFlowAndDelegate {
     self.oauthTestFlow = [[SFOAuthTestFlow alloc] initWithCoordinator:self.coordinator];
+    self.testFlowDelegate = [[SFOAuthTestFlowCoordinatorDelegate alloc] init];
     self.coordinator.oauthCoordinatorFlow = self.oauthTestFlow;
-    self.coordinator.delegate = self.oauthTestFlow;
+    self.coordinator.delegate = self.testFlowDelegate;
 }
 
 - (void)tearDownCoordinatorFlow {
     [self.coordinator.credentials revoke];
     self.coordinator.delegate = nil;
     self.coordinator.oauthCoordinatorFlow = nil;
+    self.testFlowDelegate = nil;
     self.oauthTestFlow = nil;
     self.coordinator = nil;
 }
