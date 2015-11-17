@@ -24,7 +24,7 @@
 
 #import "SFMethodInterceptor.h"
 #import <objc/message.h>
-#import <objc/objc-runtime.h>
+#import <objc/runtime.h>
 
 /** This static dictionary contains a map of <class, selector> to <interceptor>.
  In other words, it helps get the interceptor instance for a given
