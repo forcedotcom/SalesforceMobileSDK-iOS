@@ -253,7 +253,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
  */
 - (void)testTokenEncryptionDecryption
 {
-    NSString *accessToken = @"gimmeAccess!";
+    NSString *accessToken = @"gimmeAccess!!!";
     NSString *refreshToken = @"IWannaRefresh!";
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     
