@@ -123,6 +123,28 @@ static NSException *authException = nil;
     idCoord.credentials.identityUrl = origIdentityUrl;
 }
 
+- (void)testIdentityAuthRefreshSuccess
+{
+    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
+    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = @"BadToken";
+    [self sendSyncIdentityRequest];
+    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
+    [self validateIdentityData];
+}
+
+- (void)testIdentityAuthRefreshFailure
+{
+    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
+    NSString *origAccessToken = [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken;
+    NSString *origRefreshToken = [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken;
+    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = @"BadToken";
+    [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken = @"BadRefreshToken";
+    [self sendSyncIdentityRequest];
+    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidFail, @"Identity request should have failed.");
+    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = origAccessToken;
+    [SFAuthenticationManager sharedManager].idCoordinator.credentials.refreshToken = origRefreshToken;
+}
+
 #pragma mark - Private helper methods
 
 - (void)validateIdentityData

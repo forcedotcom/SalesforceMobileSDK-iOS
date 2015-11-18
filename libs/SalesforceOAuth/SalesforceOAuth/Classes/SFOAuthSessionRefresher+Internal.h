@@ -1,9 +1,4 @@
 /*
- SalesforceOAuth.h
- SalesforceOAuth
-
- Created by Kevin Hawkins on Tue Nov 17 16:37:27 PST 2015.
-
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,7 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceOAuth/SFOAuthSessionRefresher.h>
+#import "SFOAuthSessionRefresher.h"
+#import "SFOAuthCoordinator.h"
+
+@interface SFOAuthSessionRefresher () <SFOAuthCoordinatorDelegate>
+
+@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
+@property (nonatomic, copy) void (^completionBlock)(SFOAuthCredentials *);
+@property (nonatomic, copy) void (^errorBlock)(NSError *);
+
+@end

@@ -1,9 +1,4 @@
 /*
- SalesforceOAuth.h
- SalesforceOAuth
-
- Created by Kevin Hawkins on Tue Nov 17 16:37:27 PST 2015.
-
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,7 +22,30 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceOAuth/SFOAuthSessionRefresher.h>
+#import <Foundation/Foundation.h>
+
+@class SFOAuthCredentials;
+
+/**
+ * Error codes for refresh failures.
+ */
+typedef NS_ENUM(NSUInteger, SFOAuthSessionRefreshErrorCode) {
+    SFOAuthSessionRefreshErrorCodeInvalidCredentials = 766,
+};
+
+@interface SFOAuthSessionRefresher : NSObject
+
+/**
+ * Initializes the object with the given credentials.
+ * @param credentials The OAuth credentials used to refresh the session.
+ */
+- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials NS_DESIGNATED_INITIALIZER;
+
+/**
+ * Refreshes the expired session, with the given completion and error handler blocks.
+ * @param completionBlock Called once the session has been refreshed.
+ * @param errorBlock Called if there was an error refreshing the session.
+ */
+- (void)refreshSessionWithCompletion:(void (^) (SFOAuthCredentials *))completionBlock error:(void (^) (NSError *))errorBlock;
+
+@end
