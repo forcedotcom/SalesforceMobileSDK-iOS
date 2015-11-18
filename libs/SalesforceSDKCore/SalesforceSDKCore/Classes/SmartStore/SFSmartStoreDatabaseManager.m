@@ -23,10 +23,10 @@
  */
 
 #import "SFSmartStoreDatabaseManager+Internal.h"
-#import <SalesforceCommonUtils/UIDevice+SFHardware.h>
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/UIDevice+SFHardware.h>
+#import <SalesforceSDKCommon/NSData+SFAdditions.h>
+#import <SalesforceSDKCommon/NSString+SFAdditions.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 #import "SFSmartStoreUtils.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"

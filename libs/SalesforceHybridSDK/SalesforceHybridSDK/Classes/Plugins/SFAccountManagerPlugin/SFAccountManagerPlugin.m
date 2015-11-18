@@ -29,7 +29,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
 
 // Public constants
 NSString * const kUserAccountAuthTokenDictKey      = @"authToken";

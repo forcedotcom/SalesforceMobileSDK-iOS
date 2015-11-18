@@ -24,7 +24,7 @@
 
 #import "SFOAuthCredentials.h"
 #import <SalesforceSecurity/SFEncryptionKey.h>
-#import <SalesforceCommonUtils/SalesforceCommonUtils.h>
+#import <SalesforceSDKCommon/SalesforceSDKCommon.h>
 
 typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {
     kSFOAuthCredsEncryptionTypeNotSet,

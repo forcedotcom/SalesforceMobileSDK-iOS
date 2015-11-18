@@ -31,7 +31,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceCommonUtils/SFLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 
 @interface AppDelegate () <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
 

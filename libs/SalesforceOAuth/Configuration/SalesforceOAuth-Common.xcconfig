@@ -11,7 +11,7 @@ GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 
 PRODUCT_NAME = SalesforceOAuth
 
-HEADER_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(inherited)
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" $(inherited)
+HEADER_SEARCH_PATHS = $(inherited)
+LIBRARY_SEARCH_PATHS = $(inherited)
 
 DEPLOYMENT_POSTPROCESSING = NO

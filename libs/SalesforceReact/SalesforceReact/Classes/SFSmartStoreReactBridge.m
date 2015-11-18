@@ -26,7 +26,7 @@
 
 #import "RCTUtils.h"
 #import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>
