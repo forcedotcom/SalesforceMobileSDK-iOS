@@ -45,6 +45,8 @@
 		82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FFCCF9C13BD82B000F4B22B /* SFOAuthCredentials+Internal.h */; };
 		82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = BEEA6CEF14C4E61A00487C9D /* SFOAuthCrypto.h */; };
 		82E0D880191AC65100A8FC23 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82E0D87F191AC65100A8FC23 /* libSalesforceSecurity.a */; };
+		82E96E471BFC496000A8A4D0 /* SFOAuthSessionRefresherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E96E461BFC496000A8A4D0 /* SFOAuthSessionRefresherTests.m */; };
+		82E96E4D1BFC4C1800A8A4D0 /* SFOAuthSessionRefresher+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E96E4C1BFC4C1800A8A4D0 /* SFOAuthSessionRefresher+Internal.h */; };
 		82F06EB117B5B05300F287A2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 82F06EB017B5B05300F287A2 /* Default-568h@2x.png */; };
 		82F9A44C1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F9A44B1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m */; };
 		BEEA6CF214C4E61B00487C9D /* SFOAuthCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEA6CF014C4E61A00487C9D /* SFOAuthCrypto.m */; };
@@ -156,6 +158,8 @@
 		82B0FC1315F5AE420054B066 /* SFOAuthInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthInfo.h; path = SalesforceOAuth/Classes/SFOAuthInfo.h; sourceTree = SOURCE_ROOT; };
 		82B0FC1415F5AE420054B066 /* SFOAuthInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthInfo.m; path = SalesforceOAuth/Classes/SFOAuthInfo.m; sourceTree = SOURCE_ROOT; };
 		82E0D87F191AC65100A8FC23 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82E96E461BFC496000A8A4D0 /* SFOAuthSessionRefresherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthSessionRefresherTests.m; sourceTree = "<group>"; };
+		82E96E4C1BFC4C1800A8A4D0 /* SFOAuthSessionRefresher+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFOAuthSessionRefresher+Internal.h"; path = "SalesforceOAuth/Classes/SFOAuthSessionRefresher+Internal.h"; sourceTree = SOURCE_ROOT; };
 		82F06EB017B5B05300F287A2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		82F9A44A1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFOAuthTestFlowCoordinatorDelegate.h; sourceTree = "<group>"; };
 		82F9A44B1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFOAuthTestFlowCoordinatorDelegate.m; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 				829A087E1A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.h */,
 				829A087F1A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */,
 				8293A8D91A43573800ABC43C /* SFOAuthCoordinatorFlowTests.m */,
+				82E96E461BFC496000A8A4D0 /* SFOAuthSessionRefresherTests.m */,
 				8293A8D61A40FD1100ABC43C /* SFOAuthTestFlow.h */,
 				8293A8D71A40FD1100ABC43C /* SFOAuthTestFlow.m */,
 				82F9A44A1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.h */,
@@ -291,6 +296,7 @@
 				8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */,
 				8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */,
 				82A170DB1BFBFF3A00528401 /* SFOAuthSessionRefresher.h */,
+				82E96E4C1BFC4C1800A8A4D0 /* SFOAuthSessionRefresher+Internal.h */,
 				82A170DC1BFBFF3A00528401 /* SFOAuthSessionRefresher.m */,
 			);
 			path = Classes;
@@ -407,6 +413,7 @@
 				82BBB58D1790A2D000374DD8 /* SFOAuthInfo.h in Headers */,
 				82C2B71017BBF2EB0023218F /* SFOAuthCoordinator+Internal.h in Headers */,
 				82C2B71117BBF2EB0023218F /* SFOAuthCredentials+Internal.h in Headers */,
+				82E96E4D1BFC4C1800A8A4D0 /* SFOAuthSessionRefresher+Internal.h in Headers */,
 				82C2B71217BBF2EB0023218F /* SFOAuthCrypto.h in Headers */,
 				6F1A48AC1B5CAC1400826955 /* SFOAuthKeychainCredentials.h in Headers */,
 				8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */,
@@ -615,6 +622,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82E96E471BFC496000A8A4D0 /* SFOAuthSessionRefresherTests.m in Sources */,
 				829A08801A32362C00DC17A5 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				8293A8DA1A43573800ABC43C /* SFOAuthCoordinatorFlowTests.m in Sources */,
 				82F9A44C1BFAB2080074BD55 /* SFOAuthTestFlowCoordinatorDelegate.m in Sources */,

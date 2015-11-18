@@ -22,25 +22,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFOAuthSessionRefresher.h"
-#import "SFOAuthCoordinator.h"
+#import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCredentials.h"
-
-@interface SFOAuthSessionRefresher () <SFOAuthCoordinatorDelegate>
-
-@property (nonatomic, strong) SFOAuthCredentials *credentials;
-@property (nonatomic, strong) SFOAuthCoordinator *coordinator;
-@property (nonatomic, copy) void (^completionBlock)(SFOAuthCredentials *);
-@property (nonatomic, copy) void (^errorBlock)(NSError *);
-
-@end
 
 @implementation SFOAuthSessionRefresher
 
 - (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials {
     self = [super init];
     if (self) {
-        self.credentials = credentials;
+        self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
+        self.coordinator.delegate = self;
     }
     return self;
 }
@@ -50,14 +41,16 @@
 }
 
 - (void)dealloc {
-    [self.coordinator stopAuthentication];
+    if (self.coordinator.isAuthenticating) {
+        [self.coordinator stopAuthentication];
+    }
     self.coordinator.delegate = nil;
 }
 
 - (void)refreshSessionWithCompletion:(void (^)(SFOAuthCredentials *))completionBlock error:(void (^)(NSError *))errorBlock {
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
-    if (self.credentials.instanceUrl == nil) {
+    if (self.coordinator.credentials.instanceUrl == nil) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not contain an instanceUrl" }];
@@ -65,7 +58,7 @@
         return;
     }
     
-    if (self.credentials.clientId.length == 0) {
+    if (self.coordinator.credentials.clientId.length == 0) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not have an OAuth2 client_id set" }];
@@ -73,7 +66,7 @@
         return;
     }
     
-    if (self.credentials.refreshToken.length == 0) {
+    if (self.coordinator.credentials.refreshToken.length == 0) {
         NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                              code:SFOAuthSessionRefreshErrorCodeInvalidCredentials
                                          userInfo:@{ NSLocalizedDescriptionKey: @"Credentials do not have an OAuth2 refresh_token set" }];
@@ -81,8 +74,6 @@
         return;
     }
     
-    self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:self.credentials];
-    self.coordinator.delegate = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.coordinator authenticate];
     });
@@ -93,7 +84,7 @@
 - (void)completeWithSuccess:(SFOAuthCredentials *)credentials {
     [self log:SFLogLevelInfo format:@"%@ Session was successfully refreshed.", NSStringFromSelector(_cmd)];
     if (self.completionBlock) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             self.completionBlock(credentials);
         });
     }
@@ -102,7 +93,7 @@
 - (void)completeWithError:(NSError *)error {
     [self log:SFLogLevelError format:@"%@ Refresh failed with error: %@", NSStringFromSelector(_cmd), error];
     if (self.errorBlock) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             self.errorBlock(error);
         });
     }
