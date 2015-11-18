@@ -46,7 +46,8 @@ enum {
     kSFIdentityErrorNoData,
     kSFIdentityErrorDataMalformed,
     kSFIdentityErrorBadHttpResponse,
-    kSFIdentityErrorMissingParameters
+    kSFIdentityErrorMissingParameters,
+    kSFIdentityErrorAlreadyRetrieving,
 };
 
 /**

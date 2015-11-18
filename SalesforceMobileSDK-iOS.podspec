@@ -58,7 +58,7 @@ Pod::Spec.new do |s|
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCommon'
       oauth.dependency 'SalesforceMobileSDK-iOS/SalesforceSecurity'
       oauth.source_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/**/*.{h,m}', 'libs/SalesforceOAuth/SalesforceOAuth/SalesforceOAuth.h'
-      oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h', 'libs/SalesforceOAuth/SalesforceOAuth/SalesforceOAuth.h'
+      oauth.public_header_files = 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCoordinator.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthCredentials.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthInfo.h', 'libs/SalesforceOAuth/SalesforceOAuth/Classes/SFOAuthSessionRefresher.h', 'libs/SalesforceOAuth/SalesforceOAuth/SalesforceOAuth.h'
       oauth.header_dir = 'Headers/SalesforceOAuth'
       oauth.prefix_header_contents = '#import <SalesforceCommonUtils/SFLogger.h>'
       oauth.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}/Headers" }

@@ -26,16 +26,12 @@
 #import "SFIdentityCoordinator.h"
 
 @class SFIdentityData;
+@class SFOAuthSessionRefresher;
 
 /**
  * Internal interface for the SFIdentityCoordinator.
  */
 @interface SFIdentityCoordinator ()
-
-/**
- * The data from the service response will be populated here.
- */
-@property (nonatomic, strong) NSMutableData *responseData;
 
 /**
  * Whether or not a request is already in progress.
@@ -48,14 +44,14 @@
 @property (nonatomic, strong) NSURLSession *session;
 
 /**
+ * The OAuth sesssion refresher to use if the identity request fails with expired credentials.
+ */
+@property (nonatomic, strong) SFOAuthSessionRefresher *oauthSessionRefresher;
+
+/**
  * Dictionary mapping error codes to their respective types.
  */
 @property (strong, nonatomic, readonly) NSDictionary *typeToCodeDict;
-
-/**
- * If there's an error in the HTTP transaction, set it in this property.
- */
-@property (nonatomic, strong) NSError *httpError;
 
 /**
  * Triggers the success notifictation to the delegate.
@@ -68,9 +64,14 @@
 - (void)notifyDelegateOfFailure:(NSError *)error;
 
 /**
+ * Sends the request to the identity service, and processes the response.
+ */
+- (void)sendRequest;
+
+/**
  * Process a completed response from the service, populating the ID data.
  */
-- (void)processResponse;
+- (void)processResponse:(NSData *)responseData;
 
 /**
  * Cleans up the in-process properties and vars, once a request is completed.

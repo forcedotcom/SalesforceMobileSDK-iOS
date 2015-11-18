@@ -25,6 +25,7 @@
 #import "SFIdentityCoordinator.h"
 #import "SFIdentityCoordinator+Internal.h"
 #import <SalesforceOAuth/SFOAuthCredentials.h>
+#import <SalesforceOAuth/SFOAuthSessionRefresher.h>
 #import "SFIdentityData.h"
 #import "SFJsonUtils.h"
 
@@ -35,7 +36,6 @@ NSString * const     kSFIdentityErrorDomain                  = @"com.salesforce.
 
 // Private constants
 
-static NSUInteger kSFIdentityReponseBufferLengthBytes        = 512;
 static NSString * const kHttpHeaderAuthorization             = @"Authorization";
 static NSString * const kHttpAuthHeaderFormatString          = @"Bearer %@";
 
@@ -45,6 +45,7 @@ static NSString * const kSFIdentityErrorTypeNoData            = @"no_data_return
 static NSString * const kSFIdentityErrorTypeDataMalformed     = @"malformed_response";
 static NSString * const kSFIdentityErrorTypeBadHttpResponse   = @"bad_http_response";
 static NSString * const kSFIdentityErrorTypeMissingParameters = @"missing_parameters";
+static NSString * const kSFIdentityErrorTypeAlreadyRetrieving = @"retrieval_in_progress";
 static NSString * const kMissingParametersFormatString        = @"The following required parameters for the identity service were missing: %@";
 static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce.keys.identity.data";
 
@@ -52,12 +53,11 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
 
 @synthesize credentials = _credentials;
 @synthesize idData = _idData;
-@synthesize responseData = _responseData;
 @synthesize delegate = _delegate;
 @synthesize timeout = _timeout;
 @synthesize retrievingData = _retrievingData;
 @synthesize session = _session;
-@synthesize httpError = _httpError;
+@synthesize oauthSessionRefresher = _oauthSessionRefresher;
 
 #pragma mark - init / dealloc
 
@@ -81,47 +81,19 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     NSString *missingParameters = [self validateParameters];
     if ([missingParameters length] > 0) {
         NSError *missingParamsError = [self errorWithType:kSFIdentityErrorTypeMissingParameters description:missingParameters];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self notifyDelegateOfFailure:missingParamsError];
-        });
+        [self notifyDelegateOfFailure:missingParamsError];
         return;
     }
     if (self.retrievingData) {
-        [self log:SFLogLevelDebug msg:@"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress."];
+        NSString *alreadyRetrievingErrorMessage = @"Identity data retrieval already in progress.  Call cancelRetrieval to stop the transaction in progress.";
+        [self log:SFLogLevelDebug msg:alreadyRetrievingErrorMessage];
+        NSError *alreadyRetrievingError = [self errorWithType:kSFIdentityErrorTypeAlreadyRetrieving description:alreadyRetrievingErrorMessage];
+        [self notifyDelegateOfFailure:alreadyRetrievingError];
+        return;
     }
     self.retrievingData = YES;
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.credentials.identityUrl
-                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData 
-                                                            timeoutInterval:self.timeout];
-	[request setHTTPMethod:@"GET"];
-    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
-	[request setTimeoutInterval:self.timeout];
-    [request setHTTPShouldHandleCookies:NO];
-    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
-    
-    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
-    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error) {
-            [self log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
-            [self notifyDelegateOfFailure:error];
-            return;
-            
-        }
-
-        // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
-        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
-        if (statusCode != 200) {
-            self.httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
-                                     description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
-        }
-        
-        self.responseData = [NSMutableData dataWithCapacity:kSFIdentityReponseBufferLengthBytes];
-        [self.responseData appendData:data];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self processResponse];
-        });
-    }] resume];
+    [self sendRequest];
 }
 
 - (void)cancelRetrieval
@@ -151,56 +123,103 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     return invalidParametersError;
 }
 
+- (void)sendRequest
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:self.credentials.identityUrl
+                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                            timeoutInterval:self.timeout];
+    [request setHTTPMethod:@"GET"];
+    [request setValue:[NSString stringWithFormat:kHttpAuthHeaderFormatString, self.credentials.accessToken] forHTTPHeaderField:kHttpHeaderAuthorization];
+    [request setTimeoutInterval:self.timeout];
+    [request setHTTPShouldHandleCookies:NO];
+    [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
+    
+    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            [self log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
+            [self notifyDelegateOfFailure:error];
+            return;
+            
+        }
+        
+        // The connection can succeed, but the actual HTTP response is a failure.  Check for that.
+        NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
+        if (statusCode == 401 || statusCode == 403) {
+            // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
+            [self log:SFLogLevelInfo format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:self.credentials];
+            __weak SFIdentityCoordinator *weakSelf = self;
+            [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
+                __strong SFIdentityCoordinator *strongSelf = weakSelf;
+                [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
+                strongSelf.credentials = updatedCredentials;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [strongSelf sendRequest];
+                });
+            } error:^(NSError *refreshError) {
+                __strong SFIdentityCoordinator *strongSelf = weakSelf;
+                [strongSelf log:SFLogLevelError format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
+                [strongSelf notifyDelegateOfFailure:refreshError];
+            }];
+        } else if (statusCode != 200) {
+            // Some other HTTP error.
+            NSError *httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
+                                         description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
+            [self notifyDelegateOfFailure:httpError];
+        } else {
+            // Successful response.  Process the return data.
+            [self processResponse:data];
+        }
+    }] resume];
+}
+
 - (void)notifyDelegateOfSuccess
 {
-    if ([self.delegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
-        [self.delegate identityCoordinatorRetrievedData:self];
-    }
-    [self cleanupData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(identityCoordinatorRetrievedData:)]) {
+            [self.delegate identityCoordinatorRetrievedData:self];
+        }
+        [self cleanupData];
+    });
 }
 
 - (void)notifyDelegateOfFailure:(NSError *)error
 {
-    if ([self.delegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
-        [self.delegate identityCoordinator:self didFailWithError:error];
-    }
-    [self cleanupData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(identityCoordinator:didFailWithError:)]) {
+            [self.delegate identityCoordinator:self didFailWithError:error];
+        }
+        [self cleanupData];
+    });
 }
 
 - (void)dealloc
 {
-    SFRelease(_credentials);
-    SFRelease(_idData);
-    SFRelease(_responseData);
-    SFRelease(_session);
-    SFRelease(_httpError);
+    self.credentials = nil;
+    self.idData = nil;
+    self.session = nil;
+    self.oauthSessionRefresher = nil;
 }
 
 - (void)cleanupData
 {
-    SFRelease(_session);
-    SFRelease(_responseData);
-    SFRelease(_httpError);
+    self.session = nil;
+    self.oauthSessionRefresher = nil;
     self.retrievingData = NO;
 }
 
-- (void)processResponse
+- (void)processResponse:(NSData *)data
 {
-    // If there was an invalid HTTP response, the request failed.
-    if (nil != self.httpError) {
-        [self notifyDelegateOfFailure:self.httpError];
-        return;
-    }
-    
-    NSError *error;
-    if (self.responseData == nil) {
+    NSError *error = nil;
+    if (data == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeNoData description:@"No identity data returned in response."];
         [self notifyDelegateOfFailure:error];
         return;
     }
     
     
-    NSDictionary *idJsonData = (NSDictionary *)[SFJsonUtils objectFromJSONData:self.responseData];
+    NSDictionary *idJsonData = (NSDictionary *)[SFJsonUtils objectFromJSONData:data];
     if (idJsonData == nil) {
         error = [self errorWithType:kSFIdentityErrorTypeDataMalformed description:@"Unable to parse identity response data."];
         [self notifyDelegateOfFailure:error];
@@ -238,7 +257,9 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         _typeToCodeDict = @{ kSFIdentityErrorTypeNoData: @(kSFIdentityErrorNoData),
                              kSFIdentityErrorTypeDataMalformed: @(kSFIdentityErrorDataMalformed),
                              kSFIdentityErrorTypeBadHttpResponse: @(kSFIdentityErrorBadHttpResponse),
-                             kSFIdentityErrorTypeMissingParameters: @(kSFIdentityErrorMissingParameters) };
+                             kSFIdentityErrorTypeMissingParameters: @(kSFIdentityErrorMissingParameters),
+                             kSFIdentityErrorTypeAlreadyRetrieving: @(kSFIdentityErrorAlreadyRetrieving)
+                             };
     }
     
     return _typeToCodeDict;
