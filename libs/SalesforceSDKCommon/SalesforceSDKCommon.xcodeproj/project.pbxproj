@@ -90,6 +90,10 @@
 		CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; };
 		CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */; };
+		CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8DB1BFE856E0020211B /* SFCrypto.h */; };
+		CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
+		CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
+		CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -172,6 +176,9 @@
 		CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeychainItemWrapper.h; path = Classes/SFKeychainItemWrapper.h; sourceTree = "<group>"; };
 		CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeychainItemWrapper.m; path = Classes/SFKeychainItemWrapper.m; sourceTree = "<group>"; };
 		CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFKeychainItemWrapper+Internal.h"; path = "Classes/SFKeychainItemWrapper+Internal.h"; sourceTree = "<group>"; };
+		CECEB8DB1BFE856E0020211B /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCrypto.h; path = Classes/SFCrypto.h; sourceTree = "<group>"; };
+		CECEB8DC1BFE856E0020211B /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCrypto.m; path = Classes/SFCrypto.m; sourceTree = "<group>"; };
+		CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFCrypto+Internal.h"; path = "Classes/SFCrypto+Internal.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +275,9 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CECEB8DB1BFE856E0020211B /* SFCrypto.h */,
+				CECEB8DC1BFE856E0020211B /* SFCrypto.m */,
+				CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */,
 				CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */,
 				CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */,
 				CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */,
@@ -354,6 +364,8 @@
 			files = (
 				CE11C93A1BFD729F007C3CF9 /* DDLog.h in Headers */,
 				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
+				CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */,
+				CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */,
 				CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */,
 				CE11C9391BFD729F007C3CF9 /* DDLog+LOGV.h in Headers */,
 				CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */,
@@ -530,6 +542,7 @@
 				CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
 				CE11C9341BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
 				CE11C93E1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
+				CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */,
 				CE11C90E1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
 				CE11C9311BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */,
 				CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */,
@@ -555,6 +568,7 @@
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
 				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
 				CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
+				CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */,
 				CE11C93F1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
 				CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
 				CE11C94C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
