@@ -1,0 +1,74 @@
+/*
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#import "NSArray+SFAdditions.h"
+#import "SFLogger.h"
+
+@implementation NSArray (SFAdditions)
+
+- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass {
+    if (!aClass) { return [self copy]; }
+    
+    NSPredicate *classPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [evaluatedObject isKindOfClass:aClass];
+    }];
+    return [self filteredArrayUsingPredicate:classPredicate];
+}
+
+- (NSArray*)filteredArrayWithValue:(id)value forKeyPath:(NSString*)key {
+    return [self filteredArrayInclude:YES value:value forKeyPath:key];
+}
+
+- (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key {
+    return [self filteredArrayInclude:NO value:value forKeyPath:key];
+}
+
+- (NSArray*)filteredArrayInclude:(BOOL)include value:(id)value forKeyPath:(NSString*)key {
+    return [self filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject valueForKeyPath:key] isEqual:value] == include;
+    }]];
+}
+
+- (NSArray *)cleansedArray {
+    if ([self containsObject:nil]) {
+        NSMutableArray *cleansedArray = [NSMutableArray array];
+        for (id arrayObject in self) {
+            if (nil != arrayObject) {
+                if ([arrayObject isKindOfClass:[NSArray class]]) {
+                    NSArray *newArray = [self cleansedArray];
+                    [cleansedArray addObject:newArray];
+                } else {
+                    [cleansedArray addObject:arrayObject];
+                }
+            } else {
+                [self log:SFLogLevelWarning format:@"nil object found in array"];
+            }
+        }
+        return cleansedArray;
+    }
+    
+    return self;
+}
+
+@end
