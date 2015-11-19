@@ -118,7 +118,6 @@
 		82AA404C18E3A0D400BD34D8 /* SFPasscodeProviderManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFPasscodeProviderManager+Internal.h"; path = "Classes/SFPasscodeProviderManager+Internal.h"; sourceTree = "<group>"; };
 		82AA404F18E3A67F00BD34D8 /* SFSDKCryptoUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtilsTests.m; sourceTree = "<group>"; };
 		82AA405318E3AA0000BD34D8 /* SFPasscodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFPasscodeTests.m; sourceTree = "<group>"; };
-		82AA405518E3AC9000BD34D8 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		82AA405918E3ADAA00BD34D8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82AA405B18E3ADE100BD34D8 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -198,7 +197,6 @@
 				82AA405B18E3ADE100BD34D8 /* MessageUI.framework */,
 				82AA405918E3ADAA00BD34D8 /* libz.dylib */,
 				82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */,
-				82AA405518E3AC9000BD34D8 /* libSalesforceCommonUtils.a */,
 				820AB72718E230EC00E25E1D /* Foundation.framework */,
 				820AB73518E230EC00E25E1D /* XCTest.framework */,
 				820AB73818E230EC00E25E1D /* UIKit.framework */,

@@ -219,7 +219,6 @@
 		825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		825348CF1A8AF55B0019FE0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825348D11A8AF5770019FE0B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		825348D31A8AF5AC0019FE0B /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
@@ -615,7 +614,6 @@
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
 				825348D31A8AF5AC0019FE0B /* libsqlcipher.a */,
 				825348D11A8AF5770019FE0B /* libz.dylib */,
-				825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */,
 				825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */,
 				825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */,
 				825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */,

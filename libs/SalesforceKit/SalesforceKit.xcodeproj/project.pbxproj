@@ -37,7 +37,6 @@
 		6F0FDB421B5C532E00DB0EC2 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDAB71B5C507000DB0EC2 /* libSalesforceSecurity.a */; };
 		6F0FDB431B5C532E00DB0EC2 /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F0FDAF51B5C50E000DB0EC2 /* libSmartSync.a */; };
 		6F2F87E11B5EDD84002A7126 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */; };
-		6F55E92B1B5C7606000B7E6B /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,7 +238,6 @@
 		6F0FDB391B5C530800DB0EC2 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
 		6F0FDB3B1B5C530E00DB0EC2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.4.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		6F55E95C1B5C7D2E000B7E6B /* SalesforceKit.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = SalesforceKit.modulemap; sourceTree = "<group>"; };
 		6FE556E51B5C935000756807 /* SalesforceKit.private.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = SalesforceKit.private.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -255,7 +253,6 @@
 				6F0FDB381B5C52FE00DB0EC2 /* libxml2.dylib in Frameworks */,
 				6F0FDB361B5C52F800DB0EC2 /* libz.dylib in Frameworks */,
 				6F0FDB341B5C52F100DB0EC2 /* libsqlite3.dylib in Frameworks */,
-				6F55E92B1B5C7606000B7E6B /* libSalesforceCommonUtils.a in Frameworks */,
 				6F0FDB3D1B5C532E00DB0EC2 /* libSalesforceNetwork.a in Frameworks */,
 				6F0FDB3E1B5C532E00DB0EC2 /* libSalesforceOAuth.a in Frameworks */,
 				6F0FDB3F1B5C532E00DB0EC2 /* libSalesforceRestAPI.a in Frameworks */,
@@ -296,7 +293,6 @@
 			isa = PBXGroup;
 			children = (
 				6F2F87E01B5EDD84002A7126 /* libsqlcipher.a */,
-				6F55E92A1B5C7605000B7E6B /* libSalesforceCommonUtils.a */,
 				6F0FDB3B1B5C530E00DB0EC2 /* UIKit.framework */,
 				6F0FDB391B5C530800DB0EC2 /* MessageUI.framework */,
 				6F0FDB371B5C52FE00DB0EC2 /* libxml2.dylib */,
@@ -855,7 +851,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
@@ -863,7 +858,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -917,14 +912,13 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				MODULEMAP_FILE = SalesforceKit.modulemap;
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceOAuth.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCommon.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceSecurity.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;

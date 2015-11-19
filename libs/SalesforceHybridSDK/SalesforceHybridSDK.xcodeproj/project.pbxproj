@@ -317,7 +317,6 @@
 		822272B919C3A03100FC537E /* SmartSyncTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncTestSuite.m; sourceTree = "<group>"; };
 		822272D419C3A5F100FC537E /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		822272D619C3A63400FC537E /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		822272D819C3A68400FC537E /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		822272DE19C3A82B00FC537E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -678,7 +677,6 @@
 				4F22159519DF60A200FF2D26 /* libSmartSync.a */,
 				4F22159619DF60A200FF2D26 /* ImageIO.framework */,
 				822272D419C3A5F100FC537E /* libCordova.a */,
-				822272D819C3A68400FC537E /* libSalesforceCommonUtils.a */,
 				822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */,
 				822272D619C3A63400FC537E /* libSalesforceSDKCore.a */,
 				822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */,

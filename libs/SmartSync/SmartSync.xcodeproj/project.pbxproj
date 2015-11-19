@@ -164,7 +164,6 @@
 		828E0E451AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncNetworkUtils.m; sourceTree = "<group>"; };
 		828E0E521AB398AA004E0AF2 /* TestSyncUpTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestSyncUpTarget.h; path = Targets/TestSyncUpTarget.h; sourceTree = "<group>"; };
 		828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestSyncUpTarget.m; path = Targets/TestSyncUpTarget.m; sourceTree = "<group>"; };
-		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CE1F0AFC19ACF95B0007F22F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -326,7 +325,6 @@
 				CE1F0B0119ACF95B0007F22F /* Security.framework */,
 				CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */,
 				CE1F0B0319ACF95B0007F22F /* UIKit.framework */,
-				CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */,
 				CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */,
 				CECDF84F19ABF9BE007A29E5 /* libSalesforceRestAPI.a */,
 				CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */,

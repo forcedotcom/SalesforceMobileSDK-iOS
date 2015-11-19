@@ -59,7 +59,6 @@
 		820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B1719E6070E00E9BE5C /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B1E19E6081C00E9BE5C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		820C8B2219E6088400E9BE5C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -206,7 +205,6 @@
 				8258804A1AA4222A000C551E /* MobileCoreServices.framework */,
 				825880481AA4217A000C551E /* libSalesforceNetwork.a */,
 				82D53D5F1A377DF900E46F8F /* libSalesforceSDKCommon.a */,
-				820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */,
 				820C8B1419E6070E00E9BE5C /* libSalesforceOAuth.a */,
 				820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */,
 				820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */,
