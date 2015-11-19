@@ -44,6 +44,10 @@ typedef NS_ENUM(NSUInteger, SFLogLevel) {
 	SFLogLevelError
 };
 
+typedef NS_ENUM(NSUInteger, SFLogContext) {
+    MobileSDKLogContext = 1
+};
+
 typedef void (^SFLogBlock) (NSString *msg);
 
 #define SFLogAssert(_cond, _desc, ...) \

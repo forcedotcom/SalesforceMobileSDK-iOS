@@ -506,7 +506,6 @@ static BOOL loggingToFile = NO;
     {
         [whiteListFormatter removeFromWhitelist:logContext];
     }
-
 }
 
 //Individual Context Filter -- Resets White Filter and filters a single context
