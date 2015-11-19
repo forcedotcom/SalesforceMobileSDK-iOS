@@ -27,10 +27,10 @@
 #import <UIKit/UITextInputTraits.h>
 
 #import "SFSmartStoreInspectorViewController.h"
-#import "SFSDKResourceUtils.h"
-#import "SFRootViewManager.h"
+#import <SalesforceSDKCore/SFSDKResourceUtils.h>
+#import <SalesforceSDKCore/SFRootViewManager.h>
 #import "SFQuerySpec.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 // Nav bar
 static CGFloat      const kNavBarHeight          = 44.0;

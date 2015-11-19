@@ -39,12 +39,12 @@
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
 #import "SFUserActivityMonitor.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+#import "SFOAuthCredentials.h"
+#import "SFOAuthInfo.h"
 #import <SalesforceCommonUtils/NSURL+SFAdditions.h>
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 #import <SalesforceCommonUtils/SFTestContext.h>

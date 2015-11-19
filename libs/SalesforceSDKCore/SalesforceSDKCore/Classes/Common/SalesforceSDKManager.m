@@ -28,10 +28,10 @@
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
-#import "SFSmartStore.h"
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
+// FIXME-REORG #import "SFSmartStore.h"
+#import "SFOAuthInfo.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
 
 // Error constants
@@ -701,7 +701,8 @@ static NSString* uid = nil;
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
-    [SFSmartStore removeAllStoresForUser:user];
+
+    // FIXME-REORG [SFSmartStore removeAllStoresForUser:user];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

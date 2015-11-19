@@ -24,8 +24,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
+#import "SFOAuthCoordinator.h"
+#import "SFOAuthInfo.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
 

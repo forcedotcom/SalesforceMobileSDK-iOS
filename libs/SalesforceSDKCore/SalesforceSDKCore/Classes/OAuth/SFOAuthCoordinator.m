@@ -27,8 +27,8 @@
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
 #import "SFOAuthOrgAuthConfiguration.h"
-#import <SalesforceSecurity/SFSDKCryptoUtils.h>
-#import <SalesforceSDKCommon/NSData+SFSDKUtils.h>
+#import "SFSDKCryptoUtils.h"
+#import "NSData+SFSDKUtils.h"
 
 // Public constants
 

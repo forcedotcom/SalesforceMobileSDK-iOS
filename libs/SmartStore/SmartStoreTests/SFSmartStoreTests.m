@@ -34,12 +34,12 @@
 #import "SFSoupIndex.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUpgrade+Internal.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeManager+Internal.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
+#import <SalesforceSDKCore/SFPasscodeManager.h>
+#import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
+#import <SalesforceSDKCore/SFPasscodeProviderManager.h>
 #import "SFSecurityLockout+Internal.h"
-#import <SalesforceSecurity/SFKeyStoreManager.h>
-#import <SalesforceSecurity/SFEncryptionKey.h>
+#import <SalesforceSDKCore/SFKeyStoreManager.h>
+#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
 

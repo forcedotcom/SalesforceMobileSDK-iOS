@@ -23,7 +23,7 @@
  */
 
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceSDKCore/SFPreferences.h>
+#import "SFPreferences.h"
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"

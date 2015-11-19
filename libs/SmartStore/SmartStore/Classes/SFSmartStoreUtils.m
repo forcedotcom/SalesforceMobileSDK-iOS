@@ -23,7 +23,7 @@
  */
 
 #import "SFSmartStoreUtils.h"
-#import "SFUserAccountManager.h"
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 @implementation SFSmartStoreUtils
 

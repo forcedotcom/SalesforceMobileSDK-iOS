@@ -27,18 +27,18 @@
 #import "FMDatabase.h"
 #import "FMDatabaseAdditions.h"
 #import "FMDatabaseQueue.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
 #import "SFSmartStore+Internal.h"
 #import "SFSmartStoreUpgrade.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartSqlHelper.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFKeyStoreManager.h>
-#import <SalesforceSecurity/SFEncryptionKey.h>
+#import <SalesforceSDKCore/SFPasscodeManager.h>
+#import <SalesforceSDKCore/SFKeyStoreManager.h>
+#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import "SFAlterSoupLongOperation.h"
-#import "SFUserAccountManager.h"
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;

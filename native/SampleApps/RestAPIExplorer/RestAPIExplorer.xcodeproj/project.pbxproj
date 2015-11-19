@@ -11,6 +11,8 @@
 		4F473D7217E26DFF000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D7117E26DFF000CCDF3 /* ImageIO.framework */; };
 		4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFD18DD07D0006A7699 /* Images.xcassets */; };
+		4FEE44781BFD5A1200F09C43 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */; };
+		4FEE44791BFD5A1200F09C43 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
 		7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E21472E238005CE144 /* Security.framework */; };
@@ -30,16 +32,10 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
 		8201678C16E17F4D002F4066 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201678B16E17F4D002F4066 /* libz.dylib */; };
-		8201679216E17FCC002F4066 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679116E17FCC002F4066 /* libsqlcipher.a */; };
 		8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */; };
-		8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679516E18052002F4066 /* libSalesforceOAuth.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
-		8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */; };
 		8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
-		82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */; };
-		82ABD5361A916B8E0051CC9B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82ABD5351A916B8E0051CC9B /* libSalesforceNetwork.a */; };
-		82D53D5A1A36897C00E46F8F /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D53D591A36897C00E46F8F /* libSalesforceSDKCommon.a */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
 /* End PBXBuildFile section */
@@ -49,6 +45,8 @@
 		4F473D7117E26DFF000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F84FDFD18DD07D0006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = "../../../libs/SalesforceNetwork/build/Debug-iphoneos/libSalesforceNetwork.a"; sourceTree = "<group>"; };
+		4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -93,14 +91,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82ABD5361A916B8E0051CC9B /* libSalesforceNetwork.a in Frameworks */,
-				82D53D5A1A36897C00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
+				4FEE44781BFD5A1200F09C43 /* libSalesforceNetwork.a in Frameworks */,
+				4FEE44791BFD5A1200F09C43 /* libSalesforceRestAPI.a in Frameworks */,
 				8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */,
-				8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */,
-				8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */,
 				8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */,
-				82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */,
-				8201679216E17FCC002F4066 /* libsqlcipher.a in Frameworks */,
 				7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */,
 				8201678C16E17F4D002F4066 /* libz.dylib in Frameworks */,
 				7DF4D2EB1472E238005CE144 /* CFNetwork.framework in Frameworks */,
@@ -140,6 +134,8 @@
 		7DF4D2DD1472E238005CE144 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */,
+				4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */,
 				82ABD5351A916B8E0051CC9B /* libSalesforceNetwork.a */,
 				82D53D591A36897C00E46F8F /* libSalesforceSDKCommon.a */,
 				8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */,

@@ -28,7 +28,7 @@
 #import "SFOAuthCredentials+Internal.h"
 #import "SalesforceOAuthUnitTestsCoordinatorDelegate.h"
 #import "SalesforceOAuthUnitTests.h"
-#import <SalesforceSecurity/SFSDKCryptoUtils.h>
+#import "SFSDKCryptoUtils.h"
 
 static NSString * const kIdentifier = @"com.salesforce.ios.oauth.test";
 static NSString * const kClientId   = @"SfdcMobileChatteriOS";

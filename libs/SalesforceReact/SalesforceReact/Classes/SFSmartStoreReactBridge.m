@@ -25,13 +25,12 @@
 #import "SFSmartStoreReactBridge.h"
 
 #import "RCTUtils.h"
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFStoreCursor.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
+#import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 
 // Private constants
 NSString * const kSoupNameArg         = @"soupName";

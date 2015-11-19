@@ -28,9 +28,9 @@
 #import "SFSmartSyncPersistableObject.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 

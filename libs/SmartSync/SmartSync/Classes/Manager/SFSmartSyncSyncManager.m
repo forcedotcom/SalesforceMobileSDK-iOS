@@ -27,8 +27,8 @@
 #import "SFSmartSyncObjectUtils.h"
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 // Page size

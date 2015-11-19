@@ -26,12 +26,12 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSmartStoreUtils.h"
 #import "SFSmartStoreDatabaseManager+Internal.h"
-#import "SFUserAccountManager.h"
+#import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceCommonUtils/UIDevice+SFHardware.h>
 #import <SalesforceCommonUtils/SFCrypto.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/NSData+SFAdditions.h>
-#import <SalesforceSecurity/SFPasscodeManager.h>
+#import <SalesforceSDKCore/SFPasscodeManager.h>
 #import "FMDatabase.h"
 
 static const char *const_key = "H347ergher/32hhj5%hff?Dn@21o";

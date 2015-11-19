@@ -1,6 +1,6 @@
 //
-//  SmartSync-Common.xcconfig
-//  SmartSync
+//  SmartStore-Common.xcconfig
+//  SmartStore
 //
 //  Created by Bharath Hariharan on 4/7/15.
 //  Copyright (c) 2015 Salesforce Inc. All rights reserved.
@@ -9,7 +9,7 @@
 GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 
-PRODUCT_NAME = SmartSync
+PRODUCT_NAME = SmartStore
 
 HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers" $(inherited)
 LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)

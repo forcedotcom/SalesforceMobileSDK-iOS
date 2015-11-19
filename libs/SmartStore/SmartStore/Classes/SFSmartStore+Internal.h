@@ -24,9 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import "SFSmartStore.h"
-#import "SFUserAccount.h"
+#import <SalesforceSDKCore/SFUserAccount.h>
 #import "SFSmartStoreDatabaseManager.h"
-#import "SFAuthenticationManager.h"
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @class FMDatabase;
 @class FMResultSet;

@@ -36,28 +36,20 @@ SCHEMES_TO_BUILD = [
   "OCMockLib",
   "RestAPIExplorer",
   "SalesforceHybridSDK",
-  "SalesforceNetworkiOS",    
-  "SalesforceOAuth",
   "SalesforceReact",
-  "SalesforceRestAPI",
-  "SalesforceSDKCommon",
   "SalesforceSDKCore",
-  "SalesforceSecurity",
-  "SmartSyncExplorerHybrid",
+  "SmartStore",
   "SmartSync",
-  "SmartSyncExplorer"
+  "SmartSyncExplorer",
+  "SmartSyncExplorerHybrid"
 ];
 
 
 SCHEMES_TO_TEST = [
   "HybridPluginTestApp",
   "OCMockLib", 
-  "SalesforceNetworkiOS",
-  "SalesforceOAuthTest",
-  "SalesforceRestAPIUnitTestApp",
-  "SalesforceSDKCommon",
   "SalesforceSDKCoreUnitTestApp",
-  "SalesforceSecurity",
+  "SmartStore",
   "SmartSync"
 ];
   

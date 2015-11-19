@@ -26,8 +26,6 @@
 
 #import "SFJsonUtils.h"
 
-#import <SalesforceOAuth/SalesforceOAuth.h>
-
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFUserAccount.h"

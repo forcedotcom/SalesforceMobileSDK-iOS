@@ -26,9 +26,9 @@
 #import "SFSyncDownTarget.h"
 #import "SFSyncOptions.h"
 #import "SFSyncUpTarget.h"
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKcore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 
 // soups and soup fields

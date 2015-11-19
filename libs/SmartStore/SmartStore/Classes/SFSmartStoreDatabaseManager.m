@@ -28,9 +28,9 @@
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
 #import <SalesforceCommonUtils/SFFileProtectionHelper.h>
 #import "SFSmartStoreUtils.h"
-#import "SFUserAccountManager.h"
-#import "SFUserAccount.h"
-#import "SFDirectoryManager.h"
+#import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SFUserAccount.h>
+#import <SalesforceSDKCore/SFDirectoryManager.h>
 #import "FMDatabase.h"
 #import "FMDatabaseQueue.h"
 #import "FMResultSet.h"

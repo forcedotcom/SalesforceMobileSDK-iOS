@@ -1,8 +1,8 @@
 /*
- SmartSync.h
- SmartSync
+ SmartStore.h
+ SmartStore
 
- Created by Kevin Hawkins on Thu Mar 19 15:37:11 PDT 2015.
+ Created by Wolfgang Mathurin on Wed Nov 18 17:38:34 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -27,24 +27,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartSync/SFMruSyncDownTarget.h>
-#import <SmartSync/SFObject.h>
-#import <SmartSync/SFObjectType.h>
-#import <SmartSync/SFObjectTypeLayout.h>
-#import <SmartSync/SFSmartSyncCacheManager.h>
-#import <SmartSync/SFSmartSyncConstants.h>
-#import <SmartSync/SFSmartSyncMetadataManager.h>
-#import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SmartSync/SFSmartSyncObjectUtils.h>
-#import <SmartSync/SFSmartSyncPersistableObject.h>
-#import <SmartSync/SFSmartSyncSoqlBuilder.h>
-#import <SmartSync/SFSmartSyncSoslBuilder.h>
-#import <SmartSync/SFSmartSyncSoslReturningBuilder.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import <SmartSync/SFSoqlSyncDownTarget.h>
-#import <SmartSync/SFSoslSyncDownTarget.h>
-#import <SmartSync/SFSyncDownTarget.h>
-#import <SmartSync/SFSyncOptions.h>
-#import <SmartSync/SFSyncState.h>
-#import <SmartSync/SFSyncTarget.h>
-#import <SmartSync/SFSyncUpTarget.h>
+#import <SmartStore/SFAlterSoupLongOperation.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSmartSqlHelper.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSmartStoreDatabaseManager.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
+#import <SmartStore/SFSmartStoreUpgrade.h>
+#import <SmartStore/SFSmartStoreUtils.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SqliteAdditions.h>

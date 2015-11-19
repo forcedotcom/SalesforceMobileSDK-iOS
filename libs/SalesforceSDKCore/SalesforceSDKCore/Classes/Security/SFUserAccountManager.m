@@ -30,11 +30,11 @@
 #import "SFManagedPreferences.h"
 #import "SFUserAccount_Internal.h"
 
-#import <SalesforceSecurity/SFKeyStoreManager.h>
-#import <SalesforceSecurity/SFKeyStoreKey.h>
-#import <SalesforceSecurity/SFSDKCryptoUtils.h>
+#import "SFKeyStoreManager.h"
+#import "SFKeyStoreKey.h"
+#import "SFSDKCryptoUtils.h"
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
+#import "SFSDKDatasharingHelper.h"
 #import <SalesforceCommonUtils/SFFileProtectionHelper.h>
 
 // Notifications

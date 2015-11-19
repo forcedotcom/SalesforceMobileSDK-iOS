@@ -23,7 +23,7 @@
  */
 
 #import "SFOAuthCredentials.h"
-#import <SalesforceSecurity/SFEncryptionKey.h>
+#import "SFEncryptionKey.h"
 #import <SalesforceCommonUtils/SalesforceCommonUtils.h>
 
 typedef NS_ENUM(NSUInteger, SFOAuthCredsEncryptionType) {

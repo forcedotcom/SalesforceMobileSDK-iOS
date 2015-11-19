@@ -6,6 +6,19 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4FEE442F1BFD50BE00F09C43 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4FEE44301BFD50BE00F09C43 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
@@ -144,6 +157,9 @@
 					4FABF0451AA51F9000D31E3F = {
 						CreatedOnToolsVersion = 6.1.1;
 					};
+					4FEE442F1BFD50BE00F09C43 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 				};
 			};
 			buildConfigurationList = 4F3618A11AA51E3900AE3A65 /* Build configuration list for PBXProject "SalesforceReact" */;
@@ -159,6 +175,7 @@
 			projectRoot = "";
 			targets = (
 				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
+				4FEE442F1BFD50BE00F09C43 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -230,6 +247,22 @@
 			};
 			name = Release;
 		};
+		4FEE44311BFD50BE00F09C43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4FEE44321BFD50BE00F09C43 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -250,6 +283,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		4FEE44301BFD50BE00F09C43 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FEE44311BFD50BE00F09C43 /* Debug */,
+				4FEE44321BFD50BE00F09C43 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
