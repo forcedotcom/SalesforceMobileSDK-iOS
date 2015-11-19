@@ -35,7 +35,6 @@
 		8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679516E18052002F4066 /* libSalesforceOAuth.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
 		8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */; };
-		8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222637619DC9FD70097A09A /* libSalesforceCommonUtils.a */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82AA406618E3B1B900BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */; };
 		82ABD5361A916B8E0051CC9B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82ABD5351A916B8E0051CC9B /* libSalesforceNetwork.a */; };
@@ -95,7 +94,6 @@
 			files = (
 				82ABD5361A916B8E0051CC9B /* libSalesforceNetwork.a in Frameworks */,
 				82D53D5A1A36897C00E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				8222637719DC9FD70097A09A /* libSalesforceCommonUtils.a in Frameworks */,
 				8222637519DC9F8E0097A09A /* libSalesforceRestAPI.a in Frameworks */,
 				8201679616E18052002F4066 /* libSalesforceOAuth.a in Frameworks */,
 				8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */,
@@ -348,13 +346,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"";
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
@@ -389,13 +383,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"",
-					"\"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
-				);
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher\"";
 				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

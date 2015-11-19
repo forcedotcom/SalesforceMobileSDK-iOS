@@ -42,7 +42,6 @@
 		4FDA6D7519DB7D14005AF96F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6F19DB7D14005AF96F /* main.m */; };
 		4FDA6D7919DB7D32005AF96F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D7719DB7D32005AF96F /* InfoPlist.strings */; };
 		8212C1C217F0EAB2002C59E2 /* libSalesforceCommonUtils.a in Resources */ = {isa = PBXBuildFile; fileRef = 8212C1C117F0EAB2002C59E2 /* libSalesforceCommonUtils.a */; };
-		8212C1C317F0EAE5002C59E2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212C1C117F0EAB2002C59E2 /* libSalesforceCommonUtils.a */; };
 		8212C1C417F0EB09002C59E2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7B616E089AB0006B3C0 /* libSalesforceOAuth.a */; };
 		8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C72E16E076DE0006B3C0 /* libSalesforceRestAPI.a */; };
 		8212C1C617F0EB4A002C59E2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */; };
@@ -196,7 +195,6 @@
 			files = (
 				82A0C3E61A9A30B100243931 /* libSalesforceNetwork.a in Frameworks */,
 				82AA405E18E3AECF00BD34D8 /* libSalesforceSecurity.a in Frameworks */,
-				8212C1C317F0EAE5002C59E2 /* libSalesforceCommonUtils.a in Frameworks */,
 				8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */,
 				8212C1C417F0EB09002C59E2 /* libSalesforceOAuth.a in Frameworks */,
 				8212C1C617F0EB4A002C59E2 /* libSalesforceSDKCore.a in Frameworks */,
@@ -845,7 +843,6 @@
 				INFOPLIST_FILE = "SalesforceRestAPIUnitTestApp/SalesforceRestAPIUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				OTHER_LDFLAGS = "-ObjC";
@@ -869,7 +866,6 @@
 				INFOPLIST_FILE = "SalesforceRestAPIUnitTestApp/SalesforceRestAPIUnitTestApp-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils\"",
 					"\"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher\"",
 				);
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

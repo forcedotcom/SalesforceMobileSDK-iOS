@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
-		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; settings = {ASSET_TAGS = (); }; };
+		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
 		820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
@@ -18,7 +18,6 @@
 		820C8B1C19E6070E00E9BE5C /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */; };
 		820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1719E6070E00E9BE5C /* libSmartSync.a */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
-		820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2519E608A500E9BE5C /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
@@ -105,7 +104,6 @@
 			files = (
 				825880491AA4217A000C551E /* libSalesforceNetwork.a in Frameworks */,
 				82D53D601A377DF900E46F8F /* libSalesforceSDKCommon.a in Frameworks */,
-				820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */,
 				820C8B1A19E6070E00E9BE5C /* libSalesforceOAuth.a in Frameworks */,
 				820C8B2519E608A500E9BE5C /* libSalesforceRestAPI.a in Frameworks */,
 				820C8B1B19E6070E00E9BE5C /* libSalesforceSDKCore.a in Frameworks */,
@@ -381,13 +379,9 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -425,13 +419,9 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

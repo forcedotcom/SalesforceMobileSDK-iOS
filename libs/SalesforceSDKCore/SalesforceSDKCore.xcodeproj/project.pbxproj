@@ -145,7 +145,6 @@
 		82D4647119C7CBD30006BDFE /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4646919C7CBD30006BDFE /* SFSmartStoreTests.m */; };
 		82D4647219C7CBD30006BDFE /* SFUserAccountManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4646A19C7CBD30006BDFE /* SFUserAccountManagerTests.m */; };
 		82D4647619C7CD420006BDFE /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
-		82D4647819C7CD580006BDFE /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */; };
 		82D4647A19C7CD6C0006BDFE /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647919C7CD6C0006BDFE /* libSalesforceSecurity.a */; };
 		82D4647C19C7CDA90006BDFE /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647B19C7CDA90006BDFE /* libSalesforceOAuth.a */; };
 		82D4648219C7CDF30006BDFE /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4648119C7CDF30006BDFE /* libsqlcipher.a */; };
@@ -297,7 +296,7 @@
 		82867576181C759A007AA18A /* SFAuthenticationViewHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthenticationViewHandler.m; sourceTree = "<group>"; };
 		8288C96818C154C100FEB73D /* SFSDKTestCredentialsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKTestCredentialsData.h; sourceTree = "<group>"; };
 		8288C96918C154C100FEB73D /* SFSDKTestCredentialsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKTestCredentialsData.m; sourceTree = "<group>"; };
-		82A170CB1BFBDF2E00528401 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		82A170CB1BFBDF2E00528401 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82A55A6D182020B00002E22A /* SFAuthErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandler.h; sourceTree = "<group>"; };
 		82A55A6E182020B00002E22A /* SFAuthErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAuthErrorHandler.m; sourceTree = "<group>"; };
 		82A55A721821A48B0002E22A /* SFAuthErrorHandlerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFAuthErrorHandlerList.h; sourceTree = "<group>"; };
@@ -434,7 +433,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D4647819C7CD580006BDFE /* libSalesforceCommonUtils.a in Frameworks */,
 				82D4647C19C7CDA90006BDFE /* libSalesforceOAuth.a in Frameworks */,
 				82D4647619C7CD420006BDFE /* libSalesforceSDKCore.a in Frameworks */,
 				82D4647A19C7CD6C0006BDFE /* libSalesforceSecurity.a in Frameworks */,
@@ -1389,7 +1387,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_CFLAGS = "";
@@ -1429,7 +1426,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_CFLAGS = "";

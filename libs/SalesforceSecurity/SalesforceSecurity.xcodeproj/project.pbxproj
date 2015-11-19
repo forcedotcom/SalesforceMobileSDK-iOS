@@ -53,7 +53,6 @@
 		82AA404D18E3A0D400BD34D8 /* SFPasscodeProviderManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AA404C18E3A0D400BD34D8 /* SFPasscodeProviderManager+Internal.h */; };
 		82AA405018E3A67F00BD34D8 /* SFSDKCryptoUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA404F18E3A67F00BD34D8 /* SFSDKCryptoUtilsTests.m */; };
 		82AA405418E3AA0000BD34D8 /* SFPasscodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AA405318E3AA0000BD34D8 /* SFPasscodeTests.m */; };
-		82AA405618E3AC9000BD34D8 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405518E3AC9000BD34D8 /* libSalesforceCommonUtils.a */; };
 		82AA405818E3AD1200BD34D8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405718E3AD1200BD34D8 /* CoreGraphics.framework */; };
 		82AA405A18E3ADAA00BD34D8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405918E3ADAA00BD34D8 /* libz.dylib */; };
 		82AA405C18E3ADE100BD34D8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405B18E3ADE100BD34D8 /* MessageUI.framework */; };
@@ -146,7 +145,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82AA405618E3AC9000BD34D8 /* libSalesforceCommonUtils.a in Frameworks */,
 				820AB73C18E230EC00E25E1D /* libSalesforceSecurity.a in Frameworks */,
 				82AA405A18E3ADAA00BD34D8 /* libz.dylib in Frameworks */,
 				82AA405818E3AD1200BD34D8 /* CoreGraphics.framework in Frameworks */,

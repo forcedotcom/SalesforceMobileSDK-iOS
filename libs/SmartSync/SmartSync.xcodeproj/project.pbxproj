@@ -59,7 +59,6 @@
 		828E0E461AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E0E441AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		828E0E471AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E451AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m */; };
 		828E0E541AB398AA004E0AF2 /* TestSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E531AB398AA004E0AF2 /* TestSyncUpTarget.m */; };
-		CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
 		CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */; };
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
@@ -235,7 +234,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
-				CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */,
 				825880411AA3FC75000C551E /* libSalesforceNetwork.a in Frameworks */,
 				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
 				CECDF84C19ABF9B3007A29E5 /* libSalesforceOAuth.a in Frameworks */,

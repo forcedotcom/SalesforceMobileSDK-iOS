@@ -73,7 +73,6 @@
 		822272CF19C3A3FC00FC537E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1116EC3AC100BD1EA2 /* MobileCoreServices.framework */; };
 		822272D519C3A5F100FC537E /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272D419C3A5F100FC537E /* libCordova.a */; };
 		822272D719C3A63400FC537E /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272D619C3A63400FC537E /* libSalesforceSDKCore.a */; };
-		822272D919C3A68400FC537E /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272D819C3A68400FC537E /* libSalesforceCommonUtils.a */; };
 		822272DB19C3A6AA00FC537E /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DA19C3A6AA00FC537E /* libSalesforceOAuth.a */; };
 		822272DD19C3A7F000FC537E /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DC19C3A7F000FC537E /* libSalesforceSecurity.a */; };
 		822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272DE19C3A82B00FC537E /* libz.dylib */; };
@@ -435,7 +434,6 @@
 				4F22159A19DF60A200FF2D26 /* libSmartSync.a in Frameworks */,
 				822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */,
 				822272D519C3A5F100FC537E /* libCordova.a in Frameworks */,
-				822272D919C3A68400FC537E /* libSalesforceCommonUtils.a in Frameworks */,
 				822272BF19C3A1A300FC537E /* libSalesforceHybridSDK.a in Frameworks */,
 				822272DB19C3A6AA00FC537E /* libSalesforceOAuth.a in Frameworks */,
 				822272D719C3A63400FC537E /* libSalesforceSDKCore.a in Frameworks */,
