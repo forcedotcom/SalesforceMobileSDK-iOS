@@ -2,7 +2,7 @@
  SalesforceSDKCommon.h
  SalesforceSDKCommon
 
- Created by Bharath Hariharan on Thu Nov 19 11:17:04 PST 2015.
+ Created by Bharath Hariharan on Thu Nov 19 14:56:37 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -27,7 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCommon/NSData+SFAdditions.h>
 #import <SalesforceSDKCommon/NSData+SFSDKUtils.h>
+#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCommon/NSString+SFAdditions.h>
+#import <SalesforceSDKCommon/SFCrypto.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCommon/SFLogger.h>
 #import <SalesforceSDKCommon/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
