@@ -18,6 +18,8 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
+
+        use SalesforceSDKCommon
     }
     
     framework module SalesforceSDKCommon {

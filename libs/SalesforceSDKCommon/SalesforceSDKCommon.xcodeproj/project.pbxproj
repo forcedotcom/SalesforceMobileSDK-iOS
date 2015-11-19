@@ -77,7 +77,7 @@
 		CE11C94A1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h */; };
 		CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */; };
 		CE11C94C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */; };
-		CE11C94D1BFD729F007C3CF9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92D1BFD729F007C3CF9 /* SFLogger.h */; };
+		CE11C94D1BFD729F007C3CF9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92D1BFD729F007C3CF9 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
 		CE11C94F1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
 		CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */; };

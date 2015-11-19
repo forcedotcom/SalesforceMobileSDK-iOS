@@ -64,6 +64,7 @@
 		82F6F67E18E5F5880033CACD /* SFEncryptionKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67818E5F5880033CACD /* SFEncryptionKey.m */; };
 		82F6F68118E5F5880033CACD /* SFKeyStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F6F68218E5F5880033CACD /* SFKeyStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F6F67C18E5F5880033CACD /* SFKeyStoreManager.m */; };
+		CE11C9701BFE5BD8007C3CF9 /* libSalesforceSDKCommon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE11C9691BFE5B9D007C3CF9 /* libSalesforceSDKCommon.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 820AB72318E230EC00E25E1D;
 			remoteInfo = SalesforceSecurity;
+		};
+		CE11C9681BFE5B9D007C3CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82D53D311A3618CD00E46F8F;
+			remoteInfo = SalesforceSDKCommon;
+		};
+		CE11C96A1BFE5B9D007C3CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82D53D3C1A3618CD00E46F8F;
+			remoteInfo = SalesforceSDKCommonTests;
+		};
+		CE11C96E1BFE5BC8007C3CF9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82D53D301A3618CD00E46F8F;
+			remoteInfo = SalesforceSDKCommon;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -129,6 +151,8 @@
 		82F6F67818E5F5880033CACD /* SFEncryptionKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFEncryptionKey.m; path = Classes/SFEncryptionKey.m; sourceTree = "<group>"; };
 		82F6F67B18E5F5880033CACD /* SFKeyStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeyStoreManager.h; path = Classes/SFKeyStoreManager.h; sourceTree = "<group>"; };
 		82F6F67C18E5F5880033CACD /* SFKeyStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeyStoreManager.m; path = Classes/SFKeyStoreManager.m; sourceTree = "<group>"; };
+		CE11C9601BFE59FA007C3CF9 /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCommon.a; path = "../SalesforceSDKCommon/build/Debug-iphoneos/libSalesforceSDKCommon.a"; sourceTree = "<group>"; };
+		CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCommon.xcodeproj; path = ../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C9701BFE5BD8007C3CF9 /* libSalesforceSDKCommon.a in Frameworks */,
 				820AB73C18E230EC00E25E1D /* libSalesforceSecurity.a in Frameworks */,
 				82AA405A18E3ADAA00BD34D8 /* libz.dylib in Frameworks */,
 				82AA405818E3AD1200BD34D8 /* CoreGraphics.framework in Frameworks */,
@@ -191,6 +216,8 @@
 		820AB72618E230EC00E25E1D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */,
+				CE11C9601BFE59FA007C3CF9 /* libSalesforceSDKCommon.a */,
 				6F644CF61A9FD516009BF92A /* MessageUI.framework */,
 				6F644CF41A9FD506009BF92A /* libz.dylib */,
 				6F644CF21A9FD4FC009BF92A /* UIKit.framework */,
@@ -279,6 +306,15 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		CE11C9631BFE5B9C007C3CF9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE11C9691BFE5B9D007C3CF9 /* libSalesforceSDKCommon.a */,
+				CE11C96B1BFE5B9D007C3CF9 /* SalesforceSDKCommonTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -321,6 +357,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE11C96F1BFE5BC8007C3CF9 /* PBXTargetDependency */,
 			);
 			name = SalesforceSecurity;
 			productName = SalesforceSecurity;
@@ -364,6 +401,12 @@
 			mainGroup = 820AB71B18E230EC00E25E1D;
 			productRefGroup = 820AB72518E230EC00E25E1D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CE11C9631BFE5B9C007C3CF9 /* Products */;
+					ProjectRef = CE11C9621BFE5B9C007C3CF9 /* SalesforceSDKCommon.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				820AB72318E230EC00E25E1D /* SalesforceSecurity */,
@@ -372,6 +415,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CE11C9691BFE5B9D007C3CF9 /* libSalesforceSDKCommon.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceSDKCommon.a;
+			remoteRef = CE11C9681BFE5B9D007C3CF9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE11C96B1BFE5B9D007C3CF9 /* SalesforceSDKCommonTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SalesforceSDKCommonTests.xctest;
+			remoteRef = CE11C96A1BFE5B9D007C3CF9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		820AB73218E230EC00E25E1D /* Resources */ = {
@@ -466,6 +526,11 @@
 			isa = PBXTargetDependency;
 			target = 820AB72318E230EC00E25E1D /* SalesforceSecurity */;
 			targetProxy = 820AB73A18E230EC00E25E1D /* PBXContainerItemProxy */;
+		};
+		CE11C96F1BFE5BC8007C3CF9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCommon;
+			targetProxy = CE11C96E1BFE5BC8007C3CF9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
