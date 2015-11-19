@@ -86,6 +86,10 @@
 		CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */; };
 		CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */; };
 		CE11C9591BFE512B007C3CF9 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */; };
+		CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */; };
+		CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; };
+		CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +169,9 @@
 		CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+SFAdditions.m"; path = "Classes/NSNotificationCenter+SFAdditions.m"; sourceTree = "<group>"; };
 		CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPathUtil.h; path = Classes/SFPathUtil.h; sourceTree = "<group>"; };
 		CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPathUtil.m; path = Classes/SFPathUtil.m; sourceTree = "<group>"; };
+		CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeychainItemWrapper.h; path = Classes/SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeychainItemWrapper.m; path = Classes/SFKeychainItemWrapper.m; sourceTree = "<group>"; };
+		CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFKeychainItemWrapper+Internal.h"; path = "Classes/SFKeychainItemWrapper+Internal.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +268,9 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */,
+				CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */,
+				CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */,
 				CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */,
 				CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */,
 				CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */,
@@ -344,6 +354,7 @@
 			files = (
 				CE11C93A1BFD729F007C3CF9 /* DDLog.h in Headers */,
 				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
+				CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */,
 				CE11C9391BFD729F007C3CF9 /* DDLog+LOGV.h in Headers */,
 				CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */,
 				CE11C9361BFD729F007C3CF9 /* DDFileLogger.h in Headers */,
@@ -355,6 +366,7 @@
 				CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */,
 				CE11C9081BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h in Headers */,
 				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
+				CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */,
 				102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */,
 				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
 				CE11C9461BFD729F007C3CF9 /* DDMultiFormatter.h in Headers */,
@@ -514,6 +526,7 @@
 				CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
 				CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
+				CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
 				CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
 				CE11C9341BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
 				CE11C93E1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
@@ -540,6 +553,7 @@
 				CE11C9351BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
 				CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
+				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
 				CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
 				CE11C93F1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
 				CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
