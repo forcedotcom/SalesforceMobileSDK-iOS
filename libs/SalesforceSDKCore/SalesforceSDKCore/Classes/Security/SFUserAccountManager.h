@@ -324,6 +324,18 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 - (void)applyIdData:(SFIdentityData *)idData;
 
+/** This method will selectively update the custom attributes identity data for the current user.
+ Other identity data will not be impacted.
+ @param customAttributes The new custom attributes data to update in the identity data.
+ */
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes;
+
+/** This method will selectively update the custom permissions identity data for the current user.
+ Other identity data will not be impacted.
+ @param customPermissions The new custom permissions data to update in the identity data.
+ */
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions;
+
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted
  between launches and should only be used for non-sensitive information.

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFIdentityData.h"
+#import "SFIdentityData+Internal.h"
 
 // Private constants
 
@@ -68,43 +68,7 @@ NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
 NSString * const kIdJsonDictKey                           = @"dictRepresentation";
 
-/**
- * Private interface
- */
-@interface SFIdentityData ()
-
-/**
- * Creates an NSDate object from an RFC 822-formatted date string.
- * @param dateString The date string to parse into an NSDate.
- * @return The NSDate representation of the date string.
- */
-+ (NSDate *)dateFromRfc822String:(NSString *)dateString;
-
-/**
- * Returns the URL configured in the sub-object of the parent, or nil if the parent
- * object does not exist.
- * @param parentKey The data key associated with the parent object.
- * @param childKey The data key associated with the child object where the URL is configured.
- * @return The NSURL representation configured in the child object, or nil if the parent
- *         does not exist.
- */
-- (NSURL *)parentExistsOrNilForUrl:(NSString *)parentKey childKey:(NSString *)childKey;
-
-/**
- * Returns the NSString configured in the sub-object of the parent, or nil if the parent
- * object does not exist.
- * @param parentKey The data key associated with the parent object.
- * @param childKey The data key associated with the child object where the string is configured.
- * @return The NSString representation configured in the child object, or nil if the parent
- *         does not exist.
- */
-- (NSString *)parentExistsOrNilForString:(NSString *)parentKey childKey:(NSString *)childKey;
-
-@end
-
 @implementation SFIdentityData
-
-@synthesize dictRepresentation = _dictRepresentation;
 
 #pragma mark - init / dealloc / standard overrides
 
@@ -113,7 +77,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     self = [super init];
     if (self) {
         NSAssert(jsonDict != nil, @"Data dictionary must not be nil.");
-        _dictRepresentation = jsonDict;
+        self.dictRepresentation = jsonDict;
     }
     
     return self;
@@ -121,8 +85,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (void)dealloc
 {
-    SFRelease(_dictRepresentation);
-    
+    self.dictRepresentation = nil;
 }
 
 - (NSString *)description
@@ -329,9 +292,23 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     return attributes;
 }
 
+- (void)setCustomAttributes:(NSDictionary *)customAttributes
+{
+    NSMutableDictionary *mutableDict = [self.dictRepresentation mutableCopy];
+    mutableDict[kSFIdentityCustomAttributesKey] = customAttributes;
+    self.dictRepresentation = [mutableDict copy];
+}
+
 - (NSDictionary *)customPermissions
 {
     return (self.dictRepresentation)[kSFIdentityCustomPermissionsKey];
+}
+
+- (void)setCustomPermissions:(NSDictionary *)customPermissions
+{
+    NSMutableDictionary *mutableDict = [self.dictRepresentation mutableCopy];
+    mutableDict[kSFIdentityCustomPermissionsKey] = customPermissions;
+    self.dictRepresentation = [mutableDict copy];
 }
 
 - (NSDate *)lastModifiedDate
@@ -376,7 +353,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 {
     self = [super init];
     if (self) {
-        _dictRepresentation = [aDecoder decodeObjectForKey:kIdJsonDictKey];
+        self.dictRepresentation = [aDecoder decodeObjectForKey:kIdJsonDictKey];
     }
     
     return self;
@@ -384,7 +361,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:_dictRepresentation forKey:kIdJsonDictKey];
+    [aCoder encodeObject:self.dictRepresentation forKey:kIdJsonDictKey];
 }
 
 @end
