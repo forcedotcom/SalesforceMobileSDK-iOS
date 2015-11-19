@@ -35,6 +35,9 @@
 		CE11C8FE1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */; };
 		CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */; };
 		CE11C9001BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */; };
+		CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */; };
+		CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */; };
+		CE11C9051BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,8 @@
 		82D53D571A363E2100E46F8F /* SDKCommonNSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDKCommonNSDataTests.m; sourceTree = "<group>"; };
 		CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFFileProtectionHelper.h; path = Classes/SFFileProtectionHelper.h; sourceTree = "<group>"; };
 		CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFFileProtectionHelper.m; path = Classes/SFFileProtectionHelper.m; sourceTree = "<group>"; };
+		CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SFAdditions.h"; path = "Classes/NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+SFAdditions.m"; path = "Classes/NSData+SFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +180,8 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */,
+				CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */,
 				CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */,
 				CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */,
 				8293A8DC1A43A8CF00ABC43C /* Test */,
@@ -196,6 +203,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
 				CE11C8FE1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h in Headers */,
 				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
 				102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */,
@@ -343,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
+				CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
 				CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
 				82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */,
@@ -355,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
+				CE11C9051BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
 				CE11C9001BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
