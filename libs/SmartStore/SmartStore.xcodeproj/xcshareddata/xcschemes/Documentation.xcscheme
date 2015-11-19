@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0640"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,7 +17,7 @@
                BlueprintIdentifier = "CEAAAE75195A181000CBBFE9"
                BuildableName = "Documentation"
                BlueprintName = "Documentation"
-               ReferencedContainer = "container:SmartSync.xcodeproj">
+               ReferencedContainer = "container:SmartStore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,7 +48,7 @@
             BlueprintIdentifier = "CEAAAE75195A181000CBBFE9"
             BuildableName = "Documentation"
             BlueprintName = "Documentation"
-            ReferencedContainer = "container:SmartSync.xcodeproj">
+            ReferencedContainer = "container:SmartStore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -60,6 +60,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "CEAAAE75195A181000CBBFE9"
+            BuildableName = "Documentation"
+            BlueprintName = "Documentation"
+            ReferencedContainer = "container:SmartStore.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

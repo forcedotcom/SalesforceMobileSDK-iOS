@@ -194,6 +194,7 @@
 		4FEE44111BFD4CE600F09C43 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
 		4FEE44171BFD4CE600F09C43 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F96FE701BFD32350022F021 /* InfoPlist.strings */; };
 		4FEE44211BFD4DC700F09C43 /* SDKCommonNSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE441F1BFD4DC100F09C43 /* SDKCommonNSDataTests.m */; };
+		4FFE4A011BFE522F00F15E01 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
 		8220B75016D804CA00EC3921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
@@ -443,6 +444,7 @@
 		4FEE441B1BFD4CE600F09C43 /* SalesforceSDKCommonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCommonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEE441E1BFD4DC100F09C43 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SalesforceSDKCommonTests/Info.plist; sourceTree = SOURCE_ROOT; };
 		4FEE441F1BFD4DC100F09C43 /* SDKCommonNSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDKCommonNSDataTests.m; path = SalesforceSDKCommonTests/SDKCommonNSDataTests.m; sourceTree = SOURCE_ROOT; };
+		4FFE4A001BFE522F00F15E01 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6F742A0A1A9EA7BA00FA31C4 /* SalesforceSDKCore-Common-Static.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960741A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FFE4A011BFE522F00F15E01 /* libz.tbd in Frameworks */,
 				4FEE438C1BFD489D00F09C43 /* libSalesforceCommonUtils.a in Frameworks */,
 				4FEE438B1BFD488900F09C43 /* UIKit.framework in Frameworks */,
 				4FEE43891BFD488100F09C43 /* Security.framework in Frameworks */,
@@ -899,6 +902,7 @@
 		8220B74E16D804CA00EC3921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FFE4A001BFE522F00F15E01 /* libz.tbd */,
 				4FEE438A1BFD488900F09C43 /* UIKit.framework */,
 				4FEE43681BFD469D00F09C43 /* libOCMock.a */,
 				82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */,
