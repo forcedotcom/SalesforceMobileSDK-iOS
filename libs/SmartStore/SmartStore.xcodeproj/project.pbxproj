@@ -108,13 +108,6 @@
 			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
 			remoteInfo = SalesforceSDKCoreTests;
 		};
-		4FFEE5A91BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43801BFD47F000F09C43;
-			remoteInfo = SalesforceOAuthUnitTestApp;
-		};
 		4FFEE5AB1BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
@@ -307,7 +300,6 @@
 				4FFEE5A41BFE78DE00B7AA8A /* libSalesforceSDKCore.a */,
 				4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreUnitTestApp.app */,
 				4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTests.xctest */,
-				4FFEE5AA1BFE78DE00B7AA8A /* SalesforceOAuthUnitTestApp.app */,
 				4FFEE5AC1BFE78DE00B7AA8A /* SalesforceOAuthTests.xctest */,
 				4FFEE5AE1BFE78DE00B7AA8A /* SalesforceSecurityTests.xctest */,
 				4FFEE5B01BFE78DE00B7AA8A /* SalesforceSDKCommonTests.xctest */,
@@ -382,7 +374,6 @@
 				CEF50A79196B3EB60076264C /* Classes */,
 				CEAAAE4B195911E600CBBFE9 /* Supporting Files */,
 			);
-			name = SmartStore;
 			path = SmartStore;
 			sourceTree = "<group>";
 		};
@@ -411,7 +402,6 @@
 				4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */,
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
-			name = SmartStoreTests;
 			path = SmartStoreTests;
 			sourceTree = "<group>";
 		};
@@ -534,7 +524,7 @@
 		CEAAAE3D195911E600CBBFE9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Salesforce Inc.";
 			};
 			buildConfigurationList = CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */;
@@ -583,13 +573,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCoreTests.xctest;
 			remoteRef = 4FFEE5A71BFE78DE00B7AA8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FFEE5AA1BFE78DE00B7AA8A /* SalesforceOAuthUnitTestApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SalesforceOAuthUnitTestApp.app;
-			remoteRef = 4FFEE5A91BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4FFEE5AC1BFE78DE00B7AA8A /* SalesforceOAuthTests.xctest */ = {
@@ -749,6 +732,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -851,6 +835,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -873,6 +858,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = xctest;
 			};

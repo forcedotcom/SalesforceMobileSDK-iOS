@@ -704,7 +704,7 @@ static NSException *authException = nil;
     NSString *fileDataStr = [NSString stringWithFormat:@"FileData%f", timecode];
     NSData *fileData = [fileDataStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *fileMimeType = @"text/plain";
-    NSNumber *fileSize = [NSNumber numberWithInt:[fileData length]];
+    NSNumber *fileSize = [NSNumber numberWithLong:[fileData length]];
     
     // upload
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUploadFile:fileData name:fileTitle description:fileDescription mimeType:fileMimeType];
@@ -1365,7 +1365,7 @@ static NSException *authException = nil;
                  @"Invalid search did not result in nil output.");
     
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
-                                hasSuffix:[NSString stringWithFormat:@"%i", kMaxSOSLSearchLimit]];
+                                hasSuffix:[NSString stringWithFormat:@"%li", kMaxSOSLSearchLimit]];
     
     XCTAssertTrue( searchLimitEnforced,
                  @"SOSL search limit was not properly enforced.");

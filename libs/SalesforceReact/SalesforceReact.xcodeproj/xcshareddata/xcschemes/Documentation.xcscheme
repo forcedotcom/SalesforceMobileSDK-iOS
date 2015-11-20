@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FEE442A1BFD4F4B00F09C43"
+               BlueprintIdentifier = "4FEE442F1BFD50BE00F09C43"
                BuildableName = "Documentation"
                BlueprintName = "Documentation"
                ReferencedContainer = "container:SalesforceReact.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4FEE442A1BFD4F4B00F09C43"
+            BlueprintIdentifier = "4FEE442F1BFD50BE00F09C43"
             BuildableName = "Documentation"
             BlueprintName = "Documentation"
             ReferencedContainer = "container:SalesforceReact.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4FEE442A1BFD4F4B00F09C43"
+            BlueprintIdentifier = "4FEE442F1BFD50BE00F09C43"
             BuildableName = "Documentation"
             BlueprintName = "Documentation"
             ReferencedContainer = "container:SalesforceReact.xcodeproj">

@@ -163,13 +163,6 @@
 		4F96FE281BFD32140022F021 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */; };
 		4F96FE291BFD32140022F021 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F96FE2A1BFD32140022F021 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
-		4FEE43751BFD47F000F09C43 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
-		4FEE43771BFD47F000F09C43 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
-		4FEE43871BFD487200F09C43 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1716E15FFC00768DE8 /* MessageUI.framework */; };
-		4FEE43881BFD487900F09C43 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1916E1600200768DE8 /* QuartzCore.framework */; };
-		4FEE43891BFD488100F09C43 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EC1316E15FD400768DE8 /* Security.framework */; };
-		4FEE438B1BFD488900F09C43 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE438A1BFD488900F09C43 /* UIKit.framework */; };
-		4FEE438C1BFD489D00F09C43 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */; };
 		4FEE43FA1BFD4C5B00F09C43 /* SFEncryptionKeyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FE731BFD32350022F021 /* SFEncryptionKeyTests.m */; };
 		4FEE43FB1BFD4C5B00F09C43 /* SFKeyStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FE741BFD32350022F021 /* SFKeyStoreManagerTests.m */; };
 		4FEE43FC1BFD4C5B00F09C43 /* SFKeyStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FE751BFD32350022F021 /* SFKeyStoreTests.m */; };
@@ -183,15 +176,8 @@
 		4FEE44051BFD4CC600F09C43 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE438A1BFD488900F09C43 /* UIKit.framework */; };
 		4FEE44111BFD4CE600F09C43 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
 		4FEE44211BFD4DC700F09C43 /* SDKCommonNSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE441F1BFD4DC100F09C43 /* SDKCommonNSDataTests.m */; };
-		4FFE4A011BFE522F00F15E01 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
 		4FFEE6331BFE96B700B7AA8A /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
-		4FFEE6361BFE99C900B7AA8A /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
 		4FFEE6421BFE9ABA00B7AA8A /* SalesforceOAuthTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FFEE6371BFE9ABA00B7AA8A /* SalesforceOAuthTests-Info.plist */; };
-		4FFEE6551BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE64B1BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.m */; };
-		4FFEE6561BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE64D1BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.m */; };
-		4FFEE6571BFE9AEC00B7AA8A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FFEE64E1BFE9AEC00B7AA8A /* Default-568h@2x.png */; };
-		4FFEE6581BFE9AEC00B7AA8A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE64F1BFE9AEC00B7AA8A /* main.m */; };
-		4FFEE6591BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FFEE6511BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.xib */; };
 		4FFEE65B1BFE9E8000B7AA8A /* SalesforceOAuthUnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE6391BFE9ABA00B7AA8A /* SalesforceOAuthUnitTests.m */; };
 		4FFEE65C1BFE9E8500B7AA8A /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE63B1BFE9ABA00B7AA8A /* SalesforceOAuthUnitTestsCoordinatorDelegate.m */; };
 		4FFEE65D1BFE9E8C00B7AA8A /* SFOAuthCoordinatorFlowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FFEE63C1BFE9ABA00B7AA8A /* SFOAuthCoordinatorFlowTests.m */; };
@@ -226,19 +212,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FEE436F1BFD47F000F09C43 /* PBXContainerItemProxy */ = {
+		4F7EB3731BFFA3CA00768720 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8220B74B16D804CA00EC3921;
-			remoteInfo = SalesforceSDKCore;
-		};
-		4FEE43CA1BFD4A1000F09C43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4FEE436D1BFD47F000F09C43;
-			remoteInfo = SalesforceOAuthTest;
+			remoteGlobalIDString = 82D4642319C7C8170006BDFE;
+			remoteInfo = SalesforceSDKCoreUnitTestApp;
 		};
 		4FEE43F81BFD4C4000F09C43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -420,7 +399,6 @@
 		4F96FE771BFD32350022F021 /* SFSDKCryptoUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKCryptoUtilsTests.m; sourceTree = "<group>"; };
 		4F96FE781BFD32350022F021 /* SFSecurityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSecurityTests.m; sourceTree = "<group>"; };
 		4FEE43681BFD469D00F09C43 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "../../external/ocmock/Source/build/Debug-iphoneos/libOCMock.a"; sourceTree = "<group>"; };
-		4FEE43801BFD47F000F09C43 /* SalesforceOAuthUnitTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceOAuthUnitTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEE438A1BFD488900F09C43 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FEE43C81BFD49F400F09C43 /* SalesforceOAuthTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceOAuthTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FEE43F61BFD4C2400F09C43 /* SalesforceSecurityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSecurityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -439,15 +417,6 @@
 		4FFEE63F1BFE9ABA00B7AA8A /* SFOAuthTestFlow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthTestFlow.m; path = SalesforceOAuthTests/SFOAuthTestFlow.m; sourceTree = SOURCE_ROOT; };
 		4FFEE6401BFE9ABA00B7AA8A /* SFOAuthTestFlowCoordinatorDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthTestFlowCoordinatorDelegate.h; path = SalesforceOAuthTests/SFOAuthTestFlowCoordinatorDelegate.h; sourceTree = SOURCE_ROOT; };
 		4FFEE6411BFE9ABA00B7AA8A /* SFOAuthTestFlowCoordinatorDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthTestFlowCoordinatorDelegate.m; path = SalesforceOAuthTests/SFOAuthTestFlowCoordinatorDelegate.m; sourceTree = SOURCE_ROOT; };
-		4FFEE64A1BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthTestAppDelegate.h; sourceTree = "<group>"; };
-		4FFEE64B1BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthTestAppDelegate.m; sourceTree = "<group>"; };
-		4FFEE64C1BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceOAuthTestViewController.h; sourceTree = "<group>"; };
-		4FFEE64D1BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceOAuthTestViewController.m; sourceTree = "<group>"; };
-		4FFEE64E1BFE9AEC00B7AA8A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "SalesforceOAuthUnitTestApp/Default-568h@2x.png"; sourceTree = SOURCE_ROOT; };
-		4FFEE64F1BFE9AEC00B7AA8A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SalesforceOAuthUnitTestApp/main.m; sourceTree = SOURCE_ROOT; };
-		4FFEE6521BFE9AEC00B7AA8A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/SalesforceOAuthTestViewController.xib; sourceTree = "<group>"; };
-		4FFEE6541BFE9AEC00B7AA8A /* SalesforceOAuthTest-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceOAuthTest-Prefix.pch"; path = "SalesforceOAuthUnitTestApp/SalesforceOAuthTest-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		4FFEE6641BFEA1E800B7AA8A /* SalesforceOAuthUnitTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SalesforceOAuthUnitTestApp-Info.plist"; path = "SalesforceOAuthUnitTestApp/SalesforceOAuthUnitTestApp-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6F742A0A1A9EA7BA00FA31C4 /* SalesforceSDKCore-Common-Static.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Static.xcconfig"; sourceTree = "<group>"; };
 		6F89606F1A9E96C400A48FF1 /* SalesforceSDKCore-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common.xcconfig"; sourceTree = "<group>"; };
 		6F8960741A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -498,22 +467,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		4FEE43741BFD47F000F09C43 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FFEE6361BFE99C900B7AA8A /* libSalesforceSDKCore.a in Frameworks */,
-				4FFE4A011BFE522F00F15E01 /* libz.tbd in Frameworks */,
-				4FEE438C1BFD489D00F09C43 /* libSalesforceCommonUtils.a in Frameworks */,
-				4FEE438B1BFD488900F09C43 /* UIKit.framework in Frameworks */,
-				4FEE43891BFD488100F09C43 /* Security.framework in Frameworks */,
-				4FEE43881BFD487900F09C43 /* QuartzCore.framework in Frameworks */,
-				4FEE43871BFD487200F09C43 /* MessageUI.framework in Frameworks */,
-				4FEE43751BFD47F000F09C43 /* CoreGraphics.framework in Frameworks */,
-				4FEE43771BFD47F000F09C43 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4FEE43BB1BFD49F400F09C43 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -800,19 +753,6 @@
 			path = SalesforceOAuthTest;
 			sourceTree = SOURCE_ROOT;
 		};
-		4F96FE4C1BFD32350022F021 /* SalesforceOAuthUnitTestApp */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE6491BFE9AEC00B7AA8A /* Classes */,
-				4FFEE64E1BFE9AEC00B7AA8A /* Default-568h@2x.png */,
-				4FFEE64F1BFE9AEC00B7AA8A /* main.m */,
-				4FFEE6501BFE9AEC00B7AA8A /* Resources */,
-				4FFEE6541BFE9AEC00B7AA8A /* SalesforceOAuthTest-Prefix.pch */,
-			);
-			name = SalesforceOAuthUnitTestApp;
-			path = SalesforceOAuthUnitTests;
-			sourceTree = SOURCE_ROOT;
-		};
 		4F96FE6F1BFD32350022F021 /* SalesforceSecurityTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -832,7 +772,6 @@
 			isa = PBXGroup;
 			children = (
 				4F96FE3F1BFD32350022F021 /* SalesforceOAuthTests */,
-				4F96FE4C1BFD32350022F021 /* SalesforceOAuthUnitTestApp */,
 				4FEE441D1BFD4DA800F09C43 /* SalesforceSDKCommonTests */,
 				82D4644A19C7C8180006BDFE /* SalesforceSDKCoreTests */,
 				82D4642819C7C8170006BDFE /* SalesforceSDKCoreUnitTestApp */,
@@ -850,28 +789,6 @@
 			);
 			name = SalesforceSDKCommonTests;
 			sourceTree = "<group>";
-		};
-		4FFEE6491BFE9AEC00B7AA8A /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE64A1BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.h */,
-				4FFEE64B1BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.m */,
-				4FFEE64C1BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.h */,
-				4FFEE64D1BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.m */,
-			);
-			name = Classes;
-			path = SalesforceOAuthUnitTestApp/Classes;
-			sourceTree = SOURCE_ROOT;
-		};
-		4FFEE6501BFE9AEC00B7AA8A /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE6641BFEA1E800B7AA8A /* SalesforceOAuthUnitTestApp-Info.plist */,
-				4FFEE6511BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.xib */,
-			);
-			name = Resources;
-			path = SalesforceOAuthUnitTestApp/Resources;
-			sourceTree = SOURCE_ROOT;
 		};
 		6F89606E1A9E96C400A48FF1 /* Configuration */ = {
 			isa = PBXGroup;
@@ -902,7 +819,6 @@
 				8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */,
 				82D4642419C7C8170006BDFE /* SalesforceSDKCoreUnitTestApp.app */,
 				82D4644319C7C8180006BDFE /* SalesforceSDKCoreTests.xctest */,
-				4FEE43801BFD47F000F09C43 /* SalesforceOAuthUnitTestApp.app */,
 				4FEE43C81BFD49F400F09C43 /* SalesforceOAuthTests.xctest */,
 				4FEE43F61BFD4C2400F09C43 /* SalesforceSecurityTests.xctest */,
 				4FEE441B1BFD4CE600F09C43 /* SalesforceSDKCommonTests.xctest */,
@@ -1122,24 +1038,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4FEE436D1BFD47F000F09C43 /* SalesforceOAuthUnitTestApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4FEE437D1BFD47F000F09C43 /* Build configuration list for PBXNativeTarget "SalesforceOAuthUnitTestApp" */;
-			buildPhases = (
-				4FEE43701BFD47F000F09C43 /* Sources */,
-				4FEE43741BFD47F000F09C43 /* Frameworks */,
-				4FEE43781BFD47F000F09C43 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4FEE436E1BFD47F000F09C43 /* PBXTargetDependency */,
-			);
-			name = SalesforceOAuthUnitTestApp;
-			productName = SalesforceSDKCoreUnitTestApp;
-			productReference = 4FEE43801BFD47F000F09C43 /* SalesforceOAuthUnitTestApp.app */;
-			productType = "com.apple.product-type.application";
-		};
 		4FEE43B01BFD49F400F09C43 /* SalesforceOAuthTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FEE43C51BFD49F400F09C43 /* Build configuration list for PBXNativeTarget "SalesforceOAuthTests" */;
@@ -1150,7 +1048,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				4FEE43CB1BFD4A1000F09C43 /* PBXTargetDependency */,
+				4F7EB3741BFFA3CA00768720 /* PBXTargetDependency */,
 			);
 			name = SalesforceOAuthTests;
 			productName = SalesforceSDKCoreTests;
@@ -1252,11 +1150,11 @@
 		8220B74316D804CA00EC3921 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					4FEE43B01BFD49F400F09C43 = {
-						TestTargetID = 4FEE436D1BFD47F000F09C43;
+						TestTargetID = 82D4642319C7C8170006BDFE;
 					};
 					82D4644219C7C8180006BDFE = {
 						TestTargetID = 82D4642319C7C8170006BDFE;
@@ -1279,7 +1177,6 @@
 				8220B74B16D804CA00EC3921 /* SalesforceSDKCore */,
 				82D4642319C7C8170006BDFE /* SalesforceSDKCoreUnitTestApp */,
 				82D4644219C7C8180006BDFE /* SalesforceSDKCoreTests */,
-				4FEE436D1BFD47F000F09C43 /* SalesforceOAuthUnitTestApp */,
 				4FEE43B01BFD49F400F09C43 /* SalesforceOAuthTests */,
 				4FEE43EA1BFD4C2400F09C43 /* SalesforceSecurityTests */,
 				4FEE44061BFD4CE600F09C43 /* SalesforceSDKCommonTests */,
@@ -1289,15 +1186,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		4FEE43781BFD47F000F09C43 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FFEE6571BFE9AEC00B7AA8A /* Default-568h@2x.png in Resources */,
-				4FFEE6591BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		82D4642219C7C8170006BDFE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1363,16 +1251,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4FEE43701BFD47F000F09C43 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FFEE6551BFE9AEC00B7AA8A /* SalesforceOAuthTestAppDelegate.m in Sources */,
-				4FFEE6581BFE9AEC00B7AA8A /* main.m in Sources */,
-				4FFEE6561BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4FEE43B31BFD49F400F09C43 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1501,15 +1379,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4FEE436E1BFD47F000F09C43 /* PBXTargetDependency */ = {
+		4F7EB3741BFFA3CA00768720 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8220B74B16D804CA00EC3921 /* SalesforceSDKCore */;
-			targetProxy = 4FEE436F1BFD47F000F09C43 /* PBXContainerItemProxy */;
-		};
-		4FEE43CB1BFD4A1000F09C43 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4FEE436D1BFD47F000F09C43 /* SalesforceOAuthUnitTestApp */;
-			targetProxy = 4FEE43CA1BFD4A1000F09C43 /* PBXContainerItemProxy */;
+			target = 82D4642319C7C8170006BDFE /* SalesforceSDKCoreUnitTestApp */;
+			targetProxy = 4F7EB3731BFFA3CA00768720 /* PBXContainerItemProxy */;
 		};
 		4FEE43F91BFD4C4000F09C43 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1540,14 +1413,6 @@
 				4F96FE711BFD32350022F021 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		4FFEE6511BFE9AEC00B7AA8A /* SalesforceOAuthTestViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4FFEE6521BFE9AEC00B7AA8A /* en */,
-			);
-			name = SalesforceOAuthTestViewController.xib;
 			sourceTree = "<group>";
 		};
 		82D4642B19C7C8180006BDFE /* InfoPlist.strings */ = {
@@ -1599,77 +1464,6 @@
 			};
 			name = Release;
 		};
-		4FEE437E1BFD47F000F09C43 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F8960741A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSDKCoreUnitTestApp/SalesforceSDKCoreUnitTestApp-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "SalesforceOAuthUnitTestApp/SalesforceOAuthUnitTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		4FEE437F1BFD47F000F09C43 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F8960751A9E96C400A48FF1 /* SalesforceSDKCore-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_NS_ASSERTIONS = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceSDKCoreUnitTestApp/SalesforceSDKCoreUnitTestApp-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				INFOPLIST_FILE = "SalesforceOAuthUnitTestApp/SalesforceOAuthUnitTestApp-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
 		4FEE43C61BFD49F400F09C43 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F8960761A9E96C400A48FF1 /* SalesforceSDKCore-Test.xcconfig */;
@@ -1707,8 +1501,9 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceOAuthUnitTestApp.app/SalesforceOAuthUnitTestApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceSDKCoreUnitTestApp.app/SalesforceSDKCoreUnitTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -1747,8 +1542,9 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceOAuthUnitTestApp.app/SalesforceOAuthUnitTestApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceSDKCoreUnitTestApp.app/SalesforceSDKCoreUnitTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -1790,6 +1586,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1830,6 +1627,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1873,6 +1671,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1913,6 +1712,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -1922,6 +1722,7 @@
 		8220B75816D804CA00EC3921 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
@@ -1984,6 +1785,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "SalesforceSDKCoreUnitTestApp/SalesforceSDKCoreUnitTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -2018,6 +1820,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				INFOPLIST_FILE = "SalesforceSDKCoreUnitTestApp/SalesforceSDKCoreUnitTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -2061,6 +1864,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -2101,6 +1905,7 @@
 				);
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -2115,15 +1920,6 @@
 			buildConfigurations = (
 				2DE48CC618BFAD45008345C7 /* Debug */,
 				2DE48CC718BFAD45008345C7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4FEE437D1BFD47F000F09C43 /* Build configuration list for PBXNativeTarget "SalesforceOAuthUnitTestApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4FEE437E1BFD47F000F09C43 /* Debug */,
-				4FEE437F1BFD47F000F09C43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

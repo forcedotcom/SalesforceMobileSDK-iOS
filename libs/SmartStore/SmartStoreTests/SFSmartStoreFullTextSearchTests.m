@@ -63,7 +63,8 @@
                               [self createStringIndexSpec:kEmployeeId]]];   // should be TABLE_1_2
     // Employees soup
     [self.store registerSoup:kEmployeesSoup                             // should be TABLE_1
-              withIndexSpecs:soupIndices];
+              withIndexSpecs:soupIndices
+                       error:nil];
 }
 
 - (void) tearDown

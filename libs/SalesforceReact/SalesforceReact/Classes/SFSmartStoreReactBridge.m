@@ -78,11 +78,12 @@ RCT_EXPORT_METHOD(registerSoup:(NSDictionary *)argsDict callback:(RCTResponseSen
     NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
     [self log:SFLogLevelDebug format:@"registerSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
     
-    BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs];
+    NSError* error = nil;
+    BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
     if (regOk) {
         callback(@[[NSNull null], soupName]);
     } else {
-        callback(@[RCTMakeError(@"registerSoup failed", nil, nil)]);
+        callback(@[RCTMakeError(@"registerSoup failed", error, nil)]);
     }
 }
 

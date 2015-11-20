@@ -221,7 +221,7 @@
 		4F36189E1AA51E3900AE3A65 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					4FABF0451AA51F9000D31E3F = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -314,11 +314,13 @@
 		4F3618A21AA51E3900AE3A65 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(inherited)",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};

@@ -103,13 +103,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FEE44671BFD593E00F09C43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43801BFD47F000F09C43;
-			remoteInfo = SalesforceOAuthUnitTestApp;
-		};
 		4FEE44691BFD593E00F09C43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
@@ -369,7 +362,6 @@
 				6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */,
 				6F7EAA9E1B61917700F4C242 /* SalesforceSDKCoreUnitTestApp.app */,
 				6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTests.xctest */,
-				4FEE44681BFD593E00F09C43 /* SalesforceOAuthUnitTestApp.app */,
 				4FEE446A1BFD593E00F09C43 /* SalesforceOAuthTests.xctest */,
 				4FEE44701BFD593E00F09C43 /* SalesforceSecurityTests.xctest */,
 				4FEE44721BFD593E00F09C43 /* SalesforceSDKCommonTests.xctest */,
@@ -787,7 +779,7 @@
 		82DBBAEC1A798B290093A54C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					825347F41A8ADD050019FE0B = {
@@ -827,13 +819,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FEE44681BFD593E00F09C43 /* SalesforceOAuthUnitTestApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SalesforceOAuthUnitTestApp.app;
-			remoteRef = 4FEE44671BFD593E00F09C43 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		4FEE446A1BFD593E00F09C43 /* SalesforceOAuthTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -1055,6 +1040,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1086,6 +1072,7 @@
 					XCTest,
 					"-ObjC",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1111,6 +1098,7 @@
 		82DBBB061A798B290093A54C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 			};
 			name = Debug;
 		};

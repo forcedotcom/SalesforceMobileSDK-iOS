@@ -408,7 +408,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     [self createCacheSoupMappingSoup];
     if (![self.store soupExists:cacheSoupName]) {
         NSArray *cacheIndexSpecs = @[ [[SFSoupIndex alloc] initWithPath:kSmartStoreCacheKeyPath indexType:kSoupIndexTypeString columnName:nil] ];
-        [self.store registerSoup:cacheSoupName withIndexSpecs:cacheIndexSpecs];
+        [self.store registerSoup:cacheSoupName withIndexSpecs:cacheIndexSpecs error:nil];
         [self addCacheSoupToSoupMappingSoup:cacheSoupName];
     }
 }
@@ -430,7 +430,7 @@ static NSMutableDictionary *cacheMgrList = nil;
     }
     
     SFSoupIndex *indexSpec = [[SFSoupIndex alloc] initWithPath:kSmartStoreSoupNamesPath indexType:kSoupIndexTypeString columnName:nil];
-    [self.store registerSoup:kSmartStoreSoupMappingSoupName withIndexSpecs:@[ indexSpec ]];
+    [self.store registerSoup:kSmartStoreSoupMappingSoupName withIndexSpecs:@[ indexSpec ] error:nil];
 }
 
 - (void)addCacheSoupToSoupMappingSoup:(NSString *)soupName {
