@@ -1,9 +1,4 @@
 /*
- SalesforceSDKCommon.h
- SalesforceSDKCommon
-
- Created by Bharath Hariharan on Fri Nov 20 11:40:36 PST 2015.
-
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,18 +22,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCommon/NSData+SFAdditions.h>
-#import <SalesforceSDKCommon/NSData+SFSDKUtils.h>
-#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCommon/NSNotificationCenter+SFAdditions.h>
-#import <SalesforceSDKCommon/NSString+SFAdditions.h>
-#import <SalesforceSDKCommon/SFCrypto.h>
-#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
-#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
-#import <SalesforceSDKCommon/SFKeychainItemWrapper.h>
-#import <SalesforceSDKCommon/SFLogger.h>
-#import <SalesforceSDKCommon/SFSDKAsyncProcessListener.h>
-#import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceSDKCommon/SFSDKReachability.h>
-#import <SalesforceSDKCommon/SFTestContext.h>
-#import <SalesforceSDKCommon/UIDevice+SFHardware.h>
+#import "UIScreen+SFAdditions.h"
+
+@implementation UIScreen (SFAdditions)
+
+/* As of iOS 8, UIScreen bounds are orientation dependent. Use this utility method
+ if you want the bounds you'd see if the device were in portrait orientation */
+- (CGRect)portraitScreenBounds {
+    CGRect portraitBounds = self.bounds;
+    
+    if ([self respondsToSelector:@selector(fixedCoordinateSpace)]) {
+        portraitBounds = [self.coordinateSpace convertRect:self.bounds toCoordinateSpace:self.fixedCoordinateSpace];
+    }
+    return portraitBounds;
+}
+
+@end

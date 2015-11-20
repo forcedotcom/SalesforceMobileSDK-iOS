@@ -97,6 +97,15 @@
 		CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
 		CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
+		CECEB8ED1BFFAD590020211B /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8EB1BFFAD590020211B /* SFTestContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8EE1BFFAD590020211B /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8EC1BFFAD590020211B /* SFTestContext.m */; };
+		CECEB8EF1BFFAD590020211B /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8EC1BFFAD590020211B /* SFTestContext.m */; };
+		CECEB8F21BFFADB10020211B /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8F31BFFADB10020211B /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */; };
+		CECEB8F41BFFADB10020211B /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */; };
+		CECEB8F71BFFAE950020211B /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */; };
+		CECEB8F81BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
+		CECEB8F91BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -184,6 +193,12 @@
 		CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFCrypto+Internal.h"; path = "Classes/SFCrypto+Internal.h"; sourceTree = "<group>"; };
 		CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = Classes/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
 		CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = Classes/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
+		CECEB8EB1BFFAD590020211B /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTestContext.h; path = Classes/SFTestContext.h; sourceTree = "<group>"; };
+		CECEB8EC1BFFAD590020211B /* SFTestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFTestContext.m; path = Classes/SFTestContext.m; sourceTree = "<group>"; };
+		CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+SFHardware.h"; path = "Classes/UIDevice+SFHardware.h"; sourceTree = "<group>"; };
+		CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+SFHardware.m"; path = "Classes/UIDevice+SFHardware.m"; sourceTree = "<group>"; };
+		CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScreen+SFAdditions.h"; path = "Classes/UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
+		CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScreen+SFAdditions.m"; path = "Classes/UIScreen+SFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +295,12 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */,
+				CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */,
+				CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */,
+				CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */,
+				CECEB8EB1BFFAD590020211B /* SFTestContext.h */,
+				CECEB8EC1BFFAD590020211B /* SFTestContext.m */,
 				CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */,
 				CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */,
 				CECEB8DB1BFE856E0020211B /* SFCrypto.h */,
@@ -373,10 +394,13 @@
 				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
 				CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */,
 				CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */,
+				CECEB8ED1BFFAD590020211B /* SFTestContext.h in Headers */,
 				CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */,
 				CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */,
 				CE11C9391BFD729F007C3CF9 /* DDLog+LOGV.h in Headers */,
 				CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */,
+				CECEB8F71BFFAE950020211B /* UIScreen+SFAdditions.h in Headers */,
+				CECEB8F21BFFADB10020211B /* UIDevice+SFHardware.h in Headers */,
 				CE11C9361BFD729F007C3CF9 /* DDFileLogger.h in Headers */,
 				CE11C9401BFD729F007C3CF9 /* DDContextFilterLogFormatter.h in Headers */,
 				CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */,
@@ -545,9 +569,11 @@
 				CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
 				CE11C9371BFD729F007C3CF9 /* DDFileLogger.m in Sources */,
 				CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
+				CECEB8F81BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */,
 				CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
 				CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
+				CECEB8EE1BFFAD590020211B /* SFTestContext.m in Sources */,
 				CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
 				CE11C9341BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
 				CE11C93E1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
@@ -558,6 +584,7 @@
 				CE11C93B1BFD729F007C3CF9 /* DDLog.m in Sources */,
 				CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
 				CE11C9441BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */,
+				CECEB8F31BFFADB10020211B /* UIDevice+SFHardware.m in Sources */,
 				CE11C9131BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
 				CE11C9471BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */,
 				82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */,
@@ -576,6 +603,7 @@
 				CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
 				CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
+				CECEB8EF1BFFAD590020211B /* SFTestContext.m in Sources */,
 				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
 				CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
 				CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */,
@@ -587,9 +615,11 @@
 				CE11C9001BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
 				CE11C9481BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */,
 				CE11C9591BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
+				CECEB8F91BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */,
 				CE11C9421BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */,
 				CE11C9381BFD729F007C3CF9 /* DDFileLogger.m in Sources */,
 				CE11C94F1BFD729F007C3CF9 /* SFLogger.m in Sources */,
+				CECEB8F41BFFADB10020211B /* UIDevice+SFHardware.m in Sources */,
 				CE11C90A1BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
