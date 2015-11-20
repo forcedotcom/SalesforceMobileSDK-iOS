@@ -22,19 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSData+SFSDKUtils.h"
+#import "NSURL+SFAdditions.h"
 
-/*!
- * @category NSData(SFSDKUtilsInternal)
- * @abstract Internal definitions for the Mobile SDK NSData utilities.
- */
-@interface NSData (SFSDKUtilsInternal)
+@implementation NSURL (SFAdditions)
 
-/*!
- * @brief Replace the base64 characters that are invalid in a base64url string.
- * @param base64String The input string with characters to replace.
- * @return The base64 string with the URL chars replaced (i.e. the base64url string).
- */
-+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String;
+- (NSString *)valueForParameterName:(NSString *)name
+{
+    NSString *query = [self query];
+    NSArray *queryComponents = [query componentsSeparatedByString:@"&"];
+    for (NSString *paramNameValuePair in queryComponents) {
+        NSArray *paramComponents = [paramNameValuePair componentsSeparatedByString:@"="];
+        if ([[paramComponents objectAtIndex:0] caseInsensitiveCompare:name] == NSOrderedSame) {
+            return ([paramComponents count] > 1 ? [paramComponents objectAtIndex:1] : nil);
+        }
+    }
+    return nil;
+}
 
 @end

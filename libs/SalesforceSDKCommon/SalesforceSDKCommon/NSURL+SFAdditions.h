@@ -22,19 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NSData+SFSDKUtils.h"
+#import <Foundation/Foundation.h>
 
-/*!
- * @category NSData(SFSDKUtilsInternal)
- * @abstract Internal definitions for the Mobile SDK NSData utilities.
- */
-@interface NSData (SFSDKUtilsInternal)
+@interface NSURL (SFAdditions)
 
-/*!
- * @brief Replace the base64 characters that are invalid in a base64url string.
- * @param base64String The input string with characters to replace.
- * @return The base64 string with the URL chars replaced (i.e. the base64url string).
+/** Get value for a parameter name from the URL
  */
-+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String;
+- (NSString*)valueForParameterName:(NSString*)name;
 
 @end

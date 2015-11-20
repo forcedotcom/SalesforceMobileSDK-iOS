@@ -105,6 +105,9 @@
 		CECEB8F71BFFAE950020211B /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */; };
 		CECEB8F81BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
 		CECEB8F91BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
+		CECEB9031BFFE4610020211B /* NSURL+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB9051BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */; };
+		CECEB9061BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,6 +200,8 @@
 		CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+SFHardware.m"; path = "Classes/UIDevice+SFHardware.m"; sourceTree = "<group>"; };
 		CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScreen+SFAdditions.h"; path = "Classes/UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
 		CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScreen+SFAdditions.m"; path = "Classes/UIScreen+SFAdditions.m"; sourceTree = "<group>"; };
+		CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
+		CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +335,8 @@
 				82BB4F001A70637B001DAF88 /* SFSDKReachability.m */,
 				102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */,
 				102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */,
+				CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */,
+				CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -407,6 +414,7 @@
 				CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */,
 				CE11C9081BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h in Headers */,
 				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
+				CECEB9031BFFE4610020211B /* NSURL+SFAdditions.h in Headers */,
 				CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */,
 				102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */,
 				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
@@ -576,6 +584,7 @@
 				CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */,
 				CE11C90E1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
 				CE11C9311BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */,
+				CECEB9051BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */,
 				CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */,
 				CE11C93B1BFD729F007C3CF9 /* DDLog.m in Sources */,
 				CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
@@ -602,6 +611,7 @@
 				CECEB8EF1BFFAD590020211B /* SFTestContext.m in Sources */,
 				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
 				CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
+				CECEB9061BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */,
 				CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */,
 				CE11C93F1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
 				CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
