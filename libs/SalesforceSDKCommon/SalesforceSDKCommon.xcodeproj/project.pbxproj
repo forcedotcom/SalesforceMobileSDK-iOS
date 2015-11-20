@@ -80,7 +80,7 @@
 		CE11C94D1BFD729F007C3CF9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92D1BFD729F007C3CF9 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
 		CE11C94F1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
-		CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */; };
+		CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE11C9531BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */; };
 		CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */; };
 		CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */; };

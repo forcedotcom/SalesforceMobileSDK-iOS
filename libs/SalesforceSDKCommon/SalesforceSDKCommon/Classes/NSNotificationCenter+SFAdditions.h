@@ -32,7 +32,7 @@ static NSString * const SFApplicationWillAbortOrExitNotification = @"Application
 /**
  Posts a notification once within a runloop - coalescing on the name.
  @param notificationName The name of the notification
- @param object The object for the new notificaiton
+ @param object The object for the new notification
  @param userInfo The user information dictionary for the new notification. May be nil.
  */
 + (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(NSDictionary*)userInfo;

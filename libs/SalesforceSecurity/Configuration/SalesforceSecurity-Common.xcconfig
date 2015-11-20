@@ -12,7 +12,7 @@ SKIP_INSTALL = YES
 PRODUCT_NAME = SalesforceSecurity
 OTHER_LDFLAGS = -ObjC $(inherited)
 
-HEADER_SEARCH_PATHS = $(inherited)
+HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" $(inherited)
 LIBRARY_SEARCH_PATHS = $(inherited)
 
 GCC_PRECOMPILE_PREFIX_HEADER = YES
