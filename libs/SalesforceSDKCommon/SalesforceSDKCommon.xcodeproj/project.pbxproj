@@ -47,7 +47,6 @@
 		CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9101BFD6D67007C3CF9 /* NSString+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE11C9131BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */; };
 		CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */; };
-		CE11C92F1BFD729F007C3CF9 /* DecryptSFLogger.rb in Resources */ = {isa = PBXBuildFile; fileRef = CE11C9161BFD729F007C3CF9 /* DecryptSFLogger.rb */; };
 		CE11C9301BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9181BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h */; };
 		CE11C9311BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */; };
 		CE11C9321BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */; };
@@ -158,7 +157,6 @@
 		CE11C90C1BFD6D13007C3CF9 /* NSArray+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+SFAdditions.m"; path = "Classes/NSArray+SFAdditions.m"; sourceTree = "<group>"; };
 		CE11C9101BFD6D67007C3CF9 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SFAdditions.h"; path = "Classes/NSString+SFAdditions.h"; sourceTree = "<group>"; };
 		CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SFAdditions.m"; path = "Classes/NSString+SFAdditions.m"; sourceTree = "<group>"; };
-		CE11C9161BFD729F007C3CF9 /* DecryptSFLogger.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = DecryptSFLogger.rb; sourceTree = "<group>"; };
 		CE11C9181BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
 		CE11C91A1BFD729F007C3CF9 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
@@ -339,7 +337,6 @@
 		CE11C9151BFD729F007C3CF9 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				CE11C9161BFD729F007C3CF9 /* DecryptSFLogger.rb */,
 				CE11C9171BFD729F007C3CF9 /* Lumberjack */,
 				CE11C92B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h */,
 				CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */,
@@ -510,7 +507,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE11C9491BFD729F007C3CF9 /* README.txt in Resources */,
-				CE11C92F1BFD729F007C3CF9 /* DecryptSFLogger.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

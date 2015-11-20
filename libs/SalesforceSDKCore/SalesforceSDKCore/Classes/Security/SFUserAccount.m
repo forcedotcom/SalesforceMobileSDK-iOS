@@ -25,9 +25,7 @@
 #import "SFUserAccount_Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
-
 #import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceSDKCommon/SFLogger.h>
 
 static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
 static NSString * const kUser_CREDENTIALS       = @"credentials";
