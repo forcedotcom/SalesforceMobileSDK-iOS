@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'SalesforceRestAPIUnitTestApp' target in the 'SalesforceRestAPIUnitTestApp' project
+// Prefix header for all source files of the 'SalesforceRestAPITestApp' target in the 'SalesforceRestAPITestApp' project
 //
 
 #import <Availability.h>

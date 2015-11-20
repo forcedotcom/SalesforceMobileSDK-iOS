@@ -141,8 +141,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-               BuildableName = "HybridPluginTestApp.app"
-               BlueprintName = "HybridPluginTestApp"
+               BuildableName = "SalesforceHybridSDKTestApp.app"
+               BlueprintName = "SalesforceHybridSDKTestApp"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -155,8 +155,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "HybridPluginTestAppTests.xctest"
-               BlueprintName = "HybridPluginTestAppTests"
+               BuildableName = "SalesforceHybridSDKTestAppTests.xctest"
+               BlueprintName = "SalesforceHybridSDKTestAppTests"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -239,8 +239,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "829A08841A323DDF00DC17A5"
-               BuildableName = "SalesforceRestAPITests.xctest"
-               BlueprintName = "SalesforceRestAPITests"
+               BuildableName = "SalesforceRestAPITestAppTests.xctest"
+               BlueprintName = "SalesforceRestAPITestAppTests"
                ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -253,8 +253,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
-               BuildableName = "SalesforceRestAPIUnitTestApp.app"
-               BlueprintName = "SalesforceRestAPIUnitTestApp"
+               BuildableName = "SalesforceRestAPITestApp.app"
+               BlueprintName = "SalesforceRestAPITestApp"
                ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -323,8 +323,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D4644219C7C8180006BDFE"
-               BuildableName = "SalesforceSDKCoreTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTests"
+               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTestAppTests"
                ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -337,8 +337,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D4642319C7C8170006BDFE"
-               BuildableName = "SalesforceSDKCoreUnitTestApp.app"
-               BlueprintName = "SalesforceSDKCoreUnitTestApp"
+               BuildableName = "SalesforceSDKCoreTestApp.app"
+               BlueprintName = "SalesforceSDKCoreTestApp"
                ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -453,8 +453,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "HybridPluginTestAppTests.xctest"
-               BlueprintName = "HybridPluginTestAppTests"
+               BuildableName = "SalesforceHybridSDKTestAppTests.xctest"
+               BlueprintName = "SalesforceHybridSDKTestAppTests"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -473,8 +473,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "829A08841A323DDF00DC17A5"
-               BuildableName = "SalesforceRestAPITests.xctest"
-               BlueprintName = "SalesforceRestAPITests"
+               BuildableName = "SalesforceRestAPITestAppTests.xctest"
+               BlueprintName = "SalesforceRestAPITestAppTests"
                ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -513,8 +513,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D4644219C7C8180006BDFE"
-               BuildableName = "SalesforceSDKCoreTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTests"
+               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTestAppTests"
                ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -556,6 +556,16 @@
                BuildableName = "SalesforceNetworkiOSTests.xctest"
                BlueprintName = "SalesforceNetworkiOSTests"
                ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F7EB4051BFFC88200768720"
+               BuildableName = "SalesforceSDKCoreTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

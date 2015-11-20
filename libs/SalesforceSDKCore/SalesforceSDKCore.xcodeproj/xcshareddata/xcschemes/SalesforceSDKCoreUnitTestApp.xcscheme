@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D4642319C7C8170006BDFE"
-               BuildableName = "SalesforceSDKCoreUnitTestApp.app"
-               BlueprintName = "SalesforceSDKCoreUnitTestApp"
+               BuildableName = "SalesforceSDKCoreTestApp.app"
+               BlueprintName = "SalesforceSDKCoreTestApp"
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,13 +28,23 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F7EB4051BFFC88200768720"
+               BuildableName = "SalesforceSDKCoreTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTests"
+               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82D4642319C7C8170006BDFE"
-            BuildableName = "SalesforceSDKCoreUnitTestApp.app"
-            BlueprintName = "SalesforceSDKCoreUnitTestApp"
+            BuildableName = "SalesforceSDKCoreTestApp.app"
+            BlueprintName = "SalesforceSDKCoreTestApp"
             ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +66,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82D4642319C7C8170006BDFE"
-            BuildableName = "SalesforceSDKCoreUnitTestApp.app"
-            BlueprintName = "SalesforceSDKCoreUnitTestApp"
+            BuildableName = "SalesforceSDKCoreTestApp.app"
+            BlueprintName = "SalesforceSDKCoreTestApp"
             ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +85,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82D4642319C7C8170006BDFE"
-            BuildableName = "SalesforceSDKCoreUnitTestApp.app"
-            BlueprintName = "SalesforceSDKCoreUnitTestApp"
+            BuildableName = "SalesforceSDKCoreTestApp.app"
+            BlueprintName = "SalesforceSDKCoreTestApp"
             ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

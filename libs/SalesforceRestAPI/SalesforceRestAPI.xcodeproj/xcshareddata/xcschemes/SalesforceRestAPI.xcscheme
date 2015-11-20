@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "829A08841A323DDF00DC17A5"
-               BuildableName = "SalesforceRestAPITests.xctest"
-               BlueprintName = "SalesforceRestAPITests"
+               BuildableName = "SalesforceRestAPITestAppTests.xctest"
+               BlueprintName = "SalesforceRestAPITestAppTests"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

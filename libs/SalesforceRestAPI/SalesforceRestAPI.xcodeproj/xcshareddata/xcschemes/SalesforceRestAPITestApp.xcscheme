@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
-               BuildableName = "SalesforceRestAPIUnitTestApp.app"
-               BlueprintName = "SalesforceRestAPIUnitTestApp"
+               BuildableName = "SalesforceRestAPITestApp.app"
+               BlueprintName = "SalesforceRestAPITestApp"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -113,8 +113,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "829A08841A323DDF00DC17A5"
-               BuildableName = "SalesforceRestAPITests.xctest"
-               BlueprintName = "SalesforceRestAPITests"
+               BuildableName = "SalesforceRestAPITestAppTests.xctest"
+               BlueprintName = "SalesforceRestAPITestAppTests"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -131,8 +131,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "829A08841A323DDF00DC17A5"
-               BuildableName = "SalesforceRestAPITests.xctest"
-               BlueprintName = "SalesforceRestAPITests"
+               BuildableName = "SalesforceRestAPITestAppTests.xctest"
+               BlueprintName = "SalesforceRestAPITestAppTests"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -141,8 +141,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
-            BuildableName = "SalesforceRestAPIUnitTestApp.app"
-            BlueprintName = "SalesforceRestAPIUnitTestApp"
+            BuildableName = "SalesforceRestAPITestApp.app"
+            BlueprintName = "SalesforceRestAPITestApp"
             ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -164,8 +164,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
-            BuildableName = "SalesforceRestAPIUnitTestApp.app"
-            BlueprintName = "SalesforceRestAPIUnitTestApp"
+            BuildableName = "SalesforceRestAPITestApp.app"
+            BlueprintName = "SalesforceRestAPITestApp"
             ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -183,8 +183,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
-            BuildableName = "SalesforceRestAPIUnitTestApp.app"
-            BlueprintName = "SalesforceRestAPIUnitTestApp"
+            BuildableName = "SalesforceRestAPITestApp.app"
+            BlueprintName = "SalesforceRestAPITestApp"
             ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

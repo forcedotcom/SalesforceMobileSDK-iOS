@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-               BuildableName = "HybridPluginTestApp.app"
-               BlueprintName = "HybridPluginTestApp"
+               BuildableName = "SalesforceHybridSDKTestApp.app"
+               BlueprintName = "SalesforceHybridSDKTestApp"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,8 +33,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
+            BuildableName = "SalesforceHybridSDKTestApp.app"
+            BlueprintName = "SalesforceHybridSDKTestApp"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -56,8 +56,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
+            BuildableName = "SalesforceHybridSDKTestApp.app"
+            BlueprintName = "SalesforceHybridSDKTestApp"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,8 +75,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "82EFF2FE16E8049500A63CDF"
-            BuildableName = "HybridPluginTestApp.app"
-            BlueprintName = "HybridPluginTestApp"
+            BuildableName = "SalesforceHybridSDKTestApp.app"
+            BlueprintName = "SalesforceHybridSDKTestApp"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

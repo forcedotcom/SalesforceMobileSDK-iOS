@@ -99,7 +99,7 @@
 			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
-			remoteInfo = SalesforceSDKCoreUnitTestApp;
+			remoteInfo = SalesforceSDKCoreTestApp;
 		};
 		4FFEE5A71BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -107,27 +107,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
 			remoteInfo = SalesforceSDKCoreTests;
-		};
-		4FFEE5AB1BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43C81BFD49F400F09C43;
-			remoteInfo = SalesforceOAuthTests;
-		};
-		4FFEE5AD1BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43F61BFD4C2400F09C43;
-			remoteInfo = SalesforceSecurityTests;
-		};
-		4FFEE5AF1BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE441B1BFD4CE600F09C43;
-			remoteInfo = SalesforceSDKCommonTests;
 		};
 		4FFEE5B11BFE78FC00B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -242,9 +221,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
 				CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */,
 				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
+				CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */,
+				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
+				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
+				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
@@ -252,13 +234,10 @@
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
 				CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */,
-				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
-				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
 				CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */,
-				CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */,
 				CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,11 +277,8 @@
 			isa = PBXGroup;
 			children = (
 				4FFEE5A41BFE78DE00B7AA8A /* libSalesforceSDKCore.a */,
-				4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreUnitTestApp.app */,
+				4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreTestApp.app */,
 				4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTests.xctest */,
-				4FFEE5AC1BFE78DE00B7AA8A /* SalesforceOAuthTests.xctest */,
-				4FFEE5AE1BFE78DE00B7AA8A /* SalesforceSecurityTests.xctest */,
-				4FFEE5B01BFE78DE00B7AA8A /* SalesforceSDKCommonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -561,10 +537,10 @@
 			remoteRef = 4FFEE5A31BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreUnitTestApp.app */ = {
+		4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreTestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = SalesforceSDKCoreUnitTestApp.app;
+			path = SalesforceSDKCoreTestApp.app;
 			remoteRef = 4FFEE5A51BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -573,27 +549,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceSDKCoreTests.xctest;
 			remoteRef = 4FFEE5A71BFE78DE00B7AA8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FFEE5AC1BFE78DE00B7AA8A /* SalesforceOAuthTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceOAuthTests.xctest;
-			remoteRef = 4FFEE5AB1BFE78DE00B7AA8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FFEE5AE1BFE78DE00B7AA8A /* SalesforceSecurityTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSecurityTests.xctest;
-			remoteRef = 4FFEE5AD1BFE78DE00B7AA8A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FFEE5B01BFE78DE00B7AA8A /* SalesforceSDKCommonTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCommonTests.xctest;
-			remoteRef = 4FFEE5AF1BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

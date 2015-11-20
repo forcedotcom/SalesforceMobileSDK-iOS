@@ -22,6 +22,16 @@
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F7EB4051BFFC88200768720"
+               BuildableName = "SalesforceSDKCoreTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTests"
+               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <AdditionalOptions>
       </AdditionalOptions>

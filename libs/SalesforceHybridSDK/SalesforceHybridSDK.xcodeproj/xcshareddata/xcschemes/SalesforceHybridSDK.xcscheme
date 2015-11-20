@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "HybridPluginTestAppTests.xctest"
-               BlueprintName = "HybridPluginTestAppTests"
+               BuildableName = "SalesforceHybridSDKTestAppTests.xctest"
+               BlueprintName = "SalesforceHybridSDKTestAppTests"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

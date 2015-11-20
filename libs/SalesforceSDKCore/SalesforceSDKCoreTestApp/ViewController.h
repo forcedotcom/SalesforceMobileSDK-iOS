@@ -1,6 +1,6 @@
 //
 //  ViewController.h
-//  SalesforceSDKCoreUnitTestApp
+//  SalesforceSDKCoreTestApp
 //
 //  Created by Kevin Hawkins on 9/15/14.
 //  Copyright (c) 2014 salesforce.com. All rights reserved.

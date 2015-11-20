@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D4644219C7C8180006BDFE"
-               BuildableName = "SalesforceSDKCoreTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTests"
+               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTestAppTests"
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

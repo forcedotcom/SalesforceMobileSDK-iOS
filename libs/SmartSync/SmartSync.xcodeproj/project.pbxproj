@@ -128,7 +128,7 @@
 			containerPortal = 6F7EAACF1B61920A00F4C242 /* SalesforceRestAPI.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82C0C75D16E07DEB0006B3C0;
-			remoteInfo = SalesforceRestAPIUnitTestApp;
+			remoteInfo = SalesforceRestAPITestApp;
 		};
 		6F7EAADA1B61920A00F4C242 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -295,7 +295,7 @@
 			isa = PBXGroup;
 			children = (
 				6F7EAAD71B61920A00F4C242 /* libSalesforceRestAPI.a */,
-				6F7EAAD91B61920A00F4C242 /* SalesforceRestAPIUnitTestApp.app */,
+				6F7EAAD91B61920A00F4C242 /* SalesforceRestAPITestApp.app */,
 				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITests.xctest */,
 			);
 			name = Products;
@@ -623,10 +623,10 @@
 			remoteRef = 6F7EAAD61B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F7EAAD91B61920A00F4C242 /* SalesforceRestAPIUnitTestApp.app */ = {
+		6F7EAAD91B61920A00F4C242 /* SalesforceRestAPITestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = SalesforceRestAPIUnitTestApp.app;
+			path = SalesforceRestAPITestApp.app;
 			remoteRef = 6F7EAAD81B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
