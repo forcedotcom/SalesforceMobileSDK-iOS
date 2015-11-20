@@ -29,6 +29,7 @@
 #import "SFCommunityData.h"
 #import "SFManagedPreferences.h"
 #import "SFUserAccount_Internal.h"
+#import "SFIdentityData+Internal.h"
 
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFKeyStoreKey.h>
@@ -1168,6 +1169,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 - (void)applyIdData:(SFIdentityData *)idData {
     self.currentUser.idData = idData;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes {
+    self.currentUser.idData.customAttributes = customAttributes;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions {
+    self.currentUser.idData.customPermissions = customPermissions;
     [self userChanged:SFUserAccountChangeIdData];
 }
 
