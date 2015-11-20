@@ -24,7 +24,7 @@
 
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SalesforceSDKCore/SFQuerySpec.h>

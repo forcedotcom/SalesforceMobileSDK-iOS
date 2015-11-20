@@ -32,7 +32,7 @@
 #import <SalesforceOAuth/SFOAuthInfo.h>
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeProviderManager.h>
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
+#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";

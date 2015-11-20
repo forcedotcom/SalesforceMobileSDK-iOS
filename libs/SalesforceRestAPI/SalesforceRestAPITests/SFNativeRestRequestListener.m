@@ -23,7 +23,7 @@
  */
 
 #import "SFNativeRestRequestListener.h"
-#import <SalesforceCommonUtils/SFLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 
 int class_uid = 0;
 

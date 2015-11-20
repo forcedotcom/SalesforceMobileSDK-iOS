@@ -30,7 +30,7 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFEncryptionKey.h"
 #import "SFKeyStore+Internal.h"
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCommon/NSData+SFAdditions.h>
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 

@@ -25,7 +25,7 @@
 #import "SFGeneratedKeyStore.h"
 #import "SFKeyStore+Internal.h"
 #import "SFKeyStoreKey.h"
-#import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCommon/SFKeychainItemWrapper.h>
 
 // Keychain and NSCoding constants
 static NSString * const kGeneratedKeyStoreKeychainIdentifier = @"com.salesforce.keystore.generatedKeystoreKeychainId";

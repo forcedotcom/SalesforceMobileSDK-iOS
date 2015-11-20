@@ -25,7 +25,7 @@
 #import "SFSmartSyncReactBridge.h"
 
 #import "RCTUtils.h"
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFSmartStore.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>

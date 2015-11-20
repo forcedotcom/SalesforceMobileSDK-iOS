@@ -32,6 +32,82 @@
 		82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */; };
 		82D53D561A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */; };
 		82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D53D571A363E2100E46F8F /* SDKCommonNSDataTests.m */; };
+		CE11C8FE1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */; };
+		CE11C9001BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */; };
+		CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */; };
+		CE11C9051BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */; };
+		CE11C9081BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9061BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C9091BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9071BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m */; };
+		CE11C90A1BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9071BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m */; };
+		CE11C90D1BFD6D13007C3CF9 /* NSArray+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C90B1BFD6D13007C3CF9 /* NSArray+SFAdditions.h */; };
+		CE11C90E1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C90C1BFD6D13007C3CF9 /* NSArray+SFAdditions.m */; };
+		CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C90C1BFD6D13007C3CF9 /* NSArray+SFAdditions.m */; };
+		CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9101BFD6D67007C3CF9 /* NSString+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C9131BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */; };
+		CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */; };
+		CE11C9301BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9181BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h */; };
+		CE11C9311BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */; };
+		CE11C9321BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */; };
+		CE11C9331BFD729F007C3CF9 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C91A1BFD729F007C3CF9 /* DDASLLogger.h */; };
+		CE11C9341BFD729F007C3CF9 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C91B1BFD729F007C3CF9 /* DDASLLogger.m */; };
+		CE11C9351BFD729F007C3CF9 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C91B1BFD729F007C3CF9 /* DDASLLogger.m */; };
+		CE11C9361BFD729F007C3CF9 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C91C1BFD729F007C3CF9 /* DDFileLogger.h */; };
+		CE11C9371BFD729F007C3CF9 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C91D1BFD729F007C3CF9 /* DDFileLogger.m */; };
+		CE11C9381BFD729F007C3CF9 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C91D1BFD729F007C3CF9 /* DDFileLogger.m */; };
+		CE11C9391BFD729F007C3CF9 /* DDLog+LOGV.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C91E1BFD729F007C3CF9 /* DDLog+LOGV.h */; };
+		CE11C93A1BFD729F007C3CF9 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C91F1BFD729F007C3CF9 /* DDLog.h */; };
+		CE11C93B1BFD729F007C3CF9 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9201BFD729F007C3CF9 /* DDLog.m */; };
+		CE11C93C1BFD729F007C3CF9 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9201BFD729F007C3CF9 /* DDLog.m */; };
+		CE11C93D1BFD729F007C3CF9 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9211BFD729F007C3CF9 /* DDTTYLogger.h */; };
+		CE11C93E1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9221BFD729F007C3CF9 /* DDTTYLogger.m */; };
+		CE11C93F1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9221BFD729F007C3CF9 /* DDTTYLogger.m */; };
+		CE11C9401BFD729F007C3CF9 /* DDContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9241BFD729F007C3CF9 /* DDContextFilterLogFormatter.h */; };
+		CE11C9411BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9251BFD729F007C3CF9 /* DDContextFilterLogFormatter.m */; };
+		CE11C9421BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9251BFD729F007C3CF9 /* DDContextFilterLogFormatter.m */; };
+		CE11C9431BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9261BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.h */; };
+		CE11C9441BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9271BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m */; };
+		CE11C9451BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9271BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m */; };
+		CE11C9461BFD729F007C3CF9 /* DDMultiFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9281BFD729F007C3CF9 /* DDMultiFormatter.h */; };
+		CE11C9471BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9291BFD729F007C3CF9 /* DDMultiFormatter.m */; };
+		CE11C9481BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9291BFD729F007C3CF9 /* DDMultiFormatter.m */; };
+		CE11C9491BFD729F007C3CF9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = CE11C92A1BFD729F007C3CF9 /* README.txt */; };
+		CE11C94A1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h */; };
+		CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */; };
+		CE11C94C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */; };
+		CE11C94D1BFD729F007C3CF9 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C92D1BFD729F007C3CF9 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
+		CE11C94F1BFD729F007C3CF9 /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C92E1BFD729F007C3CF9 /* SFLogger.m */; };
+		CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE11C9531BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */; };
+		CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */; };
+		CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */; };
+		CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */; };
+		CE11C9591BFE512B007C3CF9 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */; };
+		CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */; };
+		CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */; };
+		CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8DB1BFE856E0020211B /* SFCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
+		CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
+		CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */; };
+		CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
+		CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
+		CECEB8ED1BFFAD590020211B /* SFTestContext.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8EB1BFFAD590020211B /* SFTestContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8EE1BFFAD590020211B /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8EC1BFFAD590020211B /* SFTestContext.m */; };
+		CECEB8EF1BFFAD590020211B /* SFTestContext.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8EC1BFFAD590020211B /* SFTestContext.m */; };
+		CECEB8F21BFFADB10020211B /* UIDevice+SFHardware.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8F31BFFADB10020211B /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */; };
+		CECEB8F41BFFADB10020211B /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */; };
+		CECEB8F71BFFAE950020211B /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */; };
+		CECEB8F81BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
+		CECEB8F91BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */; };
+		CECEB9031BFFE4610020211B /* NSURL+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB9051BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */; };
+		CECEB9061BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +150,58 @@
 		82D53D521A3627EC00E46F8F /* NSData+SFSDKUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+SFSDKUtils.m"; path = "Classes/NSData+SFSDKUtils.m"; sourceTree = "<group>"; };
 		82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SFSDKUtils_Internal.h"; path = "Classes/NSData+SFSDKUtils_Internal.h"; sourceTree = "<group>"; };
 		82D53D571A363E2100E46F8F /* SDKCommonNSDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDKCommonNSDataTests.m; sourceTree = "<group>"; };
+		CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFFileProtectionHelper.h; path = Classes/SFFileProtectionHelper.h; sourceTree = "<group>"; };
+		CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFFileProtectionHelper.m; path = Classes/SFFileProtectionHelper.m; sourceTree = "<group>"; };
+		CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+SFAdditions.h"; path = "Classes/NSData+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+SFAdditions.m"; path = "Classes/NSData+SFAdditions.m"; sourceTree = "<group>"; };
+		CE11C9061BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+SFAdditions.h"; path = "Classes/NSDictionary+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C9071BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+SFAdditions.m"; path = "Classes/NSDictionary+SFAdditions.m"; sourceTree = "<group>"; };
+		CE11C90B1BFD6D13007C3CF9 /* NSArray+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+SFAdditions.h"; path = "Classes/NSArray+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C90C1BFD6D13007C3CF9 /* NSArray+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+SFAdditions.m"; path = "Classes/NSArray+SFAdditions.m"; sourceTree = "<group>"; };
+		CE11C9101BFD6D67007C3CF9 /* NSString+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SFAdditions.h"; path = "Classes/NSString+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SFAdditions.m"; path = "Classes/NSString+SFAdditions.m"; sourceTree = "<group>"; };
+		CE11C9181BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		CE11C91A1BFD729F007C3CF9 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
+		CE11C91B1BFD729F007C3CF9 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
+		CE11C91C1BFD729F007C3CF9 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
+		CE11C91D1BFD729F007C3CF9 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
+		CE11C91E1BFD729F007C3CF9 /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDLog+LOGV.h"; sourceTree = "<group>"; };
+		CE11C91F1BFD729F007C3CF9 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
+		CE11C9201BFD729F007C3CF9 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
+		CE11C9211BFD729F007C3CF9 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
+		CE11C9221BFD729F007C3CF9 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
+		CE11C9241BFD729F007C3CF9 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		CE11C9251BFD729F007C3CF9 /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
+		CE11C9261BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
+		CE11C9271BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
+		CE11C9281BFD729F007C3CF9 /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMultiFormatter.h; sourceTree = "<group>"; };
+		CE11C9291BFD729F007C3CF9 /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMultiFormatter.m; sourceTree = "<group>"; };
+		CE11C92A1BFD729F007C3CF9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		CE11C92B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCocoaLumberJackCustomFormatter.h; sourceTree = "<group>"; };
+		CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCocoaLumberJackCustomFormatter.m; sourceTree = "<group>"; };
+		CE11C92D1BFD729F007C3CF9 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
+		CE11C92E1BFD729F007C3CF9 /* SFLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLogger.m; sourceTree = "<group>"; };
+		CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSNotificationCenter+SFAdditions.h"; path = "Classes/NSNotificationCenter+SFAdditions.h"; sourceTree = "<group>"; };
+		CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSNotificationCenter+SFAdditions.m"; path = "Classes/NSNotificationCenter+SFAdditions.m"; sourceTree = "<group>"; };
+		CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPathUtil.h; path = Classes/SFPathUtil.h; sourceTree = "<group>"; };
+		CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFPathUtil.m; path = Classes/SFPathUtil.m; sourceTree = "<group>"; };
+		CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFKeychainItemWrapper.h; path = Classes/SFKeychainItemWrapper.h; sourceTree = "<group>"; };
+		CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFKeychainItemWrapper.m; path = Classes/SFKeychainItemWrapper.m; sourceTree = "<group>"; };
+		CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFKeychainItemWrapper+Internal.h"; path = "Classes/SFKeychainItemWrapper+Internal.h"; sourceTree = "<group>"; };
+		CECEB8DB1BFE856E0020211B /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCrypto.h; path = Classes/SFCrypto.h; sourceTree = "<group>"; };
+		CECEB8DC1BFE856E0020211B /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCrypto.m; path = Classes/SFCrypto.m; sourceTree = "<group>"; };
+		CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFCrypto+Internal.h"; path = "Classes/SFCrypto+Internal.h"; sourceTree = "<group>"; };
+		CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = Classes/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = Classes/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
+		CECEB8EB1BFFAD590020211B /* SFTestContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFTestContext.h; path = Classes/SFTestContext.h; sourceTree = "<group>"; };
+		CECEB8EC1BFFAD590020211B /* SFTestContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFTestContext.m; path = Classes/SFTestContext.m; sourceTree = "<group>"; };
+		CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+SFHardware.h"; path = "Classes/UIDevice+SFHardware.h"; sourceTree = "<group>"; };
+		CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+SFHardware.m"; path = "Classes/UIDevice+SFHardware.m"; sourceTree = "<group>"; };
+		CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScreen+SFAdditions.h"; path = "Classes/UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
+		CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScreen+SFAdditions.m"; path = "Classes/UIScreen+SFAdditions.m"; sourceTree = "<group>"; };
+		CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+SFAdditions.h"; sourceTree = "<group>"; };
+		CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+SFAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +298,35 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CECEB8F51BFFAE950020211B /* UIScreen+SFAdditions.h */,
+				CECEB8F61BFFAE950020211B /* UIScreen+SFAdditions.m */,
+				CECEB8F01BFFADB10020211B /* UIDevice+SFHardware.h */,
+				CECEB8F11BFFADB10020211B /* UIDevice+SFHardware.m */,
+				CECEB8EB1BFFAD590020211B /* SFTestContext.h */,
+				CECEB8EC1BFFAD590020211B /* SFTestContext.m */,
+				CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */,
+				CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */,
+				CECEB8DB1BFE856E0020211B /* SFCrypto.h */,
+				CECEB8DC1BFE856E0020211B /* SFCrypto.m */,
+				CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */,
+				CECEB8D41BFE80CF0020211B /* SFKeychainItemWrapper.h */,
+				CECEB8D51BFE80CF0020211B /* SFKeychainItemWrapper.m */,
+				CECEB8D61BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h */,
+				CE11C9551BFE512A007C3CF9 /* SFPathUtil.h */,
+				CE11C9561BFE512A007C3CF9 /* SFPathUtil.m */,
+				CE11C9501BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h */,
+				CE11C9511BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m */,
+				CE11C9151BFD729F007C3CF9 /* Logging */,
+				CE11C9101BFD6D67007C3CF9 /* NSString+SFAdditions.h */,
+				CE11C9111BFD6D67007C3CF9 /* NSString+SFAdditions.m */,
+				CE11C90B1BFD6D13007C3CF9 /* NSArray+SFAdditions.h */,
+				CE11C90C1BFD6D13007C3CF9 /* NSArray+SFAdditions.m */,
+				CE11C9061BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h */,
+				CE11C9071BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m */,
+				CE11C9011BFD6BF9007C3CF9 /* NSData+SFAdditions.h */,
+				CE11C9021BFD6BF9007C3CF9 /* NSData+SFAdditions.m */,
+				CE11C8FC1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h */,
+				CE11C8FD1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m */,
 				8293A8DC1A43A8CF00ABC43C /* Test */,
 				82D53D551A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h */,
 				82D53D511A3627EC00E46F8F /* NSData+SFSDKUtils.h */,
@@ -178,8 +335,56 @@
 				82BB4F001A70637B001DAF88 /* SFSDKReachability.m */,
 				102127B21BF25B4A00E1B752 /* SFSDKDatasharingHelper.h */,
 				102127B31BF25B4A00E1B752 /* SFSDKDatasharingHelper.m */,
+				CECEB9021BFFE4610020211B /* NSURL+SFAdditions.h */,
+				CECEB9041BFFE4FF0020211B /* NSURL+SFAdditions.m */,
 			);
 			name = Classes;
+			sourceTree = "<group>";
+		};
+		CE11C9151BFD729F007C3CF9 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				CE11C9171BFD729F007C3CF9 /* Lumberjack */,
+				CE11C92B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h */,
+				CE11C92C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m */,
+				CE11C92D1BFD729F007C3CF9 /* SFLogger.h */,
+				CE11C92E1BFD729F007C3CF9 /* SFLogger.m */,
+			);
+			name = Logging;
+			path = Classes/Logging;
+			sourceTree = "<group>";
+		};
+		CE11C9171BFD729F007C3CF9 /* Lumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				CE11C9181BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h */,
+				CE11C9191BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m */,
+				CE11C91A1BFD729F007C3CF9 /* DDASLLogger.h */,
+				CE11C91B1BFD729F007C3CF9 /* DDASLLogger.m */,
+				CE11C91C1BFD729F007C3CF9 /* DDFileLogger.h */,
+				CE11C91D1BFD729F007C3CF9 /* DDFileLogger.m */,
+				CE11C91E1BFD729F007C3CF9 /* DDLog+LOGV.h */,
+				CE11C91F1BFD729F007C3CF9 /* DDLog.h */,
+				CE11C9201BFD729F007C3CF9 /* DDLog.m */,
+				CE11C9211BFD729F007C3CF9 /* DDTTYLogger.h */,
+				CE11C9221BFD729F007C3CF9 /* DDTTYLogger.m */,
+				CE11C9231BFD729F007C3CF9 /* Extensions */,
+			);
+			path = Lumberjack;
+			sourceTree = "<group>";
+		};
+		CE11C9231BFD729F007C3CF9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CE11C9241BFD729F007C3CF9 /* DDContextFilterLogFormatter.h */,
+				CE11C9251BFD729F007C3CF9 /* DDContextFilterLogFormatter.m */,
+				CE11C9261BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.h */,
+				CE11C9271BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m */,
+				CE11C9281BFD729F007C3CF9 /* DDMultiFormatter.h */,
+				CE11C9291BFD729F007C3CF9 /* DDMultiFormatter.m */,
+				CE11C92A1BFD729F007C3CF9 /* README.txt */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,11 +394,38 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C93A1BFD729F007C3CF9 /* DDLog.h in Headers */,
+				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
+				CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */,
+				CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */,
+				CECEB8ED1BFFAD590020211B /* SFTestContext.h in Headers */,
+				CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */,
+				CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */,
+				CE11C9391BFD729F007C3CF9 /* DDLog+LOGV.h in Headers */,
+				CE11C9121BFD6D67007C3CF9 /* NSString+SFAdditions.h in Headers */,
+				CECEB8F71BFFAE950020211B /* UIScreen+SFAdditions.h in Headers */,
+				CECEB8F21BFFADB10020211B /* UIDevice+SFHardware.h in Headers */,
+				CE11C9361BFD729F007C3CF9 /* DDFileLogger.h in Headers */,
+				CE11C9401BFD729F007C3CF9 /* DDContextFilterLogFormatter.h in Headers */,
+				CE11C9521BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.h in Headers */,
+				CE11C90D1BFD6D13007C3CF9 /* NSArray+SFAdditions.h in Headers */,
+				CE11C8FE1BFD6B2E007C3CF9 /* SFFileProtectionHelper.h in Headers */,
+				CE11C9431BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.h in Headers */,
+				CE11C9571BFE512B007C3CF9 /* SFPathUtil.h in Headers */,
+				CE11C9081BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.h in Headers */,
 				82BB4F011A70637B001DAF88 /* SFSDKReachability.h in Headers */,
+				CECEB9031BFFE4610020211B /* NSURL+SFAdditions.h in Headers */,
+				CECEB8DA1BFE80CF0020211B /* SFKeychainItemWrapper+Internal.h in Headers */,
 				102127B41BF25B4A00E1B752 /* SFSDKDatasharingHelper.h in Headers */,
 				8293A8DF1A43AAC600ABC43C /* SFSDKAsyncProcessListener.h in Headers */,
+				CE11C9461BFD729F007C3CF9 /* DDMultiFormatter.h in Headers */,
+				CE11C94D1BFD729F007C3CF9 /* SFLogger.h in Headers */,
+				CE11C9301BFD729F007C3CF9 /* DDAbstractDatabaseLogger.h in Headers */,
+				CE11C93D1BFD729F007C3CF9 /* DDTTYLogger.h in Headers */,
 				82D53D561A363CF100E46F8F /* NSData+SFSDKUtils_Internal.h in Headers */,
+				CE11C94A1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.h in Headers */,
 				82D53D531A3627EC00E46F8F /* NSData+SFSDKUtils.h in Headers */,
+				CE11C9331BFD729F007C3CF9 /* DDASLLogger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +514,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C9491BFD729F007C3CF9 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,9 +567,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C9411BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */,
+				CE11C9531BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
+				CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
+				CE11C9371BFD729F007C3CF9 /* DDFileLogger.m in Sources */,
+				CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
+				CECEB8F81BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */,
+				CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
 				82D53D541A3627EC00E46F8F /* NSData+SFSDKUtils.m in Sources */,
+				CECEB8D81BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
+				CECEB8EE1BFFAD590020211B /* SFTestContext.m in Sources */,
+				CE11C9581BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
+				CE11C9341BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
+				CE11C93E1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
+				CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */,
+				CE11C90E1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
+				CE11C9311BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */,
+				CECEB9051BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */,
+				CE11C94E1BFD729F007C3CF9 /* SFLogger.m in Sources */,
+				CE11C93B1BFD729F007C3CF9 /* DDLog.m in Sources */,
+				CE11C8FF1BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
+				CE11C9441BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */,
+				CECEB8F31BFFADB10020211B /* UIDevice+SFHardware.m in Sources */,
+				CE11C9131BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
+				CE11C9471BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */,
 				82BB4F021A70637B001DAF88 /* SFSDKReachability.m in Sources */,
+				CE11C9091BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m in Sources */,
 				102127B51BF25B4A00E1B752 /* SFSDKDatasharingHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -345,7 +602,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE11C93C1BFD729F007C3CF9 /* DDLog.m in Sources */,
+				CE11C9451BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */,
+				CE11C9351BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
+				CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
+				CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
+				CECEB8EF1BFFAD590020211B /* SFTestContext.m in Sources */,
+				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
+				CE11C90F1BFD6D13007C3CF9 /* NSArray+SFAdditions.m in Sources */,
+				CECEB9061BFFE4FF0020211B /* NSURL+SFAdditions.m in Sources */,
+				CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */,
+				CE11C93F1BFD729F007C3CF9 /* DDTTYLogger.m in Sources */,
+				CE11C9141BFD6D67007C3CF9 /* NSString+SFAdditions.m in Sources */,
+				CE11C94C1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
+				CE11C9051BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
+				CE11C9321BFD729F007C3CF9 /* DDAbstractDatabaseLogger.m in Sources */,
+				CE11C9001BFD6B2E007C3CF9 /* SFFileProtectionHelper.m in Sources */,
+				CE11C9481BFD729F007C3CF9 /* DDMultiFormatter.m in Sources */,
+				CE11C9591BFE512B007C3CF9 /* SFPathUtil.m in Sources */,
+				CECEB8F91BFFAE950020211B /* UIScreen+SFAdditions.m in Sources */,
+				CE11C9421BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */,
+				CE11C9381BFD729F007C3CF9 /* DDFileLogger.m in Sources */,
+				CE11C94F1BFD729F007C3CF9 /* SFLogger.m in Sources */,
+				CECEB8F41BFFADB10020211B /* UIDevice+SFHardware.m in Sources */,
+				CE11C90A1BFD6CB2007C3CF9 /* NSDictionary+SFAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

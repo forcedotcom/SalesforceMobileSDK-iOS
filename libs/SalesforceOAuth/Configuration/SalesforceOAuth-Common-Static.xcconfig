@@ -8,4 +8,4 @@
 
 #include "SalesforceOAuth-Common.xcconfig"
 
-HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(inherited)
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(inherited)

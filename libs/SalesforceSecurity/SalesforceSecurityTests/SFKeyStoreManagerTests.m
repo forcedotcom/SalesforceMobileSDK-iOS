@@ -24,7 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCommon/NSData+SFAdditions.h>
 #import "SFKeyStoreManager+Internal.h"
 
 @interface SFKeyStoreManagerTests : XCTestCase

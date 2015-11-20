@@ -34,9 +34,9 @@
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFKeyStoreKey.h>
 #import <SalesforceSecurity/SFSDKCryptoUtils.h>
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import <SalesforceSDKCommon/NSString+SFAdditions.h>
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";

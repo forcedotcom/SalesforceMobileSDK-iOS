@@ -27,7 +27,7 @@
 #import "SFSDKResourceUtils.h"
 #import <SalesforceSecurity/SFPasscodeManager.h>
 #import <SalesforceSecurity/SFPasscodeManager+Internal.h>
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
+#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
 #import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants

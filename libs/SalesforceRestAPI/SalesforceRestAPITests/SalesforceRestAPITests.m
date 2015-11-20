@@ -37,7 +37,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceCommonUtils/SFLogger.h>
+#import <SalesforceSDKCommon/SFLogger.h>
 #import "SFRestAPI+Files.h"
 
 @interface SalesforceRestAPITests ()

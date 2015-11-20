@@ -26,7 +26,6 @@
 		6FFCCF9213BD7C0100F4B22B /* SFOAuthCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FFCCF9013BD7C0100F4B22B /* SFOAuthCoordinator.m */; };
 		8201F1AC1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */; };
 		8201F1AD1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */; };
-		827C82D817DD86AD0011BBA1 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82D717DD86AD0011BBA1 /* libSalesforceCommonUtils.a */; };
 		827C82DA17DD86CE0011BBA1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82D917DD86CE0011BBA1 /* MessageUI.framework */; };
 		827C82DC17DD86D60011BBA1 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DB17DD86D60011BBA1 /* QuartzCore.framework */; };
 		827C82DE17DD86E10011BBA1 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 827C82DD17DD86E10011BBA1 /* libz.dylib */; };
@@ -139,7 +138,6 @@
 		8201F1AA1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOAuthOrgAuthConfiguration.h; path = SalesforceOAuth/Classes/SFOAuthOrgAuthConfiguration.h; sourceTree = SOURCE_ROOT; };
 		8201F1AB1A310AED00C6696A /* SFOAuthOrgAuthConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFOAuthOrgAuthConfiguration.m; path = SalesforceOAuth/Classes/SFOAuthOrgAuthConfiguration.m; sourceTree = SOURCE_ROOT; };
 		82507F991BF574300096D73C /* SalesforceSecurity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSecurity.xcodeproj; path = ../SalesforceSecurity/SalesforceSecurity.xcodeproj; sourceTree = "<group>"; };
-		827C82D717DD86AD0011BBA1 /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		827C82D917DD86CE0011BBA1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		827C82DB17DD86D60011BBA1 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		827C82DD17DD86E10011BBA1 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -204,7 +202,6 @@
 				CF7F346413B52B4E001AB761 /* UIKit.framework in Frameworks */,
 				CF7F346513B52B4E001AB761 /* Foundation.framework in Frameworks */,
 				CF7F346613B52B4E001AB761 /* CoreGraphics.framework in Frameworks */,
-				827C82D817DD86AD0011BBA1 /* libSalesforceCommonUtils.a in Frameworks */,
 				CF7F348013B532AB001AB761 /* libSalesforceOAuth.a in Frameworks */,
 				827C82DE17DD86E10011BBA1 /* libz.dylib in Frameworks */,
 			);
@@ -364,7 +361,6 @@
 				8293A8E11A43AFE700ABC43C /* libSalesforceSDKCommon.a */,
 				82E0D87F191AC65100A8FC23 /* libSalesforceSecurity.a */,
 				827C82DD17DD86E10011BBA1 /* libz.dylib */,
-				827C82D717DD86AD0011BBA1 /* libSalesforceCommonUtils.a */,
 				CFA9ADD713AA86DA0024260E /* Foundation.framework */,
 				827C82D917DD86CE0011BBA1 /* MessageUI.framework */,
 				827C82DB17DD86D60011BBA1 /* QuartzCore.framework */,

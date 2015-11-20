@@ -10,10 +10,10 @@ INSTALL_PATH = /
 SKIP_INSTALL = YES
 
 PRODUCT_NAME = SalesforceSecurity
-OTHER_LDFLAGS = -ObjC -lSalesforceCommonUtils $(inherited)
+OTHER_LDFLAGS = -ObjC $(inherited)
 
-HEADER_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers $(inherited)
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" $(inherited)
+HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" $(inherited)
+LIBRARY_SEARCH_PATHS = $(inherited)
 
 GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch

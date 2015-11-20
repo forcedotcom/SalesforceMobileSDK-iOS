@@ -40,8 +40,8 @@
 #import "SFSecurityLockout+Internal.h"
 #import <SalesforceSecurity/SFKeyStoreManager.h>
 #import <SalesforceSecurity/SFEncryptionKey.h>
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCommon/NSString+SFAdditions.h>
+#import <SalesforceSDKCommon/NSData+SFAdditions.h>
 
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"

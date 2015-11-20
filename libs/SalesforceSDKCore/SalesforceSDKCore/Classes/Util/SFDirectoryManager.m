@@ -27,7 +27,7 @@
 #import "SFUserAccount.h"
 
 #import <SalesforceSDKCommon/SFSDKDatasharingHelper.h>
-#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
+#import <SalesforceSDKCommon/SFFileProtectionHelper.h>
 
 static NSString * const kDefaultOrgName = @"org";
 static NSString * const kDefaultCommunityName = @"internal";

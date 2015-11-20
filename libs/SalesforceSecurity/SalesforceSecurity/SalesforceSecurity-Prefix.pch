@@ -6,5 +6,5 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
-    #import <SalesforceCommonUtils/SFLogger.h>
+    #import <SalesforceSDKCommon/SFLogger.h>
 #endif
