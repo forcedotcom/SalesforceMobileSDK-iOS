@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Thu Nov 19 11:06:52 PST 2015.
+ Created by Wolfgang Mathurin on Thu Nov 19 17:22:00 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -63,6 +63,7 @@
 #import <SalesforceSDKCore/SFOAuthOrgAuthConfiguration.h>
 #import <SalesforceSDKCore/SFOAuthSessionRefresher.h>
 #import <SalesforceSDKCore/SFPasscodeKeyStore.h>
+#import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
 #import <SalesforceSDKCore/SFPasscodeManager.h>
 #import <SalesforceSDKCore/SFPasscodeProviderManager.h>
 #import <SalesforceSDKCore/SFPasscodeViewController.h>
@@ -82,6 +83,7 @@
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
+#import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
 #import <SalesforceSDKCore/SFUserAccount.h>

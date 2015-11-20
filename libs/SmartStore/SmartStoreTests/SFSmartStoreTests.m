@@ -37,7 +37,7 @@
 #import <SalesforceSDKCore/SFPasscodeManager.h>
 #import <SalesforceSDKCore/SFPasscodeManager+Internal.h>
 #import <SalesforceSDKCore/SFPasscodeProviderManager.h>
-#import "SFSecurityLockout+Internal.h"
+#import <SalesforceSDKCore/SFSecurityLockout+Internal.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceCommonUtils/NSString+SFAdditions.h>

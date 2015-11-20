@@ -448,6 +448,116 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8222729C19C39F4500FC537E"
+               BuildableName = "HybridPluginTestAppTests.xctest"
+               BlueprintName = "HybridPluginTestAppTests"
+               ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
+               BuildableName = "SmartSyncTests.xctest"
+               BlueprintName = "SmartSyncTests"
+               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "829A08841A323DDF00DC17A5"
+               BuildableName = "SalesforceRestAPITests.xctest"
+               BlueprintName = "SalesforceRestAPITests"
+               ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FEE43EA1BFD4C2400F09C43"
+               BuildableName = "SalesforceSecurityTests.xctest"
+               BlueprintName = "SalesforceSecurityTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FEE44061BFD4CE600F09C43"
+               BuildableName = "SalesforceSDKCommonTests.xctest"
+               BlueprintName = "SalesforceSDKCommonTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D31108AC1828DB8700737925"
+               BuildableName = "OCMockLibTests.xctest"
+               BlueprintName = "OCMockLibTests"
+               ReferencedContainer = "container:external/ocmock/Source/OCMock.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D4644219C7C8180006BDFE"
+               BuildableName = "SalesforceSDKCoreTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "03565A3018F0566E003AE91E"
+               BuildableName = "OCMockTests.xctest"
+               BlueprintName = "OCMockTests"
+               ReferencedContainer = "container:external/ocmock/Source/OCMock.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4FEE43B01BFD49F400F09C43"
+               BuildableName = "SalesforceOAuthTests.xctest"
+               BlueprintName = "SalesforceOAuthTests"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEAAAE54195911E600CBBFE9"
+               BuildableName = "SmartStoreTests.xctest"
+               BlueprintName = "SmartStoreTests"
+               ReferencedContainer = "container:libs/SmartStore/SmartStore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "825347F41A8ADD050019FE0B"
+               BuildableName = "SalesforceNetworkiOSTests.xctest"
+               BlueprintName = "SalesforceNetworkiOSTests"
+               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

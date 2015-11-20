@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4F230BC41BFEAE430030EEFA /* SmartStore-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */; };
 		4F96FBD91BFD30030022F021 /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F96FBDA1BFD30030022F021 /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
 		4F96FBDB1BFD30030022F021 /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,11 +148,12 @@
 			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
-			remoteInfo = SmartSync;
+			remoteInfo = SmartStore;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9601531BFD33B30022F021 /* SFSmartSqlTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSqlTests.h; path = SmartStoreTests/SFSmartSqlTests.h; sourceTree = SOURCE_ROOT; };
 		4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSqlTests.m; path = SmartStoreTests/SFSmartSqlTests.m; sourceTree = SOURCE_ROOT; };
@@ -225,7 +227,6 @@
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		CEAAAE4C195911E600CBBFE9 /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartStore-Prefix.pch"; sourceTree = "<group>"; };
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -382,13 +383,13 @@
 				CEAAAE4B195911E600CBBFE9 /* Supporting Files */,
 			);
 			name = SmartStore;
-			path = SmartSync;
+			path = SmartStore;
 			sourceTree = "<group>";
 		};
 		CEAAAE4B195911E600CBBFE9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CEAAAE4C195911E600CBBFE9 /* SmartStore-Prefix.pch */,
+				4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -411,7 +412,7 @@
 				CEAAAE5F195911E600CBBFE9 /* Supporting Files */,
 			);
 			name = SmartStoreTests;
-			path = SmartSyncTests;
+			path = SmartStoreTests;
 			sourceTree = "<group>";
 		};
 		CEAAAE5F195911E600CBBFE9 /* Supporting Files */ = {
@@ -482,6 +483,7 @@
 				4F96FBE11BFD30030022F021 /* SFSmartStore+Internal.h in Headers */,
 				4F96FBE91BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				4F96FBE41BFD30030022F021 /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
+				4F230BC41BFEAE430030EEFA /* SmartStore-Prefix.pch in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -504,7 +506,7 @@
 				4FFEE5B21BFE78FC00B7AA8A /* PBXTargetDependency */,
 			);
 			name = SmartStore;
-			productName = SmartSync;
+			productName = SmartStore;
 			productReference = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -522,7 +524,7 @@
 				CEAAAE5C195911E600CBBFE9 /* PBXTargetDependency */,
 			);
 			name = SmartStoreTests;
-			productName = SmartSyncTests;
+			productName = SmartStoreTests;
 			productReference = CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
