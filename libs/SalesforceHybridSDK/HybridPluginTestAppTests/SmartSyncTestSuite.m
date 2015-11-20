@@ -28,7 +28,7 @@
 
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
-#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SmartStore/SFSmartStore.h>
 #import "SFSmartStorePlugin.h"
 #import "SFSmartSyncPlugin.h"
 #import "SFHybridViewController.h"

@@ -23,8 +23,8 @@
  */
 
 #import "SObjectDataManager.h"
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Will go away once we are done refactoring SFSyncTarget

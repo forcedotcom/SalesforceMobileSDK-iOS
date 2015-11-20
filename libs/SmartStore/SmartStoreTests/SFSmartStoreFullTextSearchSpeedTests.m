@@ -26,7 +26,7 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
 #import "FMDatabaseQueue.h"
 #import "FMDatabase.h"
 
@@ -128,7 +128,7 @@
 - (double) setupData:(NSString*)textFieldType rowsPerAnimal:(int)rowsPerAnimal matchingRowsPerAnimal:(int)matchingRowsPerAnimal
 {
     NSArray* soupIndices = [SFSoupIndex asArraySoupIndexes:@[@{kSoupIndexPath:kText, kSoupIndexType:textFieldType}]];
-    [self.store registerSoup:kAnimalsSoup withIndexSpecs:soupIndices];
+    [self.store registerSoup:kAnimalsSoup withIndexSpecs:soupIndices error:nil];
 
     __block int rowCount = 0;
     __block double totalInsertTime = 0.0;

@@ -30,9 +30,9 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SmartSync/SFSoqlSyncDownTarget.h>
 #import <SmartSync/SFSoslSyncDownTarget.h>

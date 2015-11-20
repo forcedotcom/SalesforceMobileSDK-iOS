@@ -27,7 +27,7 @@
 #import "SFSmartStore+Internal.h"
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
-#import "SFJsonUtils.h"
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 @interface SFSmartSqlTests ()
 

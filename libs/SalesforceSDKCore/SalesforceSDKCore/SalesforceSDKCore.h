@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Thu Nov 19 10:49:13 PST 2015.
+ Created by Wolfgang Mathurin on Thu Nov 19 11:06:52 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -34,7 +34,6 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFAbstractPasscodeViewController.h>
 #import <SalesforceSDKCore/SFApplication.h>
-#import <SalesforceSDKCore/SFAuthenticationManager+Internal.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandler.h>
@@ -72,7 +71,6 @@
 #import <SalesforceSDKCore/SFPBKDFData.h>
 #import <SalesforceSDKCore/SFPreferences.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFRootViewManager.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFSDKAppDelegate.h>
@@ -86,11 +84,6 @@
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSmartStoreDatabaseManager.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFStoreCursor.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>

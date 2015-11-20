@@ -76,6 +76,37 @@
 		82AF5AEB1A0DAE72006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE51A0DADA4006C7A4B /* logger.js */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4FFEE61B1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82EFF2D016E7C57100A63CDF;
+			remoteInfo = SalesforceHybridSDK;
+		};
+		4FFEE61D1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82EFF2FF16E8049500A63CDF;
+			remoteInfo = HybridPluginTestApp;
+		};
+		4FFEE61F1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8222729D19C39F4500FC537E;
+			remoteInfo = HybridPluginTestAppTests;
+		};
+		4FFEE6211BFE917900B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82EFF2CF16E7C57100A63CDF;
+			remoteInfo = SalesforceHybridSDK;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		824A9D6B1724C35700C9BD79 /* Copy Shared www Files */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -191,6 +222,7 @@
 		4FF15E671908852E00705FE0 /* com.salesforce.util.exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.exec.js; sourceTree = "<group>"; };
 		4FF15E681908852E00705FE0 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FF15E9C1908860100705FE0 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
+		4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceHybridSDK.xcodeproj; path = ../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj; sourceTree = "<group>"; };
 		8230E2451A24181500EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		824A9BCE1721FCA400C9BD79 /* SmartSyncExplorerHybrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorerHybrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -332,6 +364,16 @@
 			path = com.salesforce;
 			sourceTree = "<group>";
 		};
+		4FFEE6151BFE916F00B7AA8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFEE61C1BFE916F00B7AA8A /* libSalesforceHybridSDK.a */,
+				4FFEE61E1BFE916F00B7AA8A /* HybridPluginTestApp.app */,
+				4FFEE6201BFE916F00B7AA8A /* HybridPluginTestAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		824A9BC51721FCA400C9BD79 = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +395,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */,
 				4FEE44801BFD5A4200F09C43 /* libSalesforceRestAPI.a */,
 				4FEE44411BFD551100F09C43 /* libSalesforceNetwork.a */,
 				4FEE44281BFD4E7400F09C43 /* libSmartStore.a */,
@@ -518,6 +561,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				4FFEE6221BFE917900B7AA8A /* PBXTargetDependency */,
 			);
 			name = SmartSyncExplorerHybrid;
 			productName = SmartSyncExplorerHybrid;
@@ -543,12 +587,42 @@
 			mainGroup = 824A9BC51721FCA400C9BD79;
 			productRefGroup = 824A9BCF1721FCA400C9BD79 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4FFEE6151BFE916F00B7AA8A /* Products */;
+					ProjectRef = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				824A9BCD1721FCA400C9BD79 /* SmartSyncExplorerHybrid */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4FFEE61C1BFE916F00B7AA8A /* libSalesforceHybridSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceHybridSDK.a;
+			remoteRef = 4FFEE61B1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFEE61E1BFE916F00B7AA8A /* HybridPluginTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = HybridPluginTestApp.app;
+			remoteRef = 4FFEE61D1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFEE6201BFE916F00B7AA8A /* HybridPluginTestAppTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HybridPluginTestAppTests.xctest;
+			remoteRef = 4FFEE61F1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		824A9BCC1721FCA400C9BD79 /* Resources */ = {
@@ -580,6 +654,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4FFEE6221BFE917900B7AA8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceHybridSDK;
+			targetProxy = 4FFEE6211BFE917900B7AA8A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */ = {

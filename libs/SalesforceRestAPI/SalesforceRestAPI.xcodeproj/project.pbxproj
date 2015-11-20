@@ -43,10 +43,8 @@
 		4FDA6D7919DB7D32005AF96F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D7719DB7D32005AF96F /* InfoPlist.strings */; };
 		8212C1C217F0EAB2002C59E2 /* libSalesforceCommonUtils.a in Resources */ = {isa = PBXBuildFile; fileRef = 8212C1C117F0EAB2002C59E2 /* libSalesforceCommonUtils.a */; };
 		8212C1C317F0EAE5002C59E2 /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8212C1C117F0EAB2002C59E2 /* libSalesforceCommonUtils.a */; };
-		8212C1C417F0EB09002C59E2 /* libSalesforceOAuth.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7B616E089AB0006B3C0 /* libSalesforceOAuth.a */; };
 		8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C72E16E076DE0006B3C0 /* libSalesforceRestAPI.a */; };
 		8212C1C617F0EB4A002C59E2 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7AD16E087690006B3C0 /* libSalesforceSDKCore.a */; };
-		8212C1C717F0EB58002C59E2 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA716E1315B00768DE8 /* libsqlcipher.a */; };
 		8212C1C917F0EB6B002C59E2 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA916E1318200768DE8 /* libxml2.dylib */; };
 		8212C1CA17F0EB70002C59E2 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBA116E1312200768DE8 /* libz.dylib */; };
 		8212C1CD17F0ED46002C59E2 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7A916E086B40006B3C0 /* CFNetwork.framework */; };
@@ -64,7 +62,6 @@
 		829A08911A323E8B00DC17A5 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 829A08901A323E8B00DC17A5 /* test_credentials.json */; };
 		829A08951A32417F00DC17A5 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A08941A32417F00DC17A5 /* SFNativeRestRequestListener.m */; };
 		82A0C3E61A9A30B100243931 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0C3E51A9A30B100243931 /* libSalesforceNetwork.a */; };
-		82AA405E18E3AECF00BD34D8 /* libSalesforceSecurity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AA405D18E3AECF00BD34D8 /* libSalesforceSecurity.a */; };
 		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C75E16E07DEB0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
 		82C0C75F16E07DEB0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
@@ -195,12 +192,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				82A0C3E61A9A30B100243931 /* libSalesforceNetwork.a in Frameworks */,
-				82AA405E18E3AECF00BD34D8 /* libSalesforceSecurity.a in Frameworks */,
 				8212C1C317F0EAE5002C59E2 /* libSalesforceCommonUtils.a in Frameworks */,
 				8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */,
-				8212C1C417F0EB09002C59E2 /* libSalesforceOAuth.a in Frameworks */,
 				8212C1C617F0EB4A002C59E2 /* libSalesforceSDKCore.a in Frameworks */,
-				8212C1C717F0EB58002C59E2 /* libsqlcipher.a in Frameworks */,
 				8212C1C917F0EB6B002C59E2 /* libxml2.dylib in Frameworks */,
 				8212C1CA17F0EB70002C59E2 /* libz.dylib in Frameworks */,
 				8212C1CD17F0ED46002C59E2 /* CFNetwork.framework in Frameworks */,
@@ -497,8 +491,8 @@
 			targets = (
 				82C0C72D16E076DE0006B3C0 /* SalesforceRestAPI */,
 				82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPIUnitTestApp */,
-				2D9A2E5518BE9B5400644C0E /* Documentation */,
 				829A08841A323DDF00DC17A5 /* SalesforceRestAPITests */,
+				2D9A2E5518BE9B5400644C0E /* Documentation */,
 			);
 		};
 /* End PBXProject section */

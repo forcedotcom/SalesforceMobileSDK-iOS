@@ -26,8 +26,8 @@
 
 #import <SalesforceNetwork/CSFDefines.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFOAuthCredentials.h>
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest.h"
 #import "SFNativeRestRequestListener.h"
