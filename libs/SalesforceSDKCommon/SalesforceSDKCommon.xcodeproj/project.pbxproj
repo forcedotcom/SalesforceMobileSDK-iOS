@@ -94,6 +94,9 @@
 		CECEB8DF1BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
 		CECEB8E01BFE856E0020211B /* SFCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8DC1BFE856E0020211B /* SFCrypto.m */; };
 		CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */; };
+		CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
+		CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +182,8 @@
 		CECEB8DB1BFE856E0020211B /* SFCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFCrypto.h; path = Classes/SFCrypto.h; sourceTree = "<group>"; };
 		CECEB8DC1BFE856E0020211B /* SFCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFCrypto.m; path = Classes/SFCrypto.m; sourceTree = "<group>"; };
 		CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SFCrypto+Internal.h"; path = "Classes/SFCrypto+Internal.h"; sourceTree = "<group>"; };
+		CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFInactivityTimerCenter.h; path = Classes/SFInactivityTimerCenter.h; sourceTree = "<group>"; };
+		CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFInactivityTimerCenter.m; path = Classes/SFInactivityTimerCenter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +280,8 @@
 		82D53D4B1A36198900E46F8F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CECEB8E61BFFA0FD0020211B /* SFInactivityTimerCenter.h */,
+				CECEB8E71BFFA0FD0020211B /* SFInactivityTimerCenter.m */,
 				CECEB8DB1BFE856E0020211B /* SFCrypto.h */,
 				CECEB8DC1BFE856E0020211B /* SFCrypto.m */,
 				CECEB8DD1BFE856E0020211B /* SFCrypto+Internal.h */,
@@ -364,6 +371,7 @@
 			files = (
 				CE11C93A1BFD729F007C3CF9 /* DDLog.h in Headers */,
 				CE11C9031BFD6BF9007C3CF9 /* NSData+SFAdditions.h in Headers */,
+				CECEB8E81BFFA0FD0020211B /* SFInactivityTimerCenter.h in Headers */,
 				CECEB8DE1BFE856E0020211B /* SFCrypto.h in Headers */,
 				CECEB8E11BFE856E0020211B /* SFCrypto+Internal.h in Headers */,
 				CECEB8D71BFE80CF0020211B /* SFKeychainItemWrapper.h in Headers */,
@@ -534,6 +542,7 @@
 				CE11C9411BFD729F007C3CF9 /* DDContextFilterLogFormatter.m in Sources */,
 				CE11C9531BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				8293A8E01A43AAC600ABC43C /* SFSDKAsyncProcessListener.m in Sources */,
+				CECEB8E91BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
 				CE11C9371BFD729F007C3CF9 /* DDFileLogger.m in Sources */,
 				CE11C9041BFD6BF9007C3CF9 /* NSData+SFAdditions.m in Sources */,
 				CE11C94B1BFD729F007C3CF9 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
@@ -564,6 +573,7 @@
 				CE11C93C1BFD729F007C3CF9 /* DDLog.m in Sources */,
 				CE11C9451BFD729F007C3CF9 /* DDDispatchQueueLogFormatter.m in Sources */,
 				CE11C9351BFD729F007C3CF9 /* DDASLLogger.m in Sources */,
+				CECEB8EA1BFFA0FD0020211B /* SFInactivityTimerCenter.m in Sources */,
 				CE11C9541BFD7684007C3CF9 /* NSNotificationCenter+SFAdditions.m in Sources */,
 				82D53D581A363E2100E46F8F /* SDKCommonNSDataTests.m in Sources */,
 				CECEB8D91BFE80CF0020211B /* SFKeychainItemWrapper.m in Sources */,
