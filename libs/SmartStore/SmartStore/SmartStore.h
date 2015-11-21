@@ -2,7 +2,7 @@
  SmartStore.h
  SmartStore
 
- Created by Wolfgang Mathurin on Wed Nov 18 17:38:34 PST 2015.
+ Created by Bharath Hariharan on Fri Nov 20 15:33:58 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  

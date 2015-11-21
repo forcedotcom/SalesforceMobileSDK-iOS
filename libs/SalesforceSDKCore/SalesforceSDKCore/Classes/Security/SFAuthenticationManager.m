@@ -45,9 +45,9 @@
 
 #import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
-#import <SalesforceCommonUtils/NSURL+SFAdditions.h>
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
-#import <SalesforceCommonUtils/SFTestContext.h>
+#import "NSURL+SFAdditions.h"
+#import "SFInactivityTimerCenter.h"
+#import "SFTestContext.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 

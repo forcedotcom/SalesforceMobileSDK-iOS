@@ -97,7 +97,7 @@
                                                             ]];
     
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
 
     
@@ -130,7 +130,7 @@
 {
     NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kName, @"type": @"string"}, @{@"path": kPopulation, @"type": @"string"}]];
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
     
     [self.store upsertEntries:@[@{kName:@"San Francisco", kPopulation:@825863}, @{kName:@"Paris", kPopulation:@2234105}]
@@ -158,7 +158,7 @@
 {
     NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"string"}, @{@"path": kCountry, @"type": @"string"}]];
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
 
     NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
@@ -240,7 +240,7 @@
 {
     NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"full_text"}, @{@"path": kCountry, @"type": @"full_text"}]];
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
 
     NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
@@ -351,7 +351,7 @@
 {
     NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kLastName, @"type": @"string"}, @{@"path": kAddressCity, @"type": @"string"}]];
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
-    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
     
     NSArray* savedEntries = [self.store upsertEntries:@[@{kLastName:@"Doe", kAddress: @{kCity: @"San Francisco", kStreet: @"1 market"}},
@@ -411,7 +411,7 @@
         // Register
         NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
         NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
-        [store registerSoup:kTestSoupName withIndexSpecs:indexSpecs];
+        [store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
         BOOL testSoupExists = [store soupExists:kTestSoupName];
         XCTAssertTrue(testSoupExists, @"Soup %@ should exist", kTestSoupName);
         __block NSString* soupTableName;

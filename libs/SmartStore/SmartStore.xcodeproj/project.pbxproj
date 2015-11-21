@@ -65,7 +65,6 @@
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
-		CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
 		CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */; };
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
@@ -87,6 +86,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4FF9462B1BFFF8D0005368C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
+			remoteInfo = SalesforceSDKCoreTests;
+		};
 		4FFEE5A31BFE78DE00B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5981BFE78DD00B7AA8A /* SalesforceSDKCore.xcodeproj */;
@@ -221,7 +227,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE1F0AF819AC1D6E0007F22F /* libSalesforceCommonUtils.a in Frameworks */,
 				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
 				CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */,
 				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
@@ -277,8 +282,9 @@
 			isa = PBXGroup;
 			children = (
 				4FFEE5A41BFE78DE00B7AA8A /* libSalesforceSDKCore.a */,
+				4FF9462C1BFFF8D0005368C5 /* SalesforceSDKCoreTests.xctest */,
 				4FFEE5A61BFE78DE00B7AA8A /* SalesforceSDKCoreTestApp.app */,
-				4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTests.xctest */,
+				4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTestAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -530,6 +536,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		4FF9462C1BFFF8D0005368C5 /* SalesforceSDKCoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SalesforceSDKCoreTests.xctest;
+			remoteRef = 4FF9462B1BFFF8D0005368C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		4FFEE5A41BFE78DE00B7AA8A /* libSalesforceSDKCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -544,10 +557,10 @@
 			remoteRef = 4FFEE5A51BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTests.xctest */ = {
+		4FFEE5A81BFE78DE00B7AA8A /* SalesforceSDKCoreTestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCoreTests.xctest;
+			path = SalesforceSDKCoreTestAppTests.xctest;
 			remoteRef = 4FFEE5A71BFE78DE00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -747,6 +760,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DFMDatabase=SF_FMDatabase",
+					"-DFMStatement=SF_FMStatement",
+					"-DFMDatabasePool=SF_FMDatabasePool",
+					"-DFMDatabaseQueue=SF_FMDatabaseQueue",
+					"-DFMResultSet=SF_FMResultSet",
+					"-DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -761,6 +784,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_CFLAGS = (
+					"-DSQLITE_HAS_CODEC",
+					"-DFMDatabase=SF_FMDatabase",
+					"-DFMStatement=SF_FMStatement",
+					"-DFMDatabasePool=SF_FMDatabasePool",
+					"-DFMDatabaseQueue=SF_FMDatabaseQueue",
+					"-DFMResultSet=SF_FMResultSet",
+					"-DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction",
+					"$(inherited)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";

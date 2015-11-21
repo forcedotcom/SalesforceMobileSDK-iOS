@@ -27,10 +27,10 @@
 #import "SFSmartStoreUtils.h"
 #import "SFSmartStoreDatabaseManager+Internal.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceCommonUtils/UIDevice+SFHardware.h>
-#import <SalesforceCommonUtils/SFCrypto.h>
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/UIDevice+SFHardware.h>
+#import <SalesforceSDKCore/SFCrypto.h>
+#import <SalesforceSDKCore/NSString+SFAdditions.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFPasscodeManager.h>
 #import "FMDatabase.h"
 

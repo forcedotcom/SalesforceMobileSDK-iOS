@@ -11,7 +11,7 @@
 #endif
 
 #ifdef __OBJC__
-    #import <SalesforceCommonUtils/SFLogger.h>
+    #import <SalesforceSDKCore/SFLogger.h>
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif

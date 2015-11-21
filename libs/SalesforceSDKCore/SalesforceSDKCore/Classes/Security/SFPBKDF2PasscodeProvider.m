@@ -23,10 +23,10 @@
  */
 
 #import "SFPBKDF2PasscodeProvider.h"
-#import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import "SFPBKDFData.h"
 #import "SFSDKCryptoUtils.h"
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
 
 static NSString * const kKeychainIdentifierPasscodeVerify = @"com.salesforce.security.passcode.pbkdf2.verify";
 static NSString * const kKeychainIdentifierPasscodeEncrypt = @"com.salesforce.security.passcode.pbkdf2.encrypt";

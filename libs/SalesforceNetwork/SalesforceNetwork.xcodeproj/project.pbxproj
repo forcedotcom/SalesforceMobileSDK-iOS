@@ -24,7 +24,6 @@
 		825348BC1A8ADD220019FE0B /* TestDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 825348621A8ADD220019FE0B /* TestDataAction.m */; };
 		825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348C31A8AE7BC0019FE0B /* libOCMock.a */; };
 		825348C61A8AE87A0019FE0B /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348C51A8AE87A0019FE0B /* libSalesforceSDKCore.a */; };
-		825348CE1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */; };
 		825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CF1A8AF55B0019FE0B /* MessageUI.framework */; };
 		825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D11A8AF5770019FE0B /* libz.dylib */; };
 		827DD4871A7C006F00519F03 /* NSURL+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */; };
@@ -237,7 +236,6 @@
 		825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		825348CF1A8AF55B0019FE0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825348D11A8AF5770019FE0B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		825348D31A8AF5AC0019FE0B /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
@@ -324,7 +322,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
-				825348CE1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a in Frameworks */,
 				825347FB1A8ADD050019FE0B /* libSalesforceNetwork.a in Frameworks */,
 				825348C61A8AE87A0019FE0B /* libSalesforceSDKCore.a in Frameworks */,
 				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
@@ -633,7 +630,6 @@
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
 				825348D31A8AF5AC0019FE0B /* libsqlcipher.a */,
 				825348D11A8AF5770019FE0B /* libz.dylib */,
-				825348CD1A8AE8AF0019FE0B /* libSalesforceCommonUtils.a */,
 				825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */,
 				825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */,
 				825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */,
@@ -1031,7 +1027,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_LDFLAGS = (
@@ -1063,7 +1058,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils",
 					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
 				);
 				OTHER_LDFLAGS = (

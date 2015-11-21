@@ -28,6 +28,10 @@
 #import "SFOAuthCrypto.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFKeyStoreManager.h"
+#import "SFKeychainItemWrapper.h"
+#import "SFCrypto.h"
+#import "UIDevice+SFHardware.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
 

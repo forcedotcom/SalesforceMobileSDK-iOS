@@ -26,7 +26,7 @@
 
 #import "RCTUtils.h"
 
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 
 

@@ -28,14 +28,15 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 #import "SFManagedPreferences.h"
-#import "SFUserAccount_Internal.h"
+#import "SFUserAccount+Internal.h"
+#import "SFIdentityData+Internal.h"
 
 #import "SFKeyStoreManager.h"
 #import "SFKeyStoreKey.h"
 #import "SFSDKCryptoUtils.h"
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "NSString+SFAdditions.h"
 #import "SFSDKDatasharingHelper.h"
-#import <SalesforceCommonUtils/SFFileProtectionHelper.h>
+#import "SFFileProtectionHelper.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -1168,6 +1169,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 - (void)applyIdData:(SFIdentityData *)idData {
     self.currentUser.idData = idData;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes {
+    self.currentUser.idData.customAttributes = customAttributes;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions {
+    self.currentUser.idData.customPermissions = customPermissions;
     [self userChanged:SFUserAccountChangeIdData];
 }
 

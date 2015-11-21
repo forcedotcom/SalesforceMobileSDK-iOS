@@ -22,12 +22,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFUserAccount_Internal.h"
+#import "SFUserAccount+Internal.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFDirectoryManager.h"
-
 #import "SFOAuthCredentials.h"
-#import <SalesforceCommonUtils/SFLogger.h>
 
 static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
 static NSString * const kUser_CREDENTIALS       = @"credentials";

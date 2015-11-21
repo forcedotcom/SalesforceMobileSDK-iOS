@@ -36,7 +36,6 @@ The easiest way to do this is to delete everything in the Dependencies folder of
     - SmartSync-Release.zip
     - SalesforceSDKCommon-Release.zip
 3. Also, download the following folders from the ThirdParty folder link in the distribution repo, for placement in your Dependencies folder:
-    - SalesforceCommonUtils
     - openssl
     - sqlcipher
 4. Recreate the Dependencies folder, under your app folder.

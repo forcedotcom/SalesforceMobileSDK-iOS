@@ -14,5 +14,5 @@ PRODUCT_NAME = SalesforceSDKCore
 OTHER_CFLAGS = -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FMStatement -DFMDatabasePool=SF_FMDatabasePool -DFMDatabaseQueue=SF_FMDatabaseQueue -DFMResultSet=SF_FMResultSet -DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction $(inherited)
 OTHER_LDFLAGS = -ObjC -lsqlcipher
 
-HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers" $(inherited)
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/SalesforceCommonUtils" "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)
+HEADER_SEARCH_PATHS = $(inherited)
+LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)

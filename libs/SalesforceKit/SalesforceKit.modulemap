@@ -4,16 +4,6 @@ framework module SalesforceKit {
     export *
     module * { export * }
     
-    framework module SalesforceCommonUtils {
-        umbrella header "SalesforceCommonUtils.h"
-        
-        export *
-        module * { export * }
-        
-        link "System"
-        link "z"
-    }
-    
     framework module SalesforceOAuth {
         umbrella header "SalesforceOAuth.h"
         
@@ -21,7 +11,6 @@ framework module SalesforceKit {
         module * { export * }
         
         use SalesforceSecurity
-        use SalesforceCommonUtils
     }
     
     framework module SalesforceSecurity {
@@ -29,8 +18,8 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceCommonUtils
+
+        use SalesforceSDKCommon
     }
     
     framework module SalesforceSDKCommon {
@@ -38,8 +27,6 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceCommonUtils
     }
     
     framework module SalesforceSDKCore {
@@ -47,8 +34,6 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceCommonUtils
     }
     
     framework module SalesforceNetwork {
@@ -58,7 +43,6 @@ framework module SalesforceKit {
         module * { export * }
         
         use SalesforceSDKCore
-        use SalesforceCommonUtils
     }
     
     framework module SalesforceRestAPI {

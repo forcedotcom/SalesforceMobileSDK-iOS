@@ -27,7 +27,7 @@
 #import "SFKeyStoreKey.h"
 #import "SFPasscodeManager.h"
 #import "SFKeyStoreManager+Internal.h"
-#import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
+#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 
 // Keychain and NSCoding constants
 static NSString * const kPasscodeKeyStoreKeychainIdentifier = @"com.salesforce.keystore.passcodeKeystoreKeychainId";

@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "NSString+SFAdditions.h"
 #import "SFPreferences.h"
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"

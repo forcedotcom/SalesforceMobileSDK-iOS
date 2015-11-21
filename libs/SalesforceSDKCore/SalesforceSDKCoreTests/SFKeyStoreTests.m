@@ -25,7 +25,7 @@
 #import "SFEncryptionKey.h"
 #import "SFKeyStore+Internal.h"
 #import "SFKeyStoreManager+Internal.h"
-#import <SalesforceCommonUtils/NSData+SFAdditions.h>
+#import <SalesforceSDKCore/NSData+SFAdditions.h>
 
 @interface SFKeyStoreTests : XCTestCase
 {

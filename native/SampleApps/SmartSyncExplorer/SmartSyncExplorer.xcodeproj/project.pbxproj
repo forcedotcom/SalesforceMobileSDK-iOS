@@ -19,7 +19,6 @@
 		820C8B1B19E6070E00E9BE5C /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */; };
 		820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1719E6070E00E9BE5C /* libSmartSync.a */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
-		820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
 		820C8B2919E6093300E9BE5C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2819E6093300E9BE5C /* libz.dylib */; };
@@ -86,7 +85,6 @@
 		820C8B1619E6070E00E9BE5C /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B1719E6070E00E9BE5C /* libSmartSync.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B1E19E6081C00E9BE5C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		820C8B2219E6088400E9BE5C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -131,7 +129,6 @@
 			files = (
 				4FEE447B1BFD5A2100F09C43 /* libSalesforceRestAPI.a in Frameworks */,
 				4FEE443C1BFD54F100F09C43 /* libSalesforceNetwork.a in Frameworks */,
-				820C8B2119E6083A00E9BE5C /* libSalesforceCommonUtils.a in Frameworks */,
 				820C8B1B19E6070E00E9BE5C /* libSalesforceSDKCore.a in Frameworks */,
 				4FEE44231BFD4E0900F09C43 /* libSmartStore.a in Frameworks */,
 				820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */,
@@ -245,7 +242,6 @@
 				8258804A1AA4222A000C551E /* MobileCoreServices.framework */,
 				825880481AA4217A000C551E /* libSalesforceNetwork.a */,
 				82D53D5F1A377DF900E46F8F /* libSalesforceSDKCommon.a */,
-				820C8B2019E6083A00E9BE5C /* libSalesforceCommonUtils.a */,
 				820C8B1419E6070E00E9BE5C /* libSalesforceOAuth.a */,
 				820C8B2419E608A500E9BE5C /* libSalesforceRestAPI.a */,
 				820C8B1519E6070E00E9BE5C /* libSalesforceSDKCore.a */,
@@ -451,13 +447,9 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -495,13 +487,9 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(OBJROOT)/UninstalledProducts/Headers",
-					"$(PROJECT_DIR)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils/Headers",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher",
-					"$(SRCROOT)/../../../external/ThirdPartyDependencies/SalesforceCommonUtils",
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../../external/ThirdPartyDependencies/sqlcipher";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
