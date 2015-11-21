@@ -186,10 +186,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82A0C3E61A9A30B100243931 /* libSalesforceNetwork.a in Frameworks */,
 				8212C1C317F0EAE5002C59E2 /* libSalesforceCommonUtils.a in Frameworks */,
-				8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */,
 				8212C1C617F0EB4A002C59E2 /* libSalesforceSDKCore.a in Frameworks */,
+				82A0C3E61A9A30B100243931 /* libSalesforceNetwork.a in Frameworks */,
+				8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */,
 				8212C1C917F0EB6B002C59E2 /* libxml2.dylib in Frameworks */,
 				8212C1CA17F0EB70002C59E2 /* libz.dylib in Frameworks */,
 				8212C1CD17F0ED46002C59E2 /* CFNetwork.framework in Frameworks */,
@@ -341,7 +341,6 @@
 				4F7EB4BD1BFFCF6000768720 /* ViewController.h */,
 				4F7EB4BE1BFFCF6000768720 /* ViewController.m */,
 			);
-			name = SalesforceRestAPITestApp;
 			path = SalesforceRestAPITestApp;
 			sourceTree = "<group>";
 		};

@@ -40,7 +40,6 @@
 		4F7EB4F21BFFD01100768720 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4DC1BFFCFF500768720 /* SmartStoreTestSuite.m */; };
 		4F7EB4F31BFFD01100768720 /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4DE1BFFCFF500768720 /* SmartSyncTestSuite.m */; };
 		4F7EB4F91BFFD06400768720 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4F61BFFD05D00768720 /* AppDelegate.m */; };
-		4F7EB5011BFFD07C00768720 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FE1BFFD07C00768720 /* main.m */; };
 		4F7EB5021BFFD07C00768720 /* SalesforceHybridSDKTestApp-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F7EB5001BFFD07C00768720 /* SalesforceHybridSDKTestApp-Prefix.pch */; };
 		4F7EB5081BFFD30300768720 /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB5051BFFD2FD00768720 /* SFTestRunnerPlugin.m */; };
 		4F7EB50B1BFFD43400768720 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB5091BFFD37800768720 /* InfoPlist.strings */; };
@@ -65,6 +64,12 @@
 		4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */; };
 		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
 		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
+		4FE5332C1BFFEA9900814D2A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB5091BFFD37800768720 /* InfoPlist.strings */; };
+		4FE5332D1BFFEA9900814D2A /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FA1BFFD07C00768720 /* config.xml */; };
+		4FE5332E1BFFEA9900814D2A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FB1BFFD07C00768720 /* Default-568h@2x.png */; };
+		4FE5332F1BFFEA9900814D2A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FC1BFFD07C00768720 /* Default.png */; };
+		4FE533301BFFEA9900814D2A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FD1BFFD07C00768720 /* Default@2x.png */; };
+		4FE533311BFFEBEF00814D2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F7EB4FE1BFFD07C00768720 /* main.m */; };
 		4FFEE6621BFE9EE200B7AA8A /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6611BFE9EE200B7AA8A /* libSmartStore.a */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
 		822272A019C39F4500FC537E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
@@ -1096,6 +1101,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE5332C1BFFEA9900814D2A /* InfoPlist.strings in Resources */,
+				4FE5332D1BFFEA9900814D2A /* config.xml in Resources */,
+				4FE5332E1BFFEA9900814D2A /* Default-568h@2x.png in Resources */,
+				4FE5332F1BFFEA9900814D2A /* Default.png in Resources */,
+				4FE533301BFFEA9900814D2A /* Default@2x.png in Resources */,
 				4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */,
 				4F753375193D252200540762 /* Settings.bundle in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
@@ -1161,7 +1171,6 @@
 				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
 				4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */,
 				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
-				4F7EB5011BFFD07C00768720 /* main.m in Sources */,
 				4FA19A5A1992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1170,6 +1179,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE533311BFFEBEF00814D2A /* main.m in Sources */,
 				4F7EB4F91BFFD06400768720 /* AppDelegate.m in Sources */,
 				82AF5A6B1A0D911D006C7A4B /* CDVLogger.m in Sources */,
 				4F7EB5081BFFD30300768720 /* SFTestRunnerPlugin.m in Sources */,

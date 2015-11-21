@@ -192,6 +192,8 @@
 		4F96FE281BFD32140022F021 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */; };
 		4F96FE291BFD32140022F021 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F96FE2A1BFD32140022F021 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
+		4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */; };
+		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		4FFEE6331BFE96B700B7AA8A /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74C16D804CA00EC3921 /* libSalesforceSDKCore.a */; };
 		8220B75016D804CA00EC3921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
@@ -265,7 +267,6 @@
 		4F7EB4961BFFCEF600768720 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SalesforceSDKCoreTestApp/AppDelegate.m; sourceTree = SOURCE_ROOT; };
 		4F7EB4991BFFCEF600768720 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main_iPad.storyboard; sourceTree = "<group>"; };
 		4F7EB49B1BFFCEF600768720 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main_iPhone.storyboard; sourceTree = "<group>"; };
-		4F7EB49E1BFFCEF600768720 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		4F7EB49F1BFFCEF600768720 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SalesforceSDKCoreTestApp/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		4F7EB4A01BFFCEF600768720 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SalesforceSDKCoreTestApp/main.m; sourceTree = SOURCE_ROOT; };
 		4F7EB4A11BFFCEF600768720 /* SalesforceSDKCoreTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SalesforceSDKCoreTestApp-Info.plist"; path = "SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -523,25 +524,6 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
-		};
-		4F7EB4971BFFCEF600768720 /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */,
-				4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */,
-			);
-			name = Base.lproj;
-			path = SalesforceSDKCoreTestApp/Base.lproj;
-			sourceTree = SOURCE_ROOT;
-		};
-		4F7EB49C1BFFCEF600768720 /* en.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				4F7EB49D1BFFCEF600768720 /* InfoPlist.strings */,
-			);
-			name = en.lproj;
-			path = SalesforceSDKCoreTestApp/en.lproj;
-			sourceTree = SOURCE_ROOT;
 		};
 		4F96FC511BFD32130022F021 /* Common */ = {
 			isa = PBXGroup;
@@ -852,8 +834,8 @@
 			children = (
 				4F7EB4951BFFCEF600768720 /* AppDelegate.h */,
 				4F7EB4961BFFCEF600768720 /* AppDelegate.m */,
-				4F7EB4971BFFCEF600768720 /* Base.lproj */,
-				4F7EB49C1BFFCEF600768720 /* en.lproj */,
+				4F7EB4981BFFCEF600768720 /* Main_iPad.storyboard */,
+				4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */,
 				4F7EB49F1BFFCEF600768720 /* Images.xcassets */,
 				4F7EB4A01BFFCEF600768720 /* main.m */,
 				4F7EB4A11BFFCEF600768720 /* SalesforceSDKCoreTestApp-Info.plist */,
@@ -861,7 +843,6 @@
 				4F7EB4A31BFFCEF600768720 /* ViewController.h */,
 				4F7EB4A41BFFCEF600768720 /* ViewController.m */,
 			);
-			name = SalesforceSDKCoreTestApp;
 			path = SalesforceSDKCoreTestApp;
 			sourceTree = SOURCE_ROOT;
 		};
@@ -1108,6 +1089,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */,
+				4FE5332A1BFFE70600814D2A /* Main_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1301,6 +1284,7 @@
 				4F7EB4991BFFCEF600768720 /* Base */,
 			);
 			name = Main_iPad.storyboard;
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 		4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */ = {
@@ -1309,14 +1293,7 @@
 				4F7EB49B1BFFCEF600768720 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		4F7EB49D1BFFCEF600768720 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4F7EB49E1BFFCEF600768720 /* en */,
-			);
-			name = InfoPlist.strings;
+			path = Base.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
