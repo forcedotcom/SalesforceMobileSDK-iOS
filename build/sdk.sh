@@ -30,30 +30,29 @@ require 'optparse'
 
 # Constants
 SCHEMES_TO_BUILD = [
-  "AccountEditor",
-  "NoteSync",
-  "OCMock",
-  "OCMockLib",
-  "RestAPIExplorer",
-  "SalesforceHybridSDK",
-  "SalesforceReact",
   "SalesforceSDKCore",
+  "SalesforceNetworkiOS",
+  "SalesforceRestAPI",
   "SmartStore",
   "SmartSync",
+  "SalesforceHybridSDK",
+  "SalesforceReact",
+  "RestAPIExplorer",
   "SmartSyncExplorer",
+  "AccountEditor",
+  "NoteSync",
   "SmartSyncExplorerHybrid"
 ];
 
-
 SCHEMES_TO_TEST = [
-  "HybridPluginTestApp",
-  "OCMockLib", 
-  "SalesforceSDKCoreUnitTestApp",
+  "SalesforceSDKCore",
+  "SalesforceNetworkiOS",
   "SmartStore",
-  "SmartSync"
+  "SmartSync",
+  "SalesforceSDKCoreTestApp",
+  "SalesforceRestAPITestApp",
+  "SalesforceHybridSDKTestApp"
 ];
-  
-
 
 # Helper methods
 def printHeader(message)
@@ -71,7 +70,7 @@ end
 
 def test(scheme, timeout, verbose) 
   printHeader("Testing #{scheme}")
-  cmd = "xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO 2>&1 | grep '^\t-' | sed 's/-/Failed\ /'"
+  cmd = "xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator -destination \"plaftplatform=iOS Simulator,OS=9.1\"  2>&1 | grep '^\t-' | sed 's/-/Failed\ /'"
   if verbose
     puts cmd 
   end
