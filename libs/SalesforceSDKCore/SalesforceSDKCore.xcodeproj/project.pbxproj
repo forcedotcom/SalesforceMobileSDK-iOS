@@ -220,23 +220,6 @@
 		4FF945F01BFFF47D005368C5 /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */; };
 		4FF945F11BFFF47D005368C5 /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF945F21BFFF47D005368C5 /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D61BFFF47D005368C5 /* UIScreen+SFAdditions.m */; };
-		4FF9460C1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */; };
-		4FF9460D1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */; };
-		4FF9460E1BFFF4D9005368C5 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */; };
-		4FF9460F1BFFF4D9005368C5 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */; };
-		4FF946101BFFF4D9005368C5 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */; };
-		4FF946111BFFF4D9005368C5 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */; };
-		4FF946121BFFF4D9005368C5 /* DDLog+LOGV.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */; };
-		4FF946131BFFF4D9005368C5 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FC1BFFF4D9005368C5 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FF946141BFFF4D9005368C5 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FD1BFFF4D9005368C5 /* DDLog.m */; };
-		4FF946151BFFF4D9005368C5 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */; };
-		4FF946161BFFF4D9005368C5 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */; };
-		4FF946171BFFF4D9005368C5 /* DDContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */; };
-		4FF946181BFFF4D9005368C5 /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */; };
-		4FF946191BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */; };
-		4FF9461A1BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */; };
-		4FF9461B1BFFF4D9005368C5 /* DDMultiFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */; };
-		4FF9461C1BFFF4D9005368C5 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */; };
 		4FF9461D1BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF9461E1BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */; };
 		4FF9461F1BFFF4D9005368C5 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9460A1BFFF4D9005368C5 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -492,24 +475,6 @@
 		4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+SFHardware.m"; sourceTree = "<group>"; };
 		4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945D61BFFF47D005368C5 /* UIScreen+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+SFAdditions.m"; sourceTree = "<group>"; };
-		4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
-		4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
-		4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
-		4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
-		4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
-		4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
-		4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDLog+LOGV.h"; sourceTree = "<group>"; };
-		4FF945FC1BFFF4D9005368C5 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
-		4FF945FD1BFFF4D9005368C5 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
-		4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
-		4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
-		4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
-		4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
-		4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMultiFormatter.h; sourceTree = "<group>"; };
-		4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMultiFormatter.m; sourceTree = "<group>"; };
-		4FF946071BFFF4D9005368C5 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCocoaLumberJackCustomFormatter.h; sourceTree = "<group>"; };
 		4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCocoaLumberJackCustomFormatter.m; sourceTree = "<group>"; };
 		4FF9460A1BFFF4D9005368C5 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
@@ -872,46 +837,12 @@
 		4FF945F31BFFF4D9005368C5 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				4FF945F41BFFF4D9005368C5 /* Lumberjack */,
 				4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */,
 				4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */,
 				4FF9460A1BFFF4D9005368C5 /* SFLogger.h */,
 				4FF9460B1BFFF4D9005368C5 /* SFLogger.m */,
 			);
 			path = Logging;
-			sourceTree = "<group>";
-		};
-		4FF945F41BFFF4D9005368C5 /* Lumberjack */ = {
-			isa = PBXGroup;
-			children = (
-				4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */,
-				4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */,
-				4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */,
-				4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */,
-				4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */,
-				4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */,
-				4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */,
-				4FF945FC1BFFF4D9005368C5 /* DDLog.h */,
-				4FF945FD1BFFF4D9005368C5 /* DDLog.m */,
-				4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */,
-				4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */,
-				4FF946001BFFF4D9005368C5 /* Extensions */,
-			);
-			path = Lumberjack;
-			sourceTree = "<group>";
-		};
-		4FF946001BFFF4D9005368C5 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */,
-				4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */,
-				4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */,
-				4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */,
-				4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */,
-				4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */,
-				4FF946071BFFF4D9005368C5 /* README.txt */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6F89606E1A9E96C400A48FF1 /* Configuration */ = {
@@ -1069,14 +1000,11 @@
 				4F96FDFF1BFD32140022F021 /* SFSDKCryptoUtils.h in Headers */,
 				4F96FDB81BFD32140022F021 /* SFOAuthOrgAuthConfiguration.h in Headers */,
 				4F96FDFA1BFD32140022F021 /* SFPasscodeViewControllerTypes.h in Headers */,
-				4FF946131BFFF4D9005368C5 /* DDLog.h in Headers */,
 				4F96FE061BFD32140022F021 /* SFUserAccount.h in Headers */,
 				4F96FDB61BFD32140022F021 /* SFOAuthKeychainCredentials.h in Headers */,
-				4FF9460E1BFFF4D9005368C5 /* DDASLLogger.h in Headers */,
 				4FF945E31BFFF47D005368C5 /* SFCrypto+Internal.h in Headers */,
 				4FF945D91BFFF47D005368C5 /* NSData+SFAdditions.h in Headers */,
 				4F96FDAD1BFD32140022F021 /* SFOAuthCoordinator.h in Headers */,
-				4FF946121BFFF4D9005368C5 /* DDLog+LOGV.h in Headers */,
 				4F96FDF31BFD32140022F021 /* SFPasscodeManager.h in Headers */,
 				4FF945E61BFFF47D005368C5 /* SFInactivityTimerCenter.h in Headers */,
 				4F96FE151BFD32140022F021 /* SFSDKTestRequestListener.h in Headers */,
@@ -1097,14 +1025,12 @@
 				4FF945F11BFFF47D005368C5 /* UIScreen+SFAdditions.h in Headers */,
 				4F96FE171BFD32140022F021 /* TestSetupUtils.h in Headers */,
 				4F96FDB41BFD32140022F021 /* SFOAuthInfo.h in Headers */,
-				4FF9460C1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h in Headers */,
 				4F96FD571BFD32140022F021 /* SFSDKReachability.h in Headers */,
 				4F96FE1D1BFD32140022F021 /* SFDirectoryManager.h in Headers */,
 				4F96FDFB1BFD32140022F021 /* SFPBKDF2PasscodeProvider.h in Headers */,
 				4F96FDDD1BFD32140022F021 /* SFDefaultUserManagementDetailViewController.h in Headers */,
 				4F96FE191BFD32140022F021 /* NSURL+SFStringUtils.h in Headers */,
 				4F96FE251BFD32140022F021 /* SFRootViewManager.h in Headers */,
-				4FF946191BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h in Headers */,
 				4FF945EF1BFFF47D005368C5 /* UIDevice+SFHardware.h in Headers */,
 				4F96FDEE1BFD32140022F021 /* SFKeyStoreManager.h in Headers */,
 				4FF945DB1BFFF47D005368C5 /* NSDictionary+SFAdditions.h in Headers */,
@@ -1159,11 +1085,7 @@
 				4F96FD5B1BFD32140022F021 /* SFIdentityCoordinator+Internal.h in Headers */,
 				4F96FD621BFD32140022F021 /* SFMethodInterceptor.h in Headers */,
 				4FF945E81BFFF47D005368C5 /* SFKeychainItemWrapper.h in Headers */,
-				4FF9461B1BFFF4D9005368C5 /* DDMultiFormatter.h in Headers */,
-				4FF946171BFFF4D9005368C5 /* DDContextFilterLogFormatter.h in Headers */,
 				4F96FDAF1BFD32140022F021 /* SFOAuthCredentials+Internal.h in Headers */,
-				4FF946151BFFF4D9005368C5 /* DDTTYLogger.h in Headers */,
-				4FF946101BFFF4D9005368C5 /* DDFileLogger.h in Headers */,
 				4F96FDE11BFD32140022F021 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				4FF945ED1BFFF47D005368C5 /* SFTestContext.h in Headers */,
 			);
@@ -1381,12 +1303,10 @@
 				4F96FD4B1BFD32140022F021 /* NSData+SFSDKUtils.m in Sources */,
 				4F96FDD81BFD32140022F021 /* SFAuthErrorHandlerList.m in Sources */,
 				4F96FDE71BFD32140022F021 /* SFGeneratedKeyStore.m in Sources */,
-				4FF9460D1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m in Sources */,
 				4F96FE001BFD32140022F021 /* SFSDKCryptoUtils.m in Sources */,
 				4F96FE071BFD32140022F021 /* SFUserAccount.m in Sources */,
 				4F96FDBC1BFD32140022F021 /* SFOAuthSessionRefresher.m in Sources */,
 				4F96FDDE1BFD32140022F021 /* SFDefaultUserManagementDetailViewController.m in Sources */,
-				4FF946181BFFF4D9005368C5 /* DDContextFilterLogFormatter.m in Sources */,
 				4FF945E51BFFF47D005368C5 /* SFFileProtectionHelper.m in Sources */,
 				4F96FDDC1BFD32140022F021 /* SFCommunityData.m in Sources */,
 				4F96FD5D1BFD32140022F021 /* SFIdentityCoordinator.m in Sources */,
@@ -1396,11 +1316,9 @@
 				4F96FE261BFD32140022F021 /* SFRootViewManager.m in Sources */,
 				4F96FD611BFD32140022F021 /* SFInstrumentation.m in Sources */,
 				4FF945F01BFFF47D005368C5 /* UIDevice+SFHardware.m in Sources */,
-				4FF9461A1BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m in Sources */,
 				4F96FDEA1BFD32140022F021 /* SFKeyStore.m in Sources */,
 				4F96FE1E1BFD32140022F021 /* SFDirectoryManager.m in Sources */,
 				4F96FDAE1BFD32140022F021 /* SFOAuthCoordinator.m in Sources */,
-				4FF9460F1BFFF4D9005368C5 /* DDASLLogger.m in Sources */,
 				4FF945D81BFFF47D005368C5 /* NSArray+SFAdditions.m in Sources */,
 				4F96FDF41BFD32140022F021 /* SFPasscodeManager.m in Sources */,
 				4F96FE121BFD32140022F021 /* SFSDKAsyncProcessListener.m in Sources */,
@@ -1411,19 +1329,16 @@
 				4F96FDFE1BFD32140022F021 /* SFPBKDFData.m in Sources */,
 				4F96FE161BFD32140022F021 /* SFSDKTestRequestListener.m in Sources */,
 				4FF945EC1BFFF47D005368C5 /* SFPathUtil.m in Sources */,
-				4FF9461C1BFFF4D9005368C5 /* DDMultiFormatter.m in Sources */,
 				4F96FE141BFD32140022F021 /* SFSDKTestCredentialsData.m in Sources */,
 				4FF946241BFFF663005368C5 /* NSURL+SFAdditions.m in Sources */,
 				4F96FE2A1BFD32140022F021 /* SFSDKWebUtils.m in Sources */,
 				4F96FE051BFD32140022F021 /* SFSHA256PasscodeProvider.m in Sources */,
 				4F96FE221BFD32140022F021 /* SFManagedPreferences.m in Sources */,
 				4F96FDD21BFD32140022F021 /* SFAuthenticationManager.m in Sources */,
-				4FF946161BFFF4D9005368C5 /* DDTTYLogger.m in Sources */,
 				4FF945E71BFFF47D005368C5 /* SFInactivityTimerCenter.m in Sources */,
 				4F96FD5F1BFD32140022F021 /* SFIdentityData.m in Sources */,
 				4F96FD5A1BFD32140022F021 /* SFUserActivityMonitor.m in Sources */,
 				4F96FDEF1BFD32140022F021 /* SFKeyStoreManager.m in Sources */,
-				4FF946141BFFF4D9005368C5 /* DDLog.m in Sources */,
 				4FF945DA1BFFF47D005368C5 /* NSData+SFAdditions.m in Sources */,
 				4F96FE181BFD32140022F021 /* TestSetupUtils.m in Sources */,
 				4F96FDEC1BFD32140022F021 /* SFKeyStoreKey.m in Sources */,
@@ -1437,7 +1352,6 @@
 				4F96FE1C1BFD32140022F021 /* SalesforceSDKCoreDefines.m in Sources */,
 				4FF945F21BFFF47D005368C5 /* UIScreen+SFAdditions.m in Sources */,
 				4FF945E21BFFF47D005368C5 /* SFCrypto.m in Sources */,
-				4FF946111BFFF4D9005368C5 /* DDFileLogger.m in Sources */,
 				4F96FDF11BFD32140022F021 /* SFPasscodeKeyStore.m in Sources */,
 				4F96FDB91BFD32140022F021 /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				4F96FDF91BFD32140022F021 /* SFPasscodeViewController.m in Sources */,
