@@ -11,8 +11,7 @@ GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 
 PRODUCT_NAME = SalesforceSDKCore
 
-OTHER_CFLAGS = -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FMStatement -DFMDatabasePool=SF_FMDatabasePool -DFMDatabaseQueue=SF_FMDatabaseQueue -DFMResultSet=SF_FMResultSet -DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction $(inherited)
-OTHER_LDFLAGS = -ObjC -lsqlcipher
+OTHER_CFLAGS = -DDDAbstractDatabaseLogger=SF_DDAbstractDatabaseLogger -DDDLog=SF_DDLog -DDDAbstractLogger=SF_DDAbstractLogger -DDDASLLogger=SF_DDASLLogger -DDDAbstractLogger=SF_DDAbstractLogger -DDDLogger=SF_DDLogger -DDDLogFileManager=SF_DDLogFileManager -DDDLogFileManagerDefault=SF_DDLogFileManagerDefault -DDDLogFileFormatterDefault=SF_DDLogFileFormatterDefault -DDDLogFormatter=SF_DDLogFormatter -DDDFileLogger=SF_DDFileLogger -DDDLogFileInfo=SF_DDLogFileInfo -DDDRegisteredDynamicLogging=SF_DDRegisteredDynamicLogging -DDDLogMessage=SF_DDLogMessage -DDDLoggerNode=SF_DDLoggerNode -DDDTTYLogger=SF_DDTTYLogger -DDDTTYLoggerColorProfile=SF_DDTTYLoggerColorProfile -DDDMultiFormatter=SF_DDMultiFormatter -DDDContextWhitelistFilterLogFormatter=SF_DDContextWhitelistFilterLogFormatter -DDDContextBlacklistFilterLogFormatter=SF_DDContextBlacklistFilterLogFormatter -DDDLoggingContextSet=SF_DDLoggingContextSet -DDDDispatchQueueLogFormatter=SF_DDDispatchQueueLogFormatter -DDDExtractFileNameWithoutExtension=SF_DDExtractFileNameWithoutExtension -DDDLogMessageCopyFile=SF_DDLogMessageCopyFile -DDDLogMessageCopyFunction=SF_DDLogMessageCopyFunction -DDDLogMessageOptions=SF_DDLogMessageOptions -DdoesAppRunInBackground=SF_doesAppRunInBackground
 
 HEADER_SEARCH_PATHS = $(inherited)
-LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)
+LIBRARY_SEARCH_PATHS = $(inherited)
