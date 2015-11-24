@@ -25,8 +25,8 @@
 
 #import "RootViewController.h"
 
-#import "SFRestAPI.h"
-#import "SFRestRequest.h"
+#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestRequest.h>
 
 @implementation RootViewController
 
