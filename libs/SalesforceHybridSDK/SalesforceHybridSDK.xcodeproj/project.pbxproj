@@ -160,7 +160,7 @@
 			containerPortal = 82EFF2C816E7C57100A63CDF /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 82EFF2FE16E8049500A63CDF;
-			remoteInfo = HybridPluginTestApp;
+			remoteInfo = SalesforceHybridSDKTestApp;
 		};
 		8251CA1716EC3B1400BD1EA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -603,8 +603,7 @@
 				4F7EB4DE1BFFCFF500768720 /* SmartSyncTestSuite.m */,
 				822272A319C39F4500FC537E /* Supporting Files */,
 			);
-			name = SalesforceHybridSDKTestAppTests;
-			path = HybridPluginTestAppTests;
+			path = SalesforceHybridSDKTestAppTests;
 			sourceTree = "<group>";
 		};
 		822272A319C39F4500FC537E /* Supporting Files */ = {
@@ -861,8 +860,7 @@
 				82EFF39C16E816CB00A63CDF /* Plugins */,
 				82EFF30616E8049500A63CDF /* Supporting Files */,
 			);
-			name = SalesforceHybridSDKTestApp;
-			path = HybridPluginTestApp;
+			path = SalesforceHybridSDKTestApp;
 			sourceTree = "<group>";
 		};
 		82EFF30616E8049500A63CDF /* Supporting Files */ = {
@@ -965,7 +963,7 @@
 				822272AC19C39F4500FC537E /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDKTestAppTests;
-			productName = HybridPluginTestAppTests;
+			productName = SalesforceHybridSDKTestAppTests;
 			productReference = 8222729D19C39F4500FC537E /* SalesforceHybridSDKTestAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -1012,7 +1010,7 @@
 				8251CA1816EC3B1400BD1EA2 /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDKTestApp;
-			productName = HybridPluginTestApp;
+			productName = SalesforceHybridSDKTestApp;
 			productReference = 82EFF2FF16E8049500A63CDF /* SalesforceHybridSDKTestApp.app */;
 			productType = "com.apple.product-type.application";
 		};
