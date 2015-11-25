@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Fri Nov 20 16:55:10 PST 2015.
+ Created by Wolfgang Mathurin on Tue Nov 24 17:26:01 PST 2015.
 
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
@@ -27,7 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/DDLog.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
