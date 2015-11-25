@@ -293,7 +293,7 @@
 			children = (
 				6F7EAAD71B61920A00F4C242 /* libSalesforceRestAPI.a */,
 				6F7EAAD91B61920A00F4C242 /* SalesforceRestAPITestApp.app */,
-				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITests.xctest */,
+				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITestAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -626,10 +626,10 @@
 			remoteRef = 6F7EAAD81B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITests.xctest */ = {
+		6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceRestAPITests.xctest;
+			path = SalesforceRestAPITestAppTests.xctest;
 			remoteRef = 6F7EAADA1B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

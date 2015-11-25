@@ -70,7 +70,7 @@ end
 
 def test(scheme, timeout, verbose) 
   printHeader("Testing #{scheme}")
-  cmd = "xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator -destination \"plaftplatform=iOS Simulator,OS=9.1\"  2>&1 | grep '^\t-' | sed 's/-/Failed\ /'"
+  cmd = "xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme #{scheme} -sdk iphonesimulator  2>&1 | grep '^\t-' | sed 's/-/Failed\ /'"
   if verbose
     puts cmd 
   end
