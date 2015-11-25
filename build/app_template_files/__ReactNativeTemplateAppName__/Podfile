@@ -1,24 +1,26 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '8.0'
 
-target '__ReactNativeTemplateAppName__' do
+target 'ReactNative' do
 
-pod 'React', '~> 0.12.0-rc'
-pod 'React/ART', '~> 0.12.0-rc'
-pod 'React/RCTActionSheet', '~> 0.12.0-rc'
-pod 'React/RCTAdSupport', '~> 0.12.0-rc'
-pod 'React/RCTGeolocation', '~> 0.12.0-rc'
-pod 'React/RCTImage', '~> 0.12.0-rc'
-pod 'React/RCTNetwork', '~> 0.12.0-rc'
-pod 'React/RCTPushNotification', '~> 0.12.0-rc'
-pod 'React/RCTSettings', '~> 0.12.0-rc'
-pod 'React/RCTText', '~> 0.12.0-rc'
-pod 'React/RCTVibration', '~> 0.12.0-rc'
-pod 'React/RCTWebSocket', '~> 0.12.0-rc'
-pod 'React/RCTLinkingIOS', '~> 0.12.0-rc'
+pod 'React', '~> 0.12.0-rc', :subspecs => [
+    'ART',
+    'RCTActionSheet',
+    'RCTAdSupport',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTNetwork',
+    'RCTPushNotification',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket',
+    'RCTLinkingIOS'
+]
 
-pod 'SalesforceMobileSDK-iOS', :git => 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git', :branch => 'unstable', :submodules => 'true'
-# pod 'SalesforceMobileSDK-iOS'
+pod 'SalesforceMobileSDK-iOS', :subspecs => [
+    'SalesforceReact'
+]
 
 end
 
