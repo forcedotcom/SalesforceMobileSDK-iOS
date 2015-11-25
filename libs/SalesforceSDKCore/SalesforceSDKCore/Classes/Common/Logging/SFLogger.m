@@ -22,11 +22,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "DDASLLogger.h"
-#import "DDContextFilterLogFormatter.h"
-#import "DDFileLogger.h"
-#import "DDLog.h"
-#import "DDTTYLogger.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#import <CocoaLumberjack/DDASLLogger.h>
+#import <CocoaLumberjack/DDContextFilterLogFormatter.h>
+#import <CocoaLumberjack/DDFileLogger.h>
+#import <CocoaLumberjack/DDLog.h>
+#import <CocoaLumberjack/DDTTYLogger.h>
 #import "NSData+SFAdditions.h"
 #import "SFLogger.h"
 #import "SFPathUtil.h"
@@ -34,10 +35,18 @@
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
 
+//create alternatives to DDLogVerbose, Error, Warn, etc.
+//operate the same way but have custom log contexts
+#define LogWithContextVerbose(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagVerbose, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextDebug(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagDebug, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextError(context, frmt, ...) LOG_MAYBE(NO, ddLogLevel, DDLogFlagError, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextInfo(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagInfo, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextWarn(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagWarning, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+
 #ifdef DEBUG
-static int ddLogLevel = LOG_LEVEL_VERBOSE;
+static int ddLogLevel = DDLogLevelVerbose;
 #else
-static int ddLogLevel = LOG_LEVEL_INFO;
+static int ddLogLevel = DDLogLevelInfo;
 #endif
 
 NSString * const kSFLogLevelVerboseString = @"VERBOSE";
@@ -45,15 +54,6 @@ NSString * const kSFLogLevelDebugString = @"DEBUG";
 NSString * const kSFLogLevelInfoString = @"INFO";
 NSString * const kSFLogLevelWarningString = @"WARNING";
 NSString * const kSFLogLevelErrorString = @"ERROR";
-
-//create alternatives to DDLogVerbose, Error, Warn, etc.
-//operate the same way but have custom log contexts
-
-#define LogWithContextError(context, frmt, ...)     SYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_ERROR,   context, frmt, ##__VA_ARGS__)
-#define LogWithContextWarn(context, frmt, ...)     ASYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_WARN,    context, frmt, ##__VA_ARGS__)
-#define LogWithContextInfo(context, frmt, ...)     ASYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_INFO,    context, frmt, ##__VA_ARGS__)
-#define LogWithContextDebug(context, frmt, ...)     ASYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_DEBUG,  context, frmt, ##__VA_ARGS__)
-#define LogWithContextVerbose(context, frmt, ...)  ASYNC_LOG_OBJC_MAYBE(ddLogLevel, LOG_FLAG_VERBOSE, context, frmt, ##__VA_ARGS__)
 
 @implementation NSObject (Logging)
 
@@ -107,9 +107,9 @@ static BOOL loggingToFile = NO;
 	// configure logging
     DDTTYLogger *ttyLogger = [DDTTYLogger sharedInstance];
     [ttyLogger setColorsEnabled:YES];
-    [ttyLogger setForegroundColor:[UIColor greenColor] backgroundColor:nil forFlag:LOG_FLAG_INFO];
-    [ttyLogger setForegroundColor:[UIColor redColor] backgroundColor:nil forFlag:LOG_FLAG_ERROR];
-    [ttyLogger setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:LOG_FLAG_WARN];
+    [ttyLogger setForegroundColor:[UIColor greenColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+    [ttyLogger setForegroundColor:[UIColor redColor] backgroundColor:nil forFlag:DDLogFlagError];
+    [ttyLogger setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
     
     if (nil == blackListFormatter)
     {
@@ -138,35 +138,35 @@ static BOOL loggingToFile = NO;
 + (void)setLogLevel:(SFLogLevel)newLevel {
 	switch (newLevel) {
         case SFLogLevelInfo:
-            ddLogLevel = LOG_LEVEL_INFO;
+            ddLogLevel = DDLogLevelInfo;
             break;
         case SFLogLevelWarning:
-            ddLogLevel = LOG_LEVEL_WARN;
+            ddLogLevel = DDLogLevelWarning;
             break;
         case SFLogLevelError:
-            ddLogLevel = LOG_LEVEL_ERROR;
+            ddLogLevel = DDLogLevelError;
             break;
         case SFLogLevelDebug:
-            ddLogLevel = LOG_LEVEL_DEBUG;
+            ddLogLevel = DDLogLevelDebug;
             break;
         default:
-            ddLogLevel = LOG_LEVEL_VERBOSE;
+            ddLogLevel = DDLogLevelVerbose;
             break;
     }
 }
 
 + (SFLogLevel)logLevel {
     switch (ddLogLevel) {
-        case LOG_LEVEL_INFO:
+        case DDLogLevelInfo:
             return SFLogLevelInfo;
             break;
-        case LOG_LEVEL_WARN:
+        case DDLogLevelWarning:
             return SFLogLevelWarning;
             break;
-        case LOG_LEVEL_ERROR:
+        case DDLogLevelError:
             return SFLogLevelError;
             break;
-        case LOG_LEVEL_DEBUG:
+        case DDLogLevelDebug:
             return SFLogLevelDebug;
             break;
         default:

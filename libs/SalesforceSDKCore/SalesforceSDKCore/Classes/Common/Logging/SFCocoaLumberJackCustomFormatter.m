@@ -36,11 +36,9 @@
 }
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
-    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->timestamp)];
-    NSString *logMsg = logMessage->logMsg;
-    
+    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
+    NSString *logMsg = logMessage->_message;
     NSString *myString = [NSString stringWithFormat:@"%@ %@\n", dateAndTime, logMsg];
-    
     return myString;
 }
 

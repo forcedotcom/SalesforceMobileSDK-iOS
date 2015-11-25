@@ -220,23 +220,6 @@
 		4FF945F01BFFF47D005368C5 /* UIDevice+SFHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */; };
 		4FF945F11BFFF47D005368C5 /* UIScreen+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF945F21BFFF47D005368C5 /* UIScreen+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D61BFFF47D005368C5 /* UIScreen+SFAdditions.m */; };
-		4FF9460C1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */; };
-		4FF9460D1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */; };
-		4FF9460E1BFFF4D9005368C5 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */; };
-		4FF9460F1BFFF4D9005368C5 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */; };
-		4FF946101BFFF4D9005368C5 /* DDFileLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */; };
-		4FF946111BFFF4D9005368C5 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */; };
-		4FF946121BFFF4D9005368C5 /* DDLog+LOGV.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */; };
-		4FF946131BFFF4D9005368C5 /* DDLog.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FC1BFFF4D9005368C5 /* DDLog.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FF946141BFFF4D9005368C5 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FD1BFFF4D9005368C5 /* DDLog.m */; };
-		4FF946151BFFF4D9005368C5 /* DDTTYLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */; };
-		4FF946161BFFF4D9005368C5 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */; };
-		4FF946171BFFF4D9005368C5 /* DDContextFilterLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */; };
-		4FF946181BFFF4D9005368C5 /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */; };
-		4FF946191BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */; };
-		4FF9461A1BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */; };
-		4FF9461B1BFFF4D9005368C5 /* DDMultiFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */; };
-		4FF9461C1BFFF4D9005368C5 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */; };
 		4FF9461D1BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4FF9461E1BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */; };
 		4FF9461F1BFFF4D9005368C5 /* SFLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF9460A1BFFF4D9005368C5 /* SFLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -278,6 +261,125 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8220B74B16D804CA00EC3921;
 			remoteInfo = SalesforceSDKCore;
+		};
+		CE0021681C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB3185114EB418E001CFBEE;
+			remoteInfo = CocoaLumberjack;
+		};
+		CE00216A1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18F3BF0F1A81D8B700692297;
+			remoteInfo = CocoaLumberjackSwift;
+		};
+		CE00216C1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19FF46021B8B4CF400B43179;
+			remoteInfo = "CocoaLumberjack-iOS";
+		};
+		CE00216E1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19FF460F1B8B4D1400B43179;
+			remoteInfo = "CocoaLumberjackSwift-iOS";
+		};
+		CE0021701C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18F3BFD71A81E06E00692297;
+			remoteInfo = "CocoaLumberjack-iOS-Static";
+		};
+		CE0021721C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19190EDE1B84D812008D059E;
+			remoteInfo = "CocoaLumberjack-watchOS";
+		};
+		CE0021741C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19190EEB1B84D826008D059E;
+			remoteInfo = "CocoaLumberjackSwift-watchOS";
+		};
+		CE0021761C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19D90B261BBFA9DB00947169;
+			remoteInfo = "CocoaLumberjack-tvOS";
+		};
+		CE0021781C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19D90B351BBFAA7500947169;
+			remoteInfo = "CocoaLumberjackSwift-tvOS";
+		};
+		CE00217A1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DCB318CA14ED6C3B001CFBEE;
+			remoteInfo = FmwkTest;
+		};
+		CE00217C1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 55CCBEFF19BA679200957A39;
+			remoteInfo = SwiftTest;
+		};
+		CE00217E1C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18F3BF5F1A81DD2E00692297;
+			remoteInfo = iOSSwiftTest;
+		};
+		CE0021801C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19EC14671B84D134000EC2E7;
+			remoteInfo = watchOSSwiftTest;
+		};
+		CE0021821C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19EC14731B84D134000EC2E7;
+			remoteInfo = "watchOSSwiftTest Extension";
+		};
+		CE0021841C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19406BE11BDBABFF001194DC;
+			remoteInfo = tvOSSwiftTest;
+		};
+		CE0021861C03DBB70079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 18F3BFF21A81E0C700692297;
+			remoteInfo = iOSLibStaticTest;
+		};
+		CE00218C1C03E06F0079DCA4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
+			remoteInfo = "CocoaLumberjack-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -492,24 +594,6 @@
 		4FF945D41BFFF47D005368C5 /* UIDevice+SFHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+SFHardware.m"; sourceTree = "<group>"; };
 		4FF945D51BFFF47D005368C5 /* UIScreen+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945D61BFFF47D005368C5 /* UIScreen+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+SFAdditions.m"; sourceTree = "<group>"; };
-		4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
-		4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
-		4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
-		4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDASLLogger.m; sourceTree = "<group>"; };
-		4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDFileLogger.h; sourceTree = "<group>"; };
-		4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDFileLogger.m; sourceTree = "<group>"; };
-		4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DDLog+LOGV.h"; sourceTree = "<group>"; };
-		4FF945FC1BFFF4D9005368C5 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDLog.h; sourceTree = "<group>"; };
-		4FF945FD1BFFF4D9005368C5 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDLog.m; sourceTree = "<group>"; };
-		4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDTTYLogger.h; sourceTree = "<group>"; };
-		4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDTTYLogger.m; sourceTree = "<group>"; };
-		4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
-		4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
-		4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
-		4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
-		4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMultiFormatter.h; sourceTree = "<group>"; };
-		4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMultiFormatter.m; sourceTree = "<group>"; };
-		4FF946071BFFF4D9005368C5 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFCocoaLumberJackCustomFormatter.h; sourceTree = "<group>"; };
 		4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFCocoaLumberJackCustomFormatter.m; sourceTree = "<group>"; };
 		4FF9460A1BFFF4D9005368C5 /* SFLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLogger.h; sourceTree = "<group>"; };
@@ -541,6 +625,7 @@
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		82D4647719C7CD580006BDFE /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		82D4648419C7CE670006BDFE /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -872,46 +957,12 @@
 		4FF945F31BFFF4D9005368C5 /* Logging */ = {
 			isa = PBXGroup;
 			children = (
-				4FF945F41BFFF4D9005368C5 /* Lumberjack */,
 				4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */,
 				4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */,
 				4FF9460A1BFFF4D9005368C5 /* SFLogger.h */,
 				4FF9460B1BFFF4D9005368C5 /* SFLogger.m */,
 			);
 			path = Logging;
-			sourceTree = "<group>";
-		};
-		4FF945F41BFFF4D9005368C5 /* Lumberjack */ = {
-			isa = PBXGroup;
-			children = (
-				4FF945F51BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h */,
-				4FF945F61BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m */,
-				4FF945F71BFFF4D9005368C5 /* DDASLLogger.h */,
-				4FF945F81BFFF4D9005368C5 /* DDASLLogger.m */,
-				4FF945F91BFFF4D9005368C5 /* DDFileLogger.h */,
-				4FF945FA1BFFF4D9005368C5 /* DDFileLogger.m */,
-				4FF945FB1BFFF4D9005368C5 /* DDLog+LOGV.h */,
-				4FF945FC1BFFF4D9005368C5 /* DDLog.h */,
-				4FF945FD1BFFF4D9005368C5 /* DDLog.m */,
-				4FF945FE1BFFF4D9005368C5 /* DDTTYLogger.h */,
-				4FF945FF1BFFF4D9005368C5 /* DDTTYLogger.m */,
-				4FF946001BFFF4D9005368C5 /* Extensions */,
-			);
-			path = Lumberjack;
-			sourceTree = "<group>";
-		};
-		4FF946001BFFF4D9005368C5 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				4FF946011BFFF4D9005368C5 /* DDContextFilterLogFormatter.h */,
-				4FF946021BFFF4D9005368C5 /* DDContextFilterLogFormatter.m */,
-				4FF946031BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h */,
-				4FF946041BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m */,
-				4FF946051BFFF4D9005368C5 /* DDMultiFormatter.h */,
-				4FF946061BFFF4D9005368C5 /* DDMultiFormatter.m */,
-				4FF946071BFFF4D9005368C5 /* README.txt */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		6F89606E1A9E96C400A48FF1 /* Configuration */ = {
@@ -951,6 +1002,7 @@
 		8220B74E16D804CA00EC3921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */,
 				4FFE4A001BFE522F00F15E01 /* libz.tbd */,
 				4FEE438A1BFD488900F09C43 /* UIKit.framework */,
 				4FEE43681BFD469D00F09C43 /* libOCMock.a */,
@@ -1052,6 +1104,29 @@
 			path = SalesforceSDKCoreTests;
 			sourceTree = SOURCE_ROOT;
 		};
+		CE0021561C03DBB70079DCA4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE0021691C03DBB70079DCA4 /* CocoaLumberjack.framework */,
+				CE00216B1C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */,
+				CE00216D1C03DBB70079DCA4 /* CocoaLumberjack.framework */,
+				CE00216F1C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */,
+				CE0021711C03DBB70079DCA4 /* libCocoaLumberjack-iOS-Static.a */,
+				CE0021731C03DBB70079DCA4 /* CocoaLumberjack.framework */,
+				CE0021751C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */,
+				CE0021771C03DBB70079DCA4 /* CocoaLumberjack.framework */,
+				CE0021791C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */,
+				CE00217B1C03DBB70079DCA4 /* FmwkTest.app */,
+				CE00217D1C03DBB70079DCA4 /* SwiftTest.app */,
+				CE00217F1C03DBB70079DCA4 /* iOSSwiftTest.app */,
+				CE0021811C03DBB70079DCA4 /* watchOSSwiftTest.app */,
+				CE0021831C03DBB70079DCA4 /* watchOSSwiftTest Extension.appex */,
+				CE0021851C03DBB70079DCA4 /* tvOSSwiftTest.app */,
+				CE0021871C03DBB70079DCA4 /* iOSLibStaticTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1069,14 +1144,11 @@
 				4F96FDFF1BFD32140022F021 /* SFSDKCryptoUtils.h in Headers */,
 				4F96FDB81BFD32140022F021 /* SFOAuthOrgAuthConfiguration.h in Headers */,
 				4F96FDFA1BFD32140022F021 /* SFPasscodeViewControllerTypes.h in Headers */,
-				4FF946131BFFF4D9005368C5 /* DDLog.h in Headers */,
 				4F96FE061BFD32140022F021 /* SFUserAccount.h in Headers */,
 				4F96FDB61BFD32140022F021 /* SFOAuthKeychainCredentials.h in Headers */,
-				4FF9460E1BFFF4D9005368C5 /* DDASLLogger.h in Headers */,
 				4FF945E31BFFF47D005368C5 /* SFCrypto+Internal.h in Headers */,
 				4FF945D91BFFF47D005368C5 /* NSData+SFAdditions.h in Headers */,
 				4F96FDAD1BFD32140022F021 /* SFOAuthCoordinator.h in Headers */,
-				4FF946121BFFF4D9005368C5 /* DDLog+LOGV.h in Headers */,
 				4F96FDF31BFD32140022F021 /* SFPasscodeManager.h in Headers */,
 				4FF945E61BFFF47D005368C5 /* SFInactivityTimerCenter.h in Headers */,
 				4F96FE151BFD32140022F021 /* SFSDKTestRequestListener.h in Headers */,
@@ -1097,14 +1169,12 @@
 				4FF945F11BFFF47D005368C5 /* UIScreen+SFAdditions.h in Headers */,
 				4F96FE171BFD32140022F021 /* TestSetupUtils.h in Headers */,
 				4F96FDB41BFD32140022F021 /* SFOAuthInfo.h in Headers */,
-				4FF9460C1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.h in Headers */,
 				4F96FD571BFD32140022F021 /* SFSDKReachability.h in Headers */,
 				4F96FE1D1BFD32140022F021 /* SFDirectoryManager.h in Headers */,
 				4F96FDFB1BFD32140022F021 /* SFPBKDF2PasscodeProvider.h in Headers */,
 				4F96FDDD1BFD32140022F021 /* SFDefaultUserManagementDetailViewController.h in Headers */,
 				4F96FE191BFD32140022F021 /* NSURL+SFStringUtils.h in Headers */,
 				4F96FE251BFD32140022F021 /* SFRootViewManager.h in Headers */,
-				4FF946191BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.h in Headers */,
 				4FF945EF1BFFF47D005368C5 /* UIDevice+SFHardware.h in Headers */,
 				4F96FDEE1BFD32140022F021 /* SFKeyStoreManager.h in Headers */,
 				4FF945DB1BFFF47D005368C5 /* NSDictionary+SFAdditions.h in Headers */,
@@ -1159,11 +1229,7 @@
 				4F96FD5B1BFD32140022F021 /* SFIdentityCoordinator+Internal.h in Headers */,
 				4F96FD621BFD32140022F021 /* SFMethodInterceptor.h in Headers */,
 				4FF945E81BFFF47D005368C5 /* SFKeychainItemWrapper.h in Headers */,
-				4FF9461B1BFFF4D9005368C5 /* DDMultiFormatter.h in Headers */,
-				4FF946171BFFF4D9005368C5 /* DDContextFilterLogFormatter.h in Headers */,
 				4F96FDAF1BFD32140022F021 /* SFOAuthCredentials+Internal.h in Headers */,
-				4FF946151BFFF4D9005368C5 /* DDTTYLogger.h in Headers */,
-				4FF946101BFFF4D9005368C5 /* DDFileLogger.h in Headers */,
 				4F96FDE11BFD32140022F021 /* SFDefaultUserManagementViewController+Internal.h in Headers */,
 				4FF945ED1BFFF47D005368C5 /* SFTestContext.h in Headers */,
 			);
@@ -1203,6 +1269,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE00218D1C03E06F0079DCA4 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCore;
 			productName = SalesforceSDKCore;
@@ -1270,6 +1337,12 @@
 			mainGroup = 8220B74116D804CA00EC3921;
 			productRefGroup = 8220B74D16D804CA00EC3921 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = CE0021561C03DBB70079DCA4 /* Products */;
+					ProjectRef = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8220B74B16D804CA00EC3921 /* SalesforceSDKCore */,
@@ -1280,6 +1353,121 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		CE0021691C03DBB70079DCA4 /* CocoaLumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjack.framework;
+			remoteRef = CE0021681C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00216B1C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjackSwift.framework;
+			remoteRef = CE00216A1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00216D1C03DBB70079DCA4 /* CocoaLumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjack.framework;
+			remoteRef = CE00216C1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00216F1C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjackSwift.framework;
+			remoteRef = CE00216E1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021711C03DBB70079DCA4 /* libCocoaLumberjack-iOS-Static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCocoaLumberjack-iOS-Static.a";
+			remoteRef = CE0021701C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021731C03DBB70079DCA4 /* CocoaLumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjack.framework;
+			remoteRef = CE0021721C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021751C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjackSwift.framework;
+			remoteRef = CE0021741C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021771C03DBB70079DCA4 /* CocoaLumberjack.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjack.framework;
+			remoteRef = CE0021761C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021791C03DBB70079DCA4 /* CocoaLumberjackSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CocoaLumberjackSwift.framework;
+			remoteRef = CE0021781C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00217B1C03DBB70079DCA4 /* FmwkTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = FmwkTest.app;
+			remoteRef = CE00217A1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00217D1C03DBB70079DCA4 /* SwiftTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwiftTest.app;
+			remoteRef = CE00217C1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE00217F1C03DBB70079DCA4 /* iOSSwiftTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iOSSwiftTest.app;
+			remoteRef = CE00217E1C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021811C03DBB70079DCA4 /* watchOSSwiftTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = watchOSSwiftTest.app;
+			remoteRef = CE0021801C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021831C03DBB70079DCA4 /* watchOSSwiftTest Extension.appex */ = {
+			isa = PBXReferenceProxy;
+			fileType = "wrapper.app-extension";
+			path = "watchOSSwiftTest Extension.appex";
+			remoteRef = CE0021821C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021851C03DBB70079DCA4 /* tvOSSwiftTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = tvOSSwiftTest.app;
+			remoteRef = CE0021841C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0021871C03DBB70079DCA4 /* iOSLibStaticTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = iOSLibStaticTest.app;
+			remoteRef = CE0021861C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4F7EB4111BFFC88200768720 /* Resources */ = {
@@ -1381,12 +1569,10 @@
 				4F96FD4B1BFD32140022F021 /* NSData+SFSDKUtils.m in Sources */,
 				4F96FDD81BFD32140022F021 /* SFAuthErrorHandlerList.m in Sources */,
 				4F96FDE71BFD32140022F021 /* SFGeneratedKeyStore.m in Sources */,
-				4FF9460D1BFFF4D9005368C5 /* DDAbstractDatabaseLogger.m in Sources */,
 				4F96FE001BFD32140022F021 /* SFSDKCryptoUtils.m in Sources */,
 				4F96FE071BFD32140022F021 /* SFUserAccount.m in Sources */,
 				4F96FDBC1BFD32140022F021 /* SFOAuthSessionRefresher.m in Sources */,
 				4F96FDDE1BFD32140022F021 /* SFDefaultUserManagementDetailViewController.m in Sources */,
-				4FF946181BFFF4D9005368C5 /* DDContextFilterLogFormatter.m in Sources */,
 				4FF945E51BFFF47D005368C5 /* SFFileProtectionHelper.m in Sources */,
 				4F96FDDC1BFD32140022F021 /* SFCommunityData.m in Sources */,
 				4F96FD5D1BFD32140022F021 /* SFIdentityCoordinator.m in Sources */,
@@ -1396,11 +1582,9 @@
 				4F96FE261BFD32140022F021 /* SFRootViewManager.m in Sources */,
 				4F96FD611BFD32140022F021 /* SFInstrumentation.m in Sources */,
 				4FF945F01BFFF47D005368C5 /* UIDevice+SFHardware.m in Sources */,
-				4FF9461A1BFFF4D9005368C5 /* DDDispatchQueueLogFormatter.m in Sources */,
 				4F96FDEA1BFD32140022F021 /* SFKeyStore.m in Sources */,
 				4F96FE1E1BFD32140022F021 /* SFDirectoryManager.m in Sources */,
 				4F96FDAE1BFD32140022F021 /* SFOAuthCoordinator.m in Sources */,
-				4FF9460F1BFFF4D9005368C5 /* DDASLLogger.m in Sources */,
 				4FF945D81BFFF47D005368C5 /* NSArray+SFAdditions.m in Sources */,
 				4F96FDF41BFD32140022F021 /* SFPasscodeManager.m in Sources */,
 				4F96FE121BFD32140022F021 /* SFSDKAsyncProcessListener.m in Sources */,
@@ -1411,19 +1595,16 @@
 				4F96FDFE1BFD32140022F021 /* SFPBKDFData.m in Sources */,
 				4F96FE161BFD32140022F021 /* SFSDKTestRequestListener.m in Sources */,
 				4FF945EC1BFFF47D005368C5 /* SFPathUtil.m in Sources */,
-				4FF9461C1BFFF4D9005368C5 /* DDMultiFormatter.m in Sources */,
 				4F96FE141BFD32140022F021 /* SFSDKTestCredentialsData.m in Sources */,
 				4FF946241BFFF663005368C5 /* NSURL+SFAdditions.m in Sources */,
 				4F96FE2A1BFD32140022F021 /* SFSDKWebUtils.m in Sources */,
 				4F96FE051BFD32140022F021 /* SFSHA256PasscodeProvider.m in Sources */,
 				4F96FE221BFD32140022F021 /* SFManagedPreferences.m in Sources */,
 				4F96FDD21BFD32140022F021 /* SFAuthenticationManager.m in Sources */,
-				4FF946161BFFF4D9005368C5 /* DDTTYLogger.m in Sources */,
 				4FF945E71BFFF47D005368C5 /* SFInactivityTimerCenter.m in Sources */,
 				4F96FD5F1BFD32140022F021 /* SFIdentityData.m in Sources */,
 				4F96FD5A1BFD32140022F021 /* SFUserActivityMonitor.m in Sources */,
 				4F96FDEF1BFD32140022F021 /* SFKeyStoreManager.m in Sources */,
-				4FF946141BFFF4D9005368C5 /* DDLog.m in Sources */,
 				4FF945DA1BFFF47D005368C5 /* NSData+SFAdditions.m in Sources */,
 				4F96FE181BFD32140022F021 /* TestSetupUtils.m in Sources */,
 				4F96FDEC1BFD32140022F021 /* SFKeyStoreKey.m in Sources */,
@@ -1437,7 +1618,6 @@
 				4F96FE1C1BFD32140022F021 /* SalesforceSDKCoreDefines.m in Sources */,
 				4FF945F21BFFF47D005368C5 /* UIScreen+SFAdditions.m in Sources */,
 				4FF945E21BFFF47D005368C5 /* SFCrypto.m in Sources */,
-				4FF946111BFFF4D9005368C5 /* DDFileLogger.m in Sources */,
 				4F96FDF11BFD32140022F021 /* SFPasscodeKeyStore.m in Sources */,
 				4F96FDB91BFD32140022F021 /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				4F96FDF91BFD32140022F021 /* SFPasscodeViewController.m in Sources */,
@@ -1502,6 +1682,11 @@
 			isa = PBXTargetDependency;
 			target = 8220B74B16D804CA00EC3921 /* SalesforceSDKCore */;
 			targetProxy = 82D4645B19C7CB8F0006BDFE /* PBXContainerItemProxy */;
+		};
+		CE00218D1C03E06F0079DCA4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CocoaLumberjack-iOS";
+			targetProxy = CE00218C1C03E06F0079DCA4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
