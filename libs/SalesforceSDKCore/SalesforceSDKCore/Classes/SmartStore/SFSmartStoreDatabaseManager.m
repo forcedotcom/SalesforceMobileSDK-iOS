@@ -143,25 +143,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
 - (FMDatabaseQueue *)openStoreQueueWithName:(NSString *)storeName key:(NSString *)key error:(NSError **)error {
     __block BOOL result = YES;
     NSString *fullDbFilePath = [self fullDbFilePathForStoreName:storeName];
-    
-    // Use the default flags expected by SQLLite
-    int flags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
-    
-    // Determine the appropriate flags to use for the protection level
-    NSString *fileProtection = [SFFileProtectionHelper fileProtectionForPath:fullDbFilePath];
-    if ([fileProtection isEqualToString:NSFileProtectionComplete]) {
-        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETE;
-    }
-    if ([fileProtection isEqualToString:NSFileProtectionCompleteUnlessOpen]) {
-        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETEUNLESSOPEN;
-    }
-    if ([fileProtection isEqualToString:NSFileProtectionCompleteUntilFirstUserAuthentication]) {
-        flags |= SQLITE_OPEN_FILEPROTECTION_COMPLETEUNTILFIRSTUSERAUTHENTICATION;
-    }
-    if ([fileProtection isEqualToString:NSFileProtectionNone]) {
-        flags |= SQLITE_OPEN_FILEPROTECTION_NONE;
-    }
-    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath flags:flags];
+    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:fullDbFilePath];
     [queue inDatabase:^(FMDatabase* db) {
         result = ([[self class] setKeyForDb:db key:key error:error] != nil);
     }];
