@@ -35,6 +35,14 @@
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
 
+//create alternatives to DDLogVerbose, Error, Warn, etc.
+//operate the same way but have custom log contexts
+#define LogWithContextVerbose(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagVerbose, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextDebug(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagDebug, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextError(context, frmt, ...) LOG_MAYBE(NO, ddLogLevel, DDLogFlagError, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextInfo(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagInfo, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+#define LogWithContextWarn(context, frmt, ...) LOG_MAYBE(LOG_ASYNC_ENABLED, ddLogLevel, DDLogFlagWarning, context, nil, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
+
 #ifdef DEBUG
 static int ddLogLevel = DDLogLevelVerbose;
 #else
@@ -332,21 +340,9 @@ static BOOL loggingToFile = NO;
     va_end(list);
 }
 
-//create alternatives to DDLogVerbose, Error, Warn, etc.
-//operate the same way but have custom log contexts
-#define LogWithContextVerbose(context, frmt, ...) ASYNC_LOG_OBJC_MAYBE(ddLogLevel, DDLogFlagVerbose, context, frmt, ##__VA_ARGS__)
-#define LogWithContextDebug(context, frmt, ...) ASYNC_LOG_OBJC_MAYBE(ddLogLevel, DDLogFlagDebug, context, frmt, ##__VA_ARGS__)
-#define LogWithContextError(context, frmt, ...) SYNC_LOG_OBJC_MAYBE(ddLogLevel, DDLogFlagError, context, frmt, ##__VA_ARGS__)
-#define LogWithContextInfo(context, frmt, ...) ASYNC_LOG_OBJC_MAYBE(ddLogLevel, DDLogFlagInfo, context, frmt, ##__VA_ARGS__)
-#define LogWithContextWarn(context, frmt, ...) ASYNC_LOG_OBJC_MAYBE(ddLogLevel, DDLogFlagWarning, context, frmt, ##__VA_ARGS__)
-
-
 + (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg {
     switch (level) {
         case SFLogLevelVerbose:
-            
-            
-            
             LogWithContextVerbose(logContext, @"%@", [NSString stringWithFormat:@"%@|%@|%@", [[self class] levelName:level], cls, msg]);
             break;
             
