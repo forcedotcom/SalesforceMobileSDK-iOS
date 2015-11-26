@@ -72,7 +72,6 @@
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */; };
-		CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,7 +121,6 @@
 
 /* Begin PBXFileReference section */
 		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9601531BFD33B30022F021 /* SFSmartSqlTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSqlTests.h; path = SmartStoreTests/SFSmartSqlTests.h; sourceTree = SOURCE_ROOT; };
 		4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSqlTests.m; path = SmartStoreTests/SFSmartSqlTests.m; sourceTree = SOURCE_ROOT; };
 		4F9601551BFD33B30022F021 /* SFSmartStoreAlterTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreAlterTests.h; path = SmartStoreTests/SFSmartStoreAlterTests.h; sourceTree = SOURCE_ROOT; };
@@ -165,9 +163,7 @@
 		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
-		825880401AA3FC74000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fmdb.xcodeproj; path = ../../external/fmdb/fmdb.xcodeproj; sourceTree = "<group>"; };
-		CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceCommonUtils.a; path = ../../external/ThirdPartyDependencies/SalesforceCommonUtils/libSalesforceCommonUtils.a; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CE1F0AFC19ACF95B0007F22F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -186,10 +182,6 @@
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CECDF84F19ABF9BE007A29E5 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,7 +198,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE0021B91C0669C60079DCA4 /* libFMDB-IOS.a in Frameworks */,
-				CECDF84D19ABF9B3007A29E5 /* libSalesforceSDKCore.a in Frameworks */,
 				CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */,
 				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
@@ -284,8 +275,6 @@
 			isa = PBXGroup;
 			children = (
 				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
-				825880401AA3FC74000C551E /* libSalesforceNetwork.a */,
-				4F3A72EE19DB89CF00E6F468 /* libSalesforceRestAPI.a */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
 				CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */,
 				CE1F0AFC19ACF95B0007F22F /* CoreData.framework */,
@@ -296,14 +285,9 @@
 				CE1F0B0119ACF95B0007F22F /* Security.framework */,
 				CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */,
 				CE1F0B0319ACF95B0007F22F /* UIKit.framework */,
-				CE1F0AF719AC1D6E0007F22F /* libSalesforceCommonUtils.a */,
 				CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */,
-				CECDF84F19ABF9BE007A29E5 /* libSalesforceRestAPI.a */,
-				CECDF84719ABF9B3007A29E5 /* libSalesforceOAuth.a */,
-				CECDF84819ABF9B3007A29E5 /* libSalesforceSDKCore.a */,
 				CE1F0B0E19ACF9910007F22F /* libxml2.dylib */,
 				CE1F0B0F19ACF9910007F22F /* libz.dylib */,
-				CECDF84919ABF9B3007A29E5 /* libSalesforceSecurity.a */,
 				CEAAAE48195911E600CBBFE9 /* Foundation.framework */,
 				CEAAAE56195911E600CBBFE9 /* XCTest.framework */,
 			);
