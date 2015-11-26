@@ -26,7 +26,7 @@
 #import <objc/runtime.h>
 
 #import "SFPasscodeViewController.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
+#import "SFPasscodeManager.h"
 #import "SFSDKResourceUtils.h"
 
 // Private view layout constants

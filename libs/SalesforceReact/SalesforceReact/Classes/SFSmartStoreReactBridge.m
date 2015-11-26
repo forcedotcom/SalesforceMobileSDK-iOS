@@ -25,13 +25,12 @@
 #import "SFSmartStoreReactBridge.h"
 
 #import "RCTUtils.h"
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
-#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFStoreCursor.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 
 // Private constants
 NSString * const kSoupNameArg         = @"soupName";
@@ -79,11 +78,12 @@ RCT_EXPORT_METHOD(registerSoup:(NSDictionary *)argsDict callback:(RCTResponseSen
     NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
     [self log:SFLogLevelDebug format:@"registerSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
     
-    BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs];
+    NSError* error = nil;
+    BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
     if (regOk) {
         callback(@[[NSNull null], soupName]);
     } else {
-        callback(@[RCTMakeError(@"registerSoup failed", nil, nil)]);
+        callback(@[RCTMakeError(@"registerSoup failed", error, nil)]);
     }
 }
 

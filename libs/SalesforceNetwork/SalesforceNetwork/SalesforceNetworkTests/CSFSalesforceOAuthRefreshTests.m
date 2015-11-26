@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import <SalesforceOAuth/SalesforceOAuth.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFSalesforceAction.h"

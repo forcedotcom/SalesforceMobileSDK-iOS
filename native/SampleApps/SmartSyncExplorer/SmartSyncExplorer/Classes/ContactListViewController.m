@@ -30,7 +30,7 @@
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>

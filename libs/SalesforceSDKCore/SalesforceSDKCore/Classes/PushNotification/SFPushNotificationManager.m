@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCommon/NSString+SFAdditions.h>
-#import <SalesforceSDKCore/SFPreferences.h>
+#import "NSString+SFAdditions.h"
+#import "SFPreferences.h"
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"

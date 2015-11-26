@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
+#import <SmartStore/SFSoupIndex.h>
 #import "SObjectDataFieldSpec.h"
 
 extern NSString * const kSObjectIdField;

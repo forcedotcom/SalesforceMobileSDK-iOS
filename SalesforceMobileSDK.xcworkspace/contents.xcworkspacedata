@@ -27,28 +27,22 @@
       location = "container:"
       name = "Libs">
       <FileRef
-         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+         location = "group:libs/SmartStore/SmartStore.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SmartSync/SmartSync.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
+         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SalesforceReact/SalesforceReact.xcodeproj">
@@ -80,6 +74,9 @@
    <Group
       location = "container:"
       name = "External">
+      <FileRef
+         location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
+      </FileRef>
       <FileRef
          location = "group:external/react-native/React/React.xcodeproj">
       </FileRef>

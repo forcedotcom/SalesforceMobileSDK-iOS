@@ -12,5 +12,5 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <SalesforceSDKCore/SalesforceSDKConstants.h>
-    #import <SalesforceSDKCommon/SFLogger.h>
+    #import <SalesforceSDKCore/SFLogger.h>
 #endif

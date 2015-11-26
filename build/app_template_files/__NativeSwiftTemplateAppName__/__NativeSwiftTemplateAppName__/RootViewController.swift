@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+Copyright (c) 2015, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -43,7 +43,7 @@ class RootViewController : UITableViewController, SFRestDelegate
     func request(request: SFRestRequest!, didLoadResponse jsonResponse: AnyObject!)
     {
         self.dataRows = jsonResponse["records"] as! [NSDictionary]
-        self.log(SFLogLevelDebug, msg: "request:didLoadResponse: #records: \(self.dataRows.count)")
+        self.log(.Debug, msg: "request:didLoadResponse: #records: \(self.dataRows.count)")
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
         })
@@ -51,19 +51,19 @@ class RootViewController : UITableViewController, SFRestDelegate
     
     func request(request: SFRestRequest!, didFailLoadWithError error: NSError!)
     {
-        self.log(SFLogLevelDebug, msg: "didFailLoadWithError: \(error)")
+        self.log(.Debug, msg: "didFailLoadWithError: \(error)")
         // Add your failed error handling here
     }
     
     func requestDidCancelLoad(request: SFRestRequest!)
     {
-        self.log(SFLogLevelDebug, msg: "requestDidCancelLoad: \(request)")
+        self.log(.Debug, msg: "requestDidCancelLoad: \(request)")
         // Add your failed error handling here
     }
     
     func requestDidTimeout(request: SFRestRequest!)
     {
-        self.log(SFLogLevelDebug, msg: "requestDidTimeout: \(request)")
+        self.log(.Debug, msg: "requestDidTimeout: \(request)")
         // Add your failed error handling here
     }
     

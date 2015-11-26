@@ -27,7 +27,7 @@
 #import "SFHybridConnectionMonitor.h"
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
-#import <SalesforceSDKCommon/NSURL+SFAdditions.h>
+#import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>

@@ -23,7 +23,7 @@
  */
 
 #import "SFUserAccount.h"
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 

@@ -6,12 +6,63 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		4FEE442F1BFD50BE00F09C43 /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 4FEE44301BFD50BE00F09C43 /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
 		4FF0BCA31B826D9400ABC91C /* SFNetReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4FFEE5D51BFE904100B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEAAAE45195911E600CBBFE9;
+			remoteInfo = SmartSync;
+		};
+		4FFEE5D71BFE904100B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
+			remoteInfo = SmartSyncTests;
+		};
+		4FFEE5D91BFE904C00B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
+			remoteInfo = SmartSync;
+		};
+		4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		4FFEE6311BFE932600B7AA8A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4FABF0441AA51F9000D31E3F /* CopyFiles */ = {
@@ -40,6 +91,8 @@
 		4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFOauthReactBridge.h; path = Classes/SFOauthReactBridge.h; sourceTree = "<group>"; };
 		4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFNetReactBridge.h; path = Classes/SFNetReactBridge.h; sourceTree = "<group>"; };
 		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
+		4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
+		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				4F67FECC1B7970C300A957A3 /* Configuration */,
-				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
+				4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */,
 				4FABF0471AA51F9000D31E3F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +118,7 @@
 		4F67FECC1B7970C300A957A3 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */,
 				4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */,
 				4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */,
@@ -113,6 +167,32 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */ = {
+			isa = PBXGroup;
+			children = (
+				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
+				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
+			);
+			name = Frameworkds;
+			sourceTree = "<group>";
+		};
+		4FFEE5D01BFE904100B7AA8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFEE5D61BFE904100B7AA8A /* libSmartSync.a */,
+				4FFEE5D81BFE904100B7AA8A /* SmartSyncTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4FFEE62C1BFE932100B7AA8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4FFEE6301BFE932100B7AA8A /* libReact.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -127,6 +207,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				4FFEE6321BFE932600B7AA8A /* PBXTargetDependency */,
+				4FFEE5DA1BFE904C00B7AA8A /* PBXTargetDependency */,
 			);
 			name = SalesforceReact;
 			productName = SalesforceReact;
@@ -139,10 +221,13 @@
 		4F36189E1AA51E3900AE3A65 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					4FABF0451AA51F9000D31E3F = {
 						CreatedOnToolsVersion = 6.1.1;
+					};
+					4FEE442F1BFD50BE00F09C43 = {
+						CreatedOnToolsVersion = 7.1.1;
 					};
 				};
 			};
@@ -156,12 +241,47 @@
 			mainGroup = 4F36189D1AA51E3900AE3A65;
 			productRefGroup = 4FABF0471AA51F9000D31E3F /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4FFEE62C1BFE932100B7AA8A /* Products */;
+					ProjectRef = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = 4FFEE5D01BFE904100B7AA8A /* Products */;
+					ProjectRef = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
+				4FEE442F1BFD50BE00F09C43 /* Documentation */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4FFEE5D61BFE904100B7AA8A /* libSmartSync.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSmartSync.a;
+			remoteRef = 4FFEE5D51BFE904100B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFEE5D81BFE904100B7AA8A /* SmartSyncTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SmartSyncTests.xctest;
+			remoteRef = 4FFEE5D71BFE904100B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4FFEE6301BFE932100B7AA8A /* libReact.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReact.a;
+			remoteRef = 4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4FABF0421AA51F9000D31E3F /* Sources */ = {
@@ -177,15 +297,30 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4FFEE5DA1BFE904C00B7AA8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartSync;
+			targetProxy = 4FFEE5D91BFE904C00B7AA8A /* PBXContainerItemProxy */;
+		};
+		4FFEE6321BFE932600B7AA8A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = 4FFEE6311BFE932600B7AA8A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		4F3618A21AA51E3900AE3A65 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(inherited)",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -230,6 +365,22 @@
 			};
 			name = Release;
 		};
+		4FEE44311BFD50BE00F09C43 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4FEE44321BFD50BE00F09C43 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -247,6 +398,15 @@
 			buildConfigurations = (
 				4FABF0581AA51F9000D31E3F /* Debug */,
 				4FABF0591AA51F9000D31E3F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4FEE44301BFD50BE00F09C43 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4FEE44311BFD50BE00F09C43 /* Debug */,
+				4FEE44321BFD50BE00F09C43 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

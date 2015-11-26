@@ -3,7 +3,10 @@
 
 target '__NativeTemplateAppName__' do
 
-pod 'SalesforceMobileSDK-iOS'
+pod 'SalesforceMobileSDK-iOS', :subspecs => [
+    'SmartSync'
+]
+
 
 end
 

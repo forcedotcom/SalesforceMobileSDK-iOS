@@ -243,7 +243,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
             };
             self.action.parameters.bodyStreamBlock = bodyStreamBlock;
             [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
-            [self setHeaderValue:[NSString stringWithFormat:@"%lu", bodyData.length] forHeaderName:@"Content-Length"];
+            [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length] forHeaderName:@"Content-Length"];
         } else {
             [self convertQueryParamsToActionParams];
         }

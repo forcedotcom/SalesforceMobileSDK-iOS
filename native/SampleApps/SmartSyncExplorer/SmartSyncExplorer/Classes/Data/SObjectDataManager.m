@@ -23,8 +23,8 @@
  */
 
 #import "SObjectDataManager.h"
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 // Will go away once we are done refactoring SFSyncTarget
@@ -85,7 +85,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     if (self.syncDownId == 0) {
         // first time
-        NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@, LastModifiedDate FROM %@ LIMIT %d", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, kSyncLimit];
+        NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@, LastModifiedDate FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
         SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
         SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
         [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
@@ -151,7 +151,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 - (void)registerSoup {
     NSString *soupName = self.dataSpec.soupName;
     NSArray *indexSpecs = self.dataSpec.indexSpecs;
-    [self.store registerSoup:soupName withIndexSpecs:indexSpecs];
+    [self.store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
 }
 
 - (void)refreshLocalData {

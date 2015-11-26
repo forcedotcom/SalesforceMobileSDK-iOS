@@ -39,13 +39,15 @@
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
 #import "SFUserActivityMonitor.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
-#import <SalesforceSDKCommon/SFTestContext.h>
+
+#import "SFOAuthCredentials.h"
+#import "SFOAuthInfo.h"
+#import "NSURL+SFAdditions.h"
+#import "SFInactivityTimerCenter.h"
+#import "SFTestContext.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 

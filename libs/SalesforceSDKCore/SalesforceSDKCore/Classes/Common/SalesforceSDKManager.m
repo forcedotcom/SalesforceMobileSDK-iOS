@@ -28,11 +28,11 @@
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
-#import "SFSmartStore.h"
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
-#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
+// FIXME-REORG #import "SFSmartStore.h"
+#import "SFOAuthInfo.h"
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
+#import "SFInactivityTimerCenter.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -701,7 +701,8 @@ static NSString* uid = nil;
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
-    [SFSmartStore removeAllStoresForUser:user];
+
+    // FIXME-REORG [SFSmartStore removeAllStoresForUser:user];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

@@ -33,7 +33,7 @@
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceSDKCommon/SFLogger.h>
+#import <SalesforceSDKCore/SFLogger.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 

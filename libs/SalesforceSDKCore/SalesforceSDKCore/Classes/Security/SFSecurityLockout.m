@@ -24,12 +24,12 @@
 
 #import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
-#import <SalesforceSDKCommon/SFInactivityTimerCenter.h>
-#import <SalesforceSDKCommon/SFCrypto.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceSDKCommon/SFKeychainItemWrapper.h>
+#import "SFInactivityTimerCenter.h"
+#import "SFCrypto.h"
+#import "SFOAuthCredentials.h"
+#import "SFKeychainItemWrapper.h"
 #import "SFUserAccountManager.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
+#import "SFPasscodeManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFRootViewManager.h"
 #import "SFPreferences.h"

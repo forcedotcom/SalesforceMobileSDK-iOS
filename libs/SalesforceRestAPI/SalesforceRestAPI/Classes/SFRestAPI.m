@@ -26,7 +26,7 @@
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPISalesforceAction.h"
 #import <SalesforceNetwork/CSFSalesforceAction.h>
-#import <SalesforceOAuth/SFOAuthCoordinator.h>
+#import <SalesforceSDKCore/SFOAuthCoordinator.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>

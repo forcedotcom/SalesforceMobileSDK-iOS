@@ -23,7 +23,7 @@
  */
 
 #import "SObjectData+Internal.h"
-#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 
 @implementation SObjectData
 

@@ -1,0 +1,18 @@
+//
+//  SmartStore-Common.xcconfig
+//  SmartStore
+//
+//  Created by Bharath Hariharan on 4/7/15.
+//  Copyright (c) 2015 Salesforce Inc. All rights reserved.
+//
+
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
+
+PRODUCT_NAME = SmartStore
+
+OTHER_CFLAGS = -DSQLITE_HAS_CODEC -DFMDatabase=SF_FMDatabase -DFMStatement=SF_FMStatement -DFMDatabasePool=SF_FMDatabasePool -DFMDatabaseQueue=SF_FMDatabaseQueue -DFMResultSet=SF_FMResultSet -DFMDBBlockSQLiteCallBackFunction=SF_FMDBBlockSQLiteCallBackFunction $(inherited)
+OTHER_LDFLAGS = -ObjC -lsqlcipher
+
+HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" $(inherited)
+LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)

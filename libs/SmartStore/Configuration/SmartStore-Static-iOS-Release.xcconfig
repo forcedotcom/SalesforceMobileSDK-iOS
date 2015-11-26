@@ -1,0 +1,12 @@
+//
+//  SmartStore-Static-iOS-Release.xcconfig
+//  SmartStore
+//
+//  Created by Bharath Hariharan on 4/7/15.
+//  Copyright (c) 2015 Salesforce Inc. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Static.xcconfig"
+#include "../../../configuration/Configuration-Release.xcconfig"
+#include "SmartStore-Common.xcconfig"

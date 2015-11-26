@@ -24,12 +24,12 @@
 
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import <SalesforceSDKCommon/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFStoreCursor.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import "SFHybridViewController.h"
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVInvokedUrlCommand.h>
