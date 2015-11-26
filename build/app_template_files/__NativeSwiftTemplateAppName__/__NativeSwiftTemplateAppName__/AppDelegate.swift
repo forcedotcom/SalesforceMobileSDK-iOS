@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+Copyright (c) 2015, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -41,7 +41,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     init()
     {
         super.init()
-        SFLogger.setLogLevel(SFLogLevelDebug)
+        SFLogger.setLogLevel(.Debug)
         
         SalesforceSDKManager.sharedManager().connectedAppId = RemoteAccessConsumerKey
         SalesforceSDKManager.sharedManager().connectedAppCallbackUri = OAuthRedirectURI
@@ -49,15 +49,15 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         SalesforceSDKManager.sharedManager().postLaunchAction = {
             [unowned self] (launchActionList: SFSDKLaunchAction) in
             let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
-            self.log(SFLogLevelInfo, msg:"Post-launch: launch actions taken: \(launchActionString)");
+            self.log(.Info, msg:"Post-launch: launch actions taken: \(launchActionString)");
             self.setupRootViewController();
         }
         SalesforceSDKManager.sharedManager().launchErrorAction = {
             [unowned self] (error: NSError?, launchActionList: SFSDKLaunchAction) in
             if let actualError = error {
-                self.log(SFLogLevelError, msg:"Error during SDK launch: \(actualError.localizedDescription)")
+                self.log(.Error, msg:"Error during SDK launch: \(actualError.localizedDescription)")
             } else {
-                self.log(SFLogLevelError, msg:"Unknown error during SDK launch.")
+                self.log(.Error, msg:"Unknown error during SDK launch.")
             }
             self.initializeAppViewState()
             SalesforceSDKManager.sharedManager().launch()
@@ -138,7 +138,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     func handleSdkManagerLogout()
     {
-        self.log(SFLogLevelDebug, msg: "SFAuthenticationManager logged out.  Resetting app.")
+        self.log(.Debug, msg: "SFAuthenticationManager logged out.  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
             
@@ -178,7 +178,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     {
         let fromUserName = (fromUser != nil) ? fromUser?.userName : "<none>"
         let toUserName = (toUser != nil) ? toUser?.userName : "<none>"
-        self.log(SFLogLevelDebug, msg:"SFUserAccountManager changed from user \(fromUserName) to \(toUserName).  Resetting app.")
+        self.log(.Debug, msg:"SFUserAccountManager changed from user \(fromUserName) to \(toUserName).  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
             SalesforceSDKManager.sharedManager().launch()
