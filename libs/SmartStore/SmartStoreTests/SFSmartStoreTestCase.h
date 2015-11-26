@@ -24,7 +24,7 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSmartStore.h"
-#import "FMResultSet.h"
+#import <fmdb/FMResultSet.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
 @interface SFSmartStoreTestCase : XCTestCase

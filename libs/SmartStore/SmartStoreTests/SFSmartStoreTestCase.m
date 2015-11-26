@@ -26,8 +26,8 @@
 #import "SFSoupIndex.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import "SFSmartStore+Internal.h"
-#import "FMDatabaseQueue.h"
-#import "FMDatabase.h"
+#import <fmdb/FMDatabaseQueue.h>
+#import <fmdb/FMDatabase.h>
 
 @implementation SFSmartStoreTestCase
 
