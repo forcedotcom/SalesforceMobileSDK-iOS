@@ -14,5 +14,5 @@ PRODUCT_NAME = SmartStore
 OTHER_CFLAGS = -DSQLITE_HAS_CODEC $(inherited)
 OTHER_LDFLAGS = -ObjC -lsqlcipher
 
-HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" "$(PROJECT_DIR)/../../external/fmdb/src/fmdb/**" $(inherited)
+HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" $(inherited)
 LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)
