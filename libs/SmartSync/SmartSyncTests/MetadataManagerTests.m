@@ -275,7 +275,7 @@ static NSString* const kCaseOneName = @"00001001";
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
-- (void)testCleanCache
+- (void)FIXMEtestCleanCache
 {
     XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
     [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
