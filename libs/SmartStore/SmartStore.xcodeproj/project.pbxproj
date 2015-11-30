@@ -54,7 +54,6 @@
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
-		CE0021B91C0669C60079DCA4 /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
 		CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */; };
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
@@ -70,6 +69,7 @@
 		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
 		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */; };
+		CE90C1391C0CFA9000CC660F /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -200,8 +200,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1391C0CFA9000CC660F /* libSmartStore.a in Frameworks */,
 				CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */,
-				CE0021B91C0669C60079DCA4 /* libFMDB-IOS.a in Frameworks */,
 				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
 				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
