@@ -771,6 +771,7 @@
 				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
 				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SalesforceRestAPI;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
@@ -787,6 +788,7 @@
 				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
 				INSTALL_PATH = /;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = mh_dylib;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = SalesforceRestAPI;
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";

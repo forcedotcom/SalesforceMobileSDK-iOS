@@ -1035,6 +1035,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = SalesforceNetwork;
 				SKIP_INSTALL = YES;
 			};
@@ -1044,6 +1045,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */;
 			buildSettings = {
+				MACH_O_TYPE = mh_dylib;
 				PRODUCT_NAME = SalesforceNetwork;
 				SKIP_INSTALL = YES;
 			};
