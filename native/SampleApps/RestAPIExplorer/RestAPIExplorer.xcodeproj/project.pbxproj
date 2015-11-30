@@ -12,7 +12,6 @@
 		4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFD18DD07D0006A7699 /* Images.xcassets */; };
 		4FEE44781BFD5A1200F09C43 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */; };
-		4FEE44791BFD5A1200F09C43 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
 		7DF4D2E31472E238005CE144 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E21472E238005CE144 /* Security.framework */; };
@@ -32,11 +31,11 @@
 		7DF4D3CD1472E3E0005CE144 /* RestAPIExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3C71472E3DF005CE144 /* RestAPIExplorerViewController.m */; };
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
 		8201678C16E17F4D002F4066 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201678B16E17F4D002F4066 /* libz.dylib */; };
-		8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
+		CE90C1201C0CDF1200CC660F /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE5E31BFE90CA00B7AA8A /* libSalesforceRestAPI.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +75,6 @@
 		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F84FDFD18DD07D0006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = "../../../libs/SalesforceNetwork/build/Debug-iphoneos/libSalesforceNetwork.a"; sourceTree = "<group>"; };
-		4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../../../libs/SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceRestAPI.xcodeproj; path = ../../../libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -102,15 +100,9 @@
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		8201678B16E17F4D002F4066 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		8201679116E17FCC002F4066 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
-		8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8201679516E18052002F4066 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		82ABD5351A916B8E0051CC9B /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		82D53D591A36897C00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
 		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
 		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
@@ -121,9 +113,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1201C0CDF1200CC660F /* libSalesforceRestAPI.a in Frameworks */,
 				4FEE44781BFD5A1200F09C43 /* libSalesforceNetwork.a in Frameworks */,
-				4FEE44791BFD5A1200F09C43 /* libSalesforceRestAPI.a in Frameworks */,
-				8201679416E17FE4002F4066 /* libSalesforceSDKCore.a in Frameworks */,
 				7DF4D3BA1472E23A005CE144 /* libxml2.dylib in Frameworks */,
 				8201678C16E17F4D002F4066 /* libz.dylib in Frameworks */,
 				7DF4D2EB1472E238005CE144 /* CFNetwork.framework in Frameworks */,
@@ -147,8 +138,8 @@
 			isa = PBXGroup;
 			children = (
 				4FFEE5E31BFE90CA00B7AA8A /* libSalesforceRestAPI.a */,
-				4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPIUnitTestApp.app */,
-				4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITests.xctest */,
+				4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPITestApp.app */,
+				4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITestAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -175,14 +166,7 @@
 			children = (
 				4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */,
 				4FEE44761BFD5A1200F09C43 /* libSalesforceNetwork.a */,
-				4FEE44771BFD5A1200F09C43 /* libSalesforceRestAPI.a */,
-				82ABD5351A916B8E0051CC9B /* libSalesforceNetwork.a */,
-				82D53D591A36897C00E46F8F /* libSalesforceSDKCommon.a */,
 				8222637419DC9F8E0097A09A /* libSalesforceRestAPI.a */,
-				8201679516E18052002F4066 /* libSalesforceOAuth.a */,
-				8201679316E17FE4002F4066 /* libSalesforceSDKCore.a */,
-				82AA406518E3B1B900BD34D8 /* libSalesforceSecurity.a */,
-				8201679116E17FCC002F4066 /* libsqlcipher.a */,
 				7DF4D3B91472E23A005CE144 /* libxml2.dylib */,
 				8201678B16E17F4D002F4066 /* libz.dylib */,
 				7DF4D2EA1472E238005CE144 /* CFNetwork.framework */,
@@ -323,17 +307,17 @@
 			remoteRef = 4FFEE5E21BFE90CA00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPIUnitTestApp.app */ = {
+		4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPITestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = SalesforceRestAPIUnitTestApp.app;
+			path = SalesforceRestAPITestApp.app;
 			remoteRef = 4FFEE5E41BFE90CA00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITests.xctest */ = {
+		4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceRestAPITests.xctest;
+			path = SalesforceRestAPITestAppTests.xctest;
 			remoteRef = 4FFEE5E61BFE90CA00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

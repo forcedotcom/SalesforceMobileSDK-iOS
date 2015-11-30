@@ -98,6 +98,7 @@
 		82ABD51E1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ABD51C1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m */; };
 		82E8022E1A8FF22900648529 /* CSFAuthRefresh.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E8022C1A8FF22900648529 /* CSFAuthRefresh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E8022F1A8FF22900648529 /* CSFAuthRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E8022D1A8FF22900648529 /* CSFAuthRefresh.m */; };
+		CE90C1181C0CDC4400CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,8 +302,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
 				825347FB1A8ADD050019FE0B /* libSalesforceNetwork.a in Frameworks */,
+				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
 				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
 				82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */,
@@ -313,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1181C0CDC4400CC660F /* libSalesforceSDKCore.a in Frameworks */,
 				827DD5081A7C086800519F03 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -68,10 +68,11 @@
 		CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0E19ACF9910007F22F /* libxml2.dylib */; };
 		CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0F19ACF9910007F22F /* libz.dylib */; };
 		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
+		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
+		CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
-		CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -177,6 +178,7 @@
 		CE1F0B0E19ACF9910007F22F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
 		CE1F0B0F19ACF9910007F22F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
+		CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */,
 				CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,8 +200,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */,
 				CE0021B91C0669C60079DCA4 /* libFMDB-IOS.a in Frameworks */,
-				CEAAAE5D195911E600CBBFE9 /* libSmartStore.a in Frameworks */,
 				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
 				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
@@ -274,6 +277,7 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */,
 				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
 				CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */,

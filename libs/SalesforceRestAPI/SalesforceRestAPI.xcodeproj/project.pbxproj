@@ -62,6 +62,7 @@
 		82C0C75E16E07DEB0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
 		82C0C75F16E07DEB0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C76116E07DEB0006B3C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C76016E07DEB0006B3C0 /* CoreGraphics.framework */; };
+		CE90C1341C0CF60100CC660F /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8ACE71C03E4DE00A4AE68 /* libSalesforceNetwork.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1341C0CF60100CC660F /* libSalesforceNetwork.a in Frameworks */,
 				8212C1C517F0EB2B002C59E2 /* libSalesforceRestAPI.a in Frameworks */,
 				8212C1C917F0EB6B002C59E2 /* libxml2.dylib in Frameworks */,
 				8212C1CA17F0EB70002C59E2 /* libz.dylib in Frameworks */,

@@ -48,7 +48,6 @@
 		824A9BD61721FCA400C9BD79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9BD51721FCA400C9BD79 /* CoreGraphics.framework */; };
 		824A9BDE1721FCA400C9BD79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 824A9BDD1721FCA400C9BD79 /* main.m */; };
 		824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */; };
-		824A9D9B1724C8B800C9BD79 /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */; };
 		824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9D9C1724C92400C9BD79 /* libsqlcipher.a */; };
 		824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA01724C95D00C9BD79 /* libxml2.dylib */; };
 		824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DA21724C96D00C9BD79 /* libz.dylib */; };
@@ -234,8 +233,6 @@
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
 		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9D9C1724C92400C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		824A9DA01724C95D00C9BD79 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		824A9DA21724C96D00C9BD79 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -254,19 +251,16 @@
 		824A9DBC1724CAB900C9BD79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		824A9DC01724CE4600C9BD79 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = config.xml; path = ../../../../shared/hybrid/config.xml; sourceTree = "<group>"; };
-		825880521AA42574000C551E /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82638F0A19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIApplication+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIApplication+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/UIApplication+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		8272301A19D764160066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
 		8272301B19D764160066A350 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ../../../../shared/hybrid/InitialViewController.m; sourceTree = "<group>"; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		82AA406118E3B0D200BD34D8 /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82AF5AA51A0DA996006C7A4B /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../shared/hybrid/cordova_plugins.js; sourceTree = "<group>"; };
 		82AF5ADF1A0DADA4006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AE51A0DADA4006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
-		82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,7 +274,6 @@
 				4F22154F19DF44E100FF2D26 /* libSmartSync.a in Frameworks */,
 				828B294D174AE06400741BBE /* libCordova.a in Frameworks */,
 				824A9D971724C80500C9BD79 /* libSalesforceHybridSDK.a in Frameworks */,
-				824A9D9B1724C8B800C9BD79 /* libSalesforceSDKCore.a in Frameworks */,
 				824A9D9D1724C92400C9BD79 /* libsqlcipher.a in Frameworks */,
 				824A9DA11724C95D00C9BD79 /* libxml2.dylib in Frameworks */,
 				824A9DA31724C96D00C9BD79 /* libz.dylib in Frameworks */,
@@ -365,8 +358,8 @@
 			isa = PBXGroup;
 			children = (
 				4FFEE61C1BFE916F00B7AA8A /* libSalesforceHybridSDK.a */,
-				4FFEE61E1BFE916F00B7AA8A /* HybridPluginTestApp.app */,
-				4FFEE6201BFE916F00B7AA8A /* HybridPluginTestAppTests.xctest */,
+				4FFEE61E1BFE916F00B7AA8A /* SalesforceHybridSDKTestApp.app */,
+				4FFEE6201BFE916F00B7AA8A /* SalesforceHybridSDKTestAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -396,17 +389,12 @@
 				4FEE44801BFD5A4200F09C43 /* libSalesforceRestAPI.a */,
 				4FEE44411BFD551100F09C43 /* libSalesforceNetwork.a */,
 				4FEE44281BFD4E7400F09C43 /* libSmartStore.a */,
-				825880521AA42574000C551E /* libSalesforceNetwork.a */,
-				82D53D671A37862B00E46F8F /* libSalesforceSDKCommon.a */,
 				4F22155E19DF549400FF2D26 /* ImageIO.framework */,
 				4F22154A19DF44E000FF2D26 /* libSalesforceRestAPI.a */,
 				4F22154B19DF44E000FF2D26 /* libSmartSync.a */,
 				4FF15E25190884C600705FE0 /* AssetsLibrary.framework */,
 				828B294C174AE06400741BBE /* libCordova.a */,
 				824A9D961724C80500C9BD79 /* libSalesforceHybridSDK.a */,
-				824A9D981724C86100C9BD79 /* libSalesforceOAuth.a */,
-				824A9D9A1724C8B800C9BD79 /* libSalesforceSDKCore.a */,
-				82AA406118E3B0D200BD34D8 /* libSalesforceSecurity.a */,
 				824A9D9C1724C92400C9BD79 /* libsqlcipher.a */,
 				824A9DA01724C95D00C9BD79 /* libxml2.dylib */,
 				824A9DA21724C96D00C9BD79 /* libz.dylib */,
@@ -604,17 +592,17 @@
 			remoteRef = 4FFEE61B1BFE916F00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE61E1BFE916F00B7AA8A /* HybridPluginTestApp.app */ = {
+		4FFEE61E1BFE916F00B7AA8A /* SalesforceHybridSDKTestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
-			path = HybridPluginTestApp.app;
+			path = SalesforceHybridSDKTestApp.app;
 			remoteRef = 4FFEE61D1BFE916F00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE6201BFE916F00B7AA8A /* HybridPluginTestAppTests.xctest */ = {
+		4FFEE6201BFE916F00B7AA8A /* SalesforceHybridSDKTestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = HybridPluginTestAppTests.xctest;
+			path = SalesforceHybridSDKTestAppTests.xctest;
 			remoteRef = 4FFEE61F1BFE916F00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
