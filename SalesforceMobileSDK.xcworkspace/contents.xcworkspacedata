@@ -75,6 +75,9 @@
       location = "container:"
       name = "External">
       <FileRef
+         location = "group:external/fmdb/fmdb.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
       </FileRef>
       <FileRef

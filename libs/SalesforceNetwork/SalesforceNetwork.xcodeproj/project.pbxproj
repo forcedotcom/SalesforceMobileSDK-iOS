@@ -23,7 +23,6 @@
 		8253486B1A8ADD220019FE0B /* InternalFunctionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8253480B1A8ADD220019FE0B /* InternalFunctionTests.m */; };
 		825348BC1A8ADD220019FE0B /* TestDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 825348621A8ADD220019FE0B /* TestDataAction.m */; };
 		825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348C31A8AE7BC0019FE0B /* libOCMock.a */; };
-		825348C61A8AE87A0019FE0B /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348C51A8AE87A0019FE0B /* libSalesforceSDKCore.a */; };
 		825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CF1A8AF55B0019FE0B /* MessageUI.framework */; };
 		825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D11A8AF5770019FE0B /* libz.dylib */; };
 		827DD4871A7C006F00519F03 /* NSURL+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */; };
@@ -99,30 +98,10 @@
 		82ABD51E1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 82ABD51C1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m */; };
 		82E8022E1A8FF22900648529 /* CSFAuthRefresh.h in Headers */ = {isa = PBXBuildFile; fileRef = 82E8022C1A8FF22900648529 /* CSFAuthRefresh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82E8022F1A8FF22900648529 /* CSFAuthRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E8022D1A8FF22900648529 /* CSFAuthRefresh.m */; };
+		CE90C1181C0CDC4400CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FEE44691BFD593E00F09C43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43C81BFD49F400F09C43;
-			remoteInfo = SalesforceOAuthTests;
-		};
-		4FEE446F1BFD593E00F09C43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE43F61BFD4C2400F09C43;
-			remoteInfo = SalesforceSecurityTests;
-		};
-		4FEE44711BFD593E00F09C43 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4FEE441B1BFD4CE600F09C43;
-			remoteInfo = SalesforceSDKCommonTests;
-		};
 		4FEE44731BFD597800F09C43 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
@@ -193,6 +172,13 @@
 			remoteGlobalIDString = 827DD3D91A7BF55F00519F03;
 			remoteInfo = SalesforceNetworkiOS;
 		};
+		CE61137B1C06A09400D5A940 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
+			remoteInfo = SalesforceSDKCoreTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -232,13 +218,8 @@
 		825348611A8ADD220019FE0B /* TestDataAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestDataAction.h; sourceTree = "<group>"; };
 		825348621A8ADD220019FE0B /* TestDataAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataAction.m; sourceTree = "<group>"; };
 		825348C31A8AE7BC0019FE0B /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348C51A8AE87A0019FE0B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceOAuth.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSecurity.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSalesforceSDKCommon.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348CF1A8AF55B0019FE0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		825348D11A8AF5770019FE0B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		825348D31A8AF5AC0019FE0B /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		827DD3DA1A7BF55F00519F03 /* libSalesforceNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		827DD3F71A7C006E00519F03 /* NSURL+ActionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ActionValue.h"; sourceTree = "<group>"; };
 		827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ActionValue.m"; sourceTree = "<group>"; };
@@ -321,9 +302,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
 				825347FB1A8ADD050019FE0B /* libSalesforceNetwork.a in Frameworks */,
-				825348C61A8AE87A0019FE0B /* libSalesforceSDKCore.a in Frameworks */,
+				825348C41A8AE7BC0019FE0B /* libOCMock.a in Frameworks */,
 				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
 				82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */,
@@ -334,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE90C1181C0CDC4400CC660F /* libSalesforceSDKCore.a in Frameworks */,
 				827DD5081A7C086800519F03 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -357,11 +338,9 @@
 			isa = PBXGroup;
 			children = (
 				6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */,
+				CE61137C1C06A09400D5A940 /* SalesforceSDKCoreTests.xctest */,
 				6F7EAA9E1B61917700F4C242 /* SalesforceSDKCoreTestApp.app */,
-				6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTests.xctest */,
-				4FEE446A1BFD593E00F09C43 /* SalesforceOAuthTests.xctest */,
-				4FEE44701BFD593E00F09C43 /* SalesforceSecurityTests.xctest */,
-				4FEE44721BFD593E00F09C43 /* SalesforceSDKCommonTests.xctest */,
+				6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTestAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -628,12 +607,7 @@
 				6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */,
 				6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */,
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
-				825348D31A8AF5AC0019FE0B /* libsqlcipher.a */,
 				825348D11A8AF5770019FE0B /* libz.dylib */,
-				825348CB1A8AE8980019FE0B /* libSalesforceSDKCommon.a */,
-				825348C91A8AE8930019FE0B /* libSalesforceSecurity.a */,
-				825348C71A8AE88D0019FE0B /* libSalesforceOAuth.a */,
-				825348C51A8AE87A0019FE0B /* libSalesforceSDKCore.a */,
 				825348C31A8AE7BC0019FE0B /* libOCMock.a */,
 				827DD5071A7C086800519F03 /* Foundation.framework */,
 				825348CF1A8AF55B0019FE0B /* MessageUI.framework */,
@@ -815,27 +789,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FEE446A1BFD593E00F09C43 /* SalesforceOAuthTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceOAuthTests.xctest;
-			remoteRef = 4FEE44691BFD593E00F09C43 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FEE44701BFD593E00F09C43 /* SalesforceSecurityTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSecurityTests.xctest;
-			remoteRef = 4FEE446F1BFD593E00F09C43 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		4FEE44721BFD593E00F09C43 /* SalesforceSDKCommonTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCommonTests.xctest;
-			remoteRef = 4FEE44711BFD593E00F09C43 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6F7EAA9C1B61917700F4C242 /* libSalesforceSDKCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -850,10 +803,10 @@
 			remoteRef = 6F7EAA9D1B61917700F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTests.xctest */ = {
+		6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCoreTests.xctest;
+			path = SalesforceSDKCoreTestAppTests.xctest;
 			remoteRef = 6F7EAA9F1B61917700F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -883,6 +836,13 @@
 			fileType = wrapper.cfbundle;
 			path = OCMockLibTests.xctest;
 			remoteRef = 6F7EAB041B6299BA00F4C242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE61137C1C06A09400D5A940 /* SalesforceSDKCoreTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SalesforceSDKCoreTests.xctest;
+			remoteRef = CE61137B1C06A09400D5A940 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

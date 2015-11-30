@@ -24,9 +24,9 @@
 
 #import "SFSmartStoreTests.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
-#import "FMDatabaseQueue.h"
+#import <fmdb/FMDatabase.h>
+#import <fmdb/FMDatabaseAdditions.h>
+#import <fmdb/FMDatabaseQueue.h>
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -368,8 +368,8 @@
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
-        
+        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSError *unencryptError = nil;
