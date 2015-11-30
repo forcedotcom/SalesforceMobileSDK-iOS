@@ -368,8 +368,8 @@
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        FMDatabase *unencryptedDb = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
-        
+        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSError *unencryptError = nil;
