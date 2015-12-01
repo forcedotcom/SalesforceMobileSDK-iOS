@@ -24,7 +24,7 @@
 
 #import "AppDelegate.h"
 #import "InitialViewController.h"
-#import <React/Base/RCTRootView.h>
+#import <React/RCTRootView.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
