@@ -1,4 +1,4 @@
-This app was created from the SalesforceMobileSDK Native Rest App template.
+This app was created from the SalesforceMobileSDK Native App template.
 
 The login host can be configured in system Settings on the device:
 You can switch between Production, Sandbox, or a custom host if needed.

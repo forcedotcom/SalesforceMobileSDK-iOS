@@ -1,9 +1,9 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '8.0'
 
-target 'ReactNative' do
+target '__NativeTemplateAppName__' do
 
-pod 'React', '~> 0.12.0-rc', :subspecs => [
+pod 'React', '~> 0.16.0-rc', :subspecs => [
     'ART',
     'RCTActionSheet',
     'RCTAdSupport',

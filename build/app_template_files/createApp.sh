@@ -271,12 +271,22 @@ function replaceTokens()
   rm -rf "${workingFolder}"
 }
 
+function runNpmInstall()
+{
+  local origWorkingFolder=`pwd`
+  
+  # Run pod install
+  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}/$1"
+  npm install
+  cd "${origWorkingFolder}"
+}
+
 function runPodInstall()
 {
   local origWorkingFolder=`pwd`
   
   # Run pod install
-  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
+  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}/$1"
   pod install --silent
   cd "${origWorkingFolder}"
 }
@@ -288,6 +298,12 @@ fi
 
 parseOpts "$@"
 replaceTokens ${OPT_APP_TYPE}
-runPodInstall
+
+if [[ "${OPT_APP_TYPE}" == "react_native" ]]; then
+  runNpmInstall "app"
+  runPodInstall "app/ios"
+else
+  runPodInstall ""
+fi
 
 echoColor $TERM_COLOR_GREEN "Successfully created ${OPT_APP_TYPE} app '${OPT_APP_NAME}'."
