@@ -67,6 +67,31 @@
 		CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0E19ACF9910007F22F /* libxml2.dylib */; };
 		CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0F19ACF9910007F22F /* libz.dylib */; };
 		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
+		CE4CE4091C0E59C5009F6029 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBF11BFD302F0022F021 /* SqliteAdditions.c */; };
+		CE4CE40A1C0E59C5009F6029 /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBF21BFD302F0022F021 /* SqliteAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE40C1C0E59DA009F6029 /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
+		CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC51BFD30030022F021 /* SFQuerySpec.m */; };
+		CE4CE40F1C0E59DA009F6029 /* SFSmartSqlHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC61BFD30030022F021 /* SFSmartSqlHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE4101C0E59DA009F6029 /* SFSmartSqlHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC71BFD30030022F021 /* SFSmartSqlHelper.m */; };
+		CE4CE4111C0E59DA009F6029 /* SFSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC81BFD30030022F021 /* SFSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE4121C0E59DA009F6029 /* SFSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC91BFD30030022F021 /* SFSmartStore.m */; };
+		CE4CE4131C0E59DA009F6029 /* SFSmartStore+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCA1BFD30030022F021 /* SFSmartStore+Internal.h */; };
+		CE4CE4141C0E59DA009F6029 /* SFSmartStoreDatabaseManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCB1BFD30030022F021 /* SFSmartStoreDatabaseManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE4151C0E59DA009F6029 /* SFSmartStoreDatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBCC1BFD30030022F021 /* SFSmartStoreDatabaseManager.m */; };
+		CE4CE4161C0E59DA009F6029 /* SFSmartStoreDatabaseManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCD1BFD30030022F021 /* SFSmartStoreDatabaseManager+Internal.h */; };
+		CE4CE4171C0E59DA009F6029 /* SFSmartStoreInspectorViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBCE1BFD30030022F021 /* SFSmartStoreInspectorViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE4181C0E59DA009F6029 /* SFSmartStoreInspectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBCF1BFD30030022F021 /* SFSmartStoreInspectorViewController.m */; };
+		CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD01BFD30030022F021 /* SFSmartStoreUpgrade.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE41A1C0E59DA009F6029 /* SFSmartStoreUpgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD11BFD30030022F021 /* SFSmartStoreUpgrade.m */; };
+		CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD21BFD30030022F021 /* SFSmartStoreUpgrade+Internal.h */; };
+		CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD31BFD30030022F021 /* SFSmartStoreUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD41BFD30030022F021 /* SFSmartStoreUtils.m */; };
+		CE4CE41E1C0E59DA009F6029 /* SFSoupIndex.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD51BFD30030022F021 /* SFSoupIndex.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD61BFD30030022F021 /* SFSoupIndex.m */; };
+		CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD71BFD30030022F021 /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD81BFD30030022F021 /* SFStoreCursor.m */; };
 		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */; };
 		CE90C1391C0CFA9000CC660F /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */; };
@@ -178,6 +203,7 @@
 		CE1F0B0E19ACF9910007F22F /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libxml2.dylib; sourceTree = "<absolute>"; };
 		CE1F0B0F19ACF9910007F22F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
+		CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartStoreDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -187,6 +213,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CE4CE2B51C0E4581009F6029 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE42195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -254,12 +287,20 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
+		CE4CE2BA1C0E4581009F6029 /* SmartStoreDynamic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SmartStoreDynamic;
+			sourceTree = "<group>";
+		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
 				CE3FE5811AD488F800E65B49 /* Configuration */,
 				CEAAAE4A195911E600CBBFE9 /* SmartStore */,
 				CEAAAE5E195911E600CBBFE9 /* SmartStoreTests */,
+				CE4CE2BA1C0E4581009F6029 /* SmartStoreDynamic */,
 				CEAAAE47195911E600CBBFE9 /* Frameworks */,
 				CEAAAE46195911E600CBBFE9 /* Products */,
 			);
@@ -270,6 +311,7 @@
 			children = (
 				CEAAAE45195911E600CBBFE9 /* libSmartStore.a */,
 				CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */,
+				CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -400,9 +442,48 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE4CE2B61C0E4581009F6029 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE4CE4131C0E59DA009F6029 /* SFSmartStore+Internal.h in Headers */,
+				CE4CE4171C0E59DA009F6029 /* SFSmartStoreInspectorViewController.h in Headers */,
+				CE4CE41E1C0E59DA009F6029 /* SFSoupIndex.h in Headers */,
+				CE4CE4161C0E59DA009F6029 /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
+				CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */,
+				CE4CE40F1C0E59DA009F6029 /* SFSmartSqlHelper.h in Headers */,
+				CE4CE4111C0E59DA009F6029 /* SFSmartStore.h in Headers */,
+				CE4CE40A1C0E59C5009F6029 /* SqliteAdditions.h in Headers */,
+				CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */,
+				CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */,
+				CE4CE4141C0E59DA009F6029 /* SFSmartStoreDatabaseManager.h in Headers */,
+				CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */,
+				CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */,
+				CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		CE4CE2B81C0E4581009F6029 /* SmartStoreDynamic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStoreDynamic" */;
+			buildPhases = (
+				CE4CE2B41C0E4581009F6029 /* Sources */,
+				CE4CE2B51C0E4581009F6029 /* Frameworks */,
+				CE4CE2B61C0E4581009F6029 /* Headers */,
+				CE4CE2B71C0E4581009F6029 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SmartStoreDynamic;
+			productName = SmartStoreDynamic;
+			productReference = CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		CEAAAE44195911E600CBBFE9 /* SmartStore */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CEAAAE68195911E600CBBFE9 /* Build configuration list for PBXNativeTarget "SmartStore" */;
@@ -449,6 +530,12 @@
 			attributes = {
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Salesforce Inc.";
+				TargetAttributes = {
+					CE4CE2B81C0E4581009F6029 = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 7CEJFQ772U;
+					};
+				};
 			};
 			buildConfigurationList = CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -472,6 +559,7 @@
 				CEAAAE44195911E600CBBFE9 /* SmartStore */,
 				CEAAAE54195911E600CBBFE9 /* SmartStoreTests */,
 				CEAAAE75195A181000CBBFE9 /* Documentation */,
+				CE4CE2B81C0E4581009F6029 /* SmartStoreDynamic */,
 			);
 		};
 /* End PBXProject section */
@@ -508,6 +596,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CE4CE2B71C0E4581009F6029 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE53195911E600CBBFE9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -561,6 +656,24 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CE4CE2B41C0E4581009F6029 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE4CE40C1C0E59DA009F6029 /* SFAlterSoupLongOperation.m in Sources */,
+				CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */,
+				CE4CE4181C0E59DA009F6029 /* SFSmartStoreInspectorViewController.m in Sources */,
+				CE4CE4121C0E59DA009F6029 /* SFSmartStore.m in Sources */,
+				CE4CE4101C0E59DA009F6029 /* SFSmartSqlHelper.m in Sources */,
+				CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */,
+				CE4CE4151C0E59DA009F6029 /* SFSmartStoreDatabaseManager.m in Sources */,
+				CE4CE41A1C0E59DA009F6029 /* SFSmartStoreUpgrade.m in Sources */,
+				CE4CE4091C0E59C5009F6029 /* SqliteAdditions.c in Sources */,
+				CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */,
+				CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE41195911E600CBBFE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -619,6 +732,61 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		CE4CE2BE1C0E4581009F6029 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStoreDynamic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStoreDynamic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		CE4CE2BF1C0E4581009F6029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStoreDynamic/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartStoreDynamic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		CEAAAE66195911E600CBBFE9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -696,7 +864,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = mh_dylib;
+				MACH_O_TYPE = staticlib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -710,7 +878,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = mh_dylib;
+				MACH_O_TYPE = staticlib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
 				SKIP_INSTALL = YES;
@@ -785,6 +953,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStoreDynamic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE4CE2BE1C0E4581009F6029 /* Debug */,
+				CE4CE2BF1C0E4581009F6029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
