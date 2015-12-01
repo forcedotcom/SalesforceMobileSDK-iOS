@@ -197,15 +197,33 @@ function replaceTokens()
 {
   local appNameToken
   local inputConnectedAppFile
-  if [[ "$1" == "native" ]]; then
-    appNameToken=${SUB_NATIVE_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
-  elif [[ "$1" == "native_swift" ]]; then
-    appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
+  local inputPodfile
+  local inputPrefixFile
+  local inputInfoFile
+  local inputIndexiosFile
+  local inputPackageJsonFile
+  
+  if [ "$1" == "native" -o "$1" == "native_swift" ]; then
+    if [[ "$1" == "native" ]]; then
+        appNameToken=${SUB_NATIVE_APP_NAME}
+        inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
+    else
+        appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
+        inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
+    fi
+    inputPodfile="${appNameToken}/Podfile"
+    inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
+    inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
+    inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
   elif [[ "$1" == "react_native" ]]; then
     appNameToken=${SUB_REACT_NATIVE_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
+    inputConnectedAppFile="${appNameToken}/app/ios/${appNameToken}/AppDelegate.m"
+    inputPodfile="${appNameToken}/app/ios/Podfile"
+    inputPrefixFile="${appNameToken}/app/ios/${appNameToken}/Prefix.pch"
+    inputInfoFile="${appNameToken}/app/ios/${appNameToken}/Info.plist"
+    inputProjectFile="${appNameToken}/app/ios/${appNameToken}.xcodeproj/project.pbxproj"
+    inputIndexiosFile="${appNameToken}/app/js/index.ios.js"
+    inputPackageJsonFile="${appNameToken}/app/package.json"
   else
     echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
     exit 16
@@ -235,18 +253,13 @@ function replaceTokens()
   cp -RL "${resourcesFolder}/${appNameToken}" "${workingFolder}"
   cd "${workingFolder}"
 
-  local inputPodFile="${appNameToken}/PodFile"
-  local inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
-  local inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
-  local inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
-  local inputIndexiosFile="${appNameToken}/js/index.ios.js" # only reactnative
-
   # App name
-  tokenSubstituteInFile "${inputPodFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputPodfile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputIndexiosFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputConnectedAppFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputPackageJsonFile}" "${appNameToken}" "${OPT_APP_NAME}"
   
   # Company identifier
   tokenSubstituteInFile "${inputInfoFile}" "${SUB_COMPANY_ID}" "${OPT_COMPANY_ID}"
@@ -262,10 +275,16 @@ function replaceTokens()
   
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
-  mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
-  mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
-  mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
-
+  if [ "$1" == "native" -o "$1" == "native_swift" ]; then
+      mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
+      mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
+      mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
+  elif [[ "$1" == "react_native" ]]; then
+      mv "${appNameToken}/app/ios/${appNameToken}.xcodeproj" "${appNameToken}/app/ios/${OPT_APP_NAME}.xcodeproj"
+      mv "${appNameToken}/app/ios/${appNameToken}" "${appNameToken}/app/ios/${OPT_APP_NAME}"
+      mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
+  fi
+      
   # Remove working artifacts
   cd "${origWorkingFolder}"
   rm -rf "${workingFolder}"
