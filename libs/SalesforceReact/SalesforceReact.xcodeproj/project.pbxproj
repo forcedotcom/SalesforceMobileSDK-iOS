@@ -73,6 +73,20 @@
 			remoteGlobalIDString = CE4CE2C91C0E463C009F6029;
 			remoteInfo = SmartSyncDynamic;
 		};
+		CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		CE4CE4B31C0E611E009F6029 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSyncDynamic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -266,6 +280,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */,
+				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceReactDynamic;
 			productName = SalesforceReactDynamic;
@@ -397,6 +413,16 @@
 			isa = PBXTargetDependency;
 			name = React;
 			targetProxy = 4FFEE6311BFE932600B7AA8A /* PBXContainerItemProxy */;
+		};
+		CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */;
+		};
+		CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartSyncDynamic;
+			targetProxy = CE4CE4B31C0E611E009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -92,9 +92,10 @@
 		CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD61BFD30030022F021 /* SFSoupIndex.m */; };
 		CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD71BFD30030022F021 /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD81BFD30030022F021 /* SFStoreCursor.m */; };
+		CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
+		CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		CE4CE4901C0E5F93009F6029 /* SmartStoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */; };
 		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
-		CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */; };
-		CE90C1391C0CFA9000CC660F /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE45195911E600CBBFE9 /* libSmartStore.a */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -136,12 +137,19 @@
 			remoteGlobalIDString = 6290CBB4188FE836009790F8;
 			remoteInfo = "FMDB-IOS";
 		};
-		CEAAAE5B195911E600CBBFE9 /* PBXContainerItemProxy */ = {
+		CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6290CBB4188FE836009790F8;
+			remoteInfo = "FMDB-IOS";
+		};
+		CE4CE48E1C0E5F8B009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
-			remoteInfo = SmartStore;
+			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
+			remoteInfo = SmartStoreDynamic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -204,6 +212,7 @@
 		CE1F0B0F19ACF9910007F22F /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/libz.dylib; sourceTree = "<absolute>"; };
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
 		CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartStoreDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4CE4911C0E5FA8009F6029 /* SalesforceSDKCoreDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCoreDynamic.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCoreDynamic.framework"; sourceTree = "<group>"; };
 		CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -217,6 +226,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
+				CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,8 +244,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE90C1391C0CFA9000CC660F /* libSmartStore.a in Frameworks */,
-				CE90C1361C0CF89800CC660F /* libSalesforceSDKCore.a in Frameworks */,
+				CE4CE4901C0E5F93009F6029 /* SmartStoreDynamic.framework in Frameworks */,
 				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CE1F0B1019ACF9910007F22F /* libxml2.dylib in Frameworks */,
 				CE1F0B1119ACF9910007F22F /* libz.dylib in Frameworks */,
@@ -319,6 +329,7 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE4CE4911C0E5FA8009F6029 /* SalesforceSDKCoreDynamic.framework */,
 				CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */,
 				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
@@ -478,6 +489,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartStoreDynamic;
 			productName = SmartStoreDynamic;
@@ -515,7 +527,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEAAAE5C195911E600CBBFE9 /* PBXTargetDependency */,
+				CE4CE48F1C0E5F8B009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartStoreTests;
 			productName = SmartStoreTests;
@@ -713,10 +725,15 @@
 			name = "FMDB-IOS";
 			targetProxy = CE0021BA1C0669D00079DCA4 /* PBXContainerItemProxy */;
 		};
-		CEAAAE5C195911E600CBBFE9 /* PBXTargetDependency */ = {
+		CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CEAAAE44195911E600CBBFE9 /* SmartStore */;
-			targetProxy = CEAAAE5B195911E600CBBFE9 /* PBXContainerItemProxy */;
+			name = "FMDB-IOS";
+			targetProxy = CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */;
+		};
+		CE4CE48F1C0E5F8B009F6029 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE4CE2B81C0E4581009F6029 /* SmartStoreDynamic */;
+			targetProxy = CE4CE48E1C0E5F8B009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
