@@ -976,6 +976,7 @@
 /* Begin XCBuildConfiguration section */
 		CE4CE2CE1C0E463C009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1003,6 +1004,7 @@
 		};
 		CE4CE2CF1C0E463C009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

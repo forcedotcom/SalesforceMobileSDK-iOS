@@ -751,6 +751,7 @@
 /* Begin XCBuildConfiguration section */
 		CE4CE2BE1C0E4581009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -778,6 +779,7 @@
 		};
 		CE4CE2BF1C0E4581009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -890,6 +892,7 @@
 		};
 		CEAAAE6A195911E600CBBFE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				DSTROOT = /tmp/SmartStore.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -932,6 +935,7 @@
 		};
 		CEAAAE6D195911E600CBBFE9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

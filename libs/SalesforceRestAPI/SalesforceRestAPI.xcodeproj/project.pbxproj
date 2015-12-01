@@ -998,6 +998,7 @@
 		};
 		CE4CE2AC1C0E456B009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1035,6 +1036,7 @@
 		};
 		CE4CE2AD1C0E456B009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;

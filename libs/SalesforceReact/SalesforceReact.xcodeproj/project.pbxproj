@@ -501,6 +501,7 @@
 		};
 		CE4CE2FD1C0E4673009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -556,6 +557,7 @@
 		};
 		CE4CE2FE1C0E4673009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

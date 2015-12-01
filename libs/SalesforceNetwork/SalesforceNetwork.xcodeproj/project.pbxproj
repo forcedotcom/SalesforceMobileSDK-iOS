@@ -1292,6 +1292,7 @@
 		};
 		CE4CE2911C0E454F009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1348,6 +1349,7 @@
 		};
 		CE4CE2921C0E454F009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
