@@ -10,12 +10,9 @@
 		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
-		4FEE443C1BFD54F100F09C43 /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE443B1BFD54F100F09C43 /* libSalesforceNetwork.a */; };
-		4FEE447B1BFD5A2100F09C43 /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE447A1BFD5A2100F09C43 /* libSalesforceRestAPI.a */; };
 		820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
-		820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1719E6070E00E9BE5C /* libSmartSync.a */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
@@ -37,7 +34,7 @@
 		8284055619EA09E40079AB60 /* ContactDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8284055519EA09E40079AB60 /* ContactDetailViewController.m */; };
 		8284055819EAFB610079AB60 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8284055719EAFB610079AB60 /* Settings.bundle */; };
 		8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8284055919EAFD9C0079AB60 /* Images.xcassets */; };
-		CE90C1241C0CE08D00CC660F /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE90C1231C0CE08D00CC660F /* libSmartStore.a */; };
+		CE4CE4C71C0E67F5009F6029 /* SmartSyncDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE4C61C0E67E8009F6029 /* SmartSyncDynamic.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,12 +52,19 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartSyncTests;
 		};
-		4FFEE5F41BFE910600B7AA8A /* PBXContainerItemProxy */ = {
+		CE4CE4C01C0E67E8009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5EA1BFE90FB00B7AA8A /* SmartSync.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
-			remoteInfo = SmartSync;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSyncDynamic;
+		};
+		CE4CE4C51C0E67E8009F6029 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5EA1BFE90FB00B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE4CE2C91C0E463C009F6029;
+			remoteInfo = SmartSyncDynamic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -120,10 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE90C1241C0CE08D00CC660F /* libSmartStore.a in Frameworks */,
-				4FEE447B1BFD5A2100F09C43 /* libSalesforceRestAPI.a in Frameworks */,
-				4FEE443C1BFD54F100F09C43 /* libSalesforceNetwork.a in Frameworks */,
-				820C8B1D19E6070E00E9BE5C /* libSmartSync.a in Frameworks */,
+				CE4CE4C71C0E67F5009F6029 /* SmartSyncDynamic.framework in Frameworks */,
 				820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */,
 				820C8B2919E6093300E9BE5C /* libz.dylib in Frameworks */,
 				827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */,
@@ -153,6 +154,7 @@
 			children = (
 				4FFEE5F11BFE90FC00B7AA8A /* libSmartSync.a */,
 				4FFEE5F31BFE90FC00B7AA8A /* SmartSyncTests.xctest */,
+				CE4CE4C61C0E67E8009F6029 /* SmartSyncDynamic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -280,7 +282,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				4FFEE5F51BFE910600B7AA8A /* PBXTargetDependency */,
+				CE4CE4C11C0E67E8009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartSyncExplorer;
 			productName = SmartSyncExplorer;
@@ -335,6 +337,13 @@
 			remoteRef = 4FFEE5F21BFE90FC00B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CE4CE4C61C0E67E8009F6029 /* SmartSyncDynamic.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SmartSyncDynamic.framework;
+			remoteRef = CE4CE4C51C0E67E8009F6029 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -376,10 +385,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4FFEE5F51BFE910600B7AA8A /* PBXTargetDependency */ = {
+		CE4CE4C11C0E67E8009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SmartSync;
-			targetProxy = 4FFEE5F41BFE910600B7AA8A /* PBXContainerItemProxy */;
+			name = SmartSyncDynamic;
+			targetProxy = CE4CE4C01C0E67E8009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
