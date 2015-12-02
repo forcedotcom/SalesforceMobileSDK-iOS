@@ -1641,7 +1641,6 @@
 				CE4CE2661C0E449C009F6029 /* Sources */,
 				CE4CE2671C0E449C009F6029 /* Frameworks */,
 				CE4CE2681C0E449C009F6029 /* Headers */,
-				CE4CE2691C0E449C009F6029 /* Resources */,
 				CE4CE4F41C0E6D14009F6029 /* ShellScript */,
 				CE4CE4FB1C0E6E07009F6029 /* ShellScript */,
 			);
@@ -1838,13 +1837,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FFDAD491C068FC5009BCD6D /* test_credentials.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE4CE2691C0E449C009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

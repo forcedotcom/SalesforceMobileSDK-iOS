@@ -95,6 +95,7 @@
 		CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CE4CE4901C0E5F93009F6029 /* SmartStoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */; };
+		CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */; };
 		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
@@ -226,8 +227,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 				CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */,
+				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,6 +469,7 @@
 				CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */,
 				CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */,
 				CE4CE4141C0E59DA009F6029 /* SFSmartStoreDatabaseManager.h in Headers */,
+				CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */,
 				CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */,
 				CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */,
 				CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */,
@@ -484,7 +486,6 @@
 				CE4CE2B41C0E4581009F6029 /* Sources */,
 				CE4CE2B51C0E4581009F6029 /* Frameworks */,
 				CE4CE2B61C0E4581009F6029 /* Headers */,
-				CE4CE2B71C0E4581009F6029 /* Resources */,
 				CE4CE4F71C0E6DB9009F6029 /* ShellScript */,
 				CE4CE4FE1C0E6E4D009F6029 /* ShellScript */,
 			);
@@ -610,13 +611,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CE4CE2B71C0E4581009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CEAAAE53195911E600CBBFE9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1007,6 +1001,7 @@
 				CE4CE2BF1C0E4581009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */ = {
 			isa = XCConfigurationList;

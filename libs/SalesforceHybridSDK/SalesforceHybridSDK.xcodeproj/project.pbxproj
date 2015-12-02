@@ -135,8 +135,6 @@
 		CE4CE4641C0E5B2A009F6029 /* SFHybridViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4651C0E5B2A009F6029 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 		CE4CE4A71C0E60A4009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		CE4CE4A81C0E60AA009F6029 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
-		CE4CE4A91C0E60B2009F6029 /* SmartSyncDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F01C0E465C009F6029 /* SmartSyncDynamic.framework */; };
 		CE4CE4AE1C0E60F5009F6029 /* SmartSyncDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F01C0E465C009F6029 /* SmartSyncDynamic.framework */; };
 		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 /* End PBXBuildFile section */
@@ -527,8 +525,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE4A91C0E60B2009F6029 /* SmartSyncDynamic.framework in Frameworks */,
-				CE4CE4A81C0E60AA009F6029 /* libCordova.a in Frameworks */,
 				CE4CE4A71C0E60A4009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1105,7 +1101,6 @@
 				CE4CE2DC1C0E465B009F6029 /* Sources */,
 				CE4CE2DD1C0E465B009F6029 /* Frameworks */,
 				CE4CE2DE1C0E465B009F6029 /* Headers */,
-				CE4CE2DF1C0E465B009F6029 /* Resources */,
 				CE4CE4F91C0E6DCC009F6029 /* ShellScript */,
 			);
 			buildRules = (
@@ -1219,13 +1214,6 @@
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
 				4F753375193D252200540762 /* Settings.bundle in Resources */,
 				82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE4CE2DF1C0E465B009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1726,6 +1714,7 @@
 				CE4CE2EB1C0E465C009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

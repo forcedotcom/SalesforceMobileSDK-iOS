@@ -117,8 +117,6 @@
 		CE4CE44D1C0E5A75009F6029 /* SFSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F12836F1A018ED9007F87EC /* SFSyncDownTarget.m */; };
 		CE4CE44E1C0E5A75009F6029 /* SFSyncTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE44F1C0E5A75009F6029 /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */; };
-		CE4CE4971C0E5FF8009F6029 /* SmartStoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2DA1C0E463C009F6029 /* SmartStoreDynamic.framework */; };
-		CE4CE4981C0E5FFD009F6029 /* SalesforceRestAPIDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2D51C0E463C009F6029 /* SalesforceRestAPIDynamic.framework */; };
 		CE4CE4991C0E6003009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CE4CE49C1C0E6020009F6029 /* SmartSyncDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2C91C0E463C009F6029 /* SmartSyncDynamic.framework */; };
 		CE4CE49D1C0E6027009F6029 /* SmartStoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2DA1C0E463C009F6029 /* SmartStoreDynamic.framework */; };
@@ -322,8 +320,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4CE4991C0E6003009F6029 /* Foundation.framework in Frameworks */,
-				CE4CE4981C0E5FFD009F6029 /* SalesforceRestAPIDynamic.framework in Frameworks */,
-				CE4CE4971C0E5FF8009F6029 /* SmartStoreDynamic.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,15 +650,14 @@
 				CE4CE2C41C0E463C009F6029 /* Sources */,
 				CE4CE2C51C0E463C009F6029 /* Frameworks */,
 				CE4CE2C61C0E463C009F6029 /* Headers */,
-				CE4CE2C71C0E463C009F6029 /* Resources */,
 				CE4CE4F81C0E6DC4009F6029 /* ShellScript */,
 				CE4CE4FF1C0E6E5C009F6029 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4961C0E5FEF009F6029 /* PBXTargetDependency */,
 				CE4CE4941C0E5FEB009F6029 /* PBXTargetDependency */,
+				CE4CE4961C0E5FEF009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartSyncDynamic;
 			productName = SmartSyncDynamic;
@@ -806,13 +801,6 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CE4CE2C71C0E463C009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CEAAAE53195911E600CBBFE9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1234,6 +1222,7 @@
 				CE4CE2CF1C0E463C009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */ = {
 			isa = XCConfigurationList;

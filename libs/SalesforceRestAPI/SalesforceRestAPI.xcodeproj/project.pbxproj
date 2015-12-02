@@ -78,8 +78,7 @@
 		CE4CE4071C0E594E009F6029 /* SFRestRequest+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82225A431A9CD40300DE1E07 /* SFRestRequest+Internal.h */; };
 		CE4CE4081C0E594E009F6029 /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3A19DB78A7005AF96F /* SFRestRequest.m */; };
 		CE4CE4851C0E5F04009F6029 /* SalesforceNetworkiOSDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B11C0E456B009F6029 /* SalesforceNetworkiOSDynamic.framework */; };
-		CE4CE4881C0E5F40009F6029 /* SalesforceNetworkiOSDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B11C0E456B009F6029 /* SalesforceNetworkiOSDynamic.framework */; };
-		CE4CE4891C0E5F45009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
+		CE4CE5651C0E77F4009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,8 +249,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE4891C0E5F45009F6029 /* Foundation.framework in Frameworks */,
-				CE4CE4881C0E5F40009F6029 /* SalesforceNetworkiOSDynamic.framework in Frameworks */,
+				CE4CE5651C0E77F4009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,7 +525,6 @@
 				CE4CE29E1C0E4569009F6029 /* Sources */,
 				CE4CE29F1C0E4569009F6029 /* Frameworks */,
 				CE4CE2A01C0E4569009F6029 /* Headers */,
-				CE4CE2A11C0E4569009F6029 /* Resources */,
 				CE4CE4F61C0E6DAE009F6029 /* ShellScript */,
 				CE4CE4FD1C0E6E41009F6029 /* ShellScript */,
 			);
@@ -629,13 +626,6 @@
 				4FDA6D7319DB7D14005AF96F /* Default.png in Resources */,
 				4FDA6D6819DB7C82005AF96F /* ViewController_iPad.xib in Resources */,
 				4FDA6D7919DB7D32005AF96F /* InfoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE4CE2A11C0E4569009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1154,6 +1144,7 @@
 				CE4CE2AD1C0E456B009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -262,18 +262,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		827DD3D81A7BF55F00519F03 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		6F644C381A9E70C2009BF92A /* SalesforceNetwork-Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Common.xcconfig"; sourceTree = "<group>"; };
 		6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -879,7 +867,6 @@
 			buildPhases = (
 				827DD3D61A7BF55F00519F03 /* Sources */,
 				827DD3D71A7BF55F00519F03 /* Frameworks */,
-				827DD3D81A7BF55F00519F03 /* CopyFiles */,
 				827DD4C01A7C050400519F03 /* Headers */,
 				8253495C1A8C1B7A0019FE0B /* ShellScript */,
 				825BE47B1AE023150048E6DF /* ShellScript */,
@@ -901,7 +888,6 @@
 				CE4CE2871C0E454F009F6029 /* Sources */,
 				CE4CE2881C0E454F009F6029 /* Frameworks */,
 				CE4CE2891C0E454F009F6029 /* Headers */,
-				CE4CE28A1C0E454F009F6029 /* Resources */,
 				CE4CE4F51C0E6DA1009F6029 /* ShellScript */,
 				CE4CE4FC1C0E6E33009F6029 /* ShellScript */,
 			);
@@ -1037,13 +1023,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82A0C3DE1A9911A000243931 /* SimpleFile.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE4CE28A1C0E454F009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

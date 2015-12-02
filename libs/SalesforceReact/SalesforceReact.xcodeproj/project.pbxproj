@@ -89,18 +89,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		4FABF0441AA51F9000D31E3F /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SFSmartStoreReactBridge.m; path = Classes/SFSmartStoreReactBridge.m; sourceTree = "<group>"; };
 		4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartStoreReactBridge.h; path = Classes/SFSmartStoreReactBridge.h; sourceTree = "<group>"; };
@@ -120,23 +108,6 @@
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		CE4CE2F81C0E4673009F6029 /* SalesforceReactDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReactDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		4FABF0431AA51F9000D31E3F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		CE4CE2F41C0E4673009F6029 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		4F36189D1AA51E3900AE3A65 = {
@@ -238,24 +209,12 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		CE4CE2F51C0E4673009F6029 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		4FABF0451AA51F9000D31E3F /* SalesforceReact */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */;
 			buildPhases = (
 				4FABF0421AA51F9000D31E3F /* Sources */,
-				4FABF0431AA51F9000D31E3F /* Frameworks */,
-				4FABF0441AA51F9000D31E3F /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -273,15 +232,12 @@
 			buildConfigurationList = CE4CE3041C0E4673009F6029 /* Build configuration list for PBXNativeTarget "SalesforceReactDynamic" */;
 			buildPhases = (
 				CE4CE2F31C0E4673009F6029 /* Sources */,
-				CE4CE2F41C0E4673009F6029 /* Frameworks */,
-				CE4CE2F51C0E4673009F6029 /* Headers */,
-				CE4CE2F61C0E4673009F6029 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */,
 				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
+				CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceReactDynamic;
 			productName = SalesforceReactDynamic;
@@ -367,16 +323,6 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
-
-/* Begin PBXResourcesBuildPhase section */
-		CE4CE2F61C0E4673009F6029 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4FABF0421AA51F9000D31E3F /* Sources */ = {
@@ -642,6 +588,7 @@
 				CE4CE2FE1C0E4673009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
