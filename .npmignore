@@ -24,7 +24,6 @@ hybrid/
 libs/
 native/
 shared/
-.gitignore
 .DS_Store
 SalesforceMobileSDK.xcworkspace/
 build.md
