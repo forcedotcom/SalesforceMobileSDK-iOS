@@ -116,7 +116,6 @@
 				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4F67FECC1B7970C300A957A3 /* Configuration */,
 				4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */,
-				CE4CE2F91C0E4673009F6029 /* SalesforceReactDynamic */,
 				4FABF0471AA51F9000D31E3F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -198,13 +197,6 @@
 				4FFEE6301BFE932100B7AA8A /* libReact.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CE4CE2F91C0E4673009F6029 /* SalesforceReactDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceReactDynamic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

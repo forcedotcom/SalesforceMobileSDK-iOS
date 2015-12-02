@@ -298,20 +298,12 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		CE4CE2BA1C0E4581009F6029 /* SmartStoreDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SmartStoreDynamic;
-			sourceTree = "<group>";
-		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
 				CE3FE5811AD488F800E65B49 /* Configuration */,
 				CEAAAE4A195911E600CBBFE9 /* SmartStore */,
 				CEAAAE5E195911E600CBBFE9 /* SmartStoreTests */,
-				CE4CE2BA1C0E4581009F6029 /* SmartStoreDynamic */,
 				CEAAAE47195911E600CBBFE9 /* Frameworks */,
 				CEAAAE46195911E600CBBFE9 /* Products */,
 			);

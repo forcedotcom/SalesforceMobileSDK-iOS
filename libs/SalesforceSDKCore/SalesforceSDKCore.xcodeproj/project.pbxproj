@@ -1191,7 +1191,6 @@
 				6F89606E1A9E96C400A48FF1 /* Configuration */,
 				8220B75116D804CA00EC3921 /* SalesforceSDKCore */,
 				4F96FEA71BFD330D0022F021 /* Tests */,
-				CE4CE26C1C0E449C009F6029 /* SalesforceSDKCoreDynamic */,
 				8220B74E16D804CA00EC3921 /* Frameworks */,
 				8220B74D16D804CA00EC3921 /* Products */,
 			);
@@ -1334,13 +1333,6 @@
 				CE0021871C03DBB70079DCA4 /* iOSLibStaticTest.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CE4CE26C1C0E449C009F6029 /* SalesforceSDKCoreDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceSDKCoreDynamic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

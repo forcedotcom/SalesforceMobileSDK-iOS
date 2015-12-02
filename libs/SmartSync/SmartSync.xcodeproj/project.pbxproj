@@ -400,20 +400,12 @@
 			name = Configuration;
 			sourceTree = "<group>";
 		};
-		CE4CE2CA1C0E463C009F6029 /* SmartSyncDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SmartSyncDynamic;
-			sourceTree = "<group>";
-		};
 		CEAAAE3C195911E600CBBFE9 = {
 			isa = PBXGroup;
 			children = (
 				CE3FE5811AD488F800E65B49 /* Configuration */,
 				CEAAAE4A195911E600CBBFE9 /* SmartSync */,
 				CEAAAE5E195911E600CBBFE9 /* SmartSyncTests */,
-				CE4CE2CA1C0E463C009F6029 /* SmartSyncDynamic */,
 				CEAAAE47195911E600CBBFE9 /* Frameworks */,
 				CEAAAE46195911E600CBBFE9 /* Products */,
 			);

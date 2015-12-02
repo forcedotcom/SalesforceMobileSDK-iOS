@@ -759,7 +759,6 @@
 				82EFF2D516E7C57100A63CDF /* SalesforceHybridSDK */,
 				82EFF30516E8049500A63CDF /* SalesforceHybridSDKTestApp */,
 				822272A219C39F4500FC537E /* SalesforceHybridSDKTestAppTests */,
-				CE4CE2E21C0E465B009F6029 /* SalesforceHybridSDKDynamic */,
 				82EFF2D216E7C57100A63CDF /* Frameworks */,
 				82EFF2D116E7C57100A63CDF /* Products */,
 			);
@@ -977,13 +976,6 @@
 				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
 			);
 			name = Configuration;
-			sourceTree = "<group>";
-		};
-		CE4CE2E21C0E465B009F6029 /* SalesforceHybridSDKDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceHybridSDKDynamic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -716,7 +716,6 @@
 			children = (
 				6F644C371A9E70C2009BF92A /* Configuration */,
 				827DD3F11A7BF72E00519F03 /* SalesforceNetwork */,
-				CE4CE28D1C0E454F009F6029 /* SalesforceNetworkiOSDynamic */,
 				827DD5091A7C090000519F03 /* Frameworks */,
 				82DBBAF51A798B290093A54C /* Products */,
 			);
@@ -730,13 +729,6 @@
 				CE4CE28C1C0E454F009F6029 /* SalesforceNetworkiOSDynamic.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		CE4CE28D1C0E454F009F6029 /* SalesforceNetworkiOSDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceNetworkiOSDynamic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

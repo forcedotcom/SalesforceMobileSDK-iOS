@@ -302,7 +302,6 @@
 				82C0C73316E076DE0006B3C0 /* SalesforceRestAPI */,
 				82C0C76216E07DEB0006B3C0 /* SalesforceRestAPITestApp */,
 				829A08861A323DDF00DC17A5 /* SalesforceRestAPITestAppTests */,
-				CE4CE2A41C0E4569009F6029 /* SalesforceRestAPIDynamic */,
 				82C0C73016E076DE0006B3C0 /* Frameworks */,
 				82C0C72F16E076DE0006B3C0 /* Products */,
 			);
@@ -416,13 +415,6 @@
 				CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */,
 			);
 			name = Configuration;
-			sourceTree = "<group>";
-		};
-		CE4CE2A41C0E4569009F6029 /* SalesforceRestAPIDynamic */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SalesforceRestAPIDynamic;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
