@@ -262,7 +262,7 @@
 		CE4CE31A1C0E523B009F6029 /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CA1BFFF47D005368C5 /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE31B1C0E523B009F6029 /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CB1BFFF47D005368C5 /* SFInactivityTimerCenter.m */; };
 		CE4CE31C1C0E523B009F6029 /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CC1BFFF47D005368C5 /* SFKeychainItemWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE4CE31D1C0E523B009F6029 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CD1BFFF47D005368C5 /* SFKeychainItemWrapper.m */; };
+		CE4CE31D1C0E523B009F6029 /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CD1BFFF47D005368C5 /* SFKeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CE4CE31E1C0E523B009F6029 /* SFKeychainItemWrapper+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CE1BFFF47D005368C5 /* SFKeychainItemWrapper+Internal.h */; };
 		CE4CE31F1C0E523B009F6029 /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CF1BFFF47D005368C5 /* SFPathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3201C0E523B009F6029 /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D01BFFF47D005368C5 /* SFPathUtil.m */; };
@@ -2636,6 +2636,7 @@
 				CE4CE2751C0E449D009F6029 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
