@@ -15,5 +15,5 @@ cd app
 npm start
 
 ## To run the application
-Start Xcode, open ios/
+Start Xcode, open app/ios
 
