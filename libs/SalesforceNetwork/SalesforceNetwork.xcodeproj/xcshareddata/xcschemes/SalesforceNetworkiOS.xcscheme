@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "827DD3D91A7BF55F00519F03"
-               BuildableName = "libSalesforceNetwork.a"
+               BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
+               BuildableName = "SalesforceNetworkiOS.framework"
                BlueprintName = "SalesforceNetworkiOS"
                ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
             </BuildableReference>
@@ -42,8 +42,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "827DD3D91A7BF55F00519F03"
-            BuildableName = "libSalesforceNetwork.a"
+            BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
+            BuildableName = "SalesforceNetworkiOS.framework"
             BlueprintName = "SalesforceNetworkiOS"
             ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
          </BuildableReference>
@@ -64,8 +64,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "827DD3D91A7BF55F00519F03"
-            BuildableName = "libSalesforceNetwork.a"
+            BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
+            BuildableName = "SalesforceNetworkiOS.framework"
             BlueprintName = "SalesforceNetworkiOS"
             ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
          </BuildableReference>
@@ -82,8 +82,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "827DD3D91A7BF55F00519F03"
-            BuildableName = "libSalesforceNetwork.a"
+            BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
+            BuildableName = "SalesforceNetworkiOS.framework"
             BlueprintName = "SalesforceNetworkiOS"
             ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
          </BuildableReference>
