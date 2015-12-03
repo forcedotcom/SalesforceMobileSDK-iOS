@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4FABF0451AA51F9000D31E3F"
-               BuildableName = "libSalesforceReact.a"
+               BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
+               BuildableName = "SalesforceReact.framework"
                BlueprintName = "SalesforceReact"
                ReferencedContainer = "container:SalesforceReact.xcodeproj">
             </BuildableReference>
@@ -32,8 +32,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4FABF0451AA51F9000D31E3F"
-            BuildableName = "libSalesforceReact.a"
+            BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
+            BuildableName = "SalesforceReact.framework"
             BlueprintName = "SalesforceReact"
             ReferencedContainer = "container:SalesforceReact.xcodeproj">
          </BuildableReference>
@@ -54,8 +54,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4FABF0451AA51F9000D31E3F"
-            BuildableName = "libSalesforceReact.a"
+            BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
+            BuildableName = "SalesforceReact.framework"
             BlueprintName = "SalesforceReact"
             ReferencedContainer = "container:SalesforceReact.xcodeproj">
          </BuildableReference>
@@ -72,8 +72,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "4FABF0451AA51F9000D31E3F"
-            BuildableName = "libSalesforceReact.a"
+            BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
+            BuildableName = "SalesforceReact.framework"
             BlueprintName = "SalesforceReact"
             ReferencedContainer = "container:SalesforceReact.xcodeproj">
          </BuildableReference>

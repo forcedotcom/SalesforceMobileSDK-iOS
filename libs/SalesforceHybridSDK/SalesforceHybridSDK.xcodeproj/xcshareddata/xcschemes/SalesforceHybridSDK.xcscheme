@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-               BuildableName = "libSalesforceHybridSDK.a"
+               BlueprintIdentifier = "CE4CE2E01C0E465B009F6029"
+               BuildableName = "SalesforceHybridSDK.framework"
                BlueprintName = "SalesforceHybridSDK"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
@@ -56,8 +56,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-            BuildableName = "libSalesforceHybridSDK.a"
+            BlueprintIdentifier = "CE4CE2E01C0E465B009F6029"
+            BuildableName = "SalesforceHybridSDK.framework"
             BlueprintName = "SalesforceHybridSDK"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
@@ -78,8 +78,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-            BuildableName = "libSalesforceHybridSDK.a"
+            BlueprintIdentifier = "CE4CE2E01C0E465B009F6029"
+            BuildableName = "SalesforceHybridSDK.framework"
             BlueprintName = "SalesforceHybridSDK"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
@@ -96,8 +96,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "82EFF2CF16E7C57100A63CDF"
-            BuildableName = "libSalesforceHybridSDK.a"
+            BlueprintIdentifier = "CE4CE2E01C0E465B009F6029"
+            BuildableName = "SalesforceHybridSDK.framework"
             BlueprintName = "SalesforceHybridSDK"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
