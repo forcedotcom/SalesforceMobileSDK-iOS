@@ -107,7 +107,6 @@
 		CE0AB0A01C10D5E400BFAEED /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */; };
 		CE0AB0A11C10D5E400BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */; };
 		CE0AB0A21C10D5E400BFAEED /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2311C0FD51400319E68 /* SmartStore.framework */; };
-		CE0AB0A41C10D5F900BFAEED /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0A31C10D5F900BFAEED /* libFMDB.a */; };
 		CE0AB0A51C10D60400BFAEED /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; };
 		CE0AB0A61C10D63A00BFAEED /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22159619DF60A200FF2D26 /* ImageIO.framework */; };
 		CE0AB0A71C10D63A00BFAEED /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2E16ED002300BD1EA2 /* AddressBook.framework */; };
@@ -125,7 +124,6 @@
 		CE0AB0B31C10D63A00BFAEED /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1116EC3AC100BD1EA2 /* MobileCoreServices.framework */; };
 		CE0AB0B41C10D63A00BFAEED /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
 		CE0AB0B51C10D63A00BFAEED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1316EC3AE300BD1EA2 /* Security.framework */; };
-		CE0AB0B61C10D63A00BFAEED /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF32616E8049600A63CDF /* SenTestingKit.framework */; };
 		CE0AB0B71C10D63A00BFAEED /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		CE0AB0B81C10D67D00BFAEED /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
@@ -495,7 +493,6 @@
 			files = (
 				CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */,
 				CE0AB0A51C10D60400BFAEED /* SalesforceHybridSDK.framework in Frameworks */,
-				CE0AB0A41C10D5F900BFAEED /* libFMDB.a in Frameworks */,
 				CE0AB0971C10D5E400BFAEED /* libFMDB-IOS.a in Frameworks */,
 				CE0AB0981C10D5E400BFAEED /* SmartStore.framework in Frameworks */,
 				CE0AB0991C10D5E400BFAEED /* SalesforceNetwork.framework in Frameworks */,
@@ -520,7 +517,6 @@
 				CE0AB0B31C10D63A00BFAEED /* MobileCoreServices.framework in Frameworks */,
 				CE0AB0B41C10D63A00BFAEED /* QuartzCore.framework in Frameworks */,
 				CE0AB0B51C10D63A00BFAEED /* Security.framework in Frameworks */,
-				CE0AB0B61C10D63A00BFAEED /* SenTestingKit.framework in Frameworks */,
 				CE0AB0B71C10D63A00BFAEED /* SystemConfiguration.framework in Frameworks */,
 				822272A119C39F4500FC537E /* UIKit.framework in Frameworks */,
 				8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */,
