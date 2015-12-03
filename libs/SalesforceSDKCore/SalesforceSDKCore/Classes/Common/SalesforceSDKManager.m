@@ -28,7 +28,6 @@
 #import "SFRootViewManager.h"
 #import "SFSDKWebUtils.h"
 #import "SFManagedPreferences.h"
-// FIXME-REORG #import "SFSmartStore.h"
 #import "SFOAuthInfo.h"
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"

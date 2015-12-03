@@ -203,31 +203,27 @@ function replaceTokens()
   local inputIndexiosFile
   local inputPackageJsonFile
   
-  if [ "$1" == "native" -o "$1" == "native_swift" ]; then
-    if [[ "$1" == "native" ]]; then
-        appNameToken=${SUB_NATIVE_APP_NAME}
-        inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
-    else
-        appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
-        inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
-    fi
-    inputPodfile="${appNameToken}/Podfile"
-    inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
-    inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
-    inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
+  if [[ "$1" == "native" ]]; then
+      appNameToken=${SUB_NATIVE_APP_NAME}
+      inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
+  elif [[ "$1" == "native_swift" ]]; then
+      appNameToken=${SUB_NATIVE_SWIFT_APP_NAME}
+      inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.swift"
   elif [[ "$1" == "react_native" ]]; then
-    appNameToken=${SUB_REACT_NATIVE_APP_NAME}
-    inputConnectedAppFile="${appNameToken}/app/ios/${appNameToken}/AppDelegate.m"
-    inputPodfile="${appNameToken}/app/ios/Podfile"
-    inputPrefixFile="${appNameToken}/app/ios/${appNameToken}/Prefix.pch"
-    inputInfoFile="${appNameToken}/app/ios/${appNameToken}/Info.plist"
-    inputProjectFile="${appNameToken}/app/ios/${appNameToken}.xcodeproj/project.pbxproj"
-    inputIndexiosFile="${appNameToken}/app/js/index.ios.js"
-    inputPackageJsonFile="${appNameToken}/app/package.json"
+      appNameToken=${SUB_REACT_NATIVE_APP_NAME}
+      inputConnectedAppFile="${appNameToken}/${appNameToken}/AppDelegate.m"
+      inputIndexiosFile="${appNameToken}/js/index.ios.js"
+      inputPackageJsonFile="${appNameToken}/package.json"
   else
-    echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
-    exit 16
+      echoColor $TERM_COLOR_RED "replaceTokens(): Unknown app type argument '$1'."
+      exit 16
   fi
+
+  inputPodfile="${appNameToken}/Podfile"
+  inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
+  inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
+  inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
+
 
   # Make the output folder.
   if [[ -e "${OPT_OUTPUT_FOLDER}" ]]; then
@@ -275,15 +271,9 @@ function replaceTokens()
   
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
-  if [ "$1" == "native" -o "$1" == "native_swift" ]; then
-      mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
-      mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
-      mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
-  elif [[ "$1" == "react_native" ]]; then
-      mv "${appNameToken}/app/ios/${appNameToken}.xcodeproj" "${appNameToken}/app/ios/${OPT_APP_NAME}.xcodeproj"
-      mv "${appNameToken}/app/ios/${appNameToken}" "${appNameToken}/app/ios/${OPT_APP_NAME}"
-      mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
-  fi
+  mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
+  mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
+  mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
       
   # Remove working artifacts
   cd "${origWorkingFolder}"
@@ -295,7 +285,7 @@ function runNpmInstall()
   local origWorkingFolder=`pwd`
   
   # Run pod install
-  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}/$1"
+  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
   npm install
   cd "${origWorkingFolder}"
 }
@@ -305,7 +295,7 @@ function runPodInstall()
   local origWorkingFolder=`pwd`
   
   # Run pod install
-  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}/$1"
+  cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
   pod install --silent
   cd "${origWorkingFolder}"
 }
@@ -319,10 +309,10 @@ parseOpts "$@"
 replaceTokens ${OPT_APP_TYPE}
 
 if [[ "${OPT_APP_TYPE}" == "react_native" ]]; then
-  runNpmInstall "app"
-  runPodInstall "app/ios"
+  runNpmInstall
+  runPodInstall
 else
-  runPodInstall ""
+  runPodInstall 
 fi
 
 echoColor $TERM_COLOR_GREEN "Successfully created ${OPT_APP_TYPE} app '${OPT_APP_NAME}'."
