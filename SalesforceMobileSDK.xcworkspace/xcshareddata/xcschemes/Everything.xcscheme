@@ -85,8 +85,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2E01C0E465B009F6029"
-               BuildableName = "SalesforceHybridSDKDynamic.framework"
-               BlueprintName = "SalesforceHybridSDKDynamic"
+               BuildableName = "SalesforceHybridSDK.framework"
+               BlueprintName = "SalesforceHybridSDK"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -99,8 +99,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2F71C0E4673009F6029"
-               BuildableName = "SalesforceReactDynamic.framework"
-               BlueprintName = "SalesforceReactDynamic"
+               BuildableName = "SalesforceReact.framework"
+               BlueprintName = "SalesforceReact"
                ReferencedContainer = "container:libs/SalesforceReact/SalesforceReact.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

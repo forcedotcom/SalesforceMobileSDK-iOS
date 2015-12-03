@@ -20,14 +20,17 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
-		4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
-		4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
-		4FF0BCA31B826D9400ABC91C /* SFNetReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */; };
 		CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		CE4CE4671C0E5B9D009F6029 /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		CE4CE4681C0E5BBB009F6029 /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
 		CE4CE4691C0E5BC0009F6029 /* SFNetReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */; };
+		CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE5D61BFE904100B7AA8A /* SmartSync.framework */; };
+		CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2401C0FD57200319E68 /* Foundation.framework */; };
+		CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2421C0FD58000319E68 /* SmartStore.framework */; };
+		CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */; };
+		CE65C2471C0FD58D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */; };
+		CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */; };
+		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,33 +48,12 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartSyncTests;
 		};
-		4FFEE5D91BFE904C00B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
-			remoteInfo = SmartSync;
-		};
 		4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
-		};
-		4FFEE6311BFE932600B7AA8A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
-			remoteInfo = React;
-		};
-		CE4CE3021C0E4673009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE4CE2C91C0E463C009F6029;
-			remoteInfo = SmartSyncDynamic;
 		};
 		CE4CE4B11C0E611A009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -96,7 +78,6 @@
 		4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Test.xcconfig"; path = "Configuration/SalesforceReact-Test.xcconfig"; sourceTree = "<group>"; };
-		4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceReact-Prefix.pch"; sourceTree = "<group>"; };
 		4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncReactBridge.h; path = Classes/SFSmartSyncReactBridge.h; sourceTree = "<group>"; };
 		4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncReactBridge.m; path = Classes/SFSmartSyncReactBridge.m; sourceTree = "<group>"; };
@@ -106,13 +87,42 @@
 		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
 		4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		CE4CE2F81C0E4673009F6029 /* SalesforceReactDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReactDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReact.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		CE65C2421C0FD58000319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
+		CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetworkiOS.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetworkiOS.framework"; sourceTree = "<group>"; };
+		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
+		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE65C23E1C0FD56300319E68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */,
+				CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */,
+				CE65C2471C0FD58D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */,
+				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
+				CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */,
+				CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */,
+				CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		4F36189D1AA51E3900AE3A65 = {
 			isa = PBXGroup;
 			children = (
+				CE65C24A1C0FD59800319E68 /* libz.tbd */,
+				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
+				CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */,
+				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
+				CE65C2421C0FD58000319E68 /* SmartStore.framework */,
+				CE65C2401C0FD57200319E68 /* Foundation.framework */,
 				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4F67FECC1B7970C300A957A3 /* Configuration */,
 				4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */,
@@ -134,8 +144,7 @@
 		4FABF0471AA51F9000D31E3F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */,
-				CE4CE2F81C0E4673009F6029 /* SalesforceReactDynamic.framework */,
+				CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,9 +193,8 @@
 		4FFEE5D01BFE904100B7AA8A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4FFEE5D61BFE904100B7AA8A /* libSmartSync.a */,
+				4FFEE5D61BFE904100B7AA8A /* SmartSync.framework */,
 				4FFEE5D81BFE904100B7AA8A /* SmartSyncTests.xctest */,
-				CE4CE3031C0E4673009F6029 /* SmartSyncDynamic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -202,28 +210,12 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4FABF0451AA51F9000D31E3F /* SalesforceReact */ = {
+		CE4CE2F71C0E4673009F6029 /* SalesforceReact */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */;
-			buildPhases = (
-				4FABF0421AA51F9000D31E3F /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4FFEE6321BFE932600B7AA8A /* PBXTargetDependency */,
-				4FFEE5DA1BFE904C00B7AA8A /* PBXTargetDependency */,
-			);
-			name = SalesforceReact;
-			productName = SalesforceReact;
-			productReference = 4FABF0461AA51F9000D31E3F /* libSalesforceReact.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		CE4CE2F71C0E4673009F6029 /* SalesforceReactDynamic */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CE4CE3041C0E4673009F6029 /* Build configuration list for PBXNativeTarget "SalesforceReactDynamic" */;
+			buildConfigurationList = CE4CE3041C0E4673009F6029 /* Build configuration list for PBXNativeTarget "SalesforceReact" */;
 			buildPhases = (
 				CE4CE2F31C0E4673009F6029 /* Sources */,
+				CE65C23E1C0FD56300319E68 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -231,9 +223,9 @@
 				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
 				CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */,
 			);
-			name = SalesforceReactDynamic;
+			name = SalesforceReact;
 			productName = SalesforceReactDynamic;
-			productReference = CE4CE2F81C0E4673009F6029 /* SalesforceReactDynamic.framework */;
+			productReference = CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -244,9 +236,6 @@
 			attributes = {
 				LastUpgradeCheck = 0710;
 				TargetAttributes = {
-					4FABF0451AA51F9000D31E3F = {
-						CreatedOnToolsVersion = 6.1.1;
-					};
 					4FEE442F1BFD50BE00F09C43 = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
@@ -278,18 +267,17 @@
 			);
 			projectRoot = "";
 			targets = (
-				4FABF0451AA51F9000D31E3F /* SalesforceReact */,
+				CE4CE2F71C0E4673009F6029 /* SalesforceReact */,
 				4FEE442F1BFD50BE00F09C43 /* Documentation */,
-				CE4CE2F71C0E4673009F6029 /* SalesforceReactDynamic */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FFEE5D61BFE904100B7AA8A /* libSmartSync.a */ = {
+		4FFEE5D61BFE904100B7AA8A /* SmartSync.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSmartSync.a;
+			fileType = wrapper.framework;
+			path = SmartSync.framework;
 			remoteRef = 4FFEE5D51BFE904100B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -307,27 +295,9 @@
 			remoteRef = 4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CE4CE3031C0E4673009F6029 /* SmartSyncDynamic.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SmartSyncDynamic.framework;
-			remoteRef = CE4CE3021C0E4673009F6029 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4FABF0421AA51F9000D31E3F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FABF06B1AA52EC800D31E3F /* SFSmartSyncReactBridge.m in Sources */,
-				4FF0BCA31B826D9400ABC91C /* SFNetReactBridge.m in Sources */,
-				4FABF0601AA520BB00D31E3F /* SFSmartStoreReactBridge.m in Sources */,
-				4FABF06F1AA6920800D31E3F /* SFOauthReactBridge.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE4CE2F31C0E4673009F6029 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,16 +312,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4FFEE5DA1BFE904C00B7AA8A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SmartSync;
-			targetProxy = 4FFEE5D91BFE904C00B7AA8A /* PBXContainerItemProxy */;
-		};
-		4FFEE6321BFE932600B7AA8A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = React;
-			targetProxy = 4FFEE6311BFE932600B7AA8A /* PBXContainerItemProxy */;
-		};
 		CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = React;
@@ -386,38 +346,6 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(inherited)",
 				);
-			};
-			name = Release;
-		};
-		4FABF0581AA51F9000D31E3F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceReact.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		4FABF0591AA51F9000D31E3F /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceReact.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceReact/SalesforceReact-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -555,15 +483,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4FABF05C1AA51F9000D31E3F /* Build configuration list for PBXNativeTarget "SalesforceReact" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4FABF0581AA51F9000D31E3F /* Debug */,
-				4FABF0591AA51F9000D31E3F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		4FEE44301BFD50BE00F09C43 /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -573,7 +492,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE4CE3041C0E4673009F6029 /* Build configuration list for PBXNativeTarget "SalesforceReactDynamic" */ = {
+		CE4CE3041C0E4673009F6029 /* Build configuration list for PBXNativeTarget "SalesforceReact" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE4CE2FD1C0E4673009F6029 /* Debug */,

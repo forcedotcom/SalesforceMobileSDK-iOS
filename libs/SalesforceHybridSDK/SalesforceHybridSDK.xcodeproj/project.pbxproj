@@ -24,18 +24,12 @@
 		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
-		4F22155819DF480100FF2D26 /* SFForcePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155619DF480100FF2D26 /* SFForcePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155719DF480100FF2D26 /* SFForcePlugin.m */; };
 		4F22159B19DF60A200FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22159619DF60A200FF2D26 /* ImageIO.framework */; };
 		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
 		4F753375193D252200540762 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F753374193D252200540762 /* Settings.bundle */; };
-		4FA19A591992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FA19A5A1992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
-		4FC2768119DCA6BB008F4AA6 /* SFSmartSyncPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FC2768219DCA6BB008F4AA6 /* SFSmartSyncPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */; };
 		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
 		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
 		4FC404AA1911C6CA0027AD76 /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049C1911C6720027AD76 /* qunit.js */; };
@@ -51,8 +45,6 @@
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FD231761AC4D1C500FCE6C8 /* ForcetkTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD231741AC4D1C500FCE6C8 /* ForcetkTestSuite.m */; };
 		4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */; };
-		4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */; };
-		4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
 		822272A019C39F4500FC537E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		822272A119C39F4500FC537E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -62,7 +54,6 @@
 		822272BC19C3A03100FC537E /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 822272B519C3A03100FC537E /* SmartStoreLoadTestSuite.m */; };
 		822272BD19C3A03100FC537E /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 822272B719C3A03100FC537E /* SmartStoreTestSuite.m */; };
 		822272BE19C3A03100FC537E /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 822272B919C3A03100FC537E /* SmartSyncTestSuite.m */; };
-		822272BF19C3A1A300FC537E /* libSalesforceHybridSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */; };
 		822272C219C3A2A500FC537E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30316E8049500A63CDF /* CoreGraphics.framework */; };
 		822272C519C3A2DF00FC537E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA3616ED007000BD1EA2 /* CoreLocation.framework */; };
 		822272C819C3A36D00FC537E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
@@ -86,20 +77,6 @@
 		82AF5A951A0D9E2B006C7A4B /* com.salesforce.util.logger.js in Copy Salesforce plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A7D1A0D99EC006C7A4B /* com.salesforce.util.logger.js */; };
 		82AF5A961A0D9E2B006C7A4B /* com.salesforce.util.push.js in Copy Salesforce plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A7E1A0D99EC006C7A4B /* com.salesforce.util.push.js */; };
 		82AF5A9A1A0DA53E006C7A4B /* cordova_plugins.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 82AF5A981A0DA51E006C7A4B /* cordova_plugins.js */; };
-		82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */; };
-		82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E716E7C84900A63CDF /* CDVPlugin+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2EA16E7C84900A63CDF /* SalesforceOAuthPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2F116E7C84900A63CDF /* SFHybridViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2E416E7C84900A63CDF /* SFSDKInfoPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E516E7C84900A63CDF /* SFSDKInfoPlugin.m */; };
-		82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2E816E7C84900A63CDF /* CDVPlugin+SFAdditions.m */; };
-		82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
-		82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
-		82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2F216E7C84900A63CDF /* SFHybridViewController.m */; };
 		82EFF30216E8049500A63CDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF30816E8049500A63CDF /* InfoPlist.strings */; };
 		82EFF30C16E8049500A63CDF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF30B16E8049500A63CDF /* main.m */; };
@@ -110,8 +87,8 @@
 		82EFF33E16E8063700A63CDF /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
-		CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework */; };
-		CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; };
+		CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE4501C0E5AD2009F6029 /* SFForcePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155619DF480100FF2D26 /* SFForcePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4511C0E5AD2009F6029 /* SFForcePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155719DF480100FF2D26 /* SFForcePlugin.m */; };
 		CE4CE4521C0E5ADF009F6029 /* SFSmartSyncPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -135,8 +112,13 @@
 		CE4CE4641C0E5B2A009F6029 /* SFHybridViewConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4651C0E5B2A009F6029 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
 		CE4CE4A71C0E60A4009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
-		CE4CE4AE1C0E60F5009F6029 /* SmartSyncDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2F01C0E465C009F6029 /* SmartSyncDynamic.framework */; };
-		CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */; };
+		CE65C2301C0FD50E00319E68 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F70CA341C03DF6D00D26B3F /* SmartSync.framework */; };
+		CE65C2321C0FD51400319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2311C0FD51400319E68 /* SmartStore.framework */; };
+		CE65C2341C0FD51A00319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */; };
+		CE65C2361C0FD52000319E68 /* SalesforceNetworkiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2351C0FD52000319E68 /* SalesforceNetworkiOS.framework */; };
+		CE65C2381C0FD52500319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */; };
+		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
+		CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,25 +136,11 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartSyncTests;
 		};
-		4F70CA3F1C03DF8F00D26B3F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CEAAAE44195911E600CBBFE9;
-			remoteInfo = SmartSync;
-		};
 		4FFDAD701C06918B009BCD6D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 68A32D7114102E1C006B237C;
-			remoteInfo = CordovaLib;
-		};
-		4FFDAD721C06919B009BCD6D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = CordovaLib;
 		};
 		822272AB19C39F4500FC537E /* PBXContainerItemProxy */ = {
@@ -188,13 +156,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
 			remoteInfo = SalesforceHybridSDKDynamic;
-		};
-		CE4CE2EF1C0E465C009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE4CE2C91C0E463C009F6029;
-			remoteInfo = SmartSyncDynamic;
 		};
 		CE4CE4A31C0E6096009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -341,7 +302,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework in Embed Frameworks */,
+				CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDK.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,7 +395,6 @@
 		82AF5A981A0DA51E006C7A4B /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = cordova_plugins.js; sourceTree = "<group>"; };
 		82B0CA4C18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFAccountManagerPlugin.h; path = SFAccountManagerPlugin/SFAccountManagerPlugin.h; sourceTree = "<group>"; };
 		82B0CA4D18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFAccountManagerPlugin.m; path = SFAccountManagerPlugin/SFAccountManagerPlugin.m; sourceTree = "<group>"; };
-		82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82EFF2D316E7C57100A63CDF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82EFF2D716E7C57100A63CDF /* SalesforceHybridSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SalesforceHybridSDK-Prefix.pch"; sourceTree = "<group>"; };
 		82EFF2E416E7C84900A63CDF /* SFSDKInfoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKInfoPlugin.h; sourceTree = "<group>"; };
@@ -465,10 +425,15 @@
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
-		CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceHybridSDKDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4CE4AA1C0E60DB009F6029 /* SalesforceRestAPIDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPIDynamic.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPIDynamic.framework"; sourceTree = "<group>"; };
 		CE4CE4AC1C0E60E7009F6029 /* SalesforceNetworkiOSDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetworkiOSDynamic.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetworkiOSDynamic.framework"; sourceTree = "<group>"; };
 		CE4CE4AF1C0E6103009F6029 /* SmartStoreDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStoreDynamic.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStoreDynamic.framework"; sourceTree = "<group>"; };
+		CE65C2311C0FD51400319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
+		CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		CE65C2351C0FD52000319E68 /* SalesforceNetworkiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetworkiOS.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetworkiOS.framework"; sourceTree = "<group>"; };
+		CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
+		CE65C2391C0FD52F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE8F13061AD4A87200233F2F /* SalesforceHybridSDK-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Common.xcconfig"; path = "Configuration/SalesforceHybridSDK-Common.xcconfig"; sourceTree = "<group>"; };
 		CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceHybridSDK-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -491,20 +456,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EFF2CD16E7C57100A63CDF /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82EFF2D416E7C57100A63CDF /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		82EFF2FC16E8049500A63CDF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE4AE1C0E60F5009F6029 /* SmartSyncDynamic.framework in Frameworks */,
-				CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework in Frameworks */,
+				CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */,
 				4F22159B19DF60A200FF2D26 /* ImageIO.framework in Frameworks */,
 				4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */,
 				822272C219C3A2A500FC537E /* CoreGraphics.framework in Frameworks */,
@@ -516,7 +472,6 @@
 				822272CE19C3A3E500FC537E /* SystemConfiguration.framework in Frameworks */,
 				4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */,
 				822272DF19C3A82B00FC537E /* libz.dylib in Frameworks */,
-				822272BF19C3A1A300FC537E /* libSalesforceHybridSDK.a in Frameworks */,
 				822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +480,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */,
+				CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */,
+				CE65C2381C0FD52500319E68 /* SalesforceRestAPI.framework in Frameworks */,
+				CE65C2361C0FD52000319E68 /* SalesforceNetworkiOS.framework in Frameworks */,
+				CE65C2341C0FD51A00319E68 /* SalesforceSDKCore.framework in Frameworks */,
+				CE65C2321C0FD51400319E68 /* SmartStore.framework in Frameworks */,
+				CE65C2301C0FD50E00319E68 /* SmartSync.framework in Frameworks */,
 				CE4CE4A71C0E60A4009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,9 +532,8 @@
 		4F70CA0A1C03DF6D00D26B3F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F70CA341C03DF6D00D26B3F /* libSmartSync.a */,
+				4F70CA341C03DF6D00D26B3F /* SmartSync.framework */,
 				4F70CA361C03DF6D00D26B3F /* SmartSyncTests.xctest */,
-				CE4CE2F01C0E465C009F6029 /* SmartSyncDynamic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -767,10 +728,9 @@
 		82EFF2D116E7C57100A63CDF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */,
 				82EFF2FF16E8049500A63CDF /* SalesforceHybridSDKTestApp.app */,
 				8222729D19C39F4500FC537E /* SalesforceHybridSDKTestAppTests.xctest */,
-				CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework */,
+				CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -778,6 +738,11 @@
 		82EFF2D216E7C57100A63CDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE65C2391C0FD52F00319E68 /* libz.tbd */,
+				CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */,
+				CE65C2351C0FD52000319E68 /* SalesforceNetworkiOS.framework */,
+				CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */,
+				CE65C2311C0FD51400319E68 /* SmartStore.framework */,
 				CE4CE4AF1C0E6103009F6029 /* SmartStoreDynamic.framework */,
 				CE4CE4AC1C0E60E7009F6029 /* SalesforceNetworkiOSDynamic.framework */,
 				CE4CE4AA1C0E60DB009F6029 /* SalesforceRestAPIDynamic.framework */,
@@ -981,24 +946,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		82BBB5831790A12000374DD8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4F22155819DF480100FF2D26 /* SFForcePlugin.h in Headers */,
-				82BBB5841790A13500374DD8 /* CDVPlugin+SFAdditions.h in Headers */,
-				82B0CA4E18D0F8BF00DC2BBB /* SFAccountManagerPlugin.h in Headers */,
-				82BBB5851790A14300374DD8 /* SalesforceOAuthPlugin.h in Headers */,
-				4FA19A591992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h in Headers */,
-				82BBB5861790A14E00374DD8 /* SFHybridViewController.h in Headers */,
-				4FD72F2818C955E200610988 /* SFHybridConnectionMonitor.h in Headers */,
-				82BBB5871790A15A00374DD8 /* SFHybridViewConfig.h in Headers */,
-				82BBB5881790A16D00374DD8 /* SFSDKInfoPlugin.h in Headers */,
-				4FC2768119DCA6BB008F4AA6 /* SFSmartSyncPlugin.h in Headers */,
-				82BBB5891790A1AA00374DD8 /* SFSmartStorePlugin.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE4CE2DE1C0E465B009F6029 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1038,26 +985,6 @@
 			productReference = 8222729D19C39F4500FC537E /* SalesforceHybridSDKTestAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		82EFF2CF16E7C57100A63CDF /* SalesforceHybridSDK */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82EFF2DE16E7C57100A63CDF /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */;
-			buildPhases = (
-				82EFF2CC16E7C57100A63CDF /* Sources */,
-				82EFF2CD16E7C57100A63CDF /* Frameworks */,
-				82BBB5831790A12000374DD8 /* Headers */,
-				827DD5101A83040800519F03 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4FFDAD731C06919B009BCD6D /* PBXTargetDependency */,
-				4F70CA401C03DF8F00D26B3F /* PBXTargetDependency */,
-			);
-			name = SalesforceHybridSDK;
-			productName = SalesforceHybridSDK;
-			productReference = 82EFF2D016E7C57100A63CDF /* libSalesforceHybridSDK.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		82EFF2FE16E8049500A63CDF /* SalesforceHybridSDKTestApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82EFF33516E8049600A63CDF /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTestApp" */;
@@ -1086,9 +1013,9 @@
 			productReference = 82EFF2FF16E8049500A63CDF /* SalesforceHybridSDKTestApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDKDynamic */ = {
+		CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE4CE2F11C0E465C009F6029 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKDynamic" */;
+			buildConfigurationList = CE4CE2F11C0E465C009F6029 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */;
 			buildPhases = (
 				CE4CE2DC1C0E465B009F6029 /* Sources */,
 				CE4CE2DD1C0E465B009F6029 /* Frameworks */,
@@ -1101,9 +1028,9 @@
 				CE4CE4A61C0E609C009F6029 /* PBXTargetDependency */,
 				CE4CE4A41C0E6096009F6029 /* PBXTargetDependency */,
 			);
-			name = SalesforceHybridSDKDynamic;
+			name = SalesforceHybridSDK;
 			productName = SalesforceHybridSDKDynamic;
-			productReference = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDKDynamic.framework */;
+			productReference = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1145,20 +1072,19 @@
 			);
 			projectRoot = "";
 			targets = (
-				82EFF2CF16E7C57100A63CDF /* SalesforceHybridSDK */,
+				CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDK */,
 				82EFF2FE16E8049500A63CDF /* SalesforceHybridSDKTestApp */,
 				8222729C19C39F4500FC537E /* SalesforceHybridSDKTestAppTests */,
 				2DE48CC018BFA941008345C7 /* Documentation */,
-				CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDKDynamic */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4F70CA341C03DF6D00D26B3F /* libSmartSync.a */ = {
+		4F70CA341C03DF6D00D26B3F /* SmartSync.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSmartSync.a;
+			fileType = wrapper.framework;
+			path = SmartSync.framework;
 			remoteRef = 4F70CA331C03DF6D00D26B3F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1174,13 +1100,6 @@
 			fileType = archive.ar;
 			path = libCordova.a;
 			remoteRef = 4FFDAD701C06918B009BCD6D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4CE2F01C0E465C009F6029 /* SmartSyncDynamic.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SmartSyncDynamic.framework;
-			remoteRef = CE4CE2EF1C0E465C009F6029 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1225,19 +1144,6 @@
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\n    mkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceHybridSDK/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
-		827DD5101A83040800519F03 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
-		};
 		CE4CE4F91C0E6DCC009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1264,24 +1170,6 @@
 				822272BD19C3A03100FC537E /* SmartStoreTestSuite.m in Sources */,
 				822272BE19C3A03100FC537E /* SmartSyncTestSuite.m in Sources */,
 				822272BC19C3A03100FC537E /* SmartStoreLoadTestSuite.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82EFF2CC16E7C57100A63CDF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FC2768219DCA6BB008F4AA6 /* SFSmartSyncPlugin.m in Sources */,
-				82EFF2F316E7C84900A63CDF /* SFSDKInfoPlugin.m in Sources */,
-				82EFF2F416E7C84900A63CDF /* CDVPlugin+SFAdditions.m in Sources */,
-				4FD72F2918C955E200610988 /* SFHybridConnectionMonitor.m in Sources */,
-				82EFF2F516E7C84900A63CDF /* SalesforceOAuthPlugin.m in Sources */,
-				82EFF2F616E7C84900A63CDF /* SFSmartStorePlugin.m in Sources */,
-				82B0CA4F18D0F8BF00DC2BBB /* SFAccountManagerPlugin.m in Sources */,
-				82EFF2F816E7C84900A63CDF /* SFHybridViewController.m in Sources */,
-				4F22155919DF480100FF2D26 /* SFForcePlugin.m in Sources */,
-				CEF4FFB0170CC748001AA255 /* SFHybridViewConfig.m in Sources */,
-				4FA19A5A1992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1317,16 +1205,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4F70CA401C03DF8F00D26B3F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SmartSync;
-			targetProxy = 4F70CA3F1C03DF8F00D26B3F /* PBXContainerItemProxy */;
-		};
-		4FFDAD731C06919B009BCD6D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CordovaLib;
-			targetProxy = 4FFDAD721C06919B009BCD6D /* PBXContainerItemProxy */;
-		};
 		822272AC19C39F4500FC537E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82EFF2FE16E8049500A63CDF /* SalesforceHybridSDKTestApp */;
@@ -1334,7 +1212,7 @@
 		};
 		CE4CE2E71C0E465B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDKDynamic */;
+			target = CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDK */;
 			targetProxy = CE4CE2E61C0E465B009F6029 /* PBXContainerItemProxy */;
 		};
 		CE4CE4A41C0E6096009F6029 /* PBXTargetDependency */ = {
@@ -1501,38 +1379,6 @@
 			};
 			name = Release;
 		};
-		82EFF2DF16E7C57100A63CDF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceHybridSDK.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				INSTALL_PATH = /;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		82EFF2E016E7C57100A63CDF /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceHybridSDK.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceHybridSDK/SalesforceHybridSDK-Prefix.pch";
-				INSTALL_PATH = /;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		82EFF33616E8049600A63CDF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
@@ -1681,15 +1527,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82EFF2DE16E7C57100A63CDF /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82EFF2DF16E7C57100A63CDF /* Debug */,
-				82EFF2E016E7C57100A63CDF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		82EFF33516E8049600A63CDF /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKTestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1699,7 +1536,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE4CE2F11C0E465C009F6029 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDKDynamic" */ = {
+		CE4CE2F11C0E465C009F6029 /* Build configuration list for PBXNativeTarget "SalesforceHybridSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE4CE2EA1C0E465C009F6029 /* Debug */,
