@@ -96,6 +96,8 @@
 		CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CE4CE4901C0E5F93009F6029 /* SmartStoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */; };
 		CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */; };
+		CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
+		CE4CE5891C0FB66D009F6029 /* SalesforceSDKCoreDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5881C0FB66D009F6029 /* SalesforceSDKCoreDynamic.framework */; };
 		CE90C1131C0CDC0D00CC660F /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CEAAAE49195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
@@ -214,6 +216,9 @@
 		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
 		CE4CE2B91C0E4581009F6029 /* SmartStoreDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartStoreDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4CE4911C0E5FA8009F6029 /* SalesforceSDKCoreDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCoreDynamic.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCoreDynamic.framework"; sourceTree = "<group>"; };
+		CE4CE5841C0FB648009F6029 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CE4CE5861C0FB650009F6029 /* SalesforceSDKCoreDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCoreDynamic.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCoreDynamic.framework"; sourceTree = "<group>"; };
+		CE4CE5881C0FB66D009F6029 /* SalesforceSDKCoreDynamic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCoreDynamic.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCoreDynamic.framework"; sourceTree = "<group>"; };
 		CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEAAAE45195911E600CBBFE9 /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -227,6 +232,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE4CE5891C0FB66D009F6029 /* SalesforceSDKCoreDynamic.framework in Frameworks */,
+				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
 				CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 			);
@@ -322,6 +329,9 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE4CE5881C0FB66D009F6029 /* SalesforceSDKCoreDynamic.framework */,
+				CE4CE5861C0FB650009F6029 /* SalesforceSDKCoreDynamic.framework */,
+				CE4CE5841C0FB648009F6029 /* libz.tbd */,
 				CE4CE4911C0E5FA8009F6029 /* SalesforceSDKCoreDynamic.framework */,
 				CE90C1351C0CF89800CC660F /* libSalesforceSDKCore.a */,
 				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
@@ -651,7 +661,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$SRCROOT/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 		CE4CE4FE1C0E6E4D009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
