@@ -160,26 +160,19 @@
 			remoteGlobalIDString = 030EF0DB14632FF700B04273;
 			remoteInfo = OCMockLib;
 		};
-		CE4CE4741C0E5E65009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82DBBAEC1A798B290093A54C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE28B1C0E454F009F6029;
-			remoteInfo = SalesforceNetworkiOSDynamic;
-		};
-		CE4CE4801C0E5E9F009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
-			remoteInfo = SalesforceSDKCoreDynamic;
-		};
 		CE61137B1C06A09400D5A940 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
 			remoteInfo = SalesforceSDKCoreTests;
+		};
+		CEFE62001C10FBB600C610E4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82DBBAEC1A798B290093A54C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE28B1C0E454F009F6029;
+			remoteInfo = SalesforceNetwork;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -690,7 +683,7 @@
 				CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetworkTests;
-			productName = SalesforceNetworkiOSTests;
+			productName = SalesforceNetworkTests;
 			productReference = 825347F51A8ADD050019FE0B /* SalesforceNetworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -707,10 +700,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4811C0E5E9F009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetwork;
-			productName = SalesforceNetworkiOSDynamic;
+			productName = SalesforceNetwork;
 			productReference = CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -927,12 +919,7 @@
 		CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE28B1C0E454F009F6029 /* SalesforceNetwork */;
-			targetProxy = CE4CE4741C0E5E65009F6029 /* PBXContainerItemProxy */;
-		};
-		CE4CE4811C0E5E9F009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceSDKCoreDynamic;
-			targetProxy = CE4CE4801C0E5E9F009F6029 /* PBXContainerItemProxy */;
+			targetProxy = CEFE62001C10FBB600C610E4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

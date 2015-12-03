@@ -1,6 +1,6 @@
 //
-//  SalesforceNetworkiOSTests.m
-//  SalesforceNetworkiOSTests
+//  SalesforceNetworkTests.m
+//  SalesforceNetworkTests
 //
 //  Created by Michael Nachbaur on 11/10/14.
 //  Copyright (c) 2014 Salesforce.com. All rights reserved.
@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-@interface SalesforceNetworkiOSTests : XCTestCase
+@interface SalesforceNetworkTests : XCTestCase
 
 @end
 
-@implementation SalesforceNetworkiOSTests
+@implementation SalesforceNetworkTests
 
 - (void)setUp {
     [super setUp];

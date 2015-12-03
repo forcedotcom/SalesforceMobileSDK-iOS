@@ -150,14 +150,14 @@
 			containerPortal = 6F0FDAF91B5C519200DB0EC2 /* SalesforceNetwork.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 827DD3DA1A7BF55F00519F03;
-			remoteInfo = SalesforceNetworkiOS;
+			remoteInfo = SalesforceNetwork;
 		};
 		6F0FDB001B5C519200DB0EC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F0FDAF91B5C519200DB0EC2 /* SalesforceNetwork.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 825347F51A8ADD050019FE0B;
-			remoteInfo = SalesforceNetworkiOSTests;
+			remoteInfo = SalesforceNetworkTests;
 		};
 		6F0FDB141B5C51D700DB0EC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -199,7 +199,7 @@
 			containerPortal = 6F0FDAF91B5C519200DB0EC2 /* SalesforceNetwork.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 827DD3D91A7BF55F00519F03;
-			remoteInfo = SalesforceNetworkiOS;
+			remoteInfo = SalesforceNetwork;
 		};
 		6F0FDB2D1B5C52B300DB0EC2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -371,7 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				6F0FDAFF1B5C519200DB0EC2 /* libSalesforceNetwork.a */,
-				6F0FDB011B5C519200DB0EC2 /* SalesforceNetworkiOSTests.xctest */,
+				6F0FDB011B5C519200DB0EC2 /* SalesforceNetworkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -671,10 +671,10 @@
 			remoteRef = 6F0FDAFE1B5C519200DB0EC2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F0FDB011B5C519200DB0EC2 /* SalesforceNetworkiOSTests.xctest */ = {
+		6F0FDB011B5C519200DB0EC2 /* SalesforceNetworkTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceNetworkiOSTests.xctest;
+			path = SalesforceNetworkTests.xctest;
 			remoteRef = 6F0FDB001B5C519200DB0EC2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -774,7 +774,7 @@
 		};
 		6F0FDB2C1B5C52AB00DB0EC2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SalesforceNetworkiOS;
+			name = SalesforceNetwork;
 			targetProxy = 6F0FDB2B1B5C52AB00DB0EC2 /* PBXContainerItemProxy */;
 		};
 		6F0FDB2E1B5C52B300DB0EC2 /* PBXTargetDependency */ = {

@@ -114,13 +114,6 @@
 			remoteGlobalIDString = 6290CBB4188FE836009790F8;
 			remoteInfo = "FMDB-IOS";
 		};
-		CE4CE48E1C0E5F8B009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
-			remoteInfo = SmartStoreDynamic;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -427,7 +420,7 @@
 				CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartStore;
-			productName = SmartStoreDynamic;
+			productName = SmartStore;
 			productReference = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */;
 			productType = "com.apple.product-type.framework";
 		};

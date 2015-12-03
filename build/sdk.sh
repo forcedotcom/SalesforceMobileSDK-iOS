@@ -31,7 +31,7 @@ require 'optparse'
 # Constants
 SCHEMES_TO_BUILD = [
   "SalesforceSDKCore",
-  "SalesforceNetworkiOS",
+  "SalesforceNetwork",
   "SalesforceRestAPI",
   "SmartStore",
   "SmartSync",
@@ -46,7 +46,7 @@ SCHEMES_TO_BUILD = [
 
 SCHEMES_TO_TEST = [
   "SalesforceSDKCore",
-  "SalesforceNetworkiOS",
+  "SalesforceNetwork",
   "SmartStore",
   "SmartSync",
   "SalesforceSDKCoreTestApp",
