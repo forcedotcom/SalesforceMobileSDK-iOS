@@ -39,7 +39,6 @@
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -96,9 +95,6 @@ NSString *const STATUS_COL = @"status";
 // JSON fields added to soup element on insert/update
 NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
 NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
-
-@interface SFSmartStore () <SFAuthenticationManagerDelegate>
-@end
 
 @implementation SFSmartStore
 
@@ -1619,15 +1615,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     NSArray *indices = [self indicesForSoup:soupName withDb:db];
     return [SFSoupIndex hasFts:indices];
 }
-
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
-    if ([user isEqual:self.user]) {
-        [SFSmartSTore removeAllStoresForUser:<#(SFUserAccount *)#>]
-    }
-}
-
 
 #pragma mark - Misc
 
