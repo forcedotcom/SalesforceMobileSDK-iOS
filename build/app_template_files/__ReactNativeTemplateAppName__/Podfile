@@ -3,7 +3,7 @@
 
 target '__ReactNativeTemplateAppName__' do
 
-pod 'React', :path => '../node_modules/react-native', :subspecs => [
+pod 'React', :path => './node_modules/react-native', :subspecs => [
     'ART',
     'RCTActionSheet',
     'RCTAdSupport',
