@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
-               BuildableName = "SalesforceNetworkiOS.framework"
-               BlueprintName = "SalesforceNetworkiOS"
+               BuildableName = "SalesforceNetwork.framework"
+               BlueprintName = "SalesforceNetwork"
                ReferencedContainer = "container:../SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
-               BuildableName = "SalesforceNetworkiOS.framework"
-               BlueprintName = "SalesforceNetworkiOS"
+               BuildableName = "SalesforceNetwork.framework"
+               BlueprintName = "SalesforceNetwork"
                ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -225,8 +225,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "825347F41A8ADD050019FE0B"
-               BuildableName = "SalesforceNetworkiOSTests.xctest"
-               BlueprintName = "SalesforceNetworkiOSTests"
+               BuildableName = "SalesforceNetworkTests.xctest"
+               BlueprintName = "SalesforceNetworkTests"
                ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -381,8 +381,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "825347F41A8ADD050019FE0B"
-               BuildableName = "SalesforceNetworkiOSTests.xctest"
-               BlueprintName = "SalesforceNetworkiOSTests"
+               BuildableName = "SalesforceNetworkTests.xctest"
+               BlueprintName = "SalesforceNetworkTests"
                ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </TestableReference>

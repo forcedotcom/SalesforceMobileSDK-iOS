@@ -95,7 +95,7 @@
 		CE4CE3F81C0E56A8009F6029 /* CSFURLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD4821A7C006F00519F03 /* CSFURLValueTransformer.m */; };
 		CE4CE3F91C0E56A8009F6029 /* CSFUTF8StringValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3CD1A99107800243931 /* CSFUTF8StringValueTransformer.h */; };
 		CE4CE3FA1C0E56A8009F6029 /* CSFUTF8StringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3CE1A99107800243931 /* CSFUTF8StringValueTransformer.m */; };
-		CE4CE47E1C0E5E72009F6029 /* SalesforceNetworkiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE28C1C0E454F009F6029 /* SalesforceNetworkiOS.framework */; };
+		CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */; };
 		CE4CE47F1C0E5E7D009F6029 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAAFF1B6299BA00F4C242 /* OCMock.framework */; };
 		CE4CE4841C0E5EB9009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE4831C0E5EB9009F6029 /* Foundation.framework */; };
 		CE65C20F1C0FD28800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */; };
@@ -191,8 +191,7 @@
 		820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+ActionValue.m"; sourceTree = "<group>"; };
 		82225A4B1A9D6F0700DE1E07 /* CSFNetwork+Caching.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CSFNetwork+Caching.m"; sourceTree = "<group>"; };
 		82225A4D1A9D6FA800DE1E07 /* CSFActionInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFActionInput.h; sourceTree = "<group>"; };
-		825347F51A8ADD050019FE0B /* SalesforceNetworkiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceNetworkiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		825348021A8ADD220019FE0B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		825347F51A8ADD050019FE0B /* SalesforceNetworkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceNetworkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348051A8ADD220019FE0B /* CSFActionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFActionTest.m; sourceTree = "<group>"; };
 		825348071A8ADD220019FE0B /* CSFInputTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFInputTests.m; sourceTree = "<group>"; };
 		825348091A8ADD220019FE0B /* CSFOutputTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFOutputTests.m; sourceTree = "<group>"; };
@@ -244,7 +243,6 @@
 		827DD4801A7C006F00519F03 /* CSFDateValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFDateValueTransformer.m; sourceTree = "<group>"; };
 		827DD4811A7C006F00519F03 /* CSFURLValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFURLValueTransformer.h; sourceTree = "<group>"; };
 		827DD4821A7C006F00519F03 /* CSFURLValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFURLValueTransformer.m; sourceTree = "<group>"; };
-		827DD4841A7C006F00519F03 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		827DD5071A7C086800519F03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82A0C3A31A990E8A00243931 /* MockNetworkTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockNetworkTests.m; sourceTree = "<group>"; };
 		82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueTransformerTests.m; sourceTree = "<group>"; };
@@ -276,7 +274,7 @@
 		82ABD51C1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFSalesforceOAuthRefresh.m; sourceTree = "<group>"; };
 		82E8022C1A8FF22900648529 /* CSFAuthRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFAuthRefresh.h; sourceTree = "<group>"; };
 		82E8022D1A8FF22900648529 /* CSFAuthRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFAuthRefresh.m; sourceTree = "<group>"; };
-		CE4CE28C1C0E454F009F6029 /* SalesforceNetworkiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceNetworkiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4CE4831C0E5EB9009F6029 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2141C0FD29F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -287,7 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE4CE47F1C0E5E7D009F6029 /* OCMock.framework in Frameworks */,
-				CE4CE47E1C0E5E72009F6029 /* SalesforceNetworkiOS.framework in Frameworks */,
+				CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */,
 				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
 				82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */,
@@ -341,15 +339,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		825348011A8ADD220019FE0B /* SalesforceNetworkiOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				825348021A8ADD220019FE0B /* Info.plist */,
-			);
-			name = SalesforceNetworkiOSTests;
-			path = SalesforceNetwork/SalesforceNetworkiOSTests;
-			sourceTree = "<group>";
-		};
 		825348041A8ADD220019FE0B /* SalesforceNetworkTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -392,9 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				827DD3F21A7C006E00519F03 /* SalesforceNetwork */,
-				827DD4831A7C006F00519F03 /* SalesforceNetworkiOS */,
 				825348041A8ADD220019FE0B /* SalesforceNetworkTests */,
-				825348011A8ADD220019FE0B /* SalesforceNetworkiOSTests */,
 			);
 			name = SalesforceNetwork;
 			sourceTree = "<group>";
@@ -577,15 +564,6 @@
 			path = ValueTransformers;
 			sourceTree = "<group>";
 		};
-		827DD4831A7C006F00519F03 /* SalesforceNetworkiOS */ = {
-			isa = PBXGroup;
-			children = (
-				827DD4841A7C006F00519F03 /* Info.plist */,
-			);
-			name = SalesforceNetworkiOS;
-			path = SalesforceNetwork/SalesforceNetworkiOS;
-			sourceTree = "<group>";
-		};
 		827DD5091A7C090000519F03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -629,8 +607,8 @@
 		82DBBAF51A798B290093A54C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				825347F51A8ADD050019FE0B /* SalesforceNetworkiOSTests.xctest */,
-				CE4CE28C1C0E454F009F6029 /* SalesforceNetworkiOS.framework */,
+				825347F51A8ADD050019FE0B /* SalesforceNetworkTests.xctest */,
+				CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -690,9 +668,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		825347F41A8ADD050019FE0B /* SalesforceNetworkiOSTests */ = {
+		825347F41A8ADD050019FE0B /* SalesforceNetworkTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 825348001A8ADD050019FE0B /* Build configuration list for PBXNativeTarget "SalesforceNetworkiOSTests" */;
+			buildConfigurationList = 825348001A8ADD050019FE0B /* Build configuration list for PBXNativeTarget "SalesforceNetworkTests" */;
 			buildPhases = (
 				825347F11A8ADD050019FE0B /* Sources */,
 				825347F21A8ADD050019FE0B /* Frameworks */,
@@ -703,14 +681,14 @@
 			dependencies = (
 				CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */,
 			);
-			name = SalesforceNetworkiOSTests;
+			name = SalesforceNetworkTests;
 			productName = SalesforceNetworkiOSTests;
-			productReference = 825347F51A8ADD050019FE0B /* SalesforceNetworkiOSTests.xctest */;
+			productReference = 825347F51A8ADD050019FE0B /* SalesforceNetworkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		CE4CE28B1C0E454F009F6029 /* SalesforceNetworkiOS */ = {
+		CE4CE28B1C0E454F009F6029 /* SalesforceNetwork */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE4CE29D1C0E454F009F6029 /* Build configuration list for PBXNativeTarget "SalesforceNetworkiOS" */;
+			buildConfigurationList = CE4CE29D1C0E454F009F6029 /* Build configuration list for PBXNativeTarget "SalesforceNetwork" */;
 			buildPhases = (
 				CE4CE2871C0E454F009F6029 /* Sources */,
 				CE4CE2881C0E454F009F6029 /* Frameworks */,
@@ -723,9 +701,9 @@
 			dependencies = (
 				CE4CE4811C0E5E9F009F6029 /* PBXTargetDependency */,
 			);
-			name = SalesforceNetworkiOS;
+			name = SalesforceNetwork;
 			productName = SalesforceNetworkiOSDynamic;
-			productReference = CE4CE28C1C0E454F009F6029 /* SalesforceNetworkiOS.framework */;
+			productReference = CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -768,8 +746,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				CE4CE28B1C0E454F009F6029 /* SalesforceNetworkiOS */,
-				825347F41A8ADD050019FE0B /* SalesforceNetworkiOSTests */,
+				CE4CE28B1C0E454F009F6029 /* SalesforceNetwork */,
+				825347F41A8ADD050019FE0B /* SalesforceNetworkTests */,
 			);
 		};
 /* End PBXProject section */
@@ -856,7 +834,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$PRODUCT_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$PRODUCT_NAME/$PRODUCT_NAME.h\"";
 		};
 		CE4CE4FC1C0E6E33009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -935,7 +913,7 @@
 /* Begin PBXTargetDependency section */
 		CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE4CE28B1C0E454F009F6029 /* SalesforceNetworkiOS */;
+			target = CE4CE28B1C0E454F009F6029 /* SalesforceNetwork */;
 			targetProxy = CE4CE4741C0E5E65009F6029 /* PBXContainerItemProxy */;
 		};
 		CE4CE4811C0E5E9F009F6029 /* PBXTargetDependency */ = {
@@ -1071,7 +1049,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceNetworkiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceNetwork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1121,7 +1099,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceNetworkiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceNetwork;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1135,7 +1113,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		825348001A8ADD050019FE0B /* Build configuration list for PBXNativeTarget "SalesforceNetworkiOSTests" */ = {
+		825348001A8ADD050019FE0B /* Build configuration list for PBXNativeTarget "SalesforceNetworkTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				825347FE1A8ADD050019FE0B /* Debug */,
@@ -1153,7 +1131,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE4CE29D1C0E454F009F6029 /* Build configuration list for PBXNativeTarget "SalesforceNetworkiOS" */ = {
+		CE4CE29D1C0E454F009F6029 /* Build configuration list for PBXNativeTarget "SalesforceNetwork" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE4CE2911C0E454F009F6029 /* Debug */,
