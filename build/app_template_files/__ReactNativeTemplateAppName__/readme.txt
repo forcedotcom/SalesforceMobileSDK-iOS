@@ -11,9 +11,8 @@ Make sure to install software required by react-native
 Follow the steps here: https://facebook.github.io/react-native/docs/getting-started.html#content
 
 Make sure to start local server (during development)
-cd app
 npm start
 
 ## To run the application
-Start Xcode, open app/ios
+Start Xcode, open the workspace 
 
