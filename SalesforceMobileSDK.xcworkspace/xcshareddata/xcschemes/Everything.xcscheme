@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
-               BuildableName = "SalesforceSDKCoreDynamic.framework"
-               BlueprintName = "SalesforceSDKCoreDynamic"
+               BuildableName = "SalesforceSDKCore.framework"
+               BlueprintName = "SalesforceSDKCore"
                ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -421,8 +421,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
-            BuildableName = "SalesforceSDKCoreDynamic.framework"
-            BlueprintName = "SalesforceSDKCoreDynamic"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
             ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -443,8 +443,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
-            BuildableName = "SalesforceSDKCoreDynamic.framework"
-            BlueprintName = "SalesforceSDKCoreDynamic"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
             ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -461,8 +461,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
-            BuildableName = "SalesforceSDKCoreDynamic.framework"
-            BlueprintName = "SalesforceSDKCoreDynamic"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
             ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

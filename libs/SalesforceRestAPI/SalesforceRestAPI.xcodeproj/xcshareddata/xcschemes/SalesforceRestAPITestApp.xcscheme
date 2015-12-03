@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
-               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
+               BuildableName = "SalesforceSDKCore.framework"
                BlueprintName = "SalesforceSDKCore"
                ReferencedContainer = "container:../SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
