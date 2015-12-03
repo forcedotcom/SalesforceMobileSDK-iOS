@@ -14,7 +14,6 @@
 		8253486B1A8ADD220019FE0B /* InternalFunctionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8253480B1A8ADD220019FE0B /* InternalFunctionTests.m */; };
 		825348BC1A8ADD220019FE0B /* TestDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 825348621A8ADD220019FE0B /* TestDataAction.m */; };
 		825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CF1A8AF55B0019FE0B /* MessageUI.framework */; };
-		825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348D11A8AF5770019FE0B /* libz.dylib */; };
 		82A0C3B51A990FD600243931 /* MockNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3A31A990E8A00243931 /* MockNetworkTests.m */; };
 		82A0C3B61A990FDB00243931 /* ValueTransformerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */; };
 		82A0C3D91A99115300243931 /* CSFActionParameterStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D51A99115300243931 /* CSFActionParameterStorageTests.m */; };
@@ -23,6 +22,7 @@
 		82A0C3DC1A99115300243931 /* JSONNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D81A99115300243931 /* JSONNetworkTests.m */; };
 		82A0C3DE1A9911A000243931 /* SimpleFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 82A0C3DD1A9911A000243931 /* SimpleFile.json */; };
 		82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0C3DF1A99145500243931 /* MobileCoreServices.framework */; };
+		CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
 		CE4CE3B31C0E5512009F6029 /* NSDate+ActionValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */; };
 		CE4CE3B41C0E5512009F6029 /* NSDate+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */; };
 		CE4CE3B51C0E5512009F6029 /* NSMutableURLRequest+SalesforceNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3A71A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.h */; };
@@ -173,6 +173,13 @@
 			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
 			remoteInfo = SalesforceSDKCoreTests;
 		};
+		CE6AB3E21C10D0180012125E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0A714632FD000B04273;
+			remoteInfo = OCMock;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -286,7 +293,7 @@
 			files = (
 				CE4CE47F1C0E5E7D009F6029 /* OCMock.framework in Frameworks */,
 				CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */,
-				825348D21A8AF5770019FE0B /* libz.dylib in Frameworks */,
+				CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
 				82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */,
 			);
@@ -679,6 +686,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE6AB3E31C10D0180012125E /* PBXTargetDependency */,
 				CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetworkTests;
@@ -921,6 +929,11 @@
 			name = SalesforceSDKCoreDynamic;
 			targetProxy = CE4CE4801C0E5E9F009F6029 /* PBXContainerItemProxy */;
 		};
+		CE6AB3E31C10D0180012125E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMock;
+			targetProxy = CE6AB3E21C10D0180012125E /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -941,7 +954,6 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(SRCROOT)/../../external/ocmock/Source",
 				);
-				INFOPLIST_FILE = SalesforceNetwork/SalesforceNetworkiOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -972,7 +984,6 @@
 					"$(TARGET_BUILD_DIR)/Headers",
 					"$(SRCROOT)/../../external/ocmock/Source",
 				);
-				INFOPLIST_FILE = SalesforceNetwork/SalesforceNetworkiOSTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (

@@ -31,6 +31,8 @@
 		CE65C2471C0FD58D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */; };
 		CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */; };
 		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
+		CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6301BFE932100B7AA8A /* libReact.a */; };
+		CE6AB3E11C10CF020012125E /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +96,7 @@
 		CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetworkiOS.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetworkiOS.framework"; sourceTree = "<group>"; };
 		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
+		CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libFMDB-IOS.a"; path = "../../external/fmdb/build/Debug-iphoneos/libFMDB-IOS.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,8 +109,10 @@
 				CE65C2471C0FD58D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */,
 				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */,
-				CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */,
 				CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */,
+				CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */,
+				CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */,
+				CE6AB3E11C10CF020012125E /* libFMDB-IOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +122,7 @@
 		4F36189D1AA51E3900AE3A65 = {
 			isa = PBXGroup;
 			children = (
+				CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */,
 				CE65C24A1C0FD59800319E68 /* libz.tbd */,
 				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
 				CE65C2461C0FD58D00319E68 /* SalesforceNetworkiOS.framework */,
