@@ -361,26 +361,12 @@
 			remoteGlobalIDString = 18F3BFF21A81E0C700692297;
 			remoteInfo = iOSLibStaticTest;
 		};
-		CE4CE2701C0E449C009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
-			remoteInfo = SalesforceSDKCoreDynamic;
-		};
 		CE4CE46F1C0E5E16009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
 			remoteInfo = "CocoaLumberjack-iOS";
-		};
-		CE4CE4721C0E5E3B009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
-			remoteInfo = SalesforceSDKCoreDynamic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1321,7 +1307,7 @@
 				CE4CE4701C0E5E16009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCore;
-			productName = SalesforceSDKCoreDynamic;
+			productName = SalesforceSDKCore;
 			productReference = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */;
 			productType = "com.apple.product-type.framework";
 		};

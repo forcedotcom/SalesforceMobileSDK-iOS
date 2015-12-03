@@ -56,13 +56,6 @@
 			remoteGlobalIDString = CEAAAE55195911E600CBBFE9;
 			remoteInfo = SmartSyncTests;
 		};
-		CE4CE4C01C0E67E8009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5EA1BFE90FB00B7AA8A /* SmartSync.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
-			remoteInfo = SmartSyncDynamic;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -380,7 +373,7 @@
 /* Begin PBXTargetDependency section */
 		CE4CE4C11C0E67E8009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SmartSyncDynamic;
+			name = SmartSync;
 			targetProxy = CE4CE4C01C0E67E8009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

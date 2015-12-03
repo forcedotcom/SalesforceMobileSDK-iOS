@@ -102,7 +102,7 @@
 			containerPortal = 4FFEE5F61BFE912300B7AA8A /* SalesforceHybridSDK.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
-			remoteInfo = SalesforceHybridSDKDynamic;
+			remoteInfo = SalesforceHybridSDK;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -644,7 +644,7 @@
 /* Begin PBXTargetDependency section */
 		CE4CE4C91C0E6813009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SalesforceHybridSDKDynamic;
+			name = SalesforceHybridSDK;
 			targetProxy = CE4CE4C81C0E6813009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

@@ -99,13 +99,6 @@
 			remoteGlobalIDString = 8222729D19C39F4500FC537E;
 			remoteInfo = HybridPluginTestAppTests;
 		};
-		CE4CE4D11C0E6838009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE6051BFE914200B7AA8A /* SalesforceHybridSDK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
-			remoteInfo = SalesforceHybridSDKDynamic;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -654,7 +647,7 @@
 /* Begin PBXTargetDependency section */
 		CE4CE4D21C0E6838009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = SalesforceHybridSDKDynamic;
+			name = SalesforceHybridSDK;
 			targetProxy = CE4CE4D11C0E6838009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

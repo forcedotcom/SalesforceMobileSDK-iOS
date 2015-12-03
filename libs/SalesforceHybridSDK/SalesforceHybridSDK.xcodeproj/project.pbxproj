@@ -190,20 +190,6 @@
 			remoteGlobalIDString = 82EFF2FE16E8049500A63CDF;
 			remoteInfo = SalesforceHybridSDKTestApp;
 		};
-		CE4CE2E61C0E465B009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EFF2C816E7C57100A63CDF /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
-			remoteInfo = SalesforceHybridSDKDynamic;
-		};
-		CE4CE4A31C0E6096009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
-			remoteInfo = SmartSyncDynamic;
-		};
 		CE4CE4A51C0E609C009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */;
@@ -1111,7 +1097,7 @@
 				CE4CE4A41C0E6096009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDK;
-			productName = SalesforceHybridSDKDynamic;
+			productName = SalesforceHybridSDK;
 			productReference = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -1296,11 +1282,6 @@
 			isa = PBXTargetDependency;
 			target = CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDK */;
 			targetProxy = CE4CE2E61C0E465B009F6029 /* PBXContainerItemProxy */;
-		};
-		CE4CE4A41C0E6096009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SmartSyncDynamic;
-			targetProxy = CE4CE4A31C0E6096009F6029 /* PBXContainerItemProxy */;
 		};
 		CE4CE4A61C0E609C009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

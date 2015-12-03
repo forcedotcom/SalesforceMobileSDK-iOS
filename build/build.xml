@@ -187,7 +187,7 @@
             <param name="projectName" value="SalesforceNetwork" />
             <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetworkiOS" />
+            <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
     </target>
     
@@ -196,11 +196,10 @@
             <param name="projectName" value="SalesforceNetwork" />
             <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetworkiOS" />
+            <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
     </target>
-    
-    
+
     <target name="buildLib" description="Builds the Debug and Release candidates for one of the libraries, as defined by the input scheme.">
         <antcall target="buildLibWithConfiguration">
             <param name="buildConfiguration" value="Debug" />
