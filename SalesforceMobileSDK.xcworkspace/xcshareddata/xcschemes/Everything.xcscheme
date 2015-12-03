@@ -57,8 +57,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2B81C0E4581009F6029"
-               BuildableName = "SmartStoreDynamic.framework"
-               BlueprintName = "SmartStoreDynamic"
+               BuildableName = "SmartStore.framework"
+               BlueprintName = "SmartStore"
                ReferencedContainer = "container:libs/SmartStore/SmartStore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -71,8 +71,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
-               BuildableName = "SmartSyncDynamic.framework"
-               BlueprintName = "SmartSyncDynamic"
+               BuildableName = "SmartSync.framework"
+               BlueprintName = "SmartSync"
                ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

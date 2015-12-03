@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
-               BuildableName = "libSmartSync.a"
+               BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
+               BuildableName = "SmartSync.framework"
                BlueprintName = "SmartSync"
                ReferencedContainer = "container:SmartSync.xcodeproj">
             </BuildableReference>
@@ -42,8 +42,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
-            BuildableName = "libSmartSync.a"
+            BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
+            BuildableName = "SmartSync.framework"
             BlueprintName = "SmartSync"
             ReferencedContainer = "container:SmartSync.xcodeproj">
          </BuildableReference>
@@ -64,8 +64,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
-            BuildableName = "libSmartSync.a"
+            BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
+            BuildableName = "SmartSync.framework"
             BlueprintName = "SmartSync"
             ReferencedContainer = "container:SmartSync.xcodeproj">
          </BuildableReference>
@@ -82,8 +82,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CEAAAE44195911E600CBBFE9"
-            BuildableName = "libSmartSync.a"
+            BlueprintIdentifier = "CE4CE2C81C0E463C009F6029"
+            BuildableName = "SmartSync.framework"
             BlueprintName = "SmartSync"
             ReferencedContainer = "container:SmartSync.xcodeproj">
          </BuildableReference>
