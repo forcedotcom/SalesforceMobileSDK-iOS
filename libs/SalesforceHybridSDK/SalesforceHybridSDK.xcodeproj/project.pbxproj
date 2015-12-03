@@ -119,6 +119,7 @@
 		CE65C2381C0FD52500319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */; };
 		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
+		CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -487,6 +488,7 @@
 				CE65C2341C0FD51A00319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE65C2321C0FD51400319E68 /* SmartStore.framework in Frameworks */,
 				CE65C2301C0FD50E00319E68 /* SmartSync.framework in Frameworks */,
+				CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */,
 				CE4CE4A71C0E60A4009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
