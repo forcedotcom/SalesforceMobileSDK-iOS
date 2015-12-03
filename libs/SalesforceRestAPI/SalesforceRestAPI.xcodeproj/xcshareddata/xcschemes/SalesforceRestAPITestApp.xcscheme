@@ -42,8 +42,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82C0C72D16E076DE0006B3C0"
-               BuildableName = "libSalesforceRestAPI.a"
+               BlueprintIdentifier = "CE4CE2A21C0E4569009F6029"
+               BuildableName = "SalesforceRestAPI.framework"
                BlueprintName = "SalesforceRestAPI"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>

@@ -22,17 +22,6 @@
 
 /* Begin PBXBuildFile section */
 		4F3A72E919DB81B400E6F468 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5E19DB7C22005AF96F /* ViewController.m */; };
-		4FDA6D3D19DB78A7005AF96F /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3019DB78A7005AF96F /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FDA6D3E19DB78A7005AF96F /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3119DB78A7005AF96F /* SFRestAPI.m */; };
-		4FDA6D3F19DB78A7005AF96F /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3219DB78A7005AF96F /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FDA6D4019DB78A7005AF96F /* SFRestAPI+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3319DB78A7005AF96F /* SFRestAPI+Blocks.m */; };
-		4FDA6D4119DB78A7005AF96F /* SFRestAPI+Files.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3419DB78A7005AF96F /* SFRestAPI+Files.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FDA6D4219DB78A7005AF96F /* SFRestAPI+Files.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3519DB78A7005AF96F /* SFRestAPI+Files.m */; };
-		4FDA6D4319DB78A7005AF96F /* SFRestAPI+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3619DB78A7005AF96F /* SFRestAPI+Internal.h */; };
-		4FDA6D4419DB78A7005AF96F /* SFRestAPI+QueryBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3719DB78A7005AF96F /* SFRestAPI+QueryBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FDA6D4519DB78A7005AF96F /* SFRestAPI+QueryBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3819DB78A7005AF96F /* SFRestAPI+QueryBuilder.m */; };
-		4FDA6D4619DB78A7005AF96F /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3919DB78A7005AF96F /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4FDA6D4719DB78A7005AF96F /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3A19DB78A7005AF96F /* SFRestRequest.m */; };
 		4FDA6D6319DB7C45005AF96F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5C19DB7C22005AF96F /* AppDelegate.m */; };
 		4FDA6D6819DB7C82005AF96F /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6419DB7C82005AF96F /* ViewController_iPad.xib */; };
 		4FDA6D6919DB7C82005AF96F /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6619DB7C82005AF96F /* ViewController_iPhone.xib */; };
@@ -51,18 +40,14 @@
 		8212C1D217F0ED76002C59E2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
 		8212C1D317F0ED7A002C59E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8212C1D417F0EFA0002C59E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF500BC17E2715F00051FA4 /* ImageIO.framework */; };
-		82225A441A9CD40300DE1E07 /* SFRestRequest+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82225A431A9CD40300DE1E07 /* SFRestRequest+Internal.h */; };
-		8259CD9D1A9F9091006E6703 /* SFRestAPISalesforceAction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8259CD9B1A9F9091006E6703 /* SFRestAPISalesforceAction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8259CD9E1A9F9091006E6703 /* SFRestAPISalesforceAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 8259CD9C1A9F9091006E6703 /* SFRestAPISalesforceAction.m */; };
 		829A088A1A323DDF00DC17A5 /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A08891A323DDF00DC17A5 /* SalesforceRestAPITests.m */; };
 		829A08911A323E8B00DC17A5 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 829A08901A323E8B00DC17A5 /* test_credentials.json */; };
 		829A08951A32417F00DC17A5 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 829A08941A32417F00DC17A5 /* SFNativeRestRequestListener.m */; };
-		82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C75E16E07DEB0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
 		82C0C75F16E07DEB0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		82C0C76116E07DEB0006B3C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C76016E07DEB0006B3C0 /* CoreGraphics.framework */; };
-		CE4CE2AA1C0E456A009F6029 /* SalesforceRestAPIDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPIDynamic.framework */; };
-		CE4CE2AB1C0E456A009F6029 /* SalesforceRestAPIDynamic.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPIDynamic.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CE4CE2AA1C0E456A009F6029 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */; };
+		CE4CE2AB1C0E456A009F6029 /* SalesforceRestAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE3FB1C0E594E009F6029 /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3019DB78A7005AF96F /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3FC1C0E594E009F6029 /* SFRestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3119DB78A7005AF96F /* SFRestAPI.m */; };
 		CE4CE3FD1C0E594E009F6029 /* SFRestAPI+Blocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3219DB78A7005AF96F /* SFRestAPI+Blocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -77,8 +62,10 @@
 		CE4CE4061C0E594E009F6029 /* SFRestRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3919DB78A7005AF96F /* SFRestRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4071C0E594E009F6029 /* SFRestRequest+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 82225A431A9CD40300DE1E07 /* SFRestRequest+Internal.h */; };
 		CE4CE4081C0E594E009F6029 /* SFRestRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D3A19DB78A7005AF96F /* SFRestRequest.m */; };
-		CE4CE4851C0E5F04009F6029 /* SalesforceNetworkiOSDynamic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B11C0E456B009F6029 /* SalesforceNetworkiOSDynamic.framework */; };
 		CE4CE5651C0E77F4009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
+		CE65C2171C0FD34D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FE8ACE71C03E4DE00A4AE68 /* SalesforceNetworkiOS.framework */; };
+		CE65C2191C0FD35300319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2181C0FD35300319E68 /* SalesforceSDKCore.framework */; };
+		CE65C21B1C0FD35900319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C21A1C0FD35900319E68 /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,13 +83,6 @@
 			remoteGlobalIDString = 825347F51A8ADD050019FE0B;
 			remoteInfo = SalesforceNetworkiOSTests;
 		};
-		82440F611C0D1AF0009E0BDE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FE8ACE01C03E4DD00A4AE68 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 827DD3D91A7BF55F00519F03;
-			remoteInfo = SalesforceNetworkiOS;
-		};
 		829A088B1A323DDF00DC17A5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82C0C72616E076DE0006B3C0 /* Project object */;
@@ -116,13 +96,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2A21C0E4569009F6029;
 			remoteInfo = SalesforceRestAPIDynamic;
-		};
-		CE4CE2B01C0E456B009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4FE8ACE01C03E4DD00A4AE68 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE4CE28C1C0E454F009F6029;
-			remoteInfo = SalesforceNetworkiOSDynamic;
 		};
 		CE4CE4861C0E5F31009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -140,7 +113,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CE4CE2AB1C0E456A009F6029 /* SalesforceRestAPIDynamic.framework in Embed Frameworks */,
+				CE4CE2AB1C0E456A009F6029 /* SalesforceRestAPI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,7 +164,6 @@
 		829A08921A32417F00DC17A5 /* SalesforceRestAPITests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceRestAPITests.h; sourceTree = "<group>"; };
 		829A08931A32417F00DC17A5 /* SFNativeRestRequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFNativeRestRequestListener.h; sourceTree = "<group>"; };
 		829A08941A32417F00DC17A5 /* SFNativeRestRequestListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFNativeRestRequestListener.m; sourceTree = "<group>"; };
-		82C0C72E16E076DE0006B3C0 /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		82C0C73116E076DE0006B3C0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		82C0C74216E076DE0006B3C0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		82C0C75D16E07DEB0006B3C0 /* SalesforceRestAPITestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceRestAPITestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -200,7 +172,9 @@
 		82C0C7AB16E087030006B3C0 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82C0C7B216E089310006B3C0 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		82C0C7B416E089660006B3C0 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		CE4CE2A31C0E4569009F6029 /* SalesforceRestAPIDynamic.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceRestAPIDynamic.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceRestAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE65C2181C0FD35300319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		CE65C21A1C0FD35900319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE8F13021AD4A86200233F2F /* SalesforceRestAPI-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Common.xcconfig"; path = "Configuration/SalesforceRestAPI-Common.xcconfig"; sourceTree = "<group>"; };
 		CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Static-iOS-Debug.xcconfig"; path = "Configuration/SalesforceRestAPI-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceRestAPI-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -215,20 +189,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82C0C72B16E076DE0006B3C0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				82C0C73216E076DE0006B3C0 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		82C0C75A16E07DEB0006B3C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE4851C0E5F04009F6029 /* SalesforceNetworkiOSDynamic.framework in Frameworks */,
-				CE4CE2AA1C0E456A009F6029 /* SalesforceRestAPIDynamic.framework in Frameworks */,
+				CE4CE2AA1C0E456A009F6029 /* SalesforceRestAPI.framework in Frameworks */,
 				8212C1C917F0EB6B002C59E2 /* libxml2.dylib in Frameworks */,
 				8212C1CA17F0EB70002C59E2 /* libz.dylib in Frameworks */,
 				8212C1CD17F0ED46002C59E2 /* CFNetwork.framework in Frameworks */,
@@ -249,6 +214,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE65C21B1C0FD35900319E68 /* libz.tbd in Frameworks */,
+				CE65C2191C0FD35300319E68 /* SalesforceSDKCore.framework in Frameworks */,
+				CE65C2171C0FD34D00319E68 /* SalesforceNetworkiOS.framework in Frameworks */,
 				CE4CE5651C0E77F4009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -259,9 +227,8 @@
 		4FE8ACE11C03E4DD00A4AE68 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4FE8ACE71C03E4DE00A4AE68 /* libSalesforceNetwork.a */,
+				4FE8ACE71C03E4DE00A4AE68 /* SalesforceNetworkiOS.framework */,
 				4FE8ACE91C03E4DE00A4AE68 /* SalesforceNetworkiOSTests.xctest */,
-				CE4CE2B11C0E456B009F6029 /* SalesforceNetworkiOSDynamic.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -310,10 +277,9 @@
 		82C0C72F16E076DE0006B3C0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				82C0C72E16E076DE0006B3C0 /* libSalesforceRestAPI.a */,
 				82C0C75D16E07DEB0006B3C0 /* SalesforceRestAPITestApp.app */,
 				829A08851A323DDF00DC17A5 /* SalesforceRestAPITestAppTests.xctest */,
-				CE4CE2A31C0E4569009F6029 /* SalesforceRestAPIDynamic.framework */,
+				CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -321,6 +287,8 @@
 		82C0C73016E076DE0006B3C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE65C21A1C0FD35900319E68 /* libz.tbd */,
+				CE65C2181C0FD35300319E68 /* SalesforceSDKCore.framework */,
 				4FE8ACE01C03E4DD00A4AE68 /* SalesforceNetwork.xcodeproj */,
 				8280EBA916E1318200768DE8 /* libxml2.dylib */,
 				8280EBA116E1312200768DE8 /* libz.dylib */,
@@ -420,21 +388,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		82BBB560179084E500374DD8 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FDA6D3D19DB78A7005AF96F /* SFRestAPI.h in Headers */,
-				4FDA6D3F19DB78A7005AF96F /* SFRestAPI+Blocks.h in Headers */,
-				4FDA6D4619DB78A7005AF96F /* SFRestRequest.h in Headers */,
-				4FDA6D4119DB78A7005AF96F /* SFRestAPI+Files.h in Headers */,
-				4FDA6D4419DB78A7005AF96F /* SFRestAPI+QueryBuilder.h in Headers */,
-				4FDA6D4319DB78A7005AF96F /* SFRestAPI+Internal.h in Headers */,
-				82225A441A9CD40300DE1E07 /* SFRestRequest+Internal.h in Headers */,
-				8259CD9D1A9F9091006E6703 /* SFRestAPISalesforceAction.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE4CE2A01C0E4569009F6029 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -471,26 +424,6 @@
 			productReference = 829A08851A323DDF00DC17A5 /* SalesforceRestAPITestAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		82C0C72D16E076DE0006B3C0 /* SalesforceRestAPI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 82C0C75316E076DF0006B3C0 /* Build configuration list for PBXNativeTarget "SalesforceRestAPI" */;
-			buildPhases = (
-				82C0C72A16E076DE0006B3C0 /* Sources */,
-				82C0C72B16E076DE0006B3C0 /* Frameworks */,
-				82BBB560179084E500374DD8 /* Headers */,
-				827DD5131A83053100519F03 /* ShellScript */,
-				825BE4801AE0253B0048E6DF /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				82440F621C0D1AF0009E0BDE /* PBXTargetDependency */,
-			);
-			name = SalesforceRestAPI;
-			productName = SalesforceRestAPI;
-			productReference = 82C0C72E16E076DE0006B3C0 /* libSalesforceRestAPI.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPITestApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82C0C77D16E07DEB0006B3C0 /* Build configuration list for PBXNativeTarget "SalesforceRestAPITestApp" */;
@@ -510,9 +443,9 @@
 			productReference = 82C0C75D16E07DEB0006B3C0 /* SalesforceRestAPITestApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CE4CE2A21C0E4569009F6029 /* SalesforceRestAPIDynamic */ = {
+		CE4CE2A21C0E4569009F6029 /* SalesforceRestAPI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CE4CE2B21C0E456B009F6029 /* Build configuration list for PBXNativeTarget "SalesforceRestAPIDynamic" */;
+			buildConfigurationList = CE4CE2B21C0E456B009F6029 /* Build configuration list for PBXNativeTarget "SalesforceRestAPI" */;
 			buildPhases = (
 				CE4CE29E1C0E4569009F6029 /* Sources */,
 				CE4CE29F1C0E4569009F6029 /* Frameworks */,
@@ -525,9 +458,9 @@
 			dependencies = (
 				CE4CE4871C0E5F31009F6029 /* PBXTargetDependency */,
 			);
-			name = SalesforceRestAPIDynamic;
+			name = SalesforceRestAPI;
 			productName = SalesforceRestAPIDynamic;
-			productReference = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPIDynamic.framework */;
+			productReference = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -566,20 +499,19 @@
 			);
 			projectRoot = "";
 			targets = (
-				82C0C72D16E076DE0006B3C0 /* SalesforceRestAPI */,
+				CE4CE2A21C0E4569009F6029 /* SalesforceRestAPI */,
 				82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPITestApp */,
 				829A08841A323DDF00DC17A5 /* SalesforceRestAPITestAppTests */,
 				2D9A2E5518BE9B5400644C0E /* Documentation */,
-				CE4CE2A21C0E4569009F6029 /* SalesforceRestAPIDynamic */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FE8ACE71C03E4DE00A4AE68 /* libSalesforceNetwork.a */ = {
+		4FE8ACE71C03E4DE00A4AE68 /* SalesforceNetworkiOS.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceNetwork.a;
+			fileType = wrapper.framework;
+			path = SalesforceNetworkiOS.framework;
 			remoteRef = 4FE8ACE61C03E4DE00A4AE68 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -588,13 +520,6 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceNetworkiOSTests.xctest;
 			remoteRef = 4FE8ACE81C03E4DE00A4AE68 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE4CE2B11C0E456B009F6029 /* SalesforceNetworkiOSDynamic.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SalesforceNetworkiOSDynamic.framework;
-			remoteRef = CE4CE2B01C0E456B009F6029 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -637,32 +562,6 @@
 			shellPath = /bin/sh;
 			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceRestAPI/ -j -C -L -N -Q -t --tocformat=\"default\"";
 		};
-		825BE4801AE0253B0048E6DF /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s restapi";
-		};
-		827DD5131A83053100519F03 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
-		};
 		CE4CE4F61C0E6DAE009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -701,19 +600,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82C0C72A16E076DE0006B3C0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4FDA6D4219DB78A7005AF96F /* SFRestAPI+Files.m in Sources */,
-				4FDA6D4519DB78A7005AF96F /* SFRestAPI+QueryBuilder.m in Sources */,
-				8259CD9E1A9F9091006E6703 /* SFRestAPISalesforceAction.m in Sources */,
-				4FDA6D4719DB78A7005AF96F /* SFRestRequest.m in Sources */,
-				4FDA6D3E19DB78A7005AF96F /* SFRestAPI.m in Sources */,
-				4FDA6D4019DB78A7005AF96F /* SFRestAPI+Blocks.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		82C0C75916E07DEB0006B3C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -740,11 +626,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		82440F621C0D1AF0009E0BDE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceNetworkiOS;
-			targetProxy = 82440F611C0D1AF0009E0BDE /* PBXContainerItemProxy */;
-		};
 		829A088C1A323DDF00DC17A5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82C0C75C16E07DEB0006B3C0 /* SalesforceRestAPITestApp */;
@@ -752,7 +633,7 @@
 		};
 		CE4CE2A91C0E456A009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CE4CE2A21C0E4569009F6029 /* SalesforceRestAPIDynamic */;
+			target = CE4CE2A21C0E4569009F6029 /* SalesforceRestAPI */;
 			targetProxy = CE4CE2A81C0E456A009F6029 /* PBXContainerItemProxy */;
 		};
 		CE4CE4871C0E5F31009F6029 /* PBXTargetDependency */ = {
@@ -921,40 +802,6 @@
 			};
 			name = Release;
 		};
-		82C0C75416E076DF0006B3C0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceRestAPI.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
-				INSTALL_PATH = /;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = SalesforceRestAPI;
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		82C0C75516E076DF0006B3C0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */;
-			buildSettings = {
-				DSTROOT = /tmp/SalesforceRestAPI.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SalesforceRestAPI/SalesforceRestAPI-Prefix.pch";
-				INSTALL_PATH = /;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = SalesforceRestAPI;
-				PUBLIC_HEADERS_FOLDER_PATH = "Headers/${PRODUCT_NAME}";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		82C0C77E16E07DEB0006B3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */;
@@ -1111,15 +958,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82C0C75316E076DF0006B3C0 /* Build configuration list for PBXNativeTarget "SalesforceRestAPI" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82C0C75416E076DF0006B3C0 /* Debug */,
-				82C0C75516E076DF0006B3C0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		82C0C77D16E07DEB0006B3C0 /* Build configuration list for PBXNativeTarget "SalesforceRestAPITestApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1129,7 +967,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CE4CE2B21C0E456B009F6029 /* Build configuration list for PBXNativeTarget "SalesforceRestAPIDynamic" */ = {
+		CE4CE2B21C0E456B009F6029 /* Build configuration list for PBXNativeTarget "SalesforceRestAPI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CE4CE2AC1C0E456B009F6029 /* Debug */,

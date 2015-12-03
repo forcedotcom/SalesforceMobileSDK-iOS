@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2A21C0E4569009F6029"
-               BuildableName = "SalesforceRestAPIDynamic.framework"
-               BlueprintName = "SalesforceRestAPIDynamic"
+               BuildableName = "SalesforceRestAPI.framework"
+               BlueprintName = "SalesforceRestAPI"
                ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
