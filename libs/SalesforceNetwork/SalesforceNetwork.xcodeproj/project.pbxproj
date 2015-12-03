@@ -23,6 +23,8 @@
 		82A0C3DE1A9911A000243931 /* SimpleFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 82A0C3DD1A9911A000243931 /* SimpleFile.json */; };
 		82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0C3DF1A99145500243931 /* MobileCoreServices.framework */; };
 		CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
+		CE0AB02F1C10D1AE00BFAEED /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAB031B6299BA00F4C242 /* libOCMock.a */; };
+		CE0AB04B1C10D27600BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */; };
 		CE4CE3B31C0E5512009F6029 /* NSDate+ActionValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */; };
 		CE4CE3B41C0E5512009F6029 /* NSDate+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */; };
 		CE4CE3B51C0E5512009F6029 /* NSMutableURLRequest+SalesforceNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3A71A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.h */; };
@@ -96,7 +98,6 @@
 		CE4CE3F91C0E56A8009F6029 /* CSFUTF8StringValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3CD1A99107800243931 /* CSFUTF8StringValueTransformer.h */; };
 		CE4CE3FA1C0E56A8009F6029 /* CSFUTF8StringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3CE1A99107800243931 /* CSFUTF8StringValueTransformer.m */; };
 		CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */; };
-		CE4CE47F1C0E5E7D009F6029 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAAFF1B6299BA00F4C242 /* OCMock.framework */; };
 		CE4CE4841C0E5EB9009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE4831C0E5EB9009F6029 /* Foundation.framework */; };
 		CE65C20F1C0FD28800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */; };
 		CE65C2151C0FD29F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
@@ -152,6 +153,13 @@
 			remoteGlobalIDString = D31108AD1828DB8700737925;
 			remoteInfo = OCMockLibTests;
 		};
+		CE0AB0341C10D1BA00BFAEED /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0DB14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
 		CE4CE4741C0E5E65009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82DBBAEC1A798B290093A54C /* Project object */;
@@ -172,13 +180,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
 			remoteInfo = SalesforceSDKCoreTests;
-		};
-		CE6AB3E21C10D0180012125E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 030EF0A714632FD000B04273;
-			remoteInfo = OCMock;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -207,7 +208,6 @@
 		825348621A8ADD220019FE0B /* TestDataAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestDataAction.m; sourceTree = "<group>"; };
 		825348C31A8AE7BC0019FE0B /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		825348CF1A8AF55B0019FE0B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		825348D11A8AF5770019FE0B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		827DD3F71A7C006E00519F03 /* NSURL+ActionValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+ActionValue.h"; sourceTree = "<group>"; };
 		827DD3F81A7C006E00519F03 /* NSURL+ActionValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ActionValue.m"; sourceTree = "<group>"; };
 		827DD3F91A7C006E00519F03 /* SFUserAccount+SalesforceNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFUserAccount+SalesforceNetwork.h"; sourceTree = "<group>"; };
@@ -291,7 +291,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE47F1C0E5E7D009F6029 /* OCMock.framework in Frameworks */,
+				CE0AB04B1C10D27600BFAEED /* SalesforceSDKCore.framework in Frameworks */,
+				CE0AB02F1C10D1AE00BFAEED /* libOCMock.a in Frameworks */,
 				CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */,
 				CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */,
 				825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */,
@@ -579,7 +580,6 @@
 				6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */,
 				6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */,
 				82A0C3DF1A99145500243931 /* MobileCoreServices.framework */,
-				825348D11A8AF5770019FE0B /* libz.dylib */,
 				825348C31A8AE7BC0019FE0B /* libOCMock.a */,
 				827DD5071A7C086800519F03 /* Foundation.framework */,
 				825348CF1A8AF55B0019FE0B /* MessageUI.framework */,
@@ -686,7 +686,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE6AB3E31C10D0180012125E /* PBXTargetDependency */,
+				CE0AB0351C10D1BA00BFAEED /* PBXTargetDependency */,
 				CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetworkTests;
@@ -919,6 +919,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		CE0AB0351C10D1BA00BFAEED /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMockLib;
+			targetProxy = CE0AB0341C10D1BA00BFAEED /* PBXContainerItemProxy */;
+		};
 		CE4CE4751C0E5E65009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE28B1C0E454F009F6029 /* SalesforceNetwork */;
@@ -928,11 +933,6 @@
 			isa = PBXTargetDependency;
 			name = SalesforceSDKCoreDynamic;
 			targetProxy = CE4CE4801C0E5E9F009F6029 /* PBXContainerItemProxy */;
-		};
-		CE6AB3E31C10D0180012125E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OCMock;
-			targetProxy = CE6AB3E21C10D0180012125E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
