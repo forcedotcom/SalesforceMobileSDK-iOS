@@ -139,6 +139,13 @@
 			remoteGlobalIDString = 829A08851A323DDF00DC17A5;
 			remoteInfo = SalesforceRestAPITests;
 		};
+		82A8C6E71C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSync;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -530,8 +537,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4941C0E5FEB009F6029 /* PBXTargetDependency */,
-				CE4CE4961C0E5FEF009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartSync;
 			productName = SmartSync;
@@ -738,7 +743,7 @@
 		CE4CE49B1C0E6011009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2C81C0E463C009F6029 /* SmartSync */;
-			targetProxy = CE4CE49A1C0E6011009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E71C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

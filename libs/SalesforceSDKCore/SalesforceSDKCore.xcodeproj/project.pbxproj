@@ -242,6 +242,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		82A8C6E11C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
+			remoteInfo = SalesforceSDKCore;
+		};
+		82A8C6E21C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
+			remoteInfo = SalesforceSDKCore;
+		};
 		82D4644819C7C8180006BDFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
@@ -1679,7 +1693,7 @@
 		CE4CE2711C0E449C009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
-			targetProxy = CE4CE2701C0E449C009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E21C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 		CE4CE4701C0E5E16009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1689,7 +1703,7 @@
 		CE4CE4731C0E5E3B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
-			targetProxy = CE4CE4721C0E5E3B009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E11C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

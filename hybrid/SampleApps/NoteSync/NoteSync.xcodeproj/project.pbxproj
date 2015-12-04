@@ -648,7 +648,6 @@
 		CE4CE4D21C0E6838009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceHybridSDK;
-			targetProxy = CE4CE4D11C0E6838009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

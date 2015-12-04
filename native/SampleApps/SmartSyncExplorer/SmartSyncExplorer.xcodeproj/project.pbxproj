@@ -374,7 +374,6 @@
 		CE4CE4C11C0E67E8009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SmartSync;
-			targetProxy = CE4CE4C01C0E67E8009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
