@@ -190,6 +190,13 @@
 			remoteGlobalIDString = 82EFF2FE16E8049500A63CDF;
 			remoteInfo = SalesforceHybridSDKTestApp;
 		};
+		82A8C6E81C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EFF2C816E7C57100A63CDF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
+			remoteInfo = SalesforceHybridSDK;
+		};
 		CE4CE4A51C0E609C009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */;
@@ -1094,7 +1101,6 @@
 			);
 			dependencies = (
 				CE4CE4A61C0E609C009F6029 /* PBXTargetDependency */,
-				CE4CE4A41C0E6096009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDK;
 			productName = SalesforceHybridSDK;
@@ -1281,7 +1287,7 @@
 		CE4CE2E71C0E465B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2E01C0E465B009F6029 /* SalesforceHybridSDK */;
-			targetProxy = CE4CE2E61C0E465B009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E81C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 		CE4CE4A61C0E609C009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

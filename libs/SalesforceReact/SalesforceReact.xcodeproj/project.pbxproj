@@ -220,7 +220,6 @@
 			);
 			dependencies = (
 				CE4CE4B21C0E611A009F6029 /* PBXTargetDependency */,
-				CE4CE4B41C0E611E009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceReact;
 			productName = SalesforceReact;

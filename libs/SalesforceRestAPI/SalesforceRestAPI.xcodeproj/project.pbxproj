@@ -100,6 +100,13 @@
 			remoteGlobalIDString = 82C0C75C16E07DEB0006B3C0;
 			remoteInfo = SalesforceRestAPITestApp;
 		};
+		82A8C6E31C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82C0C72616E076DE0006B3C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2A21C0E4569009F6029;
+			remoteInfo = SalesforceRestAPI;
+		};
 		CE0AB0371C10D1E400BFAEED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FE8ACE01C03E4DD00A4AE68 /* SalesforceNetwork.xcodeproj */;
@@ -478,7 +485,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4871C0E5F31009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceRestAPI;
 			productName = SalesforceRestAPI;
@@ -656,7 +662,7 @@
 		CE4CE2A91C0E456A009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2A21C0E4569009F6029 /* SalesforceRestAPI */;
-			targetProxy = CE4CE2A81C0E456A009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E31C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

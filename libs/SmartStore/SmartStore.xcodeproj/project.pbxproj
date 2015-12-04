@@ -79,6 +79,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		82A8C6E61C122998006BBDFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
+			remoteInfo = SmartStore;
+		};
 		CE0021AF1C06694E0079DCA4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
@@ -610,7 +617,7 @@
 		CE4CE48F1C0E5F8B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2B81C0E4581009F6029 /* SmartStore */;
-			targetProxy = CE4CE48E1C0E5F8B009F6029 /* PBXContainerItemProxy */;
+			targetProxy = 82A8C6E61C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
