@@ -356,7 +356,6 @@
 		CE4CE4B61C0E67BD009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceRestAPI;
-			targetProxy = CE4CE4B51C0E67BD009F6029 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
