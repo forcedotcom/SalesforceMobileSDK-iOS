@@ -47,11 +47,17 @@ Pod::Spec.new do |s|
 
   end
 
+  s.subspec 'SQLCipher' do |sqlcipher|
+
+      sqlcipher.preserve_paths = 'external/ThirdPartyDependencies/sqlcipher/LICENSE'
+      sqlcipher.vendored_libraries = 'external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a'
+
+  end
+
   s.subspec 'SmartStore' do |smartstore|
 
       smartstore.dependency 'SalesforceMobileSDK-iOS/SalesforceSDKCore'
-      smartstore.dependency 'SQLCipher', '~> 3.1'
-      smartstore.dependency 'SQLCipher/fts', '~> 3.1'
+      smartstore.dependency 'SalesforceMobileSDK-iOS/SQLCipher'
       smartstore.dependency 'FMDB', '~> 2.5'
       smartstore.source_files = 'libs/Smartstore/Smartstore/Classes/**/*.{h,m}', 'libs/Smartstore/Smartstore/Smartstore.h'
       smartstore.public_header_files = 'libs/SmartStore/SmartStore/Classes/SFAlterSoupLongOperation.h', 'libs/SmartStore/SmartStore/Classes/SFQuerySpec.h', 'libs/SmartStore/SmartStore/Classes/SFSmartSqlHelper.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStore.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreDatabaseManager.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreInspectorViewController.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUpgrade.h', 'libs/SmartStore/SmartStore/Classes/SFSmartStoreUtils.h', 'libs/SmartStore/SmartStore/Classes/SFSoupIndex.h', 'libs/SmartStore/SmartStore/Classes/SFStoreCursor.h', 'libs/SmartStore/SmartStore/SmartStore.h', 'libs/SmartStore/SmartStore/Classes/sqlite/SqliteAdditions.h'
