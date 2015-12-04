@@ -120,52 +120,49 @@
                location = "group:AppIcon.appiconset"
                name = "AppIcon.appiconset">
                <FileRef
-                  location = "group:appicon-60@2x.png">
+                  location = "group:appicon29x29.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-72.png">
+                  location = "group:appicon40x40.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-72@2x.png">
+                  location = "group:appicon50x50.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-76.png">
+                  location = "group:appicon57x57.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-76@2x.png">
+                  location = "group:appicon58x58.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40-iPad.png">
+                  location = "group:appicon72x72.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40-iPad@2x.png">
+                  location = "group:appicon76x76.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40@2x.png">
+                  location = "group:appicon80x80.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-50.png">
+                  location = "group:appicon87x87.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-50@2x.png">
+                  location = "group:appicon100x100.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-iPad.png">
+                  location = "group:appicon114x114.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-iPad@2x.png">
+                  location = "group:appicon120x120.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small.png">
+                  location = "group:appicon144x144.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small@2x.png">
+                  location = "group:appicon152x152.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon@2x.png">
+                  location = "group:appicon180x180.png">
                </FileRef>
                <FileRef
                   location = "group:Contents.json">
@@ -175,25 +172,19 @@
                location = "group:LaunchImage.launchimage"
                name = "LaunchImage.launchimage">
                <FileRef
+                  location = "group:Default640x960.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default640x1136.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default1242x2208.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default2208x1242.png">
+               </FileRef>
+               <FileRef
                   location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-568h@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default@2x.png">
                </FileRef>
             </Group>
          </Group>
