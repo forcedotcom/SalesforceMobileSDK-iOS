@@ -4,31 +4,13 @@
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
 
-    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="nativeSdkDoc, hybridSdkDoc, coreSdkDoc, networkSdkDoc, oauthSdkDoc, securityDoc, smartSyncDoc, sdkCommonDoc">
+    <target name="libPackages" depends="packageSmartSync, packageSmartStore, packageSalesforceReact, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
+
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="coreDoc, networkDoc, hybridSDKDoc, restAPIDoc, reactDoc, smartStoreDoc, smartSyncDoc">
         <antcall target="buildMasterTOC" />
     </target>
     
-    <target name="nativeSdkDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceRestAPI" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceRestAPI" />
-        </antcall>
-    </target>
-    
-    <target name="hybridSdkDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceHybridSDK" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceHybridSDK" />
-        </antcall>
-    </target>
-    
-    <target name="coreSdkDoc">
+    <target name="coreDoc">
         <antcall target="clean">
             <param name="buildConfiguration" value="SalesforceSDKCore" />
         </antcall>
@@ -38,33 +20,53 @@
         </antcall>
     </target>
     
-    <target name="networkSdkDoc">
+    <target name="networkDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceNetworkSDK" />
+            <param name="buildConfiguration" value="SalesforceNetwork" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceNetworkSDK" />
+            <param name="PROJECT_NAME" value="SalesforceNetwork" />
         </antcall>
     </target>
     
-    <target name="oauthSdkDoc">
+    <target name="hybridSDKDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceOAuth" />
+            <param name="buildConfiguration" value="SalesforceHybridSDK" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceOAuth" />
+            <param name="PROJECT_NAME" value="SalesforceHybridSDK" />
         </antcall>
     </target>
     
-    <target name="securityDoc">
+    <target name="restAPIDoc">
         <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceSecurity" />
+            <param name="buildConfiguration" value="SalesforceRestAPI" />
         </antcall>
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceSecurity" />
+            <param name="PROJECT_NAME" value="SalesforceRestAPI" />
+        </antcall>
+    </target>
+    
+    <target name="reactDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceReact" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../libs" />
+            <param name="PROJECT_NAME" value="SalesforceReact" />
+        </antcall>
+    </target>
+    
+    <target name="smartStoreDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SmartStore" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../libs" />
+            <param name="PROJECT_NAME" value="SmartStore" />
         </antcall>
     </target>
     
@@ -75,16 +77,6 @@
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
             <param name="PROJECT_NAME" value="SmartSync" />
-        </antcall>
-    </target>
-    
-    <target name="sdkCommonDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceSDKCommon" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceSDKCommon" />
         </antcall>
     </target>
     
@@ -117,7 +109,7 @@
         </exec>
     </target>
 
-<!-- Not currently used (or usable in this script), but might come in handy later -->
+    <!-- Not currently used (or usable in this script), but might come in handy later -->
     <target name="compress">
         <exec executable="ditto">
             <arg value="-k" /> <!-- PKZip format -->

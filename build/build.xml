@@ -21,7 +21,7 @@
     <target name="packageSalesforceReact" depends="buildSalesforceReact" description="Packages and builds the Salesforce React library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="libSalesforceReact.a" />
+            <param name="libName" value="SalesforceReact.framework" />
             <param name="headerDir" value="Headers/SalesforceReact" />
         </antcall>
     </target>
@@ -29,7 +29,7 @@
     <target name="buildSalesforceReact">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="libSalesforceReact.a" />
+            <param name="libName" value="SalesforceReact.framework" />
             <param name="headerDir" value="Headers/SalesforceReact" />
             <param name="schemeName" value="SalesforceReact" />
         </antcall>
@@ -38,7 +38,7 @@
     <target name="cleanSalesforceReact" description="Cleans the build artifacts and output of the Salesforce React library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="libSalesforceReact.a" />
+            <param name="libName" value="SalesforceReact.framework" />
             <param name="headerDir" value="Headers/SalesforceReact" />
             <param name="schemeName" value="SalesforceReact" />
         </antcall>
@@ -47,7 +47,7 @@
     <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="libName" value="SalesforceHybridSDK.framework" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
         </antcall>
     </target>
@@ -55,7 +55,7 @@
     <target name="buildSalesforceHybridSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="libName" value="SalesforceHybridSDK.framework" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
         </antcall>
@@ -64,7 +64,7 @@
     <target name="cleanSalesforceHybridSDK" description="Cleans the build artifacts and output of the Salesforce Hybrid SDK library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="libSalesforceHybridSDK.a" />
+            <param name="libName" value="SalesforceHybridSDK.framework" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
         </antcall>
@@ -73,7 +73,7 @@
     <target name="packageSmartSync" depends="buildSmartSync" description="Packages and builds the Salesforce SmartSync library.">
         <antcall target="packageLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="libSmartSync.a" />
+            <param name="libName" value="SmartSync.framework" />
             <param name="headerDir" value="Headers/SmartSync" />
         </antcall>
     </target>
@@ -81,7 +81,7 @@
     <target name="buildSmartSync">
         <antcall target="buildLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="libSmartSync.a" />
+            <param name="libName" value="SmartSync.framework" />
             <param name="headerDir" value="Headers/SmartSync" />
             <param name="schemeName" value="SmartSync" />
         </antcall>
@@ -90,7 +90,7 @@
     <target name="cleanSmartSync" description="Cleans the build artifacts and output of the Salesforce SmartSync library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="libSmartSync.a" />
+            <param name="libName" value="SmartSync.framework" />
             <param name="headerDir" value="Headers/SmartSync" />
             <param name="schemeName" value="SmartSync" />
         </antcall>
@@ -99,7 +99,7 @@
     <target name="packageSmartStore" depends="buildSmartStore" description="Packages and builds the Salesforce SmartStore library.">
         <antcall target="packageLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="libSmartStore.a" />
+            <param name="libName" value="SmartStore.framework" />
             <param name="headerDir" value="Headers/SmartStore" />
         </antcall>
     </target>
@@ -107,7 +107,7 @@
     <target name="buildSmartStore">
         <antcall target="buildLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="libSmartStore.a" />
+            <param name="libName" value="SmartStore.framework" />
             <param name="headerDir" value="Headers/SmartStore" />
             <param name="schemeName" value="SmartStore" />
         </antcall>
@@ -116,7 +116,7 @@
     <target name="cleanSmartStore" description="Cleans the build artifacts and output of the Salesforce SmartStore library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="libSmartStore.a" />
+            <param name="libName" value="SmartStore.framework" />
             <param name="headerDir" value="Headers/SmartStore" />
             <param name="schemeName" value="SmartStore" />
         </antcall>
@@ -125,7 +125,7 @@
     <target name="packageSalesforceRestAPI" depends="buildSalesforceRestAPI" description="Builds the Salesforce Native SDK library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="libName" value="SalesforceRestAPI.framework" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
         </antcall>
     </target>
@@ -133,7 +133,7 @@
     <target name="buildSalesforceRestAPI">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="libName" value="SalesforceRestAPI.framework" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
             <param name="schemeName" value="SalesforceRestAPI" />
         </antcall>
@@ -142,7 +142,7 @@
     <target name="cleanSalesforceRestAPI" description="Cleans the build artifacts and output of the Salesforce Native SDK library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
+            <param name="libName" value="SalesforceRestAPI.framework" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
             <param name="schemeName" value="SalesforceRestAPI" />
         </antcall>
@@ -151,7 +151,7 @@
     <target name="packageSalesforceSDKCore" depends="buildSalesforceSDKCore" description="Builds the Salesforce SDK Core library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="libName" value="SalesforceSDKCore.framework" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
         </antcall>
     </target>
@@ -159,7 +159,7 @@
     <target name="buildSalesforceSDKCore">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="libName" value="SalesforceSDKCore.framework" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
@@ -168,7 +168,7 @@
     <target name="cleanSalesforceSDKCore" description="Cleans the build artifacts and output of the Salesforce SDK Core library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="libSalesforceSDKCore.a" />
+            <param name="libName" value="SalesforceSDKCore.framework" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
@@ -177,7 +177,7 @@
     <target name="packageSalesforceNetwork" depends="buildSalesforceNetwork" description="Builds the Salesforce Network SDK library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="libName" value="SalesforceNetwork.framework" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
         </antcall>
     </target>
@@ -185,7 +185,7 @@
     <target name="buildSalesforceNetwork">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="libName" value="SalesforceNetwork.framework" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
             <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
@@ -194,7 +194,7 @@
     <target name="cleanSalesforceNetwork" description="Cleans the build artifacts and output of the Salesforce Network SDK library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
+            <param name="libName" value="SalesforceNetwork.framework" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
             <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
@@ -212,26 +212,24 @@
     <target name="buildLibWithConfiguration">
         <property name="buildConfiguration" value="Release" />
         <property name="baseBuildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
-        
         <mkdir dir="${baseBuildOutputDir}/${deviceBuildName}" />
         <mkdir dir="${baseBuildOutputDir}/${simulatorBuildName}" />
-        
+
         <!-- Device -->
         <antcall target="compileScheme">
             <param name="sdk" value="${deviceBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="build" />
         </antcall>
-        
+
         <!-- Simulator -->
         <antcall target="compileScheme">
             <param name="sdk" value="${simulatorBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="build" />
         </antcall>
-
     </target>
-    
+
     <target name="packageLib">
         <antcall target="packageLibWithConfiguration">
             <param name="buildConfiguration" value="Debug" />
@@ -240,32 +238,28 @@
             <param name="buildConfiguration" value="Release" />
         </antcall>
     </target>
-    
+
     <target name="packageLibWithConfiguration">
         <property name="packageOutputDir" value="${artifactsDir}/${buildConfiguration}" />
         <property name="packageProjectDir" value="${packageOutputDir}/${projectName}-${buildConfiguration}" />
-        
         <mkdir dir="${packageProjectDir}" />
-        
+
         <!-- For header files, we only need the one set.  We'll take the device folder. -->
         <copy todir="${packageProjectDir}/${headerDir}">
             <fileset dir="${packageOutputDir}/${deviceBuildName}/${headerDir}" />
         </copy>
-        
         <antcall target="lipo">
             <param name="lipoLib1" value="${packageOutputDir}/${deviceBuildName}/${libName}" />
             <param name="lipoLib2" value="${packageOutputDir}/${simulatorBuildName}/${libName}" />
             <param name="outputLib" value="${packageProjectDir}/${libName}" />
         </antcall>
-        
         <antcall target="compress">
             <param name="destFile" value="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
             <param name="baseDir" value="${packageProjectDir}" />
         </antcall>
-        
         <delete dir="${packageProjectDir}" />
     </target>
-    
+
     <target name="cleanLib">
         <antcall target="cleanLibWithConfiguration">
             <param name="buildConfiguration" value="Debug" />
@@ -274,7 +268,7 @@
             <param name="buildConfiguration" value="Release" />
         </antcall>
     </target>
-    
+
     <target name="cleanLibWithConfiguration">
         <property name="baseBuildOutputDir" value="${artifactsDir}/${buildConfiguration}" />
         
@@ -297,7 +291,6 @@
         <delete dir="${baseBuildOutputDir}/${deviceBuildName}/${headerDir}" />
         <delete dir="${baseBuildOutputDir}/${simulatorBuildName}/${headerDir}" />
         <delete file="${artifactsDir}/${projectName}-${buildConfiguration}.zip" />
-        
     </target>
     
     <target name="initArtifacts">
