@@ -14,6 +14,7 @@
 		8253486B1A8ADD220019FE0B /* InternalFunctionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8253480B1A8ADD220019FE0B /* InternalFunctionTests.m */; };
 		825348BC1A8ADD220019FE0B /* TestDataAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 825348621A8ADD220019FE0B /* TestDataAction.m */; };
 		825348D01A8AF55B0019FE0B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825348CF1A8AF55B0019FE0B /* MessageUI.framework */; };
+		829DA2A61C1266870040F5F1 /* SalesforceNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A51C1266870040F5F1 /* SalesforceNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82A0C3B51A990FD600243931 /* MockNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3A31A990E8A00243931 /* MockNetworkTests.m */; };
 		82A0C3B61A990FDB00243931 /* ValueTransformerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */; };
 		82A0C3D91A99115300243931 /* CSFActionParameterStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D51A99115300243931 /* CSFActionParameterStorageTests.m */; };
@@ -251,6 +252,7 @@
 		827DD4811A7C006F00519F03 /* CSFURLValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFURLValueTransformer.h; sourceTree = "<group>"; };
 		827DD4821A7C006F00519F03 /* CSFURLValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFURLValueTransformer.m; sourceTree = "<group>"; };
 		827DD5071A7C086800519F03 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		829DA2A51C1266870040F5F1 /* SalesforceNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceNetwork.h; sourceTree = "<group>"; };
 		82A0C3A31A990E8A00243931 /* MockNetworkTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockNetworkTests.m; sourceTree = "<group>"; };
 		82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ValueTransformerTests.m; sourceTree = "<group>"; };
 		82A0C3A71A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableURLRequest+SalesforceNetwork.h"; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 		827DD3F11A7BF72E00519F03 /* SalesforceNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				829DA2A51C1266870040F5F1 /* SalesforceNetwork.h */,
 				827DD3F21A7C006E00519F03 /* SalesforceNetwork */,
 				825348041A8ADD220019FE0B /* SalesforceNetworkTests */,
 			);
@@ -638,6 +641,7 @@
 				CE4CE3CB1C0E5562009F6029 /* CSFOAuthTokenRefreshOutput.h in Headers */,
 				CE4CE3C81C0E5540009F6029 /* CSFOutput_Internal.h in Headers */,
 				CE4CE3E71C0E5687009F6029 /* CSFDefines.h in Headers */,
+				829DA2A61C1266870040F5F1 /* SalesforceNetwork.h in Headers */,
 				CE4CE3C91C0E5557009F6029 /* CSFOAuthTokenRefreshInput.h in Headers */,
 				CE4CE3CD1C0E5577009F6029 /* CSFAuthRefresh+Internal.h in Headers */,
 				CE4CE3BE1C0E552C009F6029 /* CSFAction.h in Headers */,
