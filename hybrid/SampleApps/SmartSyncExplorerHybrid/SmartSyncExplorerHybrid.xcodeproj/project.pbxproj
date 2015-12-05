@@ -60,6 +60,7 @@
 		824A9DBF1724CAF900C9BD79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824A9DBE1724CAF900C9BD79 /* SystemConfiguration.framework */; };
 		82638F0C19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 82638F0B19B8E1FD00FBB3C9 /* UIApplication+SalesforceHybridSDK.m */; };
 		8272301C19D764160066A350 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8272301B19D764160066A350 /* InitialViewController.m */; };
+		829DA2931C1264FF0040F5F1 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA28C1C1264E40040F5F1 /* SalesforceHybridSDK.framework */; };
 		82AF5AA71A0DA9AD006C7A4B /* cordova_plugins.js in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 82AF5AA51A0DA996006C7A4B /* cordova_plugins.js */; };
 		82AF5AE61A0DADA4006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */; };
 		82AF5AEA1A0DAE72006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */; };
@@ -69,7 +70,6 @@
 		CE6AB3CF1C10CDFE0012125E /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3CE1C10CDFD0012125E /* SalesforceRestAPI.framework */; };
 		CE6AB3D11C10CE040012125E /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D01C10CE030012125E /* SmartStore.framework */; };
 		CE6AB3D31C10CE090012125E /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D21C10CE090012125E /* SmartSync.framework */; };
-		CE6AB3D41C10CE0F0012125E /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE61C1BFE916F00B7AA8A /* SalesforceHybridSDK.framework */; };
 		CE6AB3D61C10CE160012125E /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D51C10CE160012125E /* libCordova.a */; };
 		CE6AB3D81C10CE210012125E /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D71C10CE210012125E /* libFMDB-IOS.a */; };
 		CE6AB3DA1C10CE2A0012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3D91C10CE2A0012125E /* libz.tbd */; };
@@ -77,26 +77,33 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FFEE61B1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA28B1C1264E40040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			containerPortal = 829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 82EFF2D016E7C57100A63CDF;
+			remoteGlobalIDString = CE4CE2E11C0E465B009F6029;
 			remoteInfo = SalesforceHybridSDK;
 		};
-		4FFEE61D1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA28D1C1264E40040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			containerPortal = 829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82EFF2FF16E8049500A63CDF;
-			remoteInfo = HybridPluginTestApp;
+			remoteInfo = SalesforceHybridSDKTestApp;
 		};
-		4FFEE61F1BFE916F00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA28F1C1264E40040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+			containerPortal = 829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8222729D19C39F4500FC537E;
-			remoteInfo = HybridPluginTestAppTests;
+			remoteInfo = SalesforceHybridSDKTestAppTests;
+		};
+		829DA2911C1264F40040F5F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
+			remoteInfo = SalesforceHybridSDK;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -210,7 +217,6 @@
 		4FF15E671908852E00705FE0 /* com.salesforce.util.exec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.exec.js; sourceTree = "<group>"; };
 		4FF15E681908852E00705FE0 /* com.salesforce.util.logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.logger.js; sourceTree = "<group>"; };
 		4FF15E9C1908860100705FE0 /* cordova.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova.js; path = "../../../../external/cordova-ios/cordova-ios/CordovaLib/cordova.js"; sourceTree = "<group>"; };
-		4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceHybridSDK.xcodeproj; path = ../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj; sourceTree = "<group>"; };
 		8230E2451A24181500EFE764 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		824A9BCE1721FCA400C9BD79 /* SmartSyncExplorerHybrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartSyncExplorerHybrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		824A9BD11721FCA400C9BD79 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -243,6 +249,7 @@
 		8272301A19D764160066A350 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = ../../../../shared/hybrid/InitialViewController.h; sourceTree = "<group>"; };
 		8272301B19D764160066A350 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = ../../../../shared/hybrid/InitialViewController.m; sourceTree = "<group>"; };
 		828B294C174AE06400741BBE /* libCordova.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCordova.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceHybridSDK.xcodeproj; path = ../../../libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj; sourceTree = "<group>"; };
 		82AF5AA51A0DA996006C7A4B /* cordova_plugins.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = cordova_plugins.js; path = ../../../../shared/hybrid/cordova_plugins.js; sourceTree = "<group>"; };
 		82AF5ADF1A0DADA4006C7A4B /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVLogger.h; sourceTree = "<group>"; };
 		82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
@@ -264,7 +271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6AB3D41C10CE0F0012125E /* SalesforceHybridSDK.framework in Frameworks */,
+				829DA2931C1264FF0040F5F1 /* SalesforceHybridSDK.framework in Frameworks */,
 				CE6AB3D31C10CE090012125E /* SmartSync.framework in Frameworks */,
 				CE6AB3D11C10CE040012125E /* SmartStore.framework in Frameworks */,
 				CE6AB3CF1C10CDFE0012125E /* SalesforceRestAPI.framework in Frameworks */,
@@ -352,16 +359,6 @@
 			path = com.salesforce;
 			sourceTree = "<group>";
 		};
-		4FFEE6151BFE916F00B7AA8A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE61C1BFE916F00B7AA8A /* SalesforceHybridSDK.framework */,
-				4FFEE61E1BFE916F00B7AA8A /* SalesforceHybridSDKTestApp.app */,
-				4FFEE6201BFE916F00B7AA8A /* SalesforceHybridSDKTestAppTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		824A9BC51721FCA400C9BD79 = {
 			isa = PBXGroup;
 			children = (
@@ -392,7 +389,7 @@
 				CE6AB3CE1C10CDFD0012125E /* SalesforceRestAPI.framework */,
 				CE6AB3CC1C10CDF70012125E /* SalesforceNetwork.framework */,
 				CE6AB3C71C10CDF10012125E /* SalesforceSDKCore.framework */,
-				4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */,
+				829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */,
 				4F22155E19DF549400FF2D26 /* ImageIO.framework */,
 				4FF15E25190884C600705FE0 /* AssetsLibrary.framework */,
 				828B294C174AE06400741BBE /* libCordova.a */,
@@ -481,6 +478,16 @@
 			name = Classes;
 			sourceTree = "<group>";
 		};
+		829DA2851C1264E40040F5F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				829DA28C1C1264E40040F5F1 /* SalesforceHybridSDK.framework */,
+				829DA28E1C1264E40040F5F1 /* SalesforceHybridSDKTestApp.app */,
+				829DA2901C1264E40040F5F1 /* SalesforceHybridSDKTestAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		82AF5ADD1A0DADA4006C7A4B /* cordova-plugin-console */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,7 +551,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4DB1C0E685F009F6029 /* PBXTargetDependency */,
+				829DA2921C1264F40040F5F1 /* PBXTargetDependency */,
 			);
 			name = SmartSyncExplorerHybrid;
 			productName = SmartSyncExplorerHybrid;
@@ -572,8 +579,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 4FFEE6151BFE916F00B7AA8A /* Products */;
-					ProjectRef = 4FFEE6141BFE916F00B7AA8A /* SalesforceHybridSDK.xcodeproj */;
+					ProductGroup = 829DA2851C1264E40040F5F1 /* Products */;
+					ProjectRef = 829DA2841C1264E40040F5F1 /* SalesforceHybridSDK.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -584,25 +591,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FFEE61C1BFE916F00B7AA8A /* SalesforceHybridSDK.framework */ = {
+		829DA28C1C1264E40040F5F1 /* SalesforceHybridSDK.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SalesforceHybridSDK.framework;
-			remoteRef = 4FFEE61B1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA28B1C1264E40040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE61E1BFE916F00B7AA8A /* SalesforceHybridSDKTestApp.app */ = {
+		829DA28E1C1264E40040F5F1 /* SalesforceHybridSDKTestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = SalesforceHybridSDKTestApp.app;
-			remoteRef = 4FFEE61D1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA28D1C1264E40040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE6201BFE916F00B7AA8A /* SalesforceHybridSDKTestAppTests.xctest */ = {
+		829DA2901C1264E40040F5F1 /* SalesforceHybridSDKTestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SalesforceHybridSDKTestAppTests.xctest;
-			remoteRef = 4FFEE61F1BFE916F00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA28F1C1264E40040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -639,9 +646,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CE4CE4DB1C0E685F009F6029 /* PBXTargetDependency */ = {
+		829DA2921C1264F40040F5F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceHybridSDK;
+			targetProxy = 829DA2911C1264F40040F5F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

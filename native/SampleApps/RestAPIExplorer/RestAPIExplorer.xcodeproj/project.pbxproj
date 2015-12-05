@@ -30,36 +30,43 @@
 		7DF4D3CF1472E3E0005CE144 /* QueryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */; };
 		820275F21651787D00DB814C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820275F11651787D00DB814C /* MessageUI.framework */; };
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
+		829DA2491C125E9A0040F5F1 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
 		CE6AB3841C10C45A0012125E /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3831C10C45A0012125E /* SalesforceNetwork.framework */; };
-		CE6AB3881C10C4680012125E /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE5E31BFE90CA00B7AA8A /* SalesforceRestAPI.framework */; };
 		CE6AB38A1C10C46F0012125E /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3891C10C46F0012125E /* SalesforceSDKCore.framework */; };
 		CE6AB38C1C10C4880012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38B1C10C4880012125E /* libz.tbd */; };
 		CE6AB38E1C10C4940012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38D1C10C4940012125E /* libxml2.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4FFEE5E21BFE90CA00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA2431C125E870040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */;
+			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 82C0C72E16E076DE0006B3C0;
+			remoteGlobalIDString = CE4CE2A31C0E4569009F6029;
 			remoteInfo = SalesforceRestAPI;
 		};
-		4FFEE5E41BFE90CA00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA2451C125E870040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */;
+			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82C0C75D16E07DEB0006B3C0;
-			remoteInfo = SalesforceRestAPIUnitTestApp;
+			remoteInfo = SalesforceRestAPITestApp;
 		};
-		4FFEE5E61BFE90CA00B7AA8A /* PBXContainerItemProxy */ = {
+		829DA2471C125E870040F5F1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */;
+			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 829A08851A323DDF00DC17A5;
-			remoteInfo = SalesforceRestAPITests;
+			remoteInfo = SalesforceRestAPITestAppTests;
+		};
+		829DA24A1C125EBA0040F5F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2A21C0E4569009F6029;
+			remoteInfo = SalesforceRestAPI;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -68,7 +75,6 @@
 		4F473D7117E26DFF000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F84FDFD18DD07D0006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceRestAPI.xcodeproj; path = ../../../libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -93,6 +99,7 @@
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8242E0C915AB823400E9E6AF /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceRestAPI.xcodeproj; path = ../../../libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj; sourceTree = "<group>"; };
 		82E7F5AC17147BC400AC4E27 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialViewController.h; path = Classes/InitialViewController.h; sourceTree = "<group>"; };
 		82E7F5AD17147BC400AC4E27 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialViewController.m; path = Classes/InitialViewController.m; sourceTree = "<group>"; };
 		82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InitialViewController.xib; path = Classes/InitialViewController.xib; sourceTree = "<group>"; };
@@ -107,7 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE6AB3881C10C4680012125E /* SalesforceRestAPI.framework in Frameworks */,
+				829DA2491C125E9A0040F5F1 /* SalesforceRestAPI.framework in Frameworks */,
 				CE6AB3841C10C45A0012125E /* SalesforceNetwork.framework in Frameworks */,
 				CE6AB38A1C10C46F0012125E /* SalesforceSDKCore.framework in Frameworks */,
 				CE6AB38C1C10C4880012125E /* libz.tbd in Frameworks */,
@@ -129,16 +136,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4FFEE5DC1BFE90CA00B7AA8A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				4FFEE5E31BFE90CA00B7AA8A /* SalesforceRestAPI.framework */,
-				4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPITestApp.app */,
-				4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITestAppTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		7DF4D2CE1472E238005CE144 = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +160,7 @@
 				CE6AB38B1C10C4880012125E /* libz.tbd */,
 				CE6AB3891C10C46F0012125E /* SalesforceSDKCore.framework */,
 				CE6AB3831C10C45A0012125E /* SalesforceNetwork.framework */,
-				4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */,
+				829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */,
 				7DF4D2EA1472E238005CE144 /* CFNetwork.framework */,
 				7DF4D2DE1472E238005CE144 /* CoreData.framework */,
 				7DF4D2E81472E238005CE144 /* CoreGraphics.framework */,
@@ -237,6 +234,16 @@
 			name = NativeRestApp;
 			sourceTree = "<group>";
 		};
+		829DA23D1C125E870040F5F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */,
+				829DA2461C125E870040F5F1 /* SalesforceRestAPITestApp.app */,
+				829DA2481C125E870040F5F1 /* SalesforceRestAPITestAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -251,7 +258,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4B61C0E67BD009F6029 /* PBXTargetDependency */,
+				829DA24B1C125EBA0040F5F1 /* PBXTargetDependency */,
 			);
 			name = RestAPIExplorer;
 			productName = RestAPIExplorer;
@@ -283,8 +290,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 4FFEE5DC1BFE90CA00B7AA8A /* Products */;
-					ProjectRef = 4FFEE5DB1BFE90CA00B7AA8A /* SalesforceRestAPI.xcodeproj */;
+					ProductGroup = 829DA23D1C125E870040F5F1 /* Products */;
+					ProjectRef = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -295,25 +302,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		4FFEE5E31BFE90CA00B7AA8A /* SalesforceRestAPI.framework */ = {
+		829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = SalesforceRestAPI.framework;
-			remoteRef = 4FFEE5E21BFE90CA00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA2431C125E870040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5E51BFE90CA00B7AA8A /* SalesforceRestAPITestApp.app */ = {
+		829DA2461C125E870040F5F1 /* SalesforceRestAPITestApp.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = SalesforceRestAPITestApp.app;
-			remoteRef = 4FFEE5E41BFE90CA00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA2451C125E870040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4FFEE5E71BFE90CA00B7AA8A /* SalesforceRestAPITestAppTests.xctest */ = {
+		829DA2481C125E870040F5F1 /* SalesforceRestAPITestAppTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SalesforceRestAPITestAppTests.xctest;
-			remoteRef = 4FFEE5E61BFE90CA00B7AA8A /* PBXContainerItemProxy */;
+			remoteRef = 829DA2471C125E870040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -353,9 +360,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CE4CE4B61C0E67BD009F6029 /* PBXTargetDependency */ = {
+		829DA24B1C125EBA0040F5F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceRestAPI;
+			targetProxy = 829DA24A1C125EBA0040F5F1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

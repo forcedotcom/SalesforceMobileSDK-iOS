@@ -190,6 +190,13 @@
 			remoteGlobalIDString = 82EFF2FE16E8049500A63CDF;
 			remoteInfo = SalesforceHybridSDKTestApp;
 		};
+		829DA2301C125D2F0040F5F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
+			remoteInfo = SmartSync;
+		};
 		82A8C6E81C122998006BBDFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EFF2C816E7C57100A63CDF /* Project object */;
@@ -1100,6 +1107,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				829DA2311C125D2F0040F5F1 /* PBXTargetDependency */,
 				CE4CE4A61C0E609C009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceHybridSDK;
@@ -1283,6 +1291,11 @@
 			isa = PBXTargetDependency;
 			target = 82EFF2FE16E8049500A63CDF /* SalesforceHybridSDKTestApp */;
 			targetProxy = 822272AB19C39F4500FC537E /* PBXContainerItemProxy */;
+		};
+		829DA2311C125D2F0040F5F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartSync;
+			targetProxy = 829DA2301C125D2F0040F5F1 /* PBXContainerItemProxy */;
 		};
 		CE4CE2E71C0E465B009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -153,6 +153,13 @@
 			remoteGlobalIDString = D31108AD1828DB8700737925;
 			remoteInfo = OCMockLibTests;
 		};
+		829DA21B1C125BED0040F5F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
+			remoteInfo = SalesforceSDKCore;
+		};
 		CE0AB0341C10D1BA00BFAEED /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */;
@@ -700,6 +707,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				829DA21C1C125BED0040F5F1 /* PBXTargetDependency */,
 			);
 			name = SalesforceNetwork;
 			productName = SalesforceNetwork;
@@ -911,6 +919,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		829DA21C1C125BED0040F5F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCore;
+			targetProxy = 829DA21B1C125BED0040F5F1 /* PBXContainerItemProxy */;
+		};
 		CE0AB0351C10D1BA00BFAEED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = OCMockLib;
