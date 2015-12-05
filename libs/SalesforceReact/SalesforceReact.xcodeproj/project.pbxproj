@@ -20,6 +20,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		829DA2BB1C126C610040F5F1 /* SFNetReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829DA2BC1C126C670040F5F1 /* SFOauthReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2C01C126D320040F5F1 /* SalesforceReact.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE0AB04A1C10D24E00BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */; };
 		CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		CE4CE4671C0E5B9D009F6029 /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
@@ -82,6 +87,7 @@
 		4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFNetReactBridge.m; path = Classes/SFNetReactBridge.m; sourceTree = "<group>"; };
 		4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
 		CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
 		CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReact.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -115,16 +121,9 @@
 		4F36189D1AA51E3900AE3A65 = {
 			isa = PBXGroup;
 			children = (
-				CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */,
-				CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */,
-				CE65C24A1C0FD59800319E68 /* libz.tbd */,
-				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
-				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
-				CE65C2421C0FD58000319E68 /* SmartStore.framework */,
-				CE65C2401C0FD57200319E68 /* Foundation.framework */,
 				4FABF0481AA51F9000D31E3F /* SalesforceReact */,
 				4F67FECC1B7970C300A957A3 /* Configuration */,
-				4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */,
+				4FFEE5CE1BFE901E00B7AA8A /* Frameworks */,
 				4FABF0471AA51F9000D31E3F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -151,6 +150,7 @@
 		4FABF0481AA51F9000D31E3F /* SalesforceReact */ = {
 			isa = PBXGroup;
 			children = (
+				829DA2C01C126D320040F5F1 /* SalesforceReact.h */,
 				4FABF06C1AA52ECF00D31E3F /* Classes */,
 				4FABF0641AA5226400D31E3F /* Supporting Files */,
 			);
@@ -168,25 +168,32 @@
 		4FABF06C1AA52ECF00D31E3F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */,
-				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
-				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
-				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
-				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
-				4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */,
 				4FF0BCA11B826D4B00ABC91C /* SFNetReactBridge.h */,
 				4FF0BCA21B826D9400ABC91C /* SFNetReactBridge.m */,
+				4FABF0701AA6921E00D31E3F /* SFOauthReactBridge.h */,
+				4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */,
+				4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */,
+				4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */,
+				4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */,
+				4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
 		};
-		4FFEE5CE1BFE901E00B7AA8A /* Frameworkds */ = {
+		4FFEE5CE1BFE901E00B7AA8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
 				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
+				CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */,
+				CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */,
+				CE65C24A1C0FD59800319E68 /* libz.tbd */,
+				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
+				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
+				CE65C2421C0FD58000319E68 /* SmartStore.framework */,
+				CE65C2401C0FD57200319E68 /* Foundation.framework */,
 			);
-			name = Frameworkds;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		4FFEE5D01BFE904100B7AA8A /* Products */ = {
@@ -208,6 +215,21 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		829DA2BA1C126C5C0040F5F1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */,
+				829DA2BB1C126C610040F5F1 /* SFNetReactBridge.h in Headers */,
+				829DA2BC1C126C670040F5F1 /* SFOauthReactBridge.h in Headers */,
+				829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */,
+				829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		CE4CE2F71C0E4673009F6029 /* SalesforceReact */ = {
 			isa = PBXNativeTarget;
@@ -215,6 +237,9 @@
 			buildPhases = (
 				CE4CE2F31C0E4673009F6029 /* Sources */,
 				CE65C23E1C0FD56300319E68 /* Frameworks */,
+				829DA2BA1C126C5C0040F5F1 /* Headers */,
+				829DA2BF1C126C870040F5F1 /* ShellScript */,
+				829DA2D91C1273B50040F5F1 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -294,6 +319,35 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		829DA2BF1C126C870040F5F1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
+		829DA2D91C1273B50040F5F1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s salesforcereact";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CE4CE2F31C0E4673009F6029 /* Sources */ = {
