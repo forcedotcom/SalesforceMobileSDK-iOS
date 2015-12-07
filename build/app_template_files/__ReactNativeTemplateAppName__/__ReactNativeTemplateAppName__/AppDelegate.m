@@ -30,6 +30,7 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFLogger.h>
+#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"__ConnectedAppIdentifier__";
@@ -43,6 +44,9 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
     if (self) {
         [SFLogger setLogLevel:SFLogLevelDebug];
 
+        // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
+        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
+        
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];

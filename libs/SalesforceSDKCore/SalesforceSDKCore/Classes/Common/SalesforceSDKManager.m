@@ -49,16 +49,27 @@ static NSString * const kAppSettingsAccountLogout = @"account_logout_pref";
 // Device id
 static NSString* uid = nil;
 
+// Instance class
+static Class InstanceClass = nil;
+
 @implementation SalesforceSDKManager
+
++ (void)setInstanceClass:(Class)className {
+    InstanceClass = className;
+}
 
 + (instancetype)sharedManager
 {
     static dispatch_once_t pred;
     static SalesforceSDKManager *sdkManager = nil;
-    dispatch_once(&pred, ^{
+    dispatch_once(&pred , ^{
         uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-		sdkManager = [[self alloc] init];
-	});
+        if (InstanceClass) {
+            sdkManager = [[InstanceClass alloc] init];
+        } else {
+            sdkManager = [[self alloc] init];
+        }
+    });
     return sdkManager;
 }
 

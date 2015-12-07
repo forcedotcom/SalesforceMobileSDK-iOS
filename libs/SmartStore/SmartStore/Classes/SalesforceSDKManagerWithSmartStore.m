@@ -1,9 +1,4 @@
 /*
- SmartStore.h
- SmartStore
-
- Created by Wolfgang Mathurin on Mon Dec  7 12:57:49 PST 2015.
-
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,15 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-#import <SmartStore/SFAlterSoupLongOperation.h>
-#import <SmartStore/SFQuerySpec.h>
-#import <SmartStore/SFSmartSqlHelper.h>
-#import <SmartStore/SFSmartStore.h>
-#import <SmartStore/SFSmartStoreDatabaseManager.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
-#import <SmartStore/SFSmartStoreUpgrade.h>
-#import <SmartStore/SFSmartStoreUtils.h>
-#import <SmartStore/SFSoupIndex.h>
-#import <SmartStore/SFStoreCursor.h>
-#import <SmartStore/SqliteAdditions.h>
+#import <Foundation/Foundation.h>
+
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import "SFSmartStore.h"
+#import "SalesforceSDKManagerWithSmartStore.h"
+
+@implementation SalesforceSDKManagerWithSmartStore
+
+- (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
+{
+    [SFSmartStore removeAllStoresForUser:user];
+}
+
+@end

@@ -70,6 +70,11 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 @interface SalesforceSDKManager : NSObject
 
 /**
+ The class instance to be used to instantiate the singleton.
+ */
++ (void)setInstanceClass:(Class)className;
+
+/**
  @return The singleton instance of the SDK Manager.
  */
 + (instancetype)sharedManager;
