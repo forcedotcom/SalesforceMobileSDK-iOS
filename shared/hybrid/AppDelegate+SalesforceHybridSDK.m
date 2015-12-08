@@ -34,6 +34,7 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFLogger.h>
+#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 
 @implementation AppDelegate (SalesforceHybridSDK)
 
@@ -55,6 +56,8 @@
 #endif
     
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
+    // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
+    [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
     __weak AppDelegate *weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
