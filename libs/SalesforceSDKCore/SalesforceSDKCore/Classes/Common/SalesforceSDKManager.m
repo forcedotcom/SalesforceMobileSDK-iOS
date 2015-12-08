@@ -712,7 +712,6 @@ static Class InstanceClass = nil;
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
 
-    // FIXME-REORG [SFSmartStore removeAllStoresForUser:user];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

@@ -1,7 +1,6 @@
 #import "SalesforceSDKManager.h"
 
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
 #import "SFUserAccount.h"
 #import "SFSDKAppConfig.h"
 
@@ -21,7 +20,7 @@
 
 @end
 
-@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
+@interface SalesforceSDKManager () <SalesforceSDKManagerFlow, SFUserAccountManagerDelegate>
 {
     BOOL _isLaunching;
     UIViewController *_snapshotViewController;

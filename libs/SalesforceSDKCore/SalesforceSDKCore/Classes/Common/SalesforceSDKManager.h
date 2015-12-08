@@ -25,6 +25,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "SFAuthenticationManager.h"
 #import "SalesforceSDKCoreDefines.h"
 
 @class SFUserAccount, SFSDKAppConfig;
@@ -67,7 +68,7 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
  including the orchestration of authentication, passcode displaying, and management of app
  backgrounding and foregrounding state.
  */
-@interface SalesforceSDKManager : NSObject
+@interface SalesforceSDKManager : NSObject <SFAuthenticationManagerDelegate>
 
 /**
  The class instance to be used to instantiate the singleton.

@@ -32,6 +32,7 @@
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
+    [super authManager:manager willLogoutUser:user];
     [SFSmartStore removeAllStoresForUser:user];
 }
 
