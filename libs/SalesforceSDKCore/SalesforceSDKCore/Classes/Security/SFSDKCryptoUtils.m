@@ -25,7 +25,7 @@
 #import "SFSDKCryptoUtils.h"
 #import "SFPBKDFData.h"
 #import <CommonCrypto/CommonCrypto.h>
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import "NSData+SFAdditions.h"
 #import <Security/Security.h>
 
 // Public constants

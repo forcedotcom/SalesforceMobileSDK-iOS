@@ -24,7 +24,7 @@
 
 #import "SFUserActivityMonitor.h"
 #import "SFApplication.h"
-#import <SalesforceSDKCore/SFInactivityTimerCenter.h>
+#import "SFInactivityTimerCenter.h"
 
 // Singleton instance
 static SFUserActivityMonitor *_instance;
