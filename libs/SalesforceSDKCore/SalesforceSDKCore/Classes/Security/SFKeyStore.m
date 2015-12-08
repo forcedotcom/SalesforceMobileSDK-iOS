@@ -23,8 +23,8 @@
  */
 
 #import "SFKeyStore+Internal.h"
-#import <SalesforceSDKCore/SFCrypto.h>
-#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import "SFCrypto.h"
+#import "SFKeychainItemWrapper.h"
 #import "SFSDKCryptoUtils.h"
 
 @implementation SFKeyStore

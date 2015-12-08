@@ -23,7 +23,7 @@
  */
 
 #import "SFSHA256PasscodeProvider.h"
-#import <SalesforceSDKCore/SFKeychainItemWrapper.h>
+#import "SFKeychainItemWrapper.h"
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 

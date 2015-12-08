@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
                      :submodules => true }
   
   s.requires_arc = true
+  s.default_subspec  = 'SalesforceSDKCore'
 
   s.subspec 'SalesforceSDKCore' do |sdkcore|
 
