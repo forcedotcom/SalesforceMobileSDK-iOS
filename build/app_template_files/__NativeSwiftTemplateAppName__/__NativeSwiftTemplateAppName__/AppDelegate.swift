@@ -113,6 +113,13 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     // MARK: - Private methods
     func initializeAppViewState()
     {
+        if (!NSThread.isMainThread()) {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.initializeAppViewState()
+            }
+            return
+        }
+
         self.window!.rootViewController = InitialViewController(nibName: nil, bundle: nil)
         self.window!.makeKeyAndVisible()
     }
