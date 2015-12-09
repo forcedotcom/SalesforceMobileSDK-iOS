@@ -7,47 +7,73 @@
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
     <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
-    
+
     <target name="all" description="Cleans the projects and builds all libraries">
         <antcall target="clean" />
         <antcall target="buildAll" />
         <antcall target="libPackages" />
     </target>
-    
+
     <target name="buildAll" />
-    
-    <target name="libPackages" depends="packageSmartSync, packageSmartStore, packageSalesforceReact, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
-    
-    <target name="packageSalesforceReact" depends="buildSalesforceReact" description="Packages and builds the Salesforce React library.">
+
+    <target name="libPackages" depends="packageFMDB, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
+
+    <target name="packageFMDB" depends="buildFMDB" description="Packages and builds the FMDB library.">
         <antcall target="packageLib">
-            <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="SalesforceReact.framework" />
-            <param name="headerDir" value="Headers/SalesforceReact" />
+            <param name="projectName" value="fmdb" />
+            <param name="libName" value="libFMDB.a" />
+            <param name="headerDir" value="Headers/fmdb" />
         </antcall>
     </target>
     
-    <target name="buildSalesforceReact">
+    <target name="buildFMDB">
         <antcall target="buildLib">
-            <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="SalesforceReact.framework" />
-            <param name="headerDir" value="Headers/SalesforceReact" />
-            <param name="schemeName" value="SalesforceReact" />
+            <param name="projectName" value="fmdb" />
+            <param name="libName" value="libFMDB.a" />
+            <param name="headerDir" value="Headers/fmdb" />
+            <param name="schemeName" value="FMDB-IOS" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceReact" description="Cleans the build artifacts and output of the Salesforce React library.">
+    <target name="cleanFMDB" description="Cleans the build artifacts and output of the FMDB library.">
         <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceReact" />
-            <param name="libName" value="SalesforceReact.framework" />
-            <param name="headerDir" value="Headers/SalesforceReact" />
-            <param name="schemeName" value="SalesforceReact" />
+            <param name="projectName" value="fmdb" />
+            <param name="libName" value="libFMDB.a" />
+            <param name="headerDir" value="Headers/fmdb" />
+            <param name="schemeName" value="FMDB-IOS" />
+        </antcall>
+    </target>
+
+    <target name="packageLumberjack" depends="buildLumberjack" description="Packages and builds the CocoaLumberjack library.">
+        <antcall target="packageLib">
+            <param name="projectName" value="Lumberjack" />
+            <param name="libName" value="libCocoaLumberjack.a" />
+            <param name="headerDir" value="Headers/Lumberjack" />
+        </antcall>
+    </target>
+    
+    <target name="buildLumberjack">
+        <antcall target="buildLib">
+            <param name="projectName" value="Lumberjack" />
+            <param name="libName" value="libCocoaLumberjack.a" />
+            <param name="headerDir" value="Headers/Lumberjack" />
+            <param name="schemeName" value="CocoaLumberjack-iOS-Static" />
+        </antcall>
+    </target>
+    
+    <target name="cleanLumberjack" description="Cleans the build artifacts and output of the CocoaLumberjack library.">
+        <antcall target="cleanLib">
+            <param name="projectName" value="Lumberjack" />
+            <param name="libName" value="libCocoaLumberjack.a" />
+            <param name="headerDir" value="Headers/Lumberjack" />
+            <param name="schemeName" value="CocoaLumberjack-iOS-Static" />
         </antcall>
     </target>
     
     <target name="packageSalesforceHybridSDK" depends="buildSalesforceHybridSDK" description="Packages and builds the Salesforce Hybrid SDK library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="SalesforceHybridSDK.framework" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
         </antcall>
     </target>
@@ -55,7 +81,7 @@
     <target name="buildSalesforceHybridSDK">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="SalesforceHybridSDK.framework" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
         </antcall>
@@ -64,7 +90,7 @@
     <target name="cleanSalesforceHybridSDK" description="Cleans the build artifacts and output of the Salesforce Hybrid SDK library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceHybridSDK" />
-            <param name="libName" value="SalesforceHybridSDK.framework" />
+            <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
             <param name="schemeName" value="SalesforceHybridSDK" />
         </antcall>
@@ -73,7 +99,7 @@
     <target name="packageSmartSync" depends="buildSmartSync" description="Packages and builds the Salesforce SmartSync library.">
         <antcall target="packageLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="SmartSync.framework" />
+            <param name="libName" value="libSmartSync.a" />
             <param name="headerDir" value="Headers/SmartSync" />
         </antcall>
     </target>
@@ -81,7 +107,7 @@
     <target name="buildSmartSync">
         <antcall target="buildLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="SmartSync.framework" />
+            <param name="libName" value="libSmartSync.a" />
             <param name="headerDir" value="Headers/SmartSync" />
             <param name="schemeName" value="SmartSync" />
         </antcall>
@@ -90,7 +116,7 @@
     <target name="cleanSmartSync" description="Cleans the build artifacts and output of the Salesforce SmartSync library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SmartSync" />
-            <param name="libName" value="SmartSync.framework" />
+            <param name="libName" value="libSmartSync.a" />
             <param name="headerDir" value="Headers/SmartSync" />
             <param name="schemeName" value="SmartSync" />
         </antcall>
@@ -99,7 +125,7 @@
     <target name="packageSmartStore" depends="buildSmartStore" description="Packages and builds the Salesforce SmartStore library.">
         <antcall target="packageLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="SmartStore.framework" />
+            <param name="libName" value="libSmartStore.a" />
             <param name="headerDir" value="Headers/SmartStore" />
         </antcall>
     </target>
@@ -107,7 +133,7 @@
     <target name="buildSmartStore">
         <antcall target="buildLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="SmartStore.framework" />
+            <param name="libName" value="libSmartStore.a" />
             <param name="headerDir" value="Headers/SmartStore" />
             <param name="schemeName" value="SmartStore" />
         </antcall>
@@ -116,16 +142,16 @@
     <target name="cleanSmartStore" description="Cleans the build artifacts and output of the Salesforce SmartStore library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SmartStore" />
-            <param name="libName" value="SmartStore.framework" />
+            <param name="libName" value="libSmartStore.a" />
             <param name="headerDir" value="Headers/SmartStore" />
             <param name="schemeName" value="SmartStore" />
         </antcall>
     </target>
     
-    <target name="packageSalesforceRestAPI" depends="buildSalesforceRestAPI" description="Builds the Salesforce Native SDK library.">
+    <target name="packageSalesforceRestAPI" depends="buildSalesforceRestAPI" description="Builds the SalesforceRestAPI library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="SalesforceRestAPI.framework" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
         </antcall>
     </target>
@@ -133,25 +159,25 @@
     <target name="buildSalesforceRestAPI">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="SalesforceRestAPI.framework" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
             <param name="schemeName" value="SalesforceRestAPI" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceRestAPI" description="Cleans the build artifacts and output of the Salesforce Native SDK library.">
+    <target name="cleanSalesforceRestAPI" description="Cleans the build artifacts and output of the SalesforceRestAPI library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="SalesforceRestAPI.framework" />
+            <param name="libName" value="libSalesforceRestAPI.a" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
             <param name="schemeName" value="SalesforceRestAPI" />
         </antcall>
     </target>
     
-    <target name="packageSalesforceSDKCore" depends="buildSalesforceSDKCore" description="Builds the Salesforce SDK Core library.">
+    <target name="packageSalesforceSDKCore" depends="buildSalesforceSDKCore" description="Builds the SalesforceSDKCore library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="SalesforceSDKCore.framework" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
         </antcall>
     </target>
@@ -159,25 +185,25 @@
     <target name="buildSalesforceSDKCore">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="SalesforceSDKCore.framework" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceSDKCore" description="Cleans the build artifacts and output of the Salesforce SDK Core library.">
+    <target name="cleanSalesforceSDKCore" description="Cleans the build artifacts and output of the SalesforceSDKCore library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceSDKCore" />
-            <param name="libName" value="SalesforceSDKCore.framework" />
+            <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
             <param name="schemeName" value="SalesforceSDKCore" />
         </antcall>
     </target>
     
-    <target name="packageSalesforceNetwork" depends="buildSalesforceNetwork" description="Builds the Salesforce Network SDK library.">
+    <target name="packageSalesforceNetwork" depends="buildSalesforceNetwork" description="Builds the SalesforceNetwork library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="SalesforceNetwork.framework" />
+            <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
         </antcall>
     </target>
@@ -185,16 +211,16 @@
     <target name="buildSalesforceNetwork">
         <antcall target="buildLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="SalesforceNetwork.framework" />
+            <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
             <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceNetwork" description="Cleans the build artifacts and output of the Salesforce Network SDK library.">
+    <target name="cleanSalesforceNetwork" description="Cleans the build artifacts and output of the SalesforceNetwork library.">
         <antcall target="cleanLib">
             <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="SalesforceNetwork.framework" />
+            <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
             <param name="schemeName" value="SalesforceNetwork" />
         </antcall>
@@ -341,7 +367,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanSmartSync, cleanSmartStore, cleanSalesforceReact, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanFMDB, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>
