@@ -124,6 +124,13 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 
 - (void)initializeAppViewState
 {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self initializeAppViewState];
+        });
+        return;
+    }
+
     self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
     [self.window makeKeyAndVisible];
 }
