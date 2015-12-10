@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA8832F1C1910F6008D871B"
-               BuildableName = "libSalesforceNetworkStatic.a"
+               BuildableName = "libSalesforceNetwork.a"
                BlueprintName = "SalesforceNetworkStatic"
                ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA8832F1C1910F6008D871B"
-            BuildableName = "libSalesforceNetworkStatic.a"
+            BuildableName = "libSalesforceNetwork.a"
             BlueprintName = "SalesforceNetworkStatic"
             ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA8832F1C1910F6008D871B"
-            BuildableName = "libSalesforceNetworkStatic.a"
+            BuildableName = "libSalesforceNetwork.a"
             BlueprintName = "SalesforceNetworkStatic"
             ReferencedContainer = "container:SalesforceNetwork.xcodeproj">
          </BuildableReference>

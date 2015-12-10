@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA883911C19135D008D871B"
-               BuildableName = "libSalesforceRestAPIStatic.a"
+               BuildableName = "libSalesforceRestAPI.a"
                BlueprintName = "SalesforceRestAPIStatic"
                ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA883911C19135D008D871B"
-            BuildableName = "libSalesforceRestAPIStatic.a"
+            BuildableName = "libSalesforceRestAPI.a"
             BlueprintName = "SalesforceRestAPIStatic"
             ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA883911C19135D008D871B"
-            BuildableName = "libSalesforceRestAPIStatic.a"
+            BuildableName = "libSalesforceRestAPI.a"
             BlueprintName = "SalesforceRestAPIStatic"
             ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
          </BuildableReference>

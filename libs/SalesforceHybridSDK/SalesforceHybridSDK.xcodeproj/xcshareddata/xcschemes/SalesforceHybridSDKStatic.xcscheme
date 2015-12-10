@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA884421C191795008D871B"
-               BuildableName = "libSalesforceHybridSDKStatic.a"
+               BuildableName = "libSalesforceHybridSDK.a"
                BlueprintName = "SalesforceHybridSDKStatic"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA884421C191795008D871B"
-            BuildableName = "libSalesforceHybridSDKStatic.a"
+            BuildableName = "libSalesforceHybridSDK.a"
             BlueprintName = "SalesforceHybridSDKStatic"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA884421C191795008D871B"
-            BuildableName = "libSalesforceHybridSDKStatic.a"
+            BuildableName = "libSalesforceHybridSDK.a"
             BlueprintName = "SalesforceHybridSDKStatic"
             ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
          </BuildableReference>
@@ -75,6 +75,7 @@
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"
+      customArchiveName = "SalesforceHybridSDK"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

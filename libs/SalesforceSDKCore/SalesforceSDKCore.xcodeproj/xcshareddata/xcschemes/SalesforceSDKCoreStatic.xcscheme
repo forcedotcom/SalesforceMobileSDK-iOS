@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CEA8825E1C18F722008D871B"
-               BuildableName = "libSalesforceSDKCoreStatic.a"
+               BuildableName = "libSalesforceSDKCore.a"
                BlueprintName = "SalesforceSDKCoreStatic"
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA8825E1C18F722008D871B"
-            BuildableName = "libSalesforceSDKCoreStatic.a"
+            BuildableName = "libSalesforceSDKCore.a"
             BlueprintName = "SalesforceSDKCoreStatic"
             ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CEA8825E1C18F722008D871B"
-            BuildableName = "libSalesforceSDKCoreStatic.a"
+            BuildableName = "libSalesforceSDKCore.a"
             BlueprintName = "SalesforceSDKCoreStatic"
             ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
