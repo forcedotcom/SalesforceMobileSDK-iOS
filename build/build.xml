@@ -48,7 +48,7 @@
         <antcall target="packageLib">
             <param name="projectName" value="Lumberjack" />
             <param name="libName" value="libCocoaLumberjack.a" />
-            <param name="headerDir" value="Headers/Lumberjack" />
+            <param name="headerDir" value="Headers/CocoaLumberjack" />
         </antcall>
     </target>
     
@@ -56,7 +56,7 @@
         <antcall target="buildLib">
             <param name="projectName" value="Lumberjack" />
             <param name="libName" value="libCocoaLumberjack.a" />
-            <param name="headerDir" value="Headers/Lumberjack" />
+            <param name="headerDir" value="Headers/CocoaLumberjack" />
             <param name="schemeName" value="CocoaLumberjack-iOS-Static" />
         </antcall>
     </target>
@@ -65,7 +65,7 @@
         <antcall target="cleanLib">
             <param name="projectName" value="Lumberjack" />
             <param name="libName" value="libCocoaLumberjack.a" />
-            <param name="headerDir" value="Headers/Lumberjack" />
+            <param name="headerDir" value="Headers/CocoaLumberjack" />
             <param name="schemeName" value="CocoaLumberjack-iOS-Static" />
         </antcall>
     </target>
