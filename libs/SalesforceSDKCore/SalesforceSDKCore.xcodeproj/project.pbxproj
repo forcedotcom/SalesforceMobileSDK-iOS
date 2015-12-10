@@ -266,7 +266,7 @@
 		CEA882921C18FAAB008D871B /* SFInactivityTimerCenter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CA1BFFF47D005368C5 /* SFInactivityTimerCenter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA882931C18FAAB008D871B /* SFInactivityTimerCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CB1BFFF47D005368C5 /* SFInactivityTimerCenter.m */; };
 		CEA882941C18FAAB008D871B /* SFKeychainItemWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CC1BFFF47D005368C5 /* SFKeychainItemWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA882951C18FAAB008D871B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CD1BFFF47D005368C5 /* SFKeychainItemWrapper.m */; };
+		CEA882951C18FAAB008D871B /* SFKeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945CD1BFFF47D005368C5 /* SFKeychainItemWrapper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CEA882961C18FAAB008D871B /* SFKeychainItemWrapper+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CE1BFFF47D005368C5 /* SFKeychainItemWrapper+Internal.h */; };
 		CEA882971C18FAAB008D871B /* SFPathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF945CF1BFFF47D005368C5 /* SFPathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA882981C18FAAB008D871B /* SFPathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF945D01BFFF47D005368C5 /* SFPathUtil.m */; };
