@@ -153,12 +153,19 @@
 			remoteGlobalIDString = 6290CBB4188FE836009790F8;
 			remoteInfo = "FMDB-IOS";
 		};
-		CEA883C71C191566008D871B /* PBXContainerItemProxy */ = {
+		CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 6290CBB4188FE836009790F8;
-			remoteInfo = "FMDB-IOS";
+			remoteGlobalIDString = CEA884AA1C1A24B1008D871B;
+			remoteInfo = "FMDB-IOS-Static";
+		};
+		CEA884E11C1A4134008D871B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA884C11C1A24B1008D871B;
+			remoteInfo = "FMDB-IOS-Static";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -299,6 +306,7 @@
 				CE0021B21C06694E0079DCA4 /* libFMDB.a */,
 				CE0021B41C06694E0079DCA4 /* Tests.xctest */,
 				CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */,
+				CEA884E21C1A4134008D871B /* libFMDB.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -526,7 +534,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEA883C81C191566008D871B /* PBXTargetDependency */,
+				CEA884DF1C1A4134008D871B /* PBXTargetDependency */,
 			);
 			name = SmartStoreStatic;
 			productName = SmartStoreStatic;
@@ -624,6 +632,13 @@
 			fileType = archive.ar;
 			path = "libFMDB-IOS.a";
 			remoteRef = CE0021B51C06694E0079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEA884E21C1A4134008D871B /* libFMDB.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libFMDB.a;
+			remoteRef = CEA884E11C1A4134008D871B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -746,10 +761,10 @@
 			target = CE4CE2B81C0E4581009F6029 /* SmartStore */;
 			targetProxy = 82A8C6E61C122998006BBDFE /* PBXContainerItemProxy */;
 		};
-		CEA883C81C191566008D871B /* PBXTargetDependency */ = {
+		CEA884DF1C1A4134008D871B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "FMDB-IOS";
-			targetProxy = CEA883C71C191566008D871B /* PBXContainerItemProxy */;
+			name = "FMDB-IOS-Static";
+			targetProxy = CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
