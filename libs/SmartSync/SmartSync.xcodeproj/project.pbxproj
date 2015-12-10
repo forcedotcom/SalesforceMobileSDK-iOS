@@ -98,6 +98,54 @@
 		CE65C2281C0FD45A00319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2271C0FD45A00319E68 /* SalesforceSDKCore.framework */; };
 		CE65C22A1C0FD45F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
 		CE65C22B1C0FD46A00319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAAD71B61920A00F4C242 /* SalesforceRestAPI.framework */; };
+		CEA884091C1916A5008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
+		CEA884101C1916E0008D871B /* SmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* SmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884111C1916E8008D871B /* SFSmartSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884121C1916E8008D871B /* SFSmartSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */; };
+		CEA884131C1916E8008D871B /* SFSmartSyncMetadataManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884141C1916E8008D871B /* SFSmartSyncMetadataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */; };
+		CEA884151C1916E8008D871B /* SFSmartSyncCacheManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEDA4EE119747AC30009D865 /* SFSmartSyncCacheManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884161C1916E8008D871B /* SFSmartSyncCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDA4EE219747AC30009D865 /* SFSmartSyncCacheManager.m */; };
+		CEA884171C1916FA008D871B /* SFObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7B196B3EB60076264C /* SFObject+Internal.h */; };
+		CEA884181C1916FA008D871B /* SFObject.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7C196B3EB60076264C /* SFObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884191C1916FA008D871B /* SFObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A7D196B3EB60076264C /* SFObject.m */; };
+		CEA8841A1C1916FA008D871B /* SFObjectType+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7E196B3EB60076264C /* SFObjectType+Internal.h */; };
+		CEA8841B1C1916FA008D871B /* SFObjectType.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A7F196B3EB60076264C /* SFObjectType.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8841C1C1916FA008D871B /* SFObjectType.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A80196B3EB60076264C /* SFObjectType.m */; };
+		CEA8841D1C1916FA008D871B /* SFObjectTypeLayout+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A81196B3EB60076264C /* SFObjectTypeLayout+Internal.h */; };
+		CEA8841E1C1916FA008D871B /* SFObjectTypeLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A82196B3EB60076264C /* SFObjectTypeLayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8841F1C1916FA008D871B /* SFObjectTypeLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A83196B3EB60076264C /* SFObjectTypeLayout.m */; };
+		CEA884201C1916FA008D871B /* SFSmartSyncPersistableObject+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 820789231A1D26D9009E9831 /* SFSmartSyncPersistableObject+Internal.h */; };
+		CEA884211C1916FA008D871B /* SFSmartSyncPersistableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 8207891D1A1BBC56009E9831 /* SFSmartSyncPersistableObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884221C1916FA008D871B /* SFSmartSyncPersistableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 820789211A1D2555009E9831 /* SFSmartSyncPersistableObject.m */; };
+		CEA884231C191719008D871B /* SFMruSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FD0771A8D7E9B006E1795 /* SFMruSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884241C191719008D871B /* SFMruSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FD0741A8D7E9B006E1795 /* SFMruSyncDownTarget.m */; };
+		CEA884251C191719008D871B /* SFSmartSyncConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = CE617397196F469A00C63BDE /* SFSmartSyncConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884261C191719008D871B /* SFSmartSyncConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = CE617398196F469A00C63BDE /* SFSmartSyncConstants.m */; };
+		CEA884271C191719008D871B /* SFSmartSyncNetworkUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 828E0E441AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884281C191719008D871B /* SFSmartSyncNetworkUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E0E451AAFD171004E0AF2 /* SFSmartSyncNetworkUtils.m */; };
+		CEA884291C191719008D871B /* SFSmartSyncObjectUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = CECDF83F19A5468E007A29E5 /* SFSmartSyncObjectUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8842A1C191719008D871B /* SFSmartSyncObjectUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = CECDF84019A5468E007A29E5 /* SFSmartSyncObjectUtils.m */; };
+		CEA8842B1C191719008D871B /* SFSmartSyncSoqlBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A8B196B57190076264C /* SFSmartSyncSoqlBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8842C1C191719008D871B /* SFSmartSyncSoqlBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A8C196B57190076264C /* SFSmartSyncSoqlBuilder.m */; };
+		CEA8842D1C191719008D871B /* SFSmartSyncSoslBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A8D196B57190076264C /* SFSmartSyncSoslBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8842E1C191719008D871B /* SFSmartSyncSoslBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A8E196B57190076264C /* SFSmartSyncSoslBuilder.m */; };
+		CEA8842F1C191719008D871B /* SFSmartSyncSoslReturningBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF50A8F196B57190076264C /* SFSmartSyncSoslReturningBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884301C191719008D871B /* SFSmartSyncSoslReturningBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A90196B57190076264C /* SFSmartSyncSoslReturningBuilder.m */; };
+		CEA884311C191719008D871B /* SFSoqlSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FD0751A8D7E9B006E1795 /* SFSoqlSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884321C191719008D871B /* SFSoqlSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FD0731A8D7E9B006E1795 /* SFSoqlSyncDownTarget.m */; };
+		CEA884331C191719008D871B /* SFSoslSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FD0761A8D7E9B006E1795 /* SFSoslSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884341C191719008D871B /* SFSoslSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FD0721A8D7E9B006E1795 /* SFSoslSyncDownTarget.m */; };
+		CEA884351C191719008D871B /* SFSyncOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1283701A018ED9007F87EC /* SFSyncOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884361C191719008D871B /* SFSyncOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F12836E1A018ED9007F87EC /* SFSyncOptions.m */; };
+		CEA884371C191719008D871B /* SFSyncUpTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 828722211AAF8D050082A2F9 /* SFSyncUpTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA884381C191719008D871B /* SFSyncUpTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 828722221AAF8D050082A2F9 /* SFSyncUpTarget.m */; };
+		CEA884391C191719008D871B /* SFSyncState.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F12836A1A004A1B007F87EC /* SFSyncState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8843A1C191719008D871B /* SFSyncState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F12836B1A004A1B007F87EC /* SFSyncState.m */; };
+		CEA8843B1C191719008D871B /* SFSyncDownTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1283711A018ED9007F87EC /* SFSyncDownTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8843C1C191719008D871B /* SFSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F12836F1A018ED9007F87EC /* SFSyncDownTarget.m */; };
+		CEA8843D1C191719008D871B /* SFSyncTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEA8843E1C191719008D871B /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
@@ -161,6 +209,34 @@
 			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
 			remoteInfo = SmartSync;
 		};
+		CEA883FA1C19160E008D871B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAACF1B61920A00F4C242 /* SalesforceRestAPI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA883921C19135D008D871B;
+			remoteInfo = SalesforceRestAPIStatic;
+		};
+		CEA883FF1C19160E008D871B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA883BA1C1914DE008D871B;
+			remoteInfo = SmartStoreStatic;
+		};
+		CEA884031C19167B008D871B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5B31BFE8F8800B7AA8A /* SmartStore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA883B91C1914DE008D871B;
+			remoteInfo = SmartStoreStatic;
+		};
+		CEA884051C191680008D871B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F7EAACF1B61920A00F4C242 /* SalesforceRestAPI.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA883911C19135D008D871B;
+			remoteInfo = SalesforceRestAPIStatic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -221,6 +297,11 @@
 		CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartSync-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Static-iOS-Release.xcconfig"; path = "Configuration/SmartSync-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartSync-Test.xcconfig"; path = "Configuration/SmartSync-Test.xcconfig"; sourceTree = "<group>"; };
+		CEA883EE1C19160E008D871B /* libSmartSync.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartSync.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEA8840C1C1916C5008D871B /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = "../SalesforceNetwork/build/Debug-iphoneos/libSalesforceNetwork.a"; sourceTree = "<group>"; };
+		CEA8840E1C1916CC008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
+		CEA884811C191F0A008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		CEA884831C191F4E008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE4C195911E600CBBFE9 /* SmartSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartSync-Prefix.pch"; sourceTree = "<group>"; };
 		CEAAAE55195911E600CBBFE9 /* SmartSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,6 +347,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CEA883EB1C19160E008D871B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA884091C1916A5008D871B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE52195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,6 +391,7 @@
 			children = (
 				4FFEE5BD1BFE8F8800B7AA8A /* SmartStore.framework */,
 				4FFEE5BF1BFE8F8800B7AA8A /* SmartStoreTests.xctest */,
+				CEA884001C19160E008D871B /* libSmartStore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -312,6 +402,7 @@
 				6F7EAAD71B61920A00F4C242 /* SalesforceRestAPI.framework */,
 				6F7EAAD91B61920A00F4C242 /* SalesforceRestAPITestApp.app */,
 				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITestAppTests.xctest */,
+				CEA883FB1C19160E008D871B /* libSalesforceRestAPI.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -352,6 +443,7 @@
 			children = (
 				CEAAAE55195911E600CBBFE9 /* SmartSyncTests.xctest */,
 				CE4CE2C91C0E463C009F6029 /* SmartSync.framework */,
+				CEA883EE1C19160E008D871B /* libSmartSync.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -359,6 +451,10 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA884831C191F4E008D871B /* SalesforceSDKCore.framework */,
+				CEA884811C191F0A008D871B /* SalesforceSDKCore.framework */,
+				CEA8840E1C1916CC008D871B /* libSalesforceSDKCore.a */,
+				CEA8840C1C1916C5008D871B /* libSalesforceNetwork.a */,
 				CE0AB0831C10D42300BFAEED /* SalesforceNetwork.framework */,
 				CE0AB0811C10D41D00BFAEED /* SalesforceSDKCore.framework */,
 				CE0AB07F1C10D41700BFAEED /* libFMDB-IOS.a */,
@@ -539,6 +635,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CEA884021C19166E008D871B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA884181C1916FA008D871B /* SFObject.h in Headers */,
+				CEA884171C1916FA008D871B /* SFObject+Internal.h in Headers */,
+				CEA884391C191719008D871B /* SFSyncState.h in Headers */,
+				CEA884131C1916E8008D871B /* SFSmartSyncMetadataManager.h in Headers */,
+				CEA8843B1C191719008D871B /* SFSyncDownTarget.h in Headers */,
+				CEA884371C191719008D871B /* SFSyncUpTarget.h in Headers */,
+				CEA8842D1C191719008D871B /* SFSmartSyncSoslBuilder.h in Headers */,
+				CEA884291C191719008D871B /* SFSmartSyncObjectUtils.h in Headers */,
+				CEA884271C191719008D871B /* SFSmartSyncNetworkUtils.h in Headers */,
+				CEA8842F1C191719008D871B /* SFSmartSyncSoslReturningBuilder.h in Headers */,
+				CEA884101C1916E0008D871B /* SmartSync.h in Headers */,
+				CEA8842B1C191719008D871B /* SFSmartSyncSoqlBuilder.h in Headers */,
+				CEA884251C191719008D871B /* SFSmartSyncConstants.h in Headers */,
+				CEA884111C1916E8008D871B /* SFSmartSyncSyncManager.h in Headers */,
+				CEA884201C1916FA008D871B /* SFSmartSyncPersistableObject+Internal.h in Headers */,
+				CEA884311C191719008D871B /* SFSoqlSyncDownTarget.h in Headers */,
+				CEA884211C1916FA008D871B /* SFSmartSyncPersistableObject.h in Headers */,
+				CEA884151C1916E8008D871B /* SFSmartSyncCacheManager.h in Headers */,
+				CEA884231C191719008D871B /* SFMruSyncDownTarget.h in Headers */,
+				CEA8841D1C1916FA008D871B /* SFObjectTypeLayout+Internal.h in Headers */,
+				CEA884351C191719008D871B /* SFSyncOptions.h in Headers */,
+				CEA884331C191719008D871B /* SFSoslSyncDownTarget.h in Headers */,
+				CEA8841B1C1916FA008D871B /* SFObjectType.h in Headers */,
+				CEA8841E1C1916FA008D871B /* SFObjectTypeLayout.h in Headers */,
+				CEA8841A1C1916FA008D871B /* SFObjectType+Internal.h in Headers */,
+				CEA8843D1C191719008D871B /* SFSyncTarget.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -562,6 +691,25 @@
 			productName = SmartSync;
 			productReference = CE4CE2C91C0E463C009F6029 /* SmartSync.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		CEA883ED1C19160E008D871B /* SmartSyncStatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CEA884011C19160E008D871B /* Build configuration list for PBXNativeTarget "SmartSyncStatic" */;
+			buildPhases = (
+				CEA883EA1C19160E008D871B /* Sources */,
+				CEA883EB1C19160E008D871B /* Frameworks */,
+				CEA884021C19166E008D871B /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CEA884061C191680008D871B /* PBXTargetDependency */,
+				CEA884041C19167B008D871B /* PBXTargetDependency */,
+			);
+			name = SmartSyncStatic;
+			productName = SmartSyncStatic;
+			productReference = CEA883EE1C19160E008D871B /* libSmartSync.a */;
+			productType = "com.apple.product-type.library.static";
 		};
 		CEAAAE54195911E600CBBFE9 /* SmartSyncTests */ = {
 			isa = PBXNativeTarget;
@@ -594,6 +742,10 @@
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = 7CEJFQ772U;
 					};
+					CEA883ED1C19160E008D871B = {
+						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 7CEJFQ772U;
+					};
 				};
 			};
 			buildConfigurationList = CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */;
@@ -621,6 +773,7 @@
 				CE4CE2C81C0E463C009F6029 /* SmartSync */,
 				CEAAAE54195911E600CBBFE9 /* SmartSyncTests */,
 				CEAAAE75195A181000CBBFE9 /* Documentation */,
+				CEA883ED1C19160E008D871B /* SmartSyncStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -659,6 +812,20 @@
 			fileType = wrapper.cfbundle;
 			path = SalesforceRestAPITestAppTests.xctest;
 			remoteRef = 6F7EAADA1B61920A00F4C242 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEA883FB1C19160E008D871B /* libSalesforceRestAPI.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceRestAPI.a;
+			remoteRef = CEA883FA1C19160E008D871B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CEA884001C19160E008D871B /* libSmartStore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSmartStore.a;
+			remoteRef = CEA883FF1C19160E008D871B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -746,6 +913,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CEA883EA1C19160E008D871B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEA884161C1916E8008D871B /* SFSmartSyncCacheManager.m in Sources */,
+				CEA884381C191719008D871B /* SFSyncUpTarget.m in Sources */,
+				CEA884261C191719008D871B /* SFSmartSyncConstants.m in Sources */,
+				CEA8842C1C191719008D871B /* SFSmartSyncSoqlBuilder.m in Sources */,
+				CEA884361C191719008D871B /* SFSyncOptions.m in Sources */,
+				CEA8842E1C191719008D871B /* SFSmartSyncSoslBuilder.m in Sources */,
+				CEA884241C191719008D871B /* SFMruSyncDownTarget.m in Sources */,
+				CEA884301C191719008D871B /* SFSmartSyncSoslReturningBuilder.m in Sources */,
+				CEA8841C1C1916FA008D871B /* SFObjectType.m in Sources */,
+				CEA884341C191719008D871B /* SFSoslSyncDownTarget.m in Sources */,
+				CEA884191C1916FA008D871B /* SFObject.m in Sources */,
+				CEA8841F1C1916FA008D871B /* SFObjectTypeLayout.m in Sources */,
+				CEA8842A1C191719008D871B /* SFSmartSyncObjectUtils.m in Sources */,
+				CEA884141C1916E8008D871B /* SFSmartSyncMetadataManager.m in Sources */,
+				CEA8843C1C191719008D871B /* SFSyncDownTarget.m in Sources */,
+				CEA884221C1916FA008D871B /* SFSmartSyncPersistableObject.m in Sources */,
+				CEA884321C191719008D871B /* SFSoqlSyncDownTarget.m in Sources */,
+				CEA8843A1C191719008D871B /* SFSyncState.m in Sources */,
+				CEA884281C191719008D871B /* SFSmartSyncNetworkUtils.m in Sources */,
+				CEA884121C1916E8008D871B /* SFSmartSyncSyncManager.m in Sources */,
+				CEA8843E1C191719008D871B /* SFSyncTarget.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE51195911E600CBBFE9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -774,6 +969,16 @@
 			isa = PBXTargetDependency;
 			target = CE4CE2C81C0E463C009F6029 /* SmartSync */;
 			targetProxy = 82A8C6E71C122998006BBDFE /* PBXContainerItemProxy */;
+		};
+		CEA884041C19167B008D871B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SmartStoreStatic;
+			targetProxy = CEA884031C19167B008D871B /* PBXContainerItemProxy */;
+		};
+		CEA884061C191680008D871B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceRestAPIStatic;
+			targetProxy = CEA884051C191680008D871B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -841,6 +1046,51 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		CEA883F41C19160E008D871B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSync;
+				PRODUCT_NAME = SmartSync;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CEA883F51C19160E008D871B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2",
+					"-lz",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SmartSync;
+				PRODUCT_NAME = SmartSync;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -990,6 +1240,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		CEA884011C19160E008D871B /* Build configuration list for PBXNativeTarget "SmartSyncStatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CEA883F41C19160E008D871B /* Debug */,
+				CEA883F51C19160E008D871B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */ = {
 			isa = XCConfigurationList;
