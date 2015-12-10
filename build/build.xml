@@ -31,7 +31,7 @@
             <param name="projectName" value="fmdb" />
             <param name="libName" value="libFMDB.a" />
             <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS" />
+            <param name="schemeName" value="FMDB-IOS-Static" />
         </antcall>
     </target>
     
@@ -40,7 +40,7 @@
             <param name="projectName" value="fmdb" />
             <param name="libName" value="libFMDB.a" />
             <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS" />
+            <param name="schemeName" value="FMDB-IOS-Static" />
         </antcall>
     </target>
 
