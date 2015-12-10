@@ -99,9 +99,6 @@
 		CE65C22A1C0FD45F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
 		CE65C22B1C0FD46A00319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAAD71B61920A00F4C242 /* SalesforceRestAPI.framework */; };
 		CEA884091C1916A5008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
-		CEA8840A1C1916B1008D871B /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884001C19160E008D871B /* libSmartStore.a */; };
-		CEA8840B1C1916B9008D871B /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA883FB1C19160E008D871B /* libSalesforceRestAPI.a */; };
-		CEA8840D1C1916C5008D871B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8840C1C1916C5008D871B /* libSalesforceNetwork.a */; };
 		CEA884101C1916E0008D871B /* SmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* SmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA884111C1916E8008D871B /* SFSmartSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA884121C1916E8008D871B /* SFSmartSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */; };
@@ -149,7 +146,6 @@
 		CEA8843C1C191719008D871B /* SFSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F12836F1A018ED9007F87EC /* SFSyncDownTarget.m */; };
 		CEA8843D1C191719008D871B /* SFSyncTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8843E1C191719008D871B /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */; };
-		CEA884841C191F4E008D871B /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884831C191F4E008D871B /* SalesforceSDKCore.framework */; };
 		CEAAAE57195911E600CBBFE9 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE56195911E600CBBFE9 /* XCTest.framework */; };
 		CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEAAAE63195911E600CBBFE9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
@@ -355,10 +351,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEA884841C191F4E008D871B /* SalesforceSDKCore.framework in Frameworks */,
-				CEA8840D1C1916C5008D871B /* libSalesforceNetwork.a in Frameworks */,
-				CEA8840B1C1916B9008D871B /* libSalesforceRestAPI.a in Frameworks */,
-				CEA8840A1C1916B1008D871B /* libSmartStore.a in Frameworks */,
 				CEA884091C1916A5008D871B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

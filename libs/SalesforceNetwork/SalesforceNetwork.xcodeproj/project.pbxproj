@@ -102,7 +102,6 @@
 		CE4CE4841C0E5EB9009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE4831C0E5EB9009F6029 /* Foundation.framework */; };
 		CE65C20F1C0FD28800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */; };
 		CE65C2151C0FD29F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
-		CEA883461C1911FD008D871B /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA883411C1910F6008D871B /* libSalesforceSDKCore.a */; };
 		CEA883471C191204008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE4831C0E5EB9009F6029 /* Foundation.framework */; };
 		CEA883491C191253008D871B /* SalesforceNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A51C1266870040F5F1 /* SalesforceNetwork.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8834A1C19125D008D871B /* NSDate+ActionValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */; };
@@ -403,7 +402,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA883471C191204008D871B /* Foundation.framework in Frameworks */,
-				CEA883461C1911FD008D871B /* libSalesforceSDKCore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

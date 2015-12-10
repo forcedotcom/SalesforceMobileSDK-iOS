@@ -160,12 +160,6 @@
 		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
-		CEA884591C19183B008D871B /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884581C19183B008D871B /* libFMDB-IOS.a */; };
-		CEA8845A1C191840008D871B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
-		CEA8845C1C191850008D871B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8845B1C191850008D871B /* libSalesforceNetwork.a */; };
-		CEA8845E1C191859008D871B /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */; };
-		CEA884621C19186C008D871B /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884611C19186C008D871B /* libSmartStore.a */; };
-		CEA884631C191872008D871B /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8844F1C191796008D871B /* libSmartSync.a */; };
 		CEA884641C191878008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		CEA884651C19187C008D871B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		CEA884661C191899008D871B /* SalesforceHybridSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -191,7 +185,6 @@
 		CEA8847A1C1918EA008D871B /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		CEA8847B1C1918F3008D871B /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8847C1C1918F3008D871B /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
-		CEA884861C191F60008D871B /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884851C191F60008D871B /* SalesforceSDKCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -638,15 +631,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEA884861C191F60008D871B /* SalesforceSDKCore.framework in Frameworks */,
 				CEA884651C19187C008D871B /* AssetsLibrary.framework in Frameworks */,
 				CEA884641C191878008D871B /* Foundation.framework in Frameworks */,
-				CEA884631C191872008D871B /* libSmartSync.a in Frameworks */,
-				CEA884621C19186C008D871B /* libSmartStore.a in Frameworks */,
-				CEA8845E1C191859008D871B /* libSalesforceRestAPI.a in Frameworks */,
-				CEA8845C1C191850008D871B /* libSalesforceNetwork.a in Frameworks */,
-				CEA8845A1C191840008D871B /* libCordova.a in Frameworks */,
-				CEA884591C19183B008D871B /* libFMDB-IOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
