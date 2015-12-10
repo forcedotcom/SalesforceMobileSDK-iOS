@@ -240,7 +240,6 @@
 		CE4CE46C1C0E5DC5009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
-		CEA882791C18F839008D871B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
 		CEA8827A1C18F842008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CEA8827C1C18FA69008D871B /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */; };
 		CEA8827D1C18FA76008D871B /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9460B1BFFF4D9005368C5 /* SFLogger.m */; };
@@ -560,12 +559,12 @@
 			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
 			remoteInfo = "CocoaLumberjack-iOS";
 		};
-		CEA882771C18F82A008D871B /* PBXContainerItemProxy */ = {
+		CEA8847D1C191A72008D871B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 18F3BFD61A81E06E00692297;
-			remoteInfo = "CocoaLumberjack-iOS-Static";
+			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
+			remoteInfo = "CocoaLumberjack-iOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -880,7 +879,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA8827A1C18F842008D871B /* Foundation.framework in Frameworks */,
-				CEA882791C18F839008D871B /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1641,7 +1639,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEA882781C18F82A008D871B /* PBXTargetDependency */,
+				CEA8847E1C191A72008D871B /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreStatic;
 			productName = SalesforceSDKCoreStatic;
@@ -2116,10 +2114,10 @@
 			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
 			targetProxy = 82A8C6E11C122998006BBDFE /* PBXContainerItemProxy */;
 		};
-		CEA882781C18F82A008D871B /* PBXTargetDependency */ = {
+		CEA8847E1C191A72008D871B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "CocoaLumberjack-iOS-Static";
-			targetProxy = CEA882771C18F82A008D871B /* PBXContainerItemProxy */;
+			name = "CocoaLumberjack-iOS";
+			targetProxy = CEA8847D1C191A72008D871B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2555,7 +2553,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = SalesforceSDKCore;
@@ -2597,7 +2598,10 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceSDKCore;
 				PRODUCT_NAME = SalesforceSDKCore;

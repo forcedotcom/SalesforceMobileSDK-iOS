@@ -85,7 +85,6 @@
 		CE65C2191C0FD35300319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2181C0FD35300319E68 /* SalesforceSDKCore.framework */; };
 		CE65C21B1C0FD35900319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C21A1C0FD35900319E68 /* libz.tbd */; };
 		CEA883A21C191449008D871B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8839D1C19135D008D871B /* libSalesforceNetwork.a */; };
-		CEA883A31C191452008D871B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C21A1C0FD35900319E68 /* libz.tbd */; };
 		CEA883A41C19145C008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
 		CEA883A61C191461008D871B /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA883A51C191461008D871B /* libSalesforceSDKCore.a */; };
 		CEA883A71C191471008D871B /* SalesforceRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A71C1266C20040F5F1 /* SalesforceRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -299,7 +298,6 @@
 			files = (
 				CEA883A61C191461008D871B /* libSalesforceSDKCore.a in Frameworks */,
 				CEA883A41C19145C008D871B /* Foundation.framework in Frameworks */,
-				CEA883A31C191452008D871B /* libz.tbd in Frameworks */,
 				CEA883A21C191449008D871B /* libSalesforceNetwork.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,7 +1100,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceRestAPI;
 				PRODUCT_NAME = SalesforceRestAPI;
 				SKIP_INSTALL = YES;
@@ -1131,7 +1132,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceRestAPI;
 				PRODUCT_NAME = SalesforceRestAPI;
 				SKIP_INSTALL = YES;

@@ -160,13 +160,10 @@
 		CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE6AB3C51C10CD440012125E /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
-		CEA884561C191827008D871B /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
-		CEA884571C191830008D871B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CEA884591C19183B008D871B /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884581C19183B008D871B /* libFMDB-IOS.a */; };
 		CEA8845A1C191840008D871B /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CEA8845C1C191850008D871B /* libSalesforceNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8845B1C191850008D871B /* libSalesforceNetwork.a */; };
 		CEA8845E1C191859008D871B /* libSalesforceRestAPI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */; };
-		CEA884601C19185F008D871B /* libSalesforceSDKCore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */; };
 		CEA884621C19186C008D871B /* libSmartStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884611C19186C008D871B /* libSmartStore.a */; };
 		CEA884631C191872008D871B /* libSmartSync.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA8844F1C191796008D871B /* libSmartSync.a */; };
 		CEA884641C191878008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
@@ -194,6 +191,7 @@
 		CEA8847A1C1918EA008D871B /* SalesforceOAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EB16E7C84900A63CDF /* SalesforceOAuthPlugin.m */; };
 		CEA8847B1C1918F3008D871B /* SFSmartStorePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 82EFF2ED16E7C84900A63CDF /* SFSmartStorePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8847C1C1918F3008D871B /* SFSmartStorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF2EE16E7C84900A63CDF /* SFSmartStorePlugin.m */; };
+		CEA884861C191F60008D871B /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA884851C191F60008D871B /* SalesforceSDKCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -545,6 +543,7 @@
 		CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEA884611C19186C008D871B /* libSmartStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartStore.a; path = "../SmartStore/build/Debug-iphoneos/libSmartStore.a"; sourceTree = "<group>"; };
+		CEA884851C191F60008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -639,17 +638,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA884861C191F60008D871B /* SalesforceSDKCore.framework in Frameworks */,
 				CEA884651C19187C008D871B /* AssetsLibrary.framework in Frameworks */,
 				CEA884641C191878008D871B /* Foundation.framework in Frameworks */,
 				CEA884631C191872008D871B /* libSmartSync.a in Frameworks */,
 				CEA884621C19186C008D871B /* libSmartStore.a in Frameworks */,
-				CEA884601C19185F008D871B /* libSalesforceSDKCore.a in Frameworks */,
 				CEA8845E1C191859008D871B /* libSalesforceRestAPI.a in Frameworks */,
 				CEA8845C1C191850008D871B /* libSalesforceNetwork.a in Frameworks */,
 				CEA8845A1C191840008D871B /* libCordova.a in Frameworks */,
 				CEA884591C19183B008D871B /* libFMDB-IOS.a in Frameworks */,
-				CEA884571C191830008D871B /* libz.tbd in Frameworks */,
-				CEA884561C191827008D871B /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,6 +899,7 @@
 		82EFF2D216E7C57100A63CDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA884851C191F60008D871B /* SalesforceSDKCore.framework */,
 				CEA884611C19186C008D871B /* libSmartStore.a */,
 				CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */,
 				CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */,
@@ -1768,7 +1766,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
@@ -1797,7 +1799,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lxml2",
+					"-lz",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceHybridSDK;
 				PRODUCT_NAME = SalesforceHybridSDK;
 				SKIP_INSTALL = YES;
