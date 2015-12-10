@@ -83,7 +83,7 @@
             <param name="projectName" value="SalesforceHybridSDK" />
             <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
-            <param name="schemeName" value="SalesforceHybridSDK" />
+            <param name="schemeName" value="SalesforceHybridSDKStatic" />
         </antcall>
     </target>
     
@@ -92,7 +92,7 @@
             <param name="projectName" value="SalesforceHybridSDK" />
             <param name="libName" value="libSalesforceHybridSDK.a" />
             <param name="headerDir" value="Headers/SalesforceHybridSDK" />
-            <param name="schemeName" value="SalesforceHybridSDK" />
+            <param name="schemeName" value="SalesforceHybridSDKStatic" />
         </antcall>
     </target>
     
@@ -109,7 +109,7 @@
             <param name="projectName" value="SmartSync" />
             <param name="libName" value="libSmartSync.a" />
             <param name="headerDir" value="Headers/SmartSync" />
-            <param name="schemeName" value="SmartSync" />
+            <param name="schemeName" value="SmartSyncStatic" />
         </antcall>
     </target>
     
@@ -118,7 +118,7 @@
             <param name="projectName" value="SmartSync" />
             <param name="libName" value="libSmartSync.a" />
             <param name="headerDir" value="Headers/SmartSync" />
-            <param name="schemeName" value="SmartSync" />
+            <param name="schemeName" value="SmartSyncStatic" />
         </antcall>
     </target>
     
@@ -135,7 +135,7 @@
             <param name="projectName" value="SmartStore" />
             <param name="libName" value="libSmartStore.a" />
             <param name="headerDir" value="Headers/SmartStore" />
-            <param name="schemeName" value="SmartStore" />
+            <param name="schemeName" value="SmartStoreStatic" />
         </antcall>
     </target>
     
@@ -144,7 +144,7 @@
             <param name="projectName" value="SmartStore" />
             <param name="libName" value="libSmartStore.a" />
             <param name="headerDir" value="Headers/SmartStore" />
-            <param name="schemeName" value="SmartStore" />
+            <param name="schemeName" value="SmartStoreStatic" />
         </antcall>
     </target>
     
@@ -161,7 +161,7 @@
             <param name="projectName" value="SalesforceRestAPI" />
             <param name="libName" value="libSalesforceRestAPI.a" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
-            <param name="schemeName" value="SalesforceRestAPI" />
+            <param name="schemeName" value="SalesforceRestAPIStatic" />
         </antcall>
     </target>
     
@@ -170,7 +170,7 @@
             <param name="projectName" value="SalesforceRestAPI" />
             <param name="libName" value="libSalesforceRestAPI.a" />
             <param name="headerDir" value="Headers/SalesforceRestAPI" />
-            <param name="schemeName" value="SalesforceRestAPI" />
+            <param name="schemeName" value="SalesforceRestAPIStatic" />
         </antcall>
     </target>
     
@@ -187,7 +187,7 @@
             <param name="projectName" value="SalesforceSDKCore" />
             <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
-            <param name="schemeName" value="SalesforceSDKCore" />
+            <param name="schemeName" value="SalesforceSDKCoreStatic" />
         </antcall>
     </target>
     
@@ -196,7 +196,7 @@
             <param name="projectName" value="SalesforceSDKCore" />
             <param name="libName" value="libSalesforceSDKCore.a" />
             <param name="headerDir" value="Headers/SalesforceSDKCore" />
-            <param name="schemeName" value="SalesforceSDKCore" />
+            <param name="schemeName" value="SalesforceSDKCoreStatic" />
         </antcall>
     </target>
     
@@ -213,7 +213,7 @@
             <param name="projectName" value="SalesforceNetwork" />
             <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetwork" />
+            <param name="schemeName" value="SalesforceNetworkStatic" />
         </antcall>
     </target>
     
@@ -222,7 +222,7 @@
             <param name="projectName" value="SalesforceNetwork" />
             <param name="libName" value="libSalesforceNetwork.a" />
             <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetwork" />
+            <param name="schemeName" value="SalesforceNetworkStatic" />
         </antcall>
     </target>
 
