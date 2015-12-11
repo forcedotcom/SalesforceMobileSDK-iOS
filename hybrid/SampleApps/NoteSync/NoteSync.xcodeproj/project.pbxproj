@@ -12,7 +12,6 @@
 		4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839819525B66003EBB16 /* AppDelegate.m */; };
 		4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147AC193D20C80010F9D3 /* Settings.bundle */; };
-		4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */; };
 		4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
 		4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */; };
 		4FC276B219DCBC80008F4AA6 /* bootconfig.json in Copy Shared www Files */ = {isa = PBXBuildFile; fileRef = 4FC2768719DCBAD5008F4AA6 /* bootconfig.json */; };
@@ -105,6 +104,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2E01C0E465B009F6029;
 			remoteInfo = SalesforceHybridSDK;
+		};
+		82C5E4051C1B63CE00376C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829DA26A1C1263010040F5F1 /* SalesforceHybridSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA884431C191795008D871B;
+			remoteInfo = SalesforceHybridSDKStatic;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -230,7 +236,6 @@
 		824A9BDD1721FCA400C9BD79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		824A9BDF1721FCA400C9BD79 /* NoteSync-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NoteSync-Prefix.pch"; sourceTree = "<group>"; };
 		824A9BF91721FE1100C9BD79 /* readme.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.md; sourceTree = "<group>"; };
-		824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		824A9D9C1724C92400C9BD79 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		824A9DA41724C98900C9BD79 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		824A9DA51724C98900C9BD79 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -461,7 +466,6 @@
 			children = (
 				8230E2451A24181500EFE764 /* Images.xcassets */,
 				4F2147AC193D20C80010F9D3 /* Settings.bundle */,
-				824A9C5F1722023700C9BD79 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -489,6 +493,7 @@
 				829DA2721C1263010040F5F1 /* SalesforceHybridSDK.framework */,
 				829DA2741C1263010040F5F1 /* SalesforceHybridSDKTestApp.app */,
 				829DA2761C1263010040F5F1 /* SalesforceHybridSDKTestAppTests.xctest */,
+				82C5E4061C1B63CE00376C00 /* libSalesforceHybridSDK.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -617,6 +622,13 @@
 			remoteRef = 829DA2751C1263010040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		82C5E4061C1B63CE00376C00 /* libSalesforceHybridSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceHybridSDK.a;
+			remoteRef = 82C5E4051C1B63CE00376C00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -626,7 +638,6 @@
 			files = (
 				4FC276AD19DCBC6E008F4AA6 /* Settings.bundle in Resources */,
 				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
-				4FC276AF19DCBC6E008F4AA6 /* SalesforceSDKResources.bundle in Resources */,
 				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 			);
