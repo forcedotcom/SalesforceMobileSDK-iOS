@@ -32,7 +32,7 @@
     // One instance.  This won't change during the lifetime of the app process.
     static NSBundle *sdkBundle = nil;
     if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle mainBundle] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
+        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
         sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
     }
     
