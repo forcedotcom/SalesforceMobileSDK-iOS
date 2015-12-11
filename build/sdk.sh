@@ -30,28 +30,28 @@ require 'optparse'
 
 # Constants
 SCHEMES_TO_BUILD = [
-  "SalesforceSDKCore",
-  "SalesforceNetwork",
-  "SalesforceRestAPI",
-  "SmartStore",
-  "SmartSync",
-  "SalesforceHybridSDK",
-  "SalesforceReact",
-  "RestAPIExplorer",
-  "SmartSyncExplorer",
-  "AccountEditor",
-  "NoteSync",
-  "SmartSyncExplorerHybrid"
+  "SalesforceSDKCoreStatic",
+  "SalesforceNetworkStatic",
+  "SalesforceRestAPIStatic",
+  "SmartStoreStatic",
+  "SmartSyncStatic",
+  "SalesforceHybridSDKStatic",
+#  "SalesforceReact",
+#  "RestAPIExplorer",
+#  "SmartSyncExplorer",
+#  "AccountEditor",
+#  "NoteSync",
+#  "SmartSyncExplorerHybrid"
 ];
 
 SCHEMES_TO_TEST = [
-  "SalesforceSDKCore",
-  "SalesforceNetwork",
-  "SmartStore",
-  "SmartSync",
-  "SalesforceSDKCoreTestApp",
-  "SalesforceRestAPITestApp",
-  "SalesforceHybridSDKTestApp"
+#  "SalesforceSDKCore",
+#  "SalesforceNetwork",
+#  "SmartStore",
+#  "SmartSync",
+#  "SalesforceSDKCoreTestApp",
+#  "SalesforceRestAPITestApp",
+#  "SalesforceHybridSDKTestApp"
 ];
 
 # Helper methods
@@ -120,14 +120,18 @@ def main(args)
   testSchemes  = SCHEMES_TO_TEST.join("\n - ")
   
   parser = OptionParser.new do |opts|
-    opts.banner = "Usage: ./build/sdk.sh [options]\n\nbuild schemes:\n - #{buildSchemes}\n\ntest schemes:\n - #{testSchemes}\n\nOptions:"
+    opts.banner = "Usage: ./build/sdk.sh [options]\n\n" 
+    opts.banner += "build schemes:\n - #{buildSchemes}\n\n" 
+#    opts.banner += "test schemes:\n - #{testSchemes}\n\n"
+    opts.banner += "Options:"
+    
     opts.on("-b", "--build scheme", "Build given scheme (pass all to build all the schemes)") do |scheme|
       schemeToBuild = scheme
     end
 
-    opts.on("-t", "--test scheme", "Test given scheme (pass all to test all the schemes)") do |scheme|
-      schemeToTest = scheme
-    end
+#    opts.on("-t", "--test scheme", "Test given scheme (pass all to test all the schemes)") do |scheme|
+#      schemeToTest = scheme
+#    end
 
     opts.on("-m", "--max-time timeout", Integer, "Maximum time that build/test is allowed to run") do |maxtime|
       timeout = maxtime
