@@ -1,0 +1,15 @@
+//
+//  SalesforceSDKCore-Common-Dynamic.xcconfig
+//  SalesforceSDKCore
+//
+//  Created by Bharath Hariharan on 12/11/15.
+//  Copyright © 2015 salesforce.com. All rights reserved.
+//
+
+#include "SalesforceSDKCore-Common.xcconfig"
+
+INSTALL_PATH = /
+SKIP_INSTALL = YES
+
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(inherited)
+FRAMEWORK_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR) $(TARGET_BUILD_DIR) $(inherited)
