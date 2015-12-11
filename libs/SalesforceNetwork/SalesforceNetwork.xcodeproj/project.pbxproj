@@ -172,6 +172,10 @@
 		CEA8838B1C191305008D871B /* CSFURLValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD4821A7C006F00519F03 /* CSFURLValueTransformer.m */; };
 		CEA8838C1C191305008D871B /* CSFUTF8StringValueTransformer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3CD1A99107800243931 /* CSFUTF8StringValueTransformer.h */; };
 		CEA8838D1C191305008D871B /* CSFUTF8StringValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3CE1A99107800243931 /* CSFUTF8StringValueTransformer.m */; };
+		CEAF2CCD1C1A57BA002E237C /* CSFOAuthTokenRefreshInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 827DD4631A7C006F00519F03 /* CSFOAuthTokenRefreshInput.h */; };
+		CEAF2CCE1C1A57BA002E237C /* CSFOAuthTokenRefreshInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD4641A7C006F00519F03 /* CSFOAuthTokenRefreshInput.m */; };
+		CEAF2CD61C1A57C3002E237C /* CSFOAuthTokenRefreshOutput.h in Headers */ = {isa = PBXBuildFile; fileRef = 827DD4661A7C006F00519F03 /* CSFOAuthTokenRefreshOutput.h */; };
+		CEAF2CD71C1A57C3002E237C /* CSFOAuthTokenRefreshOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 827DD4671A7C006F00519F03 /* CSFOAuthTokenRefreshOutput.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -778,6 +782,7 @@
 				CEA883731C1912C4008D871B /* CSFParameterStorage_Internal.h in Headers */,
 				CEA883761C1912D5008D871B /* CSFActionValue.h in Headers */,
 				CEA883781C1912D5008D871B /* CSFNetworkOutputCache.h in Headers */,
+				CEAF2CD61C1A57C3002E237C /* CSFOAuthTokenRefreshOutput.h in Headers */,
 				CEA883681C1912B1008D871B /* CSFNetwork.h in Headers */,
 				CEA8834C1C19125D008D871B /* NSMutableURLRequest+SalesforceNetwork.h in Headers */,
 				CEA883861C191305008D871B /* CSFJPEGImageValueTransformer.h in Headers */,
@@ -791,6 +796,7 @@
 				CEA8835A1C191287008D871B /* CSFInput.h in Headers */,
 				CEA883801C1912E8008D871B /* CSFPrivateDefines.h in Headers */,
 				CEA883571C191275008D871B /* CSFSalesforceAction.h in Headers */,
+				CEAF2CCD1C1A57BA002E237C /* CSFOAuthTokenRefreshInput.h in Headers */,
 				CEA883551C191275008D871B /* CSFAction.h in Headers */,
 				CEA883771C1912D5008D871B /* CSFIndexedEntity.h in Headers */,
 				CEA883751C1912D5008D871B /* CSFActionModel.h in Headers */,
@@ -1097,6 +1103,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEAF2CCE1C1A57BA002E237C /* CSFOAuthTokenRefreshInput.m in Sources */,
 				CEA8836C1C1912B1008D871B /* CSFNetwork+Salesforce.m in Sources */,
 				CEA8837F1C1912E8008D871B /* CSFInternalDefines.m in Sources */,
 				CEA8834F1C19125D008D871B /* NSURL+ActionValue.m in Sources */,
@@ -1107,6 +1114,7 @@
 				CEA8838B1C191305008D871B /* CSFURLValueTransformer.m in Sources */,
 				CEA883851C191305008D871B /* CSFDateValueTransformer.m in Sources */,
 				CEA8836E1C1912C4008D871B /* CSFInputStreamElement.m in Sources */,
+				CEAF2CD71C1A57C3002E237C /* CSFOAuthTokenRefreshOutput.m in Sources */,
 				CEA8835B1C191287008D871B /* CSFInput.m in Sources */,
 				CEA883811C1912E8008D871B /* CSFPrivateDefines.m in Sources */,
 				CEA8834B1C19125D008D871B /* NSDate+ActionValue.m in Sources */,
@@ -1476,6 +1484,7 @@
 				CEA883371C1910F6008D871B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
