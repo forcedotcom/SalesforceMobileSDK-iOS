@@ -103,8 +103,8 @@
 		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libFMDB-IOS.a"; path = "../../external/fmdb/build/Debug-iphoneos/libFMDB-IOS.a"; sourceTree = "<group>"; };
-		CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,12 +140,12 @@
 		4F67FECC1B7970C300A957A3 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */,
+				CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */,
 				4F67FECD1B7970CE00A957A3 /* SalesforceReact-Common.xcconfig */,
 				4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */,
 				4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */,
 				4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */,
-				CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */,
-				CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -433,7 +433,7 @@
 		};
 		CE4CE2FD1C0E4673009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -488,7 +488,7 @@
 		};
 		CE4CE2FE1C0E4673009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */;
+			baseConfigurationReference = CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

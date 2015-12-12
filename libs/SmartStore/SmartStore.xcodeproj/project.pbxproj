@@ -240,8 +240,8 @@
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CEBA950C1C1BA2CC00C0B2E0 /* SmartStore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartStore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CEBA95101C1BA2F200C0B2E0 /* SmartStore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartStore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,12 +316,12 @@
 		CE3FE5811AD488F800E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */,
+				CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */,
 				4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */,
 				4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */,
 				4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */,
 				4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */,
-				CEBA950C1C1BA2CC00C0B2E0 /* SmartStore-Dynamic-iOS-Debug.xcconfig */,
-				CEBA95101C1BA2F200C0B2E0 /* SmartStore-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -786,7 +786,7 @@
 /* Begin XCBuildConfiguration section */
 		CE4CE2BE1C0E4581009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA950C1C1BA2CC00C0B2E0 /* SmartStore-Dynamic-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -813,7 +813,7 @@
 		};
 		CE4CE2BF1C0E4581009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA95101C1BA2F200C0B2E0 /* SmartStore-Dynamic-iOS-Release.xcconfig */;
+			baseConfigurationReference = CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

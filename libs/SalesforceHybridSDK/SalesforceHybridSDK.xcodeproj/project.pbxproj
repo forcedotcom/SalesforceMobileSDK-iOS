@@ -537,8 +537,8 @@
 		CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEA884611C19186C008D871B /* libSmartStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartStore.a; path = "../SmartStore/build/Debug-iphoneos/libSmartStore.a"; sourceTree = "<group>"; };
 		CEA884851C191F60008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
-		CEBA95181C1BA3F700C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
-		CEBA951B1C1BA41B00C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
+		CECB662E1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CEF4FFAE170CC748001AA255 /* SFHybridViewConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridViewConfig.h; sourceTree = "<group>"; };
 		CEF4FFAF170CC748001AA255 /* SFHybridViewConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridViewConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1092,12 +1092,12 @@
 		CE3FE5631AD4804200E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				CECB662E1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */,
+				CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */,
 				CE8F13061AD4A87200233F2F /* SalesforceHybridSDK-Common.xcconfig */,
 				CE8F13071AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Debug.xcconfig */,
 				CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */,
 				CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */,
-				CEBA95181C1BA3F700C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */,
-				CEBA951B1C1BA41B00C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -1662,7 +1662,7 @@
 		};
 		CE4CE2EA1C0E465C009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA95181C1BA3F700C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CECB662E1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1699,7 +1699,7 @@
 		};
 		CE4CE2EB1C0E465C009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CEBA951B1C1BA41B00C0B2E0 /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */;
+			baseConfigurationReference = CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
