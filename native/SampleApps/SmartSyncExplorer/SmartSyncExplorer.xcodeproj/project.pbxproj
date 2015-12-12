@@ -10,7 +10,6 @@
 		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
-		820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */; };
 		820C8B0E19E6054E00E9BE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B0D19E6054E00E9BE5C /* AppDelegate.m */; };
 		820C8B1119E6059400E9BE5C /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B1019E6059400E9BE5C /* InitialViewController.m */; };
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
@@ -63,6 +62,13 @@
 			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
 			remoteInfo = SmartSync;
 		};
+		82C5E3F91C1B633F00376C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829DA2561C1260960040F5F1 /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA883EE1C19160E008D871B;
+			remoteInfo = SmartSyncStatic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -71,7 +77,6 @@
 		4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesSmartSyncExplorer.xcassets; sourceTree = "<group>"; };
 		4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionsPopupController.m; sourceTree = "<group>"; };
 		4FEAC2431B97C65C00B08512 /* ActionsPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionsPopupController.h; sourceTree = "<group>"; };
-		820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		820C8B0C19E6054E00E9BE5C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		820C8B0D19E6054E00E9BE5C /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		820C8B0F19E6059400E9BE5C /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
@@ -174,7 +179,6 @@
 			children = (
 				8284055919EAFD9C0079AB60 /* Images.xcassets */,
 				4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */,
-				820163C219FF029A00F5F1A7 /* SalesforceSDKResources.bundle */,
 				8284055719EAFB610079AB60 /* Settings.bundle */,
 			);
 			name = Resources;
@@ -264,6 +268,7 @@
 			children = (
 				829DA25D1C1260960040F5F1 /* SmartSync.framework */,
 				829DA25F1C1260960040F5F1 /* SmartSyncTests.xctest */,
+				82C5E3FA1C1B633F00376C00 /* libSmartSync.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -337,6 +342,13 @@
 			remoteRef = 829DA25E1C1260960040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		82C5E3FA1C1B633F00376C00 /* libSmartSync.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSmartSync.a;
+			remoteRef = 82C5E3F91C1B633F00376C00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -347,7 +359,6 @@
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				8284055819EAFB610079AB60 /* Settings.bundle in Resources */,
-				820163C319FF029A00F5F1A7 /* SalesforceSDKResources.bundle in Resources */,
 				4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

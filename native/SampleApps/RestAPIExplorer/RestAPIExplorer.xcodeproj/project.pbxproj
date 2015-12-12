@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4F2147B9193D213A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147B8193D213A0010F9D3 /* Settings.bundle */; };
 		4F473D7217E26DFF000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D7117E26DFF000CCDF3 /* ImageIO.framework */; };
-		4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */; };
 		4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFD18DD07D0006A7699 /* Images.xcassets */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
 		7DF4D2E11472E238005CE144 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2E01472E238005CE144 /* SystemConfiguration.framework */; };
@@ -68,12 +67,18 @@
 			remoteGlobalIDString = CE4CE2A21C0E4569009F6029;
 			remoteInfo = SalesforceRestAPI;
 		};
+		82C5E3F41C1B631600376C00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA883921C19135D008D871B;
+			remoteInfo = SalesforceRestAPIStatic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4F2147B8193D213A0010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F473D7117E26DFF000CCDF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		4F84FDFD18DD07D0006A7699 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		7DF4D2DA1472E238005CE144 /* RestAPIExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RestAPIExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4D2DE1472E238005CE144 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -204,7 +209,6 @@
 			children = (
 				4F2147B8193D213A0010F9D3 /* Settings.bundle */,
 				4F84FDFD18DD07D0006A7699 /* Images.xcassets */,
-				4F53F6E91683D9C600CF1C17 /* SalesforceSDKResources.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -240,6 +244,7 @@
 				829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */,
 				829DA2461C125E870040F5F1 /* SalesforceRestAPITestApp.app */,
 				829DA2481C125E870040F5F1 /* SalesforceRestAPITestAppTests.xctest */,
+				82C5E3F51C1B631600376C00 /* libSalesforceRestAPI.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -323,6 +328,13 @@
 			remoteRef = 829DA2471C125E870040F5F1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		82C5E3F51C1B631600376C00 /* libSalesforceRestAPI.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceRestAPI.a;
+			remoteRef = 82C5E3F41C1B631600376C00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -337,7 +349,6 @@
 				7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
 				4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */,
-				4F53F6EA1683D9C600CF1C17 /* SalesforceSDKResources.bundle in Resources */,
 				82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

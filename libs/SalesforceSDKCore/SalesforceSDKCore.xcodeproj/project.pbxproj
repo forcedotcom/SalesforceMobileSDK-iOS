@@ -53,6 +53,7 @@
 		4FE5332B1BFFE70600814D2A /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F7EB49A1BFFCEF600768720 /* Main_iPhone.storyboard */; };
 		4FFDAD491C068FC5009BCD6D /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FFDAD381C068E8F009BCD6D /* test_credentials.json */; };
 		829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
@@ -820,6 +821,7 @@
 		8280EC1C16E1604900768DE8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8280EC1E16E1605A00768DE8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCore.h; sourceTree = "<group>"; };
+		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644319C7C8180006BDFE /* SalesforceSDKCoreTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCoreTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1194,6 +1196,7 @@
 		8220B74116D804CA00EC3921 = {
 			isa = PBXGroup;
 			children = (
+				82C5E3EF1C1B62C400376C00 /* Resources */,
 				6F89606E1A9E96C400A48FF1 /* Configuration */,
 				8220B75116D804CA00EC3921 /* SalesforceSDKCore */,
 				4F96FEA71BFD330D0022F021 /* Tests */,
@@ -1269,6 +1272,14 @@
 				4F96FD371BFD32140022F021 /* Util */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		82C5E3EF1C1B62C400376C00 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		82D4642819C7C8170006BDFE /* SalesforceSDKCoreTestApp */ = {
@@ -1621,6 +1632,7 @@
 				CE4CE2661C0E449C009F6029 /* Sources */,
 				CE4CE2671C0E449C009F6029 /* Frameworks */,
 				CE4CE2681C0E449C009F6029 /* Headers */,
+				82C5E3DE1C1B628A00376C00 /* Resources */,
 				CE4CE4F41C0E6D14009F6029 /* ShellScript */,
 				CE4CE4FB1C0E6E07009F6029 /* ShellScript */,
 			);
@@ -1822,6 +1834,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82C5E3DE1C1B628A00376C00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
