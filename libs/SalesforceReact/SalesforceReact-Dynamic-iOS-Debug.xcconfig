@@ -1,0 +1,12 @@
+//
+//  SalesforceReact-Dynamic-iOS-Debug.xcconfig
+//  SalesforceReact
+//
+//  Created by Bharath Hariharan on 12/11/15.
+//
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Dynamic.xcconfig"
+#include "../../../configuration/Configuration-Debug.xcconfig"
+#include "SalesforceReact-Common.xcconfig"

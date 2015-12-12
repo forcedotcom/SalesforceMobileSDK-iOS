@@ -69,6 +69,13 @@
 			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		CEBA95211C1BA47900C0B2E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CEA883EE1C19160E008D871B;
+			remoteInfo = SmartSyncStatic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -96,6 +103,8 @@
 		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CE6AB3E01C10CF020012125E /* libFMDB-IOS.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libFMDB-IOS.a"; path = "../../external/fmdb/build/Debug-iphoneos/libFMDB-IOS.a"; sourceTree = "<group>"; };
+		CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +144,8 @@
 				4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */,
 				4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */,
 				4F67FED01B7970CE00A957A3 /* SalesforceReact-Test.xcconfig */,
+				CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */,
+				CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -201,6 +212,7 @@
 			children = (
 				4FFEE5D61BFE904100B7AA8A /* SmartSync.framework */,
 				4FFEE5D81BFE904100B7AA8A /* SmartSyncTests.xctest */,
+				CEBA95221C1BA47900C0B2E0 /* libSmartSync.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -318,6 +330,13 @@
 			remoteRef = 4FFEE62F1BFE932100B7AA8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CEBA95221C1BA47900C0B2E0 /* libSmartSync.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSmartSync.a;
+			remoteRef = CEBA95211C1BA47900C0B2E0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -414,7 +433,7 @@
 		};
 		CE4CE2FD1C0E4673009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FECE1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CEBA951C1C1BA47900C0B2E0 /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -469,7 +488,7 @@
 		};
 		CE4CE2FE1C0E4673009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F67FECF1B7970CE00A957A3 /* SalesforceReact-Static-iOS-Release.xcconfig */;
+			baseConfigurationReference = CEBA95231C1BA49E00C0B2E0 /* SalesforceReact-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
