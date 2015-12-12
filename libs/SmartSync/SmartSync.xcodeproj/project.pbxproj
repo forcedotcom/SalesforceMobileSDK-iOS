@@ -310,6 +310,8 @@
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEB808B6199AFD1900EF2F9D /* SFSmartSyncMetadataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSmartSyncMetadataManager.h; path = Manager/SFSmartSyncMetadataManager.h; sourceTree = "<group>"; };
 		CEB808B7199AFD1900EF2F9D /* SFSmartSyncMetadataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSmartSyncMetadataManager.m; path = Manager/SFSmartSyncMetadataManager.m; sourceTree = "<group>"; };
+		CEBA95111C1BA35700C0B2E0 /* SmartSync-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CEBA95171C1BA37900C0B2E0 /* SmartSync-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SmartSync-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CECDF83F19A5468E007A29E5 /* SFSmartSyncObjectUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncObjectUtils.h; sourceTree = "<group>"; };
 		CECDF84019A5468E007A29E5 /* SFSmartSyncObjectUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncObjectUtils.m; sourceTree = "<group>"; };
 		CECDF84319ABE009007A29E5 /* MetadataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataManagerTests.m; sourceTree = "<group>"; };
@@ -423,6 +425,8 @@
 				CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */,
 				CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */,
 				CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */,
+				CEBA95111C1BA35700C0B2E0 /* SmartSync-Dynamic-iOS-Debug.xcconfig */,
+				CEBA95171C1BA37900C0B2E0 /* SmartSync-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			sourceTree = "<group>";
@@ -996,7 +1000,7 @@
 /* Begin XCBuildConfiguration section */
 		CE4CE2CE1C0E463C009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F12FF1AD4A84C00233F2F /* SmartSync-Static-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CEBA95111C1BA35700C0B2E0 /* SmartSync-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1023,7 +1027,7 @@
 		};
 		CE4CE2CF1C0E463C009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13001AD4A84C00233F2F /* SmartSync-Static-iOS-Release.xcconfig */;
+			baseConfigurationReference = CEBA95171C1BA37900C0B2E0 /* SmartSync-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1248,6 +1252,7 @@
 				CEA883F51C19160E008D871B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartSync" */ = {
 			isa = XCConfigurationList;
