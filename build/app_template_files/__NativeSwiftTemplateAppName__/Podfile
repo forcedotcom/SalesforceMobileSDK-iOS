@@ -2,10 +2,21 @@
 # platform :ios, '8.0'
 
 target '__NativeSwiftTemplateAppName__' do
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/wmathurin/SalesforceMobileSDK-iOS-Specs.git'
 
-pod 'SalesforceMobileSDK-iOS', :subspecs => [
-    'SmartSync'
-]
+use_frameworks!
+pod 'SalesforceSDKCore'
+pod 'SalesforceNetwork'
+pod 'SalesforceRestAPI'
+pod 'SmartStore'
+pod 'SmartSync'
+
+post_install do |installer|
+  installer.pods_project.build_configuration_list.build_configurations.each do |configuration|
+    configuration.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+  end
+end
 
 end
 
