@@ -35,20 +35,33 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 3.3
+### What's New in 4.0
 
-**SmartStore Library Enhancements**
-- SmartStore now provides the ability to perform full text search (FTS). Refer to the SmartStore chapter in the Mobile SDK Development Guide for details on how to use this feature.
-- An enhanced query syntax has been added to support this feature.
+**Library Upgrades**
+- iOS 9 features are now fully supported, including bitcode.
+- Raised the minimum iOS version required by Mobile SDK to `8.0`.
+- Upgraded the `Cordova` library to `v3.9.2`.
+- Upgraded the `CocoaLumberjack` library to `v2.2.0`.
 
-**Security Enhancements**
-- It is now possible to use Touch ID instead of a numeric PIN on passcode enabled orgs.
+**Library Enhancements**
+- Mobile SDK libraries have been refactored to support better consumption. Our libraries are listed below.
+	- SalesforceSDKCore
+	- SalesforceNetwork
+	- SalesforceRestAPI
+	- SmartStore
+	- SmartSync
+	- SalesforceHybridSDK
+	- SalesforceReact
+- Cocoa Touch dynamic framework targets have been added to our libraries. Going forward, this will be the recommended way to consume Mobile SDK libraries.
+- Removed the dependency on `SalesforceCommonUtils`. Mobile SDK for iOS is now fully open source.
+- The SalesforceReact library now provides the ability to use React Native. Refer to the React Native chapter in the Mobile SDK Development Guide for details on how to use this feature.
 
 **Other Technical Improvements**
-- Upgraded SQLCipher to 3.3.
+- Raised the minimum XCode version required by Mobile SDK to `Xcode 7`.
+- Improvements to sample apps.
 - Various bug fixes.
 
-Check http://developer.force.com/mobilesdk for additional articles and tutorials
+Check http://developer.force.com/mobilesdk for additional articles and tutorials.
 
 ### Native Applications
 The Salesforce Mobile SDK provides the essential libraries for quickly building native mobile apps that interact with the Salesforce cloud platform. The OAuth2 library abstracts away the complexity of securely storing the refresh token or fetching a new session ID when it expires. The SDK also provides Objective-C wrappers for the Salesforce REST API, making it easy to retrieve and manipulate data.
