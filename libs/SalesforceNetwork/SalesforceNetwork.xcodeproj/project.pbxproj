@@ -375,6 +375,8 @@
 		CE4CE4831C0E5EB9009F6029 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2141C0FD29F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CEA883301C1910F6008D871B /* libSalesforceNetwork.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceNetwork.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEBA95001C1B9AFD00C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CEBA95081C1B9B5600C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceNetwork-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +421,8 @@
 				6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */,
 				6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */,
 				6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */,
+				CEBA95001C1B9AFD00C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Debug.xcconfig */,
+				CEBA95081C1B9B5600C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Release.xcconfig */,
 			);
 			name = Configuration;
 			path = SalesforceNetwork/Configuration;
@@ -1025,7 +1029,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$PRODUCT_NAME/$PRODUCT_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 		CE4CE4FC1C0E6E33009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1241,7 +1245,7 @@
 		};
 		CE4CE2911C0E454F009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F644C3D1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CEBA95001C1B9AFD00C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1297,7 +1301,7 @@
 		};
 		CE4CE2921C0E454F009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F644C3E1A9E70C2009BF92A /* SalesforceNetwork-Static-iOS-Release.xcconfig */;
+			baseConfigurationReference = CEBA95081C1B9B5600C0B2E0 /* SalesforceNetwork-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

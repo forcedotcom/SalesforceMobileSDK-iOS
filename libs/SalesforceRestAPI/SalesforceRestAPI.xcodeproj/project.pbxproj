@@ -231,6 +231,8 @@
 		CE8F13051AD4A86200233F2F /* SalesforceRestAPI-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Test.xcconfig"; path = "Configuration/SalesforceRestAPI-Test.xcconfig"; sourceTree = "<group>"; };
 		CEA883921C19135D008D871B /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceRestAPI.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA883A51C191461008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
+		CECB661D1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceRestAPI-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CECB661E1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceRestAPI-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceRestAPI-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -459,6 +461,8 @@
 		CE3FE5711AD486B600E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				CECB661D1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Debug.xcconfig */,
+				CECB661E1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Release.xcconfig */,
 				CE8F13021AD4A86200233F2F /* SalesforceRestAPI-Common.xcconfig */,
 				CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */,
 				CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */,
@@ -702,7 +706,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 		CE4CE4FD1C0E6E41009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1002,7 +1006,7 @@
 		};
 		CE4CE2AC1C0E456B009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13031AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CECB661D1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1039,7 +1043,7 @@
 		};
 		CE4CE2AD1C0E456B009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE8F13041AD4A86200233F2F /* SalesforceRestAPI-Static-iOS-Release.xcconfig */;
+			baseConfigurationReference = CECB661E1C1BB854008038AE /* SalesforceRestAPI-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -1193,6 +1197,7 @@
 				CEA883991C19135D008D871B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

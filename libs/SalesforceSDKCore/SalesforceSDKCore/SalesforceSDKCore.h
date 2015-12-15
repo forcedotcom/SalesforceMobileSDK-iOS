@@ -109,3 +109,4 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>
+

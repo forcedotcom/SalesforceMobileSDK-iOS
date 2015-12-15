@@ -240,6 +240,8 @@
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CEAAAE62195911E600CBBFE9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
+		CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +316,8 @@
 		CE3FE5811AD488F800E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
+				CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */,
+				CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */,
 				4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */,
 				4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */,
 				4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */,
@@ -666,7 +670,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/Headers/$PRODUCT_NAME/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
 		CE4CE4FE1C0E6E4D009F6029 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -782,7 +786,7 @@
 /* Begin XCBuildConfiguration section */
 		CE4CE2BE1C0E4581009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */;
+			baseConfigurationReference = CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -809,7 +813,7 @@
 		};
 		CE4CE2BF1C0E4581009F6029 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */;
+			baseConfigurationReference = CECB66241C1BB886008038AE /* SmartStore-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -882,6 +886,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -920,6 +925,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1032,6 +1038,7 @@
 				CEA883C11C1914DE008D871B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEAAAE40195911E600CBBFE9 /* Build configuration list for PBXProject "SmartStore" */ = {
 			isa = XCConfigurationList;

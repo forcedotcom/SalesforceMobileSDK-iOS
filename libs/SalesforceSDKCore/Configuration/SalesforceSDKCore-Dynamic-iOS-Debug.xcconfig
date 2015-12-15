@@ -1,0 +1,12 @@
+//
+//  SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig
+//  SalesforceSDKCore
+//
+//  Created by Bharath Hariharan on 12/11/15.
+//  Copyright © 2015 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Dynamic.xcconfig"
+#include "../../../configuration/Configuration-Debug.xcconfig"
+#include "SalesforceSDKCore-Common-Dynamic.xcconfig"
