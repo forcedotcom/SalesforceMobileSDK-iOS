@@ -38,7 +38,7 @@ Introduction
 ### What's New in 4.0
 
 **Library Upgrades**
-- Raised the target iOS version to `9.0`. iOS 9 features are now fully supported, including bitcode.
+- iOS 9 features are now fully supported, including bitcode.
 - Raised the minimum iOS version required by Mobile SDK to `8.0`.
 - Upgraded the `Cordova` library to `v3.9.2`.
 - Upgraded the `CocoaLumberjack` library to `v2.2.0`.
