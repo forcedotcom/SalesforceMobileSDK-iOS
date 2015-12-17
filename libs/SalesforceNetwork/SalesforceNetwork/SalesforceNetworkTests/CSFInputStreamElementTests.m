@@ -68,7 +68,12 @@
 - (void)testDateInputElement {
     CSFInputStreamElement *element = nil;
     
-    element = [[CSFInputStreamElement alloc] initWithObject:[NSDate dateWithTimeIntervalSinceReferenceDate:100]
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateStyle = NSDateFormatterFullStyle;
+    dateFormatter.timeStyle = NSDateFormatterFullStyle;
+
+    NSDate *date = [dateFormatter dateFromString:@"Friday, July 24, 2015 at 7:21:02 AM Hawaii-Aleutian Standard Time"];
+    element = [[CSFInputStreamElement alloc] initWithObject:date
                                                    boundary:@"FOO123"
                                                         key:@"date"];
     XCTAssertEqualObjects(element.key, @"date");
@@ -85,7 +90,7 @@
     XCTAssertEqual(readCount, 79U);
     
     NSString *stringData = [[NSString alloc] initWithBytesNoCopy:buffer length:element.length encoding:NSUTF8StringEncoding freeWhenDone:YES];
-    XCTAssertEqualObjects(stringData, @"--FOO123\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2000-12-31T16:01:40Z\r\n");
+    XCTAssertEqualObjects(stringData, @"--FOO123\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T10:21:02Z\r\n");
 }
 
 - (void)testStringWithMimeTypeInputElement {

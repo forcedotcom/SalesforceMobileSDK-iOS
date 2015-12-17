@@ -7,4 +7,4 @@
 //
 
 #include "../../../../configuration/Common-Test.xcconfig"
-#include "SalesforceNetwork-Static-iOS-Debug.xcconfig"
+#include "SalesforceNetwork-Dynamic-iOS-Debug.xcconfig"

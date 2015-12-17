@@ -25,9 +25,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "SFAuthenticationManager.h"
 #import "SalesforceSDKCoreDefines.h"
 
 @class SFUserAccount, SFSDKAppConfig;
+
+typedef NS_ENUM(NSUInteger, SFAppType) {
+    kSFAppTypeNative,
+    kSFAppTypeHybrid,
+    kSFAppTypeReactNative
+};
+
 
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
@@ -60,7 +68,12 @@
  including the orchestration of authentication, passcode displaying, and management of app
  backgrounding and foregrounding state.
  */
-@interface SalesforceSDKManager : NSObject
+@interface SalesforceSDKManager : NSObject <SFAuthenticationManagerDelegate>
+
+/**
+ The class instance to be used to instantiate the singleton.
+ */
++ (void)setInstanceClass:(Class)className;
 
 /**
  @return The singleton instance of the SDK Manager.
@@ -74,10 +87,11 @@
  */
 @property (nonatomic, readonly) BOOL isLaunching;
 
+
 /**
- Whether or not the SDK is currently in the middle of a launch process.
+ App type (native, hybrid or react native)
  */
-@property (nonatomic, readonly) BOOL isNative;
+@property (nonatomic, readonly) SFAppType appType;
 
 /**
  The Connected App ID configured for this application.

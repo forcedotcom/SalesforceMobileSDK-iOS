@@ -23,10 +23,16 @@
  */
 
 #import "ContactListViewController.h"
+#import "ActionsPopupController.h"
 #import "SObjectDataManager.h"
 #import "ContactSObjectDataSpec.h"
 #import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
+#import "WYPopoverController.h"
+#import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
 
@@ -46,7 +52,12 @@ static CGFloat    const kToastMessageFontSize           = 16.0;
 
 static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0x9b59b6,  0x34495e,  0x16a085,  0x27ae60,  0x2980b9,  0x8e44ad,  0x2c3e50,  0xf1c40f,  0xe67e22,  0xe74c3c,  0x95a5a6,  0xf39c12,  0xd35400,  0xc0392b,  0xbdc3c7,  0x7f8c8d };
 
+
 @interface ContactListViewController () <UISearchBarDelegate>
+
+@property (nonatomic, strong) WYPopoverController *popOverController;
+@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
+
 
 // View / UI properties
 @property (nonatomic, strong) UILabel *navBarLabel;
@@ -54,6 +65,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIBarButtonItem *syncButton;
 @property (nonatomic, strong) UIBarButtonItem *addButton;
+@property (nonatomic, strong) UIBarButtonItem *moreButton;
 @property (nonatomic, strong) UIView *toastView;
 @property (nonatomic, strong) UILabel *toastViewMessageLabel;
 @property (nonatomic, copy) NSString *toastMessage;
@@ -66,6 +78,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 @implementation ContactListViewController
 
+#pragma mark - init/setup
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -75,7 +89,15 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - View lifecycle
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     if (!self.dataMgr) {
         self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
@@ -83,6 +105,10 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.dataMgr refreshLocalData];
     if ([self.dataMgr.dataRows count] == 0)
         [self.dataMgr refreshRemoteData];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(clearPopovers:)
+                                                 name:kSFPasscodeFlowWillBegin
+                                               object:nil];
 }
 
 - (void)loadView {
@@ -101,10 +127,11 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navBarLabel.font = [UIFont systemFontOfSize:kNavBarTitleFontSize];
     self.navigationItem.titleView = self.navBarLabel;
     
-    // Sync down / Sync up button
+    // Navigation bar buttons
     self.addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addContact)];
     self.syncButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
-    self.navigationItem.rightBarButtonItems = @[ self.syncButton, self.addButton ];
+    self.moreButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showOtherActions)];
+    self.navigationItem.rightBarButtonItems = @[ self.moreButton, self.syncButton, self.addButton ];
     for (UIBarButtonItem *bbi in self.navigationItem.rightBarButtonItems) {
         bbi.tintColor = [UIColor whiteColor];
     }
@@ -358,6 +385,44 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
+- (void)showOtherActions {
+    if([self.popOverController isPopoverVisible]){
+        [self.popOverController dismissPopoverAnimated:YES];
+        return;
+    }
+    
+    ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
+    popoverContent.preferredContentSize = CGSizeMake(260,130);
+    self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
+    
+    
+    [self.popOverController presentPopoverFromBarButtonItem:self.moreButton
+                                   permittedArrowDirections:WYPopoverArrowDirectionAny
+                                                   animated:YES];
+}
+
+- (void)popoverOptionSelected:(NSString *)text {
+    [self.popOverController dismissPopoverAnimated:YES];
+    
+    if ([text isEqualToString:kActionLogout]) {
+        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:@"Confirm Logout"
+                                                    otherButtonTitles:nil];
+        [self.logoutActionSheet showFromBarButtonItem:self.moreButton animated:YES];
+        return;
+    } else if ([text isEqualToString:kActionSwitchUser]) {
+        SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
+            [self dismissViewControllerAnimated:YES completion:NULL];
+        }];
+        [self presentViewController:umvc animated:YES completion:NULL];
+    } else if ([text isEqualToString:kActionDbInspector]) {
+        [[[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store] present:self];
+    }
+}
+
+
 - (void)layoutToastView {
     CGFloat toastWidth = 250.0;
     CGFloat toastHeight = 50.0;
@@ -512,6 +577,31 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     UIGraphicsEndImageContext();
     
     return imageFromGraphicsContext;
+}
+
+#pragma mark - Passcode handling
+
+- (void)clearPopovers:(NSNotification *)note
+{
+    [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
+    if (self.popOverController) {
+        [self.popOverController dismissPopoverAnimated:NO];
+    }
+    if (self.logoutActionSheet) {
+        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
+    }
+}
+
+#pragma mark - UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if ([actionSheet isEqual:self.logoutActionSheet]) {
+        self.logoutActionSheet = nil;
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            [[SFAuthenticationManager sharedManager] logout];
+        }
+    }
 }
 
 @end

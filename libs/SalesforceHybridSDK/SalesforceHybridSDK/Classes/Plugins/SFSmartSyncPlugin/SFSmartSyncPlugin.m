@@ -24,9 +24,9 @@
 
 #import "SFSmartSyncPlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SmartStore/SFSmartStore.h>
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSyncState.h>
 
@@ -52,13 +52,6 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 
 @implementation SFSmartSyncPlugin
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
-{
-    self = [super initWithWebView:theWebView];
-   
-    return self;
-}
-
 - (SFSmartSyncSyncManager *)syncManager
 {
     return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedStoreWithName:kDefaultSmartStoreName]];
@@ -67,11 +60,6 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 - (SFSmartSyncSyncManager *)globalSyncManager
 {
     return [SFSmartSyncSyncManager sharedInstanceForStore:[SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName]];
-}
-
-
-- (void) dealloc
-{
 }
 
 - (void)resetSyncManager
@@ -87,27 +75,31 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         NSError *error = nil;
-        NSMutableDictionary* detailDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
-        detailDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
-        NSData *detailData = [NSJSONSerialization dataWithJSONObject:detailDict
-                                                             options:0 // non-pretty printing
-                                                               error:&error];
-        if(error) {
-            [self log:SFLogLevelError format:@"JSON Parsing Error: %@", error];
-        }
-        else {
-            NSString* detailAsString = [[NSString alloc] initWithData:detailData encoding:NSUTF8StringEncoding];
-            NSString* js = [
-                            @[@"document.dispatchEvent(new CustomEvent(\"",
-                              kSyncEventType,
-                              @"\", { \"",
-                              kSyncDetail,
-                              @"\": ",
-                              detailAsString,
-                              @"}))" ]
-                            componentsJoinedByString:@""
-                            ];
-            [self.commandDelegate evalJs:js];
+        if ([NSJSONSerialization isValidJSONObject:[sync asDict]]) {
+            NSMutableDictionary* detailDict = [NSMutableDictionary dictionaryWithDictionary:[sync asDict]];
+            detailDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
+            NSData *detailData = [NSJSONSerialization dataWithJSONObject:detailDict
+                                                                 options:0 // non-pretty printing
+                                                                   error:&error];
+            if(error) {
+                [self log:SFLogLevelError format:@"JSON Parsing Error: %@", error];
+            }
+            else {
+                NSString* detailAsString = [[NSString alloc] initWithData:detailData encoding:NSUTF8StringEncoding];
+                NSString* js = [
+                                @[@"document.dispatchEvent(new CustomEvent(\"",
+                                  kSyncEventType,
+                                  @"\", { \"",
+                                  kSyncDetail,
+                                  @"\": ",
+                                  detailAsString,
+                                  @"}))" ]
+                                componentsJoinedByString:@""
+                                ];
+                [self.commandDelegate evalJs:js];
+            }
+        } else {
+            [self log:SFLogLevelDebug format:@"invalid object passed to JSONDataRepresentation???"];
         }
     });
 }

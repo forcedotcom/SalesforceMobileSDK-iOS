@@ -38,7 +38,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 @synthesize delegate=_delegate;
 @synthesize action=_action;
 @synthesize queryParams=_queryParams;
-@synthesize requestBodyStream=_requestBodyStream;
+@synthesize requestBodyStreamBlock=_requestBodyStreamBlock;
 @synthesize requestContentType=_requestContentType;
 
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
@@ -158,12 +158,15 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 - (void)setCustomRequestBodyData:(NSData *)bodyData contentType:(NSString *)contentType {
     if (bodyData == nil) bodyData = [NSData data];
-    [self setCustomRequestBodyStream:[NSInputStream inputStreamWithData:bodyData] contentType:contentType];
+    NSInputStream *(^bodyStreamBlock)(void) = ^{
+        return [NSInputStream inputStreamWithData:bodyData];
+    };
+    [self setCustomRequestBodyStream:bodyStreamBlock contentType:contentType];
 }
 
-- (void)setCustomRequestBodyStream:(NSInputStream *)bodyInputStream contentType:(NSString *)contentType {
-    if (bodyInputStream != nil) {
-        self.requestBodyStream = bodyInputStream;
+- (void)setCustomRequestBodyStream:(NSInputStream* (^)(void))bodyInputStreamBlock contentType:(NSString *)contentType {
+    if (bodyInputStreamBlock != nil) {
+        self.requestBodyStreamBlock = bodyInputStreamBlock;
         if ([contentType length] > 0) {
             self.requestContentType = contentType;
         }
@@ -209,8 +212,8 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
     }
     
     // Custom request body overrides default behavior.
-    if (self.requestBodyStream != nil) {
-        self.action.parameters.bodyStream = self.requestBodyStream;
+    if (self.requestBodyStreamBlock != nil) {
+        self.action.parameters.bodyStreamBlock = self.requestBodyStreamBlock;
         if ([self.requestContentType length] > 0) {
             [self setHeaderValue:self.requestContentType forHeaderName:@"Content-Type"];
         }
@@ -235,8 +238,12 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                  [[SFJsonUtils lastError] localizedDescription]];
                 return;
             }
-            self.action.parameters.bodyStream = [NSInputStream inputStreamWithData:bodyData];
+            NSInputStream *(^bodyStreamBlock)(void) = ^{
+                return [NSInputStream inputStreamWithData:bodyData];
+            };
+            self.action.parameters.bodyStreamBlock = bodyStreamBlock;
             [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
+            [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length] forHeaderName:@"Content-Length"];
         } else {
             [self convertQueryParamsToActionParams];
         }

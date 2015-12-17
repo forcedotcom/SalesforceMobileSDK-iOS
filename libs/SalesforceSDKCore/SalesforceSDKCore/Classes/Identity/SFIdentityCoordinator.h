@@ -46,7 +46,8 @@ enum {
     kSFIdentityErrorNoData,
     kSFIdentityErrorDataMalformed,
     kSFIdentityErrorBadHttpResponse,
-    kSFIdentityErrorMissingParameters
+    kSFIdentityErrorMissingParameters,
+    kSFIdentityErrorAlreadyRetrieving,
 };
 
 /**
@@ -80,7 +81,7 @@ enum {
  * Salesforce service.  This data will be based on the requesting user, and the OAuth app
  * credentials he/she is using to request this information.
  */
-@interface SFIdentityCoordinator : NSObject <NSURLConnectionDataDelegate>
+@interface SFIdentityCoordinator : NSObject
 
 /**
  * The designated initializer of SFIdentityCoordinator.  Creates an instance with the specified

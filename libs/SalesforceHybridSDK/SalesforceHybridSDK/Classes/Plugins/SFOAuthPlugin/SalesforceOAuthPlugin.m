@@ -26,7 +26,7 @@
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import "SFHybridViewController.h"
@@ -59,18 +59,6 @@
 // Main implementation
 // ------------------------------------------
 @implementation SalesforceOAuthPlugin
-
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
-{
-    self = (SalesforceOAuthPlugin *)[super initWithWebView:theWebView];
-    if (self) {
-        // Custom init.
-    }
-    return self;
-}
 
 #pragma mark - Cordova plugin methods and helpers
 

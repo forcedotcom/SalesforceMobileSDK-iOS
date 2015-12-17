@@ -31,7 +31,7 @@
 #import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import <SalesforceRestAPI/SFRestRequest.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
+#import <SmartStore/SFSmartStore.h>
 
 // target types
 static NSString * const kSFSyncUpTargetTypeRestStandard = @"rest";

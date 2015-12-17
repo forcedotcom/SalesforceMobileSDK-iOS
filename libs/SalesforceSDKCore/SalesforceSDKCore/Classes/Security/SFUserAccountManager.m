@@ -28,11 +28,15 @@
 #import "SFDirectoryManager.h"
 #import "SFCommunityData.h"
 #import "SFManagedPreferences.h"
+#import "SFUserAccount+Internal.h"
+#import "SFIdentityData+Internal.h"
 
-#import <SalesforceSecurity/SFKeyStoreManager.h>
-#import <SalesforceSecurity/SFKeyStoreKey.h>
-#import <SalesforceSecurity/SFSDKCryptoUtils.h>
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
+#import "SFKeyStoreManager.h"
+#import "SFKeyStoreKey.h"
+#import "SFSDKCryptoUtils.h"
+#import "NSString+SFAdditions.h"
+#import "SFSDKDatasharingHelper.h"
+#import "SFFileProtectionHelper.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -46,6 +50,14 @@ NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginH
 // The temporary user identity
 static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
 static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
+
+// The anonymous user support the application should add to its Info.plist file
+static NSString * const kSFUserAccountSupportAnonymousUsage = @"SFDCSupportAnonymousUsage";
+static NSString * const kSFUserAccountAutocreateAnonymousUser = @"SFDCAutocreateAnonymousUser";
+
+// The anonymous user user id and org id
+static NSString * const SFUserAccountManagerAnonymousUserAccountUserId = @"ANONYM_USER_ID"; // DO NOT EXCEED 15 characters
+static NSString * const SFUserAccountManagerAnonymousUserAccountOrgId = @"ANONYM_ORG_ID"; // DO NOT EXCEED 15 characters
 
 // The key for storing the persisted OAuth scopes.
 NSString * const kOAuthScopesKey = @"oauth_scopes";
@@ -89,6 +101,13 @@ static NSString * const kUserPrefix = @"005";
 
 // Label for encryption key for user account persistence.
 static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAccount.encryptionKey";
+
+// Error domain and codes
+static NSString * const SFUserAccountManagerErrorDomain = @"SFUserAccountManager";
+
+static const NSUInteger SFUserAccountManagerCannotReadDecryptedArchive = 10001;
+static const NSUInteger SFUserAccountManagerCannotReadPlainTextArchive = 10002;
+static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 #pragma mark - SFLoginHostUpdateResult
 
@@ -138,6 +157,10 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         case SFLogLevelError:
             credentials.logLevel = kSFOAuthLogLevelError;
             break;
+
+        case SFLogLevelVerbose:
+            credentials.logLevel = kSFOAuthLogLevelVerbose;
+            break;
     }
 }
 
@@ -149,11 +172,11 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         if (bundleOAuthCompletionUrl != nil) {
             self.oauthCompletionUrl = bundleOAuthCompletionUrl;
         }
-        
         _userAccountMap = [[NSMutableDictionary alloc] init];
         _temporaryUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerTemporaryUserAccountUserId orgId:SFUserAccountManagerTemporaryUserAccountOrgId];
-        
+        _anonymousUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerAnonymousUserAccountUserId orgId:SFUserAccountManagerAnonymousUserAccountOrgId];
         [self loadAccounts:nil];
+        [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];
 	}
 	return self;
 }
@@ -364,6 +387,95 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     }
 }
 
+#pragma mark - Temporary User
+
++ (BOOL)isUserTemporary:(SFUserAccount*)user {
+    if (nil == user.accountIdentity) {
+        return NO;
+    }
+    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
+        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
+}
+
+- (SFUserAccount *)temporaryUser {
+    SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
+    if (tempAccount == nil) {
+        tempAccount = [self createUserAccount];
+    }
+    return tempAccount;
+}
+
+#pragma mark - Anonymous User
+
++ (BOOL)isUserAnonymous:(SFUserAccount*)user {
+    if (nil == user.accountIdentity) {
+        return NO;
+    }
+    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerAnonymousUserAccountUserId] &&
+        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerAnonymousUserAccountOrgId];
+}
+
+- (BOOL)supportsAnonymousUser {
+    return [[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountSupportAnonymousUsage] boolValue];
+}
+
+- (BOOL)autocreateAnonymousUser {
+    return [[[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountAutocreateAnonymousUser] boolValue];
+}
+
+- (BOOL)isCurrentUserAnonymous {
+    return [[self class] isUserAnonymous:self.currentUser];
+}
+
+- (SFUserAccount *)anonymousUser {
+    if (nil == _anonymousUser) {
+        for (SFUserAccountIdentity *identity in self.allUserIdentities) {
+            if ([identity isEqual:self.anonymousUserIdentity]) {
+                _anonymousUser = [self userAccountForUserIdentity:identity];
+                break;
+            }
+        }
+    }
+    return _anonymousUser;
+}
+
+- (void)setupAnonymousUser:(BOOL)supportsAnonymousUser autocreateAnonymousUser:(BOOL)autocreateAnonymousUser {
+
+    // If there is no current user but the application support anonymous user
+    // and wants it to be created automatically, then create it now.
+    if (supportsAnonymousUser && autocreateAnonymousUser && nil == self.anonymousUser) {
+        [self log:SFLogLevelInfo msg:@"Creating anonymous user"];
+        [self enableAnonymousAccount];
+        if (nil == self.currentUser) {
+            self.currentUser = self.anonymousUser;
+        }
+    }
+}
+
+- (void)enableAnonymousAccount {
+    if (nil == self.anonymousUser) {
+        self.anonymousUser = [[SFUserAccount alloc] initWithIdentifier:[self uniqueUserAccountIdentifier] clientId:self.oauthClientId];
+        SFOAuthCredentials *creds = self.anonymousUser.credentials;
+        creds.domain = self.loginHost;
+        creds.redirectUri = self.oauthCompletionUrl;
+        creds.clientId = self.oauthClientId;
+        creds.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://does.not.matter.domain-does-not-exist/id/%@/%@", self.anonymousUserIdentity.orgId, self.anonymousUserIdentity.userId]];
+        creds.communityUrl = [NSURL URLWithString:@"https://who-cares.domain-does-not-exist"];
+        creds.instanceUrl = [NSURL URLWithString:@"https://who-cares.domain-does-not-exist"];
+        creds.accessToken = [NSUUID UUID].UUIDString;
+        [self addAccount:self.anonymousUser];
+        [self saveAccounts:nil];
+    }
+}
+
+- (void)disableAnonymousAccount {
+    NSError *error;
+    if (![self deleteAccountForUser:self.anonymousUser error:&error]) {
+        [self log:SFLogLevelError format:@"Unable to delete the anonymous user: %@", [error localizedDescription]];
+    }
+    self.anonymousUser = nil;
+}
+
 #pragma mark Account management
 
 - (NSArray *)allUserAccounts
@@ -482,8 +594,56 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     return [directory stringByAppendingPathComponent:kUserAccountPlistFileName];
 }
 
+- (void)migrateUserDefaults {
+    //Migrate the defaults to the correct location
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    
+    BOOL isGroupAccessEnabled = [SFSDKDatasharingHelper sharedInstance].appGroupEnabled;
+    BOOL userIdentityShared = [sharedDefaults boolForKey:@"userIdentityShared"];
+    BOOL communityIdShared = [sharedDefaults boolForKey:@"communityIdShared"];
+    
+    if (isGroupAccessEnabled && !userIdentityShared) {
+        //Migrate user identity to shared location
+        NSData *userData = [standardDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+        if (userData) {
+            [sharedDefaults setObject:userData forKey:kUserDefaultsLastUserIdentityKey];
+        }
+        [sharedDefaults setBool:YES forKey:@"userIdentityShared"];
+    }
+    if (!isGroupAccessEnabled && userIdentityShared) {
+        //Migrate base app identifier key to non-shared location
+        NSData *userData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+        if (userData) {
+            [standardDefaults setObject:userData forKey:kUserDefaultsLastUserIdentityKey];
+        }
+        
+        [sharedDefaults setBool:NO forKey:@"userIdentityShared"];
+    } else if (isGroupAccessEnabled && !communityIdShared) {
+        //Migrate communityId to shared location
+        NSString *activeCommunityId = [standardDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
+        if (activeCommunityId) {
+            [sharedDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        }
+        [sharedDefaults setBool:YES forKey:@"communityIdShared"];
+    } else if (!isGroupAccessEnabled && communityIdShared) {
+        //Migrate base app identifier key to non-shared location
+        NSString *activeCommunityId = [sharedDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
+        if (activeCommunityId) {
+            [standardDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        }
+        [sharedDefaults setBool:NO forKey:@"communityIdShared"];
+    }
+    
+    [standardDefaults synchronize];
+    [sharedDefaults synchronize];
+    
+}
+
 // called by init
 - (BOOL)loadAccounts:(NSError**)error {
+    [self migrateUserDefaults];
+    
     // Make sure we start from a blank state
     [self clearAllAccountState];
     
@@ -508,11 +668,11 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         return NO;
     } else {
         for (NSString *rootContent in rootContents) {
-            // Ignore content that don't represent an organization
-            if (![rootContent hasPrefix:kOrgPrefix]) continue;
 
+            // Ignore content that don't represent an organization or an anonymous org
+            if (![rootContent hasPrefix:kOrgPrefix] && ![rootContent isEqualToString:SFUserAccountManagerAnonymousUserAccountOrgId]) continue;
             NSString *rootPath = [rootDirectory stringByAppendingPathComponent:rootContent];
-            
+
             // Fetch the content of the org directory
             NSArray *orgContents = [fm contentsOfDirectoryAtPath:rootPath error:error];
             if (nil == orgContents) {
@@ -523,9 +683,9 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
             }
             
             for (NSString *orgContent in orgContents) {
-                // Ignore content that don't represent a user
-                if (![orgContent hasPrefix:kUserPrefix]) continue;
 
+                // Ignore content that don't represent a user or an anonymous user
+                if (![orgContent hasPrefix:kUserPrefix] && ![orgContent isEqualToString:SFUserAccountManagerAnonymousUserAccountUserId]) continue;
                 NSString *orgPath = [rootPath stringByAppendingPathComponent:orgContent];
                 
                 // Now let's try to load the user account file in there
@@ -584,45 +744,122 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         [self log:SFLogLevelDebug format:@"No account data exists at '%@'", filePath];
         return nil;
     }
-    
-    @try {
-        SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+
+    // Try to load the user account assuming it is encrypted
+    SFUserAccount *user = nil;
+    if ([self loadUserAccountFromFile:filePath encrypted:YES account:&user error:nil]) {
+        return user;
+    } else {
+
+        // Unable to retrieve the encrypted user, maybe it's still in the old plain text format?
+        NSError *error = nil;
+        if ([self loadUserAccountFromFile:filePath encrypted:NO account:&user error:&error]) {
         
-        // On iOS9, it won't throw an exception, but will return nil instead
-        if (plainTextUserAccount) {
-            // Upgrade step.  If we got this far, the file is in the old plaintext format, and we'll
-            // convert it to the encrypted format before returning the object.
-            BOOL encryptUserAccountSuccess = [self saveUserAccount:plainTextUserAccount toFile:filePath];
+            // Upgrade step.  The file is in the old plaintext format, and we'll
+            // convert it to the encrypted format.
+            BOOL encryptUserAccountSuccess = [self saveUserAccount:user toFile:filePath];
             if (!encryptUserAccountSuccess) {
+
                 // Specific error messages will already be logged.  Make sure old user account file is removed.
                 [manager removeItemAtPath:filePath error:nil];
                 return nil;
             }
+        } else {
+
+            // Nope, unable to read it from the plain text format so let's remove that file
+            [self log:SFLogLevelError format:@"Error deserializing the user account data: %@", [error description]];
+            [manager removeItemAtPath:filePath error:nil];
         }
     }
-    @finally {
+    return user;
+}
+
+/** Loads a user account from a specified file
+ @param filePath The file to load the user account from
+ @param encrypted YES if the file contains the user account encrypted, NO otherwise
+ @param account On output, contains the user account or nil if an error occurred
+ @param error On output, contains the error if the method returned NO
+ @return YES if the method succeeded, NO otherwise
+ */
+- (BOOL)loadUserAccountFromFile:(NSString *)filePath encrypted:(BOOL)encrypted account:(SFUserAccount**)account error:(NSError**)error {
+    NSFileManager *manager = [[NSFileManager alloc] init];
+    NSString *reason = @"User account data could not be decrypted. Can't load account.";
+    if (encrypted) {
         NSData *encryptedUserAccountData = [manager contentsAtPath:filePath];
         if (!encryptedUserAccountData) {
-            [self log:SFLogLevelDebug format:@"Could not retrieve user account data from '%@'", filePath];
-            return nil;
+            NSString *reason = [NSString stringWithFormat:@"Could not retrieve user account data from '%@'", filePath];
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotRetrieveUserData
+                                         userInfo:@{ NSLocalizedDescriptionKey : reason } ];
+            }
+            [self log:SFLogLevelDebug msg:reason];
+            return NO;
         }
-        
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kUserAccountEncryptionKeyLabel keyType:SFKeyStoreKeyTypeGenerated autoCreate:YES];
         NSData *decryptedArchiveData = [SFSDKCryptoUtils aes256DecryptData:encryptedUserAccountData withKey:encKey.key iv:encKey.initializationVector];
         if (!decryptedArchiveData) {
-            [self log:SFLogLevelDebug msg:@"User account data could not be decrypted.  Can't load account."];
-            [manager removeItemAtPath:filePath error:nil];
-            return nil;
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotRetrieveUserData
+                                         userInfo:@{ NSLocalizedDescriptionKey : reason } ];
+            }
+            [self log:SFLogLevelWarning msg:reason];
+            return NO;
         }
         
         @try {
             SFUserAccount *decryptedAccount = [NSKeyedUnarchiver unarchiveObjectWithData:decryptedArchiveData];
-            return decryptedAccount;
+            
+            // On iOS9, it won't throw an exception, but will return nil instead.
+            if (decryptedAccount) {
+                if (account) {
+                    *account = decryptedAccount;
+                }
+                return YES;
+            } else {
+                if (error) {
+                    *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                 code:SFUserAccountManagerCannotReadDecryptedArchive
+                                             userInfo:@{ NSLocalizedDescriptionKey : reason} ];
+                }
+                return NO;
+            }
         }
         @catch (NSException *exception) {
-            [self log:SFLogLevelDebug format:@"Error deserializing the user account data: %@", [exception reason]];
-            [manager removeItemAtPath:filePath error:nil];
-            return nil;
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotReadDecryptedArchive
+                                         userInfo:@{ NSLocalizedDescriptionKey : [exception reason]} ];
+            }
+            return NO;
+        }
+    } else {
+        @try {
+            SFUserAccount *plainTextUserAccount = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+
+            // On iOS9, it won't throw an exception, but will return nil instead.
+            if (plainTextUserAccount) {
+                if (account) {
+                    *account = plainTextUserAccount;
+                }
+                return YES;
+            } else {
+                if (error) {
+                    *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                                 code:SFUserAccountManagerCannotReadPlainTextArchive
+                                             userInfo:@{ NSLocalizedDescriptionKey : reason} ];
+                }
+                return NO;
+            }
+        }
+        @catch (NSException *exception) {
+            if (error) {
+                *error = [NSError errorWithDomain:SFUserAccountManagerErrorDomain
+                                             code:SFUserAccountManagerCannotReadPlainTextArchive
+                                         userInfo:@{ NSLocalizedDescriptionKey : [exception reason]} ];
+            }
+            return NO;
         }
     }
 }
@@ -697,21 +934,13 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
     }
     
     // Save it.
-    BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : NSFileProtectionComplete }];
+    BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : [SFFileProtectionHelper fileProtectionForPath:filePath] }];
     if (!saveFileSuccess) {
         [self log:SFLogLevelDebug format:@"Could not create user account data file at path '%@'", filePath];
         return NO;
     }
     
     return YES;
-}
-
-- (SFUserAccount *)temporaryUser {
-    SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
-    if (tempAccount == nil) {
-        tempAccount = [self createUserAccount];
-    }
-    return tempAccount;
 }
 
 - (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity {
@@ -765,6 +994,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
         } else {
             [self log:SFLogLevelDebug format:@"User folder for user '%@' does not exist on the filesystem.  Continuing.", user.userName];
         }
+        user.userDeleted = YES;
         [self.userAccountMap removeObjectForKey:user.accountIdentity];
     }
     return YES;
@@ -780,7 +1010,14 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (SFUserAccountIdentity *)activeUserIdentity {
-    NSData *resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
+    NSData *resultData = nil;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+        resultData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
+    } else {
+        resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
+    }
+    
     if (resultData == nil)
         return nil;
     
@@ -799,30 +1036,49 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 }
 
 - (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    NSUserDefaults *standardDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    } else {
+        standardDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    
     if (activeUserIdentity == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserIdentityKey];
+        [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     } else {
         NSMutableData *auiData = [NSMutableData data];
         NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:auiData];
         [archiver encodeObject:activeUserIdentity forKey:kUserDefaultsLastUserIdentityKey];
         [archiver finishEncoding];
-        
-        [[NSUserDefaults standardUserDefaults] setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
+        [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [standardDefaults synchronize];
 }
 
 - (NSString *)activeCommunityId {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:kUserDefaultsLastUserCommunityIdKey];
+    NSUserDefaults *userDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
+    } else {
+        userDefaults =  [NSUserDefaults standardUserDefaults];
+    }
+    return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
 - (void)setActiveCommunityId:(NSString *)activeCommunityId {
-    if (activeCommunityId == nil) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+    NSUserDefaults *userDefaults;
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
+        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+        userDefaults =  [NSUserDefaults standardUserDefaults];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if (activeCommunityId == nil) {
+        [userDefaults removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
+    } else {
+        [userDefaults setObject:activeCommunityId forKey:kUserDefaultsLastUserCommunityIdKey];
+    }
+    [userDefaults synchronize];
 }
 
 - (void)setActiveUser:(SFUserAccount *)user {
@@ -898,6 +1154,7 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
                 self.currentUser.communities = @[communityData];
             }
         }
+        [self setActiveCommunityId:self.currentUser.communityId];
     }
     
     // If our default user identity is currently the temporary user identity,
@@ -912,6 +1169,16 @@ static NSString * const kUserAccountEncryptionKeyLabel = @"com.salesforce.userAc
 
 - (void)applyIdData:(SFIdentityData *)idData {
     self.currentUser.idData = idData;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes {
+    self.currentUser.idData.customAttributes = customAttributes;
+    [self userChanged:SFUserAccountChangeIdData];
+}
+
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions {
+    self.currentUser.idData.customPermissions = customPermissions;
     [self userChanged:SFUserAccountChangeIdData];
 }
 

@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+
 #import "CSFSalesforceAction_Internal.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFInternalDefines.h"
@@ -30,9 +32,15 @@
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";
 NSString * const CSFSalesforceActionDefaultPathPrefix = @"/services/data";
-NSString * const CSFSalesforceDefaultAPIVersion = @"v33.0";
+NSString * const CSFSalesforceDefaultAPIVersion = @"v34.0";
 
+static NSString * const kNetworkAccessTokenPath   = @"account.credentials.accessToken";
+static NSString * const kNetworkInstanceURLPath   = @"account.credentials.instanceUrl";
+static NSString * const kNetworkCommunityIDPath   = @"account.communityId";
 static void * kObservingKey = &kObservingKey;
+static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
+    return errorDict[@"message"] ?: (errorDict[@"msg"] ?: errorDict[@"errorMsg"]);
+}
 
 @implementation CSFSalesforceAction
 
@@ -53,27 +61,39 @@ static void * kObservingKey = &kObservingKey;
 }
 
 - (void)dealloc {
-    CSFNetwork *network = self.enqueuedNetwork;
-    [network removeObserver:self forKeyPath:@"account.credentials.accessToken" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"account.credentials.instanceUrl" context:kObservingKey];
-    [network removeObserver:self forKeyPath:@"account.communityId" context:kObservingKey];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.enqueuedNetwork = nil;
 }
 
-- (void)setEnqueuedNetwork:(CSFNetwork *)network {
-    _enqueuedNetwork = network;
-    [network addObserver:self forKeyPath:@"account.credentials.accessToken"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
-    [network addObserver:self forKeyPath:@"account.credentials.instanceUrl"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
-    [network addObserver:self forKeyPath:@"account.communityId"
-                 options:(NSKeyValueObservingOptionInitial |
-                          NSKeyValueObservingOptionNew)
-                 context:kObservingKey];
+- (void)setEnqueuedNetwork:(CSFNetwork *) network {
+    if (_enqueuedNetwork != network) {
+        // remove observer from old network.
+        if (_enqueuedNetwork) {
+            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkAccessTokenPath context:kObservingKey];
+            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkInstanceURLPath context:kObservingKey];
+            [_enqueuedNetwork removeObserver:self forKeyPath:kNetworkCommunityIDPath context:kObservingKey];
+        }
+		_enqueuedNetwork = network;
+        // add observers to the new network
+        if (_enqueuedNetwork) {
+            if (!self.baseURL.scheme && !self.baseURL.host) {
+                // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
+                // this check is necessary as there are salesforce URL that is content server based and not API based
+                self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
+            }
+            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkAccessTokenPath
+                                 options:(NSKeyValueObservingOptionInitial |
+                                          NSKeyValueObservingOptionNew)
+                                 context:kObservingKey];
+            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkInstanceURLPath
+                                 options:(NSKeyValueObservingOptionInitial |
+                                          NSKeyValueObservingOptionNew)
+                                 context:kObservingKey];
+            [_enqueuedNetwork addObserver:self forKeyPath:kNetworkCommunityIDPath
+                                 options:(NSKeyValueObservingOptionInitial |
+                                          NSKeyValueObservingOptionNew)
+                                 context:kObservingKey];
+        }
+    }
 }
 
 - (NSDictionary *)headersForAction {
@@ -99,23 +119,23 @@ static void * kObservingKey = &kObservingKey;
     NSError *responseError = nil;
     id content = [super contentFromData:data fromResponse:response error:&responseError];
 
-    if (content && !responseError) {
+    if (!responseError) {
         NSObject *msgObj = nil;
         NSString *errorCode = nil;
-        
-        // TODO: I think this code can be cleaned up to be a bit more tidy.
-        if ([content isKindOfClass:[NSArray class]] && [(NSArray*)content count] > 0) {
-            NSArray *jsonArray = (NSArray*)content;
-            NSDictionary *errorDict = jsonArray[0];
-            if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
-                msgObj = errorDict[@"message"] ?: errorDict[@"msg"];
-                errorCode = errorDict[@"errorCode"] ;
+        if (content) {
+            if ([content isKindOfClass:[NSArray class]] && [(NSArray*)content count] > 0) {
+                NSArray *jsonArray = (NSArray*)content;
+                NSDictionary *errorDict = jsonArray[0];
+                if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+                    msgObj = CSFSalesforceErrorMessage(errorDict);
+                    errorCode = errorDict[@"errorCode"];
+                }
+            } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDict = (NSDictionary*)content;
+                msgObj = CSFSalesforceErrorMessage(errorDict);
+                errorCode = errorDict[@"errorCode"];
             }
-        } else if (response.statusCode >= 400 && [content isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *errorDict = (NSDictionary*)content;
-            msgObj = errorDict[@"msg"];
         }
-        
         CSFNetwork *network = self.enqueuedNetwork;
         if (response.statusCode >= 400) {
             
@@ -217,20 +237,18 @@ static void * kObservingKey = &kObservingKey;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (context == kObservingKey) {
-        [self willChangeValueForKey:@"ready"];
-        [self didChangeValueForKey:@"ready"];
-        if ([self requiresAuthentication] && (self.enqueuedNetwork.account == object)) {
-            if ([keyPath isEqualToString:@"communityId"]) {
-                self.enqueuedNetwork.defaultConnectCommunityId = self.enqueuedNetwork.account.communityId;
-            } else if (self.enqueuedNetwork.account.credentials.accessToken
-                       && self.enqueuedNetwork.account.credentials.instanceUrl) {
-                self.enqueuedNetwork.networkSuspended = NO;
+        [self willChangeValueForKey:@"isReady"];
+        if ([self requiresAuthentication] && (self.enqueuedNetwork == object)) {
+            SFUserAccount *account = self.enqueuedNetwork.account; 
+            if ([keyPath isEqualToString:kNetworkCommunityIDPath]) {
+                self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
+            } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
             } else {
-                self.enqueuedNetwork.networkSuspended = YES;
                 self.credentialsReady = NO;
             }
         }
+        [self didChangeValueForKey:@"isReady"];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }

@@ -1,0 +1,12 @@
+*.iml
+*.xcworkspace/
+*~
+app/android/.gradle/
+app/android/.idea
+app/android/app/build/
+app/android/build/
+app/android/local.properties
+app/ios/Podfile.lock
+app/ios/Pods/
+app/node_modules/
+xcuserdata

@@ -4,12 +4,18 @@
 [submodule "external/cordova-ios/cordova-ios"]
 	path = external/cordova-ios/cordova-ios
 	url = https://github.com/apache/cordova-ios.git
-[submodule "external/ThirdPartyDependencies"]
-	path = external/ThirdPartyDependencies
-	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Dependencies.git
 [submodule "external/ocmock"]
 	path = external/ocmock
 	url = https://github.com/erikdoe/ocmock.git
 [submodule "external/fmdb"]
 	path = external/fmdb
 	url = https://github.com/forcedotcom/fmdb
+[submodule "external/wypopovercontroller"]
+	path = external/wypopovercontroller
+	url = https://github.com/sammcewan/WYPopoverController
+[submodule "external/react-native"]
+	path = external/react-native
+	url = https://github.com/forcedotcom/react-native.git
+[submodule "external/CocoaLumberjack"]
+	path = external/CocoaLumberjack
+url=https://github.com/forcedotcom/CocoaLumberjack.git

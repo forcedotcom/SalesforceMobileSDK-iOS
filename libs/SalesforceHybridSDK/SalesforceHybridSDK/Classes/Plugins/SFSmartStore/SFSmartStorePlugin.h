@@ -24,7 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SFForcePlugin.h"
-#import <SalesforceSDKCore/SFStoreCursor.h>
+#import <SmartStore/SFStoreCursor.h>
 
 /**
  String used with Cordova to uniquely identify this plugin

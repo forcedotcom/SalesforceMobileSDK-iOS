@@ -24,7 +24,7 @@
 
 #import "TestDataAction.h"
 #import <OCMock/OCMock.h>
-#import <SalesforceOAuth/SalesforceOAuth.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 @implementation TestDataAction
 

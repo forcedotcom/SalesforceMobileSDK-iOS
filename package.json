@@ -1,0 +1,29 @@
+{
+	"name": "forceios",
+	"version": "4.0.0",
+	"description": "Utilities for creating mobile apps based on the Salesforce Mobile SDK for iOS",
+	"keywords": [ "mobilesdk", "ios", "salesforce", "mobile", "sdk" ],
+	"homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS",
+	"bugs": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS/issues",
+	"licenses" : [
+	    { "type": "Salesforce.com Mobile SDK License", "url": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS/blob/master/LICENSE.md" }
+	],
+	"os" : [ "darwin" ],
+	"bin" : { "forceios" : "node/forceios.js" },
+    "dependencies": {
+        "shelljs": ">=0.1.4"
+    },
+    "scripts": {
+        "prepublish": "external/shared/node/prepublish.js",
+        "postpublish": "external/shared/node/postpublish.js"
+    },
+	"repository": {
+		"type" : "git",
+		"url" : "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git"
+	},
+	"author": { "name": "Kevin Hawkins", "email": "khawkins@salesforce.com" },
+	"contributors": [
+        { "name": "Wolfgang Mathurin", "email": "wmathurin@salesforce.com" },
+        { "name": "Bharath Hariharan", "email": "bhariharan@salesforce.com" }
+    ]
+}

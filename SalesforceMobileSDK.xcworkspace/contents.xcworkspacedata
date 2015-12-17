@@ -22,44 +22,38 @@
       <FileRef
          location = "group:Packaging-Static.xcconfig">
       </FileRef>
+      <FileRef
+         location = "group:Packaging-Dynamic.xcconfig">
+      </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "Libs">
       <FileRef
-         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceOAuth/SalesforceOAuth.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:libs/SalesforceSecurity/SalesforceSecurity.xcodeproj">
+         location = "group:libs/SmartStore/SmartStore.xcodeproj">
       </FileRef>
       <FileRef
          location = "group:libs/SmartSync/SmartSync.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
+         location = "group:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:libs/SalesforceReact/SalesforceReact.xcodeproj">
       </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "NativeSamples">
-      <FileRef
-         location = "group:native/SampleApps/FileExplorer/FileExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:native/SampleApps/NativeSqlAggregator/NativeSqlAggregator.xcodeproj">
-      </FileRef>
       <FileRef
          location = "group:native/SampleApps/RestAPIExplorer/RestAPIExplorer.xcodeproj">
       </FileRef>
@@ -74,30 +68,24 @@
          location = "group:hybrid/SampleApps/AccountEditor/AccountEditor.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/ContactExplorer/ContactExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/HybridFileExplorer/HybridFileExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:hybrid/SampleApps/NoteSync/NoteSync.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:hybrid/SampleApps/SimplySync/SimpleSync.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/SmartStoreExplorer/SmartStoreExplorer.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/UserList/UserList.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:hybrid/SampleApps/VFConnector/VFConnector.xcodeproj">
+         location = "group:hybrid/SampleApps/SmartSyncExplorerHybrid/SmartSyncExplorerHybrid.xcodeproj">
       </FileRef>
    </Group>
    <Group
       location = "container:"
       name = "External">
+      <FileRef
+         location = "group:external/fmdb/fmdb.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:external/react-native/React/React.xcodeproj">
+      </FileRef>
       <FileRef
          location = "group:external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj">
       </FileRef>
@@ -108,120 +96,6 @@
    <Group
       location = "group:external/ThirdPartyDependencies"
       name = "ThirdPartyDependencies">
-      <Group
-         location = "group:SalesforceCommonUtils"
-         name = "SalesforceCommonUtils">
-         <Group
-            location = "group:Headers"
-            name = "Headers">
-            <Group
-               location = "group:SalesforceCommonUtils"
-               name = "SalesforceCommonUtils">
-               <FileRef
-                  location = "group:NSData+SFAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSDictionary+SFAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSMutableAttributedString+SFAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSObject+SFBlocks.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSString+SFAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSString+SFPathAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:NSURL+SFAdditions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SalesforceCommonUtils.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFCoverView.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFCrypto.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFDateUtil.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFDeviceInfo.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFEncryptionManager.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFGradientView.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFInactivityTimerCenter.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFKeychainItemWrapper.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFLogger.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFMD5.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPadPickListViewController.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPathUtil.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPhonePickListViewController.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFPickListViewController.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFQueryNetworkScopeHelper.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFSoqlBuilder.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFSoslBuilder.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFSoslReturningBuilder.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFTestContext.h">
-               </FileRef>
-               <FileRef
-                  location = "group:SFUIUtils.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIActionSheet+SFBlocks.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIAlertView+SFBlocks.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIBarButtonItem+SFAddtions.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UIDevice+SFHardware.h">
-               </FileRef>
-               <FileRef
-                  location = "group:UILabel+SFAdditions.h">
-               </FileRef>
-            </Group>
-         </Group>
-         <FileRef
-            location = "group:libSalesforceCommonUtils.a">
-         </FileRef>
-      </Group>
       <FileRef
          location = "group:README.md">
       </FileRef>
@@ -249,52 +123,49 @@
                location = "group:AppIcon.appiconset"
                name = "AppIcon.appiconset">
                <FileRef
-                  location = "group:appicon-60@2x.png">
+                  location = "group:appicon29x29.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-72.png">
+                  location = "group:appicon40x40.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-72@2x.png">
+                  location = "group:appicon50x50.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-76.png">
+                  location = "group:appicon57x57.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-76@2x.png">
+                  location = "group:appicon58x58.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40-iPad.png">
+                  location = "group:appicon72x72.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40-iPad@2x.png">
+                  location = "group:appicon76x76.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-40@2x.png">
+                  location = "group:appicon80x80.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-50.png">
+                  location = "group:appicon87x87.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-50@2x.png">
+                  location = "group:appicon100x100.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-iPad.png">
+                  location = "group:appicon114x114.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small-iPad@2x.png">
+                  location = "group:appicon120x120.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small.png">
+                  location = "group:appicon144x144.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon-Small@2x.png">
+                  location = "group:appicon152x152.png">
                </FileRef>
                <FileRef
-                  location = "group:appicon.png">
-               </FileRef>
-               <FileRef
-                  location = "group:appicon@2x.png">
+                  location = "group:appicon180x180.png">
                </FileRef>
                <FileRef
                   location = "group:Contents.json">
@@ -304,25 +175,19 @@
                location = "group:LaunchImage.launchimage"
                name = "LaunchImage.launchimage">
                <FileRef
+                  location = "group:Default640x960.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default640x1136.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default1242x2208.png">
+               </FileRef>
+               <FileRef
+                  location = "group:Default2208x1242.png">
+               </FileRef>
+               <FileRef
                   location = "group:Contents.json">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-568h@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Landscape@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default-Portrait@2x.png">
-               </FileRef>
-               <FileRef
-                  location = "group:Default@2x.png">
                </FileRef>
             </Group>
          </Group>

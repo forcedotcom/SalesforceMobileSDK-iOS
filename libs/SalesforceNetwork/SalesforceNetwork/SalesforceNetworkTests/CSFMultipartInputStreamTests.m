@@ -102,7 +102,12 @@
     XCTAssertEqual(stream.numberOfParts, 1U);
     XCTAssertEqual(stream.length, 189U);
     
-    [stream addObject:[NSDate dateWithTimeIntervalSinceReferenceDate:1000] forKey:@"date"];
+    NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    dateFormatter.dateStyle = NSDateFormatterFullStyle;
+    dateFormatter.timeStyle = NSDateFormatterFullStyle;
+    
+    [stream addObject:[dateFormatter dateFromString:@"Friday, July 24, 2015 at 7:21:02 AM Hawaii-Aleutian Standard Time"]
+               forKey:@"date"];
     XCTAssertEqual(stream.numberOfParts, 2U);
     XCTAssertEqual(stream.length, 321U);
     
@@ -130,7 +135,7 @@
     NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *expectedString = [NSMutableString new];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nTest String\r\n", stream.boundary];
-    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2000-12-31T16:16:40Z\r\n", stream.boundary];
+    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T10:21:02Z\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"url\"\r\n\r\nhttp://example.org/path/to?something=else\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"file\"; filename=\"SimpleFile.json\"\r\nContent-Type: application/json\r\n\r\n{\"simple\":{\"json\":\"data\"},\"count\":15}\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@--\r\n", stream.boundary];

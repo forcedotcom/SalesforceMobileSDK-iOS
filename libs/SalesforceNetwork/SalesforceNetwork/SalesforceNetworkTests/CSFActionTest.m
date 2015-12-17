@@ -79,6 +79,7 @@
         XCTAssertEqual(error.code, CSFNetworkJSONInvalidError);
         [responseBlockExpectation fulfill];
     } testString:@"What the heck, this isn't JSON?"];
+    testAction.url = [NSURL URLWithString:@"http://example.com/foo/bar"];
     testAction.testResponseObject = [[NSHTTPURLResponse alloc] initWithURL:[NSURL URLWithString:@"http://example.com/foo/bar"]
                                                                 statusCode:200
                                                                HTTPVersion:@"1.1"
@@ -89,6 +90,29 @@
     [self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {
         XCTAssertNil(error);
     }];
+}
+
+- (void)testBaseURL {
+    CSFAction *action = [[CSFAction alloc] initWithResponseBlock:nil];
+    XCTAssertNotNil(action);
+    
+    action.baseURL = [NSURL URLWithString:@"http://example.com"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/");
+
+    action.verb = @"some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/some/relative/path");
+
+    action.verb = @"/some/relative/path";
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/some/relative/path");
+    
+    action.baseURL = [NSURL URLWithString:@"http://example.com/v1/root"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/v1/root/");
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://example.com/v1/root/some/relative/path");
+    
+    action.url = [NSURL URLWithString:@"http://another.example.com/some/path/to/a/request"];
+    XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://another.example.com/");
+    XCTAssertEqualObjects(action.url.absoluteString, @"http://another.example.com/some/path/to/a/request");
+    XCTAssertEqualObjects(action.verb, @"/some/path/to/a/request");
 }
 
 @end

@@ -1,0 +1,26 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '8.0'
+
+target '__ReactNativeTemplateAppName__' do
+
+pod 'React', :path => './node_modules/react-native', :subspecs => [
+    'ART',
+    'RCTActionSheet',
+    'RCTAdSupport',
+    'RCTGeolocation',
+    'RCTImage',
+    'RCTNetwork',
+    'RCTPushNotification',
+    'RCTSettings',
+    'RCTText',
+    'RCTVibration',
+    'RCTWebSocket',
+    'RCTLinkingIOS'
+]
+
+pod 'SalesforceMobileSDK-iOS', :subspecs => [
+    'SalesforceReact'
+]
+
+end
+

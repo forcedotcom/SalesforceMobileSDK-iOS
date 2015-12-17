@@ -48,12 +48,18 @@ static NSObject *AuthRefreshLock = nil;
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     @synchronized (AuthRefreshLock) {
-        NSMutableArray *classCompletionBlocks = CompletionBlocks[[self class]];
-        for (CSFAuthRefreshCompletionBlock completionBlock in classCompletionBlocks) {
-            completionBlock(refreshOutput, error);
-        }
-        [classCompletionBlocks removeAllObjects];
+		// update refreshing flag to NO up front so any request come into the network queue that requires access token does not get blocked 
         RefreshingClasses[(id<NSCopying>)[self class]] = @NO;
+        NSMutableArray *classCompletionBlocks = CompletionBlocks[[self class]];
+        if (classCompletionBlocks) {
+            // make a safe copy so that we don't run into any possibility of array being mutated while
+            // enumerating
+            NSArray *safeCopy = [classCompletionBlocks copy];
+            [classCompletionBlocks removeAllObjects];
+            for (CSFAuthRefreshCompletionBlock completionBlock in safeCopy) {
+                completionBlock(refreshOutput, error);
+            }
+        }
     }
 }
 
@@ -76,9 +82,14 @@ static NSObject *AuthRefreshLock = nil;
 }
 
 + (BOOL)isRefreshing {
+    BOOL result = NO;
     @synchronized (AuthRefreshLock) {
-        return [RefreshingClasses[[self class]] boolValue];
+        NSNumber *value = RefreshingClasses[self];
+        if (value && [value boolValue]) {
+            result = YES;
+        }
     }
+    return result;
 }
 
 - (void)refreshAuth {

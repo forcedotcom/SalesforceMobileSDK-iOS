@@ -22,8 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceCommonUtils/NSString+SFAdditions.h>
-#import <SalesforceSDKCore/SFPreferences.h>
+#import "NSString+SFAdditions.h"
+#import "SFPreferences.h"
 #import "SFPushNotificationManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
@@ -31,15 +31,10 @@
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
-static NSString* const kSFPushNotificationEndPoint = @"services/data/v33.0/sobjects/MobilePushServiceDevice";
+static NSString* const kSFPushNotificationEndPoint = @"services/data/v34.0/sobjects/MobilePushServiceDevice";
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-const-variable"
-
-//
-// < iOS 8 notification types
-//
-static UIRemoteNotificationType const kiOS7RemoteNotificationTypes = UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert;
 
 //
 // >= iOS 8 notification types have to be NSUInteger, for backward compatibility with < iOS 8 build environments.
@@ -121,16 +116,10 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     
     // register with Apple for remote notifications
     [self log:SFLogLevelInfo msg:@"Registering with Apple for remote push notifications"];
-    
-    // [UIApplication registerUserNotificationSettings:] is how iOS 8 and above registers for notifications.
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        [self registerNotificationsForiOS8];
-    } else {
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:kiOS7RemoteNotificationTypes];
-    }
+    [self registerNotifications];
 }
 
-- (void)registerNotificationsForiOS8
+- (void)registerNotifications
 {
     // This is necessary to build libraries with the iOS 7 runtime, that can execute iOS 8 methods.  When
     // we switch to building libraries with Xcode 6, this can go away.
@@ -198,27 +187,27 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     [request setHTTPBody:[SFJsonUtils JSONDataRepresentation:bodyDict]];
     
     // Send
-    [NSURLConnection sendAsynchronousRequest:request queue:self.queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *error)
-     {
-         if (error != nil) {
-             [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
-         }
-         else {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
-             NSInteger statusCode = httpResponse.statusCode;
-             if (statusCode < 200 || statusCode >= 300) {
-                 [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
-                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
-             }
-             else {
-                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
-                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                 _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                 [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
-                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
-             }
-         }
-     }];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error != nil) {
+            [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with error %@", error];
+        }
+        else {
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
+            NSInteger statusCode = httpResponse.statusCode;
+            if (statusCode < 200 || statusCode >= 300) {
+                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
+            }
+            else {
+                [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
+                NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
+                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+                [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
+            }
+        }
+    }] resume];
     
     return YES;
 }
@@ -264,8 +253,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     [request setHTTPShouldHandleCookies:NO];
     
     // Send (fire and forget)
-    NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [urlConnection start];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    [[session dataTaskWithRequest:request] resume];
     [self log:SFLogLevelInfo msg:@"Unregister from notifications with Salesforce sent"];
     return YES;
 }

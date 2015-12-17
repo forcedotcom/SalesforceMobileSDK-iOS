@@ -27,7 +27,6 @@
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFOAuthTokenRefreshOutput.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import <SalesforceOAuth/SalesforceOAuth.h>
 
 @interface CSFSalesforceOAuthRefresh () <SFOAuthCoordinatorDelegate>
 
@@ -68,6 +67,18 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.coordinator authenticate];
     });
+}
+
+- (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
+    if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
+        NSLog(@"[%@ %@] INFO: invalid grant error received, triggering logout.", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        // make sure we call logoutUser on main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
+        });
+    }
+    
+    [super finishWithOutput:refreshOutput error:error];
 }
 
 #pragma mark - SFOAuthCoordinatorDelegate

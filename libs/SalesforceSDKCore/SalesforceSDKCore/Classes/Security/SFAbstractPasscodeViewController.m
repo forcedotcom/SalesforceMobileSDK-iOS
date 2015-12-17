@@ -25,9 +25,9 @@
 #import "SFAbstractPasscodeViewController.h"
 #import "SFSecurityLockout.h"
 #import "SFSDKResourceUtils.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeManager+Internal.h>
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
+#import "SFPasscodeManager.h"
+#import "SFPasscodeManager+Internal.h"
+#import "SFInactivityTimerCenter.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants
@@ -148,7 +148,6 @@ static  NSString * cachedPasscode;
         self.remainingAttempts = kMaxNumberofAttempts;
         [[SFPasscodeManager sharedManager] changePasscode:passcode];
         [SFSecurityLockout setupTimer];
-        [SFInactivityTimerCenter updateActivityTimestamp];
         SFSecurityLockoutAction action = [self controllerModeToLockoutAction];
         [SFSecurityLockout unlock:YES action:action passcodeConfig:self.configData];
     });

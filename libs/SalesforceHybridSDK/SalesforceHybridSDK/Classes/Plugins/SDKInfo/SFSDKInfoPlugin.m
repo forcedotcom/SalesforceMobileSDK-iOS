@@ -51,18 +51,6 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 
 @synthesize forcePlugins = _forcePlugins;
 
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
-{
-    self = [super initWithWebView:theWebView];
-    if (self) {
-        
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     SFRelease(_forcePlugins);
@@ -92,13 +80,12 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
                 [services addObject:key];
             }
         }
-        return services;
     } else {
         [self log:SFLogLevelError
            format:@"??? Expected CDVViewController class for plugin's view controller. Got '%@'.",
          NSStringFromClass([self.viewController class])];
-        return nil;
     }
+    return services;
 }
 
 #pragma mark - Plugin methods called from js

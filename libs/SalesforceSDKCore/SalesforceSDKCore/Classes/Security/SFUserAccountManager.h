@@ -23,7 +23,7 @@
  */
 
 #import "SFUserAccount.h"
-#import <SalesforceOAuth/SFOAuthCredentials.h>
+#import "SFOAuthCredentials.h"
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 
@@ -133,6 +133,29 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 /** The "temporary" account user.  Useful for determining whether there's a valid user context.
  */
 @property (nonatomic, readonly) SFUserAccount *temporaryUser;
+
+/** Returns YES if the application supports anonymous user, no otherwise.
+ 
+ Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+ to its Info.plist file in order to enable this flag.
+ */
+@property (nonatomic, readonly) BOOL supportsAnonymousUser;
+
+/** Returns YES if the application wants the anonymous user to be
+  created automatically at startup, no otherwise.
+  
+  Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+  to its Info.plist file in order to enable this flag.
+  */
+@property (nonatomic, readonly) BOOL autocreateAnonymousUser;
+
+/** Returns the anonymous user or nil if none exists
+  */
+@property (nonatomic, strong, readonly) SFUserAccount *anonymousUser;
+
+/** Returns YES if the current user is anonymous, no otherwise
+  */
+@property (nonatomic, readonly, getter=isCurrentUserAnonymous) BOOL currentUserAnonymous;
 
 /**  Convenience property to retrieve the current user's identity.
  */
@@ -247,6 +270,13 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 - (SFUserAccount*)createUserAccount;
 
+/** This method ensures the anonymous user exists and if not, creates the anonymous
+ user and saves it with the other users. This method doesn't change the current user.
+ 
+ Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
+ */
+- (void)enableAnonymousAccount;
+
 /** Allows you to lookup the user account associated with a given user identity.
  */
 - (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity;
@@ -293,6 +323,18 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  @param credentials The id data to apply
  */
 - (void)applyIdData:(SFIdentityData *)idData;
+
+/** This method will selectively update the custom attributes identity data for the current user.
+ Other identity data will not be impacted.
+ @param customAttributes The new custom attributes data to update in the identity data.
+ */
+- (void)applyIdDataCustomAttributes:(NSDictionary *)customAttributes;
+
+/** This method will selectively update the custom permissions identity data for the current user.
+ Other identity data will not be impacted.
+ @param customPermissions The new custom permissions data to update in the identity data.
+ */
+- (void)applyIdDataCustomPermissions:(NSDictionary *)customPermissions;
 
 /** Apply custom data to the SFUserAccount that can be
  accessed outside that user's sandbox. This data will be persisted

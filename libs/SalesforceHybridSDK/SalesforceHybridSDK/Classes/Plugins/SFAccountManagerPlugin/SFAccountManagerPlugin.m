@@ -29,7 +29,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 
 // Public constants
 NSString * const kUserAccountAuthTokenDictKey      = @"authToken";
@@ -54,18 +54,6 @@ NSString * const kUserAccountClientIdDictKey       = @"clientId";
 @end
 
 @implementation SFAccountManagerPlugin
-
-/**
- This is Cordova's default initializer for plugins.
- */
-- (CDVPlugin *)initWithWebView:(UIWebView *)theWebView
-{
-    self = [super initWithWebView:theWebView];
-    if (self) {
-        // Custom init.
-    }
-    return self;
-}
 
 #pragma mark - Plugin methods
 

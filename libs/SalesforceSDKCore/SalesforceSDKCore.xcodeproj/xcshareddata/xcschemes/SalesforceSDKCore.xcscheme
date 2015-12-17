@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0710"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -14,107 +14,102 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D53D301A3618CD00E46F8F"
-               BuildableName = "libSalesforceSDKCommon.a"
-               BlueprintName = "SalesforceSDKCommon"
-               ReferencedContainer = "container:../SalesforceSDKCommon/SalesforceSDKCommon.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "820AB72318E230EC00E25E1D"
-               BuildableName = "libSalesforceSecurity.a"
-               BlueprintName = "SalesforceSecurity"
-               ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CFA9ADD313AA86D80024260E"
-               BuildableName = "libSalesforceOAuth.a"
-               BlueprintName = "SalesforceOAuth"
-               ReferencedContainer = "container:../SalesforceOAuth/SalesforceOAuth.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8220B74B16D804CA00EC3921"
-               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
+               BuildableName = "SalesforceSDKCore.framework"
                BlueprintName = "SalesforceSDKCore"
+               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D4644219C7C8180006BDFE"
+               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTestAppTests"
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F7EB4051BFFC88200768720"
+               BuildableName = "SalesforceSDKCoreTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTests"
+               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "82D4644219C7C8180006BDFE"
+               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
+               BlueprintName = "SalesforceSDKCoreTestAppTests"
+               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "820AB72318E230EC00E25E1D"
-            BuildableName = "libSalesforceSecurity.a"
-            BlueprintName = "SalesforceSecurity"
-            ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
+            BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
+            ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <AdditionalOptions>
+      </AdditionalOptions>
    </TestAction>
    <LaunchAction
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "820AB72318E230EC00E25E1D"
-            BuildableName = "libSalesforceSecurity.a"
-            BlueprintName = "SalesforceSecurity"
-            ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
+            BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
+            ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "820AB72318E230EC00E25E1D"
-            BuildableName = "libSalesforceSecurity.a"
-            BlueprintName = "SalesforceSecurity"
-            ReferencedContainer = "container:../SalesforceSecurity/SalesforceSecurity.xcodeproj">
+            BlueprintIdentifier = "CE4CE26A1C0E449C009F6029"
+            BuildableName = "SalesforceSDKCore.framework"
+            BlueprintName = "SalesforceSDKCore"
+            ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -39,15 +39,15 @@
 #import "SFSDKResourceUtils.h"
 #import "SFRootViewManager.h"
 #import "SFUserActivityMonitor.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
-#import <SalesforceSecurity/SFPasscodeProviderManager.h>
+#import "SFPasscodeManager.h"
+#import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
 
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceOAuth/SFOAuthInfo.h>
-#import <SalesforceCommonUtils/NSURL+SFAdditions.h>
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
-#import <SalesforceCommonUtils/SFTestContext.h>
+#import "SFOAuthCredentials.h"
+#import "SFOAuthInfo.h"
+#import "NSURL+SFAdditions.h"
+#import "SFInactivityTimerCenter.h"
+#import "SFTestContext.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -423,14 +423,19 @@ static Class InstanceClass = nil;
 
 - (void)logoutUser:(SFUserAccount *)user
 {
+
     // No-op, if the user is not valid.
     if (user == nil) {
         [self log:SFLogLevelInfo msg:@"logoutUser: user is nil.  No action taken."];
         return;
     }
-    
+
+    // No-op if the user is anonymous.
+    if (user == [SFUserAccountManager sharedInstance].anonymousUser) {
+        [self log:SFLogLevelDebug msg:@"logoutUser: user is anonymous.  No action taken."];
+        return;
+    }
     [self log:SFLogLevelInfo format:@"Logging out user '%@'.", user.userName];
-    
     NSDictionary *userInfo = @{ @"account": user };
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
@@ -740,8 +745,8 @@ static Class InstanceClass = nil;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setHTTPMethod:@"GET"];
         [request setHTTPShouldHandleCookies:NO];
-        NSURLConnection *urlConnection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-        [urlConnection start];
+        NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+        [[session dataTaskWithRequest:request] resume];
     }
     [user.credentials revoke];
 }

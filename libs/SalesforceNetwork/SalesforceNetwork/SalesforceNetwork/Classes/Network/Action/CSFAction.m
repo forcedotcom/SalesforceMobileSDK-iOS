@@ -41,48 +41,60 @@ NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFai
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
+NSString * const kCSFActionTimingTotalTimeKey = @"total";
+NSString * const kCSFActionTimingNetworkTimeKey = @"network";
+NSString * const kCSFActionTimingStartDelayKey = @"startDelay";
+NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
+
 @interface CSFAction () {
     BOOL _ready;
     BOOL _executing;
     BOOL _finished;
+    BOOL _completeCalled;
     
     CSFParameterStorage *_parameters;
     NSMutableDictionary *_HTTPHeaders;
+    NSMutableDictionary *_timingValues;
     NSData  *_jsonData;
     BOOL _enqueueIfNoNetwork;
 }
+
+@property (nonatomic, strong, readonly) NSMutableDictionary *timingValues;
 
 @end
 
 @implementation CSFAction
 
-+ (NSURL*)urlForAction:(CSFAction*)action error:(NSError**)error {
-    if (!action) {
++ (NSSet*)keyPathsForValuesAffectingIsDuplicateAction {
+    return [NSSet setWithObject:@"duplicateParentAction"];
+}
+
+- (NSURL*)urlForActionWithError:(NSError**)error {
+    NSURL *baseURL = self.baseURL;
+    if (!baseURL) {
+        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                     code:CSFNetworkURLCredentialsError
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
+                                             CSFNetworkErrorActionKey: self }];
         return nil;
     }
     
-    NSMutableString *baseUrlString = [NSMutableString stringWithString:[action.enqueuedNetwork.account.credentials.apiUrl absoluteString]];
-    NSMutableString *path = [NSMutableString stringWithFormat:@"%@%@", action.basePath, action.verb];
+    NSMutableString *path = [NSMutableString stringWithFormat:@"%@%@", self.basePath, self.verb];
     
     // Make sure path is not empty
-    if (baseUrlString.length == 0) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have an API URL",
-                                             CSFNetworkErrorActionKey: action }];
-        return nil;
-    } else if (path.length == 0) {
+    if (!path || path.length == 0) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                      code:CSFNetworkURLCredentialsError
                                  userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
-                                             CSFNetworkErrorActionKey: action }];
+                                             CSFNetworkErrorActionKey: self }];
         return nil;
     }
     
-    if (![baseUrlString hasSuffix:@"/"]) [baseUrlString appendString:@"/"];
-    if ([path hasPrefix:@"/"]) [path deleteCharactersInRange:NSMakeRange(0, 1)];
-    NSString *urlString = [baseUrlString stringByAppendingString:path];
-    NSURL *url = [NSURL URLWithString:urlString];
+    if ([baseURL.absoluteString hasSuffix:@"/"] && [path hasPrefix:@"/"]) {
+        [path deleteCharactersInRange:NSMakeRange(0, 1)];
+    }
+    
+    NSURL *url = [NSURL URLWithString:path relativeToURL:baseURL];
     return url;
 }
 
@@ -131,16 +143,19 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
 + (instancetype)actionWithHTTPMethod:(NSString*)method onURL:(NSURL*)url withResponseBlock:(CSFActionResponseBlock)responseBlock {
     CSFAction *action = [[self alloc] initWithResponseBlock:responseBlock];
-    
     NSString *baseString = nil;
     if (url.port) {
         baseString = [NSString stringWithFormat:@"%@://%@:%@", url.scheme, url.host, url.port];
     } else {
         baseString = [NSString stringWithFormat:@"%@://%@", url.scheme, url.host];
     }
-    
     action.baseURL = [NSURL URLWithString:baseString];
-    action.verb = url.path;
+    NSMutableString *relativePath = [NSMutableString stringWithString:url.path];
+    if (url.query != nil) {
+        [relativePath appendString:@"?"];
+        [relativePath appendString:url.query];
+    }
+    action.verb = relativePath;
     action.method = method;
     return action;
 }
@@ -159,10 +174,23 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         _method = @"GET";
         _authRefreshClass = [CSFTokenRefresh class];
         _requiresAuthentication = YES;
+        
         self.credentialsReady = YES;
         self.responseBlock = responseBlock;
     }
     return self;
+}
+
+- (void)dealloc {
+    if (self.downloadLocation) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:self.downloadLocation.path]) {
+            NSError *error = nil;
+            if (![fm removeItemAtURL:self.downloadLocation error:&error]) {
+                NSLog(@"Error removing temporary download file %@: %@", self.downloadLocation.path, error);
+            }
+        }
+    }
 }
 
 #pragma mark -
@@ -177,7 +205,23 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     return _parameters;
 }
 
-- (void)setURL:(NSURL*)url {
+- (NSMutableDictionary *)timingValues {
+    if (!_timingValues) {
+        _timingValues = [NSMutableDictionary new];
+    }
+    return _timingValues;
+}
+
+- (NSURL*)url {
+    NSError *error = nil;
+    NSURL *url = [self urlForActionWithError:&error];
+    if (error) {
+        NSLog(@"Error composing URL: %@", error);
+    }
+    return url;
+}
+
+- (void)setUrl:(NSURL *)url {
     NSURL *localURL = CSFNotNullURL(url);
     
     // For example, given this URL:
@@ -187,6 +231,12 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     // query -> page=2012-04-26T04%3A50%3A14Z%2C0D53000000qpC2ZCAU&pageSize=20
     
     NSString *path = [localURL path];
+    NSString *baseUrlString = [url absoluteString];
+    NSRange pathRange = [baseUrlString rangeOfString:path];
+    if (pathRange.location != NSNotFound && pathRange.location > 0) {
+        self.baseURL = [NSURL URLWithString:[baseUrlString substringToIndex:pathRange.location]];
+    }
+
     self.verb = path;
     
     NSString *query = [localURL query];
@@ -194,6 +244,23 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         NSArray *tuple = [param componentsSeparatedByString:@"="];
         if (tuple.count == 2) {
             self.parameters[tuple[0]] = CSFURLDecode(tuple[1]);
+        }
+    }
+}
+
+- (void)setURL:(NSURL*)url {
+    [self setUrl:url];
+}
+
+- (void)setBaseURL:(NSURL *)baseURL {
+    if (_baseURL != baseURL) {
+        // Ensure that the base URL always contains a trailing slash so that relative paths can be handled properly
+        if (baseURL && NSMaxRange([baseURL.path rangeOfString:@"/" options:NSBackwardsSearch]) < baseURL.path.length - 1) {
+            NSMutableString *urlString = [baseURL.absoluteString mutableCopy];
+            [urlString appendString:@"/"];
+            _baseURL = [NSURL URLWithString:urlString];
+        } else {
+            _baseURL = [baseURL copy];
         }
     }
 }
@@ -246,6 +313,14 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     [_HTTPHeaders removeObjectForKey:field];
 }
 
+- (BOOL)isDuplicateAction {
+    return (self.duplicateParentAction != nil);
+}
+
+- (BOOL)shouldReportProgressToParent {
+    return YES;
+}
+
 - (NSUInteger)hash {
     NSUInteger result = 17;
     result ^= [self.verb hash] + result * 37;
@@ -281,12 +356,30 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p, %@ \"%@\"%@>",
-            [self class], self, self.method, self.verb, (self.isProgrammatic ? @" (programmatic)" : @"")];
+    return [NSString stringWithFormat:@"<%@: %p, %@ \"%@\" (%.2f)%@>",
+            [self class],
+            self,
+            self.method,
+            self.verb,
+            [self intervalForTimingKey:kCSFActionTimingTotalTimeKey],
+            (self.isProgrammatic ? @" (programmatic)" : @"")];
 }
 
 - (NSString*)basePath {
     return @"";
+}
+
+- (void)triggerActionAfterTokenRefresh {
+    self.authRefreshInstance = [(CSFAuthRefresh *)[self.authRefreshClass alloc] initWithNetwork:self.enqueuedNetwork];
+    __weak CSFAction *weakSelf = self;
+    [self.authRefreshInstance refreshAuthWithCompletionBlock:^(CSFOutput *output, NSError *error) {
+        __strong CSFAction *strongSelf = weakSelf;
+        if (error) {
+            [strongSelf completeOperationWithError:error];
+        } else {
+            [strongSelf start];
+        }
+    }];
 }
 
 #pragma mark Implementation override methods
@@ -295,12 +388,25 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     return [session dataTaskWithRequest:request];
 }
 
+- (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+    [self updateProgress];
+}
+
+- (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend {
+    [self updateProgress];
+}
+
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didFinishDownloadingToURL:(NSURL *)location {
-    if ([self isCancelled]) {
-        return;
+    NSURL *temporaryUrl = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[[NSUUID UUID] UUIDString]]];
+    
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:temporaryUrl error:&error]) {
+        NSLog(@"Error moving temporary file %@ to %@: %@", location.path, temporaryUrl.path, error);
+        temporaryUrl = location;
     }
     
-    // Do something ...
+    self.downloadLocation = location;
+    [self updateProgress];
 }
 
 - (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error {
@@ -309,6 +415,8 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return;
     }
     
+    [self updateProgress];
+
     if (error) {
         // Error from URLSession:task:didCompleteWithError: is generally an error with the request itself
         // (as opposed to an error returned from the service).
@@ -341,11 +449,29 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         self.responseData = [NSMutableData dataWithCapacity:[data length]];
     }
     [self.responseData appendData:data];
+    [self updateProgress];
+}
+
+- (void)updateProgress {
+    NSURLSessionTask *task = self.downloadTask ?: self.sessionTask;
+    NSProgress *progress = self.progress;
+    
+    int64_t total = task.countOfBytesExpectedToSend + task.countOfBytesExpectedToReceive;
+    if (progress.totalUnitCount != total) {
+        progress.totalUnitCount = total;
+    }
+    
+    int64_t current = task.countOfBytesSent + task.countOfBytesReceived;
+    if (progress.completedUnitCount != current) {
+        progress.completedUnitCount = current;
+    }
 }
 
 #pragma mark NSOperation implementation
 
 - (void)start {
+    self.timingValues[@"startTime"] = [NSDate date];
+    
     if ([self isCancelled]) {
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkCancelledError
@@ -366,6 +492,18 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         return;
     }
     
+    if (self.requiresAuthentication) {
+        BOOL isTokenBeingRefreshed = NO;
+        if ([self.authRefreshClass isSubclassOfClass:[CSFAuthRefresh class]]) {
+            isTokenBeingRefreshed = [self.authRefreshClass isRefreshing];
+        }
+        
+        if (isTokenBeingRefreshed) {
+            [self triggerActionAfterTokenRefresh];
+            return;
+        }
+    }
+    
     // Create NSURLRequest from the Action
     NSError *error =  nil;
     NSURLRequest *request = [self createURLRequest:&error];
@@ -380,16 +518,24 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         self.responseData = [NSMutableData dataWithData:overrideData];
         [self completeOperationWithResponse:overrideResponse];
     } else {
-        NSURLSession *session = self.enqueuedNetwork.ephemeralSession;
+        CSFNetwork *network = self.enqueuedNetwork;
+        NSURLSession *session = network.ephemeralSession;
+        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+        if ([self requireBackgroundSession]) {
+            session = network.backgroundSession;
+        }
+        #endif
+        
         _sessionTask = [self sessionTaskToProcessRequest:request session:session];
         [_sessionTask resume];
+        [self updateProgress];
     }
 }
 
 - (void)cancel {
     [super cancel];
     [self.sessionTask cancel];
-    
+    [self.progress cancel];
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
                                                      userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
@@ -401,15 +547,13 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 }
 
 - (BOOL)isReady {
-    BOOL result = YES;
+    BOOL result = [super isReady];
     
-    if (self.duplicateParentAction) {
-        result = [self.duplicateParentAction isFinished];
-    } else if (!self.credentialsReady) {
-        result = NO;
-    } else {
-        if ([self.authRefreshClass isSubclassOfClass:[CSFAuthRefresh class]]) {
-            result = ![self.authRefreshClass isRefreshing];
+    if (result) {
+        // we do the following additional checking
+        // only if [super isReady] returns true
+        if (!self.credentialsReady) {
+            result = NO;
         }
     }
     
@@ -440,6 +584,10 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
         result = _duplicateParentAction.outputContent;
     }
     return result;
+}
+
+- (NSData *)outputData {
+    return [NSData dataWithData:self.responseData];
 }
 
 - (NSError *)error {
@@ -480,6 +628,21 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     }
 }
 
+- (void)setEnqueuedNetwork:(CSFNetwork *)enqueuedNetwork {
+    if (_enqueuedNetwork != enqueuedNetwork) {
+        _enqueuedNetwork = enqueuedNetwork;
+        self.timingValues[@"enqueuedTime"] = [NSDate date];
+        
+        if (enqueuedNetwork) {
+            _progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress]
+                                                  userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
+            _progress.totalUnitCount = -1;
+            _progress.cancellable = YES;
+            _progress.pausable = NO;
+        }
+    }
+}
+
 #pragma mark Response handling
 
 - (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response {
@@ -517,16 +680,26 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 }
 
 - (void)completeOperationWithError:(NSError *)error {
-    [self willChangeValueForKey:@"isExecuting"];
-    [self willChangeValueForKey:@"isFinished"];
-    _executing = NO;
-    _finished = YES;
+    if (_completeCalled) {
+        return;
+    }
+    else {
+        _completeCalled = YES;
+    }
+
+    if (self.isExecuting) {
+        [self willChangeValueForKey:@"isExecuting"];
+        [self willChangeValueForKey:@"isFinished"];
+        _executing = NO;
+        _finished = YES;
+        [self didChangeValueForKey:@"isExecuting"];
+        [self didChangeValueForKey:@"isFinished"];
+    }
+    
     self.error = error;
-    [self didChangeValueForKey:@"isExecuting"];
-    [self didChangeValueForKey:@"isFinished"];
-    
     self.responseData = nil;
-    
+    self.timingValues[@"endTime"] = [NSDate date];
+
     if (self.responseBlock) {
         self.responseBlock(self, self.error);
     }
@@ -534,25 +707,29 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
     id content = nil;
-    
+    BOOL requestSucceeded = (response.statusCode >= 200 && response.statusCode < 300);
+
+    // try to parse response if response is not an error or response status code is between the specified status code range
+    // 2xx is for successful request
+    // 4xx is for client error that may contains valuable error information in response
     NSError *jsonParseError = nil;
     if ([self.responseData length] > 0) {
-        content = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonParseError];
+        content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
     }
     
-    // If it's an error here, it's a basic parsing error.
-    if (jsonParseError && error) {
+    // Surface error back if we run into JSON parsing error on a successful HTTP response
+    if (jsonParseError && error && requestSucceeded) {
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                         code:CSFNetworkJSONInvalidError
-                                     userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
-                                                 NSUnderlyingErrorKey: jsonParseError,
-                                                 CSFNetworkErrorActionKey: self }];
+                                     code:CSFNetworkJSONInvalidError
+                                 userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
+                                             NSUnderlyingErrorKey: jsonParseError,
+                                             CSFNetworkErrorActionKey: self }];
     }
-    
     return content;
 }
 
 - (void)completeOperationWithResponse:(NSHTTPURLResponse *)response {
+    self.timingValues[@"responseTime"] = [NSDate date];
     self.httpResponse = response;
     
     NSError *error = nil;
@@ -573,13 +750,17 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     } else {
         CSFNetwork *network = self.enqueuedNetwork;
         if (self.modelClass && CSFClassOrAncestorConformsToProtocol(self.modelClass, @protocol(CSFActionModel))) {
-            NSMutableDictionary *context = [NSMutableDictionary new];
-            
-            NSURL *serverUrl = network.account.credentials.instanceUrl;
-            if (serverUrl) {
-                context[@"serverURL"] = serverUrl;
+            if ([self.outputContent isKindOfClass:self.modelClass]) {
+                self.outputModel = self.outputContent;
+            } else {
+                NSMutableDictionary *context = [NSMutableDictionary new];
+                
+                NSURL *serverUrl = network.account.credentials.instanceUrl;
+                if (serverUrl) {
+                    context[@"serverURL"] = serverUrl;
+                }
+                self.outputModel = [[(Class)self.modelClass alloc] initWithJSON:self.outputContent context:context];
             }
-            self.outputModel = [[(Class)self.modelClass alloc] initWithJSON:self.outputContent context:context];
         }
         
         if ([self shouldCacheResponse]) {
@@ -650,16 +831,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
             NSLog(@"[%@ %@] WARNING: authRefreshClass property not set.  Cannot refresh credentials", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
             refreshLaunched = NO;
         } else {
-            self.authRefreshInstance = [(CSFAuthRefresh *)[self.authRefreshClass alloc] initWithNetwork:self.enqueuedNetwork];
-            __weak CSFAction *weakSelf = self;
-            [self.authRefreshInstance refreshAuthWithCompletionBlock:^(CSFOutput *output, NSError *error) {
-                __strong CSFAction *strongSelf = weakSelf;
-                if (error) {
-                    [strongSelf completeOperationWithError:error];
-                } else {
-                    [strongSelf start];
-                }
-            }];
+            [self triggerActionAfterTokenRefresh];
         }
     } else {
         NSLog(@"[%@ %@] WARNING: Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.",
@@ -673,7 +845,7 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 #pragma mark URL query handling
 
 - (NSURLRequest*)createURLRequest:(NSError**)error {
-    NSURL *url = [[self class] urlForAction:self error:error];
+    NSURL *url = [self urlForActionWithError:error];
     
     NSMutableURLRequest *request = nil;
     if (url) {
@@ -689,6 +861,35 @@ NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
     }
     
     return request;
+}
+
+@end
+
+@implementation CSFAction (Timing)
+
+- (NSTimeInterval)intervalForTimingKey:(NSString *)key {
+    NSTimeInterval result = 0;
+    
+    NSDate *firstDate = nil, *secondDate = nil;
+    if (!key || [key isEqualToString:kCSFActionTimingTotalTimeKey]) {
+        firstDate = self.timingValues[@"enqueuedTime"];
+        secondDate = self.timingValues[@"endTime"] ?: [NSDate date];
+    } else if ([key isEqualToString:kCSFActionTimingNetworkTimeKey]) {
+        firstDate = self.timingValues[@"startTime"];
+        secondDate = self.timingValues[@"responseTime"] ?: [NSDate date];
+    } else if ([key isEqualToString:kCSFActionTimingStartDelayKey]) {
+        firstDate = self.timingValues[@"enqueuedTime"];
+        secondDate = self.timingValues[@"startTime"] ?: [NSDate date];
+    } else if ([key isEqualToString:kCSFActionTimingPostProcessingKey]) {
+        firstDate = self.timingValues[@"responseTime"];
+        secondDate = self.timingValues[@"endTime"] ?: [NSDate date];
+    }
+    
+    if (firstDate && secondDate) {
+        result = secondDate.timeIntervalSinceReferenceDate - firstDate.timeIntervalSinceReferenceDate;
+    }
+    
+    return result;
 }
 
 @end

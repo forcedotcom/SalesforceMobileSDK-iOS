@@ -1,0 +1,14 @@
+//
+//  SalesforceReact-Common.xcconfig
+//  SalesforceReact
+//
+//  Copyright (c) 2015 Salesforce Inc. All rights reserved.
+//
+
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
+
+PRODUCT_NAME = SalesforceReact
+
+HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" "$(PROJECT_DIR)/../../external/react-native/React/Base/" $(inherited)
+LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher" $(inherited)

@@ -1,55 +1,29 @@
-<project name="SalesforceMobileSDK-iOS-Package" basedir="." default="makeNpm">
-    <import file="build.xml" />
-    <property name="npmRepoLocation" location="${artifactsDir}/npm_repo" />
-    <property name="npmRepoBranch" value="master" />
-    
-    <target name="makeNpm" depends="clean,nativeAppTemplate">
-        <!-- Stage the iOS npm repo -->
-        <echo>--- Cloning the npm repo at branch '${npmRepoBranch}' ---</echo>
-        <delete dir="${npmRepoLocation}" />
-        <exec executable="git" failonerror="true" logError="true">
-            <arg value="clone" />
-            <arg value="--branch" />
-            <arg value="${npmRepoBranch}" />
-            <arg value="--recursive" />
-            <arg value="https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Package.git" />
-            <arg file="${npmRepoLocation}" />
-        </exec>
+<project name="SalesforceMobileSDK-iOS-Package" basedir=".." default="makeNpm">
+    <target name="makeNpm">
         
-        <!-- Create and copy the template shells -->
-        <antcall target="nativeAppTemplateShell" />
-        <delete dir="${npmRepoLocation}/Templates/NativeAppTemplate" />
-        <copy todir="${npmRepoLocation}/Templates/NativeAppTemplate">
-            <fileset dir="${destNativeTemplateDir}" />
-        </copy>
-        <chmod file="${npmRepoLocation}/Templates/NativeAppTemplate/${destAppCreationScriptName}" perm="755" />
-        
-        <!-- Copy binary packages -->
-        <copy todir="${npmRepoLocation}/Dependencies" overwrite="true">
-            <fileset dir="${artifactsDir}">
-                <include name="Salesforce*.zip" />
-            </fileset>
-        </copy>
-        
-        <!-- Copy resources -->
-        <copy todir="${npmRepoLocation}/Dependencies/${sdkResourcesBundleName}" overwrite="true">
-            <fileset dir="${sharedResourcesDir}/${sdkResourcesBundleName}" />
-        </copy>
-        <copy todir="${npmRepoLocation}/Dependencies/${sdkAppSettingsBundleName}" overwrite="true">
-            <fileset dir="${sharedResourcesDir}/${sdkAppSettingsBundleName}" />
-        </copy>
+        <!-- Create the temporary working folder. -->
+        <tempfile property="packageTempDir" destdir="/tmp" prefix="sdkNpmBuild" />
+        <mkdir dir="${packageTempDir}" />
         
         <!-- Make the npm package -->
         <echo>--- Creating the npm package ---</echo>
-        <exec dir="${artifactsDir}" executable="npm">
+        <exec executable="npm" dir="${packageTempDir}" failonerror="true" logError="true">
             <arg value="pack" />
-            <arg file="${npmRepoLocation}" />
+            <arg file="${basedir}" />
         </exec>
         
-        <!-- Clean up after npm -->
-        <echo>--- Post-npm cleanup ---</echo>
-        <exec executable="node">
-            <arg file="${npmRepoLocation}/postpublish.js" />
+        <!-- Move the package to the root folder. -->
+        <move todir="${basedir}" overwrite="true">
+            <fileset dir="${packageTempDir}">
+                <include name="forceios*" />
+            </fileset>
+        </move>
+        <delete dir="${packageTempDir}" />
+        
+        <!-- Reset the repo (post-publish) -->
+        <echo>--- Reverting the symbolic links ---</echo>
+        <exec executable="node" failonerror="true" logError="true">
+            <arg file="external/shared/node/postpublish.js" />
         </exec>
     </target>
 </project>

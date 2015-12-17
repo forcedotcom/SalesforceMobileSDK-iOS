@@ -24,12 +24,12 @@
 
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
-#import <SalesforceCommonUtils/NSDictionary+SFAdditions.h>
-#import <SalesforceSDKCore/SFStoreCursor.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFSmartStoreInspectorViewController.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import <SmartStore/SFStoreCursor.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import "SFHybridViewController.h"
 #import <Cordova/CDVPluginResult.h>
 #import <Cordova/CDVInvokedUrlCommand.h>
@@ -78,17 +78,13 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     return [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
 }
 
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView
+- (void)pluginInitialize
 {
-    self = [super initWithWebView:theWebView];
-    if (nil != self)  {
-        [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin initWithWebView"];
-        self.userCursorCache = [[NSMutableDictionary alloc] init];
-        self.globalCursorCache = [[NSMutableDictionary alloc] init];
-        self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
-        self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
-    }
-    return self;
+    [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin pluginInitialize"];
+    self.userCursorCache = [[NSMutableDictionary alloc] init];
+    self.globalCursorCache = [[NSMutableDictionary alloc] init];
+    self.inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
+    self.globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
 }
 
 #pragma mark - Object bridging helpers
@@ -129,11 +125,19 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
-        BOOL regOk = [[self getStoreInst:argsDict] registerSoup:soupName withIndexSpecs:indexSpecs];
-        if (regOk) {
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+        SFSmartStore *smartStore = [self getStoreInst:argsDict];
+        if (smartStore) {
+            NSError *error = nil;
+            BOOL result = [smartStore registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
+            if (result) {
+                return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+            } else {
+                NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, error: %@, `argsDict`: %@.", soupName, error, argsDict];
+                return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+            }
         } else {
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR ];
+            NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, the smart store instance is nil, `argsDict`: %@.", soupName, argsDict];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
         }
     } command:command];
 }

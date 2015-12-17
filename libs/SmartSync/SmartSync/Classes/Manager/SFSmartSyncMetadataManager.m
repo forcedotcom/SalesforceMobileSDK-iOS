@@ -34,7 +34,7 @@
 #import "SFSmartSyncPersistableObject+Internal.h"
 
 // Default API version.
-static NSString * kDefaultApiVersion = @"v33.0";
+static NSString * kDefaultApiVersion = @"v34.0";
 
 // Error constants.
 static NSInteger kSFNetworkRequestFailedDueToNoModification = 304;
@@ -387,7 +387,7 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
             NSString *whereClause = nil;
             if (objectContainedLastViewedDate) {
-                [queryBuilder from:[NSString stringWithFormat:@"%@ using MRU", objectTypeName]];
+                [queryBuilder from:[NSString stringWithFormat:@"%@ using SCOPE MRU", objectTypeName]];
                 whereClause = @"LastViewedDate != NULL";
                 [queryBuilder orderBy:@"LastViewedDate DESC"];
                 [queryBuilder limit:limit];
@@ -424,13 +424,13 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
                 [returnList addObject:object];
             }
             recentItems = returnList;
-            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-                completionBlock(recentItems, NO, needToReloadCache);
-            }
-            
+
             // Save data to the cache.
             if ([self shouldCacheData:cachePolicy]) {
                 [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
+            }
+            if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+                completionBlock(recentItems, NO, needToReloadCache);
             }
         };
         
@@ -518,13 +518,12 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
             }
         }
 
-        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-            completionBlock(returnList, NO);
-        }
-        
         // Save data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObjects:returnList cacheType:cacheType cacheKey:cacheKey];
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(returnList, NO);
         }
     };
     
@@ -592,18 +591,17 @@ refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
         }
         return;
     }
-    
+
     SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* data) {
         SFObjectType *objectType = nil;
         objectType = [[SFObjectType alloc] initWithDictionary:data];
 
-        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
-            completionBlock(objectType, NO);
-        }
-        
         // Saves data to the cache.
         if ([self shouldCacheData:cachePolicy]) {
             [self cacheObjects:@[ objectType ] cacheType:cacheType cacheKey:cacheKey];
+        }
+        if ([self shouldCallCompletionBlock:completionBlock completionBlockInvoked:completionBlockInvoked cachePolicy:cachePolicy]) {
+            completionBlock(objectType, NO);
         }
     };
     

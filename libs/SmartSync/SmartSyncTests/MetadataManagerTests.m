@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -33,10 +33,10 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface MetadataManagerTests : XCTestCase
-{
-    NSInteger _blocksUncompletedCount;  // The number of blocks awaiting completion.
-    SFUserAccount *_currentUser;
-}
+
+@property (nonatomic, strong) SFUserAccount *currentUser;
+@property (nonatomic, strong) SFSmartSyncMetadataManager *metadataManager;
+
 @end
 
 static NSException *authException = nil;
@@ -44,12 +44,12 @@ static NSException *authException = nil;
 @implementation MetadataManagerTests
 
 static NSInteger const kRefreshInterval = 24 * 60 * 60 * 1000;
-static NSString* const kAccountOneId = @"001S000000fkJKmIAM";
-static NSString* const kAccountOneName = @"Alpha4";
-static NSString* const kOpportunityOneId = @"006S0000007182bIAA";
-static NSString* const kOpportunityOneName = @"Test";
-static NSString* const kCaseOneId = @"500S0000003s6SfIAI";
-static NSString* const kCaseOneName = @"00001007";
+static NSString* const kAccountOneId = @"001S000000cZ1VVIA0";
+static NSString* const kAccountOneName = @"Acme";
+static NSString* const kOpportunityOneId = @"006S0000006luq4IAA";
+static NSString* const kOpportunityOneName = @"Acme - 1,200 Widgets";
+static NSString* const kCaseOneId = @"500S00000031VPwIAM";
+static NSString* const kCaseOneName = @"00001001";
 
 + (void)setUp
 {
@@ -66,22 +66,22 @@ static NSString* const kCaseOneName = @"00001007";
 
 - (void)setUp
 {
+    [super setUp];
     if (authException) {
         XCTFail(@"Setting up authentication failed: %@", authException);
     }
     [SFRestAPI setIsTestRun:YES];
     [[SFRestAPI sharedInstance] setCoordinator:[SFAuthenticationManager sharedManager].coordinator];
-    _currentUser = [SFUserAccountManager sharedInstance].currentUser;
-    [SFSmartSyncCacheManager sharedInstance:_currentUser];
-    [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    [super setUp];
+    self.currentUser = [SFUserAccountManager sharedInstance].currentUser;
+    [SFSmartSyncCacheManager sharedInstance:self.currentUser];
+    self.metadataManager = [SFSmartSyncMetadataManager sharedInstance:self.currentUser];
 }
 
 - (void)tearDown
 {
-    [[SFSmartSyncCacheManager sharedInstance:_currentUser] cleanCache];
-    [SFSmartSyncCacheManager removeSharedInstance:_currentUser];
-    [SFSmartSyncMetadataManager removeSharedInstance:_currentUser];
+    [[SFSmartSyncCacheManager sharedInstance:self.currentUser] cleanCache];
+    [SFSmartSyncCacheManager removeSharedInstance:self.currentUser];
+    [SFSmartSyncMetadataManager removeSharedInstance:self.currentUser];
     [[SFRestAPI sharedInstance] cleanup];
     [SFRestAPI setIsTestRun:NO];
 
@@ -92,236 +92,179 @@ static NSString* const kCaseOneName = @"00001007";
 
 - (void)testGlobalMRUObjectsFromServer
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    
-    [metadataMgr markObjectAsViewed:kCaseOneId
-                         objectType:@"Case"
-                   networkFieldName:nil
-                    completionBlock:^() {
-                        _blocksUncompletedCount--;
-                    }
-                              error:^(NSError *error) {
-                                  _blocksUncompletedCount--;
-                              }
-     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    
-    __block NSArray *mruResults = nil;
-    [metadataMgr loadMRUObjects:nil
-                          limit:1
-                    cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure
-        refreshCacheIfOlderThan:kRefreshInterval
-               networkFieldName:nil
-                        inRetry:NO
-                     completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
-                         mruResults = results;
-                         _blocksUncompletedCount--;
-                     }
-                          error:^(NSError *error) {
-                              _blocksUncompletedCount--;
-                          }
-     ];
-    _blocksUncompletedCount++;
-    completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(mruResults, nil, @"MRU list should not be nil");
-    XCTAssertEqual(mruResults.count, 1, @"MRU list size should be 1");
-    XCTAssertEqualObjects([[mruResults firstObject] name], kCaseOneName, @"Recently viewed object name is incorrect");
+    XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
+    [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {
+        [objectMarkedAsViewed fulfill];
+    } error:^(NSError *error) {
+        XCTFail(@"Error while marking object as viewed %@", error);
+        [objectMarkedAsViewed fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
+    [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure
+                 refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
+                     XCTAssertNotEqualObjects(results, nil, @"MRU list should not be nil");
+                     XCTAssertEqual(results.count, 1, @"MRU list size should be 1");
+                     XCTAssertEqualObjects([[results firstObject] name], kCaseOneName, @"Recently viewed object name is incorrect");
+                     [objectsLoaded fulfill];
+                 } error:^(NSError *error) {
+                     XCTFail(@"Error while loading objects %@", error);
+                     [objectsLoaded fulfill];
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
 - (void)testCommonMRUObjectsFromServer
 {
     NSArray *objectTypesIdsNames = @[ @[ @"Account", kAccountOneId, kAccountOneName ], @[ @"Opportunity", kOpportunityOneId, kOpportunityOneName ]];
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
     for (NSArray *objectTypeIdName in objectTypesIdsNames) {
         NSString *objectType = objectTypeIdName[0];
         NSString *objectId = objectTypeIdName[1];
         NSString *objectName = objectTypeIdName[2];
-        [metadataMgr markObjectAsViewed:objectId objectType:objectType networkFieldName:nil
-                        completionBlock:^() {
-                            _blocksUncompletedCount--;
-                        }
-                                  error:^(NSError *error) {
-                                      _blocksUncompletedCount--;
+        XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
+        [self.metadataManager markObjectAsViewed:objectId objectType:objectType networkFieldName:nil completionBlock:^() {
+            [objectMarkedAsViewed fulfill];
+        } error:^(NSError *error) {
+            XCTFail(@"Error while marking object as viewed %@", error);
+            [objectMarkedAsViewed fulfill];
+        }];
+        [self waitForExpectationsWithTimeout:30.0 handler:nil];
+        XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
+        [self.metadataManager loadMRUObjects:objectType limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
+                                  completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
+                                      XCTAssertNotEqualObjects(results, nil, @"MRU list should not be nil");
+                                      XCTAssertEqual(results.count, 1, @"MRU list size should be 1");
+                                      XCTAssertEqualObjects(((SFObject *)results[0]).objectId, objectId, @"Recently viewed object ID for object type '%@' is incorrect", objectType);
+                                      XCTAssertEqualObjects(((SFObject *)results[0]).name, objectName, @"Recently viewed object name for object type '%@' is incorrect", objectType);
+                                      [objectsLoaded fulfill];
+                                  } error:^(NSError *error) {
+                                      XCTFail(@"Error while loading objects %@", error);
+                                      [objectsLoaded fulfill];
                                   }
          ];
-        _blocksUncompletedCount++;
-        BOOL completionTimedOut = [self waitForAllBlockCompletions];
-        XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion on object type '%@'", objectType);
-        __block NSArray *mruResults = nil;
-        [metadataMgr loadMRUObjects:objectType limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
-                         completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
-                             mruResults = results;
-                             _blocksUncompletedCount--;
-                         }
-                              error:^(NSError *error) {
-                                  _blocksUncompletedCount--;
-                              }
-         ];
-        _blocksUncompletedCount++;
-        completionTimedOut = [self waitForAllBlockCompletions];
-        XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion for object type '%@'.", objectType);
-        XCTAssertNotEqualObjects(mruResults, nil, @"MRU list should not be nil");
-        XCTAssertEqual(mruResults.count, 1, @"MRU list size should be 1");
-        XCTAssertEqualObjects(((SFObject *)mruResults[0]).objectId, objectId, @"Recently viewed object ID for object type '%@' is incorrect", objectType);
-        XCTAssertEqualObjects(((SFObject *)mruResults[0]).name, objectName, @"Recently viewed object name for object type '%@' is incorrect", objectType);
+        [self waitForExpectationsWithTimeout:30.0 handler:nil];
     }
 }
 
 - (void)testLoadAllObjectTypesFromServer
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    __block NSArray *objResults = nil;
-    [metadataMgr loadAllObjectTypes:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(NSArray *results, BOOL isDataFromCache) {
-            objResults = results;
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    XCTestExpectation *objectTypesLoaded = [self expectationWithDescription:@"objectTypesLoaded"];
+    [self.metadataManager loadAllObjectTypes:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                       completion:^(NSArray *results, BOOL isDataFromCache) {
+                                           XCTAssertNotEqualObjects(results, nil, @"All objects list should not be nil");
+                                           [objectTypesLoaded fulfill];
+                                        } error:^(NSError *error) {
+                                            XCTFail(@"Error while loading object types %@", error);
+                                            [objectTypesLoaded fulfill];
+                                        }
     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(objResults, nil, @"All objects list should not be nil");
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
 - (void)testLoadCommonObjectTypesFromServer
 {
     for (NSString *objectTypeName in @[ @"Case", @"Account", @"Opportunity" ]) {
-        _blocksUncompletedCount = 0;
-        SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-        __block SFObjectType *objResult = nil;
-        [metadataMgr loadObjectType:objectTypeName cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-                         completion:^(SFObjectType *result, BOOL isDataFromCache) {
-                             objResult = result;
-                             _blocksUncompletedCount--;
-                         }
-                              error:^(NSError *error) {
-                                  _blocksUncompletedCount--;
-                              }
-         ];
-        _blocksUncompletedCount++;
-        BOOL completionTimedOut = [self waitForAllBlockCompletions];
-        XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-        XCTAssertNotEqualObjects(objResult, nil, @"%@ metadata should not be nil", objectTypeName);
+        XCTestExpectation *objectTypeLoaded = [self expectationWithDescription:@"objectTypeLoaded"];
+        [self.metadataManager loadObjectType:objectTypeName cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                  completion:^(SFObjectType *result, BOOL isDataFromCache) {
+                                      XCTAssertNotEqualObjects(result, nil, @"%@ metadata should not be nil", objectTypeName);
+                                      [objectTypeLoaded fulfill];
+                                  } error:^(NSError *error) {
+                                      XCTFail(@"Error while loading object type %@", error);
+                                      [objectTypeLoaded fulfill];
+                                  }
+        ];
+        [self waitForExpectationsWithTimeout:30.0 handler:nil];
     }
 }
 
 - (void)testLoadUnknownObjectTypeFromServer
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    __block SFObjectType *objResult = nil;
-    __block NSError *errorResult = nil;
+    XCTestExpectation *objectTypeLoaded = [self expectationWithDescription:@"objectTypeLoaded"];
     NSString *objectTypeName = [NSString stringWithFormat:@"RandomNonexistentObject_%u", arc4random()];
-    [metadataMgr loadObjectType:objectTypeName cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-                     completion:^(SFObjectType *result, BOOL isDataFromCache) {
-                         objResult = result;
-                         _blocksUncompletedCount--;
-                     }
-                          error:^(NSError *error) {
-                              errorResult = error;
-                              _blocksUncompletedCount--;
-                          }
-     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNil(errorResult, @"Unknown object type should not generate an error.  Error decription: %@", [errorResult localizedDescription]);
-    XCTAssertNil(objResult, @"Unknown object type (%@) metadata should be nil", objectTypeName);
+    [self.metadataManager loadObjectType:objectTypeName cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                              completion:^(SFObjectType *result, BOOL isDataFromCache) {
+                                  XCTAssertNil(result, @"Unknown object type (%@) metadata should be nil", objectTypeName);
+                                  [objectTypeLoaded fulfill];
+                              } error:^(NSError *error) {
+                                  XCTFail(@"Error while loading object type %@", error);
+                                  [objectTypeLoaded fulfill];
+                              }
+    ];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
 - (void)testLoadObjectTypeLayoutsFromServer
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
+    XCTestExpectation *caseTypeLoaded = [self expectationWithDescription:@"caseTypeLoaded"];
     NSMutableArray *objectsToLoad = [NSMutableArray new];
-    [metadataMgr loadObjectType:@"Case" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(SFObjectType *result, BOOL isDataFromCache) {
-            if (nil != result) {
-                [objectsToLoad addObject:result];
-            }
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    [self.metadataManager loadObjectType:@"Case" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                              completion:^(SFObjectType *result, BOOL isDataFromCache) {
+                                  if (result) {
+                                      [objectsToLoad addObject:result];
+                                  }
+                                  [caseTypeLoaded fulfill];
+                                } error:^(NSError *error) {
+                                    XCTFail(@"Error while loading case type %@", error);
+                                    [caseTypeLoaded fulfill];
+                                }
     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    [metadataMgr loadObjectType:@"Account" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(SFObjectType *result, BOOL isDataFromCache) {
-            if (nil != result) {
-                [objectsToLoad addObject:result];
-            }
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    XCTestExpectation *accountTypeLoaded = [self expectationWithDescription:@"accountTypeLoaded"];
+    [self.metadataManager loadObjectType:@"Account" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                   completion:^(SFObjectType *result, BOOL isDataFromCache) {
+                                       if (result) {
+                                           [objectsToLoad addObject:result];
+                                       }
+                                       [accountTypeLoaded fulfill];
+                                    } error:^(NSError *error) {
+                                        XCTFail(@"Error while loading account type %@", error);
+                                        [accountTypeLoaded fulfill];
+                                    }
     ];
-    _blocksUncompletedCount++;
-    completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    [metadataMgr loadObjectType:@"Opportunity" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(SFObjectType *result, BOOL isDataFromCache) {
-            if (nil != result) {
-                [objectsToLoad addObject:result];
-            }
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    XCTestExpectation *opportunityTypeLoaded = [self expectationWithDescription:@"opportunityTypeLoaded"];
+    [self.metadataManager loadObjectType:@"Opportunity" cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                   completion:^(SFObjectType *result, BOOL isDataFromCache) {
+                                       if (result) {
+                                           [objectsToLoad addObject:result];
+                                       }
+                                       [opportunityTypeLoaded fulfill];
+                                    } error:^(NSError *error) {
+                                        XCTFail(@"Error while loading opportunity type %@", error);
+                                        [opportunityTypeLoaded fulfill];
+                                    }
     ];
-    _blocksUncompletedCount++;
-    completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    __block NSArray *layoutResults = nil;
-    [metadataMgr loadObjectTypesLayout:objectsToLoad cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(NSArray *results, BOOL isDataFromCache) {
-            layoutResults = results;
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    XCTestExpectation *layoutsLoaded = [self expectationWithDescription:@"layoutsLoaded"];
+    [self.metadataManager loadObjectTypesLayout:objectsToLoad cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                          completion:^(NSArray *results, BOOL isDataFromCache) {
+                                              XCTAssertNotEqualObjects(results, nil, @"Layout list should not be nil");
+                                              XCTAssertEqual(results.count, 3, @"Layout list size should be 3");
+                                              [layoutsLoaded fulfill];
+                                            } error:^(NSError *error) {
+                                                XCTFail(@"Error while loading layouts %@", error);
+                                                [layoutsLoaded fulfill];
+                                            }
     ];
-    _blocksUncompletedCount++;
-    completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(layoutResults, nil, @"Layout list should not be nil");
-    XCTAssertEqual(layoutResults.count, 3, @"Layout list size should be 3");
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 }
 
 - (void)testRemoveMRUCache
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    __block NSArray *mruResults = nil;
-    [metadataMgr loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
-        completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
-            mruResults = results;
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
+    [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
+                                   completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
+                                       XCTAssertNotEqualObjects(results, nil, @"MRU list should not be nil");
+                                       XCTAssertEqual(results.count, 1, @"MRU list size should be 1");
+                                       [objectsLoaded fulfill];
+                                    } error:^(NSError *error) {
+                                        XCTFail(@"Error while loading objects %@", error);
+                                        [objectsLoaded fulfill];
+                                    }
     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(mruResults, nil, @"MRU list should not be nil");
-    XCTAssertEqual(mruResults.count, 1, @"MRU list size should be 1");
-    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:self.currentUser];
     [cacheMgr removeCache:kSFMRUCacheType cacheKey:[SFSmartSyncMetadataManager globalMruCacheKey]];
     NSDate *cachedTime = nil;
     NSArray *cachedObjects = [cacheMgr readDataWithCacheType:kSFMRUCacheType
@@ -332,26 +275,21 @@ static NSString* const kCaseOneName = @"00001007";
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
-- (void)testCleanCache
+- (void)FIXMEtestCleanCache
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    __block NSArray *mruResults = nil;
-    [metadataMgr loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
-        completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
-            mruResults = results;
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
+    [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
+                                   completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
+                                       XCTAssertNotEqualObjects(results, nil, @"MRU list should not be nil");
+                                       XCTAssertEqual(results.count, 1, @"MRU list size should be 1");
+                                       [objectsLoaded fulfill];
+                                    } error:^(NSError *error) {
+                                        XCTFail(@"Error while loading objects %@", error);
+                                        [objectsLoaded fulfill];
+                                    }
     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(mruResults, nil, @"MRU list should not be nil");
-    XCTAssertEqual(mruResults.count, 1, @"MRU list size should be 1");
-    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:self.currentUser];
     [cacheMgr cleanCache];
     NSDate *cachedTime = nil;
     NSArray *cachedObjects = [cacheMgr readDataWithCacheType:kSFMRUCacheType
@@ -364,23 +302,18 @@ static NSString* const kCaseOneName = @"00001007";
 
 - (void)testReadAllObjectTypesFromCache
 {
-    _blocksUncompletedCount = 0;
-    SFSmartSyncMetadataManager *metadataMgr = [SFSmartSyncMetadataManager sharedInstance:_currentUser];
-    __block NSArray *objResults = nil;
-    [metadataMgr loadAllObjectTypes:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
-        completion:^(NSArray *results, BOOL isDataFromCache) {
-            objResults = results;
-            _blocksUncompletedCount--;
-        }
-        error:^(NSError *error) {
-            _blocksUncompletedCount--;
-        }
+    XCTestExpectation *objectTypesLoaded = [self expectationWithDescription:@"objectTypesLoaded"];
+    [self.metadataManager loadAllObjectTypes:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval
+                                       completion:^(NSArray *results, BOOL isDataFromCache) {
+                                           XCTAssertNotEqualObjects(results, nil, @"All objects list should not be nil");
+                                           [objectTypesLoaded fulfill];
+                                        } error:^(NSError *error) {
+                                            XCTFail(@"Error while loading object types %@", error);
+                                            [objectTypesLoaded fulfill];
+                                        }
     ];
-    _blocksUncompletedCount++;
-    BOOL completionTimedOut = [self waitForAllBlockCompletions];
-    XCTAssertTrue(!completionTimedOut, @"Timed out waiting for blocks completion");
-    XCTAssertNotEqualObjects(objResults, nil, @"All objects list should not be nil");
-    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:_currentUser];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    SFSmartSyncCacheManager *cacheMgr = [SFSmartSyncCacheManager sharedInstance:self.currentUser];
     NSDate *cachedTime = nil;
     NSArray *cachedObjects = [cacheMgr readDataWithCacheType:kSFMetadataCacheType
                                                     cacheKey:kSFAllObjectsCacheKey
@@ -389,35 +322,6 @@ static NSString* const kCaseOneName = @"00001007";
                                                   cachedTime:&cachedTime];
     XCTAssertNotEqualObjects(cachedObjects, nil, @"Cached objects list should not be nil");
     XCTAssertNotEqual(cachedObjects.count, 0, @"Cached objects list should not be empty");
-}
-
-- (BOOL)waitForAllBlockCompletions
-{
-    NSDate *startTime = [NSDate date];
-    BOOL completionTimedOut = NO;
-    while (_blocksUncompletedCount > 0) {
-        NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
-            [self log:SFLogLevelDebug format:@"Request took too long (%f) to complete: %d", elapsed, _blocksUncompletedCount];
-            completionTimedOut = YES;
-            break;
-        }
-        [self log:SFLogLevelDebug format:@"## Sleeping...%d", _blocksUncompletedCount];
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-    }
-    return completionTimedOut;
-}
-
-- (NSDictionary *)populateDictionaryFromJSONFile:(NSString *)filePath
-{
-    NSString *dirPath = [[NSBundle bundleForClass:[self class]] pathForResource:filePath ofType:@"json"];
-    NSAssert(nil != dirPath, @"Test config file not found!");
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    NSData *jsonData = [fm contentsAtPath:dirPath];
-    id jsonResponse = [SFJsonUtils objectFromJSONData:jsonData];
-    NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
-    NSDictionary *response = (NSDictionary *)jsonResponse;
-    return response;
 }
 
 @end

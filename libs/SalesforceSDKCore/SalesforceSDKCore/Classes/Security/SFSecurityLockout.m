@@ -24,12 +24,12 @@
 
 #import "SFSecurityLockout.h"
 #import "SFSecurityLockout+Internal.h"
-#import <SalesforceCommonUtils/SFInactivityTimerCenter.h>
-#import <SalesforceCommonUtils/SFCrypto.h>
-#import <SalesforceOAuth/SFOAuthCredentials.h>
-#import <SalesforceCommonUtils/SFKeychainItemWrapper.h>
+#import "SFInactivityTimerCenter.h"
+#import "SFCrypto.h"
+#import "SFOAuthCredentials.h"
+#import "SFKeychainItemWrapper.h"
 #import "SFUserAccountManager.h"
-#import <SalesforceSecurity/SFPasscodeManager.h>
+#import "SFPasscodeManager.h"
 #import "SFAuthenticationManager.h"
 #import "SFRootViewManager.h"
 #import "SFPreferences.h"
@@ -187,7 +187,6 @@ static BOOL _showPasscode = YES;
         } 
         else {
             [SFSecurityLockout setupTimer];
-            [SFInactivityTimerCenter updateActivityTimestamp];
             [SFSecurityLockout unlockSuccessPostProcessing:SFSecurityLockoutActionNone];  // "Unlock" was successful, as locking wasn't required.
         }
     } else {
@@ -353,6 +352,7 @@ static BOOL _showPasscode = YES;
                                       selector:@selector(timerExpired:)
                                  timerInterval:securityLockoutTime];
 	}
+    [SFInactivityTimerCenter updateActivityTimestamp];
 }
 
 + (void)removeTimer
@@ -404,10 +404,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 + (void)timerExpired:(NSTimer*)theTimer
 {
     [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
-    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-        [[SFAuthenticationManager sharedManager] logout];
-    }];
-	[SFSecurityLockout lock];
+    [SFSecurityLockout lock];
 }
 
 + (void)setForcePasscodeDisplay:(BOOL)forceDisplay

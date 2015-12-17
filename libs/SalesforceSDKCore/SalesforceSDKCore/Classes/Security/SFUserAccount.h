@@ -95,16 +95,50 @@
  */
 @property (nonatomic, copy) NSArray *communities;
 
+/** Indicates whether or not the receiver represents a guest user account.
+ */
+@property (nonatomic, readonly, getter = isGuestUser) BOOL guestUser;
+
 /** Returns YES if the user has an access token and, presumably,
  a valid session.
  */
 @property (nonatomic, readonly, getter = isSessionValid) BOOL sessionValid;
 
+/** Indicates if this account was deleted.  Returns `YES` if this account was deleted since being created.
+ */
+@property (nonatomic, readonly, getter = isUserDeleted) BOOL userDeleted;
+
+/** Returns YES if the user is a temporary user.
+ Note: a temporary user is created when a new user
+ is requested, for example during the login into
+ a new org, and is replaced by the real user once
+ the login is finished.
+ */
+@property (nonatomic, readonly, getter = isTemporaryUser) BOOL temporaryUser;
+
+/** Returns YES if the user is an anonymous user.
+ Note: an anonymous user is a user that doesn't require
+ credentials towards a server.
+ */
+@property (nonatomic, readonly, getter = isAnonymousUser) BOOL anonymousUser;
+
 /** Designated initializer
  @param identifier The user identifier
  @return the account instance
  */
-- (id)initWithIdentifier:(NSString*)identifier;
+- (instancetype)initWithIdentifier:(NSString*)identifier;
+
+/** Designated initializer to construct a user account with a guest user account.
+ @return The guest user account instance.
+ */
+- (instancetype)initWithGuestUser NS_DESIGNATED_INITIALIZER;
+
+/** Initialize with identifier and client id
+ @param identifier The user identifier
+ @param clientId The client id
+ @return the account instance
+ */
+- (instancetype)initWithIdentifier:(NSString*)identifier clientId:(NSString*)clientId NS_DESIGNATED_INITIALIZER;
 
 /** Returns the community API url for a particular
  community ID if it exists in the communities array

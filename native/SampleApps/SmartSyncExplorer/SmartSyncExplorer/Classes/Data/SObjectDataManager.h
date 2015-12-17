@@ -29,6 +29,7 @@
 
 @interface SObjectDataManager : NSObject
 
+@property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) NSArray *dataRows;
 
 - (id)initWithViewController:(UITableViewController *)parentVc

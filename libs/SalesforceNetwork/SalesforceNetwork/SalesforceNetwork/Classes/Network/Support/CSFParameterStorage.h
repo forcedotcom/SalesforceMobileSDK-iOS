@@ -46,11 +46,14 @@
  
  @discussion
  This property can be used in circumstances where URL Form-Encoded or Multipart request bodies can't be used,
- for example when posting a direct JSON payload to a server.  Use of this feature will automatically disable
- the setting of HTTP Content-Type and Content-Length headers, so it's the responsibility of the user of this
- property to update those headers accordingly.
+ for example when posting a direct JSON payload to a server.  This property is a block that returns an
+ `NSInputStream`, rather than an input stream itself, because an input stream cannot be re-used, which will
+ cause problems when replaying a request after refreshing authentication credentials.
+ 
+ Use of this feature will automatically disable the setting of HTTP Content-Type and Content-Length headers,
+ so it's the responsibility of the user of this property to update those headers accordingly.
  */
-@property (nonatomic, strong) NSInputStream *bodyStream;
+@property (nonatomic, copy) NSInputStream *(^bodyStreamBlock)(void);
 
 /**
  List of all the parameter keys that have been added to this instance.

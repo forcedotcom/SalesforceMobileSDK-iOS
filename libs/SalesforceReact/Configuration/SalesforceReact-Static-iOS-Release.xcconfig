@@ -1,0 +1,11 @@
+//
+//  SalesforceReact-Static-iOS-Release.xcconfig
+//  SalesforceReact
+//
+//  Copyright (c) 2015 Salesforce Inc. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Static.xcconfig"
+#include "../../../configuration/Configuration-Release.xcconfig"
+#include "SalesforceReact-Common.xcconfig"

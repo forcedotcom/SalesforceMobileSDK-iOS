@@ -50,8 +50,11 @@ static NSError *sLastError = nil;
 }
 
 + (id)objectFromJSONString:(NSString *)jsonString {
-    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-    id result = [self objectFromJSONData:jsonData];
+    id result = nil;
+    if ([jsonString isKindOfClass:[NSString class]]) {
+        NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        result = [self objectFromJSONData:jsonData];
+    }
     return result;
 }
 

@@ -35,7 +35,6 @@
 #import "CSFAction+Internal.h"
 
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import <SalesforceOAuth/SalesforceOAuth.h>
 
 static NSString * const kCSFTokenRefreshPath = @"/services/oauth2/token";
 static NSTimeInterval const kCSFTokenRefreshTimeout = 60.0;

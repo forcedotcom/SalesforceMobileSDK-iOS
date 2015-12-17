@@ -7,8 +7,8 @@
 #
 
 # Check for iOS SDK minimum version
-IOS_MIN_VERSION_NUM=70
-IOS_MIN_VERSION_STR="iOS 7.0"
+IOS_MIN_VERSION_NUM=80
+IOS_MIN_VERSION_STR="iOS 8.0"
 ios_ver=`xcodebuild -version -sdk iphoneos | grep SDKVersion:`
 if [[ "$ios_ver" == "" ]]
 then
@@ -24,8 +24,8 @@ then
 fi
 
 # Check for Xcode minimum version
-XCODE_MIN_VERSION=60
-XCODE_MIN_VERSION_STR="Xcode 6.0"
+XCODE_MIN_VERSION=70
+XCODE_MIN_VERSION_STR="Xcode 7.0"
 xcode_ver=`xcodebuild -version | grep ^Xcode`
 if [[ "$xcode_ver" == "" ]]
 then

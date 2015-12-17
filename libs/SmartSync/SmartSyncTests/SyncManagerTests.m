@@ -30,9 +30,9 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFSmartStore.h>
-#import <SalesforceSDKCore/SFSoupIndex.h>
-#import <SalesforceSDKCore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+#import <SmartStore/SFSoupIndex.h>
+#import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SmartSync/SFSoqlSyncDownTarget.h>
 #import <SmartSync/SFSoslSyncDownTarget.h>
@@ -704,7 +704,6 @@ static NSException *authException = nil;
     // Make some local change
     NSDictionary* idToNamesLocallyUpdated = [self makeSomeLocalChanges];
     NSArray* ids = [idToNamesLocallyUpdated allKeys];
-    NSArray* names = [idToNamesLocallyUpdated allValues];
     
     // Delete record on server
     NSString* remotelyDeletedId = [idToNamesLocallyUpdated allKeys][0];
@@ -1194,7 +1193,7 @@ static NSException *authException = nil;
                             [[SFSoupIndex alloc] initWithPath:ACCOUNT_NAME indexType:kSoupIndexTypeString columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:nil]
                             ];
-    [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs];
+    [store registerSoup:ACCOUNTS_SOUP withIndexSpecs:indexSpecs error:nil];
 }
 
 

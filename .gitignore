@@ -2,11 +2,13 @@
 xcuserdata
 project.xcworkspace
 artifacts
+node_modules
 /SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xccheckout
-
+/SalesforceMobileSDK.xcworkspace/xcshareddata/SalesforceMobileSDK.xcscmblueprint
 /hybrid/SampleApps/ContactExplorer/build/
 /hybrid/SampleApps/VFConnector/build/
 /libs/SalesforceHybridSDK/build/
 /libs/SalesforceOAuth/build/
 /libs/SalesforceRestAPI/build/
 /native/SampleApps/RestAPIExplorer/build/
+node_modules/
