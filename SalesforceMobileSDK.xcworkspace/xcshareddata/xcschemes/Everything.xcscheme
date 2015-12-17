@@ -328,6 +328,90 @@
                ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA884421C191795008D871B"
+               BuildableName = "libSalesforceHybridSDK.a"
+               BlueprintName = "SalesforceHybridSDKStatic"
+               ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA8832F1C1910F6008D871B"
+               BuildableName = "libSalesforceNetwork.a"
+               BlueprintName = "SalesforceNetworkStatic"
+               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA883911C19135D008D871B"
+               BuildableName = "libSalesforceRestAPI.a"
+               BlueprintName = "SalesforceRestAPIStatic"
+               ReferencedContainer = "container:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA8825E1C18F722008D871B"
+               BuildableName = "libSalesforceSDKCore.a"
+               BlueprintName = "SalesforceSDKCoreStatic"
+               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA883B91C1914DE008D871B"
+               BuildableName = "libSmartStore.a"
+               BlueprintName = "SmartStoreStatic"
+               ReferencedContainer = "container:libs/SmartStore/SmartStore.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CEA883ED1C19160E008D871B"
+               BuildableName = "libSmartSync.a"
+               BlueprintName = "SmartSyncStatic"
+               ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
