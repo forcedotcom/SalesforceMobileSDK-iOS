@@ -3,7 +3,7 @@
 
 target '__NativeSwiftTemplateAppName__' do
 source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/wmathurin/SalesforceMobileSDK-iOS-Specs.git'
+source 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs.git'
 
 use_frameworks!
 pod 'SalesforceSDKCore'
