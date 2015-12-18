@@ -292,11 +292,17 @@ It supports multiple accounts and their associated credentials.
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdData:" target="_top">-applyIdData:</a></tt></dt>
 <dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:" target="_top">-applyIdDataCustomAttributes:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:" target="_top">-applyIdDataCustomPermissions:</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/clearAllAccountState" target="_top">-clearAllAccountState</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/createUserAccount" target="_top">-createUserAccount</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/deleteAccountForUser:error:" target="_top">-deleteAccountForUser:error:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount" target="_top">-enableAnonymousAccount</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/loadAccounts:" target="_top">-loadAccounts:</a></tt></dt>
 <dd></dd>
@@ -413,7 +419,7 @@ It supports multiple accounts and their associated credentials.
 <h3><a name="applyCredentials:">applyCredentials:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyCredentials" target="_top"><span class="function">applyCredentials</span></a>:(<a machinegenerated="true" href="../../../../SalesforceOAuth/SFOAuthCredentials_h/Classes/SFOAuthCredentials/index.html#//apple_ref/occ/cl/SFOAuthCredentials" logicalPath="//apple_ref/occ/cl/SFOAuthCredentials" target="_top"><span class="type">SFOAuthCredentials</span></a><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/credentials //apple_ref/occ/data/SFUserAccountManager/credentials //apple_ref/occ/data/credentials //apple_ref/occ/clconst/SFUserAccountManager/credentials " machineGenerated="true" --><span class="var">credentials</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyCredentials" target="_top"><span class="function">applyCredentials</span></a>:(<a machinegenerated="true" href="../../../SFOAuthCredentials_h/Classes/SFOAuthCredentials/index.html#//apple_ref/occ/cl/SFOAuthCredentials" logicalPath="//apple_ref/occ/cl/SFOAuthCredentials" target="_top"><span class="type">SFOAuthCredentials</span></a><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/credentials //apple_ref/occ/data/SFUserAccountManager/credentials //apple_ref/occ/data/credentials //apple_ref/occ/clconst/SFUserAccountManager/credentials " machineGenerated="true" --><span class="var">credentials</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyCredentials:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
 <div class="param_indent">
@@ -437,7 +443,7 @@ This will post user update notification.
 <h3><a name="applyCurrentLogLevel:">applyCurrentLogLevel:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:;name=start -->+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyCurrentLogLevel //apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel" target="_top"><span class="function">applyCurrentLogLevel</span></a>:(<a machinegenerated="true" href="../../../../SalesforceOAuth/SFOAuthCredentials_h/Classes/SFOAuthCredentials/index.html#//apple_ref/occ/cl/SFOAuthCredentials" logicalPath="//apple_ref/occ/cl/SFOAuthCredentials" target="_top"><span class="type">SFOAuthCredentials</span></a><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/credentials //apple_ref/occ/data/SFUserAccountManager/credentials //apple_ref/occ/data/credentials //apple_ref/occ/clconst/SFUserAccountManager/credentials " machineGenerated="true" --><span class="var">credentials</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:;name=start -->+ (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyCurrentLogLevel //apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel" target="_top"><span class="function">applyCurrentLogLevel</span></a>:(<a machinegenerated="true" href="../../../SFOAuthCredentials_h/Classes/SFOAuthCredentials/index.html#//apple_ref/occ/cl/SFOAuthCredentials" logicalPath="//apple_ref/occ/cl/SFOAuthCredentials" target="_top"><span class="type">SFOAuthCredentials</span></a><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/credentials //apple_ref/occ/data/SFUserAccountManager/credentials //apple_ref/occ/data/credentials //apple_ref/occ/clconst/SFUserAccountManager/credentials " machineGenerated="true" --><span class="var">credentials</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/clm/SFUserAccountManager/applyCurrentLogLevel:;name=start --><p>Applies the current log level to the oauth credentials that
@@ -466,6 +472,52 @@ controls the oauth library log level.
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=start --><p>Invoke this method to apply the specified id data to the
 current user. This will post user update notification.
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:;   name=SFUserAccountManager::applyIdDataCustomAttributes: --><a name="//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:"></a>
+<h3><a name="applyIdDataCustomAttributes:">applyIdDataCustomAttributes:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes" target="_top"><span class="function">applyIdDataCustomAttributes</span></a>:(<!-- a logicalPath="//apple_ref/occ/cl/NSDictionary //apple_ref/occ/tdef/NSDictionary //apple_ref/occ/tag/NSDictionary //apple_ref/occ/struct/NSDictionary //apple_ref/occ/intf/NSDictionary //apple_ref/doc/anysymbol/NSDictionary" machineGenerated="true" --><span class="type">NSDictionary</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/customAttributes //apple_ref/occ/data/SFUserAccountManager/customAttributes //apple_ref/occ/data/customAttributes //apple_ref/occ/clconst/SFUserAccountManager/customAttributes " machineGenerated="true" --><span class="var">customAttributes</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/SFUserAccountManager/applyIdDataCustomAttributes:/customAttributes;   name=applyIdDataCustomAttributes:::customAttributes -->
+<a name="//apple_ref/doc/methodparam/SFUserAccountManager/applyIdDataCustomAttributes:/customAttributes"></a>
+<code>customAttributes</code>
+</dt>
+<dd><p>The new custom attributes data to update in the identity data.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:;name=start --><p>This method will selectively update the custom attributes identity data for the current user.
+Other identity data will not be impacted.
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomAttributes:;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:;   name=SFUserAccountManager::applyIdDataCustomPermissions: --><a name="//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:"></a>
+<h3><a name="applyIdDataCustomPermissions:">applyIdDataCustomPermissions:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions" target="_top"><span class="function">applyIdDataCustomPermissions</span></a>:(<!-- a logicalPath="//apple_ref/occ/cl/NSDictionary //apple_ref/occ/tdef/NSDictionary //apple_ref/occ/tag/NSDictionary //apple_ref/occ/struct/NSDictionary //apple_ref/occ/intf/NSDictionary //apple_ref/doc/anysymbol/NSDictionary" machineGenerated="true" --><span class="type">NSDictionary</span><!-- /a --> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/customPermissions //apple_ref/occ/data/SFUserAccountManager/customPermissions //apple_ref/occ/data/customPermissions //apple_ref/occ/clconst/SFUserAccountManager/customPermissions " machineGenerated="true" --><span class="var">customPermissions</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/SFUserAccountManager/applyIdDataCustomPermissions:/customPermissions;   name=applyIdDataCustomPermissions:::customPermissions -->
+<a name="//apple_ref/doc/methodparam/SFUserAccountManager/applyIdDataCustomPermissions:/customPermissions"></a>
+<code>customPermissions</code>
+</dt>
+<dd><p>The new custom permissions data to update in the identity data.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:;name=start --><p>This method will selectively update the custom permissions identity data for the current user.
+Other identity data will not be impacted.
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/clearAllAccountState;   name=SFUserAccountManager::clearAllAccountState --><a name="//apple_ref/occ/instm/SFUserAccountManager/clearAllAccountState"></a>
@@ -524,6 +576,20 @@ the user parameter is found, no action will be taken, and deletion will be repor
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/deleteAccountForUser:error:;name=start --><p>Allows you to remove the given user account.
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/deleteAccountForUser:error:;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount;   name=SFUserAccountManager::enableAnonymousAccount --><a name="//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount"></a>
+<h3><a name="enableAnonymousAccount">enableAnonymousAccount</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<!-- a logicalPath="//apple_ref/occ/econst/enableAnonymousAccount //apple_ref/occ/data/SFUserAccountManager/enableAnonymousAccount //apple_ref/occ/data/enableAnonymousAccount //apple_ref/occ/clconst/SFUserAccountManager/enableAnonymousAccount " machineGenerated="true" --><span class="var">enableAnonymousAccount</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount;name=start --><p>This method ensures the anonymous user exists and if not, creates the anonymous
+user and saves it with the other users. This method doesn't change the current user.
+</p>
+<p>Note: this method is invoked automatically if `autocreateAnonymousUser` returns YES.
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/enableAnonymousAccount;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/loadAccounts:;   name=SFUserAccountManager::loadAccounts: --><a name="//apple_ref/occ/instm/SFUserAccountManager/loadAccounts:"></a>
@@ -769,9 +835,15 @@ that something has changed for the current user.
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/allUserIdentities" target="_top">allUserIdentities</a></tt></dt>
 <dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/anonymousUser" target="_top">anonymousUser</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser" target="_top">autocreateAnonymousUser</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/currentCommunityId" target="_top">currentCommunityId</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/currentUser" target="_top">currentUser</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous" target="_top">currentUserAnonymous</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/currentUserIdentity" target="_top">currentUserIdentity</a></tt></dt>
 <dd></dd>
@@ -786,6 +858,8 @@ that something has changed for the current user.
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/retryLoginAfterFailure" target="_top">retryLoginAfterFailure</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/scopes" target="_top">scopes</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser" target="_top">supportsAnonymousUser</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instp/SFUserAccountManager/temporaryUser" target="_top">temporaryUser</a></tt></dt>
 <dd></dd>
@@ -844,6 +918,35 @@ is removed from the accounts list.
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/allUserIdentities;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
+<!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/anonymousUser;   name=SFUserAccountManager::anonymousUser --><a name="//apple_ref/occ/instp/SFUserAccountManager/anonymousUser"></a>
+<h3><a name="anonymousUser">anonymousUser</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/anonymousUser;name=start -->@property (<span class="param">nonatomic</span>,
+    <span class="param">strong</span>,
+    <span class="param">readonly</span>) <a machinegenerated="true" href="../../../SFUserAccount_h/Classes/SFUserAccount/index.html#//apple_ref/occ/cl/SFUserAccount" logicalPath="//apple_ref/occ/cl/SFUserAccount" target="_top"><span class="type">SFUserAccount</span></a> <span class="type">*</span><!-- a logicalPath="//apple_ref/occ/econst/anonymousUser //apple_ref/occ/data/SFUserAccountManager/anonymousUser //apple_ref/occ/data/anonymousUser //apple_ref/occ/clconst/SFUserAccountManager/anonymousUser " machineGenerated="true" --><span class="var">anonymousUser</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/anonymousUser;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/anonymousUser;name=start --><p>Returns the anonymous user or nil if none exists
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/anonymousUser;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser;   name=SFUserAccountManager::autocreateAnonymousUser --><a name="//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser"></a>
+<h3><a name="autocreateAnonymousUser">autocreateAnonymousUser</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser;name=start -->@property (<span class="param">nonatomic</span>,
+    <span class="param">readonly</span>) <!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a --> <!-- a logicalPath="//apple_ref/occ/econst/autocreateAnonymousUser //apple_ref/occ/data/SFUserAccountManager/autocreateAnonymousUser //apple_ref/occ/data/autocreateAnonymousUser //apple_ref/occ/clconst/SFUserAccountManager/autocreateAnonymousUser " machineGenerated="true" --><span class="var">autocreateAnonymousUser</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser;name=start --><p>Returns YES if the application wants the anonymous user to be
+created automatically at startup, no otherwise.
+</p>
+<p>Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+to its Info.plist file in order to enable this flag.
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/autocreateAnonymousUser;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
 <!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/currentCommunityId;   name=SFUserAccountManager::currentCommunityId --><a name="//apple_ref/occ/instp/SFUserAccountManager/currentCommunityId"></a>
 <h3><a name="currentCommunityId">currentCommunityId</a></h3>
 <hr class="afterName">
@@ -868,6 +971,19 @@ This property is an alias for `currentUser.communityId`
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUser;name=start --><p>The current user account.  This property may be nil if the user
 has never logged in.
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUser;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous;   name=SFUserAccountManager::currentUserAnonymous --><a name="//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous"></a>
+<h3><a name="currentUserAnonymous">currentUserAnonymous</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous;name=start -->@property (<span class="param">nonatomic</span>,
+    <span class="param">readonly</span>,
+    <!-- a logicalPath="//apple_ref/occ/cl/getter //apple_ref/occ/tdef/getter //apple_ref/occ/tag/getter //apple_ref/occ/struct/getter //apple_ref/occ/intf/getter //apple_ref/doc/anysymbol/getter" machineGenerated="true" --><span class="type">getter</span><!-- /a -->=<span class="param">isCurrentUserAnonymous</span>) <!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a --> <!-- a logicalPath="//apple_ref/occ/econst/currentUserAnonymous //apple_ref/occ/data/SFUserAccountManager/currentUserAnonymous //apple_ref/occ/data/currentUserAnonymous //apple_ref/occ/clconst/SFUserAccountManager/currentUserAnonymous " machineGenerated="true" --><span class="var">currentUserAnonymous</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous;name=start --><p>Returns YES if the current user is anonymous, no otherwise
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserAnonymous;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/currentUserIdentity;   name=SFUserAccountManager::currentUserIdentity --><a name="//apple_ref/occ/instp/SFUserAccountManager/currentUserIdentity"></a>
@@ -957,6 +1073,21 @@ id as it may change during early oAuth flow and we want to retain it
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/scopes;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
+<!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser;   name=SFUserAccountManager::supportsAnonymousUser --><a name="//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser"></a>
+<h3><a name="supportsAnonymousUser">supportsAnonymousUser</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser;name=start -->@property (<span class="param">nonatomic</span>,
+    <span class="param">readonly</span>) <!-- a logicalPath="//apple_ref/occ/cl/BOOL //apple_ref/occ/tdef/BOOL //apple_ref/occ/tag/BOOL //apple_ref/occ/struct/BOOL //apple_ref/occ/intf/BOOL //apple_ref/doc/anysymbol/BOOL" machineGenerated="true" --><span class="type">BOOL</span><!-- /a --> <!-- a logicalPath="//apple_ref/occ/econst/supportsAnonymousUser //apple_ref/occ/data/SFUserAccountManager/supportsAnonymousUser //apple_ref/occ/data/supportsAnonymousUser //apple_ref/occ/clconst/SFUserAccountManager/supportsAnonymousUser " machineGenerated="true" --><span class="var">supportsAnonymousUser</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser;name=start --><p>Returns YES if the application supports anonymous user, no otherwise.
+</p>
+<p>Note: the application must add the kSFUserAccountSupportAnonymousUsage value
+to its Info.plist file in order to enable this flag.
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instp/SFUserAccountManager/supportsAnonymousUser;name=end --><!-- end discussion -->
+</p>
+<hr class="betweenAPIEntries">
 <!-- headerDoc=instp;  uid=//apple_ref/occ/instp/SFUserAccountManager/temporaryUser;   name=SFUserAccountManager::temporaryUser --><a name="//apple_ref/occ/instp/SFUserAccountManager/temporaryUser"></a>
 <h3><a name="temporaryUser">temporaryUser</a></h3>
 <hr class="afterName">
@@ -983,7 +1114,7 @@ id as it may change during early oAuth flow and we want to retain it
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Tuesday, June 30, 2015
+<p class="hd_timestamp">Last Updated: Thursday, December 17, 2015
 </p>
 </div>
 </td>
