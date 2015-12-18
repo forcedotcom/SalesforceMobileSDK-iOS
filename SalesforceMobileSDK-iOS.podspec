@@ -113,17 +113,4 @@ Pod::Spec.new do |s|
 
   end
 
-  s.subspec 'SalesforceReact' do |salesforcereact|
-
-      salesforcereact.dependency 'SalesforceMobileSDK-iOS/SmartSync'
-      salesforcereact.source_files = 'libs/SalesforceReact/SalesforceReact/Classes/**/*.{h,m}'
-      salesforcereact.public_header_files = 'libs/SalesforceReact/SalesforceReact/Classes/SFNetReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFOauthReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartStoreReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartSyncReactBridge.h', 'libs/SalesforceReact/SalesforceReact/SalesforceReact.h'
-      salesforcereact.header_dir = 'Headers/SalesforceReact'
-      salesforcereact.prefix_header_contents = '#import <SalesforceSDKCore/SFLogger.h>'
-      salesforcereact.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Private/#{s.name}/Headers" }
-      salesforcereact.requires_arc = true
-
-  end
-
-
 end
