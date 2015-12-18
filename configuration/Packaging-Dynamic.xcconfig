@@ -1,0 +1,13 @@
+//
+//  Packaging-Dynamic.xcconfig
+//  
+//
+//  Created by Bharath Hariharan on 12/11/15.
+//
+//
+
+IPHONEOS_DEPLOYMENT_TARGET = 8.0
+PUBLIC_HEADERS_FOLDER_PATH = $(CONTENTS_FOLDER_PATH)/Headers
+PRIVATE_HEADERS_FOLDER_PATH = $(CONTENTS_FOLDER_PATH)/PrivateHeaders
+HEADER_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR)/Headers $(TARGET_BUILD_DIR)/Headers $(inherited)
+FRAMEWORK_SEARCH_PATHS = $(BUILT_PRODUCTS_DIR) $(TARGET_BUILD_DIR) $(inherited)

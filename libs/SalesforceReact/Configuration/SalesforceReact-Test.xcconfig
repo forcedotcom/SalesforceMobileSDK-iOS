@@ -6,4 +6,4 @@
 //
 
 #include "../../../configuration/Common-Test.xcconfig"
-#include "SalesforceReact-Static-iOS-Debug.xcconfig"
+#include "SalesforceReact-Dynamic-iOS-Debug.xcconfig"

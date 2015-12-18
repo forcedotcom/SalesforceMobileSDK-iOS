@@ -1,0 +1,12 @@
+//
+//  SmartStore-Dynamic-iOS-Debug.xcconfig
+//  SmartStore
+//
+//  Created by Bharath Hariharan on 12/11/15.
+//  Copyright © 2015 Salesforce Inc. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Dynamic.xcconfig"
+#include "../../../configuration/Configuration-Debug.xcconfig"
+#include "SmartStore-Common.xcconfig"
