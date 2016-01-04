@@ -6,7 +6,6 @@ You have arrived at the source repository for the Salesforce Mobile SDK for iOS.
 
 - If you'd like to work with the source code of the SDK itself, you've come to the right place!  You can browse sample app source code and debug down through the layers to get a feel for how everything works under the covers.  Read on for instructions on how to get started with the SDK in your development environment.
 - If you're just eager to start developing your own new application, the quickest way is to use our npm binary distribution package, called [forceios](https://npmjs.org/package/forceios), which is hosted on [npmjs.org](https://npmjs.org/).  Getting started is as simple as installing the npm package and launching your template app.  You'll find more details on the forceios package page.
-- If you would like to add the Mobile SDK components to your existing native application, check out the [SalesforceMobileSDK-iOS-Distribution repository](https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Distribution), which contains our binary distributions as well as information on how to add them to your native app.
 
 Installation (do this first - really)
 ==

@@ -4,8 +4,6 @@
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
 
-    <target name="libPackages" depends="packageSmartSync, packageSmartStore, packageSalesforceReact, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
-
     <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="coreDoc, networkDoc, hybridSDKDoc, restAPIDoc, reactDoc, smartStoreDoc, smartSyncDoc">
         <antcall target="buildMasterTOC" />
     </target>
