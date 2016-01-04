@@ -47,8 +47,6 @@
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
 		CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0319ACF95B0007F22F /* UIKit.framework */; };
 		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
-		CE4CE4091C0E59C5009F6029 /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBF11BFD302F0022F021 /* SqliteAdditions.c */; };
-		CE4CE40A1C0E59C5009F6029 /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBF21BFD302F0022F021 /* SqliteAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE40C1C0E59DA009F6029 /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
 		CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,8 +77,6 @@
 		CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CEA883CB1C191580008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CEA883CE1C191595008D871B /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEA883CF1C19159E008D871B /* SqliteAdditions.c in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBF11BFD302F0022F021 /* SqliteAdditions.c */; };
-		CEA883D01C19159E008D871B /* SqliteAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBF21BFD302F0022F021 /* SqliteAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA883D11C1915A8008D871B /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA883D21C1915A8008D871B /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
 		CEA883D31C1915A8008D871B /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -208,8 +204,6 @@
 		4F96FBD61BFD30030022F021 /* SFSoupIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSoupIndex.m; path = SmartStore/Classes/SFSoupIndex.m; sourceTree = SOURCE_ROOT; };
 		4F96FBD71BFD30030022F021 /* SFStoreCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFStoreCursor.h; path = SmartStore/Classes/SFStoreCursor.h; sourceTree = SOURCE_ROOT; };
 		4F96FBD81BFD30030022F021 /* SFStoreCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFStoreCursor.m; path = SmartStore/Classes/SFStoreCursor.m; sourceTree = SOURCE_ROOT; };
-		4F96FBF11BFD302F0022F021 /* SqliteAdditions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = SqliteAdditions.c; path = SmartStore/Classes/sqlite/SqliteAdditions.c; sourceTree = SOURCE_ROOT; };
-		4F96FBF21BFD302F0022F021 /* SqliteAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SqliteAdditions.h; path = SmartStore/Classes/sqlite/SqliteAdditions.h; sourceTree = SOURCE_ROOT; };
 		4F96FC4D1BFD31EF0022F021 /* SmartStore-Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Common.xcconfig"; path = "Configuration/SmartStore-Common.xcconfig"; sourceTree = "<group>"; };
 		4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -292,15 +286,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4F96FBF01BFD301E0022F021 /* sqlite */ = {
-			isa = PBXGroup;
-			children = (
-				4F96FBF11BFD302F0022F021 /* SqliteAdditions.c */,
-				4F96FBF21BFD302F0022F021 /* SqliteAdditions.h */,
-			);
-			name = sqlite;
-			sourceTree = "<group>";
-		};
 		CE0021A91C06694D0079DCA4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -424,7 +409,6 @@
 		CEF50A79196B3EB60076264C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4F96FBF01BFD301E0022F021 /* sqlite */,
 				4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */,
 				4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */,
 				4F96FBC41BFD30030022F021 /* SFQuerySpec.h */,
@@ -470,7 +454,6 @@
 				829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */,
 				CE4CE4111C0E59DA009F6029 /* SFSmartStore.h in Headers */,
 				4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */,
-				CE4CE40A1C0E59C5009F6029 /* SqliteAdditions.h in Headers */,
 				CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */,
 				CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */,
 				CE4CE4141C0E59DA009F6029 /* SFSmartStoreDatabaseManager.h in Headers */,
@@ -492,7 +475,6 @@
 				CEA883D31C1915A8008D871B /* SFQuerySpec.h in Headers */,
 				CEA883DD1C1915A8008D871B /* SFSmartStoreInspectorViewController.h in Headers */,
 				CEA883E11C1915A8008D871B /* SFSmartStoreUpgrade+Internal.h in Headers */,
-				CEA883D01C19159E008D871B /* SqliteAdditions.h in Headers */,
 				CEA883D51C1915A8008D871B /* SFSmartSqlHelper.h in Headers */,
 				CEA883CE1C191595008D871B /* SmartStore.h in Headers */,
 				CEA883D71C1915A8008D871B /* SFSmartStore.h in Headers */,
@@ -714,7 +696,6 @@
 				CE4CE4151C0E59DA009F6029 /* SFSmartStoreDatabaseManager.m in Sources */,
 				4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */,
 				CE4CE41A1C0E59DA009F6029 /* SFSmartStoreUpgrade.m in Sources */,
-				CE4CE4091C0E59C5009F6029 /* SqliteAdditions.c in Sources */,
 				CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */,
 				CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */,
 			);
@@ -733,7 +714,6 @@
 				CEA883DB1C1915A8008D871B /* SFSmartStoreDatabaseManager.m in Sources */,
 				CEA883E91C1915A8008D871B /* SalesforceSDKManagerWithSmartStore.m in Sources */,
 				CEA883E01C1915A8008D871B /* SFSmartStoreUpgrade.m in Sources */,
-				CEA883CF1C19159E008D871B /* SqliteAdditions.c in Sources */,
 				CEA883D41C1915A8008D871B /* SFQuerySpec.m in Sources */,
 				CEA883E31C1915A8008D871B /* SFSmartStoreUtils.m in Sources */,
 			);
