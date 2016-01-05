@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4F393A291C3C8BCD00B3EA13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F393A281C3C8BCD00B3EA13 /* main.swift */; };
-		4F393A2B1C3C8C1000B3EA13 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F393A2A1C3C8C1000B3EA13 /* Settings.bundle */; };
 		4FD6C47A1B754AF1002F9F90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD6C4791B754AF1002F9F90 /* AppDelegate.swift */; };
 		4FD6C4811B754AF1002F9F90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD6C4801B754AF1002F9F90 /* Images.xcassets */; };
 		4FD6C49E1B755242002F9F90 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FD6C49B1B755242002F9F90 /* InitialViewController.xib */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		045D1C5BC2F1EADFDFB3671E /* Pods-__NativeSwiftTemplateAppName__.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; path = "Pods/Target Support Files/Pods-__NativeSwiftTemplateAppName__/Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; sourceTree = "<group>"; };
 		4F393A281C3C8BCD00B3EA13 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		4F393A2A1C3C8C1000B3EA13 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4FD6C4741B754AF1002F9F90 /* __NativeSwiftTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeSwiftTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD6C4781B754AF1002F9F90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4FD6C4791B754AF1002F9F90 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,7 +73,6 @@
 		4FD6C4771B754AF1002F9F90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F393A2A1C3C8C1000B3EA13 /* Settings.bundle */,
 				4FD6C4801B754AF1002F9F90 /* Images.xcassets */,
 				4FD6C4781B754AF1002F9F90 /* Info.plist */,
 			);
@@ -173,7 +170,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FD6C4811B754AF1002F9F90 /* Images.xcassets in Resources */,
-				4F393A2B1C3C8C1000B3EA13 /* Settings.bundle in Resources */,
 				4FD6C49E1B755242002F9F90 /* InitialViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
