@@ -33,7 +33,6 @@ let OAuthRedirectURI        = "testsfdc:///mobilesdk/detect/oauth/done";
 //let RemoteAccessConsumerKey = "__ConnectedAppIdentifier__";
 //let OAuthRedirectURI        = "__ConnectedAppRedirectUri__";
 
-@UIApplicationMain
 class AppDelegate : UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
