@@ -33,6 +33,7 @@
 // Private constants
 NSString * const kMethodArg       = @"method";
 NSString * const kPathArg         = @"path";
+NSString * const kEndPointArg     = @"endPoint";
 NSString * const kQueryParams     = @"queryParams";
 NSString * const kHeaderParams    = @"headerParams";
 
@@ -45,12 +46,16 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
     SFRestMethod method = [SFRestRequest sfRestMethodFromHTTPMethod:[argsDict nonNullObjectForKey:kMethodArg]];
+    NSString* endPoint = [argsDict nonNullObjectForKey:kEndPointArg];
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
     [request setCustomHeaders:headerParams];
+    if (endPoint) {
+        [request setEndpoint:endPoint];
+    }
     
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e) {
