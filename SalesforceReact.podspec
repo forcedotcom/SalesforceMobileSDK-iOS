@@ -1,0 +1,1 @@
+external/ios-specs/SalesforceReact/4.0.1/SalesforceReact.podspec
