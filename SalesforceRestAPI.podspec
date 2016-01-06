@@ -1,0 +1,1 @@
+external/ios-specs/SalesforceRestAPI/4.0.1/SalesforceRestAPI.podspec

@@ -1,0 +1,1 @@
+external/ios-specs/SmartSync/4.0.1/SmartSync.podspec
