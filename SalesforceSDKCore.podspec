@@ -1,0 +1,1 @@
+external/ios-specs/SalesforceSDKCore/4.0.1/SalesforceSDKCore.podspec

@@ -1,0 +1,1 @@
+external/ios-specs/SmartStore/4.0.1/SmartStore.podspec
