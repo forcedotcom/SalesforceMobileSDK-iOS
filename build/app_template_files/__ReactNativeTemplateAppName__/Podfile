@@ -3,8 +3,8 @@
 
 target '__ReactNativeTemplateAppName__' do
 
+source 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs.git' # need to be first 
 source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs.git'
 
 pod 'React', :path => './node_modules/react-native', :subspecs => [
     'ART',
@@ -24,6 +24,7 @@ pod 'React', :path => './node_modules/react-native', :subspecs => [
 pod 'SalesforceSDKCore'
 pod 'SalesforceNetwork'
 pod 'SalesforceRestAPI'
+pod 'FMDB'
 pod 'SmartStore'
 pod 'SmartSync'
 pod 'SalesforceReact'
