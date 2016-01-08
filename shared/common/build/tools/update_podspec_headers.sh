@@ -30,8 +30,6 @@
 # set -x
 set -e
 
-VERSION=4.0.1 # XXX: update that version for every release
-
 SUBSPEC_NAME=""
 
 function usage()
@@ -66,7 +64,7 @@ parseOpts "$@"
 
 repoDir=$(cd "$(dirname ${BASH_SOURCE[0]})" && cd ../../../.. && pwd)
 publicHeaderDirectory="${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}"
-podSpecFile="${repoDir}/external/ios-specs/${PROJECT_NAME}/${VERSION}/${PROJECT_NAME}.podspec"
+podSpecFile="${repoDir}/${PROJECT_NAME}.podspec"
 projectDir=`echo "${PROJECT_DIR}" | sed "s#${repoDir}/##g"`
 
 cd "$repoDir"
