@@ -177,13 +177,13 @@ function createNativeApp(config) {
     // Calling out to the shell, so re-quote the command line arguments.
     var newCommandLineArgs = buildArgsFromArgMap(config);
     var createAppProcess = exec(createAppExecutable + ' ' + newCommandLineArgs, function(error, stdout, stderr) {
-        if (stdout) console.log(stdout);
-        if (stderr) console.log(stderr);
         if (error) {
             console.log(outputColors.red + 'There was an error creating the app.' + outputColors.reset);
             process.exit(3);
         }
     });
+    createAppProcess.stdout.on('data', function(data) { console.log(data); });
+    createAppProcess.stderr.on('data', function(data) { console.log(data); });
 }
 
 function buildArgsFromArgMap(config) {
