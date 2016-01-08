@@ -18,7 +18,4 @@
 	url = https://github.com/forcedotcom/react-native.git
 [submodule "external/CocoaLumberjack"]
 	path = external/CocoaLumberjack
-url=https://github.com/forcedotcom/CocoaLumberjack.git
-[submodule "external/ios-specs"]
-	path = external/ios-specs
-	url = https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs
+    url=https://github.com/forcedotcom/CocoaLumberjack.git
