@@ -23,9 +23,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CocoaLumberjack/DDLog.h>
 
-@interface SFCocoaLumberJackCustomFormatter : NSObject <DDLogFormatter> {
+@interface SFCocoaLumberJackCustomFormatter : NSObject {
     int loggerCount;
     NSDateFormatter *threadUnsafeDateFormatter;
 }

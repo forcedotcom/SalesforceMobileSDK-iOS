@@ -895,7 +895,7 @@
 		82DBBAEC1A798B290093A54C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
 					825347F41A8ADD050019FE0B = {
@@ -1234,6 +1234,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ENABLE_TESTABILITY = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};

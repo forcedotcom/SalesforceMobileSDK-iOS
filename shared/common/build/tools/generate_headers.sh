@@ -133,7 +133,7 @@ for file in $(find $wrapper_directory -type f); do
     if [[ $filename == $wrapper_filename ]]; then
         continue;
     fi
-    import_line=`echo "#import <$OPT_NAME/$filename>"`
+    import_line=`echo "#import \"$filename\""`
     updated_imports=`echo "${updated_imports}${import_line}"`
     echo "$import_line" >> $OPT_TEMP
 done

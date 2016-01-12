@@ -3,39 +3,14 @@ framework module SalesforceKit {
     
     export *
     module * { export * }
-    
-    framework module SalesforceOAuth {
-        umbrella header "SalesforceOAuth.h"
-        
-        export *
-        module * { export * }
-        
-        use SalesforceSecurity
-    }
-    
-    framework module SalesforceSecurity {
-        umbrella header "SalesforceSecurity.h"
-        
-        export *
-        module * { export * }
 
-        use SalesforceSDKCommon
-    }
-    
-    framework module SalesforceSDKCommon {
-        umbrella header "SalesforceSDKCommon.h"
-        
-        export *
-        module * { export * }
-    }
-    
     framework module SalesforceSDKCore {
         umbrella header "SalesforceSDKCore.h"
-        
+
         export *
         module * { export * }
     }
-    
+
     framework module SalesforceNetwork {
         umbrella header "SalesforceNetwork.h"
         
@@ -54,7 +29,16 @@ framework module SalesforceKit {
         use SalesforceSDKCore
         use SalesforceNetwork
     }
-    
+
+    framework module SmartStore {
+        umbrella header "SmartStore.h"
+
+        export *
+        module * { export * }
+
+        use SalesforceRestAPI
+    }
+
     framework module SmartSync {
         umbrella header "SmartSync.h"
         
@@ -63,4 +47,8 @@ framework module SalesforceKit {
         
         use SalesforceRestAPI
     }
+
+    link "z"
+    link "sqlite3"
+    link framework "MobileCoreServices"
 }
