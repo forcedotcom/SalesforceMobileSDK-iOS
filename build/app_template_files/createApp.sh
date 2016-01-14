@@ -284,7 +284,8 @@ function runNpmInstall()
 {
   local origWorkingFolder=`pwd`
   
-  # Run pod install
+  # Run npm install
+  echoColor $TERM_COLOR_YELLOW "Getting npm dependencies"
   cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
   npm install
   cd "${origWorkingFolder}"
@@ -295,8 +296,9 @@ function runPodInstall()
   local origWorkingFolder=`pwd`
   
   # Run pod install
+  echoColor $TERM_COLOR_YELLOW "Getting cocoapods dependencies"
   cd "${OPT_OUTPUT_FOLDER}/${OPT_APP_NAME}"
-  pod install --silent
+  pod install
   cd "${origWorkingFolder}"
 }
 

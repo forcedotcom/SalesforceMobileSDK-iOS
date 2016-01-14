@@ -64,7 +64,7 @@ parseOpts "$@"
 
 repoDir=$(cd "$(dirname ${BASH_SOURCE[0]})" && cd ../../../.. && pwd)
 publicHeaderDirectory="${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}"
-podSpecFile="${repoDir}/SalesforceMobileSDK-iOS.podspec"
+podSpecFile="${repoDir}/${PROJECT_NAME}.podspec"
 projectDir=`echo "${PROJECT_DIR}" | sed "s#${repoDir}/##g"`
 
 cd "$repoDir"
