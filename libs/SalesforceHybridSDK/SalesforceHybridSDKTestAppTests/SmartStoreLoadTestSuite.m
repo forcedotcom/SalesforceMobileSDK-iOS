@@ -24,14 +24,12 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <SmartStore/Smartstore.h>
+#import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 
 #import "SmartStoreLoadTestSuite.h"
-
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
-#import <SmartStore/SFSmartStore.h>
-#import "SFSmartStorePlugin.h"
-#import "SFHybridViewController.h"
 
 
 @implementation SmartStoreLoadTestSuite

@@ -2,9 +2,9 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Wolfgang Mathurin on Tue Nov 24 17:26:01 PST 2015.
+ Created by Wolfgang Mathurin on Thu Jan 14 15:44:17 PST 2016.
 
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -109,4 +109,3 @@
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>
-

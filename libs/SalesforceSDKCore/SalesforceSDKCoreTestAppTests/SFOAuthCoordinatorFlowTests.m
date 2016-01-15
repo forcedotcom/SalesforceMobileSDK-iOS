@@ -24,8 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "SFSDKAsyncProcessListener.h"
-
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthTestFlow.h"
 #import "SFOAuthTestFlowCoordinatorDelegate.h"

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SalesforceSDKManager+Internal.h"
 
 @interface SFTestSDKManagerFlow : NSObject <SalesforceSDKManagerFlow>
