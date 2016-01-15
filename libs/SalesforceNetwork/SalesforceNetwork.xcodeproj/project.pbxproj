@@ -369,6 +369,7 @@
 		82ABD5191A90152B0051CC9B /* CSFAuthRefresh+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSFAuthRefresh+Internal.h"; sourceTree = "<group>"; };
 		82ABD51B1A902B080051CC9B /* CSFSalesforceOAuthRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFSalesforceOAuthRefresh.h; sourceTree = "<group>"; };
 		82ABD51C1A902B080051CC9B /* CSFSalesforceOAuthRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFSalesforceOAuthRefresh.m; sourceTree = "<group>"; };
+		82D0AB291C497F890081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SalesforceNetwork/Info.plist; sourceTree = "<group>"; };
 		82E8022C1A8FF22900648529 /* CSFAuthRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFAuthRefresh.h; sourceTree = "<group>"; };
 		82E8022D1A8FF22900648529 /* CSFAuthRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFAuthRefresh.m; sourceTree = "<group>"; };
 		CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,6 +493,7 @@
 		827DD3F11A7BF72E00519F03 /* SalesforceNetwork */ = {
 			isa = PBXGroup;
 			children = (
+				82D0AB291C497F890081F833 /* Info.plist */,
 				829DA2A51C1266870040F5F1 /* SalesforceNetwork.h */,
 				827DD3F21A7C006E00519F03 /* SalesforceNetwork */,
 				825348041A8ADD220019FE0B /* SalesforceNetworkTests */,
@@ -1282,6 +1284,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceNetwork/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1333,6 +1336,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceNetwork/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
