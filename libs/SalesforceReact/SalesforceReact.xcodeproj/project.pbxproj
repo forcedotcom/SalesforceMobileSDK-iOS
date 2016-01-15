@@ -276,7 +276,6 @@
 					};
 					CE4CE2F71C0E4673009F6029 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 				};
 			};

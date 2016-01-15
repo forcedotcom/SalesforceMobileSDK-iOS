@@ -903,11 +903,9 @@
 					};
 					CE4CE28B1C0E454F009F6029 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 					CEA8832F1C1910F6008D871B = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 				};
 			};
