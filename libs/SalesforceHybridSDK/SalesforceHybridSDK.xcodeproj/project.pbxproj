@@ -1248,7 +1248,6 @@
 					};
 					CEA884421C191795008D871B = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 				};
 			};

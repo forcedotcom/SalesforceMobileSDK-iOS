@@ -556,11 +556,9 @@
 				TargetAttributes = {
 					CE4CE2B81C0E4581009F6029 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 					CEA883B91C1914DE008D871B = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 				};
 			};
