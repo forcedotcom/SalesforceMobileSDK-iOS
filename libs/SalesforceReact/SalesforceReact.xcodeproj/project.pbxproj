@@ -95,6 +95,7 @@
 		4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
+		82D0AB401C4980420081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
 		CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReact.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -171,6 +172,7 @@
 		4FABF0641AA5226400D31E3F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82D0AB401C4980420081F833 /* Info.plist */,
 				4FABF0651AA5229300D31E3F /* SalesforceReact-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -471,6 +473,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceReact/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -521,6 +524,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceReact/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

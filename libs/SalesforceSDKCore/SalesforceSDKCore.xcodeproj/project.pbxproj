@@ -54,6 +54,7 @@
 		4FFDAD491C068FC5009BCD6D /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FFDAD381C068E8F009BCD6D /* test_credentials.json */; };
 		829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
+		82D0AB1A1C497F410081F833 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D0AB191C497F410081F833 /* Info.plist */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
@@ -822,6 +823,7 @@
 		8280EC1E16E1605A00768DE8 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKCore.h; sourceTree = "<group>"; };
 		82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = SalesforceSDKResources.bundle; path = ../../shared/resources/SalesforceSDKResources.bundle; sourceTree = "<group>"; };
+		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644319C7C8180006BDFE /* SalesforceSDKCoreTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceSDKCoreTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1253,6 +1255,7 @@
 		8220B75216D804CA00EC3921 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82D0AB191C497F410081F833 /* Info.plist */,
 				8220B75316D804CA00EC3921 /* SalesforceSDKCore-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -1840,6 +1843,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D0AB1A1C497F410081F833 /* Info.plist in Resources */,
 				82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2475,6 +2479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceSDKCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -2525,6 +2530,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = SalesforceSDKCore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
