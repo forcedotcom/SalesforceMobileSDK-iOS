@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "NSData+SFSDKUtils_Internal.h"
 
 @interface SDKCommonNSDataTests : XCTestCase

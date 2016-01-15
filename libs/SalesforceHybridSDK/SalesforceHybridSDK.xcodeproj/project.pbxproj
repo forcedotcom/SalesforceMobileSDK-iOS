@@ -1506,6 +1506,7 @@
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceHybridSDKTestApp.app/SalesforceHybridSDKTestApp";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1539,6 +1540,7 @@
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SalesforceHybridSDKTestApp.app/SalesforceHybridSDKTestApp";
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1621,6 +1623,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Prefix.pch";
@@ -1642,6 +1645,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Prefix.pch";
@@ -1664,6 +1668,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CECB662E1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
@@ -1701,6 +1706,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CECB662F1C1BB8CB008038AE /* SalesforceHybridSDK-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
