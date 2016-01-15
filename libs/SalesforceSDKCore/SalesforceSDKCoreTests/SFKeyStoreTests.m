@@ -22,10 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import <XCTest/XCTest.h>
-#import "SFEncryptionKey.h"
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStore+Internal.h"
 #import "SFKeyStoreManager+Internal.h"
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
 
 @interface SFKeyStoreTests : XCTestCase
 {

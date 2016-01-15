@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthCoordinator+Internal.h"
 
 @class SFOAuthOrgAuthConfiguration;

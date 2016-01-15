@@ -10,8 +10,8 @@
 #import <XCTest/XCTest.h>
 
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceNetwork/SalesforceNetwork.h>
 
-#import "CSFSalesforceAction.h"
 #import "CSFSalesforceOAuthRefresh.h"
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFNetwork+Internal.h"
