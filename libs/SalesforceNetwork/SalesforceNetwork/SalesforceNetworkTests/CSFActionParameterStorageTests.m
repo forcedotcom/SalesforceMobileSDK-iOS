@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import <SalesforceNetwork/SalesforceNetwork.h>
 #import "CSFParameterStorage_Internal.h"
 
 @interface CSFParameterStorageTests : XCTestCase

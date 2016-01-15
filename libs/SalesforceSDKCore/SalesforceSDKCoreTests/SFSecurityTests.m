@@ -24,13 +24,9 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "SFKeyStoreKey.h"
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
-#import "SFSDKCryptoUtils.h"
-#import "SFPasscodeProviderManager.h"
-#import "SFEncryptionKey.h"
 #import "SFKeyStore+Internal.h"
-#import <SalesforceSDKCore/NSData+SFAdditions.h>
 
 static NSUInteger const kNumThreadsInSafetyTest = 100;
 

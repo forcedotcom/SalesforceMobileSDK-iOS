@@ -23,9 +23,9 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
-#import "SFOAuthCredentials.h"
 #import "SFOAuthTestFlow.h"
 
 @interface SFOAuthSessionRefresherTests : XCTestCase

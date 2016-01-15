@@ -23,7 +23,7 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "SFSmartStore.h"
+#import <SmartStore/SmartStore.h>
 #import <fmdb/FMResultSet.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 
