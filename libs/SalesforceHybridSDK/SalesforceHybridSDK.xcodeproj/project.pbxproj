@@ -34,7 +34,7 @@
 		4F06AFC11C49A7BF00F70798 /* SmartStoreTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFAE1C49A77200F70798 /* SmartStoreTestSuite.m */; };
 		4F06AFC21C49A7BF00F70798 /* SmartSyncTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFB01C49A77200F70798 /* SmartSyncTestSuite.m */; };
 		4F06AFC61C49A89900F70798 /* SalesforceHybridSDKTests-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFC51C49A89900F70798 /* SalesforceHybridSDKTests-Prefix.pch */; };
-		4F06AFE91C49D16C00F70798 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
+		4F06AFEB1C49D35B00F70798 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33D16E8063700A63CDF /* test_credentials.json */; };
 		4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -1347,7 +1347,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F06AFE91C49D16C00F70798 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1355,6 +1354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F06AFEB1C49D35B00F70798 /* test_credentials.json in Resources */,
 				82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */,
 				4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */,
 				82EFF31216E8049500A63CDF /* Default.png in Resources */,
