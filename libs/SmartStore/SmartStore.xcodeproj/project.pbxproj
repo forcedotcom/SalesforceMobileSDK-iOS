@@ -27,7 +27,8 @@
 		4F06AF161C499EB600F70798 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF141C499EB600F70798 /* Main.storyboard */; };
 		4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF171C499EB600F70798 /* Assets.xcassets */; };
 		4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */; };
-		4F06AFDB1C49CBDB00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
+		4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
+		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */; };
 		4FEE44851BFD5CCC00F09C43 /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */; };
@@ -175,6 +176,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4F06AFF21C49D53D00F70798 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F06AF0C1C499EB600F70798 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -264,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F06AFDB1C49CBDB00F70798 /* SmartStore.framework in Frameworks */,
+				4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -548,6 +563,7 @@
 				4F06AF051C499EB600F70798 /* Sources */,
 				4F06AF061C499EB600F70798 /* Frameworks */,
 				4F06AF071C499EB600F70798 /* Resources */,
+				4F06AFF21C49D53D00F70798 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1166,6 +1182,7 @@
 				4F06AF1E1C499EB600F70798 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStore" */ = {
 			isa = XCConfigurationList;
