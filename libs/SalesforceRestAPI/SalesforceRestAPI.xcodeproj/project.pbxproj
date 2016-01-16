@@ -25,6 +25,7 @@
 		4F06AFCF1C49A93E00F70798 /* SFNativeRestRequestListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFCB1C49A93E00F70798 /* SFNativeRestRequestListener.h */; };
 		4F06AFD11C49A94600F70798 /* SalesforceRestAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFCA1C49A93E00F70798 /* SalesforceRestAPITests.m */; };
 		4F06AFD21C49A94600F70798 /* SFNativeRestRequestListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFCC1C49A93E00F70798 /* SFNativeRestRequestListener.m */; };
+		4F06AFE81C49D14600F70798 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 829A08901A323E8B00DC17A5 /* test_credentials.json */; };
 		4F3A72E919DB81B400E6F468 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5E19DB7C22005AF96F /* ViewController.m */; };
 		4FDA6D6319DB7C45005AF96F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDA6D5C19DB7C22005AF96F /* AppDelegate.m */; };
 		4FDA6D6819DB7C82005AF96F /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FDA6D6419DB7C82005AF96F /* ViewController_iPad.xib */; };
@@ -42,7 +43,6 @@
 		8212C1D217F0ED76002C59E2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9D16E11BF100768DE8 /* Security.framework */; };
 		8212C1D317F0ED7A002C59E2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EB9B16E11BB600768DE8 /* SystemConfiguration.framework */; };
 		8212C1D417F0EFA0002C59E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF500BC17E2715F00051FA4 /* ImageIO.framework */; };
-		829A08911A323E8B00DC17A5 /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = 829A08901A323E8B00DC17A5 /* test_credentials.json */; };
 		829DA2A81C1266C20040F5F1 /* SalesforceRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A71C1266C20040F5F1 /* SalesforceRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C0C75E16E07DEB0006B3C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C74216E076DE0006B3C0 /* UIKit.framework */; };
 		82C0C75F16E07DEB0006B3C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C73116E076DE0006B3C0 /* Foundation.framework */; };
@@ -64,9 +64,6 @@
 		CE0AB05B1C10D30700BFAEED /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C0C7B216E089310006B3C0 /* QuartzCore.framework */; };
 		CE0AB05C1C10D32D00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C21A1C0FD35900319E68 /* libz.tbd */; };
 		CE0AB05D1C10D33400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0501C10D2B000BFAEED /* libxml2.tbd */; };
-		CE0AB05E1C10D33C00BFAEED /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */; };
-		CE0AB05F1C10D34100BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0381C10D1E400BFAEED /* SalesforceNetwork.framework */; };
-		CE0AB0611C10D34800BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0601C10D34800BFAEED /* SalesforceSDKCore.framework */; };
 		CE4CE2AA1C0E456A009F6029 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */; };
 		CE4CE2AB1C0E456A009F6029 /* SalesforceRestAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2A31C0E4569009F6029 /* SalesforceRestAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE3FB1C0E594E009F6029 /* SFRestAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDA6D3019DB78A7005AF96F /* SFRestAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -243,9 +240,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0AB0611C10D34800BFAEED /* SalesforceSDKCore.framework in Frameworks */,
-				CE0AB05F1C10D34100BFAEED /* SalesforceNetwork.framework in Frameworks */,
-				CE0AB05E1C10D33C00BFAEED /* SalesforceRestAPI.framework in Frameworks */,
 				CE0AB05D1C10D33400BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB05C1C10D32D00BFAEED /* libz.tbd in Frameworks */,
 				CE0AB0521C10D30700BFAEED /* CFNetwork.framework in Frameworks */,
@@ -668,7 +662,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				829A08911A323E8B00DC17A5 /* test_credentials.json in Resources */,
+				4F06AFE81C49D14600F70798 /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

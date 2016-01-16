@@ -35,11 +35,6 @@
 		829DA2AF1C12674D0040F5F1 /* SmartSync.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2AE1C12674D0040F5F1 /* SmartSync.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE0AB0401C10D20B00BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB03F1C10D20B00BFAEED /* SalesforceNetwork.framework */; };
 		CE0AB07D1C10D3FE00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
-		CE0AB07E1C10D41100BFAEED /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE5BD1BFE8F8800B7AA8A /* SmartStore.framework */; };
-		CE0AB0801C10D41700BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07F1C10D41700BFAEED /* libFMDB-IOS.a */; };
-		CE0AB0821C10D41D00BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0811C10D41D00BFAEED /* SalesforceSDKCore.framework */; };
-		CE0AB0841C10D42300BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0831C10D42300BFAEED /* SalesforceNetwork.framework */; };
-		CE0AB0851C10D42A00BFAEED /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAAD71B61920A00F4C242 /* SalesforceRestAPI.framework */; };
 		CE0AB0861C10D43300BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
 		CE0AB0871C10D43A00BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB07C1C10D3FE00BFAEED /* libxml2.tbd */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
@@ -52,7 +47,6 @@
 		CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0119ACF95B0007F22F /* Security.framework */; };
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
 		CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0319ACF95B0007F22F /* UIKit.framework */; };
-		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
 		CE1F0B1919ACFD260007F22F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE1F0B1819ACFD260007F22F /* test_credentials.json */; };
 		CE4CE4221C0E5A35009F6029 /* SFSmartSyncSyncManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155A19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4231C0E5A35009F6029 /* SFSmartSyncSyncManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F22155B19DF4BAD00FF2D26 /* SFSmartSyncSyncManager.m */; };
@@ -101,7 +95,6 @@
 		CE4CE44E1C0E5A75009F6029 /* SFSyncTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FDE57BC1ABA12A70060A583 /* SFSyncTarget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE44F1C0E5A75009F6029 /* SFSyncTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FDE57BD1ABA13640060A583 /* SFSyncTarget.m */; };
 		CE4CE4991C0E6003009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
-		CE4CE49C1C0E6020009F6029 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2C91C0E463C009F6029 /* SmartSync.framework */; };
 		CE65C2261C0FD45300319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE5BD1BFE8F8800B7AA8A /* SmartStore.framework */; };
 		CE65C2281C0FD45A00319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2271C0FD45A00319E68 /* SalesforceSDKCore.framework */; };
 		CE65C22A1C0FD45F00319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2291C0FD45F00319E68 /* libz.tbd */; };
@@ -230,13 +223,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2A21C0E4569009F6029;
 			remoteInfo = SalesforceRestAPI;
-		};
-		82A8C6E71C122998006BBDFE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE2C81C0E463C009F6029;
-			remoteInfo = SmartSync;
 		};
 		CEA883FA1C19160E008D871B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -425,12 +411,6 @@
 			files = (
 				CE0AB0871C10D43A00BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0861C10D43300BFAEED /* libz.tbd in Frameworks */,
-				CE0AB0851C10D42A00BFAEED /* SalesforceRestAPI.framework in Frameworks */,
-				CE0AB0841C10D42300BFAEED /* SalesforceNetwork.framework in Frameworks */,
-				CE0AB0821C10D41D00BFAEED /* SalesforceSDKCore.framework in Frameworks */,
-				CE0AB0801C10D41700BFAEED /* libFMDB-IOS.a in Frameworks */,
-				CE0AB07E1C10D41100BFAEED /* SmartStore.framework in Frameworks */,
-				CE4CE49C1C0E6020009F6029 /* SmartSync.framework in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
@@ -438,7 +418,6 @@
 				CE1F0B0719ACF95B0007F22F /* CoreGraphics.framework in Frameworks */,
 				CE1F0B0819ACF95B0007F22F /* MessageUI.framework in Frameworks */,
 				CE1F0B0919ACF95B0007F22F /* MobileCoreServices.framework in Frameworks */,
-				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CE1F0B0A19ACF95B0007F22F /* QuartzCore.framework in Frameworks */,
 				CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */,
 				CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */,
@@ -835,7 +814,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE49B1C0E6011009F6029 /* PBXTargetDependency */,
 				4F06AF4E1C499FDB00F70798 /* PBXTargetDependency */,
 			);
 			name = SmartSyncTests;
@@ -1121,11 +1099,6 @@
 			isa = PBXTargetDependency;
 			name = SalesforceRestAPI;
 			targetProxy = 829DA22E1C125CAE0040F5F1 /* PBXContainerItemProxy */;
-		};
-		CE4CE49B1C0E6011009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CE4CE2C81C0E463C009F6029 /* SmartSync */;
-			targetProxy = 82A8C6E71C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 		CEA884041C19167B008D871B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

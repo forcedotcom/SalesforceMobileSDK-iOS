@@ -241,7 +241,6 @@
 		CE4CE3B01C0E5279009F6029 /* SFSDKResourceUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */; };
 		CE4CE3B11C0E5279009F6029 /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE3B21C0E5279009F6029 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
-		CE4CE46B1C0E5DAD009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
 		CEA8827A1C18F842008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
@@ -429,13 +428,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82D4642319C7C8170006BDFE;
 			remoteInfo = SalesforceSDKCoreTestApp;
-		};
-		82A8C6E11C122998006BBDFE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8220B74316D804CA00EC3921 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
-			remoteInfo = SalesforceSDKCore;
 		};
 		82A8C6E21C122998006BBDFE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -839,7 +831,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE4CE46B1C0E5DAD009F6029 /* SalesforceSDKCore.framework in Frameworks */,
 				4F7EB40D1BFFC88200768720 /* MessageUI.framework in Frameworks */,
 				4F7EB40E1BFFC88200768720 /* XCTest.framework in Frameworks */,
 				4F7EB40F1BFFC88200768720 /* UIKit.framework in Frameworks */,
@@ -1551,7 +1542,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE4731C0E5E3B009F6029 /* PBXTargetDependency */,
 				4F06AF971C49A1BA00F70798 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreTests;
@@ -2071,11 +2061,6 @@
 			isa = PBXTargetDependency;
 			name = "CocoaLumberjack-iOS";
 			targetProxy = CE4CE46F1C0E5E16009F6029 /* PBXContainerItemProxy */;
-		};
-		CE4CE4731C0E5E3B009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CE4CE26A1C0E449C009F6029 /* SalesforceSDKCore */;
-			targetProxy = 82A8C6E11C122998006BBDFE /* PBXContainerItemProxy */;
 		};
 		CEA884CC1C1A25D4008D871B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
