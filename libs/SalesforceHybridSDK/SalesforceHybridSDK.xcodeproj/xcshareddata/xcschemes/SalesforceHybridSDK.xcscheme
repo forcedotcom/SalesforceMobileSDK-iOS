@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "SalesforceHybridSDKTestAppTests.xctest"
-               BlueprintName = "SalesforceHybridSDKTestAppTests"
+               BuildableName = "SalesforceHybridSDKTests.xctest"
+               BlueprintName = "SalesforceHybridSDKTests"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8222729C19C39F4500FC537E"
-               BuildableName = "SalesforceHybridSDKTestAppTests.xctest"
-               BlueprintName = "SalesforceHybridSDKTestAppTests"
+               BuildableName = "SalesforceHybridSDKTests.xctest"
+               BlueprintName = "SalesforceHybridSDKTests"
                ReferencedContainer = "container:SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
          </TestableReference>
