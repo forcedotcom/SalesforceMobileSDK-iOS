@@ -55,6 +55,7 @@
 		829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */; };
 		82D0AB1A1C497F410081F833 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82D0AB191C497F410081F833 /* Info.plist */; };
+		82D0AB891C49A4BD0081F833 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE00216D1C03DBB70079DCA4 /* CocoaLumberjack.framework */; };
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
@@ -876,6 +877,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D0AB891C49A4BD0081F833 /* CocoaLumberjack.framework in Frameworks */,
 				CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */,
 				CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */,
 			);
