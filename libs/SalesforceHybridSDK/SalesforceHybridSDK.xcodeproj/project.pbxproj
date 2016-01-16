@@ -67,7 +67,6 @@
 		822272C919C3A38200FC537E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1F16ECFA5E00BD1EA2 /* MessageUI.framework */; };
 		822272CE19C3A3E500FC537E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		822272CF19C3A3FC00FC537E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1116EC3AC100BD1EA2 /* MobileCoreServices.framework */; };
-		822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 822272E419C3A84E00FC537E /* libsqlcipher.a */; };
 		829DA2B11C12677B0040F5F1 /* SalesforceHybridSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2B01C12677B0040F5F1 /* SalesforceHybridSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AF5A6B1A0D911D006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5A651A0D911D006C7A4B /* CDVLogger.m */; };
 		82AF5A6F1A0D9277006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5A691A0D911D006C7A4B /* console-via-logger.js */; };
@@ -96,12 +95,6 @@
 		CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0431C10D22300BFAEED /* SalesforceNetwork.framework */; };
 		CE0AB0461C10D22D00BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0451C10D22D00BFAEED /* libFMDB-IOS.a */; };
 		CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
-		CE0AB08B1C10D4F300BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08A1C10D4F300BFAEED /* SalesforceSDKCore.framework */; };
-		CE0AB08D1C10D4F800BFAEED /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08C1C10D4F800BFAEED /* SalesforceRestAPI.framework */; };
-		CE0AB08F1C10D4FE00BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08E1C10D4FE00BFAEED /* SalesforceNetwork.framework */; };
-		CE0AB0911C10D50500BFAEED /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0901C10D50500BFAEED /* SmartStore.framework */; };
-		CE0AB0921C10D50900BFAEED /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F70CA341C03DF6D00D26B3F /* SmartSync.framework */; };
-		CE0AB0941C10D52700BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0931C10D52700BFAEED /* libFMDB-IOS.a */; };
 		CE0AB0951C10D52E00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE0AB0961C10D53400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
 		CE0AB0971C10D5E400BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0931C10D52700BFAEED /* libFMDB-IOS.a */; };
@@ -132,7 +125,6 @@
 		CE0AB0B41C10D63A00BFAEED /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA2116ECFA7900BD1EA2 /* QuartzCore.framework */; };
 		CE0AB0B51C10D63A00BFAEED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1316EC3AE300BD1EA2 /* Security.framework */; };
 		CE0AB0B71C10D63A00BFAEED /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
-		CE0AB0B81C10D67D00BFAEED /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
 		CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; };
 		CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -600,15 +592,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0AB0B81C10D67D00BFAEED /* libCordova.a in Frameworks */,
 				CE0AB0961C10D53400BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0951C10D52E00BFAEED /* libz.tbd in Frameworks */,
-				CE0AB0941C10D52700BFAEED /* libFMDB-IOS.a in Frameworks */,
-				CE0AB0921C10D50900BFAEED /* SmartSync.framework in Frameworks */,
-				CE0AB0911C10D50500BFAEED /* SmartStore.framework in Frameworks */,
-				CE0AB08F1C10D4FE00BFAEED /* SalesforceNetwork.framework in Frameworks */,
-				CE0AB08D1C10D4F800BFAEED /* SalesforceRestAPI.framework in Frameworks */,
-				CE0AB08B1C10D4F300BFAEED /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */,
 				4F22159B19DF60A200FF2D26 /* ImageIO.framework in Frameworks */,
 				4F0C192C18AAFDF3000FD4E9 /* AssetsLibrary.framework in Frameworks */,
@@ -620,7 +605,6 @@
 				822272C819C3A36D00FC537E /* QuartzCore.framework in Frameworks */,
 				822272CE19C3A3E500FC537E /* SystemConfiguration.framework in Frameworks */,
 				4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */,
-				822272E519C3A84E00FC537E /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
