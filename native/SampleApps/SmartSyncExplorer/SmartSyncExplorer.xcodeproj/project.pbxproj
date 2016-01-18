@@ -15,7 +15,6 @@
 		820C8B1F19E6081C00E9BE5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B1E19E6081C00E9BE5C /* ImageIO.framework */; };
 		820C8B2319E6088400E9BE5C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2219E6088400E9BE5C /* MessageUI.framework */; };
 		820C8B2719E6091100E9BE5C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */; };
-		820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 820C8B2E19E6096800E9BE5C /* libsqlcipher.a */; };
 		820C8B3219E60BDE00E9BE5C /* ContactListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */; };
 		820C8B3E19E71A3800E9BE5C /* SObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B3D19E71A3800E9BE5C /* SObjectDataSpec.m */; };
 		820C8B4119E71C3F00E9BE5C /* ContactSObjectDataSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C8B4019E71C3F00E9BE5C /* ContactSObjectDataSpec.m */; };
@@ -376,7 +375,6 @@
 		820C8B1E19E6081C00E9BE5C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		820C8B2219E6088400E9BE5C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		820C8B2619E6091100E9BE5C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		820C8B2E19E6096800E9BE5C /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		820C8B3019E60BDE00E9BE5C /* ContactListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListViewController.h; sourceTree = "<group>"; };
 		820C8B3119E60BDE00E9BE5C /* ContactListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactListViewController.m; sourceTree = "<group>"; };
 		820C8B3C19E71A3800E9BE5C /* SObjectDataSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SObjectDataSpec.h; path = Data/SObjectDataSpec.h; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82D0AC0A1C49A7D10081F833 /* SalesforceNetwork.framework in Frameworks */,
-				820C8B2F19E6096800E9BE5C /* libsqlcipher.a in Frameworks */,
 				CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */,
 				82D0AC011C49A7A10081F833 /* CocoaLumberjack.framework in Frameworks */,
 				827C631719E6018C00027484 /* CoreGraphics.framework in Frameworks */,
@@ -526,7 +523,6 @@
 				82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */,
 				CE6AB39A1C10C4F50012125E /* libz.tbd */,
 				8258804A1AA4222A000C551E /* MobileCoreServices.framework */,
-				820C8B2E19E6096800E9BE5C /* libsqlcipher.a */,
 				827C631419E6018C00027484 /* Foundation.framework */,
 				820C8B1E19E6081C00E9BE5C /* ImageIO.framework */,
 				820C8B2219E6088400E9BE5C /* MessageUI.framework */,
@@ -585,7 +581,7 @@
 			children = (
 				82D0ABA81C49A7290081F833 /* SalesforceRestAPI.framework */,
 				82D0ABAA1C49A7290081F833 /* SalesforceRestAPITestApp.app */,
-				82D0ABAC1C49A7290081F833 /* SalesforceRestAPITestAppTests.xctest */,
+				82D0ABAC1C49A7290081F833 /* SalesforceRestAPITests.xctest */,
 				82D0ABAE1C49A7290081F833 /* libSalesforceRestAPI.a */,
 			);
 			name = Products;
@@ -787,7 +783,7 @@
 			remoteRef = 82D0ABA91C49A7290081F833 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82D0ABAC1C49A7290081F833 /* SalesforceRestAPITestAppTests.xctest */ = {
+		82D0ABAC1C49A7290081F833 /* SalesforceRestAPITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = SalesforceRestAPITests.xctest;
