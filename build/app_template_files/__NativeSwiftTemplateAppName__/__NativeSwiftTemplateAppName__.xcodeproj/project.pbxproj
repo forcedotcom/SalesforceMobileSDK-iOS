@@ -19,7 +19,7 @@
 
 /* Begin PBXFileReference section */
 		045D1C5BC2F1EADFDFB3671E /* Pods-__NativeSwiftTemplateAppName__.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; path = "Pods/Target Support Files/Pods-__NativeSwiftTemplateAppName__/Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; sourceTree = "<group>"; };
-		4F06B01F1C4EE4A400F70798 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
+		4F06B01F1C4EE4A400F70798 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Settings.bundle; sourceTree = "<group>"; };
 		4F393A281C3C8BCD00B3EA13 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4FD6C4741B754AF1002F9F90 /* __NativeSwiftTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeSwiftTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD6C4781B754AF1002F9F90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
