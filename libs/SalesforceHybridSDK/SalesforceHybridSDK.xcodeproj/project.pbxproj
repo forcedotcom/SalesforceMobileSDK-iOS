@@ -93,7 +93,6 @@
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
 		CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0431C10D22300BFAEED /* SalesforceNetwork.framework */; };
-		CE0AB0461C10D22D00BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0451C10D22D00BFAEED /* libFMDB-IOS.a */; };
 		CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
 		CE0AB0951C10D52E00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE0AB0961C10D53400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
@@ -613,7 +612,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */,
-				CE0AB0461C10D22D00BFAEED /* libFMDB-IOS.a in Frameworks */,
 				CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */,
 				CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */,
 				CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */,
