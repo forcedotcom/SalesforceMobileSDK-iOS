@@ -193,13 +193,6 @@
 			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
 			remoteInfo = SalesforceSDKCoreTestApp;
 		};
-		6F7EAA9F1B61917700F4C242 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
-			remoteInfo = SalesforceSDKCoreTests;
-		};
 		6F7EAAFE1B6299BA00F4C242 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F7EAAF71B6299BA00F4C242 /* OCMock.xcodeproj */;
@@ -433,9 +426,8 @@
 			isa = PBXGroup;
 			children = (
 				6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */,
-				CE61137C1C06A09400D5A940 /* SalesforceSDKCoreTests.xctest */,
 				6F7EAA9E1B61917700F4C242 /* SalesforceSDKCoreTestApp.app */,
-				6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTestAppTests.xctest */,
+				CE61137C1C06A09400D5A940 /* SalesforceSDKCoreTests.xctest */,
 				CEA883411C1910F6008D871B /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
@@ -955,13 +947,6 @@
 			remoteRef = 6F7EAA9D1B61917700F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F7EAAA01B61917700F4C242 /* SalesforceSDKCoreTestAppTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCoreTestAppTests.xctest;
-			remoteRef = 6F7EAA9F1B61917700F4C242 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6F7EAAFF1B6299BA00F4C242 /* OCMock.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1170,10 +1155,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1185,10 +1166,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1204,10 +1181,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F644C3F1A9E7277009BF92A /* SalesforceNetwork-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
 				HEADER_SEARCH_PATHS = (
 					"$(BUILT_PRODUCTS_DIR)/Headers",
 					"$(TARGET_BUILD_DIR)/Headers",
@@ -1215,10 +1188,6 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher",
-				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

@@ -469,7 +469,7 @@
 			children = (
 				6F7EAAD71B61920A00F4C242 /* SalesforceRestAPI.framework */,
 				6F7EAAD91B61920A00F4C242 /* SalesforceRestAPITestApp.app */,
-				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITestAppTests.xctest */,
+				6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITests.xctest */,
 				CEA883FB1C19160E008D871B /* libSalesforceRestAPI.a */,
 			);
 			name = Products;
@@ -912,10 +912,10 @@
 			remoteRef = 6F7EAAD81B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITestAppTests.xctest */ = {
+		6F7EAADB1B61920A00F4C242 /* SalesforceRestAPITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceRestAPITestAppTests.xctest;
+			path = SalesforceRestAPITests.xctest;
 			remoteRef = 6F7EAADA1B61920A00F4C242 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1354,11 +1354,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1366,6 +1361,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1383,14 +1379,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE8F13011AD4A84C00233F2F /* SmartSync-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSync/SmartSync-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncTests/SmartSyncTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1428,6 +1420,7 @@
 				4F06AF431C499FD100F70798 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CE4CE2DB1C0E463C009F6029 /* Build configuration list for PBXNativeTarget "SmartSync" */ = {
 			isa = XCConfigurationList;
