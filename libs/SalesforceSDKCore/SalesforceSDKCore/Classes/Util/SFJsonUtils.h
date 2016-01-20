@@ -67,7 +67,16 @@
 
 
 /**
- Pull a value from the json-derived object by path ("." delimited)
+ * Pull a value from the json-derived object by path ("." delimited)
+ *
+ * Examples (in pseudo code):
+ *
+ * json = {"a": {"b": [{"c":"xx"}, {"c":"xy"}, {"d": [{"e":1}, {"e":2}]}, {"d": [{"e":3}, {"e":4}]}] }}
+ * projectIntoJson(jsonObj, "a") = {"b": [{"c":"xx"}, {"c":"xy"}, {"d": [{"e":1}, {"e":2}]}, {"d": [{"e":3}, {"e":4}]} ]}
+ * projectIntoJson(json, "a/b") = [{c:"xx"}, {c:"xy"}, {"d": [{"e":1}, {"e":2}]}, {"d": [{"e":3}, {"e":4}]}]
+ * projectIntoJson(json, "a/b/c") = ["xx", "xy"]                                     // new in 4.1
+ * projectIntoJson(json, "a/b/d") = [[{"e":1}, {"e":2}], [{"e":3}, {"e":4}]]         // new in 4.1
+ * projectIntoJson(json, "a/b/d/e") = [[1, 2], [3, 4]]                               // new in 4.1
  */
 + (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
 
