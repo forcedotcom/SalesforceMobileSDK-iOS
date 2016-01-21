@@ -99,7 +99,7 @@
 - (void)sfsdk_swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     [[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+    if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
         [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
     }
     

@@ -109,7 +109,7 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
     // Uncomment the code below to register your device token with the push notification manager
     //
     //[[SFPushNotificationManager sharedInstance] didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-    //if ([SFUserAccountManager sharedInstance].currentUser != nil) {
+    //if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
     //    [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
     //}
     //
