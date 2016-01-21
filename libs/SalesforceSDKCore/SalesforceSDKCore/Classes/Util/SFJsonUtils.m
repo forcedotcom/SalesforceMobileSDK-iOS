@@ -118,8 +118,8 @@ static NSError *sLastError = nil;
         NSString* pathElement = (NSString*) pathElements[index];
         if ([jsonObj isKindOfClass:[NSDictionary class]]) {
             NSDictionary* jsonDict = (NSDictionary*) jsonObj;
-            id dictElt = jsonDict[pathElement];
-            result = [SFJsonUtils projectIntoJsonHelper:dictElt pathElements:pathElements index:index+1];
+            id dictVal = jsonDict[pathElement];
+            result = [SFJsonUtils projectIntoJsonHelper:dictVal pathElements:pathElements index:index+1];
         }
         else if ([jsonObj isKindOfClass:[NSArray class]]) {
             NSArray* jsonArr = (NSArray*) jsonObj;
