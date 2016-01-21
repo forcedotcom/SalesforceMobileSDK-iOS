@@ -121,7 +121,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  the calling client code.
  @return Dictionary representation of oauth credentials.
  */
-+ (NSDictionary *)credentialsAsDictionary;
+- (NSDictionary *)credentialsAsDictionary;
 
 /**
  @return The user agent string for SF hybrid apps.  @see [SalesforceSDKManager sharedManager].userAgentString @/see

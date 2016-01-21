@@ -250,7 +250,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             [self loadVFPingPage];
         }
         if (completionBlock != NULL) {
-            NSDictionary *authDict = [[self class] credentialsAsDictionary];
+            NSDictionary *authDict = [self credentialsAsDictionary];
             completionBlock(authInfo, authDict);
         }
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -266,7 +266,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
-    NSDictionary *authDict = [[self class] credentialsAsDictionary];
+    NSDictionary *authDict = [self credentialsAsDictionary];
     if ([authDict[kAccessTokenCredentialsDictKey] length] == 0) {
         [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
     } else {
@@ -295,7 +295,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     }
 }
 
-+ (NSDictionary *)credentialsAsDictionary
+- (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
