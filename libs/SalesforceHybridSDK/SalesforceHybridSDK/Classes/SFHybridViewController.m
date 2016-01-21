@@ -165,7 +165,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)viewDidLoad
 {
-    NSString *hybridViewUserAgentString = [[self class] sfHybridViewUserAgentString];
+    NSString *hybridViewUserAgentString = [self sfHybridViewUserAgentString];
     [SFSDKWebUtils configureUserAgent:hybridViewUserAgentString];
     self.baseUserAgent = hybridViewUserAgentString;
     
@@ -243,14 +243,14 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
     // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-    [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+    [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
         [self authenticationCompletion:nil authInfo:authInfo];
         if (authInfo.authType == SFOAuthTypeRefresh) {
             [self loadVFPingPage];
         }
         if (completionBlock != NULL) {
-            NSDictionary *authDict = [[self class] credentialsAsDictionary];
+            NSDictionary *authDict = [self credentialsAsDictionary];
             completionBlock(authInfo, authDict);
         }
     } failure:^(SFOAuthInfo *authInfo, NSError *error) {
@@ -266,7 +266,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
     // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
-    NSDictionary *authDict = [[self class] credentialsAsDictionary];
+    NSDictionary *authDict = [self credentialsAsDictionary];
     if ([authDict[kAccessTokenCredentialsDictKey] length] == 0) {
         [self authenticateWithCompletionBlock:completionBlock failureBlock:failureBlock];
     } else {
@@ -295,14 +295,14 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     }
 }
 
-+ (NSDictionary *)credentialsAsDictionary
+- (NSDictionary *)credentialsAsDictionary
 {
     NSDictionary *credentialsDict = nil;
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
-        NSString *uaString = [[self class] sfHybridViewUserAgentString];
+        NSString *uaString = [self sfHybridViewUserAgentString];
         credentialsDict = @{kAccessTokenCredentialsDictKey: creds.accessToken,
                            kRefreshTokenCredentialsDictKey: creds.refreshToken,
                            kClientIdCredentialsDictKey: creds.clientId,
@@ -315,11 +315,15 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return credentialsDict;
 }
 
-+ (NSString *)sfHybridViewUserAgentString
+- (NSString *)sfHybridViewUserAgentString
 {
     NSString *userAgentString = @"";
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
-        userAgentString = [SalesforceSDKManager sharedManager].userAgentString(@"");
+        if (_hybridViewConfig.isLocal) {
+            userAgentString = [SalesforceSDKManager sharedManager].userAgentString(@"Local");
+        } else {
+            userAgentString = [SalesforceSDKManager sharedManager].userAgentString(@"Remote");
+        }
     }
     return userAgentString;
 }
@@ -458,7 +462,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
             // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
             // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
-            [SFSDKWebUtils configureUserAgent:[[self class] sfHybridViewUserAgentString]];
+            [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
              loginWithCompletion:^(SFOAuthInfo *authInfo) {
                  // Reset the user agent back to Cordova.
