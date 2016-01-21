@@ -24,7 +24,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-
+#import <SalesforceNetwork/SalesforceNetwork.h>
 #import "CSFOutput_Internal.h"
 
 ////////////

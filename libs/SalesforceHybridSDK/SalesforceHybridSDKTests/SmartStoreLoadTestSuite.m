@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,26 +23,62 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFOAuthCoordinator+Internal.h"
+#import <UIKit/UIKit.h>
+#import <SmartStore/Smartstore.h>
+#import <SalesforceHybridSDK/SalesforceHybridSDK.h>
 
-@class SFOAuthOrgAuthConfiguration;
-@class SFOAuthInfo;
+#import "SmartStoreLoadTestSuite.h"
+#import "AppDelegate.h"
+#import "SFTestRunnerPlugin.h"
 
-@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
 
-@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
-@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
-@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
-@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
-@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
+@implementation SmartStoreLoadTestSuite
 
-@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
-@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion;
-@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
-@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
 
-- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
-- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;
+- (void)setUp
+{
+    [super setUp];
+    self.jsSuiteName = @"SmartStoreLoadTestSuite";
+    if ([self isTestRunnerReady]) {
+        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
+        [pluginInstance resetSharedStore];
+    }
+    
+}
+
+- (void)tearDown
+{
+    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    
+    [super tearDown];
+}
+
+
+- (void)testUpsertManyEntries {
+    [self runTest:@"testUpsertManyEntries"];
+}
+
+- (void)testNumerousFields {
+    [self runTest:@"testNumerousFields"];
+}
+
+- (void)testIncreasingFieldLength {
+    [self runTest:@"testIncreasingFieldLength"];
+}
+
+- (void)testAddAndRetrieveManyEntries {
+    [self runTest:@"testAddAndRetrieveManyEntries"];
+}
+
+- (void) testUpsertAndQueryEntries {
+    [self runTest:@"testUpsertAndQueryEntries"];
+}
+
+- (void)testUpsertConcurrentEntries {
+    [self runTest:@"testUpsertConcurrentEntries"];
+}
+
 
 @end

@@ -37,11 +37,10 @@ script:
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
    # run tests that don't need a host app
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore -sdk $SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore -sdk $SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" | xcpretty --color --simple --test
    # run tests that need a host app
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPITestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStoreTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDKTestApp -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty --color --simple --test

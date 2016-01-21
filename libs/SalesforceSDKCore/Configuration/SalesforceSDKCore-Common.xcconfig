@@ -11,5 +11,4 @@ GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 
 PRODUCT_NAME = SalesforceSDKCore
 
-//HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/Headers" "$(TARGET_BUILD_DIR)/Headers" $(inherited)
 LIBRARY_SEARCH_PATHS = $(inherited)

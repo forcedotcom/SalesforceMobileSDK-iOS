@@ -25,7 +25,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
-#import "CSFInput.h"
+#import <SalesforceNetwork/SalesforceNetwork.h>
 #import "CSFInput_Internal.h"
 
 @interface TestInputWithMutable : CSFInput

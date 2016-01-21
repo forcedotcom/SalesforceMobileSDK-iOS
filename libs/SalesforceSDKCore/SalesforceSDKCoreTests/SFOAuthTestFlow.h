@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Todd Stellanova
+ Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,64 +22,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "SFOAuthCoordinator+Internal.h"
 
-#import "SmartStoreLoadTestSuite.h"
+@class SFOAuthOrgAuthConfiguration;
+@class SFOAuthInfo;
 
-#import "AppDelegate.h"
-#import "SFTestRunnerPlugin.h"
-#import <SmartStore/SFSmartStore.h>
-#import "SFSmartStorePlugin.h"
-#import "SFHybridViewController.h"
+@interface SFOAuthTestFlow : NSObject <SFOAuthCoordinatorFlow>
 
+@property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
+@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
+@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
+@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
+@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
 
-@implementation SmartStoreLoadTestSuite
+@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion;
+@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion;
+@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful;
+@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful;
 
-
-- (void)setUp
-{
-    [super setUp];
-    self.jsSuiteName = @"SmartStoreLoadTestSuite";
-    if ([self isTestRunnerReady]) {
-        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetSharedStore];
-    }
-    
-}
-
-- (void)tearDown
-{
-    [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-    
-    [super tearDown];
-}
-
-
-- (void)testUpsertManyEntries {
-    [self runTest:@"testUpsertManyEntries"];
-}
-
-- (void)testNumerousFields {
-    [self runTest:@"testNumerousFields"];
-}
-
-- (void)testIncreasingFieldLength {
-    [self runTest:@"testIncreasingFieldLength"];
-}
-
-- (void)testAddAndRetrieveManyEntries {
-    [self runTest:@"testAddAndRetrieveManyEntries"];
-}
-
-- (void) testUpsertAndQueryEntries {
-    [self runTest:@"testUpsertAndQueryEntries"];
-}
-
-- (void)testUpsertConcurrentEntries {
-    [self runTest:@"testUpsertConcurrentEntries"];
-}
-
+- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator;
+- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error;
 
 @end

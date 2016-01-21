@@ -24,21 +24,11 @@
 
 #import "SalesforceRestAPITests.h"
 
-#import <SalesforceNetwork/CSFDefines.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFOAuthCoordinator.h>
-#import <SalesforceSDKCore/SFOAuthCredentials.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import <SalesforceNetwork/SalesforceNetwork.h>
+#import <SalesforceRestAPI/SalesforceRestAPI.h>
 #import "SFRestAPI+Internal.h"
-#import "SFRestRequest.h"
 #import "SFNativeRestRequestListener.h"
-#import <SalesforceSDKCore/TestSetupUtils.h>
-#import "SFRestAPI+Blocks.h"
-#import "SFRestAPI+QueryBuilder.h"
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceSDKCore/SFLogger.h>
-#import "SFRestAPI+Files.h"
 
 @interface SalesforceRestAPITests ()
 {

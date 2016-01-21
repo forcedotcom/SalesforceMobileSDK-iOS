@@ -23,10 +23,8 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFUserAccountManager+Internal.h"
-#import "SFUserAccount.h"
-#import "SFDirectoryManager.h"
-#import "SFIdentityData.h"
 
 static NSString * const kUserIdFormatString = @"005R0000000Dsl%lu";
 static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
