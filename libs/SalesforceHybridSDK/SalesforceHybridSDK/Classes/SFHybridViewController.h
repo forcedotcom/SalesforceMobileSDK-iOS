@@ -126,7 +126,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 /**
  @return The user agent string for SF hybrid apps.  @see [SalesforceSDKManager sharedManager].userAgentString @/see
  */
-+ (NSString *)sfHybridViewUserAgentString;
+- (NSString *)sfHybridViewUserAgentString;
 
 /**
  Determines whether an error that occurs during the web view load is fatal or not.  For example,
