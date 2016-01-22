@@ -34,6 +34,7 @@
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
+#import <SalesforceSDKCore/SFIdentityData.h>
 
 @interface RestAPIExplorerViewController ()
 
