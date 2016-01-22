@@ -1,4 +1,9 @@
 /*
+ SalesforceKit.h
+ SalesforceKit
+
+ Created by Michael Nachbaur on Sun Jul 19 14:54:50 HST 2015.
+
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -22,13 +27,3 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-
-@interface SFCocoaLumberJackCustomFormatter : NSObject {
-    int loggerCount;
-    NSDateFormatter *threadUnsafeDateFormatter;
-}
-
-- (id)init;
-
-@end

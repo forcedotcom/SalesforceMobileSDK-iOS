@@ -22,13 +22,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <XCTest/XCTest.h>
 
-@interface SFCocoaLumberJackCustomFormatter : NSObject {
-    int loggerCount;
-    NSDateFormatter *threadUnsafeDateFormatter;
+@import SalesforceKit;
+
+@interface SalesforceKit_iOSTests : XCTestCase
+@end
+
+@implementation SalesforceKit_iOSTests
+
+- (void)testSymbols {
+    XCTAssertEqualObjects(NSStringFromClass([SFUserAccountManager class]), @"SFUserAccountManager");
+    XCTAssertEqualObjects(NSStringFromClass([SFOAuthCredentials class]), @"SFOAuthCredentials");
+    XCTAssertEqualObjects(NSStringFromClass([SFSmartStore class]), @"SFSmartStore");
+    XCTAssertEqualObjects(NSStringFromClass([CSFNetwork class]), @"CSFNetwork");
 }
-
-- (id)init;
 
 @end

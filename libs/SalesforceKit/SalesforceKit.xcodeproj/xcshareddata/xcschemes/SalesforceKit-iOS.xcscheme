@@ -3,7 +3,7 @@
    LastUpgradeVersion = "0720"
    version = "1.3">
    <BuildAction
-      parallelizeBuildables = "YES"
+      parallelizeBuildables = "NO"
       buildImplicitDependencies = "NO">
       <BuildActionEntries>
          <BuildActionEntry
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CEA883911C19135D008D871B"
-               BuildableName = "libSalesforceRestAPI.a"
-               BlueprintName = "SalesforceRestAPIStatic"
-               ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
+               BlueprintIdentifier = "6F0FDB061B5C51D700DB0EC2"
+               BuildableName = "SalesforceKit.framework"
+               BlueprintName = "SalesforceKit-iOS"
+               ReferencedContainer = "container:SalesforceKit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6F0FDB061B5C51D700DB0EC2"
+            BuildableName = "SalesforceKit.framework"
+            BlueprintName = "SalesforceKit-iOS"
+            ReferencedContainer = "container:SalesforceKit.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,10 +54,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CEA883911C19135D008D871B"
-            BuildableName = "libSalesforceRestAPI.a"
-            BlueprintName = "SalesforceRestAPIStatic"
-            ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
+            BlueprintIdentifier = "6F0FDB061B5C51D700DB0EC2"
+            BuildableName = "SalesforceKit.framework"
+            BlueprintName = "SalesforceKit-iOS"
+            ReferencedContainer = "container:SalesforceKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +72,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "CEA883911C19135D008D871B"
-            BuildableName = "libSalesforceRestAPI.a"
-            BlueprintName = "SalesforceRestAPIStatic"
-            ReferencedContainer = "container:SalesforceRestAPI.xcodeproj">
+            BlueprintIdentifier = "6F0FDB061B5C51D700DB0EC2"
+            BuildableName = "SalesforceKit.framework"
+            BlueprintName = "SalesforceKit-iOS"
+            ReferencedContainer = "container:SalesforceKit.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
