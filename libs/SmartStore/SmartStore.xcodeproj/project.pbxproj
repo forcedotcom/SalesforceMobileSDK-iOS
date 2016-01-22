@@ -75,7 +75,6 @@
 		CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD61BFD30030022F021 /* SFSoupIndex.m */; };
 		CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD71BFD30030022F021 /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD81BFD30030022F021 /* SFStoreCursor.m */; };
-		CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
 		CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */; };
 		CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
@@ -124,55 +123,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
 			remoteInfo = SmartStore;
-		};
-		CE0021AF1C06694E0079DCA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
-			remoteInfo = fmdb;
-		};
-		CE0021B11C06694E0079DCA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE4290EF12B42F870088BD94;
-			remoteInfo = FMDB;
-		};
-		CE0021B31C06694E0079DCA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BF5D041618416BB2008C5AA9;
-			remoteInfo = Tests;
-		};
-		CE0021B51C06694E0079DCA4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6290CBB5188FE836009790F8;
-			remoteInfo = "FMDB-IOS";
-		};
-		CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6290CBB4188FE836009790F8;
-			remoteInfo = "FMDB-IOS";
-		};
-		CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CEA884AA1C1A24B1008D871B;
-			remoteInfo = "FMDB-IOS-Static";
-		};
-		CEA884E11C1A4134008D871B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA884C11C1A24B1008D871B;
-			remoteInfo = "FMDB-IOS-Static";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -246,7 +196,6 @@
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
 		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fmdb.xcodeproj; path = ../../external/fmdb/fmdb.xcodeproj; sourceTree = "<group>"; };
 		CE0AB0741C10D39900BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE0AB0771C10D3B500BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE0AB0791C10D3BB00BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
@@ -289,7 +238,6 @@
 			files = (
 				CE0AB0751C10D39900BFAEED /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
-				CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,18 +298,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CE0021A91C06694D0079DCA4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CE0021B01C06694E0079DCA4 /* fmdb */,
-				CE0021B21C06694E0079DCA4 /* libFMDB.a */,
-				CE0021B41C06694E0079DCA4 /* Tests.xctest */,
-				CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */,
-				CEA884E21C1A4134008D871B /* libFMDB.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		CE3FE5811AD488F800E65B49 /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -407,7 +343,6 @@
 				CE0AB0771C10D3B500BFAEED /* libxml2.tbd */,
 				CE0AB0741C10D39900BFAEED /* SalesforceSDKCore.framework */,
 				CE4CE5841C0FB648009F6029 /* libz.tbd */,
-				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
 				CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */,
 				CE1F0AFC19ACF95B0007F22F /* CoreData.framework */,
@@ -588,7 +523,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */,
 			);
 			name = SmartStore;
 			productName = SmartStore;
@@ -606,7 +540,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEA884DF1C1A4134008D871B /* PBXTargetDependency */,
 			);
 			name = SmartStoreStatic;
 			productName = SmartStoreStatic;
@@ -665,12 +598,6 @@
 			mainGroup = CEAAAE3C195911E600CBBFE9;
 			productRefGroup = CEAAAE46195911E600CBBFE9 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = CE0021A91C06694D0079DCA4 /* Products */;
-					ProjectRef = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				CE4CE2B81C0E4581009F6029 /* SmartStore */,
@@ -681,44 +608,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		CE0021B01C06694E0079DCA4 /* fmdb */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = fmdb;
-			remoteRef = CE0021AF1C06694E0079DCA4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE0021B21C06694E0079DCA4 /* libFMDB.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFMDB.a;
-			remoteRef = CE0021B11C06694E0079DCA4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE0021B41C06694E0079DCA4 /* Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = CE0021B31C06694E0079DCA4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libFMDB-IOS.a";
-			remoteRef = CE0021B51C06694E0079DCA4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CEA884E21C1A4134008D871B /* libFMDB.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFMDB.a;
-			remoteRef = CEA884E11C1A4134008D871B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		4F06AF071C499EB600F70798 /* Resources */ = {
@@ -855,16 +744,6 @@
 			isa = PBXTargetDependency;
 			target = CE4CE2B81C0E4581009F6029 /* SmartStore */;
 			targetProxy = 4F06AFD91C49CBD100F70798 /* PBXContainerItemProxy */;
-		};
-		CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "FMDB-IOS";
-			targetProxy = CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */;
-		};
-		CEA884DF1C1A4134008D871B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "FMDB-IOS-Static";
-			targetProxy = CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
