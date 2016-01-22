@@ -24,9 +24,9 @@
 
 #import "SFSmartStoreTests.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <fmdb/FMDatabase.h>
-#import <fmdb/FMDatabaseAdditions.h>
-#import <fmdb/FMDatabaseQueue.h>
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+#import "FMDatabaseQueue.h"
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -42,6 +42,7 @@
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import "sqlite3.h"
 
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"

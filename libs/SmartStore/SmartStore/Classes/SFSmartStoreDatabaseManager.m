@@ -31,9 +31,9 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
-#import <fmdb/FMDatabase.h>
-#import <fmdb/FMDatabaseQueue.h>
-#import <fmdb/FMResultSet.h>
+#import "FMDatabase.h"
+#import "FMDatabaseQueue.h"
+#import "FMResultSet.h"
 
 static NSMutableDictionary *sDatabaseManagers;
 
