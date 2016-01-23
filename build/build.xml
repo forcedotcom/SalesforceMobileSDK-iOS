@@ -16,33 +16,7 @@
 
     <target name="buildAll" />
 
-    <target name="libPackages" depends="packageFMDB, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
-
-    <target name="packageFMDB" depends="buildFMDB" description="Packages and builds the FMDB library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-        </antcall>
-    </target>
-    
-    <target name="buildFMDB">
-        <antcall target="buildLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS-Static" />
-        </antcall>
-    </target>
-    
-    <target name="cleanFMDB" description="Cleans the build artifacts and output of the FMDB library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS-Static" />
-        </antcall>
-    </target>
+    <target name="libPackages" depends="packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
 
     <target name="packageLumberjack" depends="buildLumberjack" description="Packages and builds the CocoaLumberjack library.">
         <antcall target="packageLib">
@@ -367,7 +341,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanFMDB, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>
