@@ -180,6 +180,13 @@
 			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
 			remoteInfo = SalesforceSDKCore;
 		};
+		828918031C530D0B002F9981 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CEA8825E1C18F722008D871B;
+			remoteInfo = SalesforceSDKCoreStatic;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -641,6 +648,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				828918041C530D0B002F9981 /* PBXTargetDependency */,
 			);
 			name = SmartStoreStatic;
 			productName = SmartStoreStatic;
@@ -897,6 +905,11 @@
 			isa = PBXTargetDependency;
 			name = SalesforceSDKCore;
 			targetProxy = 828917A91C52DA23002F9981 /* PBXContainerItemProxy */;
+		};
+		828918041C530D0B002F9981 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCoreStatic;
+			targetProxy = 828918031C530D0B002F9981 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
