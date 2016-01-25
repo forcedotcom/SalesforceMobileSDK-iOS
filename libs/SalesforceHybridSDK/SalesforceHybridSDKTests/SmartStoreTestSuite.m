@@ -223,4 +223,20 @@
     [self runTest:@"testClearSoup"];
 }
 
+- (void) testFullTextSearchAgainstArrayNode {
+    [self runTest:@"testFullTextSearchAgainstArrayNode"];
+}
+
+- (void) testLikeQueryAgainstArrayNode {
+    [self runTest:@"testLikeQueryAgainstArrayNode"];
+}
+
+- (void) testExactQueryAgainstArrayNode {
+    [self runTest:@"testExactQueryAgainstArrayNode"];
+}
+
+- (void) testSmartQueryAgainstArrayNode {
+    [self runTest:@"testSmartQueryAgainstArrayNode"];
+}
+
 @end

@@ -679,8 +679,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
                            tableName, fieldNames, fieldValueMarkers];
     //[self log:SFLogLevelDebug format:@"insertSql: %@ binds: %@",insertSql,binds];
     [self executeUpdateThrows:insertSql withArgumentsInArray:binds withDb:db];
-    
-}
+     }
 
 - (void)updateTable:(NSString*)tableName values:(NSDictionary*)map entryId:(NSNumber *)entryId idCol:(NSString*)idCol withDb:(FMDatabase*) db
 {
@@ -1621,9 +1620,14 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (void) projectIndexedPaths:(NSDictionary*)entry values:(NSMutableDictionary*)values indices:(NSArray*)indices typeFilter:(NSString*)typeFilter
 {
-    //build up the set of index column values for this row
+    // build up the set of index column values for this row
     for (SFSoupIndex *idx in indices) {
-        NSString *indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];
+        id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];;
+        // values for non-leaf nodes are json-ized
+        if ([indexColVal isKindOfClass:[NSDictionary class]] || [indexColVal isKindOfClass:[NSArray class]]) {
+            indexColVal = [SFJsonUtils JSONRepresentation:indexColVal options:0];
+        }
+        
         NSString *colName = [idx columnName];
         if (typeFilter == nil || [typeFilter isEqualToString:idx.indexType]) {
             values[colName] = indexColVal != nil ? indexColVal : [NSNull null];
