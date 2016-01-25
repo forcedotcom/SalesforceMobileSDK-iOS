@@ -131,7 +131,7 @@ static BOOL loggingToFile = NO;
         fileLogger = [[DDFileLogger alloc] init];
         fileLogger.rollingFrequency = 60 * 60 * 48; // 48 hour rolling
         fileLogger.logFileManager.maximumNumberOfLogFiles = 3;
-        [fileLogger setLogFormatter:[[SFCocoaLumberJackCustomFormatter alloc] init]];
+        [fileLogger setLogFormatter:(id<DDLogFormatter>)[[SFCocoaLumberJackCustomFormatter alloc] init]];
     }
 }
 

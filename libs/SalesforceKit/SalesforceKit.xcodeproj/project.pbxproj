@@ -31,7 +31,6 @@
 		6F11BC2F1C449370004785A3 /* libCocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC2E1C449370004785A3 /* libCocoaLumberjack.a */; };
 		6F11BC311C449471004785A3 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC301C449471004785A3 /* libz.tbd */; };
 		6F11BC351C4494B4004785A3 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC341C4494B4004785A3 /* MobileCoreServices.framework */; };
-		6F11BC371C44950B004785A3 /* libFMDB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC361C44950B004785A3 /* libFMDB.a */; };
 		6F11BC391C449531004785A3 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC381C449531004785A3 /* libsqlite3.tbd */; };
 		6F11BC3B1C44954A004785A3 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F11BC3A1C449549004785A3 /* libsqlcipher.a */; };
 /* End PBXBuildFile section */
@@ -64,13 +63,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
 			remoteInfo = SalesforceSDKCoreTestApp;
-		};
-		6F11BBDC1C44915B004785A3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6F11BBCC1C44915A004785A3 /* SalesforceSDKCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82D4644319C7C8180006BDFE;
-			remoteInfo = SalesforceSDKCoreTestAppTests;
 		};
 		6F11BBDE1C44915B004785A3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -205,6 +197,20 @@
 			remoteGlobalIDString = CEA8832F1C1910F6008D871B;
 			remoteInfo = SalesforceNetworkStatic;
 		};
+		828917D11C52DEFA002F9981 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F11BC011C44918C004785A3 /* SmartStore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F06AF091C499EB600F70798;
+			remoteInfo = SmartStoreTestApp;
+		};
+		828917D71C52DEFA002F9981 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F11BC101C449190004785A3 /* SmartSync.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4F06AF2E1C499FD100F70798;
+			remoteInfo = SmartSyncTestApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -222,7 +228,6 @@
 		6F11BC2E1C449370004785A3 /* libCocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCocoaLumberjack.a; path = "../../external/CocoaLumberjack/build/Debug-iphoneos/libCocoaLumberjack.a"; sourceTree = "<group>"; };
 		6F11BC301C449471004785A3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		6F11BC341C4494B4004785A3 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
-		6F11BC361C44950B004785A3 /* libFMDB.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFMDB.a; path = "../Debug-iphonesimulator/libFMDB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F11BC381C449531004785A3 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/usr/lib/libsqlite3.tbd; sourceTree = DEVELOPER_DIR; };
 		6F11BC3A1C449549004785A3 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		6F55E95C1B5C7D2E000B7E6B /* SalesforceKit.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = SalesforceKit.modulemap; sourceTree = "<group>"; };
@@ -237,7 +242,6 @@
 				6F11BC391C449531004785A3 /* libsqlite3.tbd in Frameworks */,
 				6F11BC3B1C44954A004785A3 /* libsqlcipher.a in Frameworks */,
 				6F11BC351C4494B4004785A3 /* MobileCoreServices.framework in Frameworks */,
-				6F11BC371C44950B004785A3 /* libFMDB.a in Frameworks */,
 				6F11BC311C449471004785A3 /* libz.tbd in Frameworks */,
 				6F11BC2F1C449370004785A3 /* libCocoaLumberjack.a in Frameworks */,
 				6F11BC291C44926E004785A3 /* libSalesforceNetwork.a in Frameworks */,
@@ -278,7 +282,6 @@
 			children = (
 				6F11BC3A1C449549004785A3 /* libsqlcipher.a */,
 				6F11BC381C449531004785A3 /* libsqlite3.tbd */,
-				6F11BC361C44950B004785A3 /* libFMDB.a */,
 				6F11BC301C449471004785A3 /* libz.tbd */,
 				6F11BC2E1C449370004785A3 /* libCocoaLumberjack.a */,
 				6F11BC341C4494B4004785A3 /* MobileCoreServices.framework */,
@@ -352,9 +355,8 @@
 			isa = PBXGroup;
 			children = (
 				6F11BBD71C44915B004785A3 /* SalesforceSDKCore.framework */,
-				6F11BBD91C44915B004785A3 /* SalesforceSDKCoreTests.xctest */,
 				6F11BBDB1C44915B004785A3 /* SalesforceSDKCoreTestApp.app */,
-				6F11BBDD1C44915B004785A3 /* SalesforceSDKCoreTestAppTests.xctest */,
+				6F11BBD91C44915B004785A3 /* SalesforceSDKCoreTests.xctest */,
 				6F11BBDF1C44915B004785A3 /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
@@ -375,7 +377,7 @@
 			children = (
 				6F11BBFA1C44917B004785A3 /* SalesforceRestAPI.framework */,
 				6F11BBFC1C44917B004785A3 /* SalesforceRestAPITestApp.app */,
-				6F11BBFE1C44917B004785A3 /* SalesforceRestAPITestAppTests.xctest */,
+				6F11BBFE1C44917B004785A3 /* SalesforceRestAPITests.xctest */,
 				6F11BC001C44917B004785A3 /* libSalesforceRestAPI.a */,
 			);
 			name = Products;
@@ -385,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				6F11BC0B1C44918C004785A3 /* SmartStore.framework */,
+				828917D21C52DEFA002F9981 /* SmartStoreTestApp.app */,
 				6F11BC0D1C44918C004785A3 /* SmartStoreTests.xctest */,
 				6F11BC0F1C44918C004785A3 /* libSmartStore.a */,
 			);
@@ -395,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				6F11BC1A1C449191004785A3 /* SmartSync.framework */,
+				828917D81C52DEFA002F9981 /* SmartSyncTestApp.app */,
 				6F11BC1C1C449191004785A3 /* SmartSyncTests.xctest */,
 				6F11BC1E1C449191004785A3 /* libSmartSync.a */,
 			);
@@ -538,13 +542,6 @@
 			remoteRef = 6F11BBDA1C44915B004785A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F11BBDD1C44915B004785A3 /* SalesforceSDKCoreTestAppTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceSDKCoreTestAppTests.xctest;
-			remoteRef = 6F11BBDC1C44915B004785A3 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		6F11BBDF1C44915B004785A3 /* libSalesforceSDKCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -587,10 +584,10 @@
 			remoteRef = 6F11BBFB1C44917B004785A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		6F11BBFE1C44917B004785A3 /* SalesforceRestAPITestAppTests.xctest */ = {
+		6F11BBFE1C44917B004785A3 /* SalesforceRestAPITests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = SalesforceRestAPITestAppTests.xctest;
+			path = SalesforceRestAPITests.xctest;
 			remoteRef = 6F11BBFD1C44917B004785A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -643,6 +640,20 @@
 			remoteRef = 6F11BC1D1C449191004785A3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		828917D21C52DEFA002F9981 /* SmartStoreTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SmartStoreTestApp.app;
+			remoteRef = 828917D11C52DEFA002F9981 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		828917D81C52DEFA002F9981 /* SmartSyncTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SmartSyncTestApp.app;
+			remoteRef = 828917D71C52DEFA002F9981 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -689,7 +700,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -ex";
-			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"\n\nfor library in SalesforceSDKCore SalesforceNetwork SalesforceRestAPI SmartStore SmartSync CocoaLumberjack fmdb;\ndo\n    target_path=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Frameworks/$library.framework/Headers\"\n    mkdir -p \"$target_path\"\n    for file in \"$TARGET_BUILD_DIR/Headers/$library/\"*.h; do\n        cp -r $file \"$target_path\"\n    done\n\n    if [ -d \"$TARGET_BUILD_DIR/PrivateHeaders/$library\" ]; then\n        target_path=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/PrivateHeaders\"\n        mkdir -p \"$target_path\"\n        for file in \"$TARGET_BUILD_DIR/PrivateHeaders/$library/\"*.h; do\n            cp -r $file \"$target_path\"\n        done\n    fi\ndone";
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"\n\nfor library in SalesforceSDKCore SalesforceNetwork SalesforceRestAPI SmartStore SmartSync CocoaLumberjack;\ndo\n    target_path=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/Frameworks/$library.framework/Headers\"\n    mkdir -p \"$target_path\"\n    for file in \"$TARGET_BUILD_DIR/Headers/$library/\"*.h; do\n        cp -r $file \"$target_path\"\n    done\n\n    if [ -d \"$TARGET_BUILD_DIR/PrivateHeaders/$library\" ]; then\n        target_path=\"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME/PrivateHeaders\"\n        mkdir -p \"$target_path\"\n        for file in \"$TARGET_BUILD_DIR/PrivateHeaders/$library/\"*.h; do\n            cp -r $file \"$target_path\"\n        done\n    fi\ndone";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -814,7 +825,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartStore.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(BUILT_PRODUCTS_DIR)/libFMDB.a\" \"$(BUILT_PRODUCTS_DIR)/libCocoaLumberjack.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartStore.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(BUILT_PRODUCTS_DIR)/libCocoaLumberjack.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
@@ -874,7 +885,7 @@
 				MODULEMAP_PRIVATE_FILE = SalesforceKit.private.modulemap;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartStore.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(BUILT_PRODUCTS_DIR)/libFMDB.a\" \"$(BUILT_PRODUCTS_DIR)/libCocoaLumberjack.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
+				PRELINK_LIBS = "\"$(BUILT_PRODUCTS_DIR)/libSalesforceSDKCore.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceNetwork.a\" \"$(BUILT_PRODUCTS_DIR)/libSalesforceRestAPI.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartStore.a\" \"$(BUILT_PRODUCTS_DIR)/libSmartSync.a\" \"$(BUILT_PRODUCTS_DIR)/libCocoaLumberjack.a\" \"$(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a\"";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
