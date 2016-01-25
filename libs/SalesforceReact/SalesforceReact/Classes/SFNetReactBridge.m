@@ -62,7 +62,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
                                           callback(@[RCTMakeError(@"sendRequest failed", e, nil)]);
                                       }
                                   completeBlock:^(id response) {
-                                      callback(@[[NSNull null], response]);
+                                      callback(@[[NSNull null], response == nil ? [NSNull null] : response]);
                                   }
      ];
 }
