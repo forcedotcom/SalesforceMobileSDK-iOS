@@ -47,9 +47,4 @@
  */
 - (NSArray*)filteredArrayExcludingValue:(id)value forKeyPath:(NSString*)key;
 
-/**
- Returns an array cleansed of any nil objects
- */
-- (NSArray *)cleansedArray;
-
 @end
