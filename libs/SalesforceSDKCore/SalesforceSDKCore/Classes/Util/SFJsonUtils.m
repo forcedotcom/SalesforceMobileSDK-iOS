@@ -59,9 +59,17 @@ static NSError *sLastError = nil;
 }
 
 + (NSString*)JSONRepresentation:(id)obj {
+    NSJSONWritingOptions options = 0;
+#ifdef DEBUG
+    options = NSJSONWritingPrettyPrinted;
+#endif
+    return [SFJsonUtils JSONRepresentation:obj options:options];
+}
+
++ (NSString*)JSONRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSString *result = nil;
     
-    NSData *jsonData = [self JSONDataRepresentation:obj];
+    NSData *jsonData = [self JSONDataRepresentation:obj options:options];
     if (nil != jsonData) {
           result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
@@ -70,15 +78,19 @@ static NSError *sLastError = nil;
 }
 
 +(NSData*)JSONDataRepresentation:(id)obj {
+    NSJSONWritingOptions options = 0;
+#ifdef DEBUG
+    options = NSJSONWritingPrettyPrinted;
+#endif
+    return [SFJsonUtils JSONDataRepresentation:obj options:options];
+}
+
++(NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSError *err = nil;
     NSData *jsonData = nil;
     
     if ([NSJSONSerialization isValidJSONObject:obj]) {
-        NSJSONWritingOptions options = 0;
-#ifdef DEBUG
-        options = NSJSONWritingPrettyPrinted;
-#endif
-        jsonData = [NSJSONSerialization dataWithJSONObject:obj 
+        jsonData = [NSJSONSerialization dataWithJSONObject:obj
                                         options:options 
                                           error:&err
          ];

@@ -43,12 +43,27 @@
 + (NSString*)JSONRepresentation:(id)object;
 
 /**
+ * Creates the JSON representation of an object.
+ * @param object The object to JSON-ify
+ * @param options for json-ization
+ * @return a JSON string representation of an Objective-C object
+ */
++ (NSString*)JSONRepresentation:(id)object options:(NSJSONWritingOptions)options;
+
+/**
  * Creates the JSON-as-NSData representation of an object.
  * @param obj The object to JSON-ify.
  * @return A JSON string in NSData format, UTF8 encoded.
  */
 +(NSData*)JSONDataRepresentation:(id)obj;
 
+/**
+ * Creates the JSON-as-NSData representation of an object.
+ * @param obj The object to JSON-ify.
+ * @param options for json-ization
+ * @return A JSON string in NSData format, UTF8 encoded.
+ */
++(NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options;
 
 /**
  * Creates an object from a string of JSON data.

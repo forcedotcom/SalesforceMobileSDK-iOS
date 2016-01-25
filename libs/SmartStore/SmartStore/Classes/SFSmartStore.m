@@ -1624,7 +1624,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         id indexColVal = [SFJsonUtils projectIntoJson:entry path:[idx path]];;
         // values for non-leaf nodes are json-ized
         if ([indexColVal isKindOfClass:[NSDictionary class]] || [indexColVal isKindOfClass:[NSArray class]]) {
-            indexColVal = [SFJsonUtils JSONRepresentation:indexColVal];
+            indexColVal = [SFJsonUtils JSONRepresentation:indexColVal options:0];
         }
         
         NSString *colName = [idx columnName];
