@@ -50,25 +50,4 @@
     }]];
 }
 
-- (NSArray *)cleansedArray {
-    if ([self containsObject:nil]) {
-        NSMutableArray *cleansedArray = [NSMutableArray array];
-        for (id arrayObject in self) {
-            if (nil != arrayObject) {
-                if ([arrayObject isKindOfClass:[NSArray class]]) {
-                    NSArray *newArray = [self cleansedArray];
-                    [cleansedArray addObject:newArray];
-                } else {
-                    [cleansedArray addObject:arrayObject];
-                }
-            } else {
-                [self log:SFLogLevelWarning format:@"nil object found in array"];
-            }
-        }
-        return cleansedArray;
-    }
-    
-    return self;
-}
-
 @end
