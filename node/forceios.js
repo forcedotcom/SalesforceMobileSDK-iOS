@@ -196,6 +196,8 @@ function buildArgsFromArgMap(config) {
         argLine += ' -o "' + config.outputdir + '"';
     if (config.appid)
         argLine += ' -a "' + config.appid + '"';
+    if (config.callbackuri)
+       argLine += ' -u "' + config.callbackuri + '"';
 
     return argLine;
 }
