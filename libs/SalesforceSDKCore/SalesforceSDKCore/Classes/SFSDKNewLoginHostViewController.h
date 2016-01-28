@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKNewLoginHostViewController.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,27 +26,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface SFSDKResourceUtils : NSObject
+@class SFSDKLoginHostListViewController;
 
 /**
- * @return The main bundle associated with the SDK.
+ * View controller that allows the user to enter a new login host that contains
+ * a host (the server address) and an optional name.
  */
-+ (NSBundle *)mainSdkBundle;
+@interface SFSDKNewLoginHostViewController : UITableViewController <UITextFieldDelegate>
 
-/**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
- */
-+ (NSString *)localizedString:(NSString *)localizationKey;
+// The server text field
+@property (nonatomic, strong) UITextField *server;
 
-/**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
+// The name text field
+@property (nonatomic, strong) UITextField *name;
+
+// A reference to the login host list view controller used to add the host to the list of login hosts
+// and to also properly resize the popover controller.
+@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController;
 
 @end

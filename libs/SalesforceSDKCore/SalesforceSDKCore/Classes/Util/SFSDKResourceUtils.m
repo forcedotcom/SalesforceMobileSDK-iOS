@@ -50,4 +50,12 @@
     return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
 }
 
++ (UIImage *)imageNamed:(NSString *)name
+{
+    NSBundle *bundle = [NSBundle bundleWithIdentifier:@"com.salesforce.mobilesdk.SalesforceSDKCore"];
+    NSAssert(name != nil, @"name must contain a value.");
+    
+    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+}
+
 @end

@@ -1,7 +1,11 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHost.h
+ SalesforceSDKCore
  
+ Created by Kunal Chitalia on 1/22/16.
+ 
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -12,38 +16,36 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+         DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
 #import <Foundation/Foundation.h>
 
-@interface SFSDKResourceUtils : NSObject
-
 /**
- * @return The main bundle associated with the SDK.
+ * Class that encapsulates the information about a login host.
  */
-+ (NSBundle *)mainSdkBundle;
+@interface SFSDKLoginHost : NSObject
+
+// The name of the login host
+@property (nonatomic, copy) NSString *name;
+
+// The server address of the login host
+@property (nonatomic, copy) NSString *host;
+
+// Indicates whether this login host can be deleted
+@property (readonly, getter=isDeletable) BOOL deletable;
 
 /**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
+ * Returns a new login host instance with the specified parameters.
  */
-+ (NSString *)localizedString:(NSString *)localizationKey;
-
-/**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
++ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable;
 
 @end

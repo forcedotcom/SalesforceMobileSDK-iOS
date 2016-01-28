@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ UINavigationBar+SFAppStyler.m
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,27 +26,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "UINavigationBar+SFAppStyler.h"
+#import "SFAppStyler.h"
 
-@interface SFSDKResourceUtils : NSObject
+@implementation UINavigationBar (SFAppStyler)
 
-/**
- * @return The main bundle associated with the SDK.
- */
-+ (NSBundle *)mainSdkBundle;
-
-/**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
- */
-+ (NSString *)localizedString:(NSString *)localizationKey;
-
-/**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
+- (void)applySFStyle {
+    [[SFAppStyler sharedInstance] styleNavigationBar:self];
+}
 
 @end

@@ -419,6 +419,21 @@
 		CEA883291C18FC40008D871B /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8832A1C18FC40008D871B /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
 		CEA8832B1C18FC66008D871B /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E139507A1C51A7AE00575C03 /* SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950791C51A7AE00575C03 /* SFAppStyler.m */; };
+		E139507D1C51A88300575C03 /* UINavigationBar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E139507C1C51A88300575C03 /* UINavigationBar+SFAppStyler.m */; };
+		E13950801C51A9C400575C03 /* UIToolbar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E139507F1C51A9C400575C03 /* UIToolbar+SFAppStyler.m */; };
+		E13950831C51AA3300575C03 /* UINavigationController+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950821C51AA3300575C03 /* UINavigationController+SFAppStyler.m */; };
+		E13950841C52A2A800575C03 /* SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E13950781C51A54200575C03 /* SFAppStyler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E13950A11C53616700575C03 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950A01C53616700575C03 /* SFLoginViewController.m */; };
+		E13950A61C5366FF00575C03 /* SFSDKLoginHost.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950A51C5366FF00575C03 /* SFSDKLoginHost.m */; };
+		E13950A91C53FF9300575C03 /* SFSDKLoginHostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950A81C53FF9300575C03 /* SFSDKLoginHostListViewController.m */; };
+		E13950AC1C54002C00575C03 /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950AB1C54002C00575C03 /* SFSDKLoginHostStorage.m */; };
+		E13950AF1C54008600575C03 /* SFSDKNewLoginHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950AE1C54008600575C03 /* SFSDKNewLoginHostViewController.m */; };
+		E13950B21C5400E100575C03 /* SFSDKTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E13950B11C5400E100575C03 /* SFSDKTextFieldTableViewCell.m */; };
+		E1C80BC11C5694F2001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E13950A71C53FF5B00575C03 /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80BD01C569D54001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E13950A31C53649400575C03 /* SFSDKLoginHostDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80BDD1C56A276001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E139509F1C53611A00575C03 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80BEE1C580A3D001B3A21 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C80BED1C580A3D001B3A21 /* Images.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -824,6 +839,28 @@
 		CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CEBA94FF1C1B996200C0B2E0 /* SalesforceSDKCore-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
+		E13950781C51A54200575C03 /* SFAppStyler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFAppStyler.h; sourceTree = "<group>"; };
+		E13950791C51A7AE00575C03 /* SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFAppStyler.m; sourceTree = "<group>"; };
+		E139507B1C51A84C00575C03 /* UINavigationBar+SFAppStyler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+SFAppStyler.h"; sourceTree = "<group>"; };
+		E139507C1C51A88300575C03 /* UINavigationBar+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+SFAppStyler.m"; sourceTree = "<group>"; };
+		E139507E1C51A9A100575C03 /* UIToolbar+SFAppStyler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+SFAppStyler.h"; sourceTree = "<group>"; };
+		E139507F1C51A9C400575C03 /* UIToolbar+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+SFAppStyler.m"; sourceTree = "<group>"; };
+		E13950811C51AA0900575C03 /* UINavigationController+SFAppStyler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+SFAppStyler.h"; sourceTree = "<group>"; };
+		E13950821C51AA3300575C03 /* UINavigationController+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+SFAppStyler.m"; sourceTree = "<group>"; };
+		E139509F1C53611A00575C03 /* SFLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFLoginViewController.h; sourceTree = "<group>"; };
+		E13950A01C53616700575C03 /* SFLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLoginViewController.m; sourceTree = "<group>"; };
+		E13950A31C53649400575C03 /* SFSDKLoginHostDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHostDelegate.h; sourceTree = "<group>"; };
+		E13950A41C53656900575C03 /* SFSDKLoginHost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHost.h; sourceTree = "<group>"; };
+		E13950A51C5366FF00575C03 /* SFSDKLoginHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHost.m; sourceTree = "<group>"; };
+		E13950A71C53FF5B00575C03 /* SFSDKLoginHostListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHostListViewController.h; sourceTree = "<group>"; };
+		E13950A81C53FF9300575C03 /* SFSDKLoginHostListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHostListViewController.m; sourceTree = "<group>"; };
+		E13950AA1C53FFF700575C03 /* SFSDKLoginHostStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKLoginHostStorage.h; sourceTree = "<group>"; };
+		E13950AB1C54002C00575C03 /* SFSDKLoginHostStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKLoginHostStorage.m; sourceTree = "<group>"; };
+		E13950AD1C54005C00575C03 /* SFSDKNewLoginHostViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKNewLoginHostViewController.h; sourceTree = "<group>"; };
+		E13950AE1C54008600575C03 /* SFSDKNewLoginHostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKNewLoginHostViewController.m; sourceTree = "<group>"; };
+		E13950B01C5400BB00575C03 /* SFSDKTextFieldTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSDKTextFieldTableViewCell.h; sourceTree = "<group>"; };
+		E13950B11C5400E100575C03 /* SFSDKTextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKTextFieldTableViewCell.m; sourceTree = "<group>"; };
+		E1C80BED1C580A3D001B3A21 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1245,6 +1282,8 @@
 		82AF840C16DFD95F008912EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E139509E1C535F9C00575C03 /* Login */,
+				E13950691C51A51C00575C03 /* Styling */,
 				4F96FC511BFD32130022F021 /* Common */,
 				4F96FC631BFD32130022F021 /* Identity */,
 				4F96FC691BFD32130022F021 /* Instrumentation */,
@@ -1262,6 +1301,7 @@
 			isa = PBXGroup;
 			children = (
 				82C5E3ED1C1B62AF00376C00 /* SalesforceSDKResources.bundle */,
+				E1C80BED1C580A3D001B3A21 /* Images.xcassets */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1306,6 +1346,49 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E13950691C51A51C00575C03 /* Styling */ = {
+			isa = PBXGroup;
+			children = (
+				E13950781C51A54200575C03 /* SFAppStyler.h */,
+				E13950791C51A7AE00575C03 /* SFAppStyler.m */,
+				E139507B1C51A84C00575C03 /* UINavigationBar+SFAppStyler.h */,
+				E139507C1C51A88300575C03 /* UINavigationBar+SFAppStyler.m */,
+				E139507E1C51A9A100575C03 /* UIToolbar+SFAppStyler.h */,
+				E139507F1C51A9C400575C03 /* UIToolbar+SFAppStyler.m */,
+				E13950811C51AA0900575C03 /* UINavigationController+SFAppStyler.h */,
+				E13950821C51AA3300575C03 /* UINavigationController+SFAppStyler.m */,
+			);
+			name = Styling;
+			sourceTree = "<group>";
+		};
+		E139509E1C535F9C00575C03 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E13950A21C53620B00575C03 /* LoginHost */,
+				E139509F1C53611A00575C03 /* SFLoginViewController.h */,
+				E13950A01C53616700575C03 /* SFLoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		E13950A21C53620B00575C03 /* LoginHost */ = {
+			isa = PBXGroup;
+			children = (
+				E13950A31C53649400575C03 /* SFSDKLoginHostDelegate.h */,
+				E13950A41C53656900575C03 /* SFSDKLoginHost.h */,
+				E13950A51C5366FF00575C03 /* SFSDKLoginHost.m */,
+				E13950A71C53FF5B00575C03 /* SFSDKLoginHostListViewController.h */,
+				E13950A81C53FF9300575C03 /* SFSDKLoginHostListViewController.m */,
+				E13950AA1C53FFF700575C03 /* SFSDKLoginHostStorage.h */,
+				E13950AB1C54002C00575C03 /* SFSDKLoginHostStorage.m */,
+				E13950AD1C54005C00575C03 /* SFSDKNewLoginHostViewController.h */,
+				E13950AE1C54008600575C03 /* SFSDKNewLoginHostViewController.m */,
+				E13950B01C5400BB00575C03 /* SFSDKTextFieldTableViewCell.h */,
+				E13950B11C5400E100575C03 /* SFSDKTextFieldTableViewCell.m */,
+			);
+			name = LoginHost;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1313,6 +1396,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1C80BDD1C56A276001B3A21 /* SFLoginViewController.h in Headers */,
+				E1C80BD01C569D54001B3A21 /* SFSDKLoginHostDelegate.h in Headers */,
+				E1C80BC11C5694F2001B3A21 /* SFSDKLoginHostListViewController.h in Headers */,
+				E13950841C52A2A800575C03 /* SFAppStyler.h in Headers */,
 				CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */,
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
@@ -1784,6 +1871,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				82C5E3EE1C1B62AF00376C00 /* SalesforceSDKResources.bundle in Resources */,
+				E1C80BEE1C580A3D001B3A21 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1884,7 +1972,10 @@
 			files = (
 				CE4CE3161C0E523B009F6029 /* SFCrypto.m in Sources */,
 				CE4CE39C1C0E5272009F6029 /* SFSDKTestCredentialsData.m in Sources */,
+				E13950AF1C54008600575C03 /* SFSDKNewLoginHostViewController.m in Sources */,
 				CE4CE3441C0E5252009F6029 /* SFOAuthCoordinator.m in Sources */,
+				E13950A61C5366FF00575C03 /* SFSDKLoginHost.m in Sources */,
+				E139507D1C51A88300575C03 /* UINavigationBar+SFAppStyler.m in Sources */,
 				CE4CE3741C0E526A009F6029 /* SFKeyStoreKey.m in Sources */,
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
@@ -1894,6 +1985,7 @@
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
 				CE4CE3311C0E523B009F6029 /* SFSDKAppConfig.m in Sources */,
 				CE4CE3881C0E526A009F6029 /* SFSDKCryptoUtils.m in Sources */,
+				E13950B21C5400E100575C03 /* SFSDKTextFieldTableViewCell.m in Sources */,
 				CE4CE3201C0E523B009F6029 /* SFPathUtil.m in Sources */,
 				CE4CE3261C0E523B009F6029 /* UIScreen+SFAdditions.m in Sources */,
 				CE4CE37C1C0E526A009F6029 /* SFPasscodeManager.m in Sources */,
@@ -1902,9 +1994,12 @@
 				CE4CE3AA1C0E5279009F6029 /* SFManagedPreferences.m in Sources */,
 				CE4CE35E1C0E526A009F6029 /* SFAuthErrorHandler.m in Sources */,
 				CE4CE37F1C0E526A009F6029 /* SFPasscodeProviderManager.m in Sources */,
+				E13950A11C53616700575C03 /* SFLoginViewController.m in Sources */,
 				CE4CE3411C0E524B009F6029 /* SFMethodInterceptor.m in Sources */,
+				E13950801C51A9C400575C03 /* UIToolbar+SFAppStyler.m in Sources */,
 				CE4CE3A21C0E5279009F6029 /* NSURL+SFStringUtils.m in Sources */,
 				CE4CE3081C0E5229009F6029 /* SFLogger.m in Sources */,
+				E13950831C51AA3300575C03 /* UINavigationController+SFAppStyler.m in Sources */,
 				CE4CE39A1C0E5272009F6029 /* SFSDKAsyncProcessListener.m in Sources */,
 				CE4CE38D1C0E526A009F6029 /* SFSHA256PasscodeProvider.m in Sources */,
 				CE4CE3331C0E523B009F6029 /* SFSDKDatasharingHelper.m in Sources */,
@@ -1915,8 +2010,10 @@
 				CE4CE3371C0E523B009F6029 /* SFUserActivityMonitor.m in Sources */,
 				CE4CE33B1C0E5245009F6029 /* SFIdentityCoordinator.m in Sources */,
 				CE4CE3721C0E526A009F6029 /* SFKeyStore.m in Sources */,
+				E139507A1C51A7AE00575C03 /* SFAppStyler.m in Sources */,
 				CE4CE3AE1C0E5279009F6029 /* SFRootViewManager.m in Sources */,
 				CE4CE3061C0E5229009F6029 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
+				E13950AC1C54002C00575C03 /* SFSDKLoginHostStorage.m in Sources */,
 				CE4CE39E1C0E5272009F6029 /* SFSDKTestRequestListener.m in Sources */,
 				CE4CE34F1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				CE4CE30E1C0E523B009F6029 /* NSData+SFAdditions.m in Sources */,
@@ -1939,6 +2036,7 @@
 				CE4CE32F1C0E523B009F6029 /* SFApplication.m in Sources */,
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE4CE35C1C0E526A009F6029 /* SFAuthenticationViewHandler.m in Sources */,
+				E13950A91C53FF9300575C03 /* SFSDKLoginHostListViewController.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
 				CE4CE3191C0E523B009F6029 /* SFFileProtectionHelper.m in Sources */,

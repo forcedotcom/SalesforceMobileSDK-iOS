@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHostStorage.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,25 +28,57 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SFSDKResourceUtils : NSObject
+@class SFSDKLoginHost;
 
 /**
- * @return The main bundle associated with the SDK.
+ * This class manages the list of login hosts as well its persistence.
+ * Currently this list is persisted in the user defaults.
  */
-+ (NSBundle *)mainSdkBundle;
+@interface SFSDKLoginHostStorage : NSObject
 
 /**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
+ * Returns the shared instance of this class.
  */
-+ (NSString *)localizedString:(NSString *)localizationKey;
++ (SFSDKLoginHostStorage *)sharedInstance;
 
 /**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
+ * Adds a new login host.
+ */
+- (void)addLoginHost:(SFSDKLoginHost *)loginHost;
+
+/**
+ * Removes the login host at the specified index.
+ */
+- (void)removeLoginHostAtIndex:(NSUInteger)index;
+
+/**
+ * Returns the index of the specified host if exists.
+ */
+- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host;
+
+/**
+ * Returns the login host at the specified index.
+ */
+- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index;
+
+/**
+ * Returns the login host with a particular host adress if any.
+ */
+- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress;
+
+/**
+ * Removes all the login hosts.
+ */
+- (void)removeAllLoginHosts;
+
+/**
+ * Returns the number of login hosts.
+ */
+- (NSUInteger)numberOfLoginHosts;
+
+/**
+ * Stores all the login host except the non-deletable ones in the user defaults.
+ */
+- (void)save;
 
 @end

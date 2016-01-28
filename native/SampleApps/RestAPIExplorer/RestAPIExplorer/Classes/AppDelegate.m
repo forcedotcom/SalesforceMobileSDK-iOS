@@ -31,6 +31,10 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFAppStyler.h>
+#import <UIKit/UIKit.h>
+#import <SalesforceSDKCore/SFAuthenticationManager.h>
+#import <SalesforceSDKCore/SFLoginViewController.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
@@ -83,6 +87,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    [self configureAppStyle];
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
@@ -115,7 +120,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 - (void)setupRootViewController
 {
     RestAPIExplorerViewController *rootVC = [[RestAPIExplorerViewController alloc] initWithNibName:nil bundle:nil];
-    self.window.rootViewController = rootVC;
+    UINavigationController *navViewController = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    [[SFAppStyler sharedInstance] styleNavigationBar:navViewController.navigationBar];
+    self.window.rootViewController = navViewController;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock
@@ -165,6 +172,15 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         [self initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     }];
+}
+
+- (void) configureAppStyle {
+    SFAppStyler *styler = SFAppStyler.sharedInstance;
+    [styler setFontName:@"Helvetica" forStyle:SFAppStylerFontStyleRegular];
+    [styler setFontName:@"SalesforceSans-Bold" forStyle:SFAppStylerFontStyleBold];
+    
+    // Set primary color to different color to style the navigation header
+    //styler.primaryAppColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
 }
 
 #pragma mark - Unit test helpers

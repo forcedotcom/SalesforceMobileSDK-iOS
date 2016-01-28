@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKTextFieldTableViewCell.m
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,27 +26,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFSDKTextFieldTableViewCell.h"
 
-@interface SFSDKResourceUtils : NSObject
+// Insets used to determine the proper size for the editable field presented in the table view cell.
+static UIEdgeInsets const SFSDKTextFieldCellInsets = { 10.0, 10.0, 10.0, 30.0 };
 
-/**
- * @return The main bundle associated with the SDK.
- */
-+ (NSBundle *)mainSdkBundle;
+@interface SFSDKTextFieldTableViewCell ()
 
-/**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
- */
-+ (NSString *)localizedString:(NSString *)localizationKey;
+@property (nonatomic, strong, readwrite) UITextField *textField;
 
-/**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
+@end
+
+@implementation SFSDKTextFieldTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    if (self) {
+        self.textField = [[UITextField alloc] initWithFrame:CGRectZero];
+        self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        
+        [self.contentView addSubview:self.textField];
+    }
+    
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.textField.frame = UIEdgeInsetsInsetRect(self.contentView.frame, SFSDKTextFieldCellInsets);
+}
 
 @end
