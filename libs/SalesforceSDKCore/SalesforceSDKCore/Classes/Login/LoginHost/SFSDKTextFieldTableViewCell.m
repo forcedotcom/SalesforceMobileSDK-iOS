@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKTextFieldTableViewCell.m
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,39 +26,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import "SFSDKTextFieldTableViewCell.h"
 
-@implementation SFSDKResourceUtils
+// Insets used to determine the proper size for the editable field presented in the table view cell.
+static UIEdgeInsets const SFSDKTextFieldCellInsets = { 10.0, 10.0, 10.0, 30.0 };
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
+@interface SFSDKTextFieldTableViewCell ()
+
+@property (nonatomic, strong, readwrite) UITextField *textField;
+
+@end
+
+@implementation SFSDKTextFieldTableViewCell
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    if (self) {
+        self.textField = [[UITextField alloc] initWithFrame:CGRectZero];
+        self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        
+        [self.contentView addSubview:self.textField];
     }
     
-    return sdkBundle;
+    return self;
 }
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
-
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    self.textField.frame = UIEdgeInsetsInsetRect(self.contentView.frame, SFSDKTextFieldCellInsets);
 }
 
 @end

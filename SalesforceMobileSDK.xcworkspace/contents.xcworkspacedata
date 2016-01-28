@@ -194,6 +194,9 @@
          <FileRef
             location = "group:SalesforceSDKResources.bundle">
          </FileRef>
+         <FileRef
+            location = "group:SalesforceSDKAssets.xcassets">
+         </FileRef>
       </Group>
       <Group
          location = "group:shared/test"

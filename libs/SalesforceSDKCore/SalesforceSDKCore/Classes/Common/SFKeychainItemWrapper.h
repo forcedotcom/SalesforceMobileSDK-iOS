@@ -45,7 +45,7 @@
  
  */
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 // Keychain item exception defines
 

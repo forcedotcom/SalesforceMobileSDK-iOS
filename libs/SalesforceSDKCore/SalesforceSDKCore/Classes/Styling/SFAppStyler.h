@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFAppStyler.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,26 +27,47 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
-@interface SFSDKResourceUtils : NSObject
+typedef NS_ENUM(NSUInteger, SFAppStylerFontStyle)  {
+    SFAppStylerFontStyleRegular = 0,
+    SFAppStylerFontStyleBold
+};
 
-/**
- * @return The main bundle associated with the SDK.
+/** Class responsible for app to set overall app style. All UI classes use this class
+ to style relevant UI elementes
  */
-+ (NSBundle *)mainSdkBundle;
+@interface SFAppStyler : NSObject
 
-/**
- * Gets a localized string from the main bundle of the SDK.
- * @param localizationKey The localization key used to look up the localized string.
- * @return The localized string associated with the key.
+/** Get a shared singleton of `SFAppStyler` class
  */
-+ (NSString *)localizedString:(NSString *)localizationKey;
++(_Nonnull instancetype)sharedInstance;
 
-/**
- * Gets an image from the Images asset catalog from the framework bundle of the SDK
- * @param name The name of the image in the asset catalog.
- * @return The image from the asset catalog with the provided name.
-*/
-+ (UIImage *)imageNamed:(NSString*)name;
+/** Specify the font to use for navigation bar header text*/
+@property (nonatomic, strong, nullable) UIFont * navBarFont;
+
+/** Specify the text color to use for navigation bar header text */
+@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+
+/** Specify navigation bar color. This color will be used by
+ - login view header
+ */
+@property (nonatomic, strong, nullable) UIColor *navBarColor;
+
+/** Apply style to navigation bar */
+- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
+
+/** Apply style to bar button items
+ 
+ @param barItems array of `UIBarButtonItem` to apply style to
+ */
+- (void)styleBarButtonItems:(nullable NSArray<UIBarButtonItem *> *)barItems;
+
+/** Specify the font to use for the toolbar text*/
+@property (nonatomic, strong, nullable) UIFont *toolBarFont;
+
+/** Specify the color to use for the toolbar text */
+@property (nonatomic, strong, nullable) UIColor *toolBarTextColor;
 
 @end
+

@@ -1,7 +1,11 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHostDelegate.h
+ SalesforceSDKCore
  
+ Created by Kunal Chitalia on 1/22/16.
+
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -12,50 +16,43 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+         DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+@class SFSDKLoginHostListViewController;
+
+/**
+ * Use the SFSDKLoginHostDelegate to be notified of the actions taken by the user on the login host list view controller.
  */
+@protocol SFSDKLoginHostDelegate <NSObject>
 
-#import "SFSDKResourceUtils.h"
+@optional
 
-@implementation SFSDKResourceUtils
+/**
+ * Notifies the delegate that a login host has been selected by the user.
+ * This will be a good time to dismiss the host list view controller.
+ * @param hostListViewController The instance sending this message.
+ */
+- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController;
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+/**
+ * Notifies the delegate that a login host has been added to the list of hosts.
+ * @param hostListViewController The instance sending this message.
+ */
+- (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController;
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
-
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-}
+/**
+ * Notifies the delegate that user cancels out from the login host picking flow
+ * @param hostListViewController The instance sending this message.
+ */
+- (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController;
 
 @end

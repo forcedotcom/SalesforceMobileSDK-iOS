@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKNewLoginHostViewController.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,39 +26,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import <UIKit/UIKit.h>
 
-@implementation SFSDKResourceUtils
+@class SFSDKLoginHostListViewController;
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+/**
+ * View controller that allows the user to enter a new login host that contains
+ * a host (the server address) and an optional name.
+ */
+@interface SFSDKNewLoginHostViewController : UITableViewController <UITextFieldDelegate>
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
+// The server text field
+@property (nonatomic, strong) UITextField *server;
 
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-}
+// The name text field
+@property (nonatomic, strong) UITextField *name;
+
+// A reference to the login host list view controller used to add the host to the list of login hosts
+// and to also properly resize the popover controller.
+@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController;
 
 @end

@@ -1,7 +1,11 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHost.h
+ SalesforceSDKCore
  
+ Created by Kunal Chitalia on 1/22/16.
+ 
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -12,50 +16,36 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
  DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+         DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+#import <Foundation/Foundation.h>
+
+/**
+ * Class that encapsulates the information about a login host.
  */
+@interface SFSDKLoginHost : NSObject
 
-#import "SFSDKResourceUtils.h"
+// The name of the login host
+@property (nonatomic, copy) NSString *name;
 
-@implementation SFSDKResourceUtils
+// The server address of the login host
+@property (nonatomic, copy) NSString *host;
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+// Indicates whether this login host can be deleted
+@property (readonly, getter=isDeletable) BOOL deletable;
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
-
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-}
+/**
+ * Returns a new login host instance with the specified parameters.
+ */
++ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable;
 
 @end

@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHostStorage.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,39 +26,59 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFSDKResourceUtils
+@class SFSDKLoginHost;
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+/**
+ * This class manages the list of login hosts as well its persistence.
+ * Currently this list is persisted in the user defaults.
+ */
+@interface SFSDKLoginHostStorage : NSObject
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
+/**
+ * Returns the shared instance of this class.
+ */
++ (SFSDKLoginHostStorage *)sharedInstance;
 
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-}
+/**
+ * Adds a new login host.
+ */
+- (void)addLoginHost:(SFSDKLoginHost *)loginHost;
+
+/**
+ * Removes the login host at the specified index.
+ */
+- (void)removeLoginHostAtIndex:(NSUInteger)index;
+
+/**
+ * Returns the index of the specified host if exists.
+ */
+- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host;
+
+/**
+ * Returns the login host at the specified index.
+ */
+- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index;
+
+/**
+ * Returns the login host with a particular host adress if any.
+ */
+- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress;
+
+/**
+ * Removes all the login hosts.
+ */
+- (void)removeAllLoginHosts;
+
+/**
+ * Returns the number of login hosts.
+ */
+- (NSUInteger)numberOfLoginHosts;
+
+/**
+ * Stores all the login host except the non-deletable ones in the user defaults.
+ */
+- (void)save;
 
 @end

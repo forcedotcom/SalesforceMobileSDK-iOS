@@ -1,6 +1,9 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ SFSDKLoginHostListViewController.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,39 +26,34 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import <UIKit/UIKit.h>
+#import "SFSDKLoginHostDelegate.h"
 
-@implementation SFSDKResourceUtils
+@class SFSDKLoginHost;
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+/**
+ * View controller that displays a list of hosts that can be used for login.
+ * The user can either add a new host or select an existing host to reload the login web page.
+ */
+@interface SFSDKLoginHostListViewController : UITableViewController
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
+/**
+ * The object that acts as the delegate of the host list view controller.
+ */
+@property (nonatomic, weak) id<SFSDKLoginHostDelegate> delegate;
 
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-}
+/**
+ * Adds a new login host.
+ * This method updates the underlying storage and refreshes the list of login hosts.
+ * @see showAddLoginHost for presenting a UI for the user to enter a new login host.
+ */
+- (void)addLoginHost:(SFSDKLoginHost *)host;
+
+/**
+ * Use this method to display a view for adding a new login host.
+ * If you have used a navigation controller to present this view controller, an add button is automatically added to the right bar button item.
+ * @see addLoginHost: for adding a login host programmatically without showing the UI.
+ */
+- (void)showAddLoginHost;
 
 @end
