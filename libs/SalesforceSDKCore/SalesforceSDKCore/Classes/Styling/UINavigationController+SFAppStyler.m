@@ -28,14 +28,11 @@
 
 #import "UINavigationController+SFAppStyler.h"
 #import "UINavigationBar+SFAppStyler.h"
-#import "UIToolbar+SFAppStyler.h"
 
 @implementation UINavigationController (SFAppStyler)
 
 - (void)applySFStyle {
     [self.navigationBar applySFStyle];
-    self.toolbar.tintColor = [UIColor whiteColor];
-    [self.toolbar applySFStyle];
 }
 
 @end
