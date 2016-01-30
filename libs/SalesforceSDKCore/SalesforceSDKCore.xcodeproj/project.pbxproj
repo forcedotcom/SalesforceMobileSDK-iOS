@@ -441,6 +441,27 @@
 		E1C80D051C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */; };
 		E1C80D061C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */; };
 		E1C80D081C5AF029001B3A21 /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */; };
+		E1C80D171C5C365D001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80D261C5C3664001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
+		E1C80D271C5C366B001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; };
+		E1C80D281C5C366F001B3A21 /* SFSDKLoginHost.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE21C5AEE31001B3A21 /* SFSDKLoginHost.m */; };
+		E1C80D291C5C3672001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */; };
+		E1C80D2A1C5C3676001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE41C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h */; };
+		E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */; };
+		E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; };
+		E1C80D2D1C5C3680001B3A21 /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */; };
+		E1C80D2E1C5C3683001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */; };
+		E1C80D2F1C5C3686001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */; };
+		E1C80D301C5C3689001B3A21 /* SFSDKTextFieldTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CEA1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.h */; };
+		E1C80D311C5C368C001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CEB1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m */; };
+		E1C80D321C5C3692001B3A21 /* SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CF71C5AEF36001B3A21 /* SFAppStyler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80D331C5C3698001B3A21 /* SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CF81C5AEF36001B3A21 /* SFAppStyler.m */; };
+		E1C80D341C5C369B001B3A21 /* UINavigationBar+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CF91C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.h */; };
+		E1C80D351C5C369E001B3A21 /* UINavigationBar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFA1C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m */; };
+		E1C80D361C5C36A1001B3A21 /* UINavigationController+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFB1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h */; };
+		E1C80D371C5C36A4001B3A21 /* UINavigationController+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFC1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m */; };
+		E1C80D381C5C36A7001B3A21 /* UIToolbar+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */; };
+		E1C80D391C5C36AB001B3A21 /* UIToolbar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1530,6 +1551,7 @@
 			files = (
 				CEA8829F1C18FAAB008D871B /* NSData+SFSDKUtils.h in Headers */,
 				CEA882AC1C18FAAB008D871B /* SFSDKReachability.h in Headers */,
+				E1C80D381C5C36A7001B3A21 /* UIToolbar+SFAppStyler.h in Headers */,
 				CEA882971C18FAAB008D871B /* SFPathUtil.h in Headers */,
 				CEA882C91C18FB4D008D871B /* SFOAuthSessionRefresher.h in Headers */,
 				CEA882D01C18FB8E008D871B /* SFAuthenticationManager+Internal.h in Headers */,
@@ -1549,6 +1571,7 @@
 				CEA882FF1C18FB8E008D871B /* SFSDKCryptoUtils.h in Headers */,
 				CEA883091C18FB8E008D871B /* SFUserAccountConstants.h in Headers */,
 				CEA882A61C18FAAB008D871B /* SFApplication.h in Headers */,
+				E1C80D271C5C366B001B3A21 /* SFSDKLoginHost.h in Headers */,
 				CEA8829B1C18FAAB008D871B /* UIDevice+SFHardware.h in Headers */,
 				CEA882E21C18FB8E008D871B /* SFDefaultUserManagementViewController.h in Headers */,
 				CEA882811C18FAAB008D871B /* NSURL+SFAdditions.h in Headers */,
@@ -1562,6 +1585,8 @@
 				CEA882A11C18FAAB008D871B /* NSData+SFSDKUtils_Internal.h in Headers */,
 				CEA8830D1C18FB8E008D871B /* SFUserAccountManager.h in Headers */,
 				CEA882A81C18FAAB008D871B /* SFSDKAppConfig.h in Headers */,
+				E1C80D291C5C3672001B3A21 /* SFSDKLoginHostDelegate.h in Headers */,
+				E1C80D321C5C3692001B3A21 /* SFAppStyler.h in Headers */,
 				CEA882D11C18FB8E008D871B /* SFAuthenticationManager.h in Headers */,
 				CEA8830A1C18FB8E008D871B /* SFUserAccountIdentity.h in Headers */,
 				CEA883021C18FB8E008D871B /* SFSecurityLockout.h in Headers */,
@@ -1588,16 +1613,19 @@
 				CEA882ED1C18FB8E008D871B /* SFKeyStoreManager+Internal.h in Headers */,
 				CEA883231C18FC40008D871B /* SFPreferences.h in Headers */,
 				CEA882851C18FAAB008D871B /* NSData+SFAdditions.h in Headers */,
+				E1C80D301C5C3689001B3A21 /* SFSDKTextFieldTableViewCell.h in Headers */,
 				CEA882F81C18FB8E008D871B /* SFPasscodeViewController.h in Headers */,
 				CEA8828D1C18FAAB008D871B /* SFCrypto.h in Headers */,
 				CEA882BD1C18FB4D008D871B /* SFOAuthCredentials+Internal.h in Headers */,
 				CEA882B81C18FB3D008D871B /* SFMethodInterceptor.h in Headers */,
 				CEA883151C18FC2C008D871B /* SFSDKTestRequestListener.h in Headers */,
+				E1C80D2E1C5C3683001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */,
 				CEA882921C18FAAB008D871B /* SFInactivityTimerCenter.h in Headers */,
 				CEA8829D1C18FAAB008D871B /* UIScreen+SFAdditions.h in Headers */,
 				CEA882C41C18FB4D008D871B /* SFOAuthKeychainCredentials.h in Headers */,
 				CEA882901C18FAAB008D871B /* SFFileProtectionHelper.h in Headers */,
 				CEA882871C18FAAB008D871B /* NSDictionary+SFAdditions.h in Headers */,
+				E1C80D361C5C36A1001B3A21 /* UINavigationController+SFAppStyler.h in Headers */,
 				CEA8831F1C18FC40008D871B /* SFJsonUtils.h in Headers */,
 				CEA882DD1C18FB8E008D871B /* SFDefaultUserManagementDetailViewController.h in Headers */,
 				CEA882941C18FAAB008D871B /* SFKeychainItemWrapper.h in Headers */,
@@ -1605,6 +1633,7 @@
 				CEA8831B1C18FC40008D871B /* SalesforceSDKCoreDefines.h in Headers */,
 				CEA882BA1C18FB4D008D871B /* SFOAuthCoordinator+Internal.h in Headers */,
 				CEA882F61C18FB8E008D871B /* SFPasscodeProviderManager.h in Headers */,
+				E1C80D2A1C5C3676001B3A21 /* SFSDKLoginHostListViewController.h in Headers */,
 				CEA883011C18FB8E008D871B /* SFSecurityLockout+Internal.h in Headers */,
 				CEA883291C18FC40008D871B /* SFSDKWebUtils.h in Headers */,
 				CEA882A41C18FAAB008D871B /* SalesforceSDKManager.h in Headers */,
@@ -1612,10 +1641,13 @@
 				CEA882801C18FAA2008D871B /* SFCocoaLumberJackCustomFormatter.h in Headers */,
 				CEA882AA1C18FAAB008D871B /* SFSDKDatasharingHelper.h in Headers */,
 				CEA882D71C18FB8E008D871B /* SFAuthErrorHandlerList.h in Headers */,
+				E1C80D341C5C369B001B3A21 /* UINavigationBar+SFAppStyler.h in Headers */,
 				CEA882D51C18FB8E008D871B /* SFAuthErrorHandler.h in Headers */,
 				CEA882EB1C18FB8E008D871B /* SFKeyStoreKey.h in Headers */,
+				E1C80D171C5C365D001B3A21 /* SFLoginViewController.h in Headers */,
 				CEA882B11C18FB28008D871B /* SFIdentityCoordinator+Internal.h in Headers */,
 				CEA882BB1C18FB4D008D871B /* SFOAuthCoordinator.h in Headers */,
+				E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */,
 				CEA8828B1C18FAAB008D871B /* NSString+SFAdditions.h in Headers */,
 				CEA882AE1C18FAAB008D871B /* SFUserActivityMonitor.h in Headers */,
 				CEA882E11C18FB8E008D871B /* SFDefaultUserManagementViewController+Internal.h in Headers */,
@@ -2087,9 +2119,11 @@
 				CEA882DA1C18FB8E008D871B /* SFAuthorizingViewController.m in Sources */,
 				CEA882D21C18FB8E008D871B /* SFAuthenticationManager.m in Sources */,
 				CEA882B71C18FB3D008D871B /* SFInstrumentation.m in Sources */,
+				E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				CEA882A91C18FAAB008D871B /* SFSDKAppConfig.m in Sources */,
 				CEA883001C18FB8E008D871B /* SFSDKCryptoUtils.m in Sources */,
 				CEA882981C18FAAB008D871B /* SFPathUtil.m in Sources */,
+				E1C80D281C5C366F001B3A21 /* SFSDKLoginHost.m in Sources */,
 				CEA8829E1C18FAAB008D871B /* UIScreen+SFAdditions.m in Sources */,
 				CEA882F41C18FB8E008D871B /* SFPasscodeManager.m in Sources */,
 				CEA882821C18FAAB008D871B /* NSURL+SFAdditions.m in Sources */,
@@ -2111,16 +2145,21 @@
 				CEA882B31C18FB28008D871B /* SFIdentityCoordinator.m in Sources */,
 				CEA882EA1C18FB8E008D871B /* SFKeyStore.m in Sources */,
 				CEA883261C18FC40008D871B /* SFRootViewManager.m in Sources */,
+				E1C80D331C5C3698001B3A21 /* SFAppStyler.m in Sources */,
 				CEA8827C1C18FA69008D871B /* SFCocoaLumberJackCustomFormatter.m in Sources */,
 				CEA883161C18FC2C008D871B /* SFSDKTestRequestListener.m in Sources */,
+				E1C80D351C5C369E001B3A21 /* UINavigationBar+SFAppStyler.m in Sources */,
 				CEA882C71C18FB4D008D871B /* SFOAuthOrgAuthConfiguration.m in Sources */,
+				E1C80D311C5C368C001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */,
 				CEA882861C18FAAB008D871B /* NSData+SFAdditions.m in Sources */,
+				E1C80D2F1C5C3686001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
 				CEA882C11C18FB4D008D871B /* SFOAuthCrypto.m in Sources */,
 				CEA882BF1C18FB4D008D871B /* SFOAuthCredentials.m in Sources */,
 				CEA8828C1C18FAAB008D871B /* NSString+SFAdditions.m in Sources */,
 				CEA882C31C18FB4D008D871B /* SFOAuthInfo.m in Sources */,
 				CEA883071C18FB8E008D871B /* SFUserAccount.m in Sources */,
 				CEA883031C18FB8E008D871B /* SFSecurityLockout.m in Sources */,
+				E1C80D261C5C3664001B3A21 /* SFLoginViewController.m in Sources */,
 				CEA8832A1C18FC40008D871B /* SFSDKWebUtils.m in Sources */,
 				CEA883281C18FC40008D871B /* SFSDKResourceUtils.m in Sources */,
 				CEA8831E1C18FC40008D871B /* SFDirectoryManager.m in Sources */,
@@ -2130,7 +2169,9 @@
 				CEA882841C18FAAB008D871B /* NSArray+SFAdditions.m in Sources */,
 				CEA882B51C18FB28008D871B /* SFIdentityData.m in Sources */,
 				CEA883101C18FB8E008D871B /* SFUserAccountManagerUpgrade.m in Sources */,
+				E1C80D371C5C36A4001B3A21 /* UINavigationController+SFAppStyler.m in Sources */,
 				CEA883181C18FC2C008D871B /* TestSetupUtils.m in Sources */,
+				E1C80D2D1C5C3680001B3A21 /* SFSDKLoginHostStorage.m in Sources */,
 				CEA882A71C18FAAB008D871B /* SFApplication.m in Sources */,
 				CEA8829C1C18FAAB008D871B /* UIDevice+SFHardware.m in Sources */,
 				CEA882D41C18FB8E008D871B /* SFAuthenticationViewHandler.m in Sources */,
@@ -2153,6 +2194,7 @@
 				CEA882881C18FAAB008D871B /* NSDictionary+SFAdditions.m in Sources */,
 				CEA882951C18FAAB008D871B /* SFKeychainItemWrapper.m in Sources */,
 				CEA883201C18FC40008D871B /* SFJsonUtils.m in Sources */,
+				E1C80D391C5C36AB001B3A21 /* UIToolbar+SFAppStyler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -127,7 +127,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 - (void)setupRootViewController
 {
     RestAPIExplorerViewController *rootVC = [[RestAPIExplorerViewController alloc] initWithNibName:nil bundle:nil];
-    self.window.rootViewController = rootVC;
+    UINavigationController *navViewController = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    [[SFAppStyler sharedInstance] styleNavigationBar:navViewController.navigationBar];
+    self.window.rootViewController = navViewController;
 }
 
 - (void)resetViewState:(void (^)(void))postResetBlock
