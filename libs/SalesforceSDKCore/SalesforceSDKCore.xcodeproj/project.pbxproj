@@ -1701,6 +1701,7 @@
 				CE4CE2681C0E449C009F6029 /* Headers */,
 				82C5E3DE1C1B628A00376C00 /* Resources */,
 				CE4CE4F41C0E6D14009F6029 /* ShellScript */,
+				E1C80D751C5C5056001B3A21 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1947,6 +1948,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
+		E1C80D751C5C5056001B3A21 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkcore";
 		};
 /* End PBXShellScriptBuildPhase section */
 
