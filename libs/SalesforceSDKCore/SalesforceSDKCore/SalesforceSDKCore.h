@@ -93,6 +93,8 @@
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
 #import <SalesforceSDKCore/SFSDKCryptoUtils.h>
 #import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
+#import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKReachability.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
