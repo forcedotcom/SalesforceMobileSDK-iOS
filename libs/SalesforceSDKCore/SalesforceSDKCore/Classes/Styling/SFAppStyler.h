@@ -57,17 +57,5 @@ typedef NS_ENUM(NSUInteger, SFAppStylerFontStyle)  {
 /** Apply style to navigation bar */
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 
-/** Apply style to bar button items
- 
- @param barItems array of `UIBarButtonItem` to apply style to
- */
-- (void)styleBarButtonItems:(nullable NSArray<UIBarButtonItem *> *)barItems;
-
-/** Specify the font to use for the toolbar text*/
-@property (nonatomic, strong, nullable) UIFont *toolBarFont;
-
-/** Specify the color to use for the toolbar text */
-@property (nonatomic, strong, nullable) UIColor *toolBarTextColor;
-
 @end
 

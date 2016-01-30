@@ -438,8 +438,6 @@
 		E1C80D021C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFA1C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m */; };
 		E1C80D031C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFB1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h */; };
 		E1C80D041C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFC1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m */; };
-		E1C80D051C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */; };
-		E1C80D061C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */; };
 		E1C80D081C5AF029001B3A21 /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */; };
 		E1C80D171C5C365D001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80D261C5C3664001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
@@ -460,8 +458,6 @@
 		E1C80D351C5C369E001B3A21 /* UINavigationBar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFA1C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m */; };
 		E1C80D361C5C36A1001B3A21 /* UINavigationController+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFB1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h */; };
 		E1C80D371C5C36A4001B3A21 /* UINavigationController+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFC1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m */; };
-		E1C80D381C5C36A7001B3A21 /* UIToolbar+SFAppStyler.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */; };
-		E1C80D391C5C36AB001B3A21 /* UIToolbar+SFAppStyler.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -886,8 +882,6 @@
 		E1C80CFA1C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+SFAppStyler.m"; path = "Styling/UINavigationBar+SFAppStyler.m"; sourceTree = "<group>"; };
 		E1C80CFB1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+SFAppStyler.h"; path = "Styling/UINavigationController+SFAppStyler.h"; sourceTree = "<group>"; };
 		E1C80CFC1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+SFAppStyler.m"; path = "Styling/UINavigationController+SFAppStyler.m"; sourceTree = "<group>"; };
-		E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIToolbar+SFAppStyler.h"; path = "Styling/UIToolbar+SFAppStyler.h"; sourceTree = "<group>"; };
-		E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIToolbar+SFAppStyler.m"; path = "Styling/UIToolbar+SFAppStyler.m"; sourceTree = "<group>"; };
 		E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = SalesforceSDKAssets.xcassets; path = ../../shared/resources/SalesforceSDKAssets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1383,8 +1377,6 @@
 				E1C80CFA1C5AEF36001B3A21 /* UINavigationBar+SFAppStyler.m */,
 				E1C80CFB1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.h */,
 				E1C80CFC1C5AEF36001B3A21 /* UINavigationController+SFAppStyler.m */,
-				E1C80CFD1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h */,
-				E1C80CFE1C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m */,
 			);
 			name = Styling;
 			sourceTree = "<group>";
@@ -1425,7 +1417,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1C80CFF1C5AEF36001B3A21 /* SFAppStyler.h in Headers */,
-				E1C80D051C5AEF36001B3A21 /* UIToolbar+SFAppStyler.h in Headers */,
 				E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */,
 				CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */,
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
@@ -1551,7 +1542,6 @@
 			files = (
 				CEA8829F1C18FAAB008D871B /* NSData+SFSDKUtils.h in Headers */,
 				CEA882AC1C18FAAB008D871B /* SFSDKReachability.h in Headers */,
-				E1C80D381C5C36A7001B3A21 /* UIToolbar+SFAppStyler.h in Headers */,
 				CEA882971C18FAAB008D871B /* SFPathUtil.h in Headers */,
 				CEA882C91C18FB4D008D871B /* SFOAuthSessionRefresher.h in Headers */,
 				CEA882D01C18FB8E008D871B /* SFAuthenticationManager+Internal.h in Headers */,
@@ -1711,7 +1701,6 @@
 				CE4CE2681C0E449C009F6029 /* Headers */,
 				82C5E3DE1C1B628A00376C00 /* Resources */,
 				CE4CE4F41C0E6D14009F6029 /* ShellScript */,
-				CE4CE4FB1C0E6E07009F6029 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1959,19 +1948,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
 		};
-		CE4CE4FB1C0E6E07009F6029 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkcore";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2079,7 +2055,6 @@
 				CE4CE3241C0E523B009F6029 /* UIDevice+SFHardware.m in Sources */,
 				CE4CE35C1C0E526A009F6029 /* SFAuthenticationViewHandler.m in Sources */,
 				E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */,
-				E1C80D061C5AEF36001B3A21 /* UIToolbar+SFAppStyler.m in Sources */,
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
 				CE4CE3191C0E523B009F6029 /* SFFileProtectionHelper.m in Sources */,
@@ -2194,7 +2169,6 @@
 				CEA882881C18FAAB008D871B /* NSDictionary+SFAdditions.m in Sources */,
 				CEA882951C18FAAB008D871B /* SFKeychainItemWrapper.m in Sources */,
 				CEA883201C18FC40008D871B /* SFJsonUtils.m in Sources */,
-				E1C80D391C5C36AB001B3A21 /* UIToolbar+SFAppStyler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

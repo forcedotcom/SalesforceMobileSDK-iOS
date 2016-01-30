@@ -51,8 +51,6 @@
         _navBarColor = [UIColor colorWithRed:22.0/255.0 green:87.0/255.0 blue:205/255.0 alpha:1.0];
         _navBarFont = nil;
         _navBarTextColor = [UIColor whiteColor];
-        _toolBarTextColor = nil;
-        _toolBarFont = nil;
     }
     return self;
 }
@@ -74,19 +72,6 @@
     if (self.navBarFont && self.navBarTextColor) {
         [navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.navBarTextColor,
                                                  NSFontAttributeName: self.navBarFont}];
-    }
-}
-
-- (void)styleBarButtonItems:(nullable NSArray<UIBarButtonItem *> *)barItems {
-    if (!barItems) {
-        return;
-    }
-    if (self.toolBarTextColor && self.toolBarFont) {
-        NSDictionary *textAttributes = @{ NSForegroundColorAttributeName: self.toolBarTextColor,
-                                          NSFontAttributeName: self.toolBarFont};
-        for (UIBarButtonItem *buttonItem in barItems) {
-            [buttonItem setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
-        }
     }
 }
 
