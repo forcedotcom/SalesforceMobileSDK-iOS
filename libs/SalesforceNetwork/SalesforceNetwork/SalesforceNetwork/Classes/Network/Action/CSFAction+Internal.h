@@ -74,7 +74,6 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 
 - (NSURL*)urlForActionWithError:(NSError**)error;
 
-- (void)completeOperationWithError:(NSError*)error;
 - (void)completeOperationWithResponse:(NSHTTPURLResponse*)response;
 
 - (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
