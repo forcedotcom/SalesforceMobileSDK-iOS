@@ -202,6 +202,20 @@
 
 - (BOOL)shouldRetryWithError:(NSError*)error;
 
+/** Subclassable method that will be called when the action is about to call responseBlock. 
+ 
+ @discussion
+  This can be used by subclasses to perform extra tasks before action calls responseBlock to finish processing data.
+
+ @param error Action error if avaiable.
+ */
+- (void)completeOperationWithError:(NSError*)error;
+
+/** Returns an instance of NSURLSessionTask to process the specified request 
+
+@param request URL request to send
+@param session Associated for this request
+*/
 - (NSURLSessionTask*)sessionTaskToProcessRequest:(NSURLRequest*)request session:(NSURLSession*)session;
 
 /**
