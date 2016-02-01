@@ -76,6 +76,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncDownTarget* syncTarget = [[SFSoqlSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
     syncTarget.query = query;
+    [syncTarget addSpecialFieldsIfRequired];
     return syncTarget;
 }
 
