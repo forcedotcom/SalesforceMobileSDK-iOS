@@ -205,7 +205,9 @@
 /** Subclassable method that will be called when the action is about to call responseBlock.
  
  @discussion
-  This can be used by subclasses to perform extra tasks before action calls responseBlock to finish processing data. Subclass needs to make sure it calls `[super completeOperationWithError:error]` after it's done with performing extra logic so responseBlock is called response data.
+ This can be used by subclasses to perform extra tasks before action calls responseBlock to finish processing data.
+ Subclass needs to make sure it calls `[super completeOperationWithError:error]` after it's done with performing 
+ extra logic so responseBlock is called response data.
 
  @param error Action error if avaiable.
  */
