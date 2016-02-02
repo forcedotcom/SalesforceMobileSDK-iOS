@@ -131,15 +131,15 @@ function createCompileApp(tmpDir, appType) {
     runProcess(forceiosPath + ' ' + forceiosArgs);
 
     // Pointing to repoDir in Podfile
-    shelljs.sed('-i', /pod ('Salesforce.*')/g, 'pod $1, :path => \'../SalesforceMobileSDK-iOS\'', path.join(tmpDir, 'nativeApp', 'Podfile'));
-    shelljs.sed('-i', /pod ('Smart.*')/g, 'pod $1, :path => \'../SalesforceMobileSDK-iOS\'', path.join(tmpDir, 'nativeApp', 'Podfile'));
+    shelljs.sed('-i', /pod ('Salesforce.*')/g, 'pod $1, :path => \'../SalesforceMobileSDK-iOS\'', path.join(tmpDir, appName, 'Podfile'));
+    shelljs.sed('-i', /pod ('Smart.*')/g, 'pod $1, :path => \'../SalesforceMobileSDK-iOS\'', path.join(tmpDir, appName, 'Podfile'));
 
     shelljs.pushd(path.join(tmpDir, appName));
     runProcess('pod update');    
     shelljs.popd();
 
     var workspacePath = path.join(tmpDir, appName, appName + '.xcworkspace');
-    runProcess('xcodebuild -workspace ' + workspacePath + ' -scheme Pods-' + appName)
+    runProcess('xcodebuild -workspace ' + workspacePath + ' -scheme Pods-' + appName + ' clean build')
 }
 
 //
