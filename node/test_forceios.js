@@ -34,7 +34,9 @@ function main(args) {
     else {
         var fork = parsedArgs.fork || 'forcedotcom';
         var branch = parsedArgs.branch || 'unstable';
-        var chosenAppTypes = parsedArgs.test;
+        var pluginFork = parsedArgs.pluginFork || 'forcedotcom';
+        var pluginBranch = parsedArgs.pluginBranch || 'unstable';
+        var chosenAppTypes = parsedArgs.test || '';
         
         cleanup();
         var tmpDir = mkTmpDir();
@@ -42,14 +44,19 @@ function main(args) {
         createDeployForceiosPackage(repoDir, tmpDir);
 
         var nativeAppTypes = ['native', 'native_swift', 'react_native'];
-        var hybridAppTypes = ['hybrid_local', 'hybrid_remote'];
         for (var i = 0; i<nativeAppTypes.length; i++) {
             var appType = nativeAppTypes[i];
             if (chosenAppTypes.indexOf(appType) >= 0) createCompileApp(tmpDir, appType);
         }
-        for (var i = 0; i<hybridAppTypes.length; i++) {
-            var appType = hybridAppTypes[i];
-            if (chosenAppTypes.indexOf(appType) >= 0) createCompileHybridApp(tmpDir, appType);
+
+        if (chosenAppTypes.indexOf('hybrid') >= 0) {
+            var pluginRepoDir = clonePluginRepo(tmpDir, 'https://github.com/' + pluginFork + '/SalesforceMobileSDK-CordovaPlugin', pluginBranch);
+            updatePluginRepo(tmpDir, pluginRepoDir, branch);
+            var hybridAppTypes = ['hybrid_local', 'hybrid_remote'];
+            for (var i = 0; i<hybridAppTypes.length; i++) {
+                var appType = hybridAppTypes[i];
+                if (chosenAppTypes.indexOf(appType) >= 0) createCompileHybridApp(tmpDir, appType);
+            }
         }
     }
 }
@@ -64,12 +71,18 @@ function usage() {
         + '  test_forceios.js\n'
         + '    [--fork=FORK (defaults to forcedotcom)]\n'
         + '    [--branch=BRANCH (defaults to unstable)]\n'
+        + '    [--pluginFork=PLUGIN_FORK (defaults to forcedotcom)]\n'
+        + '    [--pluginBranch=PLUGIN_BRANCH (defaults to unstable)]\n'
         + '    [--test=appType1,appType2,etc]\n'
         + '      where appTypes are in: native, native_swift, react_native, hybrid_local, hybrid_remote\n'
         + '\n'
-        + '  Clone https://github.com/FORK/SalesforceMobileSDK-iOS at branch BRANCH\n'
-        + '  Generate forceios package and deploys it to a temporary directory\n'
-        + '  Create and compile the application types selected\n'
+        + '  Clones https://github.com/FORK/SalesforceMobileSDK-iOS at branch BRANCH\n'
+        + '  Generates forceios package and deploys it to a temporary directory\n'
+        + '  Creates and compile the application types selected\n'
+        + '  For hybrid apps, it also\n'
+        + '    clones https://github.com/PLUGIN_FORK/SalesforceMobileSDK-CordovaPlugin at branch PLUGIN_BRANCH\n'
+        + '    runs ./tools/update.sh -b BRANCH to update clone of plugin repo\n'
+        + '    edit node_modules/forceios/node/forceios.js to cordova plugin add from the local clone of the plugin repo\n'
         , 'magenta');
 }
 
@@ -143,6 +156,30 @@ function createCompileApp(tmpDir, appType) {
 }
 
 //
+// Clone cordova plugin repo and return its path
+// 
+function clonePluginRepo(tmpDir, pluginRepoUrl, branch) {
+    log('Cloning ' + pluginRepoUrl + ' at ' + branch, 'green');
+    var pluginRepoDir = path.join(tmpDir, 'SalesforceMobileSDK-CordovaPlugin');
+    shelljs.mkdir('-p', pluginRepoDir);
+    runProcess('git clone --branch ' + branch + ' --single-branch --depth 1 --recurse-submodules ' + pluginRepoUrl + ' ' + pluginRepoDir);
+    return pluginRepoDir;
+}
+
+//
+// Update cordova plugin repo and point forceios to it
+//
+function updatePluginRepo(tmpDir, pluginRepoDir, branch) {
+    log('Updating cordova plugin at ' + branch, 'green');
+    shelljs.pushd(pluginRepoDir);
+    runProcess(path.join('tools', 'update.sh') + ' -b ' + branch);    
+    shelljs.popd();
+
+    // Pointing to pluginRepoDir in forceios.js
+    shelljs.sed('-i', /'cordova plugin add .*'/g, '\'cordova plugin add ../SalesforceMobileSDK-CordovaPlugin\'', path.join(tmpDir, 'node_modules', 'forceios', 'node', 'forceios.js'));
+}    
+
+//
 // Create and compile hybrid app 
 //
 function createCompileHybridApp(tmpDir, appType) {
@@ -162,6 +199,7 @@ function createCompileHybridApp(tmpDir, appType) {
     if (appType === 'hybrid_remote') {
         forceiosArgs += ' --startPage=/apex/testPage';
     }
+
     runProcess(forceiosPath + ' ' + forceiosArgs);
     shelljs.pushd(path.join(tmpDir, appName));
     runProcess('cordova build');    
