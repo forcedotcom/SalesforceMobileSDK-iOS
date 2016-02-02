@@ -31,14 +31,14 @@
 /**
  * HTTP methods for requests
  */
-typedef enum SFRestMethod {
+typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodGET = 0,
     SFRestMethodPOST,
     SFRestMethodPUT,
     SFRestMethodDELETE,
     SFRestMethodHEAD,
     SFRestMethodPATCH,
-} SFRestMethod;
+};
 
 
 /**
