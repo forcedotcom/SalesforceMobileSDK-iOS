@@ -313,7 +313,7 @@ static Class InstanceClass = nil;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
                                 initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
                                     if (weakSelf.authViewController == nil)
-                                        weakSelf.authViewController = [[SFLoginViewController alloc] initWithNibName:nil bundle:nil];
+                                        weakSelf.authViewController = [SFLoginViewController sharedInstance];
                                     [weakSelf.authViewController setOauthView:authWebView];
                                     [[SFRootViewManager sharedManager] pushViewController:weakSelf.authViewController];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {

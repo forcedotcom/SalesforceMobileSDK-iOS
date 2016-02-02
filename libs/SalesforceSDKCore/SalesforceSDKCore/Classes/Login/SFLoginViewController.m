@@ -29,10 +29,8 @@
 @import UIKit;
 
 #import "SFLoginViewController.h"
-#import "UINavigationBar+SFAppStyler.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
-#import "SFAppStyler.h"
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 
@@ -49,9 +47,21 @@
 @implementation SFLoginViewController
 @synthesize oauthView = _oauthView;
 
++(instancetype)sharedInstance {
+    static dispatch_once_t onceToken;
+    static SFLoginViewController *loginViewController = nil;
+    dispatch_once(&onceToken, ^{
+        loginViewController = [[self alloc] initWithNibName:nil bundle:nil];
+    });
+    return loginViewController;
+}
+
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        _navBarColor = [UIColor colorWithRed:22.0/255.0 green:87.0/255.0 blue:205/255.0 alpha:1.0];
+        _navBarFont = nil;
+        _navBarTextColor = [UIColor whiteColor];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -61,7 +71,7 @@
     [super viewDidLoad];
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
-    self.view.backgroundColor = [SFAppStyler sharedInstance].navBarColor;
+    self.view.backgroundColor = self.navBarColor;
     [self setupNavigationBar];
 }
 
@@ -94,7 +104,7 @@
     UIImage *image = [SFSDKResourceUtils imageNamed:@"login-window-gear"];
     self.navBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
     self.navBar.tintColor = [UIColor whiteColor];
-    [self.navBar applySFStyle];
+    [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
     [self setNeedsStatusBarAppearanceUpdate];
 }
@@ -176,6 +186,26 @@
     }
 }
 
+#pragma mark - Styling Methods for Nav bar
+
+- (void) styleNavigationBar:(UINavigationBar *)navigationBar {
+    if (!navigationBar) {
+        return;
+    }
+    if (self.navBarColor) {
+        UIImage *backgroundImage = [self headerBackgroundImage];
+        [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+    }
+    if (self.navBarTextColor) {
+        [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
+    }
+    
+    if (self.navBarFont && self.navBarTextColor) {
+        [navigationBar setTitleTextAttributes:@{ NSForegroundColorAttributeName: self.navBarTextColor,
+                                                 NSFontAttributeName: self.navBarFont}];
+    }
+}
+
 #pragma mark - SFSDKLoginHostDelegate Methods
 
 - (void)hostListViewControllerDidAddLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
@@ -196,7 +226,6 @@
 - (void)showHostListView {
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.loginHostListViewController];
     navController.modalPresentationStyle = UIModalPresentationPageSheet;
-    
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -212,6 +241,22 @@
     if (!fromUser.isTemporaryUser) {
         self.previousUserAccount = fromUser;
     }
+}
+
+- ( UIImage * _Nonnull )headerBackgroundImage {
+    UIImage *backgroundImage = [[self class] imageFromColor:self.navBarColor];
+    return backgroundImage;
+}
+
++ (UIImage *)imageFromColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

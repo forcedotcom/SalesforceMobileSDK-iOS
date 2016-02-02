@@ -40,7 +40,6 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFAbstractPasscodeViewController.h>
 #import <SalesforceSDKCore/SFApplication.h>
-#import <SalesforceSDKCore/SFAppStyler.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandler.h>

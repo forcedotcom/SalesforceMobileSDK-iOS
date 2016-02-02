@@ -30,9 +30,9 @@
 #import "SFSDKNewLoginHostViewController.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
-#import "UINavigationController+SFAppStyler.h"
 #import "SFAuthenticationManager.h"
 #import "SFSDKResourceUtils.h"
+#import "SFLoginViewController.h"
 
 static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCellIdentifier";
 
@@ -167,7 +167,7 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     [self resizeContentForPopover];
     // style navigiation bar
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController applySFStyle];
+    [[SFLoginViewController sharedInstance] styleNavigationBar:self.navigationController.navigationBar];
     
     [super viewWillAppear:animated];
 }

@@ -31,7 +31,7 @@
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFAppStyler.h>
+#import <SalesforceSDKCore/SFLoginViewController.h>
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
@@ -89,11 +89,11 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //
     //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
     //
-    //SFAppStyler *styler = SFAppStyler.sharedInstance;
+    //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
     // Set primary color to different color to style the navigation header
-    //styler.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
-    //styler.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];
-    //styler.navBarTextColor = [UIColor redColor];
+    //loginViewController.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
+    //loginViewController.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];
+    //loginViewController.navBarTextColor = [UIColor blackColor];
     //
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
