@@ -150,7 +150,8 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
     
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
-    //Add check as this is available only in 9.0 and above
+    
+    //TODO: Remove the check once we move to iOS 9 as minimum.
     if([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)])
     {
         self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
