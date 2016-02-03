@@ -49,6 +49,8 @@
 #import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 // Reserved characters that must be escaped in SOSL search terms
 extern NSString * const kSOSLReservedCharacters;
 extern NSString * const kSOSLEscapeCharacter;
@@ -72,9 +74,10 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * @param objectScope - nil to search all searchable objects, or a dictionary where each key is an sObject name
  * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
+ * @returns query or nil if a query could not be generated
  */
-+ (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
-                            objectScope:(NSDictionary *)objectScope;
++ (nullable NSString *) SOSLSearchWithSearchTerm:(NSString *)term
+                            objectScope:(nullable NSDictionary<NSString*, NSString*> *)objectScope;
 
 /**
  * Generate a SOSL search.
@@ -84,10 +87,11 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * and each value is a string with the fieldlist and (optional) where, order by, and limit clause for that object.
  * or NSNull to not specify any fields/clauses for that object
  * @param limit - overall search limit (max 200)
+ * @returns query or nil if a query could not be generated
  */
-+ (NSString *) SOSLSearchWithSearchTerm:(NSString *)term 
-                             fieldScope:(NSString *)fieldScope 
-                            objectScope:(NSDictionary *)objectScope 
++ (nullable NSString *) SOSLSearchWithSearchTerm:(NSString *)term
+                             fieldScope:(nullable NSString *)fieldScope
+                            objectScope:(nullable NSDictionary<NSString*, NSString*> *)objectScope
                                   limit:(NSInteger)limit;
 
 /**
@@ -96,10 +100,11 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * @param sObject - object to query
  * @param where - nil OR where clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
+ * @returns query or nil if a query could not be generated
  */
-+ (NSString *) SOQLQueryWithFields:(NSArray *)fields 
++ (nullable NSString *) SOQLQueryWithFields:(NSArray<NSString*> *)fields
                            sObject:(NSString *)sObject 
-                             whereClause:(NSString *)whereClause
+                             whereClause:(nullable NSString *)whereClause
                              limit:(NSInteger)limit;
 
 /**
@@ -111,13 +116,16 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * @param having - nil OR having clause
  * @param orderBy - nil OR NSArray of strings, each string is an individual order by clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
+ * @returns query or nil if a query could not be generated
  */
-+ (NSString *) SOQLQueryWithFields:(NSArray *)fields 
++ (nullable NSString *) SOQLQueryWithFields:(NSArray<NSString*> *)fields
                            sObject:(NSString *)sObject 
-                             whereClause:(NSString *)whereClause
-                           groupBy:(NSArray *)groupBy 
-                            having:(NSString *)having
-                           orderBy:(NSArray *)orderBy 
+                             whereClause:(nullable NSString *)whereClause
+                           groupBy:(nullable NSArray<NSString*> *)groupBy
+                            having:(nullable NSString *)having
+                           orderBy:(nullable NSArray<NSString*> *)orderBy
                              limit:(NSInteger)limit;
 
 @end
+
+NS_ASSUME_NONNULL_END
