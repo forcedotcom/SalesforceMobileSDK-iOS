@@ -1,5 +1,9 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ SFSDKLoginHostListViewController.h
+ SalesforceSDKCore
+ 
+ Created by Kunal Chitalia on 1/22/16.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,22 +27,33 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "SFSDKLoginHostDelegate.h"
+
+@class SFSDKLoginHost;
 
 /**
- * Sets up the view components for User Agent OAuth authentication.
+ * View controller that displays a list of hosts that can be used for login.
+ * The user can either add a new host or select an existing host to reload the login web page.
  */
-@interface SFAuthorizingViewController : UIViewController {
-    UILabel *_authorizingMessageLabel;
-}
+@interface SFSDKLoginHostListViewController : UITableViewController
 
 /**
- * The message label to show while loading.
+ * The object that acts as the delegate of the host list view controller.
  */
-@property (nonatomic, strong) IBOutlet UILabel *authorizingMessageLabel;
+@property (nonatomic, weak) id<SFSDKLoginHostDelegate> delegate;
 
 /**
- * Outlet to the OAuth web view.
+ * Adds a new login host.
+ * This method updates the underlying storage and refreshes the list of login hosts.
+ * @see showAddLoginHost for presenting a UI for the user to enter a new login host.
  */
-@property (nonatomic, strong) IBOutlet UIView *oauthView;
+- (void)addLoginHost:(SFSDKLoginHost *)host;
+
+/**
+ * Use this method to display a view for adding a new login host.
+ * If you have used a navigation controller to present this view controller, an add button is automatically added to the right bar button item.
+ * @see addLoginHost: for adding a login host programmatically without showing the UI.
+ */
+- (void)showAddLoginHost;
 
 @end

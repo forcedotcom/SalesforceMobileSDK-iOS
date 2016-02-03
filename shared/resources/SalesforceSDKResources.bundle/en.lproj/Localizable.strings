@@ -51,6 +51,30 @@
 "authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 
+//LoginViewController
+"TITLE_LOGIN"="Log In";
+/* Title for the login window controller */
+"LOGIN_SERVER_PRODUCTION"="Production";
+/* Title for the production login server */
+"LOGIN_SERVER_SANDBOX"="Sandbox";
+/* Title for the sandbox login server */
+"LOGIN_CHOOSE_SERVER"="Choose Connection";
+/* Title of the view controller to enter a new login server */
+"LOGIN_ADD_SERVER"="Add Connection";
+/* Title of the view controller where a new server is added */
+"LOGIN_SERVER_URL"="Host (Example: login.salesforce.com)";
+/* Placeholder to enter the login server URL */
+"LOGIN_SERVER_NAME"="Label (Optional)";
+/* Placeholder to enter the login server name */
+
+//Account Switcher //
+"ACCOUNT_SWITCHER_TITLE"="Manage Accounts";
+/* Title for logout */
+"LOG_OUT"="Log Out";
+/* Title for adding a new account */
+"ADD_NEW_ACCOUNT"="Add New Account";
+// ENDSECTION //
+
 // Hybrid bootstrap
 
 "hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
