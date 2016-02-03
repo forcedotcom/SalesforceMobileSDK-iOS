@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, SFRestMethod) {
     SFRestMethodPATCH,
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  The default REST endpoint used by requests.
@@ -112,13 +113,13 @@ extern NSString * const kSFDefaultRestEndpoint;
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nonatomic, strong) NSDictionary *queryParams;
+@property (nullable, nonatomic, strong) NSDictionary<NSString*, NSString*> *queryParams;
 
 /**
  * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
  * `setHeaderValue:forHeaderName:` to add headers to this property.
  */
-@property (nonatomic, strong) NSDictionary *customHeaders;
+@property (nonatomic, strong) NSDictionary<NSString*, NSString*> *customHeaders;
 
 /**
  * Underlying SFRestAPISalesforceAction through which the network call is carried out
@@ -128,7 +129,7 @@ extern NSString * const kSFDefaultRestEndpoint;
 /**
  * The delegate for this request. Notified of request status.
  */
-@property (nonatomic, weak) id<SFRestDelegate> delegate;
+@property (nullable, nonatomic, weak) id<SFRestDelegate> delegate;
 
 
 /**
@@ -161,7 +162,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * from the collection of headers.
  * @param name The name of the HTTP header to set.
  */
-- (void)setHeaderValue:(NSString *)value forHeaderName:(NSString *)name;
+- (void)setHeaderValue:(nullable NSString *)value forHeaderName:(NSString *)name;
 
 /**
  * Cancels this request if it is running
@@ -215,6 +216,8 @@ extern NSString * const kSFDefaultRestEndpoint;
  * @param path the request path
  * @param queryParams the parameters of the request (could be nil)
  */
-+ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams;
++ (instancetype)requestWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(nullable NSDictionary<NSString*, NSString*> *)queryParams;
 
 @end
+
+NS_ASSUME_NONNULL_END
