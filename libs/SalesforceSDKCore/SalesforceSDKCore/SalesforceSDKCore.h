@@ -44,7 +44,6 @@
 #import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
-#import <SalesforceSDKCore/SFAuthorizingViewController.h>
 #import <SalesforceSDKCore/SFCocoaLumberJackCustomFormatter.h>
 #import <SalesforceSDKCore/SFCommunityData.h>
 #import <SalesforceSDKCore/SFCrypto.h>

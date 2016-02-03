@@ -28,11 +28,16 @@
 
 #import "SalesforceSDKCore.h"
 
-@interface SFLoginViewController : SFAuthorizingViewController
+@interface SFLoginViewController : UIViewController
 
 /** Get a shared singleton of `SFLoginViewController` class
  */
 +(_Nonnull instancetype)sharedInstance;
+
+/**
+ * Outlet to the OAuth web view.
+ */
+@property (nonatomic, strong, nullable) IBOutlet UIView* oauthView;
 
 /** Specify the font to use for navigation bar header text*/
 @property (nonatomic, strong, nullable) UIFont * navBarFont;
