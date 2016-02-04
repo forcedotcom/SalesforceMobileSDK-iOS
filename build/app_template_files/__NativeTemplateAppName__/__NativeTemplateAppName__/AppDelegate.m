@@ -99,6 +99,16 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
 {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
+    
+    //If you wish to customize the color, textcolor, font and fontsize of the navigation bar uncomment the
+    //code below.
+    //
+    //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    // Set primary color to different color to style the navigation header
+    //loginViewController.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
+    //loginViewController.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];
+    //loginViewController.navBarTextColor = [UIColor blackColor];
+    //
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }

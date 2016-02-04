@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F2147B9193D213A0010F9D3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F2147B8193D213A0010F9D3 /* Settings.bundle */; };
 		4F473D7217E26DFF000CCDF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F473D7117E26DFF000CCDF3 /* ImageIO.framework */; };
 		4F84FDFE18DD07D0006A7699 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F84FDFD18DD07D0006A7699 /* Images.xcassets */; };
 		7DF4D2DF1472E238005CE144 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF4D2DE1472E238005CE144 /* CoreData.framework */; };
@@ -780,7 +779,6 @@
 				8236AC5B1C4D9C66004B69B8 /* LaunchScreen.storyboard in Resources */,
 				7DF4D2F31472E238005CE144 /* InfoPlist.strings in Resources */,
 				7DF4D2F71472E238005CE144 /* RestAPIExplorer-Prefix.pch in Resources */,
-				4F2147B9193D213A0010F9D3 /* Settings.bundle in Resources */,
 				7DF4D3A81472E23A005CE144 /* readme.txt in Resources */,
 				7DF4D3B51472E23A005CE144 /* SFAuthorizingViewController.xib in Resources */,
 				7DF4D3CC1472E3E0005CE144 /* RestAPIExplorerViewController.xib in Resources */,
