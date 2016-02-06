@@ -52,10 +52,16 @@
 
 + (UIImage *)imageNamed:(NSString *)name
 {
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSAssert(name != nil, @"name must contain a value.");
+    //Get image from main bundle (this is to allow extracting SDK Assets when using template app as we include SDK Assets as part of the tempalte app)
+    UIImage* image = [UIImage imageNamed:name];
+    if(image == nil) {
+        //If no image found in main bundle, look for image in SDK Assets
+        NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+        image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    }
     
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    return image;
 }
 
 @end

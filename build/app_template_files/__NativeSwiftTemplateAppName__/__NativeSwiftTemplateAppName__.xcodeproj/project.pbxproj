@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F06B0201C4EE4A400F70798 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F06B01F1C4EE4A400F70798 /* Settings.bundle */; };
 		4F393A291C3C8BCD00B3EA13 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F393A281C3C8BCD00B3EA13 /* main.swift */; };
 		4FD6C47A1B754AF1002F9F90 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD6C4791B754AF1002F9F90 /* AppDelegate.swift */; };
 		4FD6C4811B754AF1002F9F90 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FD6C4801B754AF1002F9F90 /* Images.xcassets */; };
@@ -15,11 +14,11 @@
 		4FD6C49F1B755242002F9F90 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD6C49C1B755242002F9F90 /* RootViewController.swift */; };
 		4FD6C4A01B755242002F9F90 /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD6C49D1B755242002F9F90 /* InitialViewController.swift */; };
 		C77FD628010EF64B9B2C4363 /* libPods-__NativeSwiftTemplateAppName__.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9737303E047BCEC3E2EC6AE5 /* libPods-__NativeSwiftTemplateAppName__.a */; };
+		E1CE60881C655FE6007D6DCB /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1CE60871C655FE6007D6DCB /* SalesforceSDKAssets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		045D1C5BC2F1EADFDFB3671E /* Pods-__NativeSwiftTemplateAppName__.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; path = "Pods/Target Support Files/Pods-__NativeSwiftTemplateAppName__/Pods-__NativeSwiftTemplateAppName__.release.xcconfig"; sourceTree = "<group>"; };
-		4F06B01F1C4EE4A400F70798 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = Settings.bundle; sourceTree = "<group>"; };
 		4F393A281C3C8BCD00B3EA13 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		4FD6C4741B754AF1002F9F90 /* __NativeSwiftTemplateAppName__.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = __NativeSwiftTemplateAppName__.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FD6C4781B754AF1002F9F90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -31,6 +30,7 @@
 		4FD6C49D1B755242002F9F90 /* InitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		762732C14CFE40A989C3AD70 /* Pods-__NativeSwiftTemplateAppName__.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__NativeSwiftTemplateAppName__.debug.xcconfig"; path = "Pods/Target Support Files/Pods-__NativeSwiftTemplateAppName__/Pods-__NativeSwiftTemplateAppName__.debug.xcconfig"; sourceTree = "<group>"; };
 		9737303E047BCEC3E2EC6AE5 /* libPods-__NativeSwiftTemplateAppName__.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-__NativeSwiftTemplateAppName__.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1CE60871C655FE6007D6DCB /* SalesforceSDKAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SalesforceSDKAssets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 		4FD6C4771B754AF1002F9F90 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F06B01F1C4EE4A400F70798 /* Settings.bundle */,
+				E1CE60871C655FE6007D6DCB /* SalesforceSDKAssets.xcassets */,
 				4FD6C4801B754AF1002F9F90 /* Images.xcassets */,
 				4FD6C4781B754AF1002F9F90 /* Info.plist */,
 			);
@@ -173,8 +173,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FD6C4811B754AF1002F9F90 /* Images.xcassets in Resources */,
-				4F06B0201C4EE4A400F70798 /* Settings.bundle in Resources */,
 				4FD6C49E1B755242002F9F90 /* InitialViewController.xib in Resources */,
+				E1CE60881C655FE6007D6DCB /* SalesforceSDKAssets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

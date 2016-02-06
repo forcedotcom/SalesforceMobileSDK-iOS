@@ -511,7 +511,6 @@
 /* Begin PBXFileReference section */
 		4F1FD07E1A95593A006E1795 /* SFContentSoqlSyncDownTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContentSoqlSyncDownTarget.h; sourceTree = "<group>"; };
 		4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContentSoqlSyncDownTarget.m; sourceTree = "<group>"; };
-		4F2147AC193D20C80010F9D3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
@@ -849,7 +848,6 @@
 			isa = PBXGroup;
 			children = (
 				8230E2451A24181500EFE764 /* Images.xcassets */,
-				4F2147AC193D20C80010F9D3 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
