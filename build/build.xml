@@ -5,7 +5,6 @@
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
-    <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
 
     <target name="all" description="Cleans the projects and builds all libraries">
