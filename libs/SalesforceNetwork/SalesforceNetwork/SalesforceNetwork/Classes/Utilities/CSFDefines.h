@@ -123,11 +123,11 @@ typedef NS_ENUM(NSInteger, CSFValidationErrorCode) {
     CSFValidationRangeError,
 };
 
-typedef enum : NSUInteger {
+typedef NS_ENUM(NSUInteger, CSFParameterStyle) {
     CSFParameterStyleNone = 0,
     CSFParameterStyleQueryString,
     CSFParameterStyleURLEncoded,
     CSFParameterStyleMultipart,
-} CSFParameterStyle;
+};
 
 CSF_EXTERN NSString * const CSFNetworkInitializedNotification;
