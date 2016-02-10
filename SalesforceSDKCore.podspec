@@ -21,7 +21,8 @@ Pod::Spec.new do |s|
 
       sdkcore.dependency 'CocoaLumberjack', '~> 2.2.0'
       sdkcore.libraries = 'z'
-      sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ], 'Settings' => [ 'shared/resources/Settings.bundle/**' ] }
+      sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ] }
+      sdkcore.resource = 'shared/resources/SalesforceSDKAssets.xcassets'
 
       sdkcore.subspec 'base' do |sp|
           sp.source_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFLogger.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFLogger.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSData+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSData+SFAdditions.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSString+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSString+SFAdditions.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSNotificationCenter+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSNotificationCenter+SFAdditions.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFPathUtil.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFPathUtil.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFFileProtectionHelper.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFFileProtectionHelper.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFCocoaLumberJackCustomFormatter.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFCocoaLumberJackCustomFormatter.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h'

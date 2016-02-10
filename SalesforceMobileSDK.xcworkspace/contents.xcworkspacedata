@@ -189,9 +189,6 @@
             </Group>
          </Group>
          <FileRef
-            location = "group:Settings.bundle">
-         </FileRef>
-         <FileRef
             location = "group:SalesforceSDKResources.bundle">
          </FileRef>
          <FileRef

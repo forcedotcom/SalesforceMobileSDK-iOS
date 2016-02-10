@@ -42,7 +42,6 @@
 		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
-		4F753375193D252200540762 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4F753374193D252200540762 /* Settings.bundle */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
 		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
 		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
@@ -426,7 +425,6 @@
 		4F22155719DF480100FF2D26 /* SFForcePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFForcePlugin.m; path = SFForcePlugin/SFForcePlugin.m; sourceTree = "<group>"; };
 		4F22159619DF60A200FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
-		4F753374193D252200540762 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../../../shared/resources/Settings.bundle; sourceTree = "<group>"; };
 		4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLocalhostSubstitutionCache.h; sourceTree = "<group>"; };
 		4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLocalhostSubstitutionCache.m; sourceTree = "<group>"; };
 		4FAA891B175025DF00807E13 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../external/shared/test/forcepluginstest/index.html; sourceTree = "<group>"; };
@@ -1029,7 +1027,6 @@
 		82EFF30616E8049500A63CDF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F753374193D252200540762 /* Settings.bundle */,
 				82EFF33B16E805E300A63CDF /* config.xml */,
 				82EFF33D16E8063700A63CDF /* test_credentials.json */,
 				82EFF30716E8049500A63CDF /* SalesforceHybridSDKTestApp-Info.plist */,
@@ -1333,7 +1330,6 @@
 				82EFF31416E8049500A63CDF /* Default@2x.png in Resources */,
 				82EFF31616E8049500A63CDF /* Default-568h@2x.png in Resources */,
 				82EFF33C16E805E300A63CDF /* config.xml in Resources */,
-				4F753375193D252200540762 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

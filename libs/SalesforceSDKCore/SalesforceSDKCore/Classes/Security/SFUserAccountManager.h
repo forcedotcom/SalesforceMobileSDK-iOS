@@ -51,38 +51,6 @@ extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
  */
 extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
-/**
- * Data class for providing information about a login host change.
- */
-@interface SFLoginHostUpdateResult : NSObject
-
-/**
- * The original login host, prior to the change.
- */
-@property (nonatomic, readonly) NSString *originalLoginHost;
-
-/**
- * The updated (new) login host, after the change.
- */
-@property (nonatomic, readonly) NSString *updatedLoginHost;
-
-/**
- * Whether or not the login host actually changed.
- */
-@property (nonatomic, readonly) BOOL loginHostChanged;
-
-/**
- * Designated intializer for the data object.
- * @param originalLoginHost The login host prior to change.
- * @param updatedLoginHost The new login host after the change.
- * @param loginHostChanged Whether or not the login host actually changed.
- */
-- (id)initWithOrigHost:(NSString *)originalLoginHost
-           updatedHost:(NSString *)updatedLoginHost
-           hostChanged:(BOOL)loginHostChanged;
-
-@end
-
 @class SFUserAccountManager;
 
 /**
@@ -245,13 +213,6 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  @param delegate The delegate to remove.
  */
 - (void)removeDelegate:(id<SFUserAccountManagerDelegate>)delegate;
-
-/**
- * Synchronizes the app-level login host setting with the value in app settings.
- * @return SFLoginHostUpdateResult object containing the original hostname, the new hostname
- * (possibly the same), and whether or not the hostname changed.
- */
-- (SFLoginHostUpdateResult *)updateLoginHost;
 
 /** Loads all the accounts.
  @param error On output, the error if the return value is NO
