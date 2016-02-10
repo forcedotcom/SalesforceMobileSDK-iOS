@@ -223,6 +223,7 @@ function replaceTokens()
   inputPrefixFile="${appNameToken}/${appNameToken}/Prefix.pch"
   inputInfoFile="${appNameToken}/${appNameToken}/Info.plist"
   inputProjectFile="${appNameToken}/${appNameToken}.xcodeproj/project.pbxproj"
+  inputSharedSchemeFile="${appNameToken}/${appNameToken}.xcodeproj/xcshareddata/xcschemes/${appNameToken}.xcscheme"
 
 
   # Make the output folder.
@@ -252,6 +253,7 @@ function replaceTokens()
   # App name
   tokenSubstituteInFile "${inputPodfile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputProjectFile}" "${appNameToken}" "${OPT_APP_NAME}"
+  tokenSubstituteInFile "${inputSharedSchemeFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputPrefixFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputIndexiosFile}" "${appNameToken}" "${OPT_APP_NAME}"
   tokenSubstituteInFile "${inputConnectedAppFile}" "${appNameToken}" "${OPT_APP_NAME}"
@@ -271,6 +273,7 @@ function replaceTokens()
   
   # Rename files, move to destination folder.
   echoColor $TERM_COLOR_YELLOW "Creating app in ${outputFolderAbsPath}/${OPT_APP_NAME}"
+  mv "${appNameToken}/${appNameToken}.xcodeproj/xcshareddata/xcschemes/${appNameToken}.xcscheme" "${appNameToken}/${appNameToken}.xcodeproj/xcshareddata/xcschemes/${OPT_APP_NAME}.xcscheme"
   mv "${appNameToken}/${appNameToken}.xcodeproj" "${appNameToken}/${OPT_APP_NAME}.xcodeproj"
   mv "${appNameToken}/${appNameToken}" "${appNameToken}/${OPT_APP_NAME}"
   mv "${appNameToken}" "${outputFolderAbsPath}/${OPT_APP_NAME}"
