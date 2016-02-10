@@ -56,11 +56,11 @@
  * @constant SFSDKReachabilityReachableViaWiFi The network is reachable over WiFi.
  * @constant SFSDKReachabilityReachableViaWWAN The network is reachable over cellular.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSDKReachabilityNetworkStatus) {
 	SFSDKReachabilityNotReachable = 0,
 	SFSDKReachabilityReachableViaWiFi,
 	SFSDKReachabilityReachableViaWWAN
-} SFSDKReachabilityNetworkStatus;
+};
 
 /*!
  * @const kSFSDKReachabilityChangedNotification

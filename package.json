@@ -11,7 +11,7 @@
 	"os" : [ "darwin" ],
 	"bin" : { "forceios" : "node/forceios.js" },
     "dependencies": {
-        "shelljs": ">=0.1.4"
+        "shelljs": "~0.5.3"
     },
     "scripts": {
         "prepublish": "external/shared/node/prepublish.js",

@@ -1,7 +1,9 @@
 <project name="SalesforceMobileSDK-iOS" basedir="." default="all">
     <property name="artifactsDir" location="artifacts" />
     <property name="deviceBuildName" value="iphoneos" />
+    <property name="deviceCompileArguments" value="PLATFORM_NAME=iphoneos" />
     <property name="simulatorBuildName" value="iphonesimulator" />
+    <property name="simulatorCompileArguments" value="PLATFORM_NAME=iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
@@ -219,6 +221,7 @@
             <param name="sdk" value="${deviceBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="build" />
+            <param name="additionalCompileArguments" value="${deviceCompileArguments}" />
         </antcall>
 
         <!-- Simulator -->
@@ -226,6 +229,7 @@
             <param name="sdk" value="${simulatorBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="build" />
+            <param name="additionalCompileArguments" value="${simulatorCompileArguments}" />
         </antcall>
     </target>
 
@@ -276,6 +280,7 @@
             <param name="sdk" value="${deviceBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="clean" />
+            <param name="additionalCompileArguments" value="${deviceCompileArguments}" />
         </antcall>
         
         <!-- Simulator -->
@@ -283,6 +288,7 @@
             <param name="sdk" value="${simulatorBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="clean" />
+            <param name="additionalCompileArguments" value="${simulatorCompileArguments}" />
         </antcall>
         
         <delete file="${baseBuildOutputDir}/${deviceBuildName}/${libName}" />
@@ -313,6 +319,7 @@
             <arg value="${action}" />
             <arg value="CONFIGURATION_BUILD_DIR=${buildOutputDir}" />
             <arg value="ONLY_ACTIVE_ARCH=NO" />
+            <arg value="${additionalCompileArguments}" />
         </exec>
     </target>
     
