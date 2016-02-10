@@ -12,7 +12,6 @@
 		4F8D5EA61B6C0568005E64D4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5EA51B6C0568005E64D4 /* AppDelegate.m */; };
 		4F8D5EAE1B6C0568005E64D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F8D5EAD1B6C0568005E64D4 /* Images.xcassets */; };
 		4F8D5EC81B6C0F94005E64D4 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8D5EC71B6C0F94005E64D4 /* InitialViewController.m */; };
-		E1CE608A1C65600F007D6DCB /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1CE60891C65600F007D6DCB /* SalesforceSDKAssets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,7 +25,6 @@
 		4F8D5EC71B6C0F94005E64D4 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
 		641A79C6255C9F5C2DC614D8 /* Pods-__ReactNativeTemplateAppName__.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__ReactNativeTemplateAppName__.release.xcconfig"; path = "Pods/Target Support Files/Pods-__ReactNativeTemplateAppName__/Pods-__ReactNativeTemplateAppName__.release.xcconfig"; sourceTree = "<group>"; };
 		90400F35EE8FD2C6D3B8B7E7 /* Pods-__ReactNativeTemplateAppName__.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-__ReactNativeTemplateAppName__.debug.xcconfig"; path = "Pods/Target Support Files/Pods-__ReactNativeTemplateAppName__/Pods-__ReactNativeTemplateAppName__.debug.xcconfig"; sourceTree = "<group>"; };
-		E1CE60891C65600F007D6DCB /* SalesforceSDKAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = SalesforceSDKAssets.xcassets; sourceTree = "<group>"; };
 		E606AE0C7CABF6DAF27DF3CC /* libPods-__ReactNativeTemplateAppName__.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-__ReactNativeTemplateAppName__.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -80,7 +78,6 @@
 		4F8D5EA01B6C0568005E64D4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E1CE60891C65600F007D6DCB /* SalesforceSDKAssets.xcassets */,
 				4F8D5EAD1B6C0568005E64D4 /* Images.xcassets */,
 				4F8D5EA11B6C0568005E64D4 /* Info.plist */,
 				4F8D5EA21B6C0568005E64D4 /* main.m */,
@@ -167,7 +164,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1CE608A1C65600F007D6DCB /* SalesforceSDKAssets.xcassets in Resources */,
 				4F8D5EAE1B6C0568005E64D4 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
