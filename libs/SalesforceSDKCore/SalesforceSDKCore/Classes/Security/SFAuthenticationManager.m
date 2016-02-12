@@ -105,8 +105,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 @implementation SFAuthBlockPair
 
-@synthesize successBlock = _successBlock, failureBlock = _failureBlock;
-
 - (id)initWithSuccessBlock:(SFOAuthFlowSuccessCallbackBlock)successBlock
               failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
@@ -148,7 +146,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 @interface SFAuthenticationManager ()
 {
-    NSMutableOrderedSet *_delegates;
 }
 
 /**
@@ -167,6 +164,21 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  more than one authentication workflow to piggy back on an in-progress authentication.
  */
 @property (atomic, strong) NSMutableArray *authBlockList;
+
+/**
+ The list of delegates
+ */
+@property (nonatomic, strong) NSMutableOrderedSet *delegates;
+
+
+/** 
+ Making certain read-only properties privately read-write
+ */
+@property (nonatomic, readwrite) SFAuthErrorHandler *invalidCredentialsAuthErrorHandler;
+@property (nonatomic, readwrite) SFAuthErrorHandler *genericAuthErrorHandler;
+@property (nonatomic, readwrite) SFAuthErrorHandler *networkFailureAuthErrorHandler;
+@property (nonatomic, readwrite) SFAuthErrorHandler *connectedAppVersionAuthErrorHandler;
+
 
 /**
  Dismisses the authentication retry alert box, if present.
@@ -264,19 +276,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 @implementation SFAuthenticationManager
 
-@synthesize authViewController = _authViewController;
-@synthesize statusAlert = _statusAlert;
-@synthesize authInfo = _authInfo;
-@synthesize authError = _authError;
-@synthesize authBlockList = _authBlockList;
-@synthesize authViewHandler = _authViewHandler;
-@synthesize authErrorHandlerList = _authErrorHandlerList;
-@synthesize invalidCredentialsAuthErrorHandler = _invalidCredentialsAuthErrorHandler;
-@synthesize connectedAppVersionAuthErrorHandler = _connectedAppVersionAuthErrorHandler;
-@synthesize networkFailureAuthErrorHandler = _networkFailureAuthErrorHandler;
-@synthesize genericAuthErrorHandler = _genericAuthErrorHandler;
-@synthesize advancedAuthConfiguration = _advancedAuthConfiguration;
-
 #pragma mark - Singleton initialization / management
 
 static Class InstanceClass = nil;
@@ -305,7 +304,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        _delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [[NSMutableOrderedSet alloc] init];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -338,11 +337,6 @@ static Class InstanceClass = nil;
 - (void)dealloc
 {
     [self cleanupStatusAlert];
-    SFRelease(_statusAlert);
-    SFRelease(_authViewController);
-    SFRelease(_authInfo);
-    SFRelease(_authError);
-    SFRelease(_authBlockList);
 }
 
 #pragma mark - Public methods
@@ -519,7 +513,7 @@ static Class InstanceClass = nil;
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    _advancedAuthConfiguration = advancedAuthConfiguration;
+    self.advancedAuthConfiguration = advancedAuthConfiguration;
     self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
@@ -830,9 +824,7 @@ static Class InstanceClass = nil;
 
 - (void)cleanupStatusAlert
 {
-    [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
-    [_statusAlert setDelegate:nil];
-    SFRelease(_statusAlert);
+   [self.statusAlert dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)presentAuthViewController:(UIWebView *)webView
@@ -883,30 +875,52 @@ static Class InstanceClass = nil;
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
 {
-    if (nil == _statusAlert) {
-        // show alert and allow retry
-        [self log:SFLogLevelError format:@"Error during authentication: %@", error];
-        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
-                                                 delegate:self
-                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
-                                        otherButtonTitles: nil];
-        _statusAlert.tag = tag;
-        [_statusAlert show];
+    if (self.statusAlert) {
+        self.statusAlert = nil;
     }
+    [self log:SFLogLevelError format:@"Error during authentication: %@", error];
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                     message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
+                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
+                         tag:tag];
 }
 
 - (void)showAlertForConnectedAppVersionMismatchError
 {
-    if (nil == _statusAlert) {
-        // Show alert and execute failure block.
-        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                                                  message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
-                                                 delegate:self
-                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
-                                        otherButtonTitles: nil];
-        _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
-        [_statusAlert show];
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                     message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
+                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
+                         tag:kConnectedAppVersionMismatchViewTag];
+}
+
+- (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message buttonTitle:(nullable NSString *)buttonTitle tag:(NSInteger)tag
+{
+
+    if (nil == self.statusAlert) {
+        __weak SFAuthenticationManager *weakSelf = self;
+        self.statusAlert = [UIAlertController alertControllerWithTitle:title
+                                                           message:message
+                                                    preferredStyle:UIAlertControllerStyleAlert];
+ 
+    
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:buttonTitle
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       if (tag == kOAuthGenericAlertViewTag) {
+                                           [weakSelf dismissAuthViewControllerIfPresent];
+                                           [weakSelf login];
+                                       } else if (tag == kIdentityAlertViewTag) {
+                                           [weakSelf.idCoordinator initiateIdentityDataRetrieval];
+                                       } else if (tag == kConnectedAppVersionMismatchViewTag) {
+                                           // The OAuth failure block should be followed, after acknowledging the version mismatch.
+                                           [weakSelf execFailureBlocks];
+                                       }
+                                   }];
+        
+        [self.statusAlert addAction:okAction];
+        [[SFRootViewManager sharedManager]  pushViewController:self.statusAlert];
     }
 }
 
@@ -919,7 +933,7 @@ static Class InstanceClass = nil;
     
     // Invalid credentials handler
     
-    _invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
@@ -929,11 +943,11 @@ static Class InstanceClass = nil;
                                                }
                                                return NO;
                                            }];
-    [authHandlerList addAuthErrorHandler:_invalidCredentialsAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:self.invalidCredentialsAuthErrorHandler];
     
     // Connected app version mismatch handler
     
-    _connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    self.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                             initWithName:kSFConnectedAppVersionAuthErrorHandler
                                             evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                 if (error.code == kSFOAuthErrorWrongVersion) {
@@ -943,11 +957,11 @@ static Class InstanceClass = nil;
                                                 }
                                                 return NO;
                                             }];
-    [authHandlerList addAuthErrorHandler:_connectedAppVersionAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:self.connectedAppVersionAuthErrorHandler];
     
     // Network failure handler
     
-    _networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    self.networkFailureAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFNetworkFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                      if ([[weakSelf class] errorIsNetworkFailure:error]) {
@@ -967,18 +981,18 @@ static Class InstanceClass = nil;
                                                      }
                                                      return NO;
                                                  }];
-    [authHandlerList addAuthErrorHandler:_networkFailureAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
     
     // Generic failure handler
     
-    _genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
+    self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                      [weakSelf clearAccountState:NO];
                                                      [weakSelf showRetryAlertForAuthError:error alertTag:kOAuthGenericAlertViewTag];
                                                      return YES;
                                                  }];
-    [authHandlerList addAuthErrorHandler:_genericAuthErrorHandler];
+    [authHandlerList addAuthErrorHandler:self.genericAuthErrorHandler];
     
     return authHandlerList;
 }
@@ -1009,7 +1023,7 @@ static Class InstanceClass = nil;
     @synchronized(self) {
         if (delegate) {
             NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:nonretainedDelegate];
         }
     }
 }
@@ -1019,7 +1033,7 @@ static Class InstanceClass = nil;
     @synchronized(self) {
         if (delegate) {
             NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:nonretainedDelegate];
         }
     }
 }
@@ -1027,7 +1041,7 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [self.delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
             if (delegate) {
                 if (block) block(delegate);
@@ -1161,25 +1175,6 @@ static Class InstanceClass = nil;
         [self execFailureBlocks];
     } else {
         [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView == _statusAlert) {
-        _statusAlert = nil;
-        [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
-        if (alertView.tag == kOAuthGenericAlertViewTag) {
-            [self dismissAuthViewControllerIfPresent];
-            [self login];
-        } else if (alertView.tag == kIdentityAlertViewTag) {
-            [self.idCoordinator initiateIdentityDataRetrieval];
-        } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
-            // The OAuth failure block should be followed, after acknowledging the version mismatch.
-            [self execFailureBlocks];
-        }
     }
 }
 
