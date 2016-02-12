@@ -830,8 +830,7 @@ static Class InstanceClass = nil;
 
 - (void)cleanupStatusAlert
 {
-    [_statusAlert dismissWithClickedButtonIndex:-666 animated:NO];
-    [_statusAlert setDelegate:nil];
+   [_statusAlert dismissViewControllerAnimated:NO completion:nil];
     SFRelease(_statusAlert);
 }
 
@@ -883,30 +882,49 @@ static Class InstanceClass = nil;
 
 - (void)showRetryAlertForAuthError:(NSError *)error alertTag:(NSInteger)tag
 {
-    if (nil == _statusAlert) {
-        // show alert and allow retry
-        [self log:SFLogLevelError format:@"Error during authentication: %@", error];
-        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                                                  message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
-                                                 delegate:self
-                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
-                                        otherButtonTitles: nil];
-        _statusAlert.tag = tag;
-        [_statusAlert show];
-    }
+    [self log:SFLogLevelError format:@"Error during authentication: %@", error];
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                     message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
+                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
+                         tag:tag];
 }
 
 - (void)showAlertForConnectedAppVersionMismatchError
 {
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
+                     message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
+                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
+                         tag:kConnectedAppVersionMismatchViewTag];
+}
+
+- (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message buttonTitle:(nullable NSString *)buttonTitle tag:(NSInteger)tag
+{
+
     if (nil == _statusAlert) {
-        // Show alert and execute failure block.
-        _statusAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
-                                                  message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
-                                                 delegate:self
-                                        cancelButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
-                                        otherButtonTitles: nil];
-        _statusAlert.tag = kConnectedAppVersionMismatchViewTag;
-        [_statusAlert show];
+        __weak SFAuthenticationManager *weakSelf = self;
+        _statusAlert = [UIAlertController alertControllerWithTitle:title
+                                                           message:message
+                                                    preferredStyle:UIAlertControllerStyleAlert];
+ 
+    
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:buttonTitle
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       if (tag == kOAuthGenericAlertViewTag) {
+                                           [weakSelf dismissAuthViewControllerIfPresent];
+                                           [weakSelf login];
+                                       } else if (tag == kIdentityAlertViewTag) {
+                                           [weakSelf.idCoordinator initiateIdentityDataRetrieval];
+                                       } else if (tag == kConnectedAppVersionMismatchViewTag) {
+                                           // The OAuth failure block should be followed, after acknowledging the version mismatch.
+                                           [weakSelf execFailureBlocks];
+                                       }
+                                   }];
+        
+        [_statusAlert addAction:okAction];
+        [[SFRootViewManager sharedManager]  pushViewController:_statusAlert];
     }
 }
 
@@ -1161,25 +1179,6 @@ static Class InstanceClass = nil;
         [self execFailureBlocks];
     } else {
         [self showRetryAlertForAuthError:error alertTag:kIdentityAlertViewTag];
-    }
-}
-
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView == _statusAlert) {
-        _statusAlert = nil;
-        [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %d", buttonIndex];
-        if (alertView.tag == kOAuthGenericAlertViewTag) {
-            [self dismissAuthViewControllerIfPresent];
-            [self login];
-        } else if (alertView.tag == kIdentityAlertViewTag) {
-            [self.idCoordinator initiateIdentityDataRetrieval];
-        } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
-            // The OAuth failure block should be followed, after acknowledging the version mismatch.
-            [self execFailureBlocks];
-        }
     }
 }
 
