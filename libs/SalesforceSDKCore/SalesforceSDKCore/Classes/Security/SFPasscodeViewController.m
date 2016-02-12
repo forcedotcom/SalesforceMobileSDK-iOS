@@ -46,7 +46,6 @@ static CGFloat      const kForgotPasscodeButtonWidth        = 150.0f;
 static CGFloat      const kForgotPasscodeButtonHeight       = 40.0f;
 static CGFloat      const kUseTouchIdButtonWidth            = 150.0f;
 static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
-static NSUInteger   const kPasscodeDialogTag                = 111;
 
 @interface SFPasscodeViewController() {
     BOOL _firstPasscodeValidated;
@@ -300,26 +299,35 @@ static NSUInteger   const kPasscodeDialogTag                = 111;
 
 - (void)forgotPassAction
 {
-    UIAlertView *logoutAlert = [[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"]
-                                                          message:[SFSDKResourceUtils localizedString:@"logoutAlertViewTitle"]
-                                                         delegate:self
-                                                cancelButtonTitle:[SFSDKResourceUtils localizedString:@"logoutNo"]
-                                                otherButtonTitles:[SFSDKResourceUtils localizedString:@"logoutYes"], nil];
-    logoutAlert.tag = kPasscodeDialogTag;
-    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController forgotPassAction"];
-    [logoutAlert show];
-}
+    __weak SFPasscodeViewController *weakSelf = self;
+    
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"]
+                                                                   message:[SFSDKResourceUtils localizedString:@"logoutAlertViewTitle"]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutYes"]
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction *action)
+                               {
+                                   [weakSelf log:SFLogLevelDebug msg:@"User pressed Yes"];
+                                   [weakSelf validatePasscodeFailed];
+                               }];
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == kPasscodeDialogTag) {
-        if (buttonIndex == 0) {
-            [self log:SFLogLevelDebug msg:@"User pressed No"];
-        } else {
-            [self log:SFLogLevelDebug msg:@"User pressed Yes"];
-            [self validatePasscodeFailed];
-        }
-    }
+    UIAlertAction *cancelAction = [UIAlertAction
+                                   actionWithTitle:[SFSDKResourceUtils localizedString:@"logoutNo"]
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                       [weakSelf log:SFLogLevelDebug msg:@"User pressed No"];
+                                   }];
+    
+    
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    [self log:SFLogLevelDebug msg:@"SFPasscodeViewController forgotPassAction"];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)viewWillLayoutSubviews
