@@ -53,6 +53,19 @@ static CGFloat      const kResultCellHeight      = 24.0;
 static CGFloat      const kResultCellBorderWidth = 1.0;
 static NSString *   const kCellIndentifier       = @"cellIdentifier";
 static NSUInteger   const kLabelTag              = 99;
+// Resource keys
+static NSString * const kInspectorNoRowsReturnedKey = @"inspectorNoRowsReturned";
+static NSString * const kInspectorQueryFailedKey = @"inspectorQueryFailed";
+static NSString * const kInspectorOKKey = @"inspectorOK";
+static NSString * const kInspectorPageSizeHintKey = @"inspectorPageSizeHint";
+static NSString * const kInspectorPageIndexHintKey = @"inspectorPageIndexHint";
+static NSString * const kInspectorClearButtonTitleKey = @"inspectorClearButtonTitle";
+static NSString * const kInspectorSoupsButtonTitleKey = @"inspectorSoupsButtonTitle";
+static NSString * const kInspectorIndicesButtonTitleKey = @"inspectorIndicesButtonTitle";
+static NSString * const kInspectorTitleKey = @"inspectorTitle";
+static NSString * const kInspectorBackButtonTitleKey = @"inspectorBackButtonTitle";
+static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle";
+
 
 @interface SFSmartStoreInspectorViewController () <UINavigationBarDelegate>
 
@@ -142,18 +155,30 @@ static NSUInteger   const kLabelTag              = 99;
     NSInteger pageIndex = [self.pageIndexField.text integerValue];
     NSError* error = nil;
     NSArray* results = [self.store queryWithQuerySpec:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:pageSize] pageIndex:pageIndex error:&error];
+    NSString* errorAlertTitle = [SFSDKResourceUtils localizedString:kInspectorQueryFailedKey];
     if (error) {
-        [self showAlert:[error localizedDescription]];
+        [self showAlert:[error localizedDescription] title:errorAlertTitle];
     }
     else if ([results count] == 0) {
-        [self showAlert:[SFSDKResourceUtils localizedString:@"inspectorNoRowsReturned"]];
+        [self showAlert:[SFSDKResourceUtils localizedString:kInspectorNoRowsReturnedKey] title:errorAlertTitle];
     }
     self.results = results;
 }
 
-- (void) showAlert:(NSString*)message
+- (void) showAlert:(NSString*)message title:(NSString*)title
 {
-    [[[UIAlertView alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorQueryFailed"] message:message delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *okAction = [UIAlertAction
+                               actionWithTitle:[SFSDKResourceUtils localizedString:kInspectorOKKey]
+                               style:UIAlertActionStyleDefault
+                               handler:nil];
+    
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) soupsButtonClicked
@@ -217,18 +242,18 @@ static NSUInteger   const kLabelTag              = 99;
     
     // Page size field
     self.pageSizeField = [self createTextField];
-    self.pageSizeField.placeholder = [SFSDKResourceUtils localizedString:@"inspectorPageSizeHint"];
+    self.pageSizeField.placeholder = [SFSDKResourceUtils localizedString:kInspectorPageSizeHintKey];
     self.pageSizeField.keyboardType = UIKeyboardTypeNumberPad;
     
     // Page index field
     self.pageIndexField = [self createTextField];
-    self.pageIndexField.placeholder = [SFSDKResourceUtils localizedString:@"inspectorPageIndexHint"];
+    self.pageIndexField.placeholder = [SFSDKResourceUtils localizedString:kInspectorPageIndexHintKey];
     self.pageIndexField.keyboardType = UIKeyboardTypeNumberPad;
     
     // Buttons
-    self.clearButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorClearButtonTitle"] action:@selector(clearButtonClicked)];
-    self.soupsButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorSoupsButtonTitle"] action:@selector(soupsButtonClicked)];
-    self.indicesButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:@"inspectorIndicesButtonTitle"] action:@selector(indicesButtonClicked)];
+    self.clearButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:kInspectorClearButtonTitleKey] action:@selector(clearButtonClicked)];
+    self.soupsButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:kInspectorSoupsButtonTitleKey] action:@selector(soupsButtonClicked)];
+    self.indicesButton = [self createButtonWithLabel:[SFSDKResourceUtils localizedString:kInspectorIndicesButtonTitleKey] action:@selector(indicesButtonClicked)];
     
     // Results grid
     self.resultGrid = [self createGridView];
@@ -238,9 +263,9 @@ static NSUInteger   const kLabelTag              = 99;
 {
     UINavigationBar* navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, kNavBarHeight)];
     navBar.delegate = self;
-    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorTitle"]];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorBackButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
-    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:@"inspectorRunButtonTitle"] style:UIBarButtonItemStylePlain target:self action:@selector(runQuery)];
+    UINavigationItem *navItem = [[UINavigationItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kInspectorTitleKey]];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kInspectorBackButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(backButtonClicked)];
+    UIBarButtonItem *runItem = [[UIBarButtonItem alloc] initWithTitle:[SFSDKResourceUtils localizedString:kInspectorRunButtonTitleKey] style:UIBarButtonItemStylePlain target:self action:@selector(runQuery)];
     [navItem setLeftBarButtonItem:backItem];
     [navItem setRightBarButtonItem:runItem];
     [navBar setItems:@[navItem] animated:YES];
@@ -405,7 +430,7 @@ static NSUInteger   const kLabelTag              = 99;
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString* label = [[self cellDatawithIndexPath:indexPath] description];
-    [[[UIAlertView alloc] initWithTitle:nil message:label delegate:self cancelButtonTitle:[SFSDKResourceUtils localizedString:@"inspectorOK"] otherButtonTitles:nil] show];
+    [self showAlert:label title:nil];
 }
 
 
