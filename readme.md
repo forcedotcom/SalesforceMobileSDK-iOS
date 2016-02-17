@@ -56,7 +56,7 @@ Introduction
 - The SalesforceReact library now provides the ability to use React Native. Refer to the React Native chapter in the Mobile SDK Development Guide for details on how to use this feature.
 
 **Other Technical Improvements**
-- Raised the minimum XCode version required by Mobile SDK to `Xcode 7`.
+- Raised the minimum Xcode version required by Mobile SDK to `Xcode 7`.
 - Improvements to sample apps.
 - Various bug fixes.
 
