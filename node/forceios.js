@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = '4.0.2',
+var version = '4.1.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
@@ -196,6 +196,8 @@ function buildArgsFromArgMap(config) {
         argLine += ' -o "' + config.outputdir + '"';
     if (config.appid)
         argLine += ' -a "' + config.appid + '"';
+    if (config.callbackuri)
+       argLine += ' -u "' + config.callbackuri + '"';
 
     return argLine;
 }

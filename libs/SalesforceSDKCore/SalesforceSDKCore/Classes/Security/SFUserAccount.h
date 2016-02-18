@@ -25,11 +25,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-#import "SFCommunityData.h"
-#import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
-#import "SFIdentityData.h"
 
+@class SFCommunityData;
+@class SFUserAccountIdentity;
+@class SFIdentityData;
 @class SFOAuthCredentials;
 
 /** Class that represents an `account`. An `account` represents

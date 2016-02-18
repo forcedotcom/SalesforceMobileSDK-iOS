@@ -61,13 +61,6 @@
 - (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block;
 
 /**
- Updates the login host in app settings, for apps that utilize login host switching from
- the Settings app.
- @param newLoginHost The login host to update.
- */
-- (void)updateAppSettingsLoginHost:(NSString *)newLoginHost;
-
-/**
  Creates a user account staged with the given auth credentials.
  @param credentials The OAuth credentials to apply to the user account.
  @return The new user account with the given credentials.

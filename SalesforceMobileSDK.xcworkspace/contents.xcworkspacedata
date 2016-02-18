@@ -78,9 +78,6 @@
       location = "container:"
       name = "External">
       <FileRef
-         location = "group:external/fmdb/fmdb.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:external/CocoaLumberjack/Lumberjack.xcodeproj">
       </FileRef>
       <FileRef
@@ -192,10 +189,10 @@
             </Group>
          </Group>
          <FileRef
-            location = "group:Settings.bundle">
+            location = "group:SalesforceSDKResources.bundle">
          </FileRef>
          <FileRef
-            location = "group:SalesforceSDKResources.bundle">
+            location = "group:SalesforceSDKAssets.xcassets">
          </FileRef>
       </Group>
       <Group

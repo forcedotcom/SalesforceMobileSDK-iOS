@@ -1,11 +1,12 @@
 <project name="SalesforceMobileSDK-iOS" basedir="." default="all">
     <property name="artifactsDir" location="artifacts" />
     <property name="deviceBuildName" value="iphoneos" />
+    <property name="deviceCompileArguments" value="PLATFORM_NAME=iphoneos" />
     <property name="simulatorBuildName" value="iphonesimulator" />
+    <property name="simulatorCompileArguments" value="PLATFORM_NAME=iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     <property name="sharedResourcesDir" location="../shared/resources" />
     <property name="sdkResourcesBundleName" value="SalesforceSDKResources.bundle" />
-    <property name="sdkAppSettingsBundleName" value="Settings.bundle" />
     <property name="sharedHybridDir" location="../shared/hybrid" />
 
     <target name="all" description="Cleans the projects and builds all libraries">
@@ -16,33 +17,7 @@
 
     <target name="buildAll" />
 
-    <target name="libPackages" depends="packageFMDB, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
-
-    <target name="packageFMDB" depends="buildFMDB" description="Packages and builds the FMDB library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-        </antcall>
-    </target>
-    
-    <target name="buildFMDB">
-        <antcall target="buildLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS-Static" />
-        </antcall>
-    </target>
-    
-    <target name="cleanFMDB" description="Cleans the build artifacts and output of the FMDB library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="fmdb" />
-            <param name="libName" value="libFMDB.a" />
-            <param name="headerDir" value="Headers/fmdb" />
-            <param name="schemeName" value="FMDB-IOS-Static" />
-        </antcall>
-    </target>
+    <target name="libPackages" depends="packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
 
     <target name="packageLumberjack" depends="buildLumberjack" description="Packages and builds the CocoaLumberjack library.">
         <antcall target="packageLib">
@@ -246,6 +221,7 @@
             <param name="sdk" value="${deviceBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="build" />
+            <param name="additionalCompileArguments" value="${deviceCompileArguments}" />
         </antcall>
 
         <!-- Simulator -->
@@ -253,6 +229,7 @@
             <param name="sdk" value="${simulatorBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="build" />
+            <param name="additionalCompileArguments" value="${simulatorCompileArguments}" />
         </antcall>
     </target>
 
@@ -303,6 +280,7 @@
             <param name="sdk" value="${deviceBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${deviceBuildName}" />
             <param name="action" value="clean" />
+            <param name="additionalCompileArguments" value="${deviceCompileArguments}" />
         </antcall>
         
         <!-- Simulator -->
@@ -310,6 +288,7 @@
             <param name="sdk" value="${simulatorBuildName}" />
             <param name="buildOutputDir" value="${baseBuildOutputDir}/${simulatorBuildName}" />
             <param name="action" value="clean" />
+            <param name="additionalCompileArguments" value="${simulatorCompileArguments}" />
         </antcall>
         
         <delete file="${baseBuildOutputDir}/${deviceBuildName}/${libName}" />
@@ -340,6 +319,7 @@
             <arg value="${action}" />
             <arg value="CONFIGURATION_BUILD_DIR=${buildOutputDir}" />
             <arg value="ONLY_ACTIVE_ARCH=NO" />
+            <arg value="${additionalCompileArguments}" />
         </exec>
     </target>
     
@@ -367,7 +347,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanFMDB, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

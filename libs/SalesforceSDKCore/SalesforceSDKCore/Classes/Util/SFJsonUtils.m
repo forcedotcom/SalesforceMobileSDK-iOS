@@ -59,9 +59,17 @@ static NSError *sLastError = nil;
 }
 
 + (NSString*)JSONRepresentation:(id)obj {
+    NSJSONWritingOptions options = 0;
+#ifdef DEBUG
+    options = NSJSONWritingPrettyPrinted;
+#endif
+    return [SFJsonUtils JSONRepresentation:obj options:options];
+}
+
++ (NSString*)JSONRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSString *result = nil;
     
-    NSData *jsonData = [self JSONDataRepresentation:obj];
+    NSData *jsonData = [self JSONDataRepresentation:obj options:options];
     if (nil != jsonData) {
           result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
@@ -70,15 +78,19 @@ static NSError *sLastError = nil;
 }
 
 +(NSData*)JSONDataRepresentation:(id)obj {
+    NSJSONWritingOptions options = 0;
+#ifdef DEBUG
+    options = NSJSONWritingPrettyPrinted;
+#endif
+    return [SFJsonUtils JSONDataRepresentation:obj options:options];
+}
+
++(NSData*)JSONDataRepresentation:(id)obj options:(NSJSONWritingOptions)options {
     NSError *err = nil;
     NSData *jsonData = nil;
     
     if ([NSJSONSerialization isValidJSONObject:obj]) {
-        NSJSONWritingOptions options = 0;
-#ifdef DEBUG
-        options = NSJSONWritingPrettyPrinted;
-#endif
-        jsonData = [NSJSONSerialization dataWithJSONObject:obj 
+        jsonData = [NSJSONSerialization dataWithJSONObject:obj
                                         options:options 
                                           error:&err
          ];
@@ -99,25 +111,41 @@ static NSError *sLastError = nil;
 }
 
 + (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path {
-    id result = nil;
-    
     if (!path || [path length] == 0) {
         return jsonObj;
     }
     
+    NSArray *pathElements = [path componentsSeparatedByString:@"."];
+    return [SFJsonUtils projectIntoJsonHelper:jsonObj pathElements:pathElements index:0];
+}
+
++ (id)projectIntoJsonHelper:(id)jsonObj pathElements:(NSArray *)pathElements index:(NSUInteger)index {
+    id result = nil;
+
+    if (index == [pathElements count]) {
+        return jsonObj;
+    }
+
     if (nil != jsonObj) {
-        id o = jsonObj;
-        NSArray *pathElements = [path componentsSeparatedByString:@"."];
-        for (NSString *pathElement in pathElements) {
-            if ([o isKindOfClass:[NSDictionary class]]) {
-                o = ((NSDictionary*)o)[pathElement];
-            } else  {
-                [self log:SFLogLevelDebug format:@"unexpected object in compound path (%@): %@",pathElement, o];
-                o = nil;
-                break;
+        NSString* pathElement = (NSString*) pathElements[index];
+        if ([jsonObj isKindOfClass:[NSDictionary class]]) {
+            NSDictionary* jsonDict = (NSDictionary*) jsonObj;
+            id dictVal = jsonDict[pathElement];
+            result = [SFJsonUtils projectIntoJsonHelper:dictVal pathElements:pathElements index:index+1];
+        }
+        else if ([jsonObj isKindOfClass:[NSArray class]]) {
+            NSArray* jsonArr = (NSArray*) jsonObj;
+            result = [NSMutableArray new];
+            for (id arrayElt in jsonArr) {
+                id resultPart = [SFJsonUtils projectIntoJsonHelper:arrayElt pathElements:pathElements index:index];
+                if (resultPart != nil) {
+                    [result addObject:resultPart];
+                }
+            }
+            if ([result count] == 0) {
+                result = nil;
             }
         }
-        result = o;
     }
     
     return result;

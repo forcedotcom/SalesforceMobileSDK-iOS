@@ -38,6 +38,7 @@
 #import <SmartSync/SFSoslSyncDownTarget.h>
 #import <SmartSync/SFMruSyncDownTarget.h>
 #import <SmartSync/SFSyncUpTarget.h>
+#import <SmartSync/SFSmartSyncSoqlBuilder.h>
 
 #define ACCOUNTS_SOUP       @"accounts"
 #define ACCOUNT_ID          @"Id"
@@ -159,6 +160,18 @@ static NSException *authException = nil;
 }
 
 #pragma mark - tests
+
+/**
+ * Test adding 'Id' and 'LastModifiedDate' to SOQL query, if they're missing.
+ */
+- (void)testAddMissingFieldstoSOQLTarget
+{
+    NSString *soqlQueryWithSpecialFields = [[[[SFSmartSyncSoqlBuilder withFields:@"Id, LastModifiedDate, FirstName, LastName"] from:@"Contact"] limit:10] build];
+    NSString *soqlQueryWithoutSpecialFields = [[[[SFSmartSyncSoqlBuilder withFields:@"FirstName, LastName"] from:@"Contact"] limit:10] build];
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithoutSpecialFields];
+    NSString *targetSoqlQuery = [target query];
+    XCTAssertTrue([soqlQueryWithSpecialFields isEqualToString:targetSoqlQuery], @"SOQL query should contain Id and LastModifiedDate fields.");
+}
 
 /**
  * Test instantiation of sync manager from various sharedInstance methods.

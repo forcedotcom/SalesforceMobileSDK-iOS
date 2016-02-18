@@ -24,9 +24,9 @@
 
 #import "SFSmartStoreTests.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <fmdb/FMDatabase.h>
-#import <fmdb/FMDatabaseAdditions.h>
-#import <fmdb/FMDatabaseQueue.h>
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+#import "FMDatabaseQueue.h"
 #import "SFQuerySpec.h"
 #import "SFStoreCursor.h"
 #import "SFSmartStoreDatabaseManager.h"
@@ -42,6 +42,7 @@
 #import <SalesforceSDKCore/SFEncryptionKey.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
+#import "sqlite3.h"
 
 #define kTestSmartStoreName  @"testSmartStore"
 #define kTestSoupName        @"testSoup"
@@ -146,6 +147,32 @@
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[1,2]"] actual:[SFJsonUtils projectIntoJson:json path:@"d.d3"] message:@"Wrong value for key d.d3"];    
     [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"{\"e\":5}"] actual:[SFJsonUtils projectIntoJson:json path:@"d.d4"] message:@"Wrong value for key d.d4"];        
     [self assertSameJSONWithExpected:@5 actual:[SFJsonUtils projectIntoJson:json path:@"d.d4.e"] message:@"Wrong value for key d.d4.e"];    
+}
+
+/**
+  * Testing method with path through arrays
+  */
+- (void) testProjectThroughArrays
+{
+    NSString* rawJson = @"{\"a\":\"a1\", \"b\":2, \"c\":[{\"cc\":\"cc1\"}, {\"cc\":2}, {\"cc\":[1,2,3]}, {}, {\"cc\":{\"cc5\":5}}], \"d\":[{\"dd\":[{\"ddd\":\"ddd11\"},{\"ddd\":\"ddd12\"}]}, {\"dd\":[{\"ddd\":\"ddd21\"}]}, {\"dd\":[{\"ddd\":\"ddd31\"},{\"ddd3\":\"ddd32\"}]}]}";
+    NSDictionary* json = [SFJsonUtils objectFromJSONString:rawJson];
+    
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[{\"cc\":\"cc1\"}, {\"cc\":2}, {\"cc\":[1,2,3]}, {}, {\"cc\":{\"cc5\":5}}]"] actual:[SFJsonUtils projectIntoJson:json path:@"c"] message:@"Wrong value for key c"];
+
+    
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[\"cc1\",2, [1,2,3], {\"cc5\":5}]"] actual:[SFJsonUtils projectIntoJson:json path:@"c.cc"] message:@"Wrong value for key c.cc"];
+
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[5]"] actual:[SFJsonUtils projectIntoJson:json path:@"c.cc.cc5"] message:@"Wrong value for key c.cc.cc5"];
+    
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[{\"dd\":[{\"ddd\":\"ddd11\"},{\"ddd\":\"ddd12\"}]}, {\"dd\":[{\"ddd\":\"ddd21\"}]}, {\"dd\":[{\"ddd\":\"ddd31\"},{\"ddd3\":\"ddd32\"}]}]"] actual:[SFJsonUtils projectIntoJson:json path:@"d"] message:@"Wrong value for key d"];
+
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[[{\"ddd\":\"ddd11\"},{\"ddd\":\"ddd12\"}], [{\"ddd\":\"ddd21\"}], [{\"ddd\":\"ddd31\"},{\"ddd3\":\"ddd32\"}]]"] actual:[SFJsonUtils projectIntoJson:json path:@"d.dd"] message:@"Wrong value for key d.dd"];
+
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"ddd11\",\"ddd12\"],[\"ddd21\"],[\"ddd31\"]]"] actual:[SFJsonUtils projectIntoJson:json path:@"d.dd.ddd"] message:@"Wrong value for key d.dd.ddd"];
+
+    [self assertSameJSONWithExpected:[SFJsonUtils objectFromJSONString:@"[[\"ddd32\"]]"] actual:[SFJsonUtils projectIntoJson:json path:@"d.dd.ddd3"] message:@"Wrong value for key d.dd.ddd3"];
+    
+    
 }
 
 /**

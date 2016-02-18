@@ -21,6 +21,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		4F06AF0D1C499EB600F70798 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0C1C499EB600F70798 /* main.m */; };
+		4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF0F1C499EB600F70798 /* AppDelegate.m */; };
+		4F06AF131C499EB600F70798 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AF121C499EB600F70798 /* ViewController.m */; };
+		4F06AF161C499EB600F70798 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF141C499EB600F70798 /* Main.storyboard */; };
+		4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF171C499EB600F70798 /* Assets.xcassets */; };
+		4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */; };
+		4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
+		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */; };
 		4FEE44851BFD5CCC00F09C43 /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */; };
@@ -30,12 +38,31 @@
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		828917841C52B705002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
+		828917851C52B705002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
+		828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
+		828917871C52B705002F9981 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177D1C52B705002F9981 /* FMDatabaseAdditions.m */; };
+		828917881C52B705002F9981 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177E1C52B705002F9981 /* FMDatabasePool.h */; };
+		828917891C52B705002F9981 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177F1C52B705002F9981 /* FMDatabasePool.m */; };
+		8289178A1C52B705002F9981 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917801C52B705002F9981 /* FMDatabaseQueue.h */; };
+		8289178B1C52B705002F9981 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917811C52B705002F9981 /* FMDatabaseQueue.m */; };
+		8289178C1C52B705002F9981 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917821C52B705002F9981 /* FMResultSet.h */; };
+		8289178D1C52B705002F9981 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917831C52B705002F9981 /* FMResultSet.m */; };
+		8289178E1C52B715002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
+		8289178F1C52B715002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
+		828917901C52B715002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
+		828917911C52B715002F9981 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177D1C52B705002F9981 /* FMDatabaseAdditions.m */; };
+		828917921C52B715002F9981 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177E1C52B705002F9981 /* FMDatabasePool.h */; };
+		828917931C52B715002F9981 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177F1C52B705002F9981 /* FMDatabasePool.m */; };
+		828917941C52B715002F9981 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917801C52B705002F9981 /* FMDatabaseQueue.h */; };
+		828917951C52B715002F9981 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917811C52B705002F9981 /* FMDatabaseQueue.m */; };
+		828917961C52B715002F9981 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 828917821C52B705002F9981 /* FMResultSet.h */; };
+		828917971C52B715002F9981 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 828917831C52B705002F9981 /* FMResultSet.m */; };
+		828917A81C52D9CE002F9981 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917A11C52D9BC002F9981 /* SalesforceSDKCore.framework */; };
+		828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE0AB0751C10D39900BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0741C10D39900BFAEED /* SalesforceSDKCore.framework */; };
 		CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CE0AB0781C10D3B500BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0771C10D3B500BFAEED /* libxml2.tbd */; };
-		CE0AB07A1C10D3BB00BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0791C10D3BB00BFAEED /* SalesforceSDKCore.framework */; };
-		CE0AB07B1C10D3C100BFAEED /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
 		CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */; };
 		CE1F0B0619ACF95B0007F22F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFC19ACF95B0007F22F /* CoreData.framework */; };
@@ -46,7 +73,6 @@
 		CE1F0B0B19ACF95B0007F22F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0119ACF95B0007F22F /* Security.framework */; };
 		CE1F0B0C19ACF95B0007F22F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */; };
 		CE1F0B0D19ACF95B0007F22F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B0319ACF95B0007F22F /* UIKit.framework */; };
-		CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */; };
 		CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE40C1C0E59DA009F6029 /* SFAlterSoupLongOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */; };
 		CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBC41BFD30030022F021 /* SFQuerySpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,9 +96,7 @@
 		CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD61BFD30030022F021 /* SFSoupIndex.m */; };
 		CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FBD71BFD30030022F021 /* SFStoreCursor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FBD81BFD30030022F021 /* SFStoreCursor.m */; };
-		CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */; };
 		CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
-		CE4CE4901C0E5F93009F6029 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; };
 		CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */; };
 		CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CEA883CB1C191580008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAAAE48195911E600CBBFE9 /* Foundation.framework */; };
@@ -107,65 +131,89 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		82A8C6E61C122998006BBDFE /* PBXContainerItemProxy */ = {
+		4F06AF281C499F5000F70798 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F06AF081C499EB600F70798;
+			remoteInfo = SmartStoreTestApp;
+		};
+		4F06AFD91C49CBD100F70798 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CEAAAE3D195911E600CBBFE9 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CE4CE2B81C0E4581009F6029;
 			remoteInfo = SmartStore;
 		};
-		CE0021AF1C06694E0079DCA4 /* PBXContainerItemProxy */ = {
+		828917A01C52D9BC002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DD76FA10486AA7600D96B5E;
-			remoteInfo = fmdb;
+			remoteGlobalIDString = CE4CE26B1C0E449C009F6029;
+			remoteInfo = SalesforceSDKCore;
 		};
-		CE0021B11C06694E0079DCA4 /* PBXContainerItemProxy */ = {
+		828917A21C52D9BC002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = EE4290EF12B42F870088BD94;
-			remoteInfo = FMDB;
+			remoteGlobalIDString = 82D4642419C7C8170006BDFE;
+			remoteInfo = SalesforceSDKCoreTestApp;
 		};
-		CE0021B31C06694E0079DCA4 /* PBXContainerItemProxy */ = {
+		828917A41C52D9BC002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = BF5D041618416BB2008C5AA9;
-			remoteInfo = Tests;
+			remoteGlobalIDString = 4F7EB4151BFFC88200768720;
+			remoteInfo = SalesforceSDKCoreTests;
 		};
-		CE0021B51C06694E0079DCA4 /* PBXContainerItemProxy */ = {
+		828917A61C52D9BC002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 6290CBB5188FE836009790F8;
-			remoteInfo = "FMDB-IOS";
+			remoteGlobalIDString = CEA8825F1C18F722008D871B;
+			remoteInfo = SalesforceSDKCoreStatic;
 		};
-		CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */ = {
+		828917A91C52DA23002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 6290CBB4188FE836009790F8;
-			remoteInfo = "FMDB-IOS";
+			remoteGlobalIDString = CE4CE26A1C0E449C009F6029;
+			remoteInfo = SalesforceSDKCore;
 		};
-		CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */ = {
+		828918031C530D0B002F9981 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+			containerPortal = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = CEA884AA1C1A24B1008D871B;
-			remoteInfo = "FMDB-IOS-Static";
-		};
-		CEA884E11C1A4134008D871B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA884C11C1A24B1008D871B;
-			remoteInfo = "FMDB-IOS-Static";
+			remoteGlobalIDString = CEA8825E1C18F722008D871B;
+			remoteInfo = SalesforceSDKCoreStatic;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4F06AFF21C49D53D00F70798 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartStoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F06AF0C1C499EB600F70798 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4F06AF0E1C499EB600F70798 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4F06AF0F1C499EB600F70798 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F06AF111C499EB600F70798 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		4F06AF121C499EB600F70798 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		4F06AF151C499EB600F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4F06AF171C499EB600F70798 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F06AF1A1C499EB600F70798 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F06AF1C1C499EB600F70798 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SmartStore-Prefix.pch"; path = "SmartStore/SmartStore-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		4F883C751C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceSDKManagerWithSmartStore.h; sourceTree = "<group>"; };
 		4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalesforceSDKManagerWithSmartStore.m; sourceTree = "<group>"; };
@@ -209,11 +257,21 @@
 		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
+		8289177A1C52B705002F9981 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
+		8289177B1C52B705002F9981 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
+		8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = ../../../../external/fmdb/src/fmdb/FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		8289177D1C52B705002F9981 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseAdditions.m; path = ../../../../external/fmdb/src/fmdb/FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		8289177E1C52B705002F9981 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabasePool.h; path = ../../../../external/fmdb/src/fmdb/FMDatabasePool.h; sourceTree = "<group>"; };
+		8289177F1C52B705002F9981 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabasePool.m; path = ../../../../external/fmdb/src/fmdb/FMDatabasePool.m; sourceTree = "<group>"; };
+		828917801C52B705002F9981 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseQueue.h; path = ../../../../external/fmdb/src/fmdb/FMDatabaseQueue.h; sourceTree = "<group>"; };
+		828917811C52B705002F9981 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabaseQueue.m; path = ../../../../external/fmdb/src/fmdb/FMDatabaseQueue.m; sourceTree = "<group>"; };
+		828917821C52B705002F9981 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = ../../../../external/fmdb/src/fmdb/FMResultSet.h; sourceTree = "<group>"; };
+		828917831C52B705002F9981 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = ../../../../external/fmdb/src/fmdb/FMResultSet.m; sourceTree = "<group>"; };
+		828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
+		828917AC1C52DB6B002F9981 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
-		CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fmdb.xcodeproj; path = ../../external/fmdb/fmdb.xcodeproj; sourceTree = "<group>"; };
-		CE0AB0741C10D39900BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
+		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE0AB0771C10D3B500BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		CE0AB0791C10D3BB00BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CE1F0AFC19ACF95B0007F22F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -224,12 +282,9 @@
 		CE1F0B0119ACF95B0007F22F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CE1F0B0319ACF95B0007F22F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = "/Users/bhariharan/Documents/Github_Projects/My_Forks/SalesforceMobileSDK-iOS/native/SampleApps/FileExplorer/../../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a"; sourceTree = "<absolute>"; };
 		CE4CE2B91C0E4581009F6029 /* SmartStore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartStore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4CE5841C0FB648009F6029 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CEA883BA1C1914DE008D871B /* libSmartStore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSmartStore.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEA883CC1C19158B008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
-		CEA8847F1C191ECE008D871B /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CEAAAE48195911E600CBBFE9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAAAE56195911E600CBBFE9 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -239,13 +294,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F06AF061C499EB600F70798 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F06AFF01C49D53D00F70798 /* SmartStore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CE4CE2B51C0E4581009F6029 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0AB0751C10D39900BFAEED /* SalesforceSDKCore.framework in Frameworks */,
+				828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */,
+				828917A81C52D9CE002F9981 /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE5851C0FB648009F6029 /* libz.tbd in Frameworks */,
-				CE4CE48C1C0E5F66009F6029 /* libFMDB-IOS.a in Frameworks */,
 				CE4CE48D1C0E5F6D009F6029 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,12 +325,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0AB07B1C10D3C100BFAEED /* libFMDB-IOS.a in Frameworks */,
-				CE0AB07A1C10D3BB00BFAEED /* SalesforceSDKCore.framework in Frameworks */,
 				CE0AB0781C10D3B500BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */,
-				CE4CE4901C0E5F93009F6029 /* SmartStore.framework in Frameworks */,
-				CE1F0B1319ACFA0F0007F22F /* libsqlcipher.a in Frameworks */,
 				CEAAAE58195911E600CBBFE9 /* Foundation.framework in Frameworks */,
 				CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */,
 				CE1F0B0519ACF95B0007F22F /* CFNetwork.framework in Frameworks */,
@@ -286,14 +345,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CE0021A91C06694D0079DCA4 /* Products */ = {
+		4F06AF0A1C499EB600F70798 /* SmartStoreTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				CE0021B01C06694E0079DCA4 /* fmdb */,
-				CE0021B21C06694E0079DCA4 /* libFMDB.a */,
-				CE0021B41C06694E0079DCA4 /* Tests.xctest */,
-				CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */,
-				CEA884E21C1A4134008D871B /* libFMDB.a */,
+				4F06AF0E1C499EB600F70798 /* AppDelegate.h */,
+				4F06AF0F1C499EB600F70798 /* AppDelegate.m */,
+				4F06AF111C499EB600F70798 /* ViewController.h */,
+				4F06AF121C499EB600F70798 /* ViewController.m */,
+				4F06AF141C499EB600F70798 /* Main.storyboard */,
+				4F06AF171C499EB600F70798 /* Assets.xcassets */,
+				4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */,
+				4F06AF1C1C499EB600F70798 /* Info.plist */,
+				4F06AF0B1C499EB600F70798 /* Supporting Files */,
+			);
+			path = SmartStoreTestApp;
+			sourceTree = "<group>";
+		};
+		4F06AF0B1C499EB600F70798 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F06AF0C1C499EB600F70798 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		828917791C52B6E2002F9981 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				8289177A1C52B705002F9981 /* FMDatabase.h */,
+				8289177B1C52B705002F9981 /* FMDatabase.m */,
+				8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */,
+				8289177D1C52B705002F9981 /* FMDatabaseAdditions.m */,
+				8289177E1C52B705002F9981 /* FMDatabasePool.h */,
+				8289177F1C52B705002F9981 /* FMDatabasePool.m */,
+				828917801C52B705002F9981 /* FMDatabaseQueue.h */,
+				828917811C52B705002F9981 /* FMDatabaseQueue.m */,
+				828917821C52B705002F9981 /* FMResultSet.h */,
+				828917831C52B705002F9981 /* FMResultSet.m */,
+			);
+			name = fmdb;
+			sourceTree = "<group>";
+		};
+		828917991C52D9BC002F9981 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				828917A11C52D9BC002F9981 /* SalesforceSDKCore.framework */,
+				828917A31C52D9BC002F9981 /* SalesforceSDKCoreTestApp.app */,
+				828917A51C52D9BC002F9981 /* SalesforceSDKCoreTests.xctest */,
+				828917A71C52D9BC002F9981 /* libSalesforceSDKCore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -317,6 +416,7 @@
 				CE3FE5811AD488F800E65B49 /* Configuration */,
 				CEAAAE4A195911E600CBBFE9 /* SmartStore */,
 				CEAAAE5E195911E600CBBFE9 /* SmartStoreTests */,
+				4F06AF0A1C499EB600F70798 /* SmartStoreTestApp */,
 				CEAAAE47195911E600CBBFE9 /* Frameworks */,
 				CEAAAE46195911E600CBBFE9 /* Products */,
 			);
@@ -328,6 +428,7 @@
 				CEAAAE55195911E600CBBFE9 /* SmartStoreTests.xctest */,
 				CE4CE2B91C0E4581009F6029 /* SmartStore.framework */,
 				CEA883BA1C1914DE008D871B /* libSmartStore.a */,
+				4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -335,13 +436,10 @@
 		CEAAAE47195911E600CBBFE9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CEA8847F1C191ECE008D871B /* SalesforceSDKCore.framework */,
-				CEA883CC1C19158B008D871B /* libSalesforceSDKCore.a */,
-				CE0AB0791C10D3BB00BFAEED /* SalesforceSDKCore.framework */,
+				828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */,
+				828917AC1C52DB6B002F9981 /* libsqlcipher.a */,
 				CE0AB0771C10D3B500BFAEED /* libxml2.tbd */,
-				CE0AB0741C10D39900BFAEED /* SalesforceSDKCore.framework */,
 				CE4CE5841C0FB648009F6029 /* libz.tbd */,
-				CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */,
 				CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */,
 				CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */,
 				CE1F0AFC19ACF95B0007F22F /* CoreData.framework */,
@@ -352,7 +450,6 @@
 				CE1F0B0119ACF95B0007F22F /* Security.framework */,
 				CE1F0B0219ACF95B0007F22F /* SystemConfiguration.framework */,
 				CE1F0B0319ACF95B0007F22F /* UIKit.framework */,
-				CE1F0B1219ACFA0F0007F22F /* libsqlcipher.a */,
 				CEAAAE48195911E600CBBFE9 /* Foundation.framework */,
 				CEAAAE56195911E600CBBFE9 /* XCTest.framework */,
 			);
@@ -372,6 +469,7 @@
 		CEAAAE4B195911E600CBBFE9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				82D0AB331C497FD90081F833 /* Info.plist */,
 				4F230BC31BFEAE430030EEFA /* SmartStore-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -409,6 +507,7 @@
 		CEF50A79196B3EB60076264C /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				828917791C52B6E2002F9981 /* fmdb */,
 				4F96FBC21BFD30030022F021 /* SFAlterSoupLongOperation.h */,
 				4F96FBC31BFD30030022F021 /* SFAlterSoupLongOperation.m */,
 				4F96FBC41BFD30030022F021 /* SFQuerySpec.h */,
@@ -445,19 +544,24 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8289178A1C52B705002F9981 /* FMDatabaseQueue.h in Headers */,
 				CE4CE4131C0E59DA009F6029 /* SFSmartStore+Internal.h in Headers */,
 				CE4CE4171C0E59DA009F6029 /* SFSmartStoreInspectorViewController.h in Headers */,
 				CE4CE41E1C0E59DA009F6029 /* SFSoupIndex.h in Headers */,
 				CE4CE4161C0E59DA009F6029 /* SFSmartStoreDatabaseManager+Internal.h in Headers */,
+				828917841C52B705002F9981 /* FMDatabase.h in Headers */,
 				CE4CE41B1C0E59DA009F6029 /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				CE4CE40F1C0E59DA009F6029 /* SFSmartSqlHelper.h in Headers */,
 				829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */,
 				CE4CE4111C0E59DA009F6029 /* SFSmartStore.h in Headers */,
 				4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */,
+				828917881C52B705002F9981 /* FMDatabasePool.h in Headers */,
 				CE4CE4191C0E59DA009F6029 /* SFSmartStoreUpgrade.h in Headers */,
 				CE4CE40B1C0E59DA009F6029 /* SFAlterSoupLongOperation.h in Headers */,
 				CE4CE4141C0E59DA009F6029 /* SFSmartStoreDatabaseManager.h in Headers */,
+				8289178C1C52B705002F9981 /* FMResultSet.h in Headers */,
 				CE4CE5691C0E7845009F6029 /* SmartStore-Prefix.pch in Headers */,
+				828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */,
 				CE4CE40D1C0E59DA009F6029 /* SFQuerySpec.h in Headers */,
 				CE4CE41C1C0E59DA009F6029 /* SFSmartStoreUtils.h in Headers */,
 				CE4CE4201C0E59DA009F6029 /* SFStoreCursor.h in Headers */,
@@ -468,6 +572,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				828917921C52B715002F9981 /* FMDatabasePool.h in Headers */,
 				CEA883E21C1915A8008D871B /* SFSmartStoreUtils.h in Headers */,
 				CEA883DA1C1915A8008D871B /* SFSmartStoreDatabaseManager.h in Headers */,
 				CEA883D11C1915A8008D871B /* SFAlterSoupLongOperation.h in Headers */,
@@ -476,8 +581,12 @@
 				CEA883DD1C1915A8008D871B /* SFSmartStoreInspectorViewController.h in Headers */,
 				CEA883E11C1915A8008D871B /* SFSmartStoreUpgrade+Internal.h in Headers */,
 				CEA883D51C1915A8008D871B /* SFSmartSqlHelper.h in Headers */,
+				828917961C52B715002F9981 /* FMResultSet.h in Headers */,
 				CEA883CE1C191595008D871B /* SmartStore.h in Headers */,
+				828917901C52B715002F9981 /* FMDatabaseAdditions.h in Headers */,
+				828917941C52B715002F9981 /* FMDatabaseQueue.h in Headers */,
 				CEA883D71C1915A8008D871B /* SFSmartStore.h in Headers */,
+				8289178E1C52B715002F9981 /* FMDatabase.h in Headers */,
 				CEA883D91C1915A8008D871B /* SFSmartStore+Internal.h in Headers */,
 				CEA883E61C1915A8008D871B /* SFStoreCursor.h in Headers */,
 				CEA883DF1C1915A8008D871B /* SFSmartStoreUpgrade.h in Headers */,
@@ -489,6 +598,25 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		4F06AF081C499EB600F70798 /* SmartStoreTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F06AF221C499EB600F70798 /* Build configuration list for PBXNativeTarget "SmartStoreTestApp" */;
+			buildPhases = (
+				4F06AF051C499EB600F70798 /* Sources */,
+				4F06AF061C499EB600F70798 /* Frameworks */,
+				4F06AF071C499EB600F70798 /* Resources */,
+				4F06AFF21C49D53D00F70798 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F06AFDA1C49CBD100F70798 /* PBXTargetDependency */,
+			);
+			name = SmartStoreTestApp;
+			productName = SmartStoreTestApp;
+			productReference = 4F06AF091C499EB600F70798 /* SmartStoreTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		CE4CE2B81C0E4581009F6029 /* SmartStore */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStore" */;
@@ -502,7 +630,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */,
+				828917AA1C52DA23002F9981 /* PBXTargetDependency */,
 			);
 			name = SmartStore;
 			productName = SmartStore;
@@ -520,7 +648,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CEA884DF1C1A4134008D871B /* PBXTargetDependency */,
+				828918041C530D0B002F9981 /* PBXTargetDependency */,
 			);
 			name = SmartStoreStatic;
 			productName = SmartStoreStatic;
@@ -538,7 +666,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE4CE48F1C0E5F8B009F6029 /* PBXTargetDependency */,
+				4F06AF291C499F5000F70798 /* PBXTargetDependency */,
 			);
 			name = SmartStoreTests;
 			productName = SmartStoreTests;
@@ -554,13 +682,17 @@
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Salesforce Inc.";
 				TargetAttributes = {
+					4F06AF081C499EB600F70798 = {
+						CreatedOnToolsVersion = 7.2;
+					};
 					CE4CE2B81C0E4581009F6029 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
 					};
 					CEA883B91C1914DE008D871B = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = 7CEJFQ772U;
+					};
+					CEAAAE54195911E600CBBFE9 = {
+						TestTargetID = 4F06AF081C499EB600F70798;
 					};
 				};
 			};
@@ -577,13 +709,14 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = CE0021A91C06694D0079DCA4 /* Products */;
-					ProjectRef = CE0021A81C06694D0079DCA4 /* fmdb.xcodeproj */;
+					ProductGroup = 828917991C52D9BC002F9981 /* Products */;
+					ProjectRef = 828917981C52D9BC002F9981 /* SalesforceSDKCore.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				CE4CE2B81C0E4581009F6029 /* SmartStore */,
+				4F06AF081C499EB600F70798 /* SmartStoreTestApp */,
 				CEAAAE54195911E600CBBFE9 /* SmartStoreTests */,
 				CEAAAE75195A181000CBBFE9 /* Documentation */,
 				CEA883B91C1914DE008D871B /* SmartStoreStatic */,
@@ -592,44 +725,47 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		CE0021B01C06694E0079DCA4 /* fmdb */ = {
+		828917A11C52D9BC002F9981 /* SalesforceSDKCore.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = fmdb;
-			remoteRef = CE0021AF1C06694E0079DCA4 /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = SalesforceSDKCore.framework;
+			remoteRef = 828917A01C52D9BC002F9981 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CE0021B21C06694E0079DCA4 /* libFMDB.a */ = {
+		828917A31C52D9BC002F9981 /* SalesforceSDKCoreTestApp.app */ = {
 			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFMDB.a;
-			remoteRef = CE0021B11C06694E0079DCA4 /* PBXContainerItemProxy */;
+			fileType = wrapper.application;
+			path = SalesforceSDKCoreTestApp.app;
+			remoteRef = 828917A21C52D9BC002F9981 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CE0021B41C06694E0079DCA4 /* Tests.xctest */ = {
+		828917A51C52D9BC002F9981 /* SalesforceSDKCoreTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = Tests.xctest;
-			remoteRef = CE0021B31C06694E0079DCA4 /* PBXContainerItemProxy */;
+			path = SalesforceSDKCoreTests.xctest;
+			remoteRef = 828917A41C52D9BC002F9981 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CE0021B61C06694E0079DCA4 /* libFMDB-IOS.a */ = {
+		828917A71C52D9BC002F9981 /* libSalesforceSDKCore.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libFMDB-IOS.a";
-			remoteRef = CE0021B51C06694E0079DCA4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CEA884E21C1A4134008D871B /* libFMDB.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFMDB.a;
-			remoteRef = CEA884E11C1A4134008D871B /* PBXContainerItemProxy */;
+			path = libSalesforceSDKCore.a;
+			remoteRef = 828917A61C52D9BC002F9981 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F06AF071C499EB600F70798 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F06AF1B1C499EB600F70798 /* LaunchScreen.storyboard in Resources */,
+				4F06AF181C499EB600F70798 /* Assets.xcassets in Resources */,
+				4F06AF161C499EB600F70798 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CEAAAE53195911E600CBBFE9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -683,6 +819,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F06AF051C499EB600F70798 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F06AF131C499EB600F70798 /* ViewController.m in Sources */,
+				4F06AF101C499EB600F70798 /* AppDelegate.m in Sources */,
+				4F06AF0D1C499EB600F70798 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CE4CE2B41C0E4581009F6029 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -690,12 +836,17 @@
 				CE4CE40C1C0E59DA009F6029 /* SFAlterSoupLongOperation.m in Sources */,
 				CE4CE4211C0E59DA009F6029 /* SFStoreCursor.m in Sources */,
 				CE4CE4181C0E59DA009F6029 /* SFSmartStoreInspectorViewController.m in Sources */,
+				828917851C52B705002F9981 /* FMDatabase.m in Sources */,
 				CE4CE4121C0E59DA009F6029 /* SFSmartStore.m in Sources */,
+				8289178B1C52B705002F9981 /* FMDatabaseQueue.m in Sources */,
+				8289178D1C52B705002F9981 /* FMResultSet.m in Sources */,
 				CE4CE4101C0E59DA009F6029 /* SFSmartSqlHelper.m in Sources */,
 				CE4CE41F1C0E59DA009F6029 /* SFSoupIndex.m in Sources */,
 				CE4CE4151C0E59DA009F6029 /* SFSmartStoreDatabaseManager.m in Sources */,
+				828917871C52B705002F9981 /* FMDatabaseAdditions.m in Sources */,
 				4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */,
 				CE4CE41A1C0E59DA009F6029 /* SFSmartStoreUpgrade.m in Sources */,
+				828917891C52B705002F9981 /* FMDatabasePool.m in Sources */,
 				CE4CE40E1C0E59DA009F6029 /* SFQuerySpec.m in Sources */,
 				CE4CE41D1C0E59DA009F6029 /* SFSmartStoreUtils.m in Sources */,
 			);
@@ -708,12 +859,17 @@
 				CEA883D21C1915A8008D871B /* SFAlterSoupLongOperation.m in Sources */,
 				CEA883E71C1915A8008D871B /* SFStoreCursor.m in Sources */,
 				CEA883DE1C1915A8008D871B /* SFSmartStoreInspectorViewController.m in Sources */,
+				8289178F1C52B715002F9981 /* FMDatabase.m in Sources */,
 				CEA883D81C1915A8008D871B /* SFSmartStore.m in Sources */,
+				828917951C52B715002F9981 /* FMDatabaseQueue.m in Sources */,
+				828917971C52B715002F9981 /* FMResultSet.m in Sources */,
 				CEA883D61C1915A8008D871B /* SFSmartSqlHelper.m in Sources */,
 				CEA883E51C1915A8008D871B /* SFSoupIndex.m in Sources */,
 				CEA883DB1C1915A8008D871B /* SFSmartStoreDatabaseManager.m in Sources */,
+				828917911C52B715002F9981 /* FMDatabaseAdditions.m in Sources */,
 				CEA883E91C1915A8008D871B /* SalesforceSDKManagerWithSmartStore.m in Sources */,
 				CEA883E01C1915A8008D871B /* SFSmartStoreUpgrade.m in Sources */,
+				828917931C52B715002F9981 /* FMDatabasePool.m in Sources */,
 				CEA883D41C1915A8008D871B /* SFQuerySpec.m in Sources */,
 				CEA883E31C1915A8008D871B /* SFSmartStoreUtils.m in Sources */,
 			);
@@ -735,24 +891,45 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CE4CE48B1C0E5F5B009F6029 /* PBXTargetDependency */ = {
+		4F06AF291C499F5000F70798 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "FMDB-IOS";
-			targetProxy = CE4CE48A1C0E5F5B009F6029 /* PBXContainerItemProxy */;
+			target = 4F06AF081C499EB600F70798 /* SmartStoreTestApp */;
+			targetProxy = 4F06AF281C499F5000F70798 /* PBXContainerItemProxy */;
 		};
-		CE4CE48F1C0E5F8B009F6029 /* PBXTargetDependency */ = {
+		4F06AFDA1C49CBD100F70798 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE4CE2B81C0E4581009F6029 /* SmartStore */;
-			targetProxy = 82A8C6E61C122998006BBDFE /* PBXContainerItemProxy */;
+			targetProxy = 4F06AFD91C49CBD100F70798 /* PBXContainerItemProxy */;
 		};
-		CEA884DF1C1A4134008D871B /* PBXTargetDependency */ = {
+		828917AA1C52DA23002F9981 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "FMDB-IOS-Static";
-			targetProxy = CEA884DE1C1A4134008D871B /* PBXContainerItemProxy */;
+			name = SalesforceSDKCore;
+			targetProxy = 828917A91C52DA23002F9981 /* PBXContainerItemProxy */;
+		};
+		828918041C530D0B002F9981 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceSDKCoreStatic;
+			targetProxy = 828918031C530D0B002F9981 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4F06AF141C499EB600F70798 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F06AF151C499EB600F70798 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4F06AF191C499EB600F70798 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F06AF1A1C499EB600F70798 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -764,6 +941,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F06AF1D1C499EB600F70798 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartStoreTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4F06AF1E1C499EB600F70798 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStoreTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartStoreTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		CE4CE2BE1C0E4581009F6029 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CECB66231C1BB886008038AE /* SmartStore-Dynamic-iOS-Debug.xcconfig */;
@@ -778,6 +994,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -806,6 +1023,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = SmartStore/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -935,11 +1153,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -947,6 +1160,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -955,6 +1169,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -963,14 +1178,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartStore/SmartStore-Prefix.pch";
 				INFOPLIST_FILE = "SmartStoreTests/SmartStoreTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -979,6 +1190,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SmartStoreTestApp.app/SmartStoreTestApp";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
@@ -1000,6 +1212,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F06AF221C499EB600F70798 /* Build configuration list for PBXNativeTarget "SmartStoreTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F06AF1D1C499EB600F70798 /* Debug */,
+				4F06AF1E1C499EB600F70798 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CE4CE2C31C0E4581009F6029 /* Build configuration list for PBXNativeTarget "SmartStore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

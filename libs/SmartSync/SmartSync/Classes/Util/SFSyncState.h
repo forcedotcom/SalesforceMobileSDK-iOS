@@ -46,21 +46,21 @@ extern NSString * const kSFSyncStateTotalSize;
 extern NSString * const kSFSyncStateMaxTimeStamp;
 
 // Possible values for sync type
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSyncStateSyncType) {
     SFSyncStateSyncTypeDown,
     SFSyncStateSyncTypeUp,
-} SFSyncStateSyncType;
+};
 
 extern NSString * const kSFSyncStateTypeDown;
 extern NSString * const kSFSyncStateTypeUp;
 
 // Possible value for sync status
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSyncStateStatus) {
     SFSyncStateStatusNew,
     SFSyncStateStatusRunning,
     SFSyncStateStatusDone,
     SFSyncStateStatusFailed
-} SFSyncStateStatus;
+};
 
 extern NSString * const kSFSyncStateStatusNew;
 extern NSString * const kSFSyncStateStatusRunning;
@@ -68,11 +68,11 @@ extern NSString * const kSFSyncStateStatusDone;
 extern NSString * const kSFSyncStateStatusFailed;
 
 // Possible value for merge mode
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSyncStateMergeMode) {
     SFSyncStateMergeModeOverwrite,
     SFSyncStateMergeModeLeaveIfChanged
     
-} SFSyncStateMergeMode;
+};
 
 extern NSString * const kSFSyncStateMergeModeOverwrite;
 extern NSString * const kSFSyncStateMergeModeLeaveIfChanged;

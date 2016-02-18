@@ -39,4 +39,11 @@
  */
 + (NSString *)localizedString:(NSString *)localizationKey;
 
+/**
+ * Gets an image from the Images asset catalog from the framework bundle of the SDK
+ * @param name The name of the image in the asset catalog.
+ * @return The image from the asset catalog with the provided name.
+*/
++ (UIImage *)imageNamed:(NSString*)name;
+
 @end

@@ -1,0 +1,54 @@
+framework module SalesforceKit {
+    umbrella header "SalesforceKit.h"
+    
+    export *
+    module * { export * }
+
+    framework module SalesforceSDKCore {
+        umbrella header "SalesforceSDKCore.h"
+
+        export *
+        module * { export * }
+    }
+
+    framework module SalesforceNetwork {
+        umbrella header "SalesforceNetwork.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSDKCore
+    }
+    
+    framework module SalesforceRestAPI {
+        umbrella header "SalesforceRestAPI.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceSDKCore
+        use SalesforceNetwork
+    }
+
+    framework module SmartStore {
+        umbrella header "SmartStore.h"
+
+        export *
+        module * { export * }
+
+        use SalesforceRestAPI
+    }
+
+    framework module SmartSync {
+        umbrella header "SmartSync.h"
+        
+        export *
+        module * { export * }
+        
+        use SalesforceRestAPI
+    }
+
+    link "z"
+    link "sqlite3"
+    link framework "MobileCoreServices"
+}

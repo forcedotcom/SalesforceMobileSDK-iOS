@@ -19,13 +19,13 @@ enum {
 };
 
 // Launch actions taken
-typedef enum {
+typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
     SFSDKLaunchActionNone                 = 0,
     SFSDKLaunchActionAuthenticated        = 1 << 0,
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
     SFSDKLaunchActionAuthBypassed         = 1 << 2,
     SFSDKLaunchActionPasscodeVerified     = 1 << 3
-} SFSDKLaunchAction;
+};
 
 /**
  Callback block to implement for post launch actions.

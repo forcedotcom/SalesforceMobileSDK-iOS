@@ -43,6 +43,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
         self.query = dict[kSFSoqlSyncTargetQuery];
+        [self addSpecialFieldsIfRequired];
     }
     return self;
 }
@@ -51,8 +52,22 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     self = [super init];
     if (self) {
         self.queryType = SFSyncDownTargetQueryTypeSoql;
+        [self addSpecialFieldsIfRequired];
     }
     return self;
+}
+
+- (void) addSpecialFieldsIfRequired {
+
+    // Inserts the mandatory 'LastModifiedDate' field if it doesn't exist.
+    if ([self.query rangeOfString:self.modificationDateFieldName].location == NSNotFound) {
+        self.query = [SFSoqlSyncDownTarget appendToFirstOccurence:self.query pattern:@"select " stringToAppend:[@[self.modificationDateFieldName, @", "] componentsJoinedByString:@""]];
+    }
+
+    // Inserts the mandatory 'Id' field if it doesn't exist.
+    if ([self.query rangeOfString:self.idFieldName].location == NSNotFound) {
+        self.query = [SFSoqlSyncDownTarget appendToFirstOccurence:self.query pattern:@"select " stringToAppend:[@[self.idFieldName, @", "] componentsJoinedByString:@""]];
+    }
 }
 
 #pragma mark - Factory methods
@@ -61,6 +76,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     SFSoqlSyncDownTarget* syncTarget = [[SFSoqlSyncDownTarget alloc] init];
     syncTarget.queryType = SFSyncDownTargetQueryTypeSoql;
     syncTarget.query = query;
+    [syncTarget addSpecialFieldsIfRequired];
     return syncTarget;
 }
 

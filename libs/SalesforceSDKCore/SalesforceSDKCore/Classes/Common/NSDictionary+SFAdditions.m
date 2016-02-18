@@ -63,30 +63,6 @@
     return result;
 }
 
-- (id)cleansedDictionary {
-    NSArray *allKeys = [self allKeys];
-    NSMutableDictionary *updatedDict = [NSMutableDictionary dictionaryWithCapacity:allKeys.count];
-    
-    for (NSString *key in allKeys) {
-        id value = [self nonNullObjectForKey:key];
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            value = [(NSDictionary *)value cleansedDictionary];
-        }
-        if ([value isKindOfClass:[NSArray class]]) {
-            // Log a warning if we find a nil object
-            if ([value containsObject:nil]) {
-                [self log:SFLogLevelWarning format:@"array in cleansedDictionary contains nill object for key: %@", key];
-            }
-            
-            value = [(NSArray *)value cleansedArray];
-        }
-        if (value) {
-            [updatedDict setValue:value forKey:key];
-        }
-    }
-    return updatedDict;
-}
-
 - (NSString*)jsonString {
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self

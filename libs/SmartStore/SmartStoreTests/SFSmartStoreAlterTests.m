@@ -28,8 +28,8 @@
 #import "SFSoupIndex.h"
 #import "SFQuerySpec.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <fmdb/FMDatabaseQueue.h>
-#import <fmdb/FMDatabase.h>
+#import "FMDatabaseQueue.h"
+#import "FMDatabase.h"
 
 @interface SFSmartStoreAlterTests ()
 

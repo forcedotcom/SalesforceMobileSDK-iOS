@@ -29,12 +29,12 @@
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
 
-@class SFAuthorizingViewController;
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
+@class SFLoginViewController;
 
 /**
  Callback block definition for OAuth completion callback.
@@ -183,12 +183,12 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  Alert view for displaying auth-related status messages.
  */
-@property (nonatomic, strong) UIAlertView *statusAlert;
+@property (nonatomic, strong) UIAlertController *statusAlert;
 
 /**
  The view controller used to present the authentication dialog.
  */
-@property (nonatomic, strong) SFAuthorizingViewController *authViewController;
+@property (nonatomic, strong) SFLoginViewController *authViewController;
 
 /**
  Whether or not the application is currently in the process of authenticating.

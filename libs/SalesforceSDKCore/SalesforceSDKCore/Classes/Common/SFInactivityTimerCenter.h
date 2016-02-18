@@ -26,7 +26,7 @@
  This class manages manages the inactivity timer.
  */
 
-@import Foundation;
+#import <Foundation/Foundation.h>
 
 @interface SFInactivityTimerCenter : NSObject
 

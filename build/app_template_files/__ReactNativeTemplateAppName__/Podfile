@@ -10,6 +10,7 @@ pod 'React', :path => './node_modules/react-native', :subspecs => [
     'ART',
     'RCTActionSheet',
     'RCTAdSupport',
+    'RCTCameraRoll',
     'RCTGeolocation',
     'RCTImage',
     'RCTNetwork',
@@ -24,7 +25,6 @@ pod 'React', :path => './node_modules/react-native', :subspecs => [
 pod 'SalesforceSDKCore'
 pod 'SalesforceNetwork'
 pod 'SalesforceRestAPI'
-pod 'FMDB'
 pod 'SmartStore'
 pod 'SmartSync'
 pod 'SalesforceReact'

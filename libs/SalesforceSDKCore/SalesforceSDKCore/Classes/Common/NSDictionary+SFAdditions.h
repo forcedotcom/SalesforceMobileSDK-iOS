@@ -42,12 +42,6 @@
  */
 - (id)nonNullObjectForKey:(id)key;
 
-/**
- Cleans the dictionary of any "<nil>" "<null>" or "NSNull" values.
- @return A new dictionary with nil/null/NSNull key/values removed
- */
-- (id)cleansedDictionary;
-
 - (NSString*)jsonString;
 
 @end

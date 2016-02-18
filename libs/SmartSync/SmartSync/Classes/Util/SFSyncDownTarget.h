@@ -30,12 +30,12 @@
 typedef void (^SFSyncDownTargetFetchCompleteBlock) (NSArray* records);
 typedef void (^SFSyncDownTargetFetchErrorBlock) (NSError *e);
 
-typedef enum {
+typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
   SFSyncDownTargetQueryTypeMru,
   SFSyncDownTargetQueryTypeSosl,
   SFSyncDownTargetQueryTypeSoql,
   SFSyncDownTargetQueryTypeCustom
-} SFSyncDownTargetQueryType;
+};
 
 @interface SFSyncDownTarget : SFSyncTarget
 

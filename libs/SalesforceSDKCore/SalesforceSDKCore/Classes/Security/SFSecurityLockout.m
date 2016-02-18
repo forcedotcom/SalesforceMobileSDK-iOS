@@ -34,6 +34,7 @@
 #import "SFRootViewManager.h"
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
+#import "SFIdentityData.h"
 
 // Private constants
 

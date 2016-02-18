@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef __SF_USER_ACCOUNT_CONSTANTS_H__
+#define __SF_USER_ACCOUNT_CONSTANTS_H__
+
 /** User account restrictions
  */
 typedef NS_OPTIONS(NSUInteger, SFUserAccountAccessRestriction) {
@@ -83,3 +86,4 @@ typedef NS_OPTIONS(NSUInteger, SFUserAccountChange) {
     SFUserAccountChangeIdData = 1 << 6
 };
 
+#endif

@@ -23,7 +23,9 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "SFUserAccount.h"
+#import "SFUserAccountConstants.h"
+
+@class SFUserAccount;
 
 /** Preferences class that handles scoped preferences.
  A scope allows to bounds the preferences to a specific user,
