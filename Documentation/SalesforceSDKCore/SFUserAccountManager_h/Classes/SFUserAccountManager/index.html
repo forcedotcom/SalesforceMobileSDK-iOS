@@ -318,8 +318,6 @@ It supports multiple accounts and their associated credentials.
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/switchToUser:" target="_top">-switchToUser:</a></tt></dt>
 <dd></dd>
-<dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost" target="_top">-updateLoginHost</a></tt></dt>
-<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/SFUserAccountManager/userAccountForUserIdentity:" target="_top">-userAccountForUserIdentity:</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/clm/SFUserAccountManager/userAccountPlistFileForUser:" target="_top">+userAccountPlistFileForUser:</a></tt></dt>
@@ -455,7 +453,7 @@ controls the oauth library log level.
 <h3><a name="applyIdData:">applyIdData:</a></h3>
 <hr class="afterName">
 <div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdData:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyIdData" target="_top"><span class="function">applyIdData</span></a>:(<a machinegenerated="true" href="../../../SFIdentityData_h/Classes/SFIdentityData/index.html#//apple_ref/occ/cl/SFIdentityData" logicalPath="//apple_ref/occ/cl/SFIdentityData" target="_top"><span class="type">SFIdentityData</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/idData //apple_ref/occ/data/SFUserAccountManager/idData //apple_ref/occ/data/idData //apple_ref/occ/clconst/SFUserAccountManager/idData " machineGenerated="true" --><span class="var">idData</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=end --></pre>
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/SFUserAccountManager/applyIdDataCustomPermissions:" logicalPath="//apple_ref/occ/instm/SFUserAccountManager/applyIdData" target="_top"><span class="function">applyIdData</span></a>:(<a machinegenerated="true" href="../../../SFIdentityData_h/Classes/SFIdentityData/index.html#//apple_ref/occ/cl/SFIdentityData" logicalPath="//apple_ref/occ/cl/SFIdentityData" target="_top"><span class="type">SFIdentityData</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/idData //apple_ref/occ/data/SFUserAccountManager/idData //apple_ref/occ/data/idData //apple_ref/occ/clconst/SFUserAccountManager/idData " machineGenerated="true" --><span class="var">idData</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/applyIdData:;name=end --></pre>
 </div>
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
 <div class="param_indent">
@@ -742,23 +740,6 @@ The NSDictionary should be NSCoder encodeable.
 <h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/switchToUser:;name=start --><p>Switches away from the current user, to the given user account.
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/switchToUser:;name=end --><!-- end discussion -->
-</p>
-<hr class="betweenAPIEntries">
-<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost;   name=SFUserAccountManager::updateLoginHost --><a name="//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost"></a>
-<h3><a name="updateLoginHost">updateLoginHost</a></h3>
-<hr class="afterName">
-<div class="declaration_indent">
-<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost;name=start -->- (<a machinegenerated="true" href="../SFLoginHostUpdateResult/index.html#//apple_ref/occ/cl/SFLoginHostUpdateResult" logicalPath="//apple_ref/occ/cl/SFLoginHostUpdateResult" target="_top"><span class="type">SFLoginHostUpdateResult</span></a> <span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/updateLoginHost //apple_ref/occ/data/SFUserAccountManager/updateLoginHost //apple_ref/occ/data/updateLoginHost //apple_ref/occ/clconst/SFUserAccountManager/updateLoginHost " machineGenerated="true" --><span class="var">updateLoginHost</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost;name=end --></pre>
-</div>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Return Value</font></h5>
-<p><!-- begin return value --></p>
-<p>SFLoginHostUpdateResult object containing the original hostname, the new hostname
-(possibly the same), and whether or not the hostname changed.
-
-<!-- end return value --></p>
-<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
-<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost;name=start --><p>Synchronizes the app-level login host setting with the value in app settings.
-<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/SFUserAccountManager/updateLoginHost;name=end --><!-- end discussion -->
 </p>
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/occ/instm/SFUserAccountManager/userAccountForUserIdentity:;   name=SFUserAccountManager::userAccountForUserIdentity: --><a name="//apple_ref/occ/instm/SFUserAccountManager/userAccountForUserIdentity:"></a>
@@ -1114,7 +1095,7 @@ to its Info.plist file in order to enable this flag.
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Thursday, December 17, 2015
+<p class="hd_timestamp">Last Updated: Wednesday, February 17, 2016
 </p>
 </div>
 </td>
