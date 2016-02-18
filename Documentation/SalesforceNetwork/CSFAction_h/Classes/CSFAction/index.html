@@ -277,6 +277,8 @@ function disclosure_triangle(elt) {
 <br><a name="HeaderDoc_methods"></a>
 <h2 class="h2tight">Methods</h2>
 <dl>
+<dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/completeOperationWithError:" target="_top">-completeOperationWithError:</a></tt></dt>
+<dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/contentFromData:fromResponse:error:" target="_top">-contentFromData:fromResponse:error:</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/headersForAction" target="_top">-headersForAction</a></tt></dt>
@@ -286,6 +288,8 @@ function disclosure_triangle(elt) {
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/overrideRequest:withResponseData:andHTTPResponse:" target="_top">-overrideRequest:withResponseData:andHTTPResponse:</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/removeValueForHTTPHeaderField:" target="_top">-removeValueForHTTPHeaderField:</a></tt></dt>
+<dd></dd>
+<dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:" target="_top">-sessionTaskToProcessRequest:session:</a></tt></dt>
 <dd></dd>
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/setURL:" target="_top">-setURL:</a></tt></dt>
 <dd></dd>
@@ -297,6 +301,28 @@ function disclosure_triangle(elt) {
 <dt><tt><a href="index.html#//apple_ref/occ/instm/CSFAction/valueForHTTPHeaderField:" target="_top">-valueForHTTPHeaderField:</a></tt></dt>
 <dd></dd>
 </dl>
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/CSFAction/completeOperationWithError:;   name=CSFAction::completeOperationWithError: --><a name="//apple_ref/occ/instm/CSFAction/completeOperationWithError:"></a>
+<h3><a name="completeOperationWithError:">completeOperationWithError:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/CSFAction/completeOperationWithError:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/void //apple_ref/occ/tdef/void //apple_ref/occ/tag/void //apple_ref/occ/struct/void //apple_ref/occ/intf/void //apple_ref/doc/anysymbol/void" machineGenerated="true" --><span class="type">void</span><!-- /a -->)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/CSFAction/completeOperationWithError:" logicalPath="//apple_ref/occ/instm/CSFAction/completeOperationWithError" target="_top"><span class="function">completeOperationWithError</span></a>:(<!-- a logicalPath="//apple_ref/occ/cl/NSError //apple_ref/occ/tdef/NSError //apple_ref/occ/tag/NSError //apple_ref/occ/struct/NSError //apple_ref/occ/intf/NSError //apple_ref/doc/anysymbol/NSError" machineGenerated="true" --><span class="type">NSError</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/error //apple_ref/occ/data/CSFAction/error //apple_ref/occ/data/error //apple_ref/occ/clconst/CSFAction/error " machineGenerated="true" --><span class="var">error</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/CSFAction/completeOperationWithError:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/CSFAction/completeOperationWithError:/error;   name=completeOperationWithError:::error -->
+<a name="//apple_ref/doc/methodparam/CSFAction/completeOperationWithError:/error"></a>
+<code>error</code>
+</dt>
+<dd><p>Action error if avaiable.</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/completeOperationWithError:;name=start --><p>Subclassable method that will be called when the action is about to call responseBlock.
+</p>
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/completeOperationWithError:;name=end --><!-- end discussion -->
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/occ/instm/CSFAction/contentFromData:fromResponse:error:;   name=CSFAction::contentFromData:fromResponse:error: --><a name="//apple_ref/occ/instm/CSFAction/contentFromData:fromResponse:error:"></a>
 <h3><a name="contentFromData:fromResponse:error:">contentFromData:fromResponse:error:</a></h3>
@@ -433,6 +459,35 @@ function disclosure_triangle(elt) {
 <!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/removeValueForHTTPHeaderField:;name=start --><p>Removes the outgoing HTTP header for the given field name.
 </p>
 <!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/removeValueForHTTPHeaderField:;name=end --><!-- end discussion -->
+<hr class="betweenAPIEntries">
+<!-- headerDoc=instm;  uid=//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:;   name=CSFAction::sessionTaskToProcessRequest:session: --><a name="//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:"></a>
+<h3><a name="sessionTaskToProcessRequest:session:">sessionTaskToProcessRequest:session:</a></h3>
+<hr class="afterName">
+<div class="declaration_indent">
+<pre><!-- headerDoc=declaration;uid=//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:;name=start -->- (<!-- a logicalPath="//apple_ref/occ/cl/NSURLSessionTask //apple_ref/occ/tdef/NSURLSessionTask //apple_ref/occ/tag/NSURLSessionTask //apple_ref/occ/struct/NSURLSessionTask //apple_ref/occ/intf/NSURLSessionTask //apple_ref/doc/anysymbol/NSURLSessionTask" machineGenerated="true" --><span class="type">NSURLSessionTask</span><!-- /a --><span class="type">*</span>)<a machinegenerated="true" href="index.html#//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:" logicalPath="//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest" target="_top"><span class="function">sessionTaskToProcessRequest</span></a>:(<!-- a logicalPath="//apple_ref/occ/cl/NSURLRequest //apple_ref/occ/tdef/NSURLRequest //apple_ref/occ/tag/NSURLRequest //apple_ref/occ/struct/NSURLRequest //apple_ref/occ/intf/NSURLRequest //apple_ref/doc/anysymbol/NSURLRequest" machineGenerated="true" --><span class="type">NSURLRequest</span><!-- /a --><span class="type">*</span>)<span class="param">request</span> 
+        <a machinegenerated="true" href="index.html#//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:" logicalPath="//apple_ref/occ/instm/CSFAction/session" target="_top"><span class="function">session</span></a>:(<!-- a logicalPath="//apple_ref/occ/cl/NSURLSession //apple_ref/occ/tdef/NSURLSession //apple_ref/occ/tag/NSURLSession //apple_ref/occ/struct/NSURLSession //apple_ref/occ/intf/NSURLSession //apple_ref/doc/anysymbol/NSURLSession" machineGenerated="true" --><span class="type">NSURLSession</span><!-- /a --><span class="type">*</span>)<!-- a logicalPath="//apple_ref/occ/econst/session //apple_ref/occ/data/CSFAction/session //apple_ref/occ/data/session //apple_ref/occ/clconst/CSFAction/session " machineGenerated="true" --><span class="var">session</span><!-- /a -->; <!-- headerDoc=declaration;uid=//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:;name=end --></pre>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Parameters</font></h5>
+<div class="param_indent">
+<dl>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/CSFAction/sessionTaskToProcessRequest:session:/request;   name=sessionTaskToProcessRequest:session:::request -->
+<a name="//apple_ref/doc/methodparam/CSFAction/sessionTaskToProcessRequest:session:/request"></a>
+<code>request</code>
+</dt>
+<dd><p>URL request to send</p></dd>
+<dt>
+<!-- headerDoc=methodparam;  uid=//apple_ref/doc/methodparam/CSFAction/sessionTaskToProcessRequest:session:/session;   name=sessionTaskToProcessRequest:session:::session -->
+<a name="//apple_ref/doc/methodparam/CSFAction/sessionTaskToProcessRequest:session:/session"></a>
+<code>session</code>
+</dt>
+<dd><p>Associated for this request</p></dd>
+</dl>
+</div>
+<h5 class="tight"><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5>
+<!-- begin discussion --><!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:;name=start --><p>Returns an instance of NSURLSessionTask to process the specified request 
+</p>
+<!-- headerDoc=discussion;uid=//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:;name=end --><!-- end discussion -->
 <hr class="betweenAPIEntries">
 <!-- headerDoc=instm;  uid=//apple_ref/occ/instm/CSFAction/setURL:;   name=CSFAction::setURL: --><a name="//apple_ref/occ/instm/CSFAction/setURL:"></a>
 <h3><a name="setURL:">setURL:</a></h3>
@@ -855,7 +910,7 @@ fields. For example, all the parameters will be added using addParameterWithName
 <p class="gapBeforeFooter">&nbsp;</p>
 <hr class="afterFooter">
 <div class="hd_copyright_and_timestamp">
-<p class="hd_timestamp">Last Updated: Thursday, December 17, 2015
+<p class="hd_timestamp">Last Updated: Wednesday, February 17, 2016
 </p>
 </div>
 </td>
