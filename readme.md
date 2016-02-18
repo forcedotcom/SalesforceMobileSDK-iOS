@@ -34,29 +34,9 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 4.0
-
-**Library Upgrades**
-- iOS 9 features are now fully supported, including bitcode.
-- Raised the minimum iOS version required by Mobile SDK to `8.0`.
-- Upgraded the `Cordova` library to `v3.9.2`.
-- Upgraded the `CocoaLumberjack` library to `v2.2.0`.
-
-**Library Enhancements**
-- Mobile SDK libraries have been refactored to support better consumption. Our libraries are listed below.
-	- SalesforceSDKCore
-	- SalesforceNetwork
-	- SalesforceRestAPI
-	- SmartStore
-	- SmartSync
-	- SalesforceHybridSDK
-	- SalesforceReact
-- Cocoa Touch dynamic framework targets have been added to our libraries. Going forward, this will be the recommended way to consume Mobile SDK libraries.
-- Removed the dependency on `SalesforceCommonUtils`. Mobile SDK for iOS is now fully open source.
-- The SalesforceReact library now provides the ability to use React Native. Refer to the React Native chapter in the Mobile SDK Development Guide for details on how to use this feature.
+### What's New in 4.1
 
 **Other Technical Improvements**
-- Raised the minimum XCode version required by Mobile SDK to `Xcode 7`.
 - Improvements to sample apps.
 - Various bug fixes.
 
