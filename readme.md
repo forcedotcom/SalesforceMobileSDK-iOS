@@ -36,7 +36,16 @@ Introduction
 
 ### What's New in 4.1
 
+**SmartStore Enhancements**
+- SmartStore now allows internal (non-leaf) nodes in index paths. This feature is useful in LIKE and MATCH queries.
+- SmartStore now allows arrays in compound index paths.
+
+**Library Upgrades**
+- We've updated React Native to version 0.20.
+
 **Other Technical Improvements**
+- We've removed the Settings bundle. If your users relied on Settings to log out, you can recover that functionality by implementing your own logout button.
+- You no longer use Settings to set custom login hosts. Instead, you can add custom login hosts at runtime from the login screen.
 - Improvements to sample apps.
 - Various bug fixes.
 
