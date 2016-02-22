@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SFUserAccount;
-
+NS_ASSUME_NONNULL_BEGIN
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
@@ -19,13 +19,13 @@ enum {
 };
 
 // Launch actions taken
-typedef enum {
+typedef NS_OPTIONS(NSInteger, SFSDKLaunchAction) {
     SFSDKLaunchActionNone                 = 0,
     SFSDKLaunchActionAuthenticated        = 1 << 0,
     SFSDKLaunchActionAlreadyAuthenticated = 1 << 1,
     SFSDKLaunchActionAuthBypassed         = 1 << 2,
     SFSDKLaunchActionPasscodeVerified     = 1 << 3
-} SFSDKLaunchAction;
+};
 
 /**
  Callback block to implement for post launch actions.
@@ -55,4 +55,6 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 /**
  Block to return a user agent string, with an optional qualifier.
  */
-typedef NSString* (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+
+NS_ASSUME_NONNULL_END

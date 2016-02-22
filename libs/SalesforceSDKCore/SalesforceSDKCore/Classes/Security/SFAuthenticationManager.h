@@ -35,7 +35,7 @@
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
 @class SFLoginViewController;
-
+NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
  */
@@ -353,7 +353,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  @param cookieNames The names of the cookies to remove.
  @param domainNames The names of the domains where the cookies are set.
  */
-+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
++ (void)removeCookies:(NSArray<NSString*> *)cookieNames fromDomains:(NSArray<NSString*> *)domainNames;
 
 /**
  Remove all cookies from the cookie store.
@@ -367,3 +367,5 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 + (void)addSidCookieForDomain:(NSString*)domain;
 
 @end
+
+NS_ASSUME_NONNULL_END
