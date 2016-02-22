@@ -110,11 +110,11 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
         cell.textField.keyboardType = UIKeyboardTypeURL;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         [cell.textField becomeFirstResponder];
-        self.server = cell.textField;
+        self.name = cell.textField;
     } else {
         cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_URL"];
         cell.textField.keyboardType = UIKeyboardTypeDefault;
-        self.name = cell.textField;
+        self.server = cell.textField;
     }
     
     return cell;
