@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -74,6 +74,7 @@ static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
 static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
+static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
 
@@ -881,7 +882,8 @@ static Class InstanceClass = nil;
     [self log:SFLogLevelError format:@"Error during authentication: %@", error];
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[NSString stringWithFormat:[SFSDKResourceUtils localizedString:kAlertConnectionErrorFormatStringKey], [error localizedDescription]]
-                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
+            firstButtonTitle:[SFSDKResourceUtils localizedString:kAlertRetryButtonKey]
+            secondButtonTitle:[SFSDKResourceUtils localizedString:kAlertDismissButtonKey]
                          tag:tag];
 }
 
@@ -889,38 +891,40 @@ static Class InstanceClass = nil;
 {
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
-                 buttonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
+            firstButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
+            secondButtonTitle:[SFSDKResourceUtils localizedString:kAlertDismissButtonKey]
                          tag:kConnectedAppVersionMismatchViewTag];
 }
 
-- (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message buttonTitle:(nullable NSString *)buttonTitle tag:(NSInteger)tag
+- (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message firstButtonTitle:(nullable NSString *)firstButtonTitle secondButtonTitle:(nullable NSString *)secondButtonTitle tag:(NSInteger)tag
 {
-
     if (nil == self.statusAlert) {
         __weak SFAuthenticationManager *weakSelf = self;
         self.statusAlert = [UIAlertController alertControllerWithTitle:title
                                                            message:message
                                                     preferredStyle:UIAlertControllerStyleAlert];
- 
-    
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:buttonTitle
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:firstButtonTitle
                                    style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
+                                   handler:^(UIAlertAction *action) {
                                        if (tag == kOAuthGenericAlertViewTag) {
                                            [weakSelf dismissAuthViewControllerIfPresent];
                                            [weakSelf login];
                                        } else if (tag == kIdentityAlertViewTag) {
                                            [weakSelf.idCoordinator initiateIdentityDataRetrieval];
                                        } else if (tag == kConnectedAppVersionMismatchViewTag) {
+
                                            // The OAuth failure block should be followed, after acknowledging the version mismatch.
                                            [weakSelf execFailureBlocks];
                                        }
                                    }];
-        
         [self.statusAlert addAction:okAction];
-        [[SFRootViewManager sharedManager]  pushViewController:self.statusAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                                            [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
+                                        }];
+        [self.statusAlert addAction:cancelAction];
+        [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
     }
 }
 
@@ -982,9 +986,8 @@ static Class InstanceClass = nil;
                                                      return NO;
                                                  }];
     [authHandlerList addAuthErrorHandler:self.networkFailureAuthErrorHandler];
-    
+
     // Generic failure handler
-    
     self.genericAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                                  initWithName:kSFGenericFailureAuthErrorHandler
                                                  evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
@@ -993,7 +996,6 @@ static Class InstanceClass = nil;
                                                      return YES;
                                                  }];
     [authHandlerList addAuthErrorHandler:self.genericAuthErrorHandler];
-    
     return authHandlerList;
 }
 
@@ -1168,6 +1170,7 @@ static Class InstanceClass = nil;
 - (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error
 {
     if (error.code == kSFIdentityErrorMissingParameters) {
+
         // No retry, as missing parameters are fatal
         [self log:SFLogLevelError format:@"Missing parameters attempting to retrieve identity data.  Error domain: %@, code: %ld, description: %@", [error domain], [error code], [error localizedDescription]];
         [self revokeRefreshToken:[SFUserAccountManager sharedInstance].currentUser];
