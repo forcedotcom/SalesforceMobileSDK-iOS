@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeReactNative
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
@@ -78,9 +79,9 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 /**
  @return The singleton instance of the SDK Manager.
  */
-+ (instancetype)sharedManager;
++ (nonnull instancetype)sharedManager;
 
-@property (nonatomic, strong) SFSDKAppConfig *appConfig;
+@property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
 
 /**
  Whether or not the SDK is currently in the middle of a launch process.
@@ -96,17 +97,17 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 /**
  The Connected App ID configured for this application.
  */
-@property (nonatomic, copy) NSString *connectedAppId;
+@property (nonatomic, copy, nullable) NSString *connectedAppId;
 
 /**
  The Connected App Callback URI configured for this application.
  */
-@property (nonatomic, copy) NSString *connectedAppCallbackUri;
+@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri;
 
 /**
  The OAuth scopes configured for this application.
  */
-@property (nonatomic, strong) NSArray *authScopes;
+@property (nonatomic, strong, nullable) NSArray<NSString*> *authScopes;
 
 /**
  Whether or not to attempt authentication as part of the launch process.  Default
@@ -117,27 +118,27 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 /**
  The configured post launch action block to execute when launch completes.
  */
-@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction;
+@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction;
 
 /**
  The configured launch error action block to execute in the event of an error during launch.
  */
-@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction;
+@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction;
 
 /**
  The post logout action block to execute after the current user has been logged out.
  */
-@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction;
+@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction;
 
 /**
  The switch user action block to execute when switching from one user to another.
  */
-@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction;
+@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction;
 
 /**
  The block to execute after the app has entered the foreground.
  */
-@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction;
+@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction;
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
@@ -158,7 +159,7 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
          [SFPasscodeProviderManager addPasscodeProvider:myProvider];
          [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
  */
-@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider;
 
 /**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
@@ -194,3 +195,5 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
 
 @end
+
+NS_ASSUME_NONNULL_END
