@@ -78,7 +78,6 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
  */
 - (void)addNewServer:(id)sender {
     [self.loginHostListViewController addLoginHost:[SFSDKLoginHost hostWithName:self.name.text host:self.server.text deletable:YES]];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
