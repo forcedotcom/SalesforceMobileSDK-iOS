@@ -40,20 +40,17 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
-    
+
     // Disable the scroll because there is enough space
     // on both the iPhone and iPad to display the two editing rows.
     self.tableView.scrollEnabled = NO;
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                            target:self action:@selector(addNewServer:)];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_ADD_SERVER"];
-    
     [self.tableView registerClass:[SFSDKTextFieldTableViewCell class] forCellReuseIdentifier:SFSDKNewLoginHostCellIdentifier];
 }
 
@@ -96,33 +93,31 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SFSDKTextFieldTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SFSDKNewLoginHostCellIdentifier forIndexPath:indexPath];
-    
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     cell.textField.delegate = self;
     cell.textField.tag = indexPath.row;
-    
+
     // Create the text field for each specific row.
     if (0 == indexPath.row) {
         cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_NAME"];
-        cell.textField.keyboardType = UIKeyboardTypeURL;
-        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cell.textField.keyboardType = UIKeyboardTypeDefault;
         [cell.textField becomeFirstResponder];
         self.name = cell.textField;
     } else {
         cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_URL"];
-        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        cell.textField.keyboardType = UIKeyboardTypeURL;
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.server = cell.textField;
     }
-    
     return cell;
 }
 
 #pragma mark - Text field delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+
     // Enable the Done button only if there is something in the URL field
     if (textField == self.server) {
         NSString *resultingString = [textField.text stringByReplacingCharactersInRange:range withString:string];
