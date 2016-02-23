@@ -892,7 +892,7 @@ static Class InstanceClass = nil;
     [self showAlertWithTitle:[SFSDKResourceUtils localizedString:kAlertErrorTitleKey]
                      message:[SFSDKResourceUtils localizedString:kAlertVersionMismatchErrorKey]
             firstButtonTitle:[SFSDKResourceUtils localizedString:kAlertOkButtonKey]
-            secondButtonTitle:nil
+            secondButtonTitle:[SFSDKResourceUtils localizedString:kAlertDismissButtonKey]
                          tag:kConnectedAppVersionMismatchViewTag];
 }
 
@@ -918,14 +918,12 @@ static Class InstanceClass = nil;
                                        }
                                    }];
         [self.statusAlert addAction:okAction];
-        if (secondButtonTitle != nil) {
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
-                                            style:UIAlertActionStyleDefault
-                                            handler:^(UIAlertAction *action) {
-                                                [weakSelf dismissAuthViewControllerIfPresent];
-                                            }];
-            [self.statusAlert addAction:cancelAction];
-        }
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
+                                        style:UIAlertActionStyleDefault
+                                        handler:^(UIAlertAction *action) {
+                                            [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
+                                        }];
+        [self.statusAlert addAction:cancelAction];
         [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
     }
 }
