@@ -168,7 +168,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSAssert([self.credentials.clientId length] > 0, @"credentials.clientId cannot be nil or empty");
     NSAssert([self.credentials.identifier length] > 0, @"credentials.identifier cannot be nil or empty");
     NSAssert(nil != self.delegate, @"cannot authenticate with nil delegate");
-    
+
     if (self.authenticating) {
         [self log:SFLogLevelDebug format:@"%@ Error: authenticate called while already authenticating. Call stopAuthenticating first.", NSStringFromSelector(_cmd)];
         return;
@@ -886,6 +886,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     
     NSURL *requestUrl = [webView.request URL];
     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
+    [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
     if (-999 == error.code) {
         // -999 errors (operation couldn't be completed) occur during normal execution, therefore only log for debugging
         if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
