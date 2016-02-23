@@ -82,12 +82,12 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 
 - (void)addLoginHost:(SFSDKLoginHost*)host {
     [[SFSDKLoginHostStorage sharedInstance] addLoginHost:host];
-    
     NSUInteger hostIndex = [[SFSDKLoginHostStorage sharedInstance] indexOfLoginHost:host];
     if (hostIndex != NSNotFound) {
+
         // Apply the selected login host
         [self applyLoginHostAtIndex:hostIndex];
-        
+
         // Notify the delegate that a new login host has been added.
         [self delegateDidAddLoginHost];
     }
