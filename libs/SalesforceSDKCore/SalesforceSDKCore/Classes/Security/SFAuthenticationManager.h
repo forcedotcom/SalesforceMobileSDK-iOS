@@ -183,12 +183,12 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  Alert view for displaying auth-related status messages.
  */
-@property (nonatomic, strong) UIAlertController *statusAlert;
+@property (nonatomic, strong, nullable) UIAlertController *statusAlert;
 
 /**
  The view controller used to present the authentication dialog.
  */
-@property (nonatomic, strong) SFLoginViewController *authViewController;
+@property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
 
 /**
  Whether or not the application is currently in the process of authenticating.
@@ -300,7 +300,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  */
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
-                    account:(SFUserAccount *)account;
+                    account:(nullable SFUserAccount *)account;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.
