@@ -27,29 +27,30 @@
 #import "SFUserAccountIdentity.h"
 #import "SFUserAccountConstants.h"
 
+NS_ASSUME_NONNULL_BEGIN
 /** Notification sent when something has changed with the current user
  */
-extern NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
 
 /** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
  The value is a NSNumber that can be casted to the option SFUserAccountChange
  */
-extern NSString * const SFUserAccountManagerUserChangeKey;
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerUserChangeKey;
 
 /**
  Identifies the notification for the login host changing in the app's settings.
  */
-extern NSString * const kSFLoginHostChangedNotification;
+FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotification;
 
 /**
  The key for the original host in a login host change notification.
  */
-extern NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
+FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationOriginalHostKey;
 
 /**
  The key for the updated host in a login host change notification.
  */
-extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
+FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
 @class SFUserAccountManager;
 
@@ -69,7 +70,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
         willSwitchFromUser:(SFUserAccount *)fromUser
-                    toUser:(SFUserAccount *)toUser;
+                    toUser:(nullable SFUserAccount *)toUser;
 
 /**
  Called after the user account manager switches from one user to another.
@@ -80,7 +81,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  */
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
          didSwitchFromUser:(SFUserAccount *)fromUser
-                    toUser:(SFUserAccount *)toUser;
+                    toUser:(nullable SFUserAccount *)toUser;
 
 @end
 
@@ -92,15 +93,15 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 /** The current user account.  This property may be nil if the user
  has never logged in.
  */
-@property (nonatomic, strong) SFUserAccount *currentUser;
+@property (nonatomic, strong, nullable) SFUserAccount *currentUser;
 
 /** The user identity for the temporary user account.
  */
-@property (nonatomic, readonly) SFUserAccountIdentity *temporaryUserIdentity;
+@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity;
 
 /** The "temporary" account user.  Useful for determining whether there's a valid user context.
  */
-@property (nonatomic, readonly) SFUserAccount *temporaryUser;
+@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser;
 
 /** Returns YES if the application supports anonymous user, no otherwise.
  
@@ -119,7 +120,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
 /** Returns the anonymous user or nil if none exists
   */
-@property (nonatomic, strong, readonly) SFUserAccount *anonymousUser;
+@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser;
 
 /** Returns YES if the current user is anonymous, no otherwise
   */
@@ -127,36 +128,36 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
 /**  Convenience property to retrieve the current user's identity.
  */
-@property (nonatomic, readonly) SFUserAccountIdentity *currentUserIdentity;
+@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity;
 
 /**  Convenience property to retrieve the current user's communityId.
  This property is an alias for `currentUser.communityId`
  */
-@property (nonatomic, readonly) NSString *currentCommunityId;
+@property (nonatomic, readonly, nullable) NSString *currentCommunityId;
 
 /** An NSArray of all the SFUserAccount instances for the app.
  */
-@property (nonatomic, readonly) NSArray *allUserAccounts;
+@property (nonatomic, readonly) NSArray<SFUserAccount*> *allUserAccounts;
 
 /** Returns all the user identities sorted by Org ID and User ID.
  */
-@property (nonatomic, readonly) NSArray *allUserIdentities;
+@property (nonatomic, readonly) NSArray<SFUserAccountIdentity*> *allUserIdentities;
 
 /** The most recently active user identity. Note that this may be temporarily
  different from currentUser if the user associated with the activeUserIdentity
  is removed from the accounts list.
  */
-@property (nonatomic, copy) SFUserAccountIdentity *activeUserIdentity;
+@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity;
 
 /** The most recently active community ID. Set when a user
  is changed and stored to disk for retrieval after bootup
  */
-@property (nonatomic, copy) NSString *activeCommunityId;
+@property (nonatomic, copy, nullable) NSString *activeCommunityId;
 
 /** A convenience property to store the previous community
  id as it may change during early oAuth flow and we want to retain it
  */
-@property (nonatomic, strong) NSString *previousCommunityId;
+@property (nonatomic, strong, nullable) NSString *previousCommunityId;
 
 /** The host that will be used for login.
  */
@@ -171,7 +172,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  value is determined by the SFDCOAuthClientIdPreference 
  configured via the settings bundle.
  */
-@property (nonatomic, copy) NSString *oauthClientId;
+@property (nonatomic, copy, nullable) NSString *oauthClientId;
 
 /** Oauth callback url to use for the oauth login process.
  Apps may customize this by setting this property before login.
@@ -179,12 +180,12 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  bundle property SFDCOAuthRedirectUri
  default: @"sfdc:///axm/detect/oauth/done")
  */
-@property (nonatomic, copy) NSString *oauthCompletionUrl;
+@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl;
 
 /**
  The OAuth scopes associated with the app.
  */
-@property (nonatomic, copy) NSSet *scopes;
+@property (nonatomic, copy) NSSet<NSString*> *scopes;
 
 /** Shared singleton
  */
@@ -240,19 +241,19 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 
 /** Allows you to lookup the user account associated with a given user identity.
  */
-- (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity;
+- (nullable SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity;
 
 /** Returns all accounts that have access to a particular org
  @param orgId The org to match accounts against
  @return An array of accounts that can access that org
  */
-- (NSArray *)accountsForOrgId:(NSString *)orgId;
+- (NSArray<SFUserAccount*> *)accountsForOrgId:(NSString *)orgId;
 
 /** Returns all accounts that match a particular instance URL
  @param instanceURL The host parameter of a given instance URL
  @return An array of accounts that match that instance URL
  */
-- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL;
+- (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSString *)instanceURL;
 
 /** Adds a user account
  */
@@ -314,7 +315,7 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
  Switches away from the current user, to the given user account.
  @param newCurrentUser The user to switch to.
  */
-- (void)switchToUser:(SFUserAccount *)newCurrentUser;
+- (void)switchToUser:(nullable SFUserAccount *)newCurrentUser;
 
 /** Invoke this method to inform this manager
  that something has changed for the current user.
@@ -325,3 +326,5 @@ extern NSString * const kSFLoginHostChangedNotificationUpdatedHostKey;
 - (void)userChanged:(SFUserAccountChange)change;
 
 @end
+
+NS_ASSUME_NONNULL_END
