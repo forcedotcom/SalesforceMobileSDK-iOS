@@ -209,7 +209,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 #pragma mark - Default Values
 
-- (NSSet *)scope
+- (NSSet *)scopes
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
