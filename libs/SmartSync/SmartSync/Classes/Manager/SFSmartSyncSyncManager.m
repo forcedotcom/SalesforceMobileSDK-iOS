@@ -324,7 +324,7 @@ static NSMutableDictionary *syncMgrList = nil;
                error:(NSError **)error {
     NSMutableArray* recordsToSave = [NSMutableArray array];
     
-    NSArray* idsToSkip = nil;
+    NSOrderedSet* idsToSkip = nil;
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged) {
         idsToSkip = [self getDirtyRecordIds:soupName idField:idFieldName];
     }
@@ -352,8 +352,8 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (NSArray*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
-    NSMutableArray* ids = [NSMutableArray new];
+- (NSOrderedSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField {
+    NSMutableOrderedSet* ids = [NSMutableOrderedSet new];
     
     NSString* dirtyRecordSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} = '1' ORDER BY {%@:%@} ASC", soupName, idField, soupName, soupName, kSyncManagerLocal, soupName, idField];
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:dirtyRecordSql withPageSize:kSyncManagerPageSize];
