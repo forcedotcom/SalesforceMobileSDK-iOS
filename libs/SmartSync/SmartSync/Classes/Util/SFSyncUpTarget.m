@@ -184,7 +184,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
 - (NSArray*)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager*)syncManager
                            soupName:(NSString*)soupName
 {
-    return [syncManager getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID];
+    return [[syncManager getDirtyRecordIds:soupName idField:SOUP_ENTRY_ID] array];
 }
 
 
