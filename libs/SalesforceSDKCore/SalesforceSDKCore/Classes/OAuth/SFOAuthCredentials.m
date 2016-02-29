@@ -121,7 +121,9 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
-    [coder encodeObject:@(self.isEncrypted)          forKey:@"SFOAuthEncrypted"];
+    [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
+    [coder encodeObject:self.refreshToken       forKey:@"SFOAuthRefreshToken"];
+    [coder encodeObject:self.accessToken        forKey:@"SFOAuthAccessToken"];
 }
 
 - (id)init {

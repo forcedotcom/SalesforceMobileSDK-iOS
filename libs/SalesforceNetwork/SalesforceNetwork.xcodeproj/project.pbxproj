@@ -20,7 +20,6 @@
 		82A0C3D91A99115300243931 /* CSFActionParameterStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D51A99115300243931 /* CSFActionParameterStorageTests.m */; };
 		82A0C3DA1A99115300243931 /* CSFInputStreamElementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D61A99115300243931 /* CSFInputStreamElementTests.m */; };
 		82A0C3DB1A99115300243931 /* CSFMultipartInputStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D71A99115300243931 /* CSFMultipartInputStreamTests.m */; };
-		82A0C3DC1A99115300243931 /* JSONNetworkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82A0C3D81A99115300243931 /* JSONNetworkTests.m */; };
 		82A0C3DE1A9911A000243931 /* SimpleFile.json in Resources */ = {isa = PBXBuildFile; fileRef = 82A0C3DD1A9911A000243931 /* SimpleFile.json */; };
 		82A0C3E01A99145500243931 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82A0C3DF1A99145500243931 /* MobileCoreServices.framework */; };
 		CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
@@ -356,7 +355,6 @@
 		82A0C3D51A99115300243931 /* CSFActionParameterStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFActionParameterStorageTests.m; sourceTree = "<group>"; };
 		82A0C3D61A99115300243931 /* CSFInputStreamElementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFInputStreamElementTests.m; sourceTree = "<group>"; };
 		82A0C3D71A99115300243931 /* CSFMultipartInputStreamTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFMultipartInputStreamTests.m; sourceTree = "<group>"; };
-		82A0C3D81A99115300243931 /* JSONNetworkTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONNetworkTests.m; sourceTree = "<group>"; };
 		82A0C3DD1A9911A000243931 /* SimpleFile.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SimpleFile.json; sourceTree = "<group>"; };
 		82A0C3DF1A99145500243931 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		82ABD5191A90152B0051CC9B /* CSFAuthRefresh+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CSFAuthRefresh+Internal.h"; sourceTree = "<group>"; };
@@ -454,7 +452,6 @@
 				82A0C3D71A99115300243931 /* CSFMultipartInputStreamTests.m */,
 				825348091A8ADD220019FE0B /* CSFOutputTests.m */,
 				8253480B1A8ADD220019FE0B /* InternalFunctionTests.m */,
-				82A0C3D81A99115300243931 /* JSONNetworkTests.m */,
 				82A0C3A31A990E8A00243931 /* MockNetworkTests.m */,
 				82A0C3A51A990EBF00243931 /* ValueTransformerTests.m */,
 				825348D91A8AF6570019FE0B /* Resources */,
@@ -1045,7 +1042,6 @@
 				82A0C3B51A990FD600243931 /* MockNetworkTests.m in Sources */,
 				825348691A8ADD220019FE0B /* CSFOutputTests.m in Sources */,
 				82A0C3DA1A99115300243931 /* CSFInputStreamElementTests.m in Sources */,
-				82A0C3DC1A99115300243931 /* JSONNetworkTests.m in Sources */,
 				82A0C3D91A99115300243931 /* CSFActionParameterStorageTests.m in Sources */,
 				825348BC1A8ADD220019FE0B /* TestDataAction.m in Sources */,
 			);

@@ -128,6 +128,6 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  @param soupName The name of the soup to look into.
  @param idField The field to return.
  */
-- (NSSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField;
+- (NSOrderedSet*) getDirtyRecordIds:(NSString*)soupName idField:(NSString*)idField;
 
 @end

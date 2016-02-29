@@ -37,7 +37,7 @@ script:
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
    - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
    # run tests that don't need a host app
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
    # run tests that need a host app
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPITestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test

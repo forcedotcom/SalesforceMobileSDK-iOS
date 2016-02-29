@@ -850,7 +850,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     NSMutableURLRequest *request = nil;
     if (url) {
         request = [NSMutableURLRequest requestWithURL:url
-                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                          cachePolicy:NSURLRequestReloadIgnoringCacheData
                                       timeoutInterval:self.timeoutInterval];
         request.HTTPMethod = self.method;
         request.allHTTPHeaderFields = [self headersForAction];

@@ -35,7 +35,7 @@
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
 @class SFLoginViewController;
-
+NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
  */
@@ -183,12 +183,12 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 /**
  Alert view for displaying auth-related status messages.
  */
-@property (nonatomic, strong) UIAlertController *statusAlert;
+@property (nonatomic, strong, nullable) UIAlertController *statusAlert;
 
 /**
  The view controller used to present the authentication dialog.
  */
-@property (nonatomic, strong) SFLoginViewController *authViewController;
+@property (nonatomic, strong, nullable) SFLoginViewController *authViewController;
 
 /**
  Whether or not the application is currently in the process of authenticating.
@@ -300,7 +300,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  */
 - (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
-                    account:(SFUserAccount *)account;
+                    account:(nullable SFUserAccount *)account;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.
@@ -353,7 +353,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  @param cookieNames The names of the cookies to remove.
  @param domainNames The names of the domains where the cookies are set.
  */
-+ (void)removeCookies:(NSArray *)cookieNames fromDomains:(NSArray *)domainNames;
++ (void)removeCookies:(NSArray<NSString*> *)cookieNames fromDomains:(NSArray<NSString*> *)domainNames;
 
 /**
  Remove all cookies from the cookie store.
@@ -367,3 +367,5 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 + (void)addSidCookieForDomain:(NSString*)domain;
 
 @end
+
+NS_ASSUME_NONNULL_END
