@@ -11,8 +11,6 @@ import XCTest
 
 class SalesforceTestCase: XCTestCase {
     
-    var isLoggedIn  = false
-    
     var loginDelegate: SFLoginDelegate = LoginHelper()
     
     override func setUp() {
@@ -26,10 +24,7 @@ class SalesforceTestCase: XCTestCase {
         XCUIApplication().launch()
         
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-        if (!isLoggedIn) {
-            loginThroughUI()
-            isLoggedIn = true
-        }
+        loginThroughUI()
     }
     
     override func tearDown() {
