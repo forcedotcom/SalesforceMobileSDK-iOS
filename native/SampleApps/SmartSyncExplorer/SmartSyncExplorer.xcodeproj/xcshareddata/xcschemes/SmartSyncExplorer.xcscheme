@@ -28,6 +28,16 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F1DA68A1C84FD7E0014FAD3"
+               BuildableName = "SmartSyncExplorerUITests.xctest"
+               BlueprintName = "SmartSyncExplorerUITests"
+               ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
