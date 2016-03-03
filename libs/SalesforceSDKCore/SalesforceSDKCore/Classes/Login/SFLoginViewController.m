@@ -93,7 +93,7 @@
 #pragma mark - Setup Navigation bar
 
 - (void)setupNavigationBar {
-    self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
+    /*self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
     
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     // setup top item
@@ -106,7 +106,7 @@
     self.navBar.tintColor = [UIColor whiteColor];
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
-    [self setNeedsStatusBarAppearanceUpdate];
+    [self setNeedsStatusBarAppearanceUpdate];*/
 }
 
 - (void)setupBackButton {
