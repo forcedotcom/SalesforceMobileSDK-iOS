@@ -28,21 +28,29 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import Foundation
 import XCTest
 
-class LoginHelper: SFLoginDelegate {
+enum Host {
+    case production
+    case sandbox
+}
+
+
+class LoginHelper {
     
-    func loginToSalesforce() {
+    func loginToSalesforce(userName: String, password: String, host: Host) {
         
         let loginPage = LoginPage()
         
+        // Set host
+        loginPage.chooseConnection(host)
+        
         // Set user name
-        // TODO get from login helper, maybe plist or arg
-        loginPage.setUserName("eric@na1.mobile.ee.com")
+        loginPage.setUserName(userName)
         
         // Set password
-        loginPage.setPassword("test1234")
+        loginPage.setPassword(password)
         
         // Tap login
-        let allowDenyPage = loginPage.tapLoginButton()
+        let allowDenyPage = loginPage.login()
         
         // Tap allow
         allowDenyPage.tapAllowButton()

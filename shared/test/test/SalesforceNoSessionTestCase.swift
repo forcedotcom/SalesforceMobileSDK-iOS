@@ -30,8 +30,6 @@ import XCTest
 
 class SalesforceNoSessionTestCase: XCTestCase {
     
-    var loginDelegate: SFLoginDelegate = LoginHelper()
-    
     override func setUp() {
         super.setUp()
         
@@ -42,10 +40,6 @@ class SalesforceNoSessionTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-    }
-    
-    func loginThroughUI() {
-        loginDelegate.loginToSalesforce()
     }
     
 }

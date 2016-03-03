@@ -28,7 +28,19 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import Foundation
 import XCTest
 
-class LoginPage: PageObject,PageThatWaits {
+class LoginPage: PageObject, PageThatWaits {
+    
+    private var navigationBar : XCUIElement {
+        get {
+            return app.navigationBars["Log In"]
+        }
+    }
+    
+    private var chooseConnectionButton : XCUIElement {
+        get {
+            return navigationBar.buttons["Choose Connection"]
+        }
+    }
     
     private var userNameField: XCUIElement {
         get {
@@ -50,7 +62,6 @@ class LoginPage: PageObject,PageThatWaits {
 
         }
     }
-
     
     func waitForPageInvalid() {
         waitForElementDoesNotExist(userNameField)
@@ -60,6 +71,8 @@ class LoginPage: PageObject,PageThatWaits {
     func waitForPageLoaded() {
         waitForElementExists(userNameField)
     }
+
+    // MARK: Act on screen
     
     func setUserName(userName: String) -> LoginPage {
         userNameField.pressForDuration(2)
@@ -73,7 +86,7 @@ class LoginPage: PageObject,PageThatWaits {
         return self
     }
     
-    func tapLoginButton() -> AllowDenyPage {
+    func login() -> AllowDenyPage {
         loginButton.tap()
         let allowDenyPage = AllowDenyPage()
         allowDenyPage.waitForPageLoaded()
@@ -81,5 +94,17 @@ class LoginPage: PageObject,PageThatWaits {
         
     }
     
+    func chooseConnection(host : Host) -> LoginPage {
+        chooseConnectionButton.tap()
+        switch(host) {
+        case .production:
+            app.tables.staticTexts["Sandbox"].tap()
+            break
+        case .sandbox:
+            app.tables.staticTexts["Sandbox"].tap()
+            break
+        }
+        return self;
+    }
   
 }

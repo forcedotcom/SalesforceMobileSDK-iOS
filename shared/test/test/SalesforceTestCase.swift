@@ -30,7 +30,7 @@ import XCTest
 
 class SalesforceTestCase: XCTestCase {
     
-    var loginDelegate: SFLoginDelegate = LoginHelper()
+    var loginDelegate = LoginHelper()
     
     override func setUp() {
         super.setUp()
@@ -45,7 +45,7 @@ class SalesforceTestCase: XCTestCase {
     }
     
     func loginThroughUI() {
-        loginDelegate.loginToSalesforce()
+        loginDelegate.loginToSalesforce("wolf@cs1.mobilesdk.ee.org", password:"test123456", host:Host.sandbox)
     }
 
 }

@@ -29,6 +29,8 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import XCTest
 
 class SmartSyncExplorerTest: SalesforceTestCase {
+
+    let searchScreen = SearchScreen()
     
     // MARK: Setup
     
@@ -37,7 +39,7 @@ class SmartSyncExplorerTest: SalesforceTestCase {
     }
     
     override func tearDown() {
-        hitLogoutIfPossible()
+        searchScreen.logout()
         super.tearDown()
     }
     
@@ -46,7 +48,7 @@ class SmartSyncExplorerTest: SalesforceTestCase {
     func testCreateSaveSearchOpen() {
         let uids = createLocally(3)
         for uid in uids {
-            searchAndOpen(uid);
+            searchAndCheck(uid);
         }
     }
 
@@ -54,103 +56,40 @@ class SmartSyncExplorerTest: SalesforceTestCase {
 
     // Create n records and return their uid's
     func createLocally(n:Int) -> [Int] {
-        var result : [Int] = []
+        var uids : [Int] = []
         
         for (var i=0; i<n; i++) {
-            let uid = self.uid()
-            result.append(uid)
-            
-            hitAddInSearchScreen()
-            fillDetailScreen(uid)
-            hitButtonInDetailScreen("Save")
+            let uid = generateUid()
+            uids.append(uid)
+            createRecord(uid)
         }
         
-        return result;
+        return uids;
     }
     
-    // Search for record uid and open detail screen
-    func searchAndOpen(uid:Int) {
-        searchFor(uid)
-        checkSearchResultFor(uid)
-        openDetailFor(uid)
-        checkDetailScreen(uid)
-        hitButtonInDetailScreen("Contacts")
+    // Clicks add, fills some fields, clicks save
+    func createRecord(uid:Int) {
+        let detailScreen = searchScreen.addRecord()
+        detailScreen.typeFirstName("fn\(uid)").typeLastName("ln\(uid)").typeTitle("t\(uid)")
+        detailScreen.save()
     }
     
-    func hitLogoutIfPossible() {
-        let app = XCUIApplication()
-        let contactsNavigationBar = app.navigationBars["Contacts"]
-        if (contactsNavigationBar.exists) {
-            contactsNavigationBar.buttons["Share"].tap()
-            app.tables.staticTexts["Logout current user"].tap()
-            app.sheets["Are you sure you want to log out?"].collectionViews.buttons["Confirm Logout"].tap()
-        }
+    // Search for record, check results, open detail screen for record, check fields, goes back to search screen
+    func searchAndCheck(uid:Int) {
+        searchScreen.clearSearch()
+        searchScreen.typeSearch("fn\(uid)")
+        XCTAssertEqual(searchScreen.countRecords(), 1)
+        XCTAssert(searchScreen.hasRecord("fn\(uid) ln\(uid)"))
+        let detailScreen = searchScreen.openRecord("fn\(uid) ln\(uid)")
+        detailScreen.edit()
+        XCTAssert(detailScreen.hasFirstName("fn\(uid)"))
+        XCTAssert(detailScreen.hasLastName("ln\(uid)"))
+        XCTAssert(detailScreen.hasTitle("t\(uid)"))
+        detailScreen.cancel()
+        detailScreen.backToSearch()
     }
     
-    func searchFor(uid: Int) {
-        let tablesQuery = XCUIApplication().tables
-        let searchSearchField = tablesQuery.searchFields["Search"]
-        searchSearchField.tap()
-        if (searchSearchField.buttons["Clear text"].exists) {
-            searchSearchField.buttons["Clear text"].tap()
-        }
-        searchSearchField.tap()
-        searchSearchField.typeText("fn\(uid)")
-    }
-    
-    func checkSearchResultFor(uid: Int) {
-        let tablesQuery = XCUIApplication().tables
-        XCTAssert(tablesQuery.cells.count == 1)
-        XCTAssert(tablesQuery.staticTexts["fn\(uid) ln\(uid)"].exists)
-        XCTAssert(tablesQuery.staticTexts["t\(uid)"].exists)
-    }
-    
-    func openDetailFor(uid: Int) {
-        let tablesQuery = XCUIApplication().tables
-        tablesQuery.staticTexts["fn\(uid) ln\(uid)"].tap()
-    }
-    
-    func hitAddInSearchScreen() {
-        let contactsNavigationBar = XCUIApplication().navigationBars["Contacts"]
-        contactsNavigationBar.buttons["add"].tap()
-    }
-    
-    func hitButtonInDetailScreen(label: String) {
-        let contactdetailviewNavigationBar = XCUIApplication().navigationBars["ContactDetailView"]
-        contactdetailviewNavigationBar.buttons[label].tap()
-        
-    }
-    
-    func fillDetailScreen(uid:Int) {
-        fillField(0, value:"fn\(uid)")
-        fillField(1, value:"ln\(uid)")
-        fillField(2, value:"t\(uid)");
-    }
-
-    func checkDetailScreen(uid:Int) {
-        hitButtonInDetailScreen("Edit")
-        checkField(0, value:"fn\(uid)")
-        checkField(1, value:"ln\(uid)")
-        checkField(2, value:"t\(uid)");
-        hitButtonInDetailScreen("Cancel")
-    }
-    
-    func fillField(index: UInt, value: String) {
-        let tablesQuery = XCUIApplication().tables
-        let field = tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(index).childrenMatchingType(.TextField).element
-        field.tap()
-        field.tap()
-        field.typeText(value);
-    }
-    
-    
-    func checkField(index: UInt, value: String) {
-        let tablesQuery = XCUIApplication().tables
-        let field = tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(index).childrenMatchingType(.TextField).element
-        XCTAssertEqual(field.value as! String, value)
-    }
-    
-    func uid() -> Int {
+    func generateUid() -> Int {
         return Int(arc4random_uniform(9000) + 1000);
     }
 }
