@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFHybridConnectionMonitor.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFHybridConnectionMonitor</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+            
+			
+			<NodeRef refid="6"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/setConnectionType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridConnectionMonitor/connectionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (copy) NSString *connectionType</Declaration>
+			
+			
+			<Anchor>//api/name/connectionType</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/setInternetReach:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
+			
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridConnectionMonitor/internetReach</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
+			
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridConnectionMonitor/internetReach</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>@property (strong) SFSDKReachability *internetReach</Declaration>
+			
+			
+			<Anchor>//api/name/internetReach</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFHybridConnectionMonitor/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the singleton instance of SFConnection</Abstract>
+			<DeclaredIn>SFHybridConnectionMonitor.h</DeclaredIn>
+			
+			<Declaration>+ (SFHybridConnectionMonitor *)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

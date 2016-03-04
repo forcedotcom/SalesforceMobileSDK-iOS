@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSoqlSyncDownTarget.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSoqlSyncDownTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+            
+			
+			<NodeRef refid="15"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/setQuery:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoqlSyncDownTarget/query</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoqlSyncDownTarget/query</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *query</Declaration>
+			
+			
+			<Anchor>//api/name/query</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/addFilterForReSync:modDateFieldName:maxTimeStamp:</TokenIdentifier>
+			<Abstract type="html">Adds a filter for re-syncing a data set, using the given modification date field.</Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)addFilterForReSync:(NSString *)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>query</Name>
+					<Abstract type="html">The original query to append a re-syncing clause to.</Abstract>
+				</Parameter><Parameter>
+					<Name>modDateFieldName</Name>
+					<Abstract type="html">The name of the SOQL field representing the modification date field.</Abstract>
+				</Parameter><Parameter>
+					<Name>maxTimeStamp</Name>
+					<Abstract type="html">The latest modification time represented locally.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The original query with an additional re-syncing clause added.</Abstract></ReturnValue>
+			<Anchor>//api/name/addFilterForReSync:modDateFieldName:maxTimeStamp:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoqlSyncDownTarget/newSyncTarget:</TokenIdentifier>
+			<Abstract type="html">Factory methods</Abstract>
+			<DeclaredIn>SFSoqlSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>+ (SFSoqlSyncDownTarget *)newSyncTarget:(NSString *)query</Declaration>
+			
+			
+			<Anchor>//api/name/newSyncTarget:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

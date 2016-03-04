@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/CSFParameterStorage.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFParameterStorage</TokenIdentifier>
+			<Abstract type="html">Class that declares an abstract interface for working with HTTP request parameters.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+            
+			
+			<NodeRef refid="14"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setParameterStyle:</TokenIdentifier>
+			<Abstract type="html">Exposes the underlying style this parameter storage will be represented as.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) CSFParameterStyle parameterStyle</Declaration>
+			
+			
+			<Anchor>//api/name/parameterStyle</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/parameterStyle</TokenIdentifier>
+			<Abstract type="html">Exposes the underlying style this parameter storage will be represented as.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) CSFParameterStyle parameterStyle</Declaration>
+			
+			
+			<Anchor>//api/name/parameterStyle</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFParameterStorage/parameterStyle</TokenIdentifier>
+			<Abstract type="html">Exposes the underlying style this parameter storage will be represented as.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) CSFParameterStyle parameterStyle</Declaration>
+			
+			
+			<Anchor>//api/name/parameterStyle</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setBodyStreamBlock:</TokenIdentifier>
+			<Abstract type="html">If a custom request body is required for a particular action type, this property can be set to an
+NSInputStream instance to override the data that will be submitted to the server.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) bodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/bodyStreamBlock</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/bodyStreamBlock</TokenIdentifier>
+			<Abstract type="html">If a custom request body is required for a particular action type, this property can be set to an
+NSInputStream instance to override the data that will be submitted to the server.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) bodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/bodyStreamBlock</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFParameterStorage/bodyStreamBlock</TokenIdentifier>
+			<Abstract type="html">If a custom request body is required for a particular action type, this property can be set to an
+NSInputStream instance to override the data that will be submitted to the server.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSInputStream *^ ) ( void ) bodyStreamBlock</Declaration>
+			
+			
+			<Anchor>//api/name/bodyStreamBlock</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setAllKeys:</TokenIdentifier>
+			<Abstract type="html">List of all the parameter keys that have been added to this instance.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/allKeys</TokenIdentifier>
+			<Abstract type="html">List of all the parameter keys that have been added to this instance.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFParameterStorage/allKeys</TokenIdentifier>
+			<Abstract type="html">List of all the parameter keys that have been added to this instance.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSArray *allKeys</Declaration>
+			
+			
+			<Anchor>//api/name/allKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setQueryStringKeys:</TokenIdentifier>
+			<Abstract type="html">Set of parameter keys that will be submitted to the URL&apos;s query string.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet *queryStringKeys</Declaration>
+			
+			
+			<Anchor>//api/name/queryStringKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/queryStringKeys</TokenIdentifier>
+			<Abstract type="html">Set of parameter keys that will be submitted to the URL&apos;s query string.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet *queryStringKeys</Declaration>
+			
+			
+			<Anchor>//api/name/queryStringKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFParameterStorage/queryStringKeys</TokenIdentifier>
+			<Abstract type="html">Set of parameter keys that will be submitted to the URL&apos;s query string.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSSet *queryStringKeys</Declaration>
+			
+			
+			<Anchor>//api/name/queryStringKeys</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets an arbitrary parameter value for the given key.  Only supports values that are capable of being sent over a
+network request, therefore any value other than NSString, NSNumber, NSDate, NSData, or NSFileWrapper will be rejected.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">Value to set.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key, or parameter name, to use for this value.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setObject:forKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKey:filename:mimeType:</TokenIdentifier>
+			<Abstract type="html">Sets an object with a filename and mime type.  This is similar to setObject:forKey:</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKey:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setFileName:forKey:</TokenIdentifier>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setMimeType:forKey:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key filename:(NSString *)filename mimeType:(NSString *)mimeType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object to set.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The form key to set the value to.</Abstract>
+				</Parameter><Parameter>
+					<Name>filename</Name>
+					<Abstract type="html">The optional filename.</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">The optional mimetype.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setObject:forKey:filename:mimeType:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the parameter object for the given key.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key to fetch a value for.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The object for that key, or nil if no object found.</Abstract></ReturnValue>
+			<Anchor>//api/name/objectForKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/mimeTypeForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the mime type assigned to the object with the given key.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)mimeTypeForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key to fetch a mimetype for.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The mime type assigned to this key, or nil if none has been assigned.</Abstract></ReturnValue>
+			<Anchor>//api/name/mimeTypeForKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setMimeType:forKey:</TokenIdentifier>
+			<Abstract type="html">Set the mime type for the given key.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)setMimeType:(NSString *)mimeType forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">Type to set.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key to associate the mimetype with.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setMimeType:forKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/fileNameForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the filename assigned to the object with the given key.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)fileNameForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key to fetch the filename for.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The filename assigned to this key, or nil if none has been assigned.</Abstract></ReturnValue>
+			<Anchor>//api/name/fileNameForKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setFileName:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets the file name for the object with the given key.</Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)setFileName:(NSString *)fileName forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">The filename to set.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key to associate the filename with.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setFileName:forKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/setHTTPMethod:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *HTTPMethod</Declaration>
+			
+			
+			<Anchor>//api/name/HTTPMethod</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/HTTPMethod</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *HTTPMethod</Declaration>
+			
+			
+			<Anchor>//api/name/HTTPMethod</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFParameterStorage/HTTPMethod</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *HTTPMethod</Declaration>
+			
+			
+			<Anchor>//api/name/HTTPMethod</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/bindParametersToRequest:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)bindParametersToRequest:(NSMutableURLRequest *)request error:(NSError *__autoreleasing *)error</Declaration>
+			
+			
+			<Anchor>//api/name/bindParametersToRequest:error:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFParameterStorage/requiredParameterStyleForObject:forKey:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFParameterStorage_Internal.h</DeclaredIn>
+			
+			<Declaration>- (CSFParameterStyle)requiredParameterStyleForObject:(id)object forKey:(NSString *)key</Declaration>
+			
+			
+			<Anchor>//api/name/requiredParameterStyleForObject:forKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

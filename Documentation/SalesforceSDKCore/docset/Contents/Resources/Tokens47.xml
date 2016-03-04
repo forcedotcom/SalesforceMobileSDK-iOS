@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFPasscodeViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeViewController</TokenIdentifier>
+			<Abstract type="html">The view controller for managing the passcode screen.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+            
+			
+			<NodeRef refid="47"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeVerification</TokenIdentifier>
+			<Abstract type="html">Initializes the controller for verifying an existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			
+			<Declaration>- (id)initForPasscodeVerification</Declaration>
+			
+			
+			<Anchor>//api/name/initForPasscodeVerification</Anchor>
+            <NodeRef refid="47"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeCreation:</TokenIdentifier>
+			<Abstract type="html">Initializes the controller for creating a new passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			
+			<Declaration>- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>minPasscodeLength</Name>
+					<Abstract type="html">The minimum passcode length for the new passcode.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initForPasscodeCreation:</Anchor>
+            <NodeRef refid="47"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeChange:</TokenIdentifier>
+			<Abstract type="html">Initializes the controller for changing the existing passcode.</Abstract>
+			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			
+			<Declaration>- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>minPasscodeLength</Name>
+					<Abstract type="html">The minimum passcode length for the new passcode.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initForPasscodeChange:</Anchor>
+            <NodeRef refid="47"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

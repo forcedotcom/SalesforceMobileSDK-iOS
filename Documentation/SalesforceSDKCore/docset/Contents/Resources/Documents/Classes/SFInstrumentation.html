@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>SFInstrumentation Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceMobileSDK </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/enabled">enabled</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/instrumentationForClass:">+ instrumentationForClass:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/instrumentForTiming:afterBlock:">- instrumentForTiming:afterBlock:</option>
+		
+		<option value="//api/name/interceptInstanceMethod:beforeBlock:afterBlock:">- interceptInstanceMethod:beforeBlock:afterBlock:</option>
+		
+		<option value="//api/name/interceptInstanceMethod:replaceWithInvocationBlock:">- interceptInstanceMethod:replaceWithInvocationBlock:</option>
+		
+		<option value="//api/name/loadInstructions:completion:">- loadInstructions:completion:</option>
+		
+		<option value="//api/name/startMeasure">- startMeasure</option>
+		
+		<option value="//api/name/stopMeasure">- stopMeasure</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">SFInstrumentation Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFInstrumentation.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class exposes API that allow to intercept
+method call and introspect the object being intercepted.
+It can be used to record timing &amp; usage information for example.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/enabled" title="enabled"></a>
+	<h3 class="method-title"><code><a href="#//api/name/enabled">&nbsp;&nbsp;enabled</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Enable or disable this instrumentation instance</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL enabled</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentationForClass:" title="instrumentationForClass:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationForClass:">+&nbsp;instrumentationForClass:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an instrumentation instance for the specified class</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)instrumentationForClass:(Class)<em>clazz</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptInstanceMethod:beforeBlock:afterBlock:" title="interceptInstanceMethod:beforeBlock:afterBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptInstanceMethod:beforeBlock:afterBlock:">&ndash;&nbsp;interceptInstanceMethod:beforeBlock:afterBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this method to intercept the instance method specified by <code>selector</code></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)interceptInstanceMethod:(SEL)<em>selector</em> beforeBlock:(SFMethodInterceptorInvocationCallback)<em>before</em> afterBlock:(SFMethodInterceptorInvocationAfterCallback)<em>after</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selector</code></th>
+						<td><p>The selector to intercept</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>before</code></th>
+						<td><p>An optional block invoked before the selector is executed</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>after</code></th>
+						<td><p>An optional block invoked after the selector is executed</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptInstanceMethod:replaceWithInvocationBlock:" title="interceptInstanceMethod:replaceWithInvocationBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptInstanceMethod:replaceWithInvocationBlock:">&ndash;&nbsp;interceptInstanceMethod:replaceWithInvocationBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this method to intercept the instance method specified by <code>selector</code>
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)interceptInstanceMethod:(SEL)<em>selector</em> replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)<em>before</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentForTiming:afterBlock:" title="instrumentForTiming:afterBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentForTiming:afterBlock:">&ndash;&nbsp;instrumentForTiming:afterBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Instrument some selectors of a the target class for performance timing</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)<em>selectorFilter</em> afterBlock:(SFMethodInterceptorInvocationAfterCallback)<em>after</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selectorFilter</code></th>
+						<td><p>A block invoked when to select selectors from the class to instrument</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>after</code></th>
+						<td><p>An optional block invoked after any selector is executed</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/loadInstructions:completion:" title="loadInstructions:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loadInstructions:completion:">&ndash;&nbsp;loadInstructions:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Loads the array of instructions execute them. The instructions usually
+comes from a JSON file.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)loadInstructions:(NSArray *)<em>instructions</em> completion:(dispatch_block_t)<em>completion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>instructions</code></th>
+						<td><p>The array of instructions</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completion</code></th>
+						<td><p>Optional completion block</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/startMeasure" title="startMeasure"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startMeasure">&ndash;&nbsp;startMeasure</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Start the timing measurement</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)startMeasure</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stopMeasure" title="stopMeasure"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stopMeasure">&ndash;&nbsp;stopMeasure</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Stop the timing measurement</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)stopMeasure</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

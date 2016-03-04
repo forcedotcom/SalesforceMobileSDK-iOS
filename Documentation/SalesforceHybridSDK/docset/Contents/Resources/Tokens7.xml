@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFHybridViewConfig.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFHybridViewConfig</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+            
+			
+			<NodeRef refid="7"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setIsLocal:</TokenIdentifier>
+			<Abstract type="html">Whether or not the start page for this application is local, vs. remote.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isLocal</Declaration>
+			
+			
+			<Anchor>//api/name/isLocal</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/isLocal</TokenIdentifier>
+			<Abstract type="html">Whether or not the start page for this application is local, vs. remote.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isLocal</Declaration>
+			
+			
+			<Anchor>//api/name/isLocal</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewConfig/isLocal</TokenIdentifier>
+			<Abstract type="html">Whether or not the start page for this application is local, vs. remote.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL isLocal</Declaration>
+			
+			
+			<Anchor>//api/name/isLocal</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setStartPage:</TokenIdentifier>
+			<Abstract type="html">The start page associated with this app.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startPage</Declaration>
+			
+			
+			<Anchor>//api/name/startPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/startPage</TokenIdentifier>
+			<Abstract type="html">The start page associated with this app.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startPage</Declaration>
+			
+			
+			<Anchor>//api/name/startPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewConfig/startPage</TokenIdentifier>
+			<Abstract type="html">The start page associated with this app.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *startPage</Declaration>
+			
+			
+			<Anchor>//api/name/startPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setErrorPage:</TokenIdentifier>
+			<Abstract type="html">The error page to navigate to, in the event of an error during the app load process.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorPage</Declaration>
+			
+			
+			<Anchor>//api/name/errorPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/errorPage</TokenIdentifier>
+			<Abstract type="html">The error page to navigate to, in the event of an error during the app load process.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorPage</Declaration>
+			
+			
+			<Anchor>//api/name/errorPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewConfig/errorPage</TokenIdentifier>
+			<Abstract type="html">The error page to navigate to, in the event of an error during the app load process.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *errorPage</Declaration>
+			
+			
+			<Anchor>//api/name/errorPage</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/setAttemptOfflineLoad:</TokenIdentifier>
+			<Abstract type="html">Whether or not to attempt to load an offline version of the app, if there is no network
+connectivity.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL attemptOfflineLoad</Declaration>
+			
+			
+			<Anchor>//api/name/attemptOfflineLoad</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewConfig/attemptOfflineLoad</TokenIdentifier>
+			<Abstract type="html">Whether or not to attempt to load an offline version of the app, if there is no network
+connectivity.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL attemptOfflineLoad</Declaration>
+			
+			
+			<Anchor>//api/name/attemptOfflineLoad</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewConfig/attemptOfflineLoad</TokenIdentifier>
+			<Abstract type="html">Whether or not to attempt to load an offline version of the app, if there is no network
+connectivity.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL attemptOfflineLoad</Declaration>
+			
+			
+			<Anchor>//api/name/attemptOfflineLoad</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewConfig/fromDefaultConfigFile</TokenIdentifier>
+			<Abstract type="html">The hybrid view config from the default configuration file location (/www/bootconfig.json).</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>+ (SFHybridViewConfig *)fromDefaultConfigFile</Declaration>
+			
+			<ReturnValue><Abstract type="html">The hybrid view config from the default configuration file location (/www/bootconfig.json).</Abstract></ReturnValue>
+			<Anchor>//api/name/fromDefaultConfigFile</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFHybridViewConfig/fromConfigFile:</TokenIdentifier>
+			<Abstract type="html">Create a hybrid view config from the config file at the specified file path.</Abstract>
+			<DeclaredIn>SFHybridViewConfig.h</DeclaredIn>
+			
+			<Declaration>+ (SFHybridViewConfig *)fromConfigFile:(NSString *)configFilePath</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>configFilePath</Name>
+					<Abstract type="html">The file path to the configuration file, relative to the resources root path.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The hybrid view config from the given file path.</Abstract></ReturnValue>
+			<Anchor>//api/name/fromConfigFile:</Anchor>
+            <NodeRef refid="7"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFKeyStoreKey.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreKey</TokenIdentifier>
+			<Abstract type="html">Data object representing the encryption key used for encrypting/decrypting the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+            
+			
+			<NodeRef refid="26"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/initWithKey:type:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithKey:(SFEncryptionKey *)key type:(SFKeyStoreKeyType)keyType</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The encryption key for the key store.</Abstract>
+				</Parameter><Parameter>
+					<Name>keyType</Name>
+					<Abstract type="html">The type of key used to encrypt the key store.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithKey:type:</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/setEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">The encryption key for the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key for the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreKey/encryptionKey</TokenIdentifier>
+			<Abstract type="html">The encryption key for the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFEncryptionKey *encryptionKey</Declaration>
+			
+			
+			<Anchor>//api/name/encryptionKey</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/setKeyType:</TokenIdentifier>
+			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
+			
+			
+			<Anchor>//api/name/keyType</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreKey/keyType</TokenIdentifier>
+			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
+			
+			
+			<Anchor>//api/name/keyType</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreKey/keyType</TokenIdentifier>
+			<Abstract type="html">The type of key used to encrypt/decrypt the key store.</Abstract>
+			<DeclaredIn>SFKeyStoreKey.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) SFKeyStoreKeyType keyType</Declaration>
+			
+			
+			<Anchor>//api/name/keyType</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

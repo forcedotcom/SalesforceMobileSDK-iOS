@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/CSFForceQuickActionType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceQuickActionType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="38"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeCreate</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeCreate</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeVisualforce</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeVisualforce</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePost</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypePost</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFeed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeFeed</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePoll</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypePoll</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFile</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeFile</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeThanks</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceQuickActionTypeThanks</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="38"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

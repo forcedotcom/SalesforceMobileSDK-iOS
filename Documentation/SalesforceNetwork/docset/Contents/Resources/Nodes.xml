@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>SalesforceMobileSDK</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
+						<NodeRef refid="7"/>
+						<NodeRef refid="8"/>
+						<NodeRef refid="9"/>
+						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
+						<NodeRef refid="15"/>
+						<NodeRef refid="16"/>
+						<NodeRef refid="17"/>
+						<NodeRef refid="18"/>
+						<NodeRef refid="19"/>
+						<NodeRef refid="20"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+				<Node>
+					<Name>Categories</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="21"/>
+						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
+						<NodeRef refid="24"/>
+						<NodeRef refid="25"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+				<Node>
+					<Name>Protocols</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="26"/>
+						<NodeRef refid="27"/>
+						<NodeRef refid="28"/>
+						<NodeRef refid="29"/>
+						<NodeRef refid="30"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+				<Node>
+					<Name>Constants</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="31"/>
+						<NodeRef refid="32"/>
+						<NodeRef refid="33"/>
+						<NodeRef refid="34"/>
+						<NodeRef refid="35"/>
+						<NodeRef refid="36"/>
+						<NodeRef refid="37"/>
+						<NodeRef refid="38"/>
+						<NodeRef refid="39"/>
+						<NodeRef refid="40"/>
+						<NodeRef refid="41"/>
+						<NodeRef refid="42"/>
+						<NodeRef refid="43"/>
+						<NodeRef refid="44"/>
+						<NodeRef refid="45"/>
+						<NodeRef refid="46"/>
+						<NodeRef refid="47"/>
+						<NodeRef refid="48"/>
+						<NodeRef refid="49"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+                <Node>
+                    <Name>Blocks</Name>
+                    <Path>index.html</Path>
+                    <Subnodes>
+                        <NodeRef refid="50"/>
+                        <NodeRef refid="51"/>
+                        
+                    </Subnodes>
+                </Node>
+                
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1" type="file" documentType="reference">
+            <Name>CSFAction</Name>
+            <Path>Classes/CSFAction.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFAction.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFAction.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFAction.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFAction.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFAction.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>CSFAuthRefresh</Name>
+            <Path>Classes/CSFAuthRefresh.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFAuthRefresh.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFAuthRefresh.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFAuthRefresh.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFAuthRefresh.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFAuthRefresh.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>CSFDateValueTransformer</Name>
+            <Path>Classes/CSFDateValueTransformer.html</Path>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
+            <Name>CSFISO8601DateFormatter</Name>
+            <Path>Classes/CSFISO8601DateFormatter.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFISO8601DateFormatter.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFISO8601DateFormatter.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFISO8601DateFormatter.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFISO8601DateFormatter.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFISO8601DateFormatter.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="5" type="file" documentType="reference">
+            <Name>CSFInput</Name>
+            <Path>Classes/CSFInput.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFInput.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFInput.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFInput.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFInput.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFInput.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="6" type="file" documentType="reference">
+            <Name>CSFInputStreamElement</Name>
+            <Path>Classes/CSFInputStreamElement.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFInputStreamElement.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFInputStreamElement.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFInputStreamElement.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFInputStreamElement.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="7" type="file" documentType="reference">
+            <Name>CSFJPEGImageValueTransformer</Name>
+            <Path>Classes/CSFJPEGImageValueTransformer.html</Path>
+            
+        </Node>
+		<Node id="8" type="file" documentType="reference">
+            <Name>CSFMultipartInputStream</Name>
+            <Path>Classes/CSFMultipartInputStream.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFMultipartInputStream.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFMultipartInputStream.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFMultipartInputStream.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFMultipartInputStream.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="9" type="file" documentType="reference">
+            <Name>CSFNetwork</Name>
+            <Path>Classes/CSFNetwork.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFNetwork.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFNetwork.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFNetwork.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFNetwork.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFNetwork.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="10" type="file" documentType="reference">
+            <Name>CSFOAuthTokenRefreshInput</Name>
+            <Path>Classes/CSFOAuthTokenRefreshInput.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshInput.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshInput.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshInput.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="11" type="file" documentType="reference">
+            <Name>CSFOAuthTokenRefreshOutput</Name>
+            <Path>Classes/CSFOAuthTokenRefreshOutput.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshOutput.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshOutput.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshOutput.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFOAuthTokenRefreshOutput.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="12" type="file" documentType="reference">
+            <Name>CSFOutput</Name>
+            <Path>Classes/CSFOutput.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFOutput.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFOutput.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFOutput.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFOutput.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFOutput.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="13" type="file" documentType="reference">
+            <Name>CSFPNGImageValueTransformer</Name>
+            <Path>Classes/CSFPNGImageValueTransformer.html</Path>
+            
+        </Node>
+		<Node id="14" type="file" documentType="reference">
+            <Name>CSFParameterStorage</Name>
+            <Path>Classes/CSFParameterStorage.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFParameterStorage.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFParameterStorage.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFParameterStorage.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/CSFParameterStorage.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="15" type="file" documentType="reference">
+            <Name>CSFSalesforceAction</Name>
+            <Path>Classes/CSFSalesforceAction.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFSalesforceAction.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFSalesforceAction.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFSalesforceAction.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="16" type="file" documentType="reference">
+            <Name>CSFSalesforceOAuthRefresh</Name>
+            <Path>Classes/CSFSalesforceOAuthRefresh.html</Path>
+            
+        </Node>
+		<Node id="17" type="file" documentType="reference">
+            <Name>CSFTokenRefresh</Name>
+            <Path>Classes/CSFTokenRefresh.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/CSFTokenRefresh.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/CSFTokenRefresh.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/CSFTokenRefresh.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="18" type="file" documentType="reference">
+            <Name>CSFURLValueTransformer</Name>
+            <Path>Classes/CSFURLValueTransformer.html</Path>
+            
+        </Node>
+		<Node id="19" type="file" documentType="reference">
+            <Name>CSFUTF8StringValueTransformer</Name>
+            <Path>Classes/CSFUTF8StringValueTransformer.html</Path>
+            
+        </Node>
+		<Node id="20" type="file" documentType="reference">
+            <Name>TestDataAction</Name>
+            <Path>Classes/TestDataAction.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/TestDataAction.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/TestDataAction.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/TestDataAction.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/TestDataAction.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/TestDataAction.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		
+		<Node id="21" type="file" documentType="reference">
+            <Name>NSDate(ActionValue)</Name>
+            <Path>Categories/NSDate+ActionValue.html</Path>
+            
+        </Node>
+		<Node id="22" type="file" documentType="reference">
+            <Name>NSMutableURLRequest(SalesforceNetwork)</Name>
+            <Path>Categories/NSMutableURLRequest+SalesforceNetwork.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSMutableURLRequest+SalesforceNetwork.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSMutableURLRequest+SalesforceNetwork.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSMutableURLRequest+SalesforceNetwork.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="23" type="file" documentType="reference">
+            <Name>NSURL(ActionValue)</Name>
+            <Path>Categories/NSURL+ActionValue.html</Path>
+            
+        </Node>
+		<Node id="24" type="file" documentType="reference">
+            <Name>NSValueTransformer(SalesforceNetwork)</Name>
+            <Path>Categories/NSValueTransformer+SalesforceNetwork.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/NSValueTransformer+SalesforceNetwork.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/NSValueTransformer+SalesforceNetwork.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Categories/NSValueTransformer+SalesforceNetwork.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="25" type="file" documentType="reference">
+            <Name>SFUserAccount(SalesforceNetwork)</Name>
+            <Path>Categories/SFUserAccount+SalesforceNetwork.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SalesforceNetwork.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SalesforceNetwork.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Categories/SFUserAccount+SalesforceNetwork.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		
+        <Node id="26" type="file" documentType="reference">
+            <Name>CSFActionInput</Name>
+            <Path>Protocols/CSFActionInput.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFActionInput.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFActionInput.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFActionInput.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="27" type="file" documentType="reference">
+            <Name>CSFActionModel</Name>
+            <Path>Protocols/CSFActionModel.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFActionModel.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFActionModel.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFActionModel.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="28" type="file" documentType="reference">
+            <Name>CSFActionValue</Name>
+            <Path>Protocols/CSFActionValue.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFActionValue.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFActionValue.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFActionValue.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFActionValue.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="29" type="file" documentType="reference">
+            <Name>CSFIndexedEntity</Name>
+            <Path>Protocols/CSFIndexedEntity.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFIndexedEntity.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFIndexedEntity.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFIndexedEntity.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="30" type="file" documentType="reference">
+            <Name>CSFNetworkOutputCache</Name>
+            <Path>Protocols/CSFNetworkOutputCache.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkOutputCache.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkOutputCache.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkOutputCache.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkOutputCache.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		
+        <Node id="31" type="file" documentType="reference">
+            <Name>CSFActionExecutionCapType</Name>
+            <Path>Constants/CSFActionExecutionCapType.html</Path>
+            
+        </Node>
+		<Node id="32" type="file" documentType="reference">
+            <Name>CSFChatterCommunityMode</Name>
+            <Path>Constants/CSFChatterCommunityMode.html</Path>
+            
+        </Node>
+		<Node id="33" type="file" documentType="reference">
+            <Name>CSFForceFieldMetadataType</Name>
+            <Path>Constants/CSFForceFieldMetadataType.html</Path>
+            
+        </Node>
+		<Node id="34" type="file" documentType="reference">
+            <Name>CSFForceLayoutComponentType</Name>
+            <Path>Constants/CSFForceLayoutComponentType.html</Path>
+            
+        </Node>
+		<Node id="35" type="file" documentType="reference">
+            <Name>CSFForceNotificationFrequency</Name>
+            <Path>Constants/CSFForceNotificationFrequency.html</Path>
+            
+        </Node>
+		<Node id="36" type="file" documentType="reference">
+            <Name>CSFForcePortalRoleType</Name>
+            <Path>Constants/CSFForcePortalRoleType.html</Path>
+            
+        </Node>
+		<Node id="37" type="file" documentType="reference">
+            <Name>CSFForcePortalType</Name>
+            <Path>Constants/CSFForcePortalType.html</Path>
+            
+        </Node>
+		<Node id="38" type="file" documentType="reference">
+            <Name>CSFForceQuickActionType</Name>
+            <Path>Constants/CSFForceQuickActionType.html</Path>
+            
+        </Node>
+		<Node id="39" type="file" documentType="reference">
+            <Name>CSFForceRecordType</Name>
+            <Path>Constants/CSFForceRecordType.html</Path>
+            
+        </Node>
+		<Node id="40" type="file" documentType="reference">
+            <Name>CSFForceTaskCallType</Name>
+            <Path>Constants/CSFForceTaskCallType.html</Path>
+            
+        </Node>
+		<Node id="41" type="file" documentType="reference">
+            <Name>CSFForceTaskPriority</Name>
+            <Path>Constants/CSFForceTaskPriority.html</Path>
+            
+        </Node>
+		<Node id="42" type="file" documentType="reference">
+            <Name>CSFForceTaskRecurrenceInstance</Name>
+            <Path>Constants/CSFForceTaskRecurrenceInstance.html</Path>
+            
+        </Node>
+		<Node id="43" type="file" documentType="reference">
+            <Name>CSFForceTaskRecurrenceMonthOfYear</Name>
+            <Path>Constants/CSFForceTaskRecurrenceMonthOfYear.html</Path>
+            
+        </Node>
+		<Node id="44" type="file" documentType="reference">
+            <Name>CSFForceTaskRecurrenceType</Name>
+            <Path>Constants/CSFForceTaskRecurrenceType.html</Path>
+            
+        </Node>
+		<Node id="45" type="file" documentType="reference">
+            <Name>CSFForceTaskStatus</Name>
+            <Path>Constants/CSFForceTaskStatus.html</Path>
+            
+        </Node>
+		<Node id="46" type="file" documentType="reference">
+            <Name>CSFInteractionContext</Name>
+            <Path>Constants/CSFInteractionContext.html</Path>
+            
+        </Node>
+		<Node id="47" type="file" documentType="reference">
+            <Name>CSFNetworkErrorCode</Name>
+            <Path>Constants/CSFNetworkErrorCode.html</Path>
+            
+        </Node>
+		<Node id="48" type="file" documentType="reference">
+            <Name>CSFParameterStyle</Name>
+            <Path>Constants/CSFParameterStyle.html</Path>
+            
+        </Node>
+		<Node id="49" type="file" documentType="reference">
+            <Name>CSFValidationErrorCode</Name>
+            <Path>Constants/CSFValidationErrorCode.html</Path>
+            
+        </Node>
+		
+        <Node id="50" type="file" documentType="reference">
+            <Name>CSFActionResponseBlock</Name>
+            <Path>Blocks/CSFActionResponseBlock.html</Path>
+            
+        </Node>
+        <Node id="51" type="file" documentType="reference">
+            <Name>CSFAuthRefreshCompletionBlock</Name>
+            <Path>Blocks/CSFAuthRefreshCompletionBlock.html</Path>
+            
+        </Node>
+        
+	</Library>
+</DocSetNodes>

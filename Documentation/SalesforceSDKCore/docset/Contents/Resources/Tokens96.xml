@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/UIScreen+SFAdditions.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+            
+			
+			<NodeRef refid="96"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
+			
+			
+			<Anchor>//api/name/portraitScreenBounds</Anchor>
+            <NodeRef refid="96"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

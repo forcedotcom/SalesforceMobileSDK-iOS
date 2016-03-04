@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/CSFForceTaskRecurrenceType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="44"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursDaily</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursDaily</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursEveryWeekday</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursEveryWeekday</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthly</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthly</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursMonthyNth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursMonthyNth</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursWeekly</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursWeekly</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearly</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursYearly</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceTypeRecursYearlyNth</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceTaskRecurrenceTypeRecursYearlyNth</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="44"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

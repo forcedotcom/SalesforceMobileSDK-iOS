@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSyncTarget.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+            
+			
+			<NodeRef refid="20"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setIdFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/idFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/idFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/idFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setModificationDateFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/initWithDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer that initializes a sync target from the given dictionary.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDict:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">The sync target serialized to an NSDictionary.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithDict:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/asDict</TokenIdentifier>
+			<Abstract type="html">The target represented as a dictionary.  Note: inheriting classes should initialize their
+dictionary from the super representation, as each parent class can add fields to the
+dictionary along the way.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (NSMutableDictionary *)asDict</Declaration>
+			
+			<ReturnValue><Abstract type="html">The target represented as a dictionary.</Abstract></ReturnValue>
+			<Anchor>//api/name/asDict</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

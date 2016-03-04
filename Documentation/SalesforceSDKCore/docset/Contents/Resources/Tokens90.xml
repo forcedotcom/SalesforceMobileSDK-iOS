@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/NSNotificationCenter+SFAdditions.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/NSNotificationCenter(SFAdditions)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+            
+			
+			<NodeRef refid="90"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnceWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification once within a runloop - coalescing on the name.</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>+ (void)postNotificationOnceWithName:(NSString *)notificationName object:(id)object userInfo:(NSDictionary *)userInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification</Abstract>
+				</Parameter><Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notification</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/postNotificationOnceWithName:object:userInfo:</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSNotificationCenter/postNotificationOnMainThreadWithName:object:userInfo:</TokenIdentifier>
+			<Abstract type="html">Posts a notification on the main thread</Abstract>
+			<DeclaredIn>NSNotificationCenter+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(NSDictionary *)userInfo</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>notificationName</Name>
+					<Abstract type="html">The name of the notification</Abstract>
+				</Parameter><Parameter>
+					<Name>object</Name>
+					<Abstract type="html">The object for the new notificaiton</Abstract>
+				</Parameter><Parameter>
+					<Name>userInfo</Name>
+					<Abstract type="html">The user information dictionary for the new notification. May be nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/postNotificationOnMainThreadWithName:object:userInfo:</Anchor>
+            <NodeRef refid="90"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

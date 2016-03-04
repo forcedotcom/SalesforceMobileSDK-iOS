@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKReachability.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKReachability</TokenIdentifier>
+			<Abstract type="html">Class used to determine network reachability status.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+            
+			
+			<NodeRef refid="60"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithHostName:</TokenIdentifier>
+			<Abstract type="html">Use to check the reachability of a given host name.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)reachabilityWithHostName:(NSString *)hostName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostName</Name>
+					<Abstract type="html">The host name to check for reachability.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An instance of SFSDKReachability configured to reach the host name.</Abstract></ReturnValue>
+			<Anchor>//api/name/reachabilityWithHostName:</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityWithAddress:</TokenIdentifier>
+			<Abstract type="html">Use to check the reachability of a given IP address.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)hostAddress</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostAddress</Name>
+					<Abstract type="html">The IP address of the host to check for reachability.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An instance of SFSDKReachability configured to reach the IP address.</Abstract></ReturnValue>
+			<Anchor>//api/name/reachabilityWithAddress:</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityForInternetConnection</TokenIdentifier>
+			<Abstract type="html">Checks whether the default route is available.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)reachabilityForInternetConnection</Declaration>
+			
+			<ReturnValue><Abstract type="html">An instance of SFSDKReachability configured to reach the network via the default route.</Abstract></ReturnValue>
+			<Anchor>//api/name/reachabilityForInternetConnection</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKReachability/reachabilityForLocalWiFi</TokenIdentifier>
+			<Abstract type="html">Checks whether a local WiFi connection is available.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)reachabilityForLocalWiFi</Declaration>
+			
+			<ReturnValue><Abstract type="html">An instance of SFSDKReachability configured to reach the network via WiFi.</Abstract></ReturnValue>
+			<Anchor>//api/name/reachabilityForLocalWiFi</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/startNotifier</TokenIdentifier>
+			<Abstract type="html">Start listening for reachability notifications on the current run loop.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)startNotifier</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if starting the notifier was successful, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/startNotifier</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/stopNotifier</TokenIdentifier>
+			<Abstract type="html">Stops listening for notifications.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>- (void)stopNotifier</Declaration>
+			
+			
+			<Anchor>//api/name/stopNotifier</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/currentReachabilityStatus</TokenIdentifier>
+			<Abstract type="html">The current reachability status.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKReachabilityNetworkStatus)currentReachabilityStatus</Declaration>
+			
+			<ReturnValue><Abstract type="html">SFSDKReachabilityNetworkStatus representing the current reachability status.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentReachabilityStatus</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKReachability/connectionRequired</TokenIdentifier>
+			<Abstract type="html">Determines whether a connection is required for network access.</Abstract>
+			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)connectionRequired</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES if further network connections are required, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/connectionRequired</Anchor>
+            <NodeRef refid="60"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

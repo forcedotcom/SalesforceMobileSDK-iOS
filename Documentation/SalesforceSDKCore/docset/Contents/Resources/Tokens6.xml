@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFAuthErrorHandler.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandler</TokenIdentifier>
+			<Abstract type="html">Class to define a handler for authentication errors, which can be used in an
+error handling filter chain.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+            
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFAuthenticationManager</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<NodeRef refid="6"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/name</TokenIdentifier>
+			<Abstract type="html">The canonical name of the error handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/setEvalBlock:</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandler/evalBlock</TokenIdentifier>
+			<Abstract type="html">The block of code that will evaluate the error.  The block should return YES if it can
+handle the error, and NO if the error should be passed on to the next handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) SFAuthErrorHandlerEvalBlock evalBlock</Declaration>
+			
+			
+			<Anchor>//api/name/evalBlock</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandler/initWithName:evalBlock:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for SFAuthErrorHandler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandler.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithName:(NSString *)name evalBlock:(SFAuthErrorHandlerEvalBlock)evalBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">The canonical name of the error handler.</Abstract>
+				</Parameter><Parameter>
+					<Name>evalBlock</Name>
+					<Abstract type="html">The block to handle the error evaluation.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithName:evalBlock:</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

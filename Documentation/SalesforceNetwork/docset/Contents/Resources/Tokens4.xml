@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/CSFISO8601DateFormatter.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFISO8601DateFormatter</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+            
+			
+			<NodeRef refid="4"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFISO8601DateFormatter/purgeGlobalCaches</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>+ (void)purgeGlobalCaches</Declaration>
+			
+			
+			<Anchor>//api/name/purgeGlobalCaches</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/setDefaultTimeZone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimeZone *defaultTimeZone</Declaration>
+			
+			
+			<Anchor>//api/name/defaultTimeZone</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/defaultTimeZone</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimeZone *defaultTimeZone</Declaration>
+			
+			
+			<Anchor>//api/name/defaultTimeZone</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFISO8601DateFormatter/defaultTimeZone</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimeZone *defaultTimeZone</Declaration>
+			
+			
+			<Anchor>//api/name/defaultTimeZone</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/setParsesStrictly:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parsesStrictly</Declaration>
+			
+			
+			<Anchor>//api/name/parsesStrictly</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/parsesStrictly</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parsesStrictly</Declaration>
+			
+			
+			<Anchor>//api/name/parsesStrictly</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFISO8601DateFormatter/parsesStrictly</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL parsesStrictly</Declaration>
+			
+			
+			<Anchor>//api/name/parsesStrictly</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateComponentsFromString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDateComponents *)dateComponentsFromString:(NSString *)string</Declaration>
+			
+			
+			<Anchor>//api/name/dateComponentsFromString:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateComponentsFromString:timeZone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDateComponents *)dateComponentsFromString:(NSString *)string timeZone:(out NSTimeZone **)outTimeZone</Declaration>
+			
+			
+			<Anchor>//api/name/dateComponentsFromString:timeZone:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateComponentsFromString:timeZone:range:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDateComponents *)dateComponentsFromString:(NSString *)string timeZone:(out NSTimeZone **)outTimeZone range:(out NSRange *)outRange</Declaration>
+			
+			
+			<Anchor>//api/name/dateComponentsFromString:timeZone:range:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateFromString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDate *)dateFromString:(NSString *)string</Declaration>
+			
+			
+			<Anchor>//api/name/dateFromString:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateFromString:timeZone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDate *)dateFromString:(NSString *)string timeZone:(out NSTimeZone **)outTimeZone</Declaration>
+			
+			
+			<Anchor>//api/name/dateFromString:timeZone:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/dateFromString:timeZone:range:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSDate *)dateFromString:(NSString *)string timeZone:(out NSTimeZone **)outTimeZone range:(out NSRange *)outRange</Declaration>
+			
+			
+			<Anchor>//api/name/dateFromString:timeZone:range:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/setFormat:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CSFISO8601DateFormat format</Declaration>
+			
+			
+			<Anchor>//api/name/format</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/format</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CSFISO8601DateFormat format</Declaration>
+			
+			
+			<Anchor>//api/name/format</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFISO8601DateFormatter/format</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) CSFISO8601DateFormat format</Declaration>
+			
+			
+			<Anchor>//api/name/format</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/setIncludeTime:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL includeTime</Declaration>
+			
+			
+			<Anchor>//api/name/includeTime</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/includeTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL includeTime</Declaration>
+			
+			
+			<Anchor>//api/name/includeTime</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFISO8601DateFormatter/includeTime</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL includeTime</Declaration>
+			
+			
+			<Anchor>//api/name/includeTime</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/setTimeSeparator:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) unichar timeSeparator</Declaration>
+			
+			
+			<Anchor>//api/name/timeSeparator</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/timeSeparator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) unichar timeSeparator</Declaration>
+			
+			
+			<Anchor>//api/name/timeSeparator</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFISO8601DateFormatter/timeSeparator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) unichar timeSeparator</Declaration>
+			
+			
+			<Anchor>//api/name/timeSeparator</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/stringFromDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)stringFromDate:(NSDate *)date</Declaration>
+			
+			
+			<Anchor>//api/name/stringFromDate:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFISO8601DateFormatter/stringFromDate:timeZone:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFISO8601DateFormatter.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)stringFromDate:(NSDate *)date timeZone:(NSTimeZone *)timeZone</Declaration>
+			
+			
+			<Anchor>//api/name/stringFromDate:timeZone:</Anchor>
+            <NodeRef refid="4"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

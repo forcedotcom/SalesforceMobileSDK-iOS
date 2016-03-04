@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKTextFieldTableViewCell.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
+			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+            
+			
+			<NodeRef refid="64"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="64"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

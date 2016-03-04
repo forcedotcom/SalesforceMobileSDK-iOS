@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/NSObject+SFLogging.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/NSObject(SFLogging)</TokenIdentifier>
+			<Abstract type="html">Allows your class to log messages specific to that class.
+You should be able to use this 99% of the time.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+            
+			
+			<NodeRef refid="91"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:msg:</TokenIdentifier>
+			<Abstract type="html">Logs a message with the given level.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level msg:(NSString *)msg</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to log at.</Abstract>
+				</Parameter><Parameter>
+					<Name>msg</Name>
+					<Abstract type="html">The message to log.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:msg:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:format:</TokenIdentifier>
+			<Abstract type="html">Logs a formatted message with the given log level and format parameters.</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level format:(NSString *)msg, ...</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>level</Name>
+					<Abstract type="html">The minimum log level to log at.</Abstract>
+				</Parameter><Parameter>
+					<Name>msg</Name>
+					<Abstract type="html">The format message, and optional arguments to expand in the format.</Abstract>
+				</Parameter><Parameter>
+					<Name>...</Name>
+					<Abstract type="html">The arguments to the message format string.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/log:format:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:msg:</TokenIdentifier>
+			<Abstract type="html">Analagous Log methods with the addition of context</Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg</Declaration>
+			
+			
+			<Anchor>//api/name/log:context:msg:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSObject/log:context:format:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...</Declaration>
+			
+			
+			<Anchor>//api/name/log:context:format:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

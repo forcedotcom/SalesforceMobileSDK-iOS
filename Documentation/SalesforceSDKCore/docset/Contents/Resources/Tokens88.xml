@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Categories/NSData+SFzlib.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+            
+			
+			<NodeRef refid="88"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
+			<Abstract type="html">Return gzip uncompressed version of the this NSData</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)gzipInflate</Declaration>
+			
+			
+			<Anchor>//api/name/gzipInflate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
+			<Abstract type="html">Return gzip compressed version of the this NSData</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)gzipDeflate</Declaration>
+			
+			
+			<Anchor>//api/name/gzipDeflate</Anchor>
+            <NodeRef refid="88"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

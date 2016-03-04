@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFInactivityTimerCenter.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFInactivityTimerCenter</TokenIdentifier>
+			<Abstract type="html">This class manages manages the inactivity timer.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+            
+			
+			<NodeRef refid="22"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/registerTimer:target:selector:timerInterval:</TokenIdentifier>
+			<Abstract type="html">Register the timer</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval</Declaration>
+			
+			
+			<Anchor>//api/name/registerTimer:target:selector:timerInterval:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeTimer:</TokenIdentifier>
+			<Abstract type="html">Remove a specific timer.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeTimer:(NSString *)timerName</Declaration>
+			
+			
+			<Anchor>//api/name/removeTimer:</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeAllTimers</TokenIdentifier>
+			<Abstract type="html">Remove all timers.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)removeAllTimers</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllTimers</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Update last activity timestamp.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateActivityTimestamp</Declaration>
+			
+			
+			<Anchor>//api/name/updateActivityTimestamp</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/lastActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Return the timestamp for the latest activity.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (NSDate *)lastActivityTimestamp</Declaration>
+			
+			
+			<Anchor>//api/name/lastActivityTimestamp</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/saveActivityTimestamp</TokenIdentifier>
+			<Abstract type="html">Save the activity timestamp to persistant storage.</Abstract>
+			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			
+			<Declaration>+ (void)saveActivityTimestamp</Declaration>
+			
+			
+			<Anchor>//api/name/saveActivityTimestamp</Anchor>
+            <NodeRef refid="22"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/CSFIndexedEntity.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFIndexedEntity</TokenIdentifier>
+			<Abstract type="html">The CSFIndexedEntity protocol indicates that an instance of CSFOutput
+has an indexable property bound to it that is capable of being used to uniquely identify
+an instance of the response.  This allows for these objects to be cached and later
+retrieved using the property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
+            
+			
+			<NodeRef refid="29"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+			<Abstract type="html">The key name that represents the property that is indexed.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (NSString *)indexedKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">String that can be used by valueForKey:.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedKey</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+			<Abstract type="html">The value for the indexed key property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (id)indexedValue</Declaration>
+			
+			<ReturnValue><Abstract type="html">Value for the indexed property.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedValue</Anchor>
+            <NodeRef refid="29"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

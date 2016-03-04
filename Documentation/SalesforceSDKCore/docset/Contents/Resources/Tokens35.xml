@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFOAuthCrypto.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCrypto</TokenIdentifier>
+			<Abstract type="html">Provides a wrapper for cryptographic services.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+            
+			
+			<NodeRef refid="35"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/initWithOperation:key:</TokenIdentifier>
+			<Abstract type="html">Initializes a new SFOAuthCrypto object to perform the specified cryptographic operation.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithOperation:(SFOAuthCryptoOperation)operation key:(NSData *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>operation</Name>
+					<Abstract type="html">Operation to be performed: SFOAuthCryptoEncrypt or SFOAuthCryptoDecrypt</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key used for encyption/decryption. nil may be specified to use the default key.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithOperation:key:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/encryptData:</TokenIdentifier>
+			<Abstract type="html">Encrypts the supplied data. To complete the encryption process and retrieve the encrypted data, call finalizeCipher.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (void)encryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Unencrypted data to encrypt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/encryptData:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/decryptData:</TokenIdentifier>
+			<Abstract type="html">Returns a decrypted representation of the supplied data if the data can be decrypted using the current key. Returns nil
+if decryption fails. Decryption is performed on the current thread.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)decryptData:(NSData *)data</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Encrypted data to decrypt.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/decryptData:</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCrypto/finalizeCipher</TokenIdentifier>
+			<Abstract type="html">Finalizes the the data encryption process and returns the encrypted data.</Abstract>
+			<DeclaredIn>SFOAuthCrypto.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)finalizeCipher</Declaration>
+			
+			
+			<Anchor>//api/name/finalizeCipher</Anchor>
+            <NodeRef refid="35"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

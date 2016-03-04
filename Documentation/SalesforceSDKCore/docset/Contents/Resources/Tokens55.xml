@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKDatasharingHelper.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
+			<Abstract type="html">@class SFSDKDatasharingHelper
+Class used to app data sharing settings</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+            
+			
+			<NodeRef refid="55"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainSharingEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			
+			
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/appGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			
+			
+			<Anchor>//api/name/keychainGroupName</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKDatasharingHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Shared singleton</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="55"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

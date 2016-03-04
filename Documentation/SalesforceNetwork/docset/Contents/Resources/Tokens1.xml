@@ -1,0 +1,1689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/CSFAction.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFAction</TokenIdentifier>
+			<Abstract type="html">This is a class that represents an chatter action that the action executer executes</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+            
+			
+			<NodeRef refid="1"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setEnqueuedNetwork:</TokenIdentifier>
+			<Abstract type="html">Action executor this network operation is working within.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) CSFNetwork *enqueuedNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueuedNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/enqueuedNetwork</TokenIdentifier>
+			<Abstract type="html">Action executor this network operation is working within.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) CSFNetwork *enqueuedNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueuedNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/enqueuedNetwork</TokenIdentifier>
+			<Abstract type="html">Action executor this network operation is working within.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak, readonly) CSFNetwork *enqueuedNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueuedNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setProgrammatic:</TokenIdentifier>
+			<Abstract type="html">Is the action programmatic or user driven; used for Salesforce1</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=isProgrammatic) BOOL programmatic</Declaration>
+			
+			
+			<Anchor>//api/name/programmatic</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/isProgrammatic</TokenIdentifier>
+			<Abstract type="html">Is the action programmatic or user driven; used for Salesforce1</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=isProgrammatic) BOOL programmatic</Declaration>
+			
+			
+			<Anchor>//api/name/programmatic</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/programmatic</TokenIdentifier>
+			<Abstract type="html">Is the action programmatic or user driven; used for Salesforce1</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=isProgrammatic) BOOL programmatic</Declaration>
+			
+			
+			<Anchor>//api/name/programmatic</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setContext:</TokenIdentifier>
+			<Abstract type="html">Object reference providing context to which network actions are similar.
+This can be used to assign a common value to a group of actions that should
+be cancelled together.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/cancelAllActionsWithContext:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/context</TokenIdentifier>
+			<Abstract type="html">Object reference providing context to which network actions are similar.
+This can be used to assign a common value to a group of actions that should
+be cancelled together.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/cancelAllActionsWithContext:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/context</TokenIdentifier>
+			<Abstract type="html">Object reference providing context to which network actions are similar.
+This can be used to assign a common value to a group of actions that should
+be cancelled together.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/cancelAllActionsWithContext:</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id context</Declaration>
+			
+			
+			<Anchor>//api/name/context</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setEnqueueIfNoNetwork:</TokenIdentifier>
+			<Abstract type="html">YES to have the action enqueued if no network is available,
+NO to have the action be completed with the proper error code
+if no network is available.
+By default this property is YES.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enqueueIfNoNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueIfNoNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/enqueueIfNoNetwork</TokenIdentifier>
+			<Abstract type="html">YES to have the action enqueued if no network is available,
+NO to have the action be completed with the proper error code
+if no network is available.
+By default this property is YES.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enqueueIfNoNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueIfNoNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/enqueueIfNoNetwork</TokenIdentifier>
+			<Abstract type="html">YES to have the action enqueued if no network is available,
+NO to have the action be completed with the proper error code
+if no network is available.
+By default this property is YES.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enqueueIfNoNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/enqueueIfNoNetwork</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setExecutionCapType:</TokenIdentifier>
+			<Abstract type="html">The execution cap type</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CSFActionExecutionCapType executionCapType</Declaration>
+			
+			
+			<Anchor>//api/name/executionCapType</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/executionCapType</TokenIdentifier>
+			<Abstract type="html">The execution cap type</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CSFActionExecutionCapType executionCapType</Declaration>
+			
+			
+			<Anchor>//api/name/executionCapType</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/executionCapType</TokenIdentifier>
+			<Abstract type="html">The execution cap type</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) CSFActionExecutionCapType executionCapType</Declaration>
+			
+			
+			<Anchor>//api/name/executionCapType</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setBaseURL:</TokenIdentifier>
+			<Abstract type="html">The base URL to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/baseURL</TokenIdentifier>
+			<Abstract type="html">The base URL to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *baseURL</Declaration>
+			
+			
+			<Anchor>//api/name/baseURL</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setVerb:</TokenIdentifier>
+			<Abstract type="html">URL path to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *verb</Declaration>
+			
+			
+			<Anchor>//api/name/verb</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/verb</TokenIdentifier>
+			<Abstract type="html">URL path to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *verb</Declaration>
+			
+			
+			<Anchor>//api/name/verb</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/verb</TokenIdentifier>
+			<Abstract type="html">URL path to use when composing a request for this action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *verb</Declaration>
+			
+			
+			<Anchor>//api/name/verb</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setMethod:</TokenIdentifier>
+			<Abstract type="html">HTTP method to use</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *method</Declaration>
+			
+			
+			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/method</TokenIdentifier>
+			<Abstract type="html">HTTP method to use</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *method</Declaration>
+			
+			
+			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/method</TokenIdentifier>
+			<Abstract type="html">HTTP method to use</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *method</Declaration>
+			
+			
+			<Anchor>//api/name/method</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setAllHTTPHeaderFields:</TokenIdentifier>
+			<Abstract type="html">Dictionary containing headers to set on the request</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *allHTTPHeaderFields</Declaration>
+			
+			
+			<Anchor>//api/name/allHTTPHeaderFields</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/allHTTPHeaderFields</TokenIdentifier>
+			<Abstract type="html">Dictionary containing headers to set on the request</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *allHTTPHeaderFields</Declaration>
+			
+			
+			<Anchor>//api/name/allHTTPHeaderFields</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/allHTTPHeaderFields</TokenIdentifier>
+			<Abstract type="html">Dictionary containing headers to set on the request</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *allHTTPHeaderFields</Declaration>
+			
+			
+			<Anchor>//api/name/allHTTPHeaderFields</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setParameters:</TokenIdentifier>
+			<Abstract type="html">A dictionary containing the parameters for the action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFParameterStorage *parameters</Declaration>
+			
+			
+			<Anchor>//api/name/parameters</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/parameters</TokenIdentifier>
+			<Abstract type="html">A dictionary containing the parameters for the action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFParameterStorage *parameters</Declaration>
+			
+			
+			<Anchor>//api/name/parameters</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/parameters</TokenIdentifier>
+			<Abstract type="html">A dictionary containing the parameters for the action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) CSFParameterStorage *parameters</Declaration>
+			
+			
+			<Anchor>//api/name/parameters</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setUserInfo:</TokenIdentifier>
+			<Abstract type="html">User data that can be set to anything useful to the user of this class.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *userInfo</Declaration>
+			
+			
+			<Anchor>//api/name/userInfo</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/userInfo</TokenIdentifier>
+			<Abstract type="html">User data that can be set to anything useful to the user of this class.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *userInfo</Declaration>
+			
+			
+			<Anchor>//api/name/userInfo</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/userInfo</TokenIdentifier>
+			<Abstract type="html">User data that can be set to anything useful to the user of this class.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSDictionary *userInfo</Declaration>
+			
+			
+			<Anchor>//api/name/userInfo</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setOutputModel:</TokenIdentifier>
+			<Abstract type="html">The parsed response output model for this result.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSObject&lt;CSFActionModel&gt; *outputModel</Declaration>
+			
+			
+			<Anchor>//api/name/outputModel</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/outputModel</TokenIdentifier>
+			<Abstract type="html">The parsed response output model for this result.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSObject&lt;CSFActionModel&gt; *outputModel</Declaration>
+			
+			
+			<Anchor>//api/name/outputModel</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/outputModel</TokenIdentifier>
+			<Abstract type="html">The parsed response output model for this result.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSObject&lt;CSFActionModel&gt; *outputModel</Declaration>
+			
+			
+			<Anchor>//api/name/outputModel</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setOutputContent:</TokenIdentifier>
+			<Abstract type="html">The raw output from the request.  This will be the JSON decoded result (e.g. NSArray or NSDictionary), or whatever content is appropriate for this request type.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) id outputContent</Declaration>
+			
+			
+			<Anchor>//api/name/outputContent</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/outputContent</TokenIdentifier>
+			<Abstract type="html">The raw output from the request.  This will be the JSON decoded result (e.g. NSArray or NSDictionary), or whatever content is appropriate for this request type.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) id outputContent</Declaration>
+			
+			
+			<Anchor>//api/name/outputContent</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/outputContent</TokenIdentifier>
+			<Abstract type="html">The raw output from the request.  This will be the JSON decoded result (e.g. NSArray or NSDictionary), or whatever content is appropriate for this request type.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) id outputContent</Declaration>
+			
+			
+			<Anchor>//api/name/outputContent</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setOutputData:</TokenIdentifier>
+			<Abstract type="html">The original NSData retrieved from the HTTP response.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSData *outputData</Declaration>
+			
+			
+			<Anchor>//api/name/outputData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/outputData</TokenIdentifier>
+			<Abstract type="html">The original NSData retrieved from the HTTP response.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSData *outputData</Declaration>
+			
+			
+			<Anchor>//api/name/outputData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/outputData</TokenIdentifier>
+			<Abstract type="html">The original NSData retrieved from the HTTP response.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSData *outputData</Declaration>
+			
+			
+			<Anchor>//api/name/outputData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setIsDuplicateAction:</TokenIdentifier>
+			<Abstract type="html">Returns YES when this action is a duplicate of another request in the queue.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL isDuplicateAction</Declaration>
+			
+			
+			<Anchor>//api/name/isDuplicateAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/isDuplicateAction</TokenIdentifier>
+			<Abstract type="html">Returns YES when this action is a duplicate of another request in the queue.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL isDuplicateAction</Declaration>
+			
+			
+			<Anchor>//api/name/isDuplicateAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/isDuplicateAction</TokenIdentifier>
+			<Abstract type="html">Returns YES when this action is a duplicate of another request in the queue.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL isDuplicateAction</Declaration>
+			
+			
+			<Anchor>//api/name/isDuplicateAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setDownloadLocation:</TokenIdentifier>
+			<Abstract type="html">If the content was downloaded to a temporary file on disk, this property represents the file URL to that temporary content.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *downloadLocation</Declaration>
+			
+			
+			<Anchor>//api/name/downloadLocation</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/downloadLocation</TokenIdentifier>
+			<Abstract type="html">If the content was downloaded to a temporary file on disk, this property represents the file URL to that temporary content.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *downloadLocation</Declaration>
+			
+			
+			<Anchor>//api/name/downloadLocation</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/downloadLocation</TokenIdentifier>
+			<Abstract type="html">If the content was downloaded to a temporary file on disk, this property represents the file URL to that temporary content.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *downloadLocation</Declaration>
+			
+			
+			<Anchor>//api/name/downloadLocation</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setRequiresAuthentication:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/requiresAuthentication</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL requiresAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/requiresAuthentication</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setModelClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class&lt;CSFActionModel&gt; modelClass</Declaration>
+			
+			
+			<Anchor>//api/name/modelClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/modelClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class&lt;CSFActionModel&gt; modelClass</Declaration>
+			
+			
+			<Anchor>//api/name/modelClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/modelClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class&lt;CSFActionModel&gt; modelClass</Declaration>
+			
+			
+			<Anchor>//api/name/modelClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setAuthRefreshClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class authRefreshClass</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/authRefreshClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class authRefreshClass</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/authRefreshClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) Class authRefreshClass</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshClass</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setTimeoutInterval:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/timeoutInterval</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/timeoutInterval</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSTimeInterval timeoutInterval</Declaration>
+			
+			
+			<Anchor>//api/name/timeoutInterval</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setHttpResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *httpResponse</Declaration>
+			
+			
+			<Anchor>//api/name/httpResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/httpResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *httpResponse</Declaration>
+			
+			
+			<Anchor>//api/name/httpResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/httpResponse</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *httpResponse</Declaration>
+			
+			
+			<Anchor>//api/name/httpResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setRetryCount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger retryCount</Declaration>
+			
+			
+			<Anchor>//api/name/retryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/retryCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger retryCount</Declaration>
+			
+			
+			<Anchor>//api/name/retryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/retryCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSUInteger retryCount</Declaration>
+			
+			
+			<Anchor>//api/name/retryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setMaxRetryCount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSUInteger maxRetryCount</Declaration>
+			
+			
+			<Anchor>//api/name/maxRetryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/maxRetryCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSUInteger maxRetryCount</Declaration>
+			
+			
+			<Anchor>//api/name/maxRetryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/maxRetryCount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSUInteger maxRetryCount</Declaration>
+			
+			
+			<Anchor>//api/name/maxRetryCount</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/set_0:</TokenIdentifier>
+			<Abstract type="html">Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL requireBackgroundSession NS_AVAILABLE ( 10 _10 , 8 _0</Declaration>
+			
+			
+			<Anchor>//api/name/_0</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/_0</TokenIdentifier>
+			<Abstract type="html">Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL requireBackgroundSession NS_AVAILABLE ( 10 _10 , 8 _0</Declaration>
+			
+			
+			<Anchor>//api/name/_0</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/_0</TokenIdentifier>
+			<Abstract type="html">Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL requireBackgroundSession NS_AVAILABLE ( 10 _10 , 8 _0</Declaration>
+			
+			
+			<Anchor>//api/name/_0</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setUrl:</TokenIdentifier>
+			<Abstract type="html">Takes an URL and assign it to this action by decomposing its components in the proper
+fields. For example, all the parameters will be added using addParameterWithName:value:.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/url</TokenIdentifier>
+			<Abstract type="html">Takes an URL and assign it to this action by decomposing its components in the proper
+fields. For example, all the parameters will be added using addParameterWithName:value:.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/url</TokenIdentifier>
+			<Abstract type="html">Takes an URL and assign it to this action by decomposing its components in the proper
+fields. For example, all the parameters will be added using addParameterWithName:value:.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setProgress:</TokenIdentifier>
+			<Abstract type="html">Reports progress information for the current action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSProgress *progress</Declaration>
+			
+			
+			<Anchor>//api/name/progress</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/progress</TokenIdentifier>
+			<Abstract type="html">Reports progress information for the current action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSProgress *progress</Declaration>
+			
+			
+			<Anchor>//api/name/progress</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/progress</TokenIdentifier>
+			<Abstract type="html">Reports progress information for the current action.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSProgress *progress</Declaration>
+			
+			
+			<Anchor>//api/name/progress</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setCacheResponse:</TokenIdentifier>
+			<Abstract type="html">Indicates if the action should cache the response in the local database.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=shouldCacheResponse) BOOL cacheResponse</Declaration>
+			
+			
+			<Anchor>//api/name/cacheResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/shouldCacheResponse</TokenIdentifier>
+			<Abstract type="html">Indicates if the action should cache the response in the local database.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=shouldCacheResponse) BOOL cacheResponse</Declaration>
+			
+			
+			<Anchor>//api/name/cacheResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/cacheResponse</TokenIdentifier>
+			<Abstract type="html">Indicates if the action should cache the response in the local database.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, getter=shouldCacheResponse) BOOL cacheResponse</Declaration>
+			
+			
+			<Anchor>//api/name/cacheResponse</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/error</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/error</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			
+			
+			<Anchor>//api/name/error</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFAction/actionWithHTTPMethod:onURL:withResponseBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)actionWithHTTPMethod:(NSString *)method onURL:(NSURL *)url withResponseBlock:(CSFActionResponseBlock)responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/actionWithHTTPMethod:onURL:withResponseBlock:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/initWithResponseBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/initWithResponseBlock:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setURL:</TokenIdentifier>
+			<Abstract type="html">Takes an URL and assign it to this action by decomposing its components in the proper
+fields. For example, all the parameters will be added using addParameterWithName:value:.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)setURL:(NSURL *)url</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>url</Name>
+					<Abstract type="html">The URL to add</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setURL:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/valueForHTTPHeaderField:</TokenIdentifier>
+			<Abstract type="html">Returns the value for the indicated HTTP header field.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)valueForHTTPHeaderField:(NSString *)field</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>field</Name>
+					<Abstract type="html">Field name</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Value of the header.</Abstract></ReturnValue>
+			<Anchor>//api/name/valueForHTTPHeaderField:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setValue:forHTTPHeaderField:</TokenIdentifier>
+			<Abstract type="html">Sets the outgoing HTTP header for the given field name.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">Value to set.</Abstract>
+				</Parameter><Parameter>
+					<Name>field</Name>
+					<Abstract type="html">The name of the HTTP header.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setValue:forHTTPHeaderField:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/removeValueForHTTPHeaderField:</TokenIdentifier>
+			<Abstract type="html">Removes the outgoing HTTP header for the given field name.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)removeValueForHTTPHeaderField:(NSString *)field</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>field</Name>
+					<Abstract type="html">The name of the HTTP header.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/removeValueForHTTPHeaderField:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/isEqualToAction:</TokenIdentifier>
+			<Abstract type="html">Returns YES if the specified action is equal to this action meaning they same identical request URL&apos;s and bodies; NO otherwise;</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isEqualToAction:(CSFAction *)action</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>action</Name>
+					<Abstract type="html">Action to compare</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/isEqualToAction:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/shouldRetryWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldRetryWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/shouldRetryWithError:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/completeOperationWithError:</TokenIdentifier>
+			<Abstract type="html">Subclassable method that will be called when the action is about to call responseBlock.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)completeOperationWithError:(NSError *)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Action error if avaiable.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/completeOperationWithError:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionTaskToProcessRequest:session:</TokenIdentifier>
+			<Abstract type="html">Returns an instance of NSURLSessionTask to process the specified request</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (NSURLSessionTask *)sessionTaskToProcessRequest:(NSURLRequest *)request session:(NSURLSession *)session</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>request</Name>
+					<Abstract type="html">URL request to send</Abstract>
+				</Parameter><Parameter>
+					<Name>session</Name>
+					<Abstract type="html">Associated for this request</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/sessionTaskToProcessRequest:session:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/headersForAction</TokenIdentifier>
+			<Abstract type="html">Returns a dictionary of the headers that will be returned for this request.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)headersForAction</Declaration>
+			
+			<ReturnValue><Abstract type="html">Dictionary of HTTP headers.</Abstract></ReturnValue>
+			<Anchor>//api/name/headersForAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/contentFromData:fromResponse:error:</TokenIdentifier>
+			<Abstract type="html">Subclassable method that processes the information coming from the HTTP response in order to consume it within the action response.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (id)contentFromData:(NSData *)data fromResponse:(NSHTTPURLResponse *)response error:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">NSData instance containing the HTTP response body.</Abstract>
+				</Parameter><Parameter>
+					<Name>response</Name>
+					<Abstract type="html">The HTTP response to process.</Abstract>
+				</Parameter><Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Pointer to an error if one occurs. This parameter is guaranteed to be a valid pointer.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The data to populate outputContent with, otherwise nil if nothing is appropriate.</Abstract></ReturnValue>
+			<Anchor>//api/name/contentFromData:fromResponse:error:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/overrideRequest:withResponseData:andHTTPResponse:</TokenIdentifier>
+			<Abstract type="html">Method that can override the HTTP request process, and can allow a subclass to forcibly inject explicit response data without performing a network request.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)overrideRequest:(NSURLRequest *)request withResponseData:(NSData **)data andHTTPResponse:(NSHTTPURLResponse **)response</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>data</Name>
+					<Abstract type="html">Pointer to an NSData variable.</Abstract>
+				</Parameter><Parameter>
+					<Name>response</Name>
+					<Abstract type="html">Pointer to an NSHTTPURLResponse variable.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the network request should be overridden, otherwise NO.</Abstract></ReturnValue>
+			<Anchor>//api/name/overrideRequest:withResponseData:andHTTPResponse:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/shouldReportProgressToParent</TokenIdentifier>
+			<Abstract type="html">Overridable method that permits subclasses to opt-out of contributing its progress to the parent CSFNetwork instance.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)shouldReportProgressToParent</Declaration>
+			
+			
+			<Anchor>//api/name/shouldReportProgressToParent</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setBasePath:</TokenIdentifier>
+			<Abstract type="html">URL path prefix used as the basis for action requests.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *basePath</Declaration>
+			
+			
+			<Anchor>//api/name/basePath</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/basePath</TokenIdentifier>
+			<Abstract type="html">URL path prefix used as the basis for action requests.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *basePath</Declaration>
+			
+			
+			<Anchor>//api/name/basePath</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/basePath</TokenIdentifier>
+			<Abstract type="html">URL path prefix used as the basis for action requests.</Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSString *basePath</Declaration>
+			
+			
+			<Anchor>//api/name/basePath</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setDuplicateParentAction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAction *duplicateParentAction</Declaration>
+			
+			
+			<Anchor>//api/name/duplicateParentAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/duplicateParentAction</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAction *duplicateParentAction</Declaration>
+			
+			
+			<Anchor>//api/name/duplicateParentAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/duplicateParentAction</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAction *duplicateParentAction</Declaration>
+			
+			
+			<Anchor>//api/name/duplicateParentAction</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setSessionTask:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionTask *sessionTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionTask</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionTask *sessionTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/sessionTask</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionTask *sessionTask</Declaration>
+			
+			
+			<Anchor>//api/name/sessionTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setDownloadTask:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask</Declaration>
+			
+			
+			<Anchor>//api/name/downloadTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/downloadTask</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask</Declaration>
+			
+			
+			<Anchor>//api/name/downloadTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/downloadTask</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask</Declaration>
+			
+			
+			<Anchor>//api/name/downloadTask</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setAuthRefreshInstance:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshInstance</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/authRefreshInstance</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshInstance</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/authRefreshInstance</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance</Declaration>
+			
+			
+			<Anchor>//api/name/authRefreshInstance</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setCredentialsReady:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL credentialsReady</Declaration>
+			
+			
+			<Anchor>//api/name/credentialsReady</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/credentialsReady</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL credentialsReady</Declaration>
+			
+			
+			<Anchor>//api/name/credentialsReady</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/credentialsReady</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL credentialsReady</Declaration>
+			
+			
+			<Anchor>//api/name/credentialsReady</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFAction/errorInResponseDataForAction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSError *)errorInResponseDataForAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/errorInResponseDataForAction:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/urlForActionWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (NSURL *)urlForActionWithError:(NSError **)error</Declaration>
+			
+			
+			<Anchor>//api/name/urlForActionWithError:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/completeOperationWithResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)completeOperationWithResponse:(NSHTTPURLResponse *)response</Declaration>
+			
+			
+			<Anchor>//api/name/completeOperationWithResponse:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDataTask:didReceiveData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionDataTask:(NSURLSessionDataTask *)task didReceiveData:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDataTask:didReceiveData:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionDownloadTask:(NSURLSessionDownloadTask *)task didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionUploadTask:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend</Declaration>
+			
+			
+			<Anchor>//api/name/sessionUploadTask:didSendBodyData:totalBytesSent:totalBytesExpectedToSend:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDownloadTask:didFinishDownloadingToURL:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionDownloadTask:(NSURLSessionDownloadTask *)task didFinishDownloadingToURL:(NSURL *)location</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDownloadTask:didFinishDownloadingToURL:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionTask:didCompleteWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionTask:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/sessionTask:didCompleteWithError:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/intervalForTimingKey:</TokenIdentifier>
+			<Abstract type="html">Returns timing information for this request based on the supplied option.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (NSTimeInterval)intervalForTimingKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key for the timing option to return, or nil to return the total action time.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The time interval for the requested key, or 0 if the key is invalid or if the request hasn&apos;t gathered enough information to supply that value yet.</Abstract></ReturnValue>
+			<Anchor>//api/name/intervalForTimingKey:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

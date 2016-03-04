@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFSyncStateStatus.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSyncStateStatus</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+			
+			<NodeRef refid="27"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusNew</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusNew</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusRunning</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusRunning</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusDone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusDone</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFSyncStateStatusFailed</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFSyncStateStatusFailed</Declaration>
+            
+            <DeclaredIn>SFSyncState.h</DeclaredIn>
+            
+            <NodeRef refid="27"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

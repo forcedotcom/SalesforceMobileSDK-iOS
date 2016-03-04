@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFUserAccountManagerUpgrade.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountManagerUpgrade</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+            
+			
+			<NodeRef refid="74"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/createUserFromLegacyAccountData</TokenIdentifier>
+			<Abstract type="html">If legacy account data exists, create a user account from that data, and then remove
+the legacy data.</Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (SFUserAccount *)createUserFromLegacyAccountData</Declaration>
+			
+			<ReturnValue><Abstract type="html">An SFUserAccount object based on the legacy data, or nil if there is no legacy
+account data.</Abstract></ReturnValue>
+			<Anchor>//api/name/createUserFromLegacyAccountData</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManagerUpgrade/updateToActiveUserIdentity:</TokenIdentifier>
+			<Abstract type="html">If legacy active user data exists, update it to the user identity data model.</Abstract>
+			<DeclaredIn>SFUserAccountManagerUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>accountManager</Name>
+					<Abstract type="html">The user account manager to query user data.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/updateToActiveUserIdentity:</Anchor>
+            <NodeRef refid="74"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

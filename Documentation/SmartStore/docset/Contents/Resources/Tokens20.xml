@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFAlterSoupStep.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAlterSoupStep</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+			
+			<NodeRef refid="20"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepStarting</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepStarting</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepRenameOldSoupTable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepRenameOldSoupTable</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepDropOldIndexes</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepDropOldIndexes</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepRegisterSoupUsingTableName</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepRegisterSoupUsingTableName</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepCopyTable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepCopyTable</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepReIndexSoup</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepReIndexSoup</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFAlterSoupStepDropOldTable</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>SFAlterSoupStepDropOldTable</Declaration>
+            
+            <DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+            <NodeRef refid="20"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

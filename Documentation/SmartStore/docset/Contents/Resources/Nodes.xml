@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocSetNodes version="1.0">
+    <TOC>
+        <Node type="folder">
+            <Name>SalesforceMobileSDK</Name>
+            <Path>index.html</Path>
+			<Subnodes>
+                
+				
+				<Node type="folder">
+					<Name>Classes</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="1"/>
+						<NodeRef refid="2"/>
+						<NodeRef refid="3"/>
+						<NodeRef refid="4"/>
+						<NodeRef refid="5"/>
+						<NodeRef refid="6"/>
+						<NodeRef refid="7"/>
+						<NodeRef refid="8"/>
+						<NodeRef refid="9"/>
+						<NodeRef refid="10"/>
+						<NodeRef refid="11"/>
+						<NodeRef refid="12"/>
+						<NodeRef refid="13"/>
+						<NodeRef refid="14"/>
+						<NodeRef refid="15"/>
+						<NodeRef refid="16"/>
+						<NodeRef refid="17"/>
+						<NodeRef refid="18"/>
+						<NodeRef refid="19"/>
+						
+					</Subnodes>
+				</Node>
+				
+				
+                
+                
+				<Node>
+					<Name>Constants</Name>
+					<Path>index.html</Path>
+					<Subnodes>
+						<NodeRef refid="20"/>
+						<NodeRef refid="21"/>
+						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
+						
+					</Subnodes>
+				</Node>
+				
+                
+                <Node>
+                    <Name>Blocks</Name>
+                    <Path>index.html</Path>
+                    <Subnodes>
+                        <NodeRef refid="24"/>
+                        
+                    </Subnodes>
+                </Node>
+                
+			</Subnodes>
+        </Node>
+    </TOC>
+	<Library>
+		
+		<Node id="1" type="file" documentType="reference">
+            <Name>AppDelegate</Name>
+            <Path>Classes/AppDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/AppDelegate.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="2" type="file" documentType="reference">
+            <Name>SFAlterSoupLongOperation</Name>
+            <Path>Classes/SFAlterSoupLongOperation.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFAlterSoupLongOperation.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFAlterSoupLongOperation.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFAlterSoupLongOperation.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFAlterSoupLongOperation.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="3" type="file" documentType="reference">
+            <Name>SFQuerySpec</Name>
+            <Path>Classes/SFQuerySpec.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFQuerySpec.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFQuerySpec.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFQuerySpec.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFQuerySpec.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFQuerySpec.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="4" type="file" documentType="reference">
+            <Name>SFSmartSqlHelper</Name>
+            <Path>Classes/SFSmartSqlHelper.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartSqlHelper.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartSqlHelper.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartSqlHelper.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartSqlHelper.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="5" type="file" documentType="reference">
+            <Name>SFSmartSqlTests</Name>
+            <Path>Classes/SFSmartSqlTests.html</Path>
+            
+        </Node>
+		<Node id="6" type="file" documentType="reference">
+            <Name>SFSmartStore</Name>
+            <Path>Classes/SFSmartStore.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStore.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStore.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStore.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStore.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStore.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="7" type="file" documentType="reference">
+            <Name>SFSmartStoreAlterTests</Name>
+            <Path>Classes/SFSmartStoreAlterTests.html</Path>
+            
+        </Node>
+		<Node id="8" type="file" documentType="reference">
+            <Name>SFSmartStoreDatabaseManager</Name>
+            <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreDatabaseManager.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="9" type="file" documentType="reference">
+            <Name>SFSmartStoreFullTextSearchSpeedTests</Name>
+            <Path>Classes/SFSmartStoreFullTextSearchSpeedTests.html</Path>
+            
+        </Node>
+		<Node id="10" type="file" documentType="reference">
+            <Name>SFSmartStoreFullTextSearchTests</Name>
+            <Path>Classes/SFSmartStoreFullTextSearchTests.html</Path>
+            
+        </Node>
+		<Node id="11" type="file" documentType="reference">
+            <Name>SFSmartStoreInspectorViewController</Name>
+            <Path>Classes/SFSmartStoreInspectorViewController.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreInspectorViewController.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreInspectorViewController.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreInspectorViewController.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="12" type="file" documentType="reference">
+            <Name>SFSmartStoreTestCase</Name>
+            <Path>Classes/SFSmartStoreTestCase.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreTestCase.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreTestCase.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreTestCase.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="13" type="file" documentType="reference">
+            <Name>SFSmartStoreTests</Name>
+            <Path>Classes/SFSmartStoreTests.html</Path>
+            
+        </Node>
+		<Node id="14" type="file" documentType="reference">
+            <Name>SFSmartStoreUpgrade</Name>
+            <Path>Classes/SFSmartStoreUpgrade.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUpgrade.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUpgrade.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUpgrade.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="15" type="file" documentType="reference">
+            <Name>SFSmartStoreUtils</Name>
+            <Path>Classes/SFSmartStoreUtils.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUtils.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUtils.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSmartStoreUtils.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="16" type="file" documentType="reference">
+            <Name>SFSoupIndex</Name>
+            <Path>Classes/SFSoupIndex.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFSoupIndex.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFSoupIndex.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFSoupIndex.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSoupIndex.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFSoupIndex.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="17" type="file" documentType="reference">
+            <Name>SFStoreCursor</Name>
+            <Path>Classes/SFStoreCursor.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFStoreCursor.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFStoreCursor.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                <Node type="section">
+                    <Path>Classes/SFStoreCursor.html</Path>
+                    <Name>Properties</Name>
+                    <Anchor>properties</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFStoreCursor.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="18" type="file" documentType="reference">
+            <Name>SalesforceSDKManagerWithSmartStore</Name>
+            <Path>Classes/SalesforceSDKManagerWithSmartStore.html</Path>
+            
+        </Node>
+		<Node id="19" type="file" documentType="reference">
+            <Name>ViewController</Name>
+            <Path>Classes/ViewController.html</Path>
+            
+        </Node>
+		
+		
+        
+        <Node id="20" type="file" documentType="reference">
+            <Name>SFAlterSoupStep</Name>
+            <Path>Constants/SFAlterSoupStep.html</Path>
+            
+        </Node>
+		<Node id="21" type="file" documentType="reference">
+            <Name>SFSmartStoreLegacyDefaultEncryptionType</Name>
+            <Path>Constants/SFSmartStoreLegacyDefaultEncryptionType.html</Path>
+            
+        </Node>
+		<Node id="22" type="file" documentType="reference">
+            <Name>SFSoupQuerySortOrder</Name>
+            <Path>Constants/SFSoupQuerySortOrder.html</Path>
+            
+        </Node>
+		<Node id="23" type="file" documentType="reference">
+            <Name>SFSoupQueryType</Name>
+            <Path>Constants/SFSoupQueryType.html</Path>
+            
+        </Node>
+		
+        <Node id="24" type="file" documentType="reference">
+            <Name>SFSmartStoreEncryptionKeyBlock</Name>
+            <Path>Blocks/SFSmartStoreEncryptionKeyBlock.html</Path>
+            
+        </Node>
+        
+	</Library>
+</DocSetNodes>

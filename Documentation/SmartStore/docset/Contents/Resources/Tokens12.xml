@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSmartStoreTestCase.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreTestCase</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+            
+			
+			<NodeRef refid="12"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)assertSameJSONWithExpected:(id)expected actual:(id)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONWithExpected:actual:message:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONArrayWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)assertSameJSONArrayWithExpected:(NSArray *)expected actual:(NSArray *)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONArrayWithExpected:actual:message:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/assertSameJSONMapWithExpected:actual:message:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)assertSameJSONMapWithExpected:(NSDictionary *)expected actual:(NSDictionary *)actual message:(NSString *)message</Declaration>
+			
+			
+			<Anchor>//api/name/assertSameJSONMapWithExpected:actual:message:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createStringIndexSpec:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)createStringIndexSpec:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/createStringIndexSpec:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createIntegerIndexSpec:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)createIntegerIndexSpec:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/createIntegerIndexSpec:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createFloatingIndexSpec:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)createFloatingIndexSpec:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/createFloatingIndexSpec:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createFullTextIndexSpec:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)createFullTextIndexSpec:(NSString *)path</Declaration>
+			
+			
+			<Anchor>//api/name/createFullTextIndexSpec:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/createSimpleIndexSpec:withType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)createSimpleIndexSpec:(NSString *)path withType:(NSString *)pathType</Declaration>
+			
+			
+			<Anchor>//api/name/createSimpleIndexSpec:withType:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/hasTable:store:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)hasTable:(NSString *)tableName store:(SFSmartStore *)store</Declaration>
+			
+			
+			<Anchor>//api/name/hasTable:store:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/getSoupTableName:store:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getSoupTableName:(NSString *)soupName store:(SFSmartStore *)store</Declaration>
+			
+			
+			<Anchor>//api/name/getSoupTableName:store:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkSoupRow:withExpectedEntry:withSoupIndexes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)checkSoupRow:(FMResultSet *)frs withExpectedEntry:(NSDictionary *)expectedEntry withSoupIndexes:(NSArray *)arraySoupIndexes</Declaration>
+			
+			
+			<Anchor>//api/name/checkSoupRow:withExpectedEntry:withSoupIndexes:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/checkFtsRow:withExpectedEntry:withSoupIndexes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)checkFtsRow:(FMResultSet *)frs withExpectedEntry:(NSDictionary *)expectedEntry withSoupIndexes:(NSArray *)arraySoupIndexes</Declaration>
+			
+			
+			<Anchor>//api/name/checkFtsRow:withExpectedEntry:withSoupIndexes:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/setUpSmartStoreUser</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (SFUserAccount *)setUpSmartStoreUser</Declaration>
+			
+			
+			<Anchor>//api/name/setUpSmartStoreUser</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreTestCase/tearDownSmartStoreUser:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreTestCase.h</DeclaredIn>
+			
+			<Declaration>- (void)tearDownSmartStoreUser:(SFUserAccount *)user</Declaration>
+			
+			
+			<Anchor>//api/name/tearDownSmartStoreUser:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

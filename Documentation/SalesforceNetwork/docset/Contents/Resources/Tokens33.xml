@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/CSFForceFieldMetadataType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceFieldMetadataType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="33"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBase64</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeBase64</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeBoolean</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeBoolean</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeComboBox</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeComboBox</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeCurrency</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeCurrency</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDate</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeDate</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDateTime</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeDateTime</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeDouble</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeDouble</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEmail</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeEmail</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeEncryptedString</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeEncryptedString</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeId</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeId</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInteger</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeInteger</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeInt</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeInt</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeMultiPickList</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeMultiPickList</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePercent</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypePercent</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePhone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypePhone</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypePickList</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypePickList</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeString</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeString</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeReference</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeReference</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTextArea</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeTextArea</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeTime</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeTime</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceFieldMetadataTypeUrl</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceFieldMetadataTypeUrl</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="33"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>
