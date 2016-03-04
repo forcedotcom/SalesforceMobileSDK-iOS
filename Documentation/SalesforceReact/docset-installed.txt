@@ -1,4 +1,4 @@
 Documentation set was installed to Xcode!
 
-Path: /Users/bhariharan/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceMobileSDK.docset
-Time: 2016-03-04 19:46:01 +0000
+Path: /Users/bhariharan/Library/Developer/Shared/Documentation/DocSets/com.salesforce.SalesforceReact.docset
+Time: 2016-03-04 22:10:03 +0000
