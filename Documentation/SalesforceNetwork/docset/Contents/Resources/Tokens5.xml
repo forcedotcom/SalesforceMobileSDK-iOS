@@ -30,30 +30,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="5"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFInput.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
-            <NodeRef refid="5"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setStorage:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFInput_Internal.h</DeclaredIn>
@@ -139,6 +115,30 @@
 			</Parameters>
 			<ReturnValue><Abstract type="html">The storage key to use when serializing JSON.</Abstract></ReturnValue>
 			<Anchor>//api/name/storageKeyForPropertyName:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInput/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInput.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="5"/>
 		</Token>
 		

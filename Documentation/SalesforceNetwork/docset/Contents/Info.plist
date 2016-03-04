@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.salesforce.SalesforceMobileSDK</string>
+	<string>com.salesforce.SalesforceNetwork</string>
 	<key>CFBundleName</key>
-	<string>SalesforceMobileSDK Documentation</string>
+	<string>SalesforceNetwork Documentation</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -17,7 +17,7 @@
 	
 	
 	<key>DocSetFeedName</key>
-	<string>SalesforceMobileSDK Documentation</string>
+	<string>SalesforceNetwork Documentation</string>
 	
 	<key>DocSetMinimumXcodeVersion</key>
 	<string>3.0</string>
