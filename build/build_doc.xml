@@ -85,7 +85,7 @@
     <target name="buildDoc">
         <exec executable="/usr/local/bin/appledoc">
             <arg value="--project-name" />
-            <arg value="SalesforceMobileSDK" />
+            <arg value="${PROJECT_NAME}" />
             <arg value="--project-company" />
             <arg value="Salesforce.com" />
             <arg value="--company-id" />
