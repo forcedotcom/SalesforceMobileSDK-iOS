@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/CSFActionInput.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFActionInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
+            
+			
+			<NodeRef refid="26"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionInput/formatJSONData:</TokenIdentifier>
+			<Abstract type="html">Method used to format the input model as a JSON blob.</Abstract>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)formatJSONData:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Error reported, if any.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Formatted JSON data.</Abstract></ReturnValue>
+			<Anchor>//api/name/formatJSONData:</Anchor>
+            <NodeRef refid="26"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

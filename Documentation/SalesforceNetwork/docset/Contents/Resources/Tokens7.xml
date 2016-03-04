@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/CSFJPEGImageValueTransformer.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFJPEGImageValueTransformer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFJPEGImageValueTransformer.h</DeclaredIn>
+            
+			
+			<NodeRef refid="7"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

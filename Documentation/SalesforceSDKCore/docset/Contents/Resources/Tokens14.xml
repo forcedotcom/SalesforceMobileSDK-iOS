@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFDefaultUserManagementListViewController.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementListViewController</TokenIdentifier>
+			<Abstract type="html">Shows the list of users who have authenticated to this app, allowing the user to switch between
+users, revoke credentials, etc.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementListViewController.h</DeclaredIn>
+            
+			
+			<NodeRef refid="14"/>
+		</Token>
+		
+		
+        
+        
+	</File>
+</Tokens>

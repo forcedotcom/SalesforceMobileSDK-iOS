@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSmartStoreUpgrade.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreUpgrade</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+            
+			
+			<NodeRef refid="14"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateStoreLocations</TokenIdentifier>
+			<Abstract type="html">Updates any existing stores from their legacy location to their new user-specific location.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateStoreLocations</Declaration>
+			
+			
+			<Anchor>//api/name/updateStoreLocations</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/updateEncryption</TokenIdentifier>
+			<Abstract type="html">Updates the encryption scheme of each SmartStore database to the currently supported scheme.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)updateEncryption</Declaration>
+			
+			
+			<Anchor>//api/name/updateEncryption</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/usesKeyStoreEncryptionForUser:store:</TokenIdentifier>
+			<Abstract type="html">Whether or not a given store for the given user is encrypted based on the key store key.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store to query.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the store is encrypted with the key store, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/usesKeyStoreEncryptionForUser:store:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setUsesKeyStoreEncryption:forUser:store:</TokenIdentifier>
+			<Abstract type="html">Sets a flag denoting whether or not the store for the given user uses encryption based the key store key.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade.h</DeclaredIn>
+			
+			<Declaration>+ (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>usesKeyStoreEncryption</Name>
+					<Abstract type="html">YES if it does, NO if it doesn&apos;t.</Abstract>
+				</Parameter><Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The user associated with the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store to which the flag applies.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setUsesKeyStoreEncryption:forUser:store:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKey</TokenIdentifier>
+			<Abstract type="html">The default key to use, if no encryption key exists.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key to use, if no encryption key exists.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKey</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/usesLegacyDefaultKey:</TokenIdentifier>
+			<Abstract type="html">Determines whether the given store uses a legacy default key for encryption.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)usesLegacyDefaultKey:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store associated with the setting.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if it does, NO if it doesn&apos;t.</Abstract></ReturnValue>
+			<Anchor>//api/name/usesLegacyDefaultKey:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setUsesLegacyDefaultKey:forStore:</TokenIdentifier>
+			<Abstract type="html">Sets a property specifying whether the given store uses a default key for encryption.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)setUsesLegacyDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>usesDefault</Name>
+					<Abstract type="html">Whether the store uses a default key.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The store for which the setting applies.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setUsesLegacyDefaultKey:forStore:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/setLegacyDefaultEncryptionType:forStore:</TokenIdentifier>
+			<Abstract type="html">Sets the default encryption type for the given store.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (void)setLegacyDefaultEncryptionType:(SFSmartStoreLegacyDefaultEncryptionType)encType forStore:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>encType</Name>
+					<Abstract type="html">The type of default encryption being used for the store.</Abstract>
+				</Parameter><Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the store to set the value for.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setLegacyDefaultEncryptionType:forStore:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultEncryptionTypeForStore:</TokenIdentifier>
+			<Abstract type="html">Gets the default encryption type for the given store.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartStoreLegacyDefaultEncryptionType)legacyDefaultEncryptionTypeForStore:(NSString *)storeName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>storeName</Name>
+					<Abstract type="html">The name of the story to query for its default encryption type.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An SFSmartStoreDefaultEncryptionType enumerated value specifying the default encryption type.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultEncryptionTypeForStore:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyMac</TokenIdentifier>
+			<Abstract type="html">The default key, based on the MAC address.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyMac</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key, based on the MAC address.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyMac</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyIdForVendor</TokenIdentifier>
+			<Abstract type="html">The default key, based on the idForVendor value.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyIdForVendor</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key, based on the idForVendor value.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyIdForVendor</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyBaseAppId</TokenIdentifier>
+			<Abstract type="html">The default key, based on the base app id.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyBaseAppId</Declaration>
+			
+			<ReturnValue><Abstract type="html">The default key, based on the base app id.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyBaseAppId</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartStoreUpgrade/legacyDefaultKeyWithSeed:</TokenIdentifier>
+			<Abstract type="html">Creates a default key with the given seed.</Abstract>
+			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)legacyDefaultKeyWithSeed:(NSString *)seed</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>seed</Name>
+					<Abstract type="html">The seed for creating the default key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The default key, based on the seed.</Abstract></ReturnValue>
+			<Anchor>//api/name/legacyDefaultKeyWithSeed:</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSoupIndex.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSoupIndex</TokenIdentifier>
+			<Abstract type="html">Definition of an index on a given soup.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+            
+			
+			<NodeRef refid="16"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setPath:</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/path</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/path</TokenIdentifier>
+			<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setIndexType:</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
+			
+			
+			<Anchor>//api/name/indexType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/indexType</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
+			
+			
+			<Anchor>//api/name/indexType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/indexType</TokenIdentifier>
+			<Abstract type="html">The type of index this is (string or date).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *indexType</Declaration>
+			
+			
+			<Anchor>//api/name/indexType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnType:</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
+			
+			
+			<Anchor>//api/name/columnType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnType</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
+			
+			
+			<Anchor>//api/name/columnType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnType</TokenIdentifier>
+			<Abstract type="html">The type of data that will be indexed (string or integer).</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnType</Declaration>
+			
+			
+			<Anchor>//api/name/columnType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/setColumnName:</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
+			
+			
+			<Anchor>//api/name/columnName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/columnName</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
+			
+			
+			<Anchor>//api/name/columnName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSoupIndex/columnName</TokenIdentifier>
+			<Abstract type="html">The name of the column that will store the index.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>@property (strong, nonatomic, readonly) NSString *columnName</Declaration>
+			
+			
+			<Anchor>//api/name/columnName</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithPath:indexType:columnName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithPath:(NSString *)path indexType:(NSString *)type columnName:(NSString *)columnName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">The simple or compound path to the index value, e.g. &quot;Id&quot; or &quot;Account.Id&quot;.</Abstract>
+				</Parameter><Parameter>
+					<Name>type</Name>
+					<Abstract type="html">An index type, e.g. kSoupIndexTypeString.</Abstract>
+				</Parameter><Parameter>
+					<Name>columnName</Name>
+					<Abstract type="html">The SQL column name, or nil.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithPath:indexType:columnName:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/initWithDictionary:</TokenIdentifier>
+			<Abstract type="html">Creates an SFSoupIndex based on the given NSDictionary index spec.</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)dict</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>dict</Name>
+					<Abstract type="html">the dictionary to use</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Initialized SFSoupIndex object.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithDictionary:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary</TokenIdentifier>
+			<Abstract type="html">Return dictionary for this SFSoupIndex object without column name
+  </Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDictionary</Declaration>
+			
+			
+			<Anchor>//api/name/asDictionary</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/asDictionary:</TokenIdentifier>
+			<Abstract type="html">Return dictionary for this SFSoupIndex object with or without column name</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDictionary:(BOOL)withColumnName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>withColumnName</Name>
+					<Abstract type="html">if YES, column name is included in returned dictionary
+  </Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/asDictionary:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArrayOfDictionaries:withColumnName:</TokenIdentifier>
+			<Abstract type="html">Return array of dictionaries given an array of SFSoupIndex or NSDictionary
+@param arrayOfSoupIndexes
+@param withColumnName</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray *)asArrayOfDictionaries:(NSArray *)arrayOfSoupIndexes withColumnName:(BOOL)withColumnName</Declaration>
+			
+			<ReturnValue><Abstract type="html">array of dictionaries.
+  </Abstract></ReturnValue>
+			<Anchor>//api/name/asArrayOfDictionaries:withColumnName:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/asArraySoupIndexes:</TokenIdentifier>
+			<Abstract type="html">Return array of SFSoupIndex given an array of SFSoupIndex or NSDictionary
+@param arrayOfDictionaries</Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (NSArray *)asArraySoupIndexes:(NSArray *)arrayOfDictionaries</Declaration>
+			
+			<ReturnValue><Abstract type="html">array of SFSoupIndex.</Abstract></ReturnValue>
+			<Anchor>//api/name/asArraySoupIndexes:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/mapForSoupIndexes:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (NSDictionary *)mapForSoupIndexes:(NSArray *)soupIndexes</Declaration>
+			
+			
+			<Anchor>//api/name/mapForSoupIndexes:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSoupIndex/hasFts:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)hasFts:(NSArray *)soupIndexes</Declaration>
+			
+			
+			<Anchor>//api/name/hasFts:</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSoupIndex/getPathType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSoupIndex.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)getPathType</Declaration>
+			
+			
+			<Anchor>//api/name/getPathType</Anchor>
+            <NodeRef refid="16"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

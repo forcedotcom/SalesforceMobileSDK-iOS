@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/TestDataAction.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/TestDataAction</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+            
+			
+			<NodeRef refid="20"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setTestResponseData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *testResponseData</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseData</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/testResponseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *testResponseData</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseData</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/testResponseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSData *testResponseData</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseData</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setComposedRequest:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLRequest *composedRequest</Declaration>
+			
+			
+			<Anchor>//api/name/composedRequest</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/composedRequest</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLRequest *composedRequest</Declaration>
+			
+			
+			<Anchor>//api/name/composedRequest</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/composedRequest</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSURLRequest *composedRequest</Declaration>
+			
+			
+			<Anchor>//api/name/composedRequest</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setTestResponseObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *testResponseObject</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseObject</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/testResponseObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *testResponseObject</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseObject</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/testResponseObject</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSHTTPURLResponse *testResponseObject</Declaration>
+			
+			
+			<Anchor>//api/name/testResponseObject</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setStatusCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSInteger statusCode</Declaration>
+			
+			
+			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/statusCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSInteger statusCode</Declaration>
+			
+			
+			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/statusCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) NSInteger statusCode</Declaration>
+			
+			
+			<Anchor>//api/name/statusCode</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setWasResumed:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasResumed</Declaration>
+			
+			
+			<Anchor>//api/name/wasResumed</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/wasResumed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasResumed</Declaration>
+			
+			
+			<Anchor>//api/name/wasResumed</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/wasResumed</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasResumed</Declaration>
+			
+			
+			<Anchor>//api/name/wasResumed</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setWasCancelled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasCancelled</Declaration>
+			
+			
+			<Anchor>//api/name/wasCancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/wasCancelled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasCancelled</Declaration>
+			
+			
+			<Anchor>//api/name/wasCancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/wasCancelled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL wasCancelled</Declaration>
+			
+			
+			<Anchor>//api/name/wasCancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/setCancelled:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, getter=isCancelled) BOOL cancelled</Declaration>
+			
+			
+			<Anchor>//api/name/cancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/isCancelled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, getter=isCancelled) BOOL cancelled</Declaration>
+			
+			
+			<Anchor>//api/name/cancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/TestDataAction/cancelled</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>@property (readwrite, getter=isCancelled) BOOL cancelled</Declaration>
+			
+			
+			<Anchor>//api/name/cancelled</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/TestDataAction/testUserAccount</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>+ (SFUserAccount *)testUserAccount</Declaration>
+			
+			
+			<Anchor>//api/name/testUserAccount</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/TestDataAction/mockNetworkWithAccount:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>+ (CSFNetwork *)mockNetworkWithAccount:(SFUserAccount *)account</Declaration>
+			
+			
+			<Anchor>//api/name/mockNetworkWithAccount:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/TestDataAction/mockURLSession</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>+ (NSURLSession *)mockURLSession</Declaration>
+			
+			
+			<Anchor>//api/name/mockURLSession</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/initWithResponseBlock:testFilename:withExtension:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testFilename:(NSString *)filename withExtension:(NSString *)extension</Declaration>
+			
+			
+			<Anchor>//api/name/initWithResponseBlock:testFilename:withExtension:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/TestDataAction/initWithResponseBlock:testString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>TestDataAction.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testString:(NSString *)testString</Declaration>
+			
+			
+			<Anchor>//api/name/initWithResponseBlock:testString:</Anchor>
+            <NodeRef refid="20"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

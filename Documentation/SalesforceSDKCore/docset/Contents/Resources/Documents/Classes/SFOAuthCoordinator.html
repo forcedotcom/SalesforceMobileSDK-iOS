@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>SFOAuthCoordinator Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceMobileSDK </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/advancedAuthConfiguration">advancedAuthConfiguration</option>
+		
+		<option value="//api/name/advancedAuthState">advancedAuthState</option>
+		
+		<option value="//api/name/approvalCode">approvalCode</option>
+		
+		<option value="//api/name/authInfo">authInfo</option>
+		
+		<option value="//api/name/authenticating">authenticating</option>
+		
+		<option value="//api/name/codeVerifier">codeVerifier</option>
+		
+		<option value="//api/name/credentials">credentials</option>
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+		<option value="//api/name/initialRequestLoaded">initialRequestLoaded</option>
+		
+		<option value="//api/name/oauthCoordinatorFlow">oauthCoordinatorFlow</option>
+		
+		<option value="//api/name/origWebUserAgent">origWebUserAgent</option>
+		
+		<option value="//api/name/refreshFlowConnectionTimer">refreshFlowConnectionTimer</option>
+		
+		<option value="//api/name/refreshTimerThread">refreshTimerThread</option>
+		
+		<option value="//api/name/responseData">responseData</option>
+		
+		<option value="//api/name/scopes">scopes</option>
+		
+		<option value="//api/name/session">session</option>
+		
+		<option value="//api/name/timeout">timeout</option>
+		
+		<option value="//api/name/userAgentForAuth">userAgentForAuth</option>
+		
+		<option value="//api/name/view">view</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/errorWithType:description:">+ errorWithType:description:</option>
+		
+		<option value="//api/name/parseQueryString:">+ parseQueryString:</option>
+		
+		<option value="//api/name/timestampStringToDate:">+ timestampStringToDate:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/authenticate">- authenticate</option>
+		
+		<option value="//api/name/authenticateWithCredentials:">- authenticateWithCredentials:</option>
+		
+		<option value="//api/name/cleanupRefreshTimer">- cleanupRefreshTimer</option>
+		
+		<option value="//api/name/handleAdvancedAuthenticationResponse:">- handleAdvancedAuthenticationResponse:</option>
+		
+		<option value="//api/name/handleUserAgentResponse:">- handleUserAgentResponse:</option>
+		
+		<option value="//api/name/initWithCredentials:">- initWithCredentials:</option>
+		
+		<option value="//api/name/invalidateRefreshTimer">- invalidateRefreshTimer</option>
+		
+		<option value="//api/name/isAuthenticating">- isAuthenticating</option>
+		
+		<option value="//api/name/notifyDelegateOfFailure:authInfo:">- notifyDelegateOfFailure:authInfo:</option>
+		
+		<option value="//api/name/notifyDelegateOfSuccess:">- notifyDelegateOfSuccess:</option>
+		
+		<option value="//api/name/refreshFlowConnectionTimerFired:">- refreshFlowConnectionTimerFired:</option>
+		
+		<option value="//api/name/revokeAuthentication">- revokeAuthentication</option>
+		
+		<option value="//api/name/startRefreshFlowConnectionTimer">- startRefreshFlowConnectionTimer</option>
+		
+		<option value="//api/name/stopAuthentication">- stopAuthentication</option>
+		
+		<option value="//api/name/stopRefreshFlowConnectionTimer">- stopRefreshFlowConnectionTimer</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">SFOAuthCoordinator Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td>UIWebViewDelegate</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFOAuthCoordinator.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>The <code>SFOAuthCoordinator</code> class is the central class of the OAuth2 authentication process.</p>
+
+<p>This class manages a <code>UIWebView</code> instance and monitors it as it works its way
+through the various stages of the OAuth2 workflow. When authentication is complete,
+the coordinator instance extracts the necessary <a href="#//api/name/session">session</a> information from the response
+and updates the <a href="../Classes/SFOAuthCredentials.html"><code>SFOAuthCredentials</code></a> object as necessary.</p><div class="warning"><p><strong>Warning:</strong> This class requires the following dependencies:
+the Security framework and either the NSJSONSerialization iOS 5.0 SDK class
+or the third party SBJsonParser class.</p></div>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/credentials" title="credentials"></a>
+	<h3 class="method-title"><code><a href="#//api/name/credentials">&nbsp;&nbsp;credentials</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>User credentials to use within the authentication process.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFOAuthCredentials *credentials</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<div class="warning"><p><strong>Warning:</strong> The behavior of this class is undefined if this property is set after <a href="#//api/name/authenticate"><code>authenticate</code></a> has been called and
+authentication has started.</p></div><div class="warning"><p><strong>Warning:</strong> This property must not be <code>nil</code> at the time the <a href="#//api/name/authenticate"><code>authenticate</code></a> method is called or an exception will be raised.</p></div>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate object for this coordinator.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; delegate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>The delegate is sent messages at different stages of the authentication process.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Protocols/SFOAuthCoordinatorDelegate.html">SFOAuthCoordinatorDelegate</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/scopes" title="scopes"></a>
+	<h3 class="method-title"><code><a href="#//api/name/scopes">&nbsp;&nbsp;scopes</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A set of scopes for OAuth.
+See:
+<a href="https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;id=remoteaccess">https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;id=remoteaccess</a>_oauth_scopes.htm</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet *scopes</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>Generally you need not specify this unless you are using something other than the &ldquo;api&rdquo; scope.
+For instance, if you are accessing Visualforce pages as well as the REST API, you could use:
+[@&ldquo;api&rdquo;, @&ldquo;visualforce&rdquo;]</p>
+
+<p>(You need not specify the &ldquo;refresh_token&rdquo; scope as this is always requested by this library.)</p>
+
+<p>If you do not set this property, the library does not add the &ldquo;scope&rdquo; parameter to the initial
+OAuth request, which implicitly sets the scope to include: &ldquo;id&rdquo;, &ldquo;api&rdquo;, and &ldquo;refresh_token&rdquo;.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/timeout" title="timeout"></a>
+	<h3 class="method-title"><code><a href="#//api/name/timeout">&nbsp;&nbsp;timeout</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Timeout interval for OAuth requests.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSTimeInterval timeout</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>This value controls how long requests will wait before timing out.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/advancedAuthConfiguration" title="advancedAuthConfiguration"></a>
+	<h3 class="method-title"><code><a href="#//api/name/advancedAuthConfiguration">&nbsp;&nbsp;advancedAuthConfiguration</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+Keep the default value if you don&rsquo;t need advanced authentication options, as this requires an
+additional round trip to the service to get authentication configuration data.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/advancedAuthState" title="advancedAuthState"></a>
+	<h3 class="method-title"><code><a href="#//api/name/advancedAuthState">&nbsp;&nbsp;advancedAuthState</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The current state of any in-progress advanced authentication flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/view" title="view"></a>
+	<h3 class="method-title"><code><a href="#//api/name/view">&nbsp;&nbsp;view</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>View in which the user will input OAuth <a href="#//api/name/credentials">credentials</a> for the user-agent flow OAuth process.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) UIWebView *view</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>This is only guaranteed to be non-<code>nil</code> after one of the <a href="#//api/name/delegate">delegate</a> methods returning a web view has been called.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Protocols/SFOAuthCoordinatorDelegate.html">SFOAuthCoordinatorDelegate</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/userAgentForAuth" title="userAgentForAuth"></a>
+	<h3 class="method-title"><code><a href="#//api/name/userAgentForAuth">&nbsp;&nbsp;userAgentForAuth</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The user agent string that will be used for authentication.  While this property will persist throughout
+the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+its original value in between authentication requests.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *userAgentForAuth</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Initialization" name="task_Initialization"></a>
+						<h2 class="task-title">Initialization</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initWithCredentials:" title="initWithCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithCredentials:">&ndash;&nbsp;initWithCredentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializes a new OAuth coordinator with the supplied <a href="#//api/name/credentials">credentials</a>. This is the designated initializer.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)initWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>An instance of <a href="../Classes/SFOAuthCredentials.html"><code>SFOAuthCredentials</code></a> identifying the user to be authenticated.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The initialized authentication coordinator.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<div class="warning"><p><strong>Warning:</strong> Although it is permissible to pass <code>nil</code> for the <a href="#//api/name/credentials">credentials</a> argument, the <a href="#//api/name/credentials">credentials</a> propery
+must not be <code>nil</code> prior to calling the <a href="#//api/name/authenticate"><code>authenticate</code></a> method or an exception will be raised.</p></div>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection see-also-section">
+				<h4 class="method-subtitle">See Also</h4>
+				<ul>
+					
+					<li><code><p><a href="../Classes/SFOAuthCredentials.html">SFOAuthCredentials</a></p></code></li>
+					
+				</ul>
+			</div>
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Authentication control" name="task_Authentication control"></a>
+						<h2 class="task-title">Authentication control</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/authenticate" title="authenticate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authenticate">&ndash;&nbsp;authenticate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Begins the authentication process.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authenticate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection arguments-section exceptions">
+				<h4 class="method-subtitle exception-title">Exceptions</h4>
+				<table class="argument-def exception-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>NSInternalInconsistencyException</code></th>
+						<td><p>If called when the <a href="#//api/name/credentials"><code>credentials</code></a> property is <code>nil</code>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authenticateWithCredentials:" title="authenticateWithCredentials:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authenticateWithCredentials:">&ndash;&nbsp;authenticateWithCredentials:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the <a href="#//api/name/credentials">credentials</a> property and begins the authentication process. Simply a convenience method for:
+<code>coordinator.</code>credentials<code> = theCredentials;</code>
+<code>[coordinator authenticate];</code></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authenticateWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>The OAuth <a href="#//api/name/credentials">credentials</a> used for authentication.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection arguments-section exceptions">
+				<h4 class="method-subtitle exception-title">Exceptions</h4>
+				<table class="argument-def exception-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>NSInternalInconsistencyException</code></th>
+						<td><p>If called with a <code>nil</code> <a href="#//api/name/credentials"><code>credentials</code></a> argument.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isAuthenticating" title="isAuthenticating"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isAuthenticating">&ndash;&nbsp;isAuthenticating</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns YES if the coordinator is in the process of authentication; otherwise NO.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)isAuthenticating</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stopAuthentication" title="stopAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stopAuthentication">&ndash;&nbsp;stopAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Stops the authentication process.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)stopAuthentication</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/revokeAuthentication" title="revokeAuthentication"></a>
+	<h3 class="method-title"><code><a href="#//api/name/revokeAuthentication">&ndash;&nbsp;revokeAuthentication</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Revokes the authentication <a href="#//api/name/credentials">credentials</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)revokeAuthentication</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleAdvancedAuthenticationResponse:" title="handleAdvancedAuthenticationResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleAdvancedAuthenticationResponse:">&ndash;&nbsp;handleAdvancedAuthenticationResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)<em>appUrlResponse</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appUrlResponse</code></th>
+						<td><p>The URL response returned to the app from the external browser.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if this is a valid URL response from advanced authentication that the coordinator
+should handle, NO otherwise.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/oauthCoordinatorFlow" title="oauthCoordinatorFlow"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinatorFlow">&nbsp;&nbsp;oauthCoordinatorFlow</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authenticating" title="authenticating"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authenticating">&nbsp;&nbsp;authenticating</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (assign) BOOL authenticating</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/session" title="session"></a>
+	<h3 class="method-title"><code><a href="#//api/name/session">&nbsp;&nbsp;session</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSURLSession *session</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/responseData" title="responseData"></a>
+	<h3 class="method-title"><code><a href="#//api/name/responseData">&nbsp;&nbsp;responseData</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableData *responseData</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initialRequestLoaded" title="initialRequestLoaded"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initialRequestLoaded">&nbsp;&nbsp;initialRequestLoaded</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL initialRequestLoaded</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/approvalCode" title="approvalCode"></a>
+	<h3 class="method-title"><code><a href="#//api/name/approvalCode">&nbsp;&nbsp;approvalCode</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *approvalCode</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/refreshFlowConnectionTimer" title="refreshFlowConnectionTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/refreshFlowConnectionTimer">&nbsp;&nbsp;refreshFlowConnectionTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/refreshTimerThread" title="refreshTimerThread"></a>
+	<h3 class="method-title"><code><a href="#//api/name/refreshTimerThread">&nbsp;&nbsp;refreshTimerThread</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSThread *refreshTimerThread</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/codeVerifier" title="codeVerifier"></a>
+	<h3 class="method-title"><code><a href="#//api/name/codeVerifier">&nbsp;&nbsp;codeVerifier</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *codeVerifier</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authInfo" title="authInfo"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authInfo">&nbsp;&nbsp;authInfo</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFOAuthInfo *authInfo</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/origWebUserAgent" title="origWebUserAgent"></a>
+	<h3 class="method-title"><code><a href="#//api/name/origWebUserAgent">&nbsp;&nbsp;origWebUserAgent</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *origWebUserAgent</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/startRefreshFlowConnectionTimer" title="startRefreshFlowConnectionTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/startRefreshFlowConnectionTimer">&ndash;&nbsp;startRefreshFlowConnectionTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)startRefreshFlowConnectionTimer</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stopRefreshFlowConnectionTimer" title="stopRefreshFlowConnectionTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stopRefreshFlowConnectionTimer">&ndash;&nbsp;stopRefreshFlowConnectionTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)stopRefreshFlowConnectionTimer</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/refreshFlowConnectionTimerFired:" title="refreshFlowConnectionTimerFired:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/refreshFlowConnectionTimerFired:">&ndash;&nbsp;refreshFlowConnectionTimerFired:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)refreshFlowConnectionTimerFired:(NSTimer *)<em>rfcTimer</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/invalidateRefreshTimer" title="invalidateRefreshTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/invalidateRefreshTimer">&ndash;&nbsp;invalidateRefreshTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)invalidateRefreshTimer</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cleanupRefreshTimer" title="cleanupRefreshTimer"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanupRefreshTimer">&ndash;&nbsp;cleanupRefreshTimer</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)cleanupRefreshTimer</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleUserAgentResponse:" title="handleUserAgentResponse:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleUserAgentResponse:">&ndash;&nbsp;handleUserAgentResponse:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)handleUserAgentResponse:(NSURL *)<em>requestUrl</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/notifyDelegateOfFailure:authInfo:" title="notifyDelegateOfFailure:authInfo:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/notifyDelegateOfFailure:authInfo:">&ndash;&nbsp;notifyDelegateOfFailure:authInfo:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Notify our <a href="#//api/name/delegate">delegate</a> that we could not log in, and clear <a href="#//api/name/authenticating">authenticating</a> flag</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)notifyDelegateOfFailure:(NSError *)<em>error</em> authInfo:(SFOAuthInfo *)<em>info</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/notifyDelegateOfSuccess:" title="notifyDelegateOfSuccess:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/notifyDelegateOfSuccess:">&ndash;&nbsp;notifyDelegateOfSuccess:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Notify our <a href="#//api/name/delegate">delegate</a> that login succeeded, and clear <a href="#//api/name/authenticating">authenticating</a> flag</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)<em>authInfo</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator+Internal.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/parseQueryString:" title="parseQueryString:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/parseQueryString:">+&nbsp;parseQueryString:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (NSDictionary *)parseQueryString:(NSString *)<em>query</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/errorWithType:description:" title="errorWithType:description:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/errorWithType:description:">+&nbsp;errorWithType:description:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (NSError *)errorWithType:(NSString *)<em>type</em> description:(NSString *)<em>description</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/timestampStringToDate:" title="timestampStringToDate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/timestampStringToDate:">+&nbsp;timestampStringToDate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (NSDate *)timestampStringToDate:(NSString *)<em>timestamp</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

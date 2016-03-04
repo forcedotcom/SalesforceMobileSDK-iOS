@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFObjectTypeLayout.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFObjectTypeLayout</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+            
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/setLimit:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *limit</Declaration>
+			
+			
+			<Anchor>//api/name/limit</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/limit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *limit</Declaration>
+			
+			
+			<Anchor>//api/name/limit</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObjectTypeLayout/limit</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSNumber *limit</Declaration>
+			
+			
+			<Anchor>//api/name/limit</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/setColumns:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *columns</Declaration>
+			
+			
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/columns</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *columns</Declaration>
+			
+			
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFObjectTypeLayout/columns</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *columns</Declaration>
+			
+			
+			<Anchor>//api/name/columns</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFObjectTypeLayout/parseColumnName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			
+			<Declaration>+ (NSString *)parseColumnName:(NSString *)columnName</Declaration>
+			
+			
+			<Anchor>//api/name/parseColumnName:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFObjectTypeLayout/isMatchColumns:target:</TokenIdentifier>
+			<Abstract type="html">Return YES if columns matches including # of columns and column name and order</Abstract>
+			<DeclaredIn>SFObjectTypeLayout.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isMatchColumns:(NSArray *)sourceColumnNames target:(NSArray *)targetColumnNames</Declaration>
+			
+			
+			<Anchor>//api/name/isMatchColumns:target:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/encodeObject:forKey:encoder:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)encodeObject:(id)object forKey:(NSString *)key encoder:(NSCoder *)encoder</Declaration>
+			
+			
+			<Anchor>//api/name/encodeObject:forKey:encoder:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFObjectTypeLayout/configureDataWithDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFObjectTypeLayout+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)configureDataWithDictionary:(NSDictionary *)dataDiction</Declaration>
+			
+			
+			<Anchor>//api/name/configureDataWithDictionary:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

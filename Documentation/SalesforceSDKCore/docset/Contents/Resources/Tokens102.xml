@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/SFPasscodeProvider.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/SFPasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Protocol that a passcode provider class must implement.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="102"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setProviderName:</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *providerName</Declaration>
+			
+			
+			<Anchor>//api/name/providerName</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *providerName</Declaration>
+			
+			
+			<Anchor>//api/name/providerName</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFPasscodeProvider/providerName</TokenIdentifier>
+			<Abstract type="html">The canonical name of this passcode provider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *providerName</Declaration>
+			
+			
+			<Anchor>//api/name/providerName</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/initWithProviderName:</TokenIdentifier>
+			<Abstract type="html">Designated initializer for an SFPasscodeProvider.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithProviderName:(NSString *)providerName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>providerName</Name>
+					<Abstract type="html">The canonical name of the provider.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithProviderName:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/resetPasscodeData</TokenIdentifier>
+			<Abstract type="html">Reset (unset) the passcode and any persisted data associated with it.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (void)resetPasscodeData</Declaration>
+			
+			
+			<Anchor>//api/name/resetPasscodeData</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/verifyPasscode:</TokenIdentifier>
+			<Abstract type="html">Verify that the input passcode is the correct passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The passcode to verify.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the passcode is verified, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/verifyPasscode:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/hashedVerificationPasscode</TokenIdentifier>
+			<Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)hashedVerificationPasscode</Declaration>
+			
+			<ReturnValue><Abstract type="html">The hashed verification passcode, or nil if not configured.</Abstract></ReturnValue>
+			<Anchor>//api/name/hashedVerificationPasscode</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/setVerificationPasscode:</TokenIdentifier>
+			<Abstract type="html">Set/persist the verification passcode, based on the input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (void)setVerificationPasscode:(NSString *)newPasscode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>newPasscode</Name>
+					<Abstract type="html">The new (plaintext) passcode to set.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setVerificationPasscode:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFPasscodeProvider/generateEncryptionKey:</TokenIdentifier>
+			<Abstract type="html">Generates an encryption key, based on the input passcode.
+NOTE: This method must generate the same encryption key for the given
+input passcode.</Abstract>
+			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)generateEncryptionKey:(NSString *)passcode</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>passcode</Name>
+					<Abstract type="html">The (plaintext) passcode used to generate the encryption key.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The encryption key generated from the passcode.</Abstract></ReturnValue>
+			<Anchor>//api/name/generateEncryptionKey:</Anchor>
+            <NodeRef refid="102"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

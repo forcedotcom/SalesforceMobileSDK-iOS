@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/CSFForceLayoutComponentType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceLayoutComponentType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="34"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeEmptySpace</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeEmptySpace</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeField</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeField</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSControl</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeSControl</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSeparator</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceLayoutComponentTypeSeparator</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="34"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

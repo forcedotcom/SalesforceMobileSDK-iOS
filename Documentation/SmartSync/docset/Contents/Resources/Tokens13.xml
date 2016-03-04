@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSmartSyncSoslReturningBuilder.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSoslReturningBuilder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+            
+			
+			<NodeRef refid="13"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/setObjectName:</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoslReturningBuilder/withObjectName:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartSyncSoslReturningBuilder *)withObjectName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">the object to return.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withObjectName:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/fields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)fields:(NSString *)fields</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields to return for a given object, comma separated</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/fields:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)whereClause:(NSString *)whereClause</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>whereClause</Name>
+					<Abstract type="html">a description of how search results for the given object should be filtered, based on individual field values. If unspecified, the search retrieves all the rows in the object that are visible to the user</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/whereClause:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/withNetwork:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)withNetwork:(NSString *)networkId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>networkId</Name>
+					<Abstract type="html">The network id to scope this returning statement with, if necessary</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withNetwork:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)orderBy:(NSString *)orderBy</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>orderBy</Name>
+					<Abstract type="html">a description of how to order the returned result, including ascending and descending order, and how nulls are ordered</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)limit:(NSInteger)limit</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>limit</Name>
+					<Abstract type="html">the maximum number of records returned for the given object. If unspecified, all matching records are returned, up to the limit set for the query as a whole</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a returning statement from the builder.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)build</Declaration>
+			
+			<ReturnValue><Abstract type="html">the built returning statement</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

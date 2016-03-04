@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Protocols/CSFActionValue.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFActionValue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+            
+			
+			<NodeRef refid="28"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/actionValue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			
+			<Declaration>- (id)actionValue</Declaration>
+			
+			
+			<Anchor>//api/name/actionValue</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/decodedObjectForActionValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			
+			<Declaration>+ (id&lt;CSFActionValue&gt;)decodedObjectForActionValue:(id)actionValue</Declaration>
+			
+			
+			<Anchor>//api/name/decodedObjectForActionValue:</Anchor>
+            <NodeRef refid="28"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

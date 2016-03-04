@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFAlterSoupLongOperation.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAlterSoupLongOperation</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+            
+			
+			<NodeRef refid="2"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setSoupName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
+			
+			
+			<Anchor>//api/name/soupName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/soupName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
+			
+			
+			<Anchor>//api/name/soupName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/soupName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
+			
+			
+			<Anchor>//api/name/soupName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setSoupTableName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
+			
+			
+			<Anchor>//api/name/soupTableName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/soupTableName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
+			
+			
+			<Anchor>//api/name/soupTableName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/soupTableName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
+			
+			
+			<Anchor>//api/name/soupTableName</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setAfterStep:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
+			
+			
+			<Anchor>//api/name/afterStep</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/afterStep</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
+			
+			
+			<Anchor>//api/name/afterStep</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/afterStep</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
+			
+			
+			<Anchor>//api/name/afterStep</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setIndexSpecs:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/indexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/indexSpecs</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/indexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/indexSpecs</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/indexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setOldIndexSpecs:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/oldIndexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/oldIndexSpecs</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/oldIndexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/oldIndexSpecs</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
+			
+			
+			<Anchor>//api/name/oldIndexSpecs</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setReIndexData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
+			
+			
+			<Anchor>//api/name/reIndexData</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/reIndexData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
+			
+			
+			<Anchor>//api/name/reIndexData</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/reIndexData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
+			
+			
+			<Anchor>//api/name/reIndexData</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setStore:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/store</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/store</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
+			
+			
+			<Anchor>//api/name/store</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setQueue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
+			
+			
+			<Anchor>//api/name/queue</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/queue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
+			
+			
+			<Anchor>//api/name/queue</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/queue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
+			
+			
+			<Anchor>//api/name/queue</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setRowId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
+			
+			
+			<Anchor>//api/name/rowId</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/rowId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
+			
+			
+			<Anchor>//api/name/rowId</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/rowId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
+			
+			
+			<Anchor>//api/name/rowId</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:soupName:newIndexSpecs:reIndexData:</TokenIdentifier>
+			<Abstract type="html">Called when first running the alter soup
+@param store
+@param soupName
+@param newIndexSpecs
+@param reIndexData</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStore:soupName:newIndexSpecs:reIndexData:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:rowId:details:status:</TokenIdentifier>
+			<Abstract type="html">Called when resuming an alter soup operation from the data stored in the long operations status table
+@param store
+@param details
+@param status</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store rowId:(long)rowId details:(NSDictionary *)details status:(SFAlterSoupStep)status</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStore:rowId:details:status:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/run</TokenIdentifier>
+			<Abstract type="html">Run this operation</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>- (void)run</Declaration>
+			
+			
+			<Anchor>//api/name/run</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/runToStep:</TokenIdentifier>
+			<Abstract type="html">Run this operation up to a given step (used by tests)
+@param toStep</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>- (void)runToStep:(SFAlterSoupStep)toStep</Declaration>
+			
+			
+			<Anchor>//api/name/runToStep:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKLoginHost.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHost</TokenIdentifier>
+			<Abstract type="html">Class that encapsulates the information about a login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+            
+			
+			<NodeRef refid="56"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/name</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setHost:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/host</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *host</Declaration>
+			
+			
+			<Anchor>//api/name/host</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/setDeletable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHost/isDeletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHost/deletable</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>@property (readonly, getter=isDeletable) BOOL deletable</Declaration>
+			
+			
+			<Anchor>//api/name/deletable</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHost/hostWithName:host:deletable:</TokenIdentifier>
+			<Abstract type="html">Returns a new login host instance with the specified parameters.</Abstract>
+			<DeclaredIn>SFSDKLoginHost.h</DeclaredIn>
+			
+			<Declaration>+ (SFSDKLoginHost *)hostWithName:(NSString *)name host:(NSString *)host deletable:(BOOL)deletable</Declaration>
+			
+			
+			<Anchor>//api/name/hostWithName:host:deletable:</Anchor>
+            <NodeRef refid="56"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

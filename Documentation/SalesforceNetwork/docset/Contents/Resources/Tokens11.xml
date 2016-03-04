@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/CSFOAuthTokenRefreshOutput.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFOAuthTokenRefreshOutput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+            
+			
+			<NodeRef refid="11"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setIdUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			
+			
+			<Anchor>//api/name/idUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/idUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			
+			
+			<Anchor>//api/name/idUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/idUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *idUrl</Declaration>
+			
+			
+			<Anchor>//api/name/idUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setTokenType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			
+			
+			<Anchor>//api/name/tokenType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/tokenType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			
+			
+			<Anchor>//api/name/tokenType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/tokenType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *tokenType</Declaration>
+			
+			
+			<Anchor>//api/name/tokenType</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setSignature:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			
+			
+			<Anchor>//api/name/signature</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/signature</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			
+			
+			<Anchor>//api/name/signature</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/signature</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *signature</Declaration>
+			
+			
+			<Anchor>//api/name/signature</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setAccessToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/accessToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/accessToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *accessToken</Declaration>
+			
+			
+			<Anchor>//api/name/accessToken</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setScope:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			
+			
+			<Anchor>//api/name/scope</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/scope</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			
+			
+			<Anchor>//api/name/scope</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/scope</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray *scope</Declaration>
+			
+			
+			<Anchor>//api/name/scope</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setIssuedAt:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			
+			
+			<Anchor>//api/name/issuedAt</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/issuedAt</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			
+			
+			<Anchor>//api/name/issuedAt</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/issuedAt</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSDate *issuedAt</Declaration>
+			
+			
+			<Anchor>//api/name/issuedAt</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/setInstanceUrl:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshOutput/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURL *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshOutput/initWithCoordinator:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshOutput.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithCoordinator:(SFOAuthCoordinator *)coordinator</Declaration>
+			
+			
+			<Anchor>//api/name/initWithCoordinator:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

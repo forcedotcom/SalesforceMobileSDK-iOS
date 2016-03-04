@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKInfoPlugin.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKInfoPlugin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+            
+			
+			<NodeRef refid="11"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKInfoPlugin/getInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKInfoPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)getInfo:(CDVInvokedUrlCommand *)command</Declaration>
+			
+			
+			<Anchor>//api/name/getInfo:</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

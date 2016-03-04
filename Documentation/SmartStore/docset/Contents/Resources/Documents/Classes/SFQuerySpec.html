@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>SFQuerySpec Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceMobileSDK </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/beginKey">beginKey</option>
+		
+		<option value="//api/name/countSmartSql">countSmartSql</option>
+		
+		<option value="//api/name/endKey">endKey</option>
+		
+		<option value="//api/name/likeKey">likeKey</option>
+		
+		<option value="//api/name/matchKey">matchKey</option>
+		
+		<option value="//api/name/order">order</option>
+		
+		<option value="//api/name/orderPath">orderPath</option>
+		
+		<option value="//api/name/pageSize">pageSize</option>
+		
+		<option value="//api/name/path">path</option>
+		
+		<option value="//api/name/queryType">queryType</option>
+		
+		<option value="//api/name/smartSql">smartSql</option>
+		
+		<option value="//api/name/soupName">soupName</option>
+		
+		<option value="//api/name/sqlSortOrder">sqlSortOrder</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:">+ newAllQuerySpec:withOrderPath:withOrder:withPageSize:</option>
+		
+		<option value="//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:">+ newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</option>
+		
+		<option value="//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:">+ newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</option>
+		
+		<option value="//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:">+ newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</option>
+		
+		<option value="//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:">+ newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</option>
+		
+		<option value="//api/name/newSmartQuerySpec:withPageSize:">+ newSmartQuerySpec:withPageSize:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/asDictionary">- asDictionary</option>
+		
+		<option value="//api/name/bindsForQuerySpec">- bindsForQuerySpec</option>
+		
+		<option value="//api/name/initWithDictionary:withSoupName:">- initWithDictionary:withSoupName:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">SFQuerySpec Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFQuerySpec.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Object containing the query specification for queries against a soup.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/queryType" title="queryType"></a>
+	<h3 class="method-title"><code><a href="#//api/name/queryType">&nbsp;&nbsp;queryType</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The type of query to run (exact, range, like).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSoupQueryType queryType</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/smartSql" title="smartSql"></a>
+	<h3 class="method-title"><code><a href="#//api/name/smartSql">&nbsp;&nbsp;smartSql</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>smartSql passed in for smart queries, computed for all others.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *smartSql</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/countSmartSql" title="countSmartSql"></a>
+	<h3 class="method-title"><code><a href="#//api/name/countSmartSql">&nbsp;&nbsp;countSmartSql</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>countSmartSql: query to compute count of results for <a href="#//api/name/smartSql">smartSql</a></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *countSmartSql</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pageSize" title="pageSize"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pageSize">&nbsp;&nbsp;pageSize</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The number of entries per page to return.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUInteger pageSize</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/soupName" title="soupName"></a>
+	<h3 class="method-title"><code><a href="#//api/name/soupName">&nbsp;&nbsp;soupName</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>soupName is used for range, exact, and like queries.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *soupName</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/path" title="path"></a>
+	<h3 class="method-title"><code><a href="#//api/name/path">&nbsp;&nbsp;path</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The indexPath to use for the query. Compound paths must be dot-delimited ie parent.child.grandchild.field .</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *path</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/beginKey" title="beginKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/beginKey">&nbsp;&nbsp;beginKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>beginKey is used for range queries.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *beginKey</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/endKey" title="endKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/endKey">&nbsp;&nbsp;endKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>endKey is used for range queries.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *endKey</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/likeKey" title="likeKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/likeKey">&nbsp;&nbsp;likeKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>likeKey is used for like queries.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *likeKey</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/matchKey" title="matchKey"></a>
+	<h3 class="method-title"><code><a href="#//api/name/matchKey">&nbsp;&nbsp;matchKey</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>matchKey is used for exact and match queries.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *matchKey</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/orderPath" title="orderPath"></a>
+	<h3 class="method-title"><code><a href="#//api/name/orderPath">&nbsp;&nbsp;orderPath</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The indexPath to use for sorting. Compound paths must be dot-delimited ie parent.child.grandchild.field .</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *orderPath</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/order" title="order"></a>
+	<h3 class="method-title"><code><a href="#//api/name/order">&nbsp;&nbsp;order</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A sort order for the query (ascending, descending).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSoupQuerySortOrder order</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sqlSortOrder" title="sqlSortOrder"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sqlSortOrder">&nbsp;&nbsp;sqlSortOrder</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>ASC or DESC</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (strong, nonatomic, readonly) NSString *sqlSortOrder</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:" title="newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:">+&nbsp;newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build an exact query spec
+Note: caller is responsible for releaseing the query spec</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)<em>soupName</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The target soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to filter on.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>matchKey</code></th>
+						<td><p>The exact value to match.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderPath</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to sort by.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>order</code></th>
+						<td><p>The sort <a href="#//api/name/order">order</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A query spec object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:" title="newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:">+&nbsp;newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build an like query spec
+Note: caller is responsible for releaseing the query spec</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)<em>soupName</em> withPath:(NSString *)<em>path</em> withLikeKey:(NSString *)<em>likeKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The target soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to filter on.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>likeKey</code></th>
+						<td><p>The value to match on.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderPath</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to sort by.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>order</code></th>
+						<td><p>The sort <a href="#//api/name/order">order</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A query spec object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:" title="newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:">+&nbsp;newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build an range query spec
+Note: caller is responsible for releaseing the query spec</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)<em>soupName</em> withPath:(NSString *)<em>path</em> withBeginKey:(NSString *)<em>beginKey</em> withEndKey:(NSString *)<em>endKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The target soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to filter on.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>beginKey</code></th>
+						<td><p>The start of the range.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>endKey</code></th>
+						<td><p>The end of the range.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderPath</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to sort by.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>order</code></th>
+						<td><p>The sort <a href="#//api/name/order">order</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A query spec object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:" title="newAllQuerySpec:withOrderPath:withOrder:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:">+&nbsp;newAllQuerySpec:withOrderPath:withOrder:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build a query spec to return all data from a soup.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)<em>soupName</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The target soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderPath</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to sort by.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>order</code></th>
+						<td><p>The sort <a href="#//api/name/order">order</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newSmartQuerySpec:withPageSize:" title="newSmartQuerySpec:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newSmartQuerySpec:withPageSize:">+&nbsp;newSmartQuerySpec:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build a smart query spec
+Note: caller is responsible for releaseing the query spec</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newSmartQuerySpec:(NSString *)<em>smartSql</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>smartSql</code></th>
+						<td><p>The smart sql query.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A query spec object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:" title="newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:">+&nbsp;newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Factory method to build a match query spec (full-text search)
+Note: caller is responsible for releaseing the query spec</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)<em>soupName</em> withPath:(NSString *)<em>path</em> withMatchKey:(NSString *)<em>matchKey</em> withOrderPath:(NSString *)<em>orderPath</em> withOrder:(SFSoupQuerySortOrder)<em>order</em> withPageSize:(NSUInteger)<em>pageSize</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The target soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to filter on - can be nil to match against any full-text indexed paths</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>matchKey</code></th>
+						<td><p>The match query string.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderPath</code></th>
+						<td><p>The <a href="#//api/name/path">path</a> to sort by.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>order</code></th>
+						<td><p>The sort <a href="#//api/name/order">order</a>.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>pageSize</code></th>
+						<td><p>The page size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A query spec object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithDictionary:withSoupName:" title="initWithDictionary:withSoupName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithDictionary:withSoupName:">&ndash;&nbsp;initWithDictionary:withSoupName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializes the object with the given query spec.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)initWithDictionary:(NSDictionary *)<em>querySpec</em> withSoupName:(NSString *)<em>targetSoupName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>querySpec</code></th>
+						<td><p>the name/value pairs defining the query spec.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>targetSoupName</code></th>
+						<td><p>the soup name targeted (not nil for exact/like/range queries)</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A new instance of the object.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/asDictionary" title="asDictionary"></a>
+	<h3 class="method-title"><code><a href="#//api/name/asDictionary">&ndash;&nbsp;asDictionary</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The NSDictionary representation of the query spec.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary *)asDictionary</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/bindsForQuerySpec" title="bindsForQuerySpec"></a>
+	<h3 class="method-title"><code><a href="#//api/name/bindsForQuerySpec">&ndash;&nbsp;bindsForQuerySpec</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return bind arguments for query.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSArray *)bindsForQuerySpec</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>bind arguments.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFQuerySpec.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>SFSmartSyncSyncManager Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceMobileSDK </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/removeSharedInstance:">+ removeSharedInstance:</option>
+		
+		<option value="//api/name/removeSharedInstanceForStore:">+ removeSharedInstanceForStore:</option>
+		
+		<option value="//api/name/removeSharedInstanceForUser:storeName:">+ removeSharedInstanceForUser:storeName:</option>
+		
+		<option value="//api/name/sharedInstance:">+ sharedInstance:</option>
+		
+		<option value="//api/name/sharedInstanceForStore:">+ sharedInstanceForStore:</option>
+		
+		<option value="//api/name/sharedInstanceForUser:storeName:">+ sharedInstanceForUser:storeName:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/getDirtyRecordIds:idField:">- getDirtyRecordIds:idField:</option>
+		
+		<option value="//api/name/getSyncStatus:">- getSyncStatus:</option>
+		
+		<option value="//api/name/reSync:updateBlock:">- reSync:updateBlock:</option>
+		
+		<option value="//api/name/syncDownWithTarget:options:soupName:updateBlock:">- syncDownWithTarget:options:soupName:updateBlock:</option>
+		
+		<option value="//api/name/syncDownWithTarget:soupName:updateBlock:">- syncDownWithTarget:soupName:updateBlock:</option>
+		
+		<option value="//api/name/syncUpWithOptions:soupName:updateBlock:">- syncUpWithOptions:soupName:updateBlock:</option>
+		
+		<option value="//api/name/syncUpWithTarget:options:soupName:updateBlock:">- syncUpWithTarget:options:soupName:updateBlock:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">SFSmartSyncSyncManager Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFSmartSyncSyncManager.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>This class provides methods for doing synching records to/from the server from/to the smartstore.</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/sharedInstance:" title="sharedInstance:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstance:">+&nbsp;sharedInstance:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Singleton method for accessing sync manager instance by user.  Configured SmartStore store will be
+the default store for the user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstance:(SFUserAccount *)<em>user</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>A user that will scope this manager instance data.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedInstanceForUser:storeName:" title="sharedInstanceForUser:storeName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstanceForUser:storeName:">+&nbsp;sharedInstanceForUser:storeName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Singleton method for accessing a sync manager based on user and store name.  Configured SmartStore
+store will be the store with the given name for the given user.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstanceForUser:(SFUserAccount *)<em>user</em> storeName:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the SmartStore associated with the user.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sharedInstanceForStore:" title="sharedInstanceForStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedInstanceForStore:">+&nbsp;sharedInstanceForStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Singleton method for accessing sync manager instance by SmartStore store.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedInstanceForStore:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>store</code></th>
+						<td><p>The store instance to configure.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstance:" title="removeSharedInstance:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstance:">+&nbsp;removeSharedInstance:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes the shared instance associated with the specified user</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstance:(SFUserAccount *)<em>user</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceForUser:storeName:" title="removeSharedInstanceForUser:storeName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceForUser:storeName:">+&nbsp;removeSharedInstanceForUser:storeName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes the shared instance associated with the given user and store name.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceForUser:(SFUserAccount *)<em>user</em> storeName:(NSString *)<em>storeName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>user</code></th>
+						<td><p>The user associated with the store.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the store associated with the given user.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeSharedInstanceForStore:" title="removeSharedInstanceForStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeSharedInstanceForStore:">+&nbsp;removeSharedInstanceForStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes the shared instance associated with the specified store.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)removeSharedInstanceForStore:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>store</code></th>
+						<td><p>The store instance.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getSyncStatus:" title="getSyncStatus:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getSyncStatus:">&ndash;&nbsp;getSyncStatus:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return details about a sync
+@param syncId</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)getSyncStatus:(NSNumber *)<em>syncId</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncDownWithTarget:soupName:updateBlock:" title="syncDownWithTarget:soupName:updateBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncDownWithTarget:soupName:updateBlock:">&ndash;&nbsp;syncDownWithTarget:soupName:updateBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create and run a sync down that will overwrite any modified records</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)<em>target</em> soupName:(NSString *)<em>soupName</em> updateBlock:(SFSyncSyncManagerUpdateBlock)<em>updateBlock</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncDownWithTarget:options:soupName:updateBlock:" title="syncDownWithTarget:options:soupName:updateBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncDownWithTarget:options:soupName:updateBlock:">&ndash;&nbsp;syncDownWithTarget:options:soupName:updateBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create and run a sync down</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)<em>target</em> options:(SFSyncOptions *)<em>options</em> soupName:(NSString *)<em>soupName</em> updateBlock:(SFSyncSyncManagerUpdateBlock)<em>updateBlock</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/reSync:updateBlock:" title="reSync:updateBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/reSync:updateBlock:">&ndash;&nbsp;reSync:updateBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Resync</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)reSync:(NSNumber *)<em>syncId</em> updateBlock:(SFSyncSyncManagerUpdateBlock)<em>updateBlock</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncUpWithOptions:soupName:updateBlock:" title="syncUpWithOptions:soupName:updateBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncUpWithOptions:soupName:updateBlock:">&ndash;&nbsp;syncUpWithOptions:soupName:updateBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create and run a sync up with the default <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)syncUpWithOptions:(SFSyncOptions *)<em>options</em> soupName:(NSString *)<em>soupName</em> updateBlock:(SFSyncSyncManagerUpdateBlock)<em>updateBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>options</code></th>
+						<td><p>The options associated with this sync up.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup name where the local entries are stored.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>updateBlock</code></th>
+						<td><p>The block to be called with updates.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The sync state associated with this sync up.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/syncUpWithTarget:options:soupName:updateBlock:" title="syncUpWithTarget:options:soupName:updateBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/syncUpWithTarget:options:soupName:updateBlock:">&ndash;&nbsp;syncUpWithTarget:options:soupName:updateBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Create and run a sync up with the configured <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)<em>target</em> options:(SFSyncOptions *)<em>options</em> soupName:(NSString *)<em>soupName</em> updateBlock:(SFSyncSyncManagerUpdateBlock)<em>updateBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>target</code></th>
+						<td><p>The sync up target that will manage the sync up process.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>options</code></th>
+						<td><p>The options associated with this sync up.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The soup name where the local entries are stored.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>updateBlock</code></th>
+						<td><p>The block to be called with updates.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The sync state associated with this sync up.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/getDirtyRecordIds:idField:" title="getDirtyRecordIds:idField:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/getDirtyRecordIds:idField:">&ndash;&nbsp;getDirtyRecordIds:idField:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Return ids (specified id field) from dirty records in the given soup.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSSet *)getDirtyRecordIds:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The name of the soup to look into.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>idField</code></th>
+						<td><p>The field to return.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

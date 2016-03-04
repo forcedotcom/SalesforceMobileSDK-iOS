@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/CSFForcePortalType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForcePortalType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+			
+			<NodeRef refid="37"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeUnknown</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForcePortalTypeUnknown</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="37"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeNone</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForcePortalTypeNone</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="37"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypeCustomerPortal</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForcePortalTypeCustomerPortal</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="37"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalTypePartner</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForcePortalTypePartner</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="37"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>
