@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
 
-/** Initializes an authentication credential object with the given identifier and client ID. This is the designated initializer.
+/** Initializes an authentication credential object with the given identifier and client ID. 
  
  The identifier uniquely identifies the credentials object within the device's secure keychain. 
  The client ID identifies the client for remote authentication. 
@@ -235,6 +235,17 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  */
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted;
 
+/** Initializes an authentication credential object with the given identifier and client ID. This is the designated initializer.
+ 
+ If <code>type</code> is set to <code>SFOAuthCredentialsStorageTypeKeychain</code>, the given identifier uniquely identifies the credentials object within that keychain.
+ The client ID identifies the client for remote authentication.
+ 
+ @param theIdentifier An identifier for this credential instance.
+ @param theClientId The client ID (also known as consumer key) to be used for the OAuth session.
+ @param encrypted Determines if the sensitive data like refreshToken and accessToken should be encrypted
+ @param type Indicates whether the OAuth credentials are stored in the keychain
+ @return An initialized authentication credential object.
+ */
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString *)theClientId encrypted:(BOOL)encrypted storageType:(SFOAuthCredentialsStorageType)type;
 
 /** Revoke the OAuth access and refresh tokens.

@@ -24,6 +24,8 @@
 
 #import <Foundation/Foundation.h>
 
+/** Contains this app's OAuth configuration as defined in the developer's Salesforce connected app.
+ */
 @interface SFSDKAppConfig : NSObject
 
 /**
