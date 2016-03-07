@@ -72,7 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface SalesforceSDKManager : NSObject <SFAuthenticationManagerDelegate>
 
 /**
- The class instance to be used to instantiate the singleton.
+ Class instance to be used to instantiate the singleton.
+ @param className Name of instantiator class.
  */
 + (void)setInstanceClass:(Class)className;
 
@@ -81,6 +82,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nonnull instancetype)sharedManager;
 
+/** The OAuth configuration parameters defined in the developer's Salesforce connected app.
+ */
 @property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
 
 /**
@@ -190,6 +193,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate;
 
 /**
+ @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
