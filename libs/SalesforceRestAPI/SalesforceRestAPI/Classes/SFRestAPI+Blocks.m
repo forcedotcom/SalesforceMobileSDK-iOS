@@ -38,8 +38,8 @@ static char CompleteBlockKey;
 #pragma mark - error handling
 
 + (NSError *)errorWithDescription:(NSString *)description {    
-    NSArray *objArray = @[description, @"", @""];
-    NSArray *keyArray = @[NSLocalizedDescriptionKey, NSUnderlyingErrorKey, NSFilePathErrorKey];
+    NSArray *objArray = @[description, @""];
+    NSArray *keyArray = @[NSLocalizedDescriptionKey, NSFilePathErrorKey];
     
     NSDictionary *eDict = [NSDictionary dictionaryWithObjects:objArray
                                                       forKeys:keyArray];
