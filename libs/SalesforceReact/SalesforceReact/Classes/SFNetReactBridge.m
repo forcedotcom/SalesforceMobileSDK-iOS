@@ -36,6 +36,10 @@ NSString * const kPathArg         = @"path";
 NSString * const kEndPointArg     = @"endPoint";
 NSString * const kQueryParams     = @"queryParams";
 NSString * const kHeaderParams    = @"headerParams";
+NSString * const kfileParams      = @"fileParams";
+NSString * const kFileMimeType    = @"fileMimeType";
+NSString * const kFileUrl         = @"fileUrl";
+NSString * const kFileName        = @"fileName";
 
 @implementation SFNetReactBridge
 
@@ -50,11 +54,28 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
     NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
     NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
+    NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
+    
+    // Custom headers
     [request setCustomHeaders:headerParams];
     if (endPoint) {
         [request setEndpoint:endPoint];
+    }
+    
+    // Files post
+    if (fileParams) {
+        // File params expected to be of the form:
+        // {<fileParamNameInPost>: {fileMimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}
+        for (NSString* fileParamName in fileParams) {
+            NSDictionary* fileParam = fileParams[fileParamName];
+            NSString* fileMimeType = [fileParam nonNullObjectForKey:kFileMimeType];
+            NSString* fileUrl = [fileParam nonNullObjectForKey:kFileUrl];
+            NSString* fileName = [fileParam nonNullObjectForKey:kFileName];
+            NSData* fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
+            [request addPostFileData:fileData paramName:fileParamName fileName:fileName mimeType:fileMimeType];
+        }
     }
     
     [[SFRestAPI sharedInstance] sendRESTRequest:request
