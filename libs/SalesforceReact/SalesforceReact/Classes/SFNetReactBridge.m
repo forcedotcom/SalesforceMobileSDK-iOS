@@ -37,9 +37,9 @@ NSString * const kEndPointArg     = @"endPoint";
 NSString * const kQueryParams     = @"queryParams";
 NSString * const kHeaderParams    = @"headerParams";
 NSString * const kfileParams      = @"fileParams";
-NSString * const kFileMimeType    = @"mimeType";
-NSString * const kFilePath        = @"path";
-NSString * const kFileName        = @"name";
+NSString * const kFileMimeType    = @"fileMimeType";
+NSString * const kFileUrl         = @"fileUrl";
+NSString * const kFileName        = @"fileName";
 
 @implementation SFNetReactBridge
 
@@ -67,13 +67,13 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     // Files post
     if (fileParams) {
         // File params expected to be of the form:
-        // {<fileParamNameInPost>: {mimeType:<someMimeType>, path:<localFilePath>, name:<fileNameInPost>}}
+        // {<fileParamNameInPost>: {mimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}
         for (NSString* fileParamName in fileParams) {
             NSDictionary* fileParam = fileParams[fileParamName];
             NSString* fileMimeType = [fileParam nonNullObjectForKey:kFileMimeType];
-            NSString* filePath = [fileParam nonNullObjectForKey:kFilePath];
+            NSString* fileUrl = [fileParam nonNullObjectForKey:kFileUrl];
             NSString* fileName = [fileParam nonNullObjectForKey:kFileName];
-            NSData* fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:filePath]];
+            NSData* fileData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
             [request addPostFileData:fileData paramName:fileParamName fileName:fileName mimeType:fileMimeType];
         }
     }
