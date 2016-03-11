@@ -68,8 +68,8 @@ extern NSUInteger const kSFPBKDFDefaultSaltByteLength;
  * rounds, and desired derived key length.
  * @param stringToHash The base string to use for the derived key.
  * @param salt The salt to append to the string.
- * @param derivationRounds The number of derivation rounds used to generate the key.
- * @param keyLength The desired derived key length.
+ * @param numDerivationRounds The number of derivation rounds used to generate the key.
+ * @param derivedKeyLength The desired derived key length.
  * @return An SFPBKDFData object representing the derived key.
  */
 + (SFPBKDFData *)createPBKDF2DerivedKey:(NSString *)stringToHash

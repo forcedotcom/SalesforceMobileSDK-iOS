@@ -27,12 +27,20 @@
 
 @class SFUserAccount;
 
-
+/** Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.
+ */
 @interface SFPushNotificationManager : NSObject
 
+/** Device token returned when registering with APNS.
+ */
 @property (nonatomic, strong) NSString* deviceToken;
+
+/** ID returned when registering for Salesforce push notifications.
+ */
 @property (nonatomic, strong) NSString* deviceSalesforceId;
 
+/** The share instance of this class.
+ */
 + (SFPushNotificationManager *) sharedInstance;
 
 
@@ -43,27 +51,25 @@
 
 /**
  * Call this method from your app delegate's didRegisterForRemoteNotificationsWithDeviceToken
- * @param deviceTokenData The device token returned by APNS
+ * @param deviceTokenData The device token returned by APNS.
  */
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData;
 
 /**
- * Register for notifications with Salesforce
- * Call this method after authenticating with Salesforce and registering with APNS
+ * Register for notifications with Salesforce.
+ * Call this method after authenticating with Salesforce and registering with APNS.
  * @return YES for successful registration call made.
  */
 - (BOOL)registerForSalesforceNotifications;
 
 /**
- * Unregister from notifications with Salesforce
- * Is called at log out
+ * Unregister from notifications with Salesforce for all users. This method is called at logout.
  * @return YES for successful unregistration call being made.
  */
 - (BOOL)unregisterSalesforceNotifications;
 
 /**
- * Unregister from notifications with Salesforce
- * Is called at log out
+ * Unregister from notifications with Salesforce for a specific user. This method is called at logout.
  * @param user User account.
  * @return YES for successful unregistration call being made.
  */

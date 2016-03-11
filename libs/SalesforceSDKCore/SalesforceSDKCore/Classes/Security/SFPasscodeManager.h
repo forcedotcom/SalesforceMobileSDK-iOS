@@ -87,12 +87,13 @@ extern NSString *const SFPasscodeResetNewPasscodeKey;
 
 /**
  Adds a delegate to the list of passcode manager delegates.
- @param delegate The delegate to add to the list.
+ @param delegate Delegate to add to the list.
  */
 - (void)addDelegate:(id<SFPasscodeManagerDelegate>)delegate;
 
 /**
  Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
+ @param delegate Delegate to be removed.
  */
 - (void)removeDelegate:(id<SFPasscodeManagerDelegate>)delegate;
 

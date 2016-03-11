@@ -37,13 +37,13 @@
 
 /**
  * Initializes the controller for creating a new passcode.
- * @param minPasscodeLength The minimum passcode length for the new passcode.
+ * @param configData Configuration for the new passcode.
  */
 - (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData;
 
 /**
  * Initializes the controller for changing the existing passcode.
- * @param minPasscodeLength The minimum passcode length for the new passcode.
+ * @param configData Configuration for the new passcode.
  */
 - (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData;
 

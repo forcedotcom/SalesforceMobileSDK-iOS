@@ -43,26 +43,31 @@
 
 /**
  * Adds a new login host.
+ * @param loginHost Login host to be added
  */
 - (void)addLoginHost:(SFSDKLoginHost *)loginHost;
 
 /**
  * Removes the login host at the specified index.
+ * @param index Index of the login host
  */
 - (void)removeLoginHostAtIndex:(NSUInteger)index;
 
 /**
  * Returns the index of the specified host if exists.
+ * @param host Requested login host
  */
 - (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host;
 
 /**
  * Returns the login host at the specified index.
+ * @param index Requested index
  */
 - (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index;
 
 /**
- * Returns the login host with a particular host adress if any.
+ * Returns the login host with a particular host address, if any.
+ * @param hostAddress Address to be queried
  */
 - (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress;
 

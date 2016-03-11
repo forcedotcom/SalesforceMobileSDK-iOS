@@ -24,11 +24,17 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ This class applies custom formatting to log messages.
+ */
 @interface SFCocoaLumberJackCustomFormatter : NSObject {
     int loggerCount;
     NSDateFormatter *threadUnsafeDateFormatter;
 }
 
+/**
+ Initializer.
+ */
 - (id)init;
 
 @end

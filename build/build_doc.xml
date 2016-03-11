@@ -3,9 +3,8 @@
     <property name="deviceBuildName" value="iphoneos" />
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
-
+    
     <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="coreDoc, networkDoc, hybridSDKDoc, restAPIDoc, reactDoc, smartStoreDoc, smartSyncDoc">
-        <antcall target="buildMasterTOC" />
     </target>
     
     <target name="coreDoc">
@@ -82,31 +81,42 @@
         <property name="baseBuildOutputDir" value="${artifactsDir}/doc/${buildConfiguration}" />
         <delete dir="${baseBuildOutputDir}" />
     </target>
-    
-    <target name="buildDoc">
-        <property name="outputDir" location="artifacts/doc/build_out/${PROJECT_NAME}" />
-        <mkdir dir="${outputDir}" />
-		<exec executable="/usr/bin/headerdoc2html">
-            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/" />
-            <arg value="-o" />
-            <arg value="${outputDir}" />
-            <arg value="-j" />
-            <arg value="-C" />
-            <arg value="-L" />
-            <arg value="-N" />
-            <arg value="-Q" />
-            <arg value="-t" />
-            <arg value="--tocformat" />
-            <arg value="default" />
-        </exec>
-    </target>
-    
-    <target name="buildMasterTOC">
-        <exec executable="/usr/bin/gatherheaderdoc">
-            <arg value="./artifacts/doc/build_out" />
-        </exec>
-    </target>
 
+    <target name="buildDoc">
+        <exec executable="/usr/local/bin/appledoc">
+            <arg value="--project-name" />
+            <arg value="${PROJECT_NAME}" />
+            <arg value="--project-company" />
+            <arg value="Salesforce.com" />
+            <arg value="--company-id" />
+            <arg value="com.salesforce" />
+            <arg value="--output" />
+            <arg value="${artifactsDir}/doc/${PROJECT_NAME}" />
+            <arg value="--install-docset" />
+            <arg value="--logformat" />
+            <arg value="xcode" />
+            <arg value="--keep-undocumented-objects" />
+            <arg value="--keep-undocumented-members" />
+            <arg value="--keep-intermediate-files" />
+            <arg value="--no-repeat-first-par" />
+            <arg value="--no-warn-invalid-crossref" />
+            <arg value="--merge-categories" />
+            <arg value="--exit-threshold" />
+            <arg value="2" />
+            <arg value="--docset-platform-family" />
+            <arg value="iphoneos" />
+            <arg value="--ignore" />
+            <arg value="*.m" />
+            <arg value="--include" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/Documentation/Images" />
+            <arg value="--ignore" />
+            <arg value="LoadableCategory.h" />
+            <arg value="--index-desc" />
+            <arg value="${PROJECT_DIR}/${PROJECT_NAME}/readme.md" />
+            <arg file="${PROJECT_DIR}/${PROJECT_NAME}" />
+        </exec>
+    </target>
+    
     <!-- Not currently used (or usable in this script), but might come in handy later -->
     <target name="compress">
         <exec executable="ditto">
