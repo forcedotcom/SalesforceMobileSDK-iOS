@@ -224,7 +224,7 @@ static NSMutableDictionary *SharedInstances = nil;
         if (![operation isKindOfClass:[CSFAction class]])
             continue;
         
-        // we should de-dupe between two actions if their requireBackgroundSession is set differently
+        // we should NOT de-dupe between two actions if their requireBackgroundSession is set differently
         if (operation.requireBackgroundSession != action.requireBackgroundSession) {
             continue;
         }
