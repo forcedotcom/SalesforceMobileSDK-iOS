@@ -67,7 +67,7 @@ RCT_EXPORT_METHOD(sendRequest:(NSDictionary *)argsDict callback:(RCTResponseSend
     // Files post
     if (fileParams) {
         // File params expected to be of the form:
-        // {<fileParamNameInPost>: {mimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}
+        // {<fileParamNameInPost>: {fileMimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}
         for (NSString* fileParamName in fileParams) {
             NSDictionary* fileParam = fileParams[fileParamName];
             NSString* fileMimeType = [fileParam nonNullObjectForKey:kFileMimeType];
