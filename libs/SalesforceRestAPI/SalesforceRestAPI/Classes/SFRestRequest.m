@@ -35,12 +35,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-@synthesize delegate=_delegate;
-@synthesize action=_action;
-@synthesize queryParams=_queryParams;
-@synthesize requestBodyStreamBlock=_requestBodyStreamBlock;
-@synthesize requestContentType=_requestContentType;
-
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     SFRestAPISalesforceAction *action = [self actionFromMethod:method path:path];
     return [self initWithSalesforceAction:action queryParams:queryParams];
