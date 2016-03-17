@@ -68,8 +68,13 @@ NSException * SFOAuthInvalidIdentifierException() {
 
 - (id)initWithCoder:(NSCoder *)coder {
     NSString *clusterClassName = [coder decodeObjectOfClass:[NSString class] forKey:kSFOAuthClusterImplementationKey];
-    Class clusterClass = NSClassFromString(clusterClassName) ?: self.class;
+    if (clusterClassName.length == 0) {
+        // Legacy credentials class (which doesn't have a persisted implementation class)
+        // should default to SFOAuthKeychainCredentials.
+        clusterClassName = @"SFOAuthKeychainCredentials";
+    }
     
+    Class clusterClass = NSClassFromString(clusterClassName) ?: self.class;
     if ([self isMemberOfClass:clusterClass])  {
         self = [super init];
         if (self) {
