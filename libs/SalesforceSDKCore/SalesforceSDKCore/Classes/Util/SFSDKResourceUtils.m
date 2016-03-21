@@ -54,8 +54,15 @@
 {
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
     NSAssert(name != nil, @"name must contain a value.");
+    UIImage *image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    if (image) {
+        return image;
+    }
     
-    return [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    // get from main bundle
+    bundle = [NSBundle mainBundle];
+    image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
+    return image;
 }
 
 @end
