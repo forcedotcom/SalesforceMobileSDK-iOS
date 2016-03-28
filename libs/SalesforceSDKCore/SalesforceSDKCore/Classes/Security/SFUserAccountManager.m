@@ -37,6 +37,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
+#import "NSMutableOrderedSet+SFSDKUtils.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -258,8 +259,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [_delegates msdkAddObjectToWeakify:delegate];
         }
     }
 }
@@ -268,8 +268,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [_delegates msdkRemoveWeakifiedObject:delegate];
         }
     }
 }
@@ -277,12 +276,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 - (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFUserAccountManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        if (block != NULL) {
+            [_delegates msdkEnumerateWeakifiedObjectsWithBlock:^(id delegateObj) {
+                if ([delegateObj conformsToProtocol:@protocol(SFUserAccountManagerDelegate)]) {
+                    id<SFUserAccountManagerDelegate> delegate = (id<SFUserAccountManagerDelegate>)delegateObj;
+                    block(delegate);
+                }
+            }];
+        }
     }
 }
 

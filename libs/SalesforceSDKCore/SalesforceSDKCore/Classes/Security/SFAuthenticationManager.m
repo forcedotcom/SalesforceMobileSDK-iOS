@@ -48,6 +48,7 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import "NSMutableOrderedSet+SFSDKUtils.h"
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -1024,8 +1025,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates addObject:nonretainedDelegate];
+            [self.delegates msdkAddObjectToWeakify:delegate];
         }
     }
 }
@@ -1034,8 +1034,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates removeObject:nonretainedDelegate];
+            [self.delegates msdkRemoveWeakifiedObject:delegate];
         }
     }
 }
@@ -1043,12 +1042,14 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        [self.delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        if (block != NULL) {
+            [self.delegates msdkEnumerateWeakifiedObjectsWithBlock:^(id delegateObj) {
+                if ([delegateObj conformsToProtocol:@protocol(SFAuthenticationManagerDelegate)]) {
+                    id<SFAuthenticationManagerDelegate> delegate = (id<SFAuthenticationManagerDelegate>)delegateObj;
+                    block(delegate);
+                }
+            }];
+        }
     }
 }
 

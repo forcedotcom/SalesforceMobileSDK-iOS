@@ -32,6 +32,7 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
+#import "NSMutableOrderedSet+SFSDKUtils.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -626,8 +627,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [_delegates msdkAddObjectToWeakify:delegate];
         }
     }
 }
@@ -636,8 +636,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [_delegates msdkRemoveWeakifiedObject:delegate];
         }
     }
 }
@@ -645,12 +644,14 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SalesforceSDKManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SalesforceSDKManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        if (block != NULL) {
+            [_delegates msdkEnumerateWeakifiedObjectsWithBlock:^(id delegateObj) {
+                if ([delegateObj conformsToProtocol:@protocol(SalesforceSDKManagerDelegate)]) {
+                    id<SalesforceSDKManagerDelegate> delegate = (id<SalesforceSDKManagerDelegate>)delegateObj;
+                    block(delegate);
+                }
+            }];
+        }
     }
 }
 

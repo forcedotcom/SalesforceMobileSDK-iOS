@@ -35,6 +35,7 @@
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
 #import "SFIdentityData.h"
+#import "NSMutableOrderedSet+SFSDKUtils.h"
 
 // Private constants
 
@@ -149,33 +150,33 @@ static BOOL _showPasscode = YES;
 
 + (void)addDelegate:(id<SFSecurityLockoutDelegate>)delegate
 {
-    @synchronized (self) {
+    @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [sDelegates addObject:nonretainedDelegate];
+            [sDelegates msdkAddObjectToWeakify:delegate];
         }
     }
 }
 
 + (void)removeDelegate:(id<SFSecurityLockoutDelegate>)delegate
 {
-    @synchronized (self) {
+    @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [sDelegates removeObject:nonretainedDelegate];
+            [sDelegates msdkRemoveWeakifiedObject:delegate];
         }
     }
 }
 
 + (void)enumerateDelegates:(void (^)(id<SFSecurityLockoutDelegate>))block
 {
-    @synchronized (self) {
-        [sDelegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFSecurityLockoutDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+    @synchronized(self) {
+        if (block != NULL) {
+            [sDelegates msdkEnumerateWeakifiedObjectsWithBlock:^(id delegateObj) {
+                if ([delegateObj conformsToProtocol:@protocol(SFSecurityLockoutDelegate)]) {
+                    id<SFSecurityLockoutDelegate> delegate = (id<SFSecurityLockoutDelegate>)delegateObj;
+                    block(delegate);
+                }
+            }];
+        }
     }
 }
 
