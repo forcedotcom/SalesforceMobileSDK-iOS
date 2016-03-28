@@ -1030,7 +1030,7 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate
+- (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate
 {
     @synchronized(self) {
         if (delegate) {
