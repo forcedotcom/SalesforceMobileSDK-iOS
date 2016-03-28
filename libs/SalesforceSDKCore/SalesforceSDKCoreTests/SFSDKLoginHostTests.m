@@ -1,8 +1,8 @@
 /*
- SFLoginViewController.h
+ SFSDKLoginHostTests.m
  SalesforceSDKCore
  
- Created by Kunal Chitalia on 1/22/16.
+ Created by Kunal Chitalia on 3/28/16.
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -26,36 +26,39 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKCore.h"
+#import <XCTest/XCTest.h>
+#import "SFSDKLoginHost.h"
 
-@interface SFLoginViewController : UIViewController
+@interface SFSDKLoginHostTests : XCTestCase
 
-/** Get a shared singleton of `SFLoginViewController` class
- */
-+(_Nonnull instancetype)sharedInstance;
+@end
 
-/**
- * Outlet to the OAuth web view.
- */
-@property (nonatomic, strong, nullable) IBOutlet UIView* oauthView;
+@implementation SFSDKLoginHostTests
 
-/** Specify the font to use for navigation bar header text*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
+- (void)setUp {
+    [super setUp];
+}
 
-/** Specify the text color to use for navigation bar header text */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
+- (void)tearDown {
+    [super tearDown];
+}
 
-/** Specify navigation bar color. This color will be used by
- - login view header
- */
-@property (nonatomic, strong, nullable) UIColor *navBarColor;
+- (void)testLoginHost{
+    NSString *name = @"dummyname";
+    NSString *host = @"dummyhost";
+    BOOL deletable = YES;
+    
+    SFSDKLoginHost *loginHost = [SFSDKLoginHost hostWithName:name host:host deletable:deletable];
+    
+    XCTAssertEqualObjects(host, loginHost.host, @"%@ Should be equal to %@", host, loginHost.host);
+    XCTAssertEqualObjects(name, loginHost.name, @"%@ Should be equal to %@", name, loginHost.name);
+    XCTAssertEqual(deletable, loginHost.deletable, @"%d Should be equal to %d", deletable, loginHost.deletable);
+    
+    //Only testing name to be nil as host can never be nil and deletable will always have a YES or NO value
+    loginHost = [SFSDKLoginHost hostWithName:nil host:host deletable:deletable];
+    
+    XCTAssertNotNil(loginHost.name, @"Name shoud not be nil");
+    
+}
 
-/** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
-@property (nonatomic) BOOL showNavbar;
-
-/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
-
-/** Apply style to navigation bar */
-- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 @end

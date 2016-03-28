@@ -67,11 +67,23 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
         // Load from managed preferences (e.g. MDM).
         SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
         if (managedPreferences.hasManagedPreferences) {
+            //If ther are any existing login hosts, remove them as MDM should take highest priority and only the hosts enforced by MDM should be in the list.
+            if([self.loginHostList count] > 0) {
+                [self removeAllLoginHosts];
+            }
             NSArray *hostLabels = managedPreferences.loginHostLabels;
             [managedPreferences.loginHosts enumerateObjectsUsingBlock:^(NSString *loginHost, NSUInteger idx, BOOL *stop) {
                 NSString *hostLabel = hostLabels.count > idx ? hostLabels[idx] : loginHost;
                 [self.loginHostList addObject:[SFSDKLoginHost hostWithName:hostLabel host:loginHost deletable:NO]];
             }];
+            return self;
+        }
+        
+        //Load from info.plist
+        if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
+            NSString *customHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"];
+            //Add the login host from info.plist
+            [self.loginHostList addObject:[SFSDKLoginHost hostWithName:customHost host:customHost deletable:NO]];
         }
         
         // Add the Production and Sandbox login hosts are defined. These two items cannot be deleted.

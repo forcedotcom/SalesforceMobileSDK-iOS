@@ -31,6 +31,7 @@
 #import "SFLoginViewController.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
+#import "UIColor+SFColors.h"
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 
@@ -42,10 +43,14 @@
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
 
+
 @end
 
 @implementation SFLoginViewController
+
+
 @synthesize oauthView = _oauthView;
+
 
 +(instancetype)sharedInstance {
     static dispatch_once_t onceToken;
@@ -59,9 +64,11 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _navBarColor = [UIColor colorWithRed:22.0/255.0 green:87.0/255.0 blue:205/255.0 alpha:1.0];
+        _navBarColor = [UIColor salesforceBlueColor];
         _navBarFont = nil;
         _navBarTextColor = [UIColor whiteColor];
+        _showNavbar = YES;
+        _showSettingsIcon = YES;
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -72,7 +79,9 @@
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
     self.view.backgroundColor = self.navBarColor;
-    [self setupNavigationBar];
+    if(self.showNavbar){
+        [self setupNavigationBar];
+    };
 }
 
 - (void)viewDidLayoutSubviews {
@@ -94,21 +103,22 @@
 
 - (void)setupNavigationBar {
     self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
-    
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
     // setup top item
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     self.navBar.items = @[item];
-    
-    // setup right bar button
-    UIImage *image = [SFSDKResourceUtils imageNamed:@"login-window-gear"];
-    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
-    rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
-    self.navBar.topItem.rightBarButtonItem = rightButton;
+    if(self.showSettingsIcon) {
+        // setup right bar button
+        UIImage *image = [SFSDKResourceUtils imageNamed:@"login-window-gear"];
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+        rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
+        self.navBar.topItem.rightBarButtonItem = rightButton;
+    }
     self.navBar.tintColor = [UIColor whiteColor];
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
     [self setNeedsStatusBarAppearanceUpdate];
+
 }
 
 - (void)setupBackButton {
