@@ -50,6 +50,12 @@
  */
 @property (nonatomic, strong, nullable) UIColor *navBarColor;
 
+/** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
+@property (nonatomic) BOOL hideNavbar;
+
+/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
+@property (nonatomic) BOOL showSettingsIcon;
+
 /** Apply style to navigation bar */
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 @end
