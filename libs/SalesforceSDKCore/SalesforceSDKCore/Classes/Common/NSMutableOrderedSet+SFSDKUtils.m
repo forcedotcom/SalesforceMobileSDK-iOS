@@ -76,4 +76,13 @@
     return objIndex;
 }
 
+- (id)msdkWeakifiedObjectAtIndex:(NSUInteger)index {
+    id weakObjectContainerObj = [self objectAtIndex:index];
+    if (weakObjectContainerObj == nil || ![weakObjectContainerObj isKindOfClass:[SFSDKWeakObjectContainer class]]) {
+        return nil;
+    }
+    SFSDKWeakObjectContainer *weakObjectContainer = (SFSDKWeakObjectContainer *)weakObjectContainerObj;
+    return weakObjectContainer.object;
+}
+
 @end

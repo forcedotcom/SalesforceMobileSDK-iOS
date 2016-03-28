@@ -73,6 +73,7 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
+		82DC4E841CA6184A00C95187 /* NSMutableOrderedSet+SFSDKUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DC4E831CA6184A00C95187 /* NSMutableOrderedSet+SFSDKUtilsTests.m */; settings = {ASSET_TAGS = (); }; };
 		CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE3051C0E5229009F6029 /* SFCocoaLumberJackCustomFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FF946081BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -851,6 +852,7 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		82DC4E831CA6184A00C95187 /* NSMutableOrderedSet+SFSDKUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableOrderedSet+SFSDKUtilsTests.m"; path = "SalesforceSDKCoreTests/NSMutableOrderedSet+SFSDKUtilsTests.m"; sourceTree = SOURCE_ROOT; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA8825F1C18F722008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -921,6 +923,7 @@
 		4F7EB3F61BFFC84700768720 /* SalesforceSDKCoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				82DC4E831CA6184A00C95187 /* NSMutableOrderedSet+SFSDKUtilsTests.m */,
 				4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */,
 				4F06AF5E1C49A16A00F70798 /* NSURL+SFStringUtilsTests.m */,
 				4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */,
@@ -1961,6 +1964,7 @@
 				4F06AF901C49A18E00F70798 /* SFOAuthTestFlow.m in Sources */,
 				4F06AF8B1C49A18E00F70798 /* SalesforceOAuthUnitTestsCoordinatorDelegate.m in Sources */,
 				4F7EB41C1BFFC8D700768720 /* SFSecurityTests.m in Sources */,
+				82DC4E841CA6184A00C95187 /* NSMutableOrderedSet+SFSDKUtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

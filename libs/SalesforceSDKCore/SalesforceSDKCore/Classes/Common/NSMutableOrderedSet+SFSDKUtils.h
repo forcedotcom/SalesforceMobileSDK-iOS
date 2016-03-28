@@ -26,10 +26,46 @@
 
 @interface NSMutableOrderedSet (SFSDKWeakObjects)
 
+/**
+ Adds a weakified object to the ordered set.
+ @param obj The object to hold a weak reference to.
+ */
 - (void)msdkAddObjectToWeakify:(id)obj;
+
+/**
+ Removes a weakified object from the ordered set.  If the object doesn't exist in the
+ ordered set, no action is takend.
+ @param obj The object whose weak reference should be removed from the ordered set.
+ */
 - (void)msdkRemoveWeakifiedObject:(id)obj;
-- (void)msdkEnumerateWeakifiedObjectsWithBlock:(void (^)(id))block;
+
+/**
+ Enumerates the ordered set to take action against weakified objects.
+ @param block The block to execute against each weakified object.
+ */
+- (void)msdkEnumerateWeakifiedObjectsWithBlock:(void (^)(id weakifiedObj))block;
+
+/**
+ Whether or not the ordered set contains the weakified object.
+ @param obj The object to query in the ordered set.
+ @return YES if the set contains a weakified reference to the object, NO otherwise.
+ */
 - (BOOL)msdkContainsWeakifiedObject:(id)obj;
+
+/**
+ Get the index of the weakified object in the ordered set.
+ @param obj The object to query in the set.
+ @return The index of the object in the ordered set, or NSNotFound if the object does have a weakified
+ reference in the ordered set.
+ */
 - (NSUInteger)msdkIndexOfWeakifiedObject:(id)obj;
+
+/**
+ Returns the weakified object at the given index.
+ @param index The index in the ordered set where the object exists.
+ @return The weakified object, or nil if the object at that index is not in a weakified form.
+ @throw NSRangeException if the index does not exist in the range of objects in the ordered set.
+ */
+- (id)msdkWeakifiedObjectAtIndex:(NSUInteger)index;
 
 @end
