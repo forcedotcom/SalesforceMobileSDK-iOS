@@ -23,6 +23,7 @@
  */
 
 #import "SFRootViewManager.h"
+#import "SFApplicationHelper.h"
 
 @interface SFRootViewManager()
 
@@ -58,7 +59,7 @@
 {
     if (_mainWindow == nil) {
         // Try to set a sane value for mainWindow, if it hasn't been set already.
-        _mainWindow = [UIApplication sharedApplication].windows[0];
+        _mainWindow = [SFApplicationHelper sharedApplication].windows[0];
         if (_mainWindow == nil) {
             [self log:SFLogLevelError format:@"UIApplication has no defined windows."];
         }
@@ -133,7 +134,7 @@
 
 - (void)saveCurrentKeyWindow
 {
-    for (UIWindow* w in [UIApplication sharedApplication].windows) {
+    for (UIWindow* w in [SFApplicationHelper sharedApplication].windows) {
         if ([w isKeyWindow]) {
             self.previousKeyWindow = w;
             break;
