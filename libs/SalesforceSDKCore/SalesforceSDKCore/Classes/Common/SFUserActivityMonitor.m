@@ -99,7 +99,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
     NSDate *lastEventAsOfNow = [(SFApplication *)[UIApplication sharedApplication] lastEventDate];
     if (![_lastEventDate isEqualToDate:lastEventAsOfNow]) {
         [self log:SFLogLevelDebug format:@"New user activity at %@", lastEventAsOfNow];
-        [SFInactivityTimerCenter updateActivityTimestamp];
+        [SFInactivityTimerCenter updateActivityTimestampTo:lastEventAsOfNow];
         // TODO: Possibly consider a notification, if other objects would like to subscribe to this.
         _lastEventDate = [lastEventAsOfNow copy];
     } else {
