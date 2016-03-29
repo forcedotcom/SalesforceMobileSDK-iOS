@@ -36,6 +36,8 @@
  */
 @interface CSFOutput : NSObject <NSSecureCoding, NSCopying, CSFActionModel>
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+
 /** Designated initializer to construct a model object from its JSON representation.
 
  @param json    Dictionary of structured data from the network.

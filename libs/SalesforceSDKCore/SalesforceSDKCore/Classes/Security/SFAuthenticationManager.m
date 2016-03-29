@@ -514,7 +514,7 @@ static Class InstanceClass = nil;
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    self.advancedAuthConfiguration = advancedAuthConfiguration;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
     self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 

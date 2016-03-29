@@ -12,3 +12,6 @@ GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
 PRODUCT_NAME = SmartSync
 
 LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited)
+
+// Make sure to use only API that are safe for application extensions
+APPLICATION_EXTENSION_API_ONLY = YES

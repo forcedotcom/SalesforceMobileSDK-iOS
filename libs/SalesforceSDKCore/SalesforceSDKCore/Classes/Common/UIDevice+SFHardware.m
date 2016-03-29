@@ -17,6 +17,7 @@
 #import "UIDevice+SFHardware.h"
 #import "UIScreen+SFAdditions.h"
 #import "SFLogger.h"
+#import "SFApplicationHelper.h"
 
 @implementation UIDevice (SFHardware)
 /*
@@ -438,7 +439,7 @@
     UIDeviceOrientation deviceOrientation = [[UIDevice currentDevice] orientation];
     UIInterfaceOrientation orientation = (UIInterfaceOrientation)deviceOrientation;
     if (!UIDeviceOrientationIsValidInterfaceOrientation(orientation)) {
-        orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        orientation = [[SFApplicationHelper sharedApplication] statusBarOrientation];
     }
     return orientation;
 }
@@ -464,7 +465,7 @@
 - (BOOL)canDevicePlaceAPhoneCall {
     BOOL canPlaceCall = NO;
     // Check if the device can place a phone call
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
+    if ([[SFApplicationHelper sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]]) {
         // Confirm it can make a phone call right now
         CTTelephonyNetworkInfo *netInfo = [[CTTelephonyNetworkInfo alloc] init];
         CTCarrier *carrier = [netInfo subscriberCellularProvider];
