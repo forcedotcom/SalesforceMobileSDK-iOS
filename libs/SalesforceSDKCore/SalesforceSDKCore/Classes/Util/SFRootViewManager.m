@@ -81,7 +81,7 @@
     __weak SFRootViewManager *weakSelf = self;
     void (^pushControllerBlock)(void) = ^{
         UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
-        while (currentViewController.presentedViewController != nil) {
+        while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             currentViewController = currentViewController.presentedViewController;
         }
         

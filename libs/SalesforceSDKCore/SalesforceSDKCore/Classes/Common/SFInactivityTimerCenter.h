@@ -46,9 +46,14 @@
 + (void)removeAllTimers;
 
 /*!
- * Update last activity timestamp.
+ * Update last activity timestamp to current time.
  */
 + (void)updateActivityTimestamp;
+
+/*!
+ * Update last activity timestamp to specified time.
+ */
++ (void)updateActivityTimestampTo:(NSDate *)date;
 
 /*!
  * Return the timestamp for the latest activity.
