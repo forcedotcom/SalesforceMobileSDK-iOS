@@ -39,8 +39,6 @@
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFAbstractPasscodeViewController.h>
-#import <SalesforceSDKCore/SFActionSheet.h>
-#import <SalesforceSDKCore/SFAlertView.h>
 #import <SalesforceSDKCore/SFApplication.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>

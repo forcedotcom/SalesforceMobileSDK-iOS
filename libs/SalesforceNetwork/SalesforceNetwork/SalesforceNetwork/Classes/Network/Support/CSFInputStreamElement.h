@@ -53,6 +53,7 @@
 @property (nonatomic, assign, readonly) NSUInteger length;
 @property (nonatomic, assign, readonly) NSUInteger delivered;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithObject:(id)object boundary:(NSString*)boundary key:(NSString*)key NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithObject:(id)object boundary:(NSString*)boundary key:(NSString*)key transformer:(NSValueTransformer*)transformer NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithObject:(id)object boundary:(NSString*)boundary key:(NSString*)key mimeType:(NSString*)mimeType filename:(NSString*)filename NS_DESIGNATED_INITIALIZER;

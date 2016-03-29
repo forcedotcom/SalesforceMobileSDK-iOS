@@ -166,6 +166,7 @@
 
 + (instancetype)actionWithHTTPMethod:(NSString*)method onURL:(NSURL*)url withResponseBlock:(CSFActionResponseBlock)responseBlock;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock NS_DESIGNATED_INITIALIZER;
 
 /** Takes an URL and assign it to this action by decomposing its components in the proper
