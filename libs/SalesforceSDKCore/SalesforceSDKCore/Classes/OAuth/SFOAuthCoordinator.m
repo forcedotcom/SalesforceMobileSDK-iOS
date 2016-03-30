@@ -262,10 +262,16 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     return self.authenticating;
 }
 
+- (void)invalidateAndCancelSession {
+    if (self.session) {
+        [self.session invalidateAndCancel];
+        self.session = nil;
+    }
+}
+
 - (void)stopAuthentication {
     [self.view stopLoading];
-    [self.session invalidateAndCancel];
-    self.session = nil;
+    [self invalidateAndCancelSession];
     [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
@@ -368,6 +374,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                                                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                                 timeoutInterval:self.timeout];
     orgConfigRequest.HTTPShouldHandleCookies = NO;
+    
+    [self invalidateAndCancelSession];
     self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
     [[self.session dataTaskWithRequest:orgConfigRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *connectionError) {
         if (connectionError) {
@@ -590,6 +598,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // the timeout with an NSTimer, which gets started here.
     [self startRefreshFlowConnectionTimer];
     
+    [self invalidateAndCancelSession];
     self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
