@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- This class manages manages the inactivity timer.
- */
+#import "SFApplicationHelper.h"
 
-#import <Foundation/Foundation.h>
+@implementation SFApplicationHelper
 
-@interface SFInactivityTimerCenter : NSObject
++ (UIApplication*)sharedApplication {
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+    if (UIApplicationClass && [UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
+        return [UIApplication performSelector:@selector(sharedApplication)];
+    }
+    return nil;
+}
 
-/*!
- * Register the timer
- */
-+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval;
-
-/*!
- * Remove a specific timer.
- */
-+ (void)removeTimer:(NSString *)timerName;
-
-/*!
- * Remove all timers.
- */
-+ (void)removeAllTimers;
-
-/*!
- * Update last activity timestamp to current time.
- */
-+ (void)updateActivityTimestamp;
-
-/*!
- * Update last activity timestamp to specified time.
- */
-+ (void)updateActivityTimestampTo:(NSDate *)date;
-
-/*!
- * Return the timestamp for the latest activity.
- */
-+ (NSDate *)lastActivityTimestamp;
-
-/*!
- * Save the activity timestamp to persistant storage.
- */
-+ (void)saveActivityTimestamp;
++ (BOOL)openURL:(NSURL*)url {
+    BOOL success = NO;
+    UIApplication *app = [self sharedApplication];
+    
+    if (app) {
+        SEL selector = @selector(openURL:);
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[app class] instanceMethodSignatureForSelector:selector]];
+        [invocation setTarget:app];
+        [invocation setSelector:selector];
+        [invocation setArgument:&url atIndex:2];
+        [invocation invoke];
+        [invocation getReturnValue:&success];
+    }
+    
+    return success;
+}
 
 @end

@@ -35,6 +35,11 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
     return YES;
 }
 
+- (instancetype)init {
+    self = [super init];
+    return self;
+}
+
 - (id)initWithJSON:(NSDictionary*)json context:(NSDictionary *)context {
     self = [super init];
     if (self) {

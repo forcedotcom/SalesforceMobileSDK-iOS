@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,47 +22,22 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/**
- This class manages manages the inactivity timer.
- */
-
 #import <Foundation/Foundation.h>
 
-@interface SFInactivityTimerCenter : NSObject
-
-/*!
- * Register the timer
+/** This class is abstracting the UIApplication class
+ and making it possible to use it when compiling for
+ application extension such as with watchOS which
+ doesn't have such a class.
  */
-+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval;
+@interface SFApplicationHelper : NSObject
 
-/*!
- * Remove a specific timer.
+/** Returns the shared application or nil
+ on platform that doesn't have one (such as extension).
  */
-+ (void)removeTimer:(NSString *)timerName;
++ (UIApplication*)sharedApplication;
 
-/*!
- * Remove all timers.
+/** Open the specified URL
  */
-+ (void)removeAllTimers;
-
-/*!
- * Update last activity timestamp to current time.
- */
-+ (void)updateActivityTimestamp;
-
-/*!
- * Update last activity timestamp to specified time.
- */
-+ (void)updateActivityTimestampTo:(NSDate *)date;
-
-/*!
- * Return the timestamp for the latest activity.
- */
-+ (NSDate *)lastActivityTimestamp;
-
-/*!
- * Save the activity timestamp to persistant storage.
- */
-+ (void)saveActivityTimestamp;
++ (BOOL)openURL:(NSURL*)url;
 
 @end
