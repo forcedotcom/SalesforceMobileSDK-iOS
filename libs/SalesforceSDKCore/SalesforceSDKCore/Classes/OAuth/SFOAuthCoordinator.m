@@ -29,6 +29,7 @@
 #import "SFOAuthOrgAuthConfiguration.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
+#import "SFApplicationHelper.h"
 
 // Public constants
 
@@ -447,7 +448,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // Launch the native browser.
     [self log:SFLogLevelDebug format:@"%@: Initiating native browser flow with URL %@", NSStringFromSelector(_cmd), approvalUrl];
     NSURL *nativeBrowserUrl = [NSURL URLWithString:approvalUrl];
-    BOOL browserOpenSucceeded = [[UIApplication sharedApplication] openURL:nativeBrowserUrl];
+    BOOL browserOpenSucceeded = [SFApplicationHelper openURL:nativeBrowserUrl];
     if (!browserOpenSucceeded) {
         [self log:SFLogLevelError format:@"%@: Could not launch native browser with URL %@", NSStringFromSelector(_cmd), approvalUrl];
         NSError *launchError = [[self class] errorWithType:kSFOAuthErrorTypeBrowserLaunchFailed description:@"The native browser failed to launch for advanced authentication."];

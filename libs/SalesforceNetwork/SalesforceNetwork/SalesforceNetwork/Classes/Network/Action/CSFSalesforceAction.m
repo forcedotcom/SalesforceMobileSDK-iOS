@@ -245,6 +245,9 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                 self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
             } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
+                if ([keyPath isEqualToString:kNetworkInstanceURLPath]) {
+                    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
+                }
             } else {
                 self.credentialsReady = NO;
             }

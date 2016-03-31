@@ -163,6 +163,11 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 #pragma mark -
 #pragma mark object lifecycle
 
+- (instancetype)init {
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock {
     self = [super init];
     if (self) {

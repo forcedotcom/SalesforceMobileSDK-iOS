@@ -28,6 +28,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
+#import "SFApplicationHelper.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -140,8 +141,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     if (settingsForTypesRetVal)
         CFRetain(settingsForTypesRetVal);
     
-    [[UIApplication sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
-    [[UIApplication sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
+    [[SFApplicationHelper sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
+    [[SFApplicationHelper sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
 }
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData

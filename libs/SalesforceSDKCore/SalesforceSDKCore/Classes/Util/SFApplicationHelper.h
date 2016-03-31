@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,46 +22,22 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import <Foundation/Foundation.h>
 
-@implementation SFSDKResourceUtils
+/** This class is abstracting the UIApplication class
+ and making it possible to use it when compiling for
+ application extension such as with watchOS which
+ doesn't have such a class.
+ */
+@interface SFApplicationHelper : NSObject
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
-    }
-    
-    return sdkBundle;
-}
+/** Returns the shared application or nil
+ on platform that doesn't have one (such as extension).
+ */
++ (UIApplication*)sharedApplication;
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
-    }
-    
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
-
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    UIImage *image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-    if (image) {
-        return image;
-    }
-    
-    // get from main bundle
-    bundle = [NSBundle mainBundle];
-    image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-    return image;
-}
+/** Open the specified URL
+ */
++ (BOOL)openURL:(NSURL*)url;
 
 @end

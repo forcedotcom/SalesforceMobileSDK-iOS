@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
- Author: Kevin Hawkins
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,46 +22,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKResourceUtils.h"
+#import "SFApplicationHelper.h"
 
-@implementation SFSDKResourceUtils
+@implementation SFApplicationHelper
 
-+ (NSBundle *)mainSdkBundle
-{
-    // One instance.  This won't change during the lifetime of the app process.
-    static NSBundle *sdkBundle = nil;
-    if (sdkBundle == nil) {
-        NSString *sdkBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"SalesforceSDKResources" ofType:@"bundle"];
-        sdkBundle = [NSBundle bundleWithPath:sdkBundlePath];
++ (UIApplication*)sharedApplication {
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+    if (UIApplicationClass && [UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
+        return [UIApplication performSelector:@selector(sharedApplication)];
     }
-    
-    return sdkBundle;
+    return nil;
 }
 
-+ (NSString *)localizedString:(NSString *)localizationKey
-{
-    NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
-    NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
-    if (!sdkBundle) {
-        sdkBundle = [NSBundle mainBundle];
++ (BOOL)openURL:(NSURL*)url {
+    BOOL success = NO;
+    UIApplication *app = [self sharedApplication];
+    
+    if (app) {
+        SEL selector = @selector(openURL:);
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[app class] instanceMethodSignatureForSelector:selector]];
+        [invocation setTarget:app];
+        [invocation setSelector:selector];
+        [invocation setArgument:&url atIndex:2];
+        [invocation invoke];
+        [invocation getReturnValue:&success];
     }
     
-    return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
-}
-
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
-    UIImage *image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-    if (image) {
-        return image;
-    }
-    
-    // get from main bundle
-    bundle = [NSBundle mainBundle];
-    image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
-    return image;
+    return success;
 }
 
 @end
