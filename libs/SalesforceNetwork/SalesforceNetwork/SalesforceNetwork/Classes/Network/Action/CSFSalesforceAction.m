@@ -275,6 +275,30 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return YES;
 }
 
++ (BOOL)isNetworkError:(nullable NSError *)error {
+    if (nil == error) {
+        return NO;
+    }
+    //If error domain is CSFNetworkErrorDomain then it could be a wrapper
+    //and may contain actual NSError object in userInfo dictionary
+    if ([error.domain isEqualToString:CSFNetworkErrorDomain] && error.userInfo[NSUnderlyingErrorKey]) {
+        error = error.userInfo[NSUnderlyingErrorKey];
+    }
+    switch (error.code) {
+        case kCFURLErrorNotConnectedToInternet:
+        case kCFURLErrorCannotFindHost:
+        case kCFURLErrorCannotConnectToHost:
+        case kCFURLErrorNetworkConnectionLost:
+        case kCFURLErrorDNSLookupFailed:
+        case kCFURLErrorResourceUnavailable:
+        case kCFURLErrorTimedOut:
+            return YES;
+            break;
+        default:
+            return NO;
+    }
+}
+
 #pragma mark SFAuthenticationManagerDelegate
 
 - (void)userAccountManagerDidChangeCurrentUser:(NSNotification*)notification {
