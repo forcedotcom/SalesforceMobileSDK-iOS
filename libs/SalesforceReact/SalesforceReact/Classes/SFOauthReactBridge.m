@@ -47,34 +47,49 @@ RCT_EXPORT_MODULE();
 RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     [self log:SFLogLevelDebug format:@"getAuthCredentials: arguments: %@", args];
-    callback(@[[NSNull null], [self credentialsAsDictionary]]);
+    [self sendAuthCredentials:callback];
 }
 
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
     [[SFAuthenticationManager sharedManager] logout];
-    callback(@[[NSNull null], @[]]);
 }
 
-- (NSDictionary*) credentialsAsDictionary
+RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
-    NSDictionary *credentialsDict = nil;
+    [self log:SFLogLevelDebug format:@"authenticate: arguments: %@", args];
+    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+        [self sendAuthCredentials:callback];
+    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+        [self sendNotAuthenticatedError:callback];
+    }];
+}
+
+- (void) sendAuthCredentials:(RCTResponseSenderBlock) callback
+{
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds) {
         NSString *instanceUrl = creds.instanceUrl.absoluteString;
         NSString *loginUrl = [NSString stringWithFormat:@"%@://%@", creds.protocol, creds.domain];
         NSString *uaString = [SalesforceSDKManager sharedManager].userAgentString(@"");
-        credentialsDict = @{kAccessTokenCredentialsDictKey: creds.accessToken,
-                            kRefreshTokenCredentialsDictKey: creds.refreshToken,
-                            kClientIdCredentialsDictKey: creds.clientId,
-                            kUserIdCredentialsDictKey: creds.userId,
-                            kOrgIdCredentialsDictKey: creds.organizationId,
-                            kLoginUrlCredentialsDictKey: loginUrl,
-                            kInstanceUrlCredentialsDictKey: instanceUrl,
-                            kUserAgentCredentialsDictKey: uaString};
+        NSDictionary* credentialsDict = @{kAccessTokenCredentialsDictKey: creds.accessToken,
+                                          kRefreshTokenCredentialsDictKey: creds.refreshToken,
+                                          kClientIdCredentialsDictKey: creds.clientId,
+                                          kUserIdCredentialsDictKey: creds.userId,
+                                          kOrgIdCredentialsDictKey: creds.organizationId,
+                                          kLoginUrlCredentialsDictKey: loginUrl,
+                                          kInstanceUrlCredentialsDictKey: instanceUrl,
+                                          kUserAgentCredentialsDictKey: uaString};
+        callback(@[[NSNull null], credentialsDict]);
     }
-    return credentialsDict;
+    else {
+        [self sendNotAuthenticatedError:callback];
+    }
+}
+
+- (void) sendNotAuthenticatedError:(RCTResponseSenderBlock) callback {
+    callback(@[RCTMakeError(@"Not authenticated", nil, nil)]);
 }
 
 @end
