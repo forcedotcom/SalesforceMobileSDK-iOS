@@ -54,6 +54,7 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
 {
     [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
     [[SFAuthenticationManager sharedManager] logout];
+    callback(@[[NSNull null], @[]]);
 }
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
