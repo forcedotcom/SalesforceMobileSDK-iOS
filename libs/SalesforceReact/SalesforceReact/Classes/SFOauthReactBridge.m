@@ -53,8 +53,9 @@ RCT_EXPORT_METHOD(getAuthCredentials:(NSDictionary *)args callback:(RCTResponseS
 RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     [self log:SFLogLevelDebug format:@"logoutCurrentUser: arguments: %@", args];
-    [[SFAuthenticationManager sharedManager] logout];
-    callback(@[[NSNull null], @[]]);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SFAuthenticationManager sharedManager] logout];
+    });    
 }
 
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
