@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
     SFCryptoOperationDecrypt
 };
 
+/** Utility class for data encryption operations. 
+ */
 @interface SFCrypto : NSObject
 
 /**
@@ -75,19 +77,21 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
 - (void)cryptData:(NSData *)inData;
 
 /**
- Decrypt the passed in data initializer, performs the decryption in memory.
+ Decrypts the passed in data initializer, performing the decryption in memory.
  @param data Encrypted input data.
+ @return Decrypted data.
  */
 - (NSData *)decryptDataInMemory:(NSData *)data;
 
 /**
- Encrypt the passed in data initializer, performs the encryption in memory.
+ Encrypts the passed in data initializer, performing the encryption in memory.
  @param data Input data.
+ @return Encrypted data.
  */
 - (NSData *)encryptDataInMemory:(NSData *)data;
 
 /**
- Finalizes the the encryption/decryption process.
+ Finalizes the encryption/decryption process.
  */
 - (BOOL)finalizeCipher;
 

@@ -48,7 +48,7 @@
  */
 -(NSString *)base64Encode;
 
-/**Creates a new base64 encoding of this NSData. Similar to newBase64Encoding.
+/**Creates a base64 encoding of this NSData. Similar to newBase64Encoding.
  @param base64 The base64 encoding to use in the new NSData object.
  @return The base64 encoded NSData object. 
  */
@@ -56,34 +56,42 @@
 
 /** Creates an NSData object from a base64 encoded string.
  @param encoding The string to convert to NSData.
+ @return A base64-encoded string version of this object's data.
  */
 +(NSData *)dataFromBase64String:(NSString *)encoding;
 
 @end
 
-
-@interface NSData (SFMD5)
 /** Provides MD5 conversion support.
  */
-/**Return md5 version of this NSData*/
+@interface NSData (SFMD5)
+
+/**Converts this NSData to md5 format.
+ @return md5 version of data.
+ */
 - (NSString *)md5;
 @end
 
-@interface NSData (SFzlib)
 /** Provides gzip uncompressed conversion support.
  */
-/**Return gzip uncompressed version of the this NSData*/
+@interface NSData (SFzlib)
+/**Converts this data to gzip uncompressed format.
+ @return This data in gzip uncompressed format.
+*/
 -(NSData *)gzipInflate;
-/**Return gzip compressed version of the this NSData*/
+
+/**Converts this data to gzip compressed format.
+ @return This data in gzip compressed format.
+ */
 -(NSData *)gzipDeflate;
 @end
 
-
-@interface NSData (SFHexSupport)
 /**
  Provides hex string conversion support.
  */
-/** Return a hex string representation of the data contained in receiver
+@interface NSData (SFHexSupport)
+/** Creates a hex string representation of this object's data.
+ @return Hex string representation of this object's data.
  */
 - (NSString*)newHexStringFromBytes;
 

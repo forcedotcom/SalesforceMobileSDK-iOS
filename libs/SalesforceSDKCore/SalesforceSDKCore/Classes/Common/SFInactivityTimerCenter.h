@@ -57,6 +57,7 @@
 
 /*!
  * Update last activity timestamp to specified time.
+ @param date The NSDate object that specifies the new timestamp.
  */
 + (void)updateActivityTimestampTo:(NSDate *)date;
 

@@ -33,10 +33,13 @@
 
 /** Returns the shared application or nil
  on platform that doesn't have one (such as extension).
+ @return The shared application object.
  */
 + (UIApplication*)sharedApplication;
 
-/** Open the specified URL
+/** Opens the specified URL.
+ @param url The URL to be opened.
+ @return YES if the URL is successfully opened.
  */
 + (BOOL)openURL:(NSURL*)url;
 
