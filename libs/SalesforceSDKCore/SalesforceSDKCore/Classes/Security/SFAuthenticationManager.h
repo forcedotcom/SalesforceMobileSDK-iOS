@@ -201,12 +201,13 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, readonly) BOOL haveValidSession;
 
 /**
- Returns YES if the logout is requested by the app settings
+ Returns YES if the logout is requested by the app settings.
  */
 @property (nonatomic, readonly) BOOL logoutSettingEnabled;
 
 /**
  The class instance to be used to instantiate the singleton.
+ @param className Name of the instance class.
  */
 + (void)setInstanceClass:(Class)className;
 
@@ -274,6 +275,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 
 /**
  Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
+ @param delegate The delegate to remove from the list.
  */
 - (void)removeDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
 
@@ -293,7 +295,7 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  Kick off the login process for the given user.
  @param completionBlock The block of code to execute when the authentication process successfully completes.
  @param failureBlock The block of code to execute when the authentication process has a fatal failure.
- @param 
+ @param account User account to be logged in.
  @return YES if this call kicks off the authentication process.  NO if an authentication process has already
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.

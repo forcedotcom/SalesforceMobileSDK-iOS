@@ -34,13 +34,16 @@
  */
 @interface SFSDKLoginHost : NSObject
 
-// The name of the login host
+/** The name of the login host
+*/
 @property (nonatomic, copy) NSString *name;
 
-// The server address of the login host
+/** The server address of the login host
+*/
 @property (nonatomic, copy) NSString *host;
 
-// Indicates whether this login host can be deleted
+/** Indicates whether this login host can be deleted
+*/
 @property (readonly, getter=isDeletable) BOOL deletable;
 
 /**

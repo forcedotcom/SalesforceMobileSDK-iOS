@@ -33,6 +33,9 @@
  */
 @interface SFSDKTextFieldTableViewCell : UITableViewCell
 
+/**
+ * Text field for inserting and editing text.
+ */
 @property (nonatomic, strong, readonly) UITextField *textField;
 
 @end

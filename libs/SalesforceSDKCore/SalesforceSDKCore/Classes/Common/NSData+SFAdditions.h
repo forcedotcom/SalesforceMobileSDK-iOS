@@ -24,48 +24,54 @@
 
 #import <UIKit/UIKit.h>
 
-/**Extension to NSData class to provide common functions
- 
- Added functionalities include 
- base64 encode of a NSData
- MD5 of a NSData
- Gzip deflat of a gzip compressed NSData
- Hex version of a NSData
+/** Extension to NSData class to provide common functions. Added functionality includes:
+ --base64 encoding of an NSData object
+ --MD5 version of an NSData object
+ --Gzip deflated representation of a gzip-compressed NSData object
+ --Hex version of an NSData object
  */
 @interface NSData (SFBase64)
 
-/**
- @return The specified number of random bytes or `nil` if an error occurs.
+/** Returns a specified number of random bytes.
+ @param length The number of bytes of random data to return.
+ @return The specified quantity of random bytes or `nil` if an error occurs.
  */
 - (NSData *)randomDataOfLength:(size_t)length;
 
-/**Create a new base64 encoding of this NSData
+/**Creates a base64 encoded string for this NSData object.
+ @return A base64 encoded version of the data.
  */
 -(NSString *)newBase64Encoding;
 
-/**Return base64 encoded string for the currrent NSData
+/**Returns a base64 encoded string for this NSData object.
+ @return A base64 encoded version of the data.
  */
 -(NSString *)base64Encode;
 
-/**Create a new base64 encoding of this NSData. 
- 
- Similar to `newBase64Encoding`
+/**Creates a new base64 encoding of this NSData. Similar to newBase64Encoding.
+ @param base64 The base64 encoding to use in the new NSData object.
+ @return The base64 encoded NSData object. 
  */
 -(id)initWithBase64String:(NSString *)base64;
 
+/** Creates an NSData object from a base64 encoded string.
+ @param encoding The string to convert to NSData.
+ */
 +(NSData *)dataFromBase64String:(NSString *)encoding;
 
 @end
 
 
 @interface NSData (SFMD5)
-
+/** Provides MD5 conversion support.
+ */
 /**Return md5 version of this NSData*/
 - (NSString *)md5;
 @end
 
 @interface NSData (SFzlib)
-
+/** Provides gzip uncompressed conversion support.
+ */
 /**Return gzip uncompressed version of the this NSData*/
 -(NSData *)gzipInflate;
 /**Return gzip compressed version of the this NSData*/
@@ -74,7 +80,9 @@
 
 
 @interface NSData (SFHexSupport)
-
+/**
+ Provides hex string conversion support.
+ */
 /** Return a hex string representation of the data contained in receiver
  */
 - (NSString*)newHexStringFromBytes;

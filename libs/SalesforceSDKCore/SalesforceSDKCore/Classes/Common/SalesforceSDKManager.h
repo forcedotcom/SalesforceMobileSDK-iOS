@@ -38,6 +38,9 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+/** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
+ */
+
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional

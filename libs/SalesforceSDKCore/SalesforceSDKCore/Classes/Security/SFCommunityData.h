@@ -44,16 +44,24 @@
  */
 @property (nonatomic, strong) NSURL *siteUrl;
 
+/** The community URL
+ */
 @property (nonatomic, strong) NSURL *url;
 
+/** The community URL's path prefix
+ */
 @property (nonatomic, strong) NSURL *urlPathPrefix;
 
 /** Flag indicating if the community is live or not
  */
 @property (nonatomic) BOOL enabled;
 
+/** Flag indicating whether invitations can be sent to potential new members
+ */
 @property (nonatomic) BOOL invitationsEnabled;
 
+/** Flag indicating whether to send a welcome email to new members
+ */
 @property (nonatomic) BOOL sendWelcomeEmail;
 
 @end

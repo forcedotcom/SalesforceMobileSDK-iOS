@@ -24,6 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import "SFPasscodeProviderManager.h"
+/**
+ * Contains configuration values for generating an encryption key.
+ */
 
 @interface SFPBKDF2PasscodeProvider : NSObject <SFPasscodeProvider>
 
