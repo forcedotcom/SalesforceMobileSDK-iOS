@@ -204,26 +204,64 @@ if (!(_cond)) { \
 //Context Based Filtering
 //Two filters: blacklist, whitelist.
 
+/** Sets the log formatter to use the black list filter.
+ */
 + (void)setBlackListFilter;
+
+/** Sets the log formatter to use the white list filter.
+ */
 + (void)setWhiteListFilter;
 
-+ (void)resetLoggingFilter; //back to original settings (set to blacklist filter; empty blacklist/whitelist)
+/**Reverts the log formatter to the original settings: blacklist filter with empty blacklist and whitelist.
+ */
++ (void)resetLoggingFilter;
 
-
-// black list formatter (logs with contexts on the black list will not be displayed )
+/** Adds a context to the black list. When the log formatter is using the blacklist filter, the log does not display items whose contexts are on the black list.
+ @param logContext Context to add to the black list.
+ */
 + (void)blackListFilterAddContext:(SFLogContext)logContext;
+
+/** Removes a context from the black list. Log items whose contexts are on the black list are not displayed.
+ @param logContext Context to remove from the black list.
+ */
 + (void)blackListFilterRemoveContext:(SFLogContext)logContext;
 
-// white list formatter (ONLY logs with contexts on the white list will be displayed)
+/** Adds a context to the white list. When the log formatter is using the whitelist filter, the log displays only those items whose contexts are on the white list.
+ @param logContext Context to add to the white list.
+ */
 + (void)whiteListFilterAddContext:(SFLogContext)logContext;
+
+/** Removes a context from the white list. When the log formatter is using the whitelist filter, the log does not display items whose contexts are not on the white list.
+ @param logContext Context to remove from the black list.
+ */
 + (void)whiteListFilterRemoveContext:(SFLogContext)logContext;
+
+/** Resets the white list to include only the given context.
+ @param logContext Context to use as the white list filter.
+ */
 + (void)filterByContext:(SFLogContext)logContext; //if you want to RESET the whitelist and filter only ONE context
 
 //contexts on respective filter
+/** Returns an array of all contexts currently on the black list.
+ @return Array of black list contexts.
+ */
 + (NSArray *)contextsOnBlackList;
+
+/** Returns an array of all contexts currently on the white list.
+ @return Array of white list contexts.
+ */
 + (NSArray *)contextsOnWhiteList;
 
+/** Checks whether the given context is on the context black list filter.
+ @param logContext The context to check.
+ @return YES if the context is on the black list.
+ */
 + (BOOL)isOnContextBlackList:(SFLogContext)logContext;
+
+/** Checks whether the given context is on the context white list filter.
+ @param logContext The context to check.
+ @return YES if the context is on the white list.
+ */
 + (BOOL)isOnContextWhiteList:(SFLogContext)logContext;
 
 @end
