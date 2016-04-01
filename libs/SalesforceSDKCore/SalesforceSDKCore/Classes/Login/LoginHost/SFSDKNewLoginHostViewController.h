@@ -36,14 +36,17 @@
  */
 @interface SFSDKNewLoginHostViewController : UITableViewController <UITextFieldDelegate>
 
-// The server text field
+/** The server text field
+*/
 @property (nonatomic, strong) UITextField *server;
 
-// The name text field
+/** The name text field
+*/
 @property (nonatomic, strong) UITextField *name;
 
-// A reference to the login host list view controller used to add the host to the list of login hosts
-// and to also properly resize the popover controller.
+/** A reference to the login host list view controller used to add the host to the list of login hosts
+ and to also properly resize the popover controller.
+ */
 @property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController;
 
 @end

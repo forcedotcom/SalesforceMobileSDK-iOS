@@ -65,24 +65,33 @@ if (!(_cond)) { \
 @interface NSObject (SFLogging)
 /**
  * Logs a message with the given level.
- * @param level The minimum log level to log at.
+ * @param level The minimum log level to observe.
  * @param msg The message to log.
  */
 -(void)log:(SFLogLevel)level msg:(NSString *)msg;
 
 /**
  * Logs a formatted message with the given log level and format parameters.
- * @param level The minimum log level to log at.
+ * @param level The minimum log level to observe.
  * @param msg The format message, and optional arguments to expand in the format.
- * @param ... The arguments to the message format string.
+ * @param ... Optional arguments for the message format string.
  */
 -(void)log:(SFLogLevel)level format:(NSString *)msg, ...;
 
 /**
- * Analagous Log methods with the addition of context
+ * Log method with the addition of context.
+ @param level The minimum log level to observe.
+ @param logContext Additional log information about the code context.
+ @param msg The format message.
 */
 -(void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg;
--(void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...;
+/**
+ * Log method with the addition of context
+ * @param level The minimum log level to observe.
+ * @param logContext Additional log information about the code context.
+ * @param msg The format message.
+ * @param ... Optional arguments for the message format string.
+ */-(void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...;
 
 @end
 

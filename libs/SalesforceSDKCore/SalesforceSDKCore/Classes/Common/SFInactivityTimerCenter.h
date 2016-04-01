@@ -23,7 +23,7 @@
  */
 
 /**
- This class manages manages the inactivity timer.
+ This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.
  */
 
 #import <Foundation/Foundation.h>
@@ -31,12 +31,17 @@
 @interface SFInactivityTimerCenter : NSObject
 
 /*!
- * Register the timer
+ * Register the timer.
+ @param timerName Name to use to register the timer.
+ @param target The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.
+ @param aSelector The message to send to target when the timer fires. See NSTimer documentation.
+ @param interval For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.
  */
 + (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval;
 
 /*!
  * Remove a specific timer.
+ @param timerName Name of the timer to remove.
  */
 + (void)removeTimer:(NSString *)timerName;
 
