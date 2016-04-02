@@ -61,11 +61,13 @@ RCT_EXPORT_METHOD(logoutCurrentUser:(NSDictionary *)args callback:(RCTResponseSe
 RCT_EXPORT_METHOD(authenticate:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
 {
     [self log:SFLogLevelDebug format:@"authenticate: arguments: %@", args];
-    [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
-        [self sendAuthCredentials:callback];
-    } failure:^(SFOAuthInfo *authInfo, NSError *error) {
-        [self sendNotAuthenticatedError:callback];
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
+            [self sendAuthCredentials:callback];
+        } failure:^(SFOAuthInfo *authInfo, NSError *error) {
+            [self sendNotAuthenticatedError:callback];
+        }];
+    });
 }
 
 - (void) sendAuthCredentials:(RCTResponseSenderBlock) callback
