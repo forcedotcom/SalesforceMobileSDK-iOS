@@ -72,11 +72,16 @@
  */
 - (id)objectForKey:(NSString*)key;
 
-/**
- 
+/** Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.
+ @param object Object to be set.
+ @param key Key of object to be set.
  */
+
 - (void)setObject:(id)object forKey:(NSString*)key;
 
+/** Removes the preference object for the given attribute key.
+ @param key Key of object to be removed.
+ */
 - (void)removeObjectForKey:(NSString*)key;
 
 /** Returns the Boolean preference value for the given key.

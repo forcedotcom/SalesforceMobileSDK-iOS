@@ -61,54 +61,62 @@ extern NSString * const kSFKeychainItemExceptionErrorCodeKey;
  */
 @interface SFKeychainItemWrapper : NSObject
 
-/*!
+/**
  Determines if the keychain wrapper should encrypt/decrypt keychain sensitive data like refreshtoken
  */
 @property (nonatomic) BOOL encrypted;
 
-/*!
+/**
  Returns the accessible attribute used to store this keychain item
  */
 @property (nonatomic, readonly) CFTypeRef accessibleAttribute;
 
-/*!
+/**
  @return Whether or not keychain access errors cause a fatal exception.  Default is YES.
  */
 + (BOOL)keychainAccessErrorsAreFatal;
 
-/*!
+/**
  Sets whether or not keychain access errors cause a fatal exception.
  @param errorsAreFatal Whether keychain access errors should be fatal.
  */
 + (void)setKeychainAccessErrorsAreFatal:(BOOL)errorsAreFatal;
 
-/*!
+/**
  Sets the accessible attribute used by this keychain item wrapper class.
  If the previous attribute value is different, this method will trigger
  an update of all the items in the keychain.
+ @param accessibleAttribute The accessible attribute for this keychain item wrapper class.
  */
 + (void)setAccessibleAttribute:(CFTypeRef)accessibleAttribute;
 
-/*!
+/**
  Factory method to hand out an SFKeychainItemWrapper object with the given identifier and account.
  Note that, for any given combination of identifier and account, only one object will be created
  at runtime.  Subsequent requests will return the same object.
+ @param identifier Identifier to use for the SFKeychainItemWrapper object.
+ @param account Account to use for the SFKeychainItemWrapper object.
  */
 + (SFKeychainItemWrapper *)itemWithIdentifier:(NSString *)identifier account:(NSString *)account;
 
-/*!
- Reset the keychain item
+/**
+ Reset the keychain item.
  */
 - (BOOL)resetKeychainItem;
 
-/*!
- Passcode related methods
- */
-/*!
- sets passcode in keychain, input is plain text passcode
+/* Passcode related methods */
+
+/**
+ Sets the passcode in the keychain.
+ @param passcode Plain text passcode
  */
 - (void)setPasscode:(NSString *)passcode;
+/** The passcode.
+ */
 - (NSString *)passcode;
+/** Performs passcode verification.
+ @param passcode The passcode to verify.
+ */
 - (BOOL)verifyPasscode:(NSString *)passcode;
 
 /**

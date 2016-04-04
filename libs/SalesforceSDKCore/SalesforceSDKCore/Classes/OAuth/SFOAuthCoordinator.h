@@ -156,6 +156,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
  Sent before oauthcoordinator will begin any kind of authentication
  
  @param coordinator The SFOAuthCoordinator instance processing this message
+ @param info The SFOAuthInfo instance containing details about the type of authentication.
  */
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info;
 
@@ -192,7 +193,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
 /**
- The delegate can implement this method to return a BOOL indicating if the network is available or not
+ The delegate can implement this method to return a BOOL indicating whether the network is available.
+ @param coordinator The SFOAuthCoordinator object to be queried (typically self).
  */
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator*)coordinator;
 

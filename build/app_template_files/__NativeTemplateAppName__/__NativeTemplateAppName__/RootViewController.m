@@ -59,7 +59,7 @@
     [[SFRestAPI sharedInstance] send:request delegate:self];
 }
 
-#pragma mark - SFRestAPIDelegate
+#pragma mark - SFRestDelegate
 
 - (void)request:(SFRestRequest *)request didLoadResponse:(id)jsonResponse {
     NSArray *records = [jsonResponse objectForKey:@"records"];

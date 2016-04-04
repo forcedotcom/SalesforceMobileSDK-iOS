@@ -72,7 +72,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 #pragma mark - init / dealloc / standard overrides
 
-- (id)initWithJsonDict:(NSDictionary *)jsonDict
+- (instancetype)initWithJsonDict:(NSDictionary *)jsonDict
 {
     self = [super init];
     if (self) {
@@ -81,11 +81,6 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.dictRepresentation = nil;
 }
 
 - (NSString *)description

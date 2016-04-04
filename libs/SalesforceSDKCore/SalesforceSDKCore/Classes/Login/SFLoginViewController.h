@@ -28,9 +28,11 @@
 
 #import "SalesforceSDKCore.h"
 
+/** The Salesforce login screen view.
+ */
 @interface SFLoginViewController : UIViewController
 
-/** Get a shared singleton of `SFLoginViewController` class
+/** Returns a shared singleton of `SFLoginViewController` class.
  */
 +(_Nonnull instancetype)sharedInstance;
 
@@ -39,14 +41,13 @@
  */
 @property (nonatomic, strong, nullable) IBOutlet UIView* oauthView;
 
-/** Specify the font to use for navigation bar header text*/
+/** Specify the font to use for navigation bar header text.*/
 @property (nonatomic, strong, nullable) UIFont * navBarFont;
 
-/** Specify the text color to use for navigation bar header text */
+/** Specify the text color to use for navigation bar header text. */
 @property (nonatomic, strong, nullable) UIColor * navBarTextColor;
 
-/** Specify navigation bar color. This color will be used by
- - login view header
+/** Specify navigation bar color. This color will be used by the login view header.
  */
 @property (nonatomic, strong, nullable) UIColor *navBarColor;
 
@@ -56,6 +57,8 @@
 /** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
 @property (nonatomic) BOOL showSettingsIcon;
 
-/** Apply style to navigation bar */
+/** Applies the view's style attributes to the given navigation bar.
+ @param navigationBar The navigation bar that the style is applied to.
+ */
 - (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 @end

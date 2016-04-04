@@ -417,12 +417,12 @@
 		CEA8832B1C18FC66008D871B /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
-		E1C80CEC1C5AEE31001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; };
+		E1C80CEC1C5AEE31001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CED1C5AEE31001B3A21 /* SFSDKLoginHost.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE21C5AEE31001B3A21 /* SFSDKLoginHost.m */; };
-		E1C80CEE1C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */; };
-		E1C80CEF1C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE41C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h */; };
+		E1C80CEE1C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80CEF1C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE41C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CF01C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */; };
-		E1C80CF11C5AEE31001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; };
+		E1C80CF11C5AEE31001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CF21C5AEE31001B3A21 /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */; };
 		E1C80CF31C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */; };
 		E1C80CF41C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */; };
@@ -444,6 +444,10 @@
 		E1C80D311C5C368C001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CEB1C5AEE31001B3A21 /* SFSDKTextFieldTableViewCell.m */; };
 		E1DDC0FE1CAA2A8B002F51DD /* UIColor+SFColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDC0FD1CAA2A8B002F51DD /* UIColor+SFColors.m */; };
 		E1DDC1441CAEEB34002F51DD /* SFSDKLoginHostTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDC1431CAEEB34002F51DD /* SFSDKLoginHostTests.m */; };
+		FDED97271CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDED97281CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */; };
+		FDED972A1CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -864,6 +868,8 @@
 		E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+SFColors.h"; sourceTree = "<group>"; };
 		E1DDC0FD1CAA2A8B002F51DD /* UIColor+SFColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+SFColors.m"; sourceTree = "<group>"; };
 		E1DDC1431CAEEB34002F51DD /* SFSDKLoginHostTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKLoginHostTests.m; path = SalesforceSDKCoreTests/SFSDKLoginHostTests.m; sourceTree = SOURCE_ROOT; };
+		FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFApplicationHelper.h; sourceTree = "<group>"; };
+		FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFApplicationHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1171,6 +1177,8 @@
 				4F96FD391BFD32140022F021 /* NSURL+SFStringUtils.m */,
 				4F96FD3A1BFD32140022F021 /* SalesforceSDKCoreDefines.h */,
 				4F96FD3B1BFD32140022F021 /* SalesforceSDKCoreDefines.m */,
+				FDED971D1CAA16EB009D80F2 /* SFApplicationHelper.h */,
+				FDED971E1CAA16EB009D80F2 /* SFApplicationHelper.m */,
 				4F96FD3C1BFD32140022F021 /* SFDirectoryManager.h */,
 				4F96FD3D1BFD32140022F021 /* SFDirectoryManager.m */,
 				4F96FD3E1BFD32140022F021 /* SFJsonUtils.h */,
@@ -1454,6 +1462,7 @@
 				CE4CE3631C0E526A009F6029 /* SFCommunityData.h in Headers */,
 				CE4CE3271C0E523B009F6029 /* NSData+SFSDKUtils.h in Headers */,
 				CE4CE3831C0E526A009F6029 /* SFPBKDF2PasscodeProvider.h in Headers */,
+				FDED97271CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */,
 				CE4CE3671C0E526A009F6029 /* SFDefaultUserManagementListViewController.h in Headers */,
 				CE4CE31F1C0E523B009F6029 /* SFPathUtil.h in Headers */,
 				CE4CE30B1C0E523B009F6029 /* NSArray+SFAdditions.h in Headers */,
@@ -1544,6 +1553,7 @@
 				CEA883021C18FB8E008D871B /* SFSecurityLockout.h in Headers */,
 				CEA882E91C18FB8E008D871B /* SFKeyStore.h in Headers */,
 				CEA882F21C18FB8E008D871B /* SFPasscodeManager+Internal.h in Headers */,
+				FDED97281CAA16EB009D80F2 /* SFApplicationHelper.h in Headers */,
 				CEA882E81C18FB8E008D871B /* SFKeyStore+Internal.h in Headers */,
 				CEA883131C18FC2C008D871B /* SFSDKTestCredentialsData.h in Headers */,
 				CEA882F31C18FB8E008D871B /* SFPasscodeManager.h in Headers */,
@@ -2004,6 +2014,7 @@
 				CE4CE3721C0E526A009F6029 /* SFKeyStore.m in Sources */,
 				CE4CE3AE1C0E5279009F6029 /* SFRootViewManager.m in Sources */,
 				CE4CE3061C0E5229009F6029 /* SFCocoaLumberJackCustomFormatter.m in Sources */,
+				FDED97291CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */,
 				CE4CE39E1C0E5272009F6029 /* SFSDKTestRequestListener.m in Sources */,
 				CE4CE34F1C0E5252009F6029 /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				CE4CE30E1C0E523B009F6029 /* NSData+SFAdditions.m in Sources */,
@@ -2092,6 +2103,7 @@
 				CEA882EA1C18FB8E008D871B /* SFKeyStore.m in Sources */,
 				CEA883261C18FC40008D871B /* SFRootViewManager.m in Sources */,
 				CEA8827C1C18FA69008D871B /* SFCocoaLumberJackCustomFormatter.m in Sources */,
+				FDED972A1CAA16EB009D80F2 /* SFApplicationHelper.m in Sources */,
 				CEA883161C18FC2C008D871B /* SFSDKTestRequestListener.m in Sources */,
 				CEA882C71C18FB4D008D871B /* SFOAuthOrgAuthConfiguration.m in Sources */,
 				E1C80D311C5C368C001B3A21 /* SFSDKTextFieldTableViewCell.m in Sources */,

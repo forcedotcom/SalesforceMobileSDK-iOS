@@ -155,7 +155,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 @property (nonatomic, copy, nullable) NSString *activeCommunityId;
 
 /** A convenience property to store the previous community
- id as it may change during early oAuth flow and we want to retain it
+ id as it may change during early OAuth flow and we want to retain it
  */
 @property (nonatomic, strong, nullable) NSString *previousCommunityId;
 
@@ -167,14 +167,14 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 @property (nonatomic, assign) BOOL retryLoginAfterFailure;
 
-/** Oauth client ID to use for login.  Apps may customize
+/** OAuth client ID to use for login.  Apps may customize
  by setting this property before login; otherwise, this
  value is determined by the SFDCOAuthClientIdPreference 
  configured via the settings bundle.
  */
 @property (nonatomic, copy, nullable) NSString *oauthClientId;
 
-/** Oauth callback url to use for the oauth login process.
+/** OAuth callback url to use for the OAuth login process.
  Apps may customize this by setting this property before login.
  By default this value is picked up from the main 
  bundle property SFDCOAuthRedirectUri
@@ -191,8 +191,9 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 + (instancetype)sharedInstance;
 
-/** Applies the current log level to the oauth credentials that
- controls the oauth library log level.
+/** Applies the current log level to the OAuth credentials that
+ control the OAuth library log level.
+ @param credentials OAuth credentials whose log level will be updated
  */
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials;
 
@@ -239,7 +240,8 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  */
 - (void)enableAnonymousAccount;
 
-/** Allows you to lookup the user account associated with a given user identity.
+/** Allows you to look up the user account associated with a given user identity.
+ @param userIdentity The user identity of the user account to be looked up
  */
 - (nullable SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)userIdentity;
 
@@ -256,6 +258,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 - (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSString *)instanceURL;
 
 /** Adds a user account
+ @param acct The account to be added
  */
 - (void)addAccount:(SFUserAccount *)acct;
 
@@ -282,7 +285,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 /** Invoke this method to apply the specified id data to the
  current user. This will post user update notification.
- @param credentials The id data to apply
+ @param idData The ID data to apply
  */
 - (void)applyIdData:(SFIdentityData *)idData;
 

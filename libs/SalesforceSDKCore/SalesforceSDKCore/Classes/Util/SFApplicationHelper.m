@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,46 +22,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "SFApplicationHelper.h"
 
-/** Class that groups the data describing a community
- */
-@interface SFCommunityData : NSObject <NSCoding>
+@implementation SFApplicationHelper
 
-/** The community ID
- */
-@property (nonatomic, strong) NSString *entityId;
++ (UIApplication*)sharedApplication {
+    Class UIApplicationClass = NSClassFromString(@"UIApplication");
+    if (UIApplicationClass && [UIApplicationClass respondsToSelector:@selector(sharedApplication)]) {
+        return [UIApplication performSelector:@selector(sharedApplication)];
+    }
+    return nil;
+}
 
-/** The community name
- */
-@property (nonatomic, strong) NSString *name;
-
-/** The community description
- */
-@property (nonatomic, strong) NSString *descriptionText;
-
-/** The community siteUrl
- */
-@property (nonatomic, strong) NSURL *siteUrl;
-
-/** The community URL
- */
-@property (nonatomic, strong) NSURL *url;
-
-/** The community URL's path prefix
- */
-@property (nonatomic, strong) NSURL *urlPathPrefix;
-
-/** Flag indicating if the community is live or not
- */
-@property (nonatomic) BOOL enabled;
-
-/** Flag indicating whether invitations can be sent to potential new members
- */
-@property (nonatomic) BOOL invitationsEnabled;
-
-/** Flag indicating whether to send a welcome email to new members
- */
-@property (nonatomic) BOOL sendWelcomeEmail;
++ (BOOL)openURL:(NSURL*)url {
+    BOOL success = NO;
+    UIApplication *app = [self sharedApplication];
+    
+    if (app) {
+        SEL selector = @selector(openURL:);
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[[app class] instanceMethodSignatureForSelector:selector]];
+        [invocation setTarget:app];
+        [invocation setSelector:selector];
+        [invocation setArgument:&url atIndex:2];
+        [invocation invoke];
+        [invocation getReturnValue:&success];
+    }
+    
+    return success;
+}
 
 @end

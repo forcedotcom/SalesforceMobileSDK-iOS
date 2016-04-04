@@ -54,18 +54,14 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
  */
 @property (nonatomic, copy, readonly) NSString *basePath;
 
-@property (nonatomic, copy) CSFActionResponseBlock responseBlock;
 @property (nonatomic, readwrite) NSUInteger retryCount;
 
 @property (nonatomic, strong, readwrite) NSObject<CSFActionModel> *outputModel;
-
-@property (nonatomic, strong, readwrite) NSError *error;
 
 @property (nonatomic, strong, readwrite) id outputContent;
 @property (nonatomic, strong) CSFAction *duplicateParentAction;
 @property (nonatomic, strong) NSURLSessionTask *sessionTask;
 @property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
-@property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, strong) CSFAuthRefresh *authRefreshInstance;
 @property (nonatomic, strong, readwrite) NSURL *downloadLocation;
 @property (nonatomic) BOOL credentialsReady;
@@ -76,10 +72,8 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 
 - (void)completeOperationWithResponse:(NSHTTPURLResponse*)response;
 
-- (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
 - (void)sessionUploadTask:(NSURLSessionTask *)task didSendBodyData:(int64_t)bytesSent totalBytesSent:(int64_t)totalBytesSent totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend;
 - (void)sessionDownloadTask:(NSURLSessionDownloadTask*)task didFinishDownloadingToURL:(NSURL *)location;
-- (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error;
 
 @end

@@ -293,22 +293,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (BOOL)isNetworkError:(NSError *)error {
-    if (nil == error) {
-        return NO;
-    }
-    switch (error.code) {
-        case kCFURLErrorNotConnectedToInternet:
-        case kCFURLErrorCannotFindHost:
-        case kCFURLErrorCannotConnectToHost:
-        case kCFURLErrorNetworkConnectionLost:
-        case kCFURLErrorDNSLookupFailed:
-        case kCFURLErrorResourceUnavailable:
-        case kCFURLErrorTimedOut:
-            return YES;
-            break;
-        default:
-            return NO;
-    }
+    return [CSFSalesforceAction isNetworkError:error];
 }
 
 + (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod {
