@@ -431,12 +431,12 @@
 		E1C80D081C5AF029001B3A21 /* SalesforceSDKAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1C80D071C5AF029001B3A21 /* SalesforceSDKAssets.xcassets */; };
 		E1C80D171C5C365D001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80D261C5C3664001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
-		E1C80D271C5C366B001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; };
+		E1C80D271C5C366B001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80D281C5C366F001B3A21 /* SFSDKLoginHost.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE21C5AEE31001B3A21 /* SFSDKLoginHost.m */; };
-		E1C80D291C5C3672001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */; };
-		E1C80D2A1C5C3676001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE41C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h */; };
+		E1C80D291C5C3672001B3A21 /* SFSDKLoginHostDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE31C5AEE31001B3A21 /* SFSDKLoginHostDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C80D2A1C5C3676001B3A21 /* SFSDKLoginHostListViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE41C5AEE31001B3A21 /* SFSDKLoginHostListViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE51C5AEE31001B3A21 /* SFSDKLoginHostListViewController.m */; };
-		E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; };
+		E1C80D2C1C5C367D001B3A21 /* SFSDKLoginHostStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE61C5AEE31001B3A21 /* SFSDKLoginHostStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80D2D1C5C3680001B3A21 /* SFSDKLoginHostStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE71C5AEE31001B3A21 /* SFSDKLoginHostStorage.m */; };
 		E1C80D2E1C5C3683001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE81C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.h */; };
 		E1C80D2F1C5C3686001B3A21 /* SFSDKNewLoginHostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CE91C5AEE31001B3A21 /* SFSDKNewLoginHostViewController.m */; };
