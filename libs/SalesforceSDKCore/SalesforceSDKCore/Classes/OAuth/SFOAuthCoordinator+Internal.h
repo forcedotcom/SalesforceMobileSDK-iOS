@@ -50,7 +50,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 @property (nonatomic, weak) id<SFOAuthCoordinatorFlow> oauthCoordinatorFlow;
 @property (assign) BOOL authenticating;
-@property (nonatomic, strong) NSURLSession *session;
+@property (nonatomic, strong, readonly) NSURLSession *session;
 @property (nonatomic, strong) NSMutableData *responseData;
 @property (nonatomic, assign) BOOL initialRequestLoaded;
 @property (nonatomic, copy) NSString *approvalCode;

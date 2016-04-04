@@ -264,8 +264,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)stopAuthentication {
     [self.view stopLoading];
+    
     [self.session invalidateAndCancel];
-    self.session = nil;
+    _session = nil;
+    
     [self stopRefreshFlowConnectionTimer];
     self.authenticating = NO;
 }
@@ -368,6 +370,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                                                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                                 timeoutInterval:self.timeout];
     orgConfigRequest.HTTPShouldHandleCookies = NO;
+    
     [[self.session dataTaskWithRequest:orgConfigRequest completionHandler:^(NSData *data, NSURLResponse *response, NSError *connectionError) {
         if (connectionError) {
             [self log:SFLogLevelError format:@"%@ Error retrieving org auth config: %@", NSStringFromSelector(_cmd), [connectionError localizedDescription]];
@@ -589,7 +592,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // the timeout with an NSTimer, which gets started here.
     [self startRefreshFlowConnectionTimer];
     
-    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         if (error) {
             NSURL *requestUrl = [request URL];
@@ -826,6 +828,13 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         default:
             return [NSString stringWithFormat:@"Unknown auth state (%lu)", (unsigned long)authState];
     }
+}
+
+- (NSURLSession*)session {
+    if (_session == nil) {
+        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
+    }
+    return _session;
 }
 
 #pragma mark - UIWebViewDelegate (User-Agent Token Flow)
