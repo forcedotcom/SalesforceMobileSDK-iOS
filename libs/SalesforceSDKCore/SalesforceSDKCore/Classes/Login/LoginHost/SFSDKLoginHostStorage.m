@@ -86,13 +86,6 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             [self.loginHostList addObject:[SFSDKLoginHost hostWithName:customHost host:customHost deletable:NO]];
         }
         
-        //Load from info.plist
-        if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
-            NSString *customHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"];
-            //Add the login host from info.plist
-            [self.loginHostList addObject:[SFSDKLoginHost hostWithName:customHost host:customHost deletable:NO]];
-        }
-        
         // Add the Production and Sandbox login hosts are defined. These two items cannot be deleted.
         [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_PRODUCTION"] host:@"login.salesforce.com" deletable:NO]];
         
