@@ -2,7 +2,7 @@
  SFLoginViewController.h
  SalesforceSDKCore
  
- Created by Kunal Chitalia on 1/22/16.
+ Created by Kunal Chitalia on 3/28/16.
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -26,39 +26,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceSDKCore.h"
+#import "UIColor+SFColors.h"
+#import <UIKit/UIKit.h>
 
-/** The Salesforce login screen view.
- */
-@interface SFLoginViewController : UIViewController
+@implementation UIColor (SFColors)
 
-/** Returns a shared singleton of `SFLoginViewController` class.
- */
-+(_Nonnull instancetype)sharedInstance;
++(UIColor *) salesforceBlueColor {
+    return [UIColor colorWithRed:0 green:0.439 blue:0.824 alpha:1];
+}
 
-/**
- * Outlet to the OAuth web view.
- */
-@property (nonatomic, strong, nullable) IBOutlet UIView* oauthView;
-
-/** Specify the font to use for navigation bar header text.*/
-@property (nonatomic, strong, nullable) UIFont * navBarFont;
-
-/** Specify the text color to use for navigation bar header text. */
-@property (nonatomic, strong, nullable) UIColor * navBarTextColor;
-
-/** Specify navigation bar color. This color will be used by the login view header.
- */
-@property (nonatomic, strong, nullable) UIColor *navBarColor;
-
-/** Specify visibility of nav bar. This property will be used to hide/show the nav bar*/
-@property (nonatomic) BOOL showNavbar;
-
-/** Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon*/
-@property (nonatomic) BOOL showSettingsIcon;
-
-/** Applies the view's style attributes to the given navigation bar.
- @param navigationBar The navigation bar that the style is applied to.
- */
-- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar;
 @end
+
