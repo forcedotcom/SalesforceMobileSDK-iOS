@@ -27,9 +27,20 @@
  */
 
 #import <XCTest/XCTest.h>
+#import "SFLoginViewController.h"
+#import "SFSDKLoginHostListViewController.h"
+#import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 
 @interface SFSDKLoginHostTests : XCTestCase
+
+@property (nonatomic, strong) NSString *productionUrl;
+@property (nonatomic, strong) NSString *sandboxUrl;
+@property (nonatomic, strong) NSString *doesNotExistUrl;
+@property (nonatomic, strong) NSString *customName;
+@property (nonatomic, strong) NSString *customUrl;
+@property (nonatomic, strong) NSString *customName2;
+@property (nonatomic, strong) NSString *customUrl2;
 
 @end
 
@@ -37,9 +48,19 @@
 
 - (void)setUp {
     [super setUp];
+    self.productionUrl = @"login.salesforce.com";
+    self.sandboxUrl = @"test.salesforce.com";
+    self.doesNotExistUrl = @"doesnotexist.salesforce.com";
+    self.customName = @"New";
+    self.customUrl = @"https://new.com";
+    self.customName2 = @"New2";
+    self.customUrl2 = @"https://new2.com";
+    
 }
 
 - (void)tearDown {
+    SFSDKLoginHostStorage *loginHostStorage = [SFSDKLoginHostStorage sharedInstance];
+    [loginHostStorage removeAllLoginHosts];
     [super tearDown];
 }
 
@@ -59,6 +80,65 @@
     
     XCTAssertNotNil(loginHost.name, @"Name shoud not be nil");
     
+}
+
+- (void)testSetupNavigationBar {
+    SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    //Test default values
+    XCTAssertNotNil(loginViewController.navBarColor, "Nav bar color should not be nil");
+    XCTAssertNotNil(loginViewController.navBarTextColor, "Nav bar text color should not be nil");
+    XCTAssertNil(loginViewController.navBarFont, "Nav bar font should be nil");
+    XCTAssertEqual(YES, loginViewController.showNavbar, "Show Nav bar should be set to yes by default");
+    XCTAssertEqual(YES, loginViewController.showSettingsIcon, "Show Settings Icon should be set to yes by default");
+    
+}
+
+- (void) testGetLoginHosts {
+    SFSDKLoginHostStorage *loginHostStorage = [SFSDKLoginHostStorage sharedInstance];
+    SFSDKLoginHost *loginHost = [loginHostStorage loginHostForHostAddress:self.productionUrl];
+    
+    XCTAssertEqualObjects(@"Production", loginHost.name, @"%@ Should be equal to %@", @"Production", loginHost.name);
+    XCTAssertEqualObjects(self.productionUrl, loginHost.host, @"%@ Should be equal to %@", self.productionUrl, loginHost.host);
+    
+    loginHost = [loginHostStorage loginHostForHostAddress:self.sandboxUrl];
+    
+    XCTAssertEqualObjects(@"Sandbox", loginHost.name, @"%@ Should be equal to %@", @"Sandbox", loginHost.name);
+    XCTAssertEqualObjects(self.sandboxUrl, loginHost.host, @"%@ Should be equal to %@", self.sandboxUrl, loginHost.host);
+    
+    loginHost = [loginHostStorage loginHostForHostAddress:self.doesNotExistUrl];
+    XCTAssertNil(loginHost, "Login host should be nil");
+}
+
+- (void) testAddCustomServer {
+    SFSDKLoginHostStorage *loginHostStorage = [SFSDKLoginHostStorage sharedInstance];
+    SFSDKLoginHost *loginHost = [loginHostStorage loginHostForHostAddress:self.productionUrl];
+    
+    XCTAssertEqualObjects(@"Production", loginHost.name, @"%@ Should be equal to %@", @"Production", loginHost.name);
+    XCTAssertEqualObjects(self.productionUrl, loginHost.host, @"%@ Should be equal to %@", self.productionUrl, loginHost.host);
+    
+    [loginHostStorage addLoginHost:[SFSDKLoginHost hostWithName:self.customName host:self.customUrl deletable:YES]];
+    
+    loginHost = [loginHostStorage loginHostForHostAddress:self.customUrl];
+    
+    XCTAssertEqualObjects(self.customName, loginHost.name, @"%@ Should be equal to %@", self.customName, loginHost.name);
+    XCTAssertEqualObjects(self.customUrl, loginHost.host, @"%@ Should be equal to %@", self.customUrl, loginHost.host);
+}
+
+- (void) testAddMultipleCustomServers {
+    SFSDKLoginHostStorage *loginHostStorage = [SFSDKLoginHostStorage sharedInstance];
+    XCTAssertEqual(2, [loginHostStorage numberOfLoginHosts], "Number of login hosts should be equal to 2");
+    
+    [loginHostStorage addLoginHost:[SFSDKLoginHost hostWithName:self.customName host:self.customUrl deletable:YES]];
+    SFSDKLoginHost *loginHost = [loginHostStorage loginHostForHostAddress:self.customUrl];
+    XCTAssertEqual(3, [loginHostStorage numberOfLoginHosts], "Number of login hosts should be equal to 3");
+    XCTAssertEqualObjects(self.customName, loginHost.name, @"%@ Should be equal to %@", self.customName, loginHost.name);
+    XCTAssertEqualObjects(self.customUrl, loginHost.host, @"%@ Should be equal to %@", self.customUrl, loginHost.host);
+    
+    [loginHostStorage addLoginHost:[SFSDKLoginHost hostWithName:self.customName2 host:self.customUrl2 deletable:YES]];
+    loginHost = [loginHostStorage loginHostForHostAddress:self.customUrl2];
+    XCTAssertEqual(4, [loginHostStorage numberOfLoginHosts], "Number of login hosts should be equal to 4");
+    XCTAssertEqualObjects(self.customName2, loginHost.name, @"%@ Should be equal to %@", self.customName2, loginHost.name);
+    XCTAssertEqualObjects(self.customUrl2, loginHost.host, @"%@ Should be equal to %@", self.customUrl2, loginHost.host);
 }
 
 @end
