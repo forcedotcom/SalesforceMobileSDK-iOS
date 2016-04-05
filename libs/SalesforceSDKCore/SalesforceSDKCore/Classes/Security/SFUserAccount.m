@@ -39,6 +39,7 @@ static NSString * const kUser_COMMUNITY_ID      = @"communityId";
 static NSString * const kUser_COMMUNITIES       = @"communities";
 static NSString * const kUser_ID_DATA           = @"idData";
 static NSString * const kUser_CUSTOM_DATA       = @"customData";
+static NSString * const kUser_IS_GUEST_USER     = @"guestUser";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
@@ -115,6 +116,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
     [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
+    [encoder encodeBool:_guestUser forKey:kUser_IS_GUEST_USER];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
@@ -130,6 +132,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
         _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
         _customData = [decoder decodeObjectForKey:kUser_CUSTOM_DATA];
+        _guestUser = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
 	}
 	return self;
 }
