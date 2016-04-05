@@ -33,6 +33,10 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 @synthesize userId = _userId;
 @synthesize orgId = _orgId;
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 + (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId
 {
     SFUserAccountIdentity *identity = [[self alloc] initWithUserId:userId orgId:orgId];
@@ -70,8 +74,8 @@ static NSString * const kUserAccountIdentityOrgIdKey = @"orgIdKey";
 {
     self = [super init];
     if (self) {
-        self.userId = [aDecoder decodeObjectForKey:kUserAccountIdentityUserIdKey];
-        self.orgId = [aDecoder decodeObjectForKey:kUserAccountIdentityOrgIdKey];
+        self.userId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityUserIdKey];
+        self.orgId = [aDecoder decodeObjectOfClass:[NSString class] forKey:kUserAccountIdentityOrgIdKey];
     }
     
     return self;
