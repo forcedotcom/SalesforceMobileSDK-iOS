@@ -40,7 +40,7 @@ static NSString * const kUser_COMMUNITIES         = @"communities";
 static NSString * const kUser_ID_DATA             = @"idData";
 static NSString * const kUser_CUSTOM_DATA         = @"customData";
 static NSString * const kUser_IS_GUEST_USER       = @"guestUser";
-static NSString * const kUser_ACCESS_RESTRICTIONS = @"guestUser";
+static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
