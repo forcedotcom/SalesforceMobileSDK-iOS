@@ -16,8 +16,6 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceSDKCore
     }
     
     framework module SalesforceRestAPI {
@@ -25,9 +23,6 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceSDKCore
-        use SalesforceNetwork
     }
 
     framework module SmartStore {
@@ -35,8 +30,6 @@ framework module SalesforceKit {
 
         export *
         module * { export * }
-
-        use SalesforceRestAPI
     }
 
     framework module SmartSync {
@@ -44,11 +37,13 @@ framework module SalesforceKit {
         
         export *
         module * { export * }
-        
-        use SalesforceRestAPI
     }
 
     link "z"
     link "sqlite3"
     link framework "MobileCoreServices"
+        
+    use SalesforceSDKCore
+    use SalesforceNetwork
+    use SalesforceRestAPI
 }
