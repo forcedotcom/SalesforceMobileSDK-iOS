@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
  */
-@interface SFUserAccount : NSObject<NSCoding>
+@interface SFUserAccount : NSObject <NSSecureCoding>
 
 /** The access scopes for this user
  */

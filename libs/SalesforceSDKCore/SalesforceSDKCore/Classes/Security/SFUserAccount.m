@@ -29,17 +29,18 @@
 #import "SFCommunityData.h"
 #import "SFIdentityData.h"
 
-static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
-static NSString * const kUser_CREDENTIALS       = @"credentials";
-static NSString * const kUser_EMAIL             = @"email";
-static NSString * const kUser_FULL_NAME         = @"fullName";
-static NSString * const kUser_ORGANIZATION_NAME = @"organizationName";
-static NSString * const kUser_USER_NAME         = @"userName";
-static NSString * const kUser_COMMUNITY_ID      = @"communityId";
-static NSString * const kUser_COMMUNITIES       = @"communities";
-static NSString * const kUser_ID_DATA           = @"idData";
-static NSString * const kUser_CUSTOM_DATA       = @"customData";
-static NSString * const kUser_IS_GUEST_USER     = @"guestUser";
+static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
+static NSString * const kUser_CREDENTIALS         = @"credentials";
+static NSString * const kUser_EMAIL               = @"email";
+static NSString * const kUser_FULL_NAME           = @"fullName";
+static NSString * const kUser_ORGANIZATION_NAME   = @"organizationName";
+static NSString * const kUser_USER_NAME           = @"userName";
+static NSString * const kUser_COMMUNITY_ID        = @"communityId";
+static NSString * const kUser_COMMUNITIES         = @"communities";
+static NSString * const kUser_ID_DATA             = @"idData";
+static NSString * const kUser_CUSTOM_DATA         = @"customData";
+static NSString * const kUser_IS_GUEST_USER       = @"guestUser";
+static NSString * const kUser_ACCESS_RESTRICTIONS = @"guestUser";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
@@ -68,6 +69,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
 
 + (NSSet*)keyPathsForValuesAffectingApiUrl {
     return [NSSet setWithObjects:@"communityId", @"credentials", nil];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
 }
 
 - (instancetype)init {
@@ -117,22 +122,24 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
     [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
     [encoder encodeBool:_guestUser forKey:kUser_IS_GUEST_USER];
+    [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
 	self = [super init];
 	if (self) {
-        _accessScopes = [decoder decodeObjectForKey:kUser_ACCESS_SCOPES];
-        _email = [decoder decodeObjectForKey:kUser_EMAIL];
-        _fullName = [decoder decodeObjectForKey:kUser_FULL_NAME];
-        _credentials = [decoder decodeObjectForKey:kUser_CREDENTIALS];
-        _idData = [decoder decodeObjectForKey:kUser_ID_DATA];
-        _organizationName = [decoder decodeObjectForKey:kUser_ORGANIZATION_NAME];
-        _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
-        _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
-        _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
-        _customData = [decoder decodeObjectForKey:kUser_CUSTOM_DATA];
-        _guestUser = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
+        _accessScopes     = [decoder decodeObjectOfClass:[NSSet class] forKey:kUser_ACCESS_SCOPES];
+        _email            = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_EMAIL];
+        _fullName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_FULL_NAME];
+        _credentials      = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+        _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
+        _organizationName = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_ORGANIZATION_NAME];
+        _userName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_USER_NAME];
+        _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
+        _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
+        _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
+        _guestUser        = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
+        _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
 	}
 	return self;
 }

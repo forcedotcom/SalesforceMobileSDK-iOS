@@ -27,7 +27,7 @@
 /**
  Represents the unique identity of a given user account.
  */
-@interface SFUserAccountIdentity : NSObject <NSCoding, NSCopying>
+@interface SFUserAccountIdentity : NSObject <NSSecureCoding, NSCopying>
 
 /**
  The user ID associated with the account.

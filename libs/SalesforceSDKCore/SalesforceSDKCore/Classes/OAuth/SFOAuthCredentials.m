@@ -66,6 +66,10 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize encrypted                 = _encrypted;
 @synthesize legacyIdentityInformation = _legacyIdentityInformation;
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (id)initWithCoder:(NSCoder *)coder {
     NSString *clusterClassName = [coder decodeObjectOfClass:[NSString class] forKey:kSFOAuthClusterImplementationKey];
     if (clusterClassName.length == 0) {
@@ -126,7 +130,7 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.issuedAt           forKey:@"SFOAuthIssuedAt"];
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
-    [coder encodeObject:@(self.isEncrypted)          forKey:@"SFOAuthEncrypted"];
+    [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
 }
 
 - (id)init {
