@@ -38,6 +38,7 @@
 		4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015C1BFD33B30022F021 /* SFSmartStoreTestCase.m */; };
 		4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96015E1BFD33B30022F021 /* SFSmartStoreTests.m */; };
 		4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */; };
+		6F96F9A01CB824EF00B2A120 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		828917841C52B705002F9981 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177A1C52B705002F9981 /* FMDatabase.h */; };
 		828917851C52B705002F9981 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8289177B1C52B705002F9981 /* FMDatabase.m */; };
 		828917861C52B705002F9981 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 8289177C1C52B705002F9981 /* FMDatabaseAdditions.h */; };
@@ -318,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA883CB1C191580008D871B /* Foundation.framework in Frameworks */,
+				6F96F9A01CB824EF00B2A120 /* libsqlcipher.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
