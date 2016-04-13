@@ -244,9 +244,8 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
             } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
                 if ([keyPath isEqualToString:kNetworkInstanceURLPath] && [self shouldUpdateBaseUrl]) {
-                    // If an action is API based action, guarded by self.apiVersion.length > 0,  make sure the base URL it matches current credential's api URL
+                    // If an action is API based action, make sure the base URL it matches current credential's api URL
                     // For actions that uses absolute URL like https://c.gus.visual.force.com/resource/1460146879000/HatImage, we should avoid the logic of changing base URL, otherwise raw content served server by absolute URL will not work
-                    // apiVersion will be set to empty and prevent this logic being triggered
                     self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
                 }
             } else {
