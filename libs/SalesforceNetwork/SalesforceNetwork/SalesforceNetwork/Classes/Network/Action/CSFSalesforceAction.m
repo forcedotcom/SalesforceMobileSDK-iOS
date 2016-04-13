@@ -261,11 +261,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 - (BOOL)shouldUpdateBaseUrl {
     // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
     // this check is necessary as there are salesforce URL that is content server based and not API based
-    if (!self.baseURL.scheme && !self.baseURL.host) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return (!self.baseURL.scheme && !self.baseURL.host) {
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
