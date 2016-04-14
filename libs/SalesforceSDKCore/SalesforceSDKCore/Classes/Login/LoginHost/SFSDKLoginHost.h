@@ -43,7 +43,6 @@
 @property (nonatomic, copy) NSString *host;
 
 /** Indicates whether this login host can be deleted.
- @param deletable YES if the host can be deleted.
 */
 @property (readonly, getter=isDeletable) BOOL deletable;
 
