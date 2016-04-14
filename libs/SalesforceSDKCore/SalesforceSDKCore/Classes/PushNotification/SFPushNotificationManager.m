@@ -238,11 +238,15 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no user pref"];
         return NO;
     }
-    NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
-    if (!deviceSFID) {
+
+    NSString *deviceSFIDPref = [pref stringForKey:kSFDeviceSalesforceId];
+    if (!deviceSFIDPref) {
+        // can't unregister because we don't have a device SF ID stored
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
         return NO;
     }
+
+    NSString *deviceSFID = [[NSString alloc] initWithString:deviceSFIDPref];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     // URL and method
