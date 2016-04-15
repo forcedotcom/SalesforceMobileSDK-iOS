@@ -22,15 +22,21 @@
 
 /* Begin PBXBuildFile section */
 		009D77521CA4A92200D5183A /* SFPushNotificationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 009D77511CA4A92200D5183A /* SFPushNotificationManagerTests.m */; };
-		010A9AE41CC176DD002AF4D3 /* SFCryptChunks.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */; };
+		010A9AE41CC176DD002AF4D3 /* SFCryptChunks.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010A9AE51CC176DD002AF4D3 /* SFCryptChunks.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */; };
-		010A9AE61CC176DD002AF4D3 /* SFDecryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */; };
+		010A9AE61CC176DD002AF4D3 /* SFDecryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010A9AE71CC176DD002AF4D3 /* SFDecryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */; };
-		010A9AE81CC176DD002AF4D3 /* SFEncryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */; };
+		010A9AE81CC176DD002AF4D3 /* SFEncryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		010A9AE91CC176DD002AF4D3 /* SFEncryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */; };
 		010A9AFC1CC17717002AF4D3 /* SFCryptoStreamTestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AF91CC17717002AF4D3 /* SFCryptoStreamTestUtils.m */; };
 		010A9AFD1CC17717002AF4D3 /* SFEncryptDecryptStreamJSONTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AFA1CC17717002AF4D3 /* SFEncryptDecryptStreamJSONTests.m */; };
 		010A9AFE1CC17717002AF4D3 /* SFEncryptDecryptStreamTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AFB1CC17717002AF4D3 /* SFEncryptDecryptStreamTests.m */; };
+		010A9B3D1CC19E0D002AF4D3 /* SFCryptChunks.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9ADE1CC176DD002AF4D3 /* SFCryptChunks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		010A9B3E1CC19E0D002AF4D3 /* SFCryptChunks.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9ADF1CC176DD002AF4D3 /* SFCryptChunks.m */; };
+		010A9B3F1CC19E0D002AF4D3 /* SFDecryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE01CC176DD002AF4D3 /* SFDecryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		010A9B401CC19E0D002AF4D3 /* SFDecryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE11CC176DD002AF4D3 /* SFDecryptStream.m */; };
+		010A9B411CC19E0D002AF4D3 /* SFEncryptStream.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A9AE21CC176DD002AF4D3 /* SFEncryptStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		010A9B421CC19E0D002AF4D3 /* SFEncryptStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A9AE31CC176DD002AF4D3 /* SFEncryptStream.m */; };
 		1098078C1CB8713A002AF771 /* UIColor+SFColors.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DDC0FD1CAA2A8B002F51DD /* UIColor+SFColors.m */; };
 		4F06AF731C49A16A00F70798 /* NSURL+SFStringUtilsTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5D1C49A16A00F70798 /* NSURL+SFStringUtilsTests.h */; };
 		4F06AF751C49A16A00F70798 /* SalesforceOAuthUnitTests.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AF5F1C49A16A00F70798 /* SalesforceOAuthUnitTests.h */; };
@@ -1619,7 +1625,9 @@
 				CEA883151C18FC2C008D871B /* SFSDKTestRequestListener.h in Headers */,
 				E1C80D2E1C5C3683001B3A21 /* SFSDKNewLoginHostViewController.h in Headers */,
 				CEA882921C18FAAB008D871B /* SFInactivityTimerCenter.h in Headers */,
+				010A9B3D1CC19E0D002AF4D3 /* SFCryptChunks.h in Headers */,
 				CEA8829D1C18FAAB008D871B /* UIScreen+SFAdditions.h in Headers */,
+				010A9B411CC19E0D002AF4D3 /* SFEncryptStream.h in Headers */,
 				CEA882C41C18FB4D008D871B /* SFOAuthKeychainCredentials.h in Headers */,
 				CEA882901C18FAAB008D871B /* SFFileProtectionHelper.h in Headers */,
 				CEA882871C18FAAB008D871B /* NSDictionary+SFAdditions.h in Headers */,
@@ -1655,6 +1663,7 @@
 				CEA882EE1C18FB8E008D871B /* SFKeyStoreManager.h in Headers */,
 				CEA8828F1C18FAAB008D871B /* SFCrypto+Internal.h in Headers */,
 				CEA8831D1C18FC40008D871B /* SFDirectoryManager.h in Headers */,
+				010A9B3F1CC19E0D002AF4D3 /* SFDecryptStream.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2131,6 +2140,7 @@
 				CEA883221C18FC40008D871B /* SFManagedPreferences.m in Sources */,
 				CEA882D61C18FB8E008D871B /* SFAuthErrorHandler.m in Sources */,
 				CEA882F71C18FB8E008D871B /* SFPasscodeProviderManager.m in Sources */,
+				010A9B3E1CC19E0D002AF4D3 /* SFCryptChunks.m in Sources */,
 				CEA882B91C18FB3D008D871B /* SFMethodInterceptor.m in Sources */,
 				CEA8831A1C18FC40008D871B /* NSURL+SFStringUtils.m in Sources */,
 				CEA8827D1C18FA76008D871B /* SFLogger.m in Sources */,
@@ -2162,6 +2172,7 @@
 				CEA8832A1C18FC40008D871B /* SFSDKWebUtils.m in Sources */,
 				CEA883281C18FC40008D871B /* SFSDKResourceUtils.m in Sources */,
 				CEA8831E1C18FC40008D871B /* SFDirectoryManager.m in Sources */,
+				010A9B401CC19E0D002AF4D3 /* SFDecryptStream.m in Sources */,
 				CEA882F91C18FB8E008D871B /* SFPasscodeViewController.m in Sources */,
 				CEA882DE1C18FB8E008D871B /* SFDefaultUserManagementDetailViewController.m in Sources */,
 				CEA882F11C18FB8E008D871B /* SFPasscodeKeyStore.m in Sources */,
@@ -2184,6 +2195,7 @@
 				CEA8830E1C18FB8E008D871B /* SFUserAccountManager.m in Sources */,
 				CEA882E31C18FB8E008D871B /* SFDefaultUserManagementViewController.m in Sources */,
 				CEA882FC1C18FB8E008D871B /* SFPBKDF2PasscodeProvider.m in Sources */,
+				010A9B421CC19E0D002AF4D3 /* SFEncryptStream.m in Sources */,
 				CEA882DC1C18FB8E008D871B /* SFCommunityData.m in Sources */,
 				CEA882FE1C18FB8E008D871B /* SFPBKDFData.m in Sources */,
 				CEA882CF1C18FB8E008D871B /* SFAbstractPasscodeViewController.m in Sources */,
