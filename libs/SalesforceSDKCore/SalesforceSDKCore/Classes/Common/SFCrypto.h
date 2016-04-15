@@ -53,6 +53,11 @@ typedef NS_ENUM(NSUInteger, SFCryptoOperation) {
 @property (nonatomic, readonly) SFCryptoMode mode;
 
 /**
+ Contains in-memory data results when SFCryptoModeInMemory is used to encrypt or decrypt.
+ **/
+@property (nonatomic, copy) NSMutableData *dataBuffer;
+
+/**
  Initializer. Calls the designated initializer, passing nil to <code>iv</code>.
  @param operation Operation to be performed encrypt/decrypt.
  @param key Key used for encyption/decryption. Pass nil to use the default key.
