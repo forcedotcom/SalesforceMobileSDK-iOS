@@ -71,6 +71,7 @@ xcodebuild -project ${PROJECT_NAME}.xcodeproj \
     -sdk iphoneos \
     -scheme ${FRAMEWORK_SCHEME} \
     -configuration ${CONFIGURATION} \
+    BITCODE_GENERATION_MODE=bitcode \
     ONLY_ACTIVE_ARCH=NO \
     ARCHS="armv7 armv7s arm64" \
     VALID_ARCHS="armv7 armv7s arm64" \
