@@ -73,7 +73,7 @@
 - (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv {
     NSAssert(!_cryptChunks, @"SFEncryptStream - setup is only allowed once.");
     if (!_cryptChunks) {
-        _cryptChunks = [[SFCryptChunks alloc] initWithKey:key initializationVector:iv operation:kCCEncrypt];
+        _cryptChunks = [[SFCryptChunks alloc] initForEncryptionWithKey:key initializationVector:iv];
         _cryptChunks.delegate = self;
     }
 }

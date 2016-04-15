@@ -23,10 +23,11 @@
  */
 
 #import "SFCryptChunks.h"
+#import <CommonCrypto/CommonCrypto.h>
 
 size_t const SFCryptChunksCipherBlockSize = kCCBlockSizeAES128;
-CCAlgorithm const SFCryptChunksCipherAlgorithm = kCCAlgorithmAES;
-CCOptions const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
+uint32_t const SFCryptChunksCipherAlgorithm = kCCAlgorithmAES;
+uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
 
 @interface SFCryptChunks()
 
@@ -38,6 +39,16 @@ CCOptions const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
 @implementation SFCryptChunks
 
 #pragma mark - Lifecycle
+
+- (instancetype)initForEncryptionWithKey:(NSData *)key
+                    initializationVector:(nullable NSData *)iv {
+    return [self initWithKey:key initializationVector:iv operation:kCCEncrypt];
+}
+
+- (instancetype)initForDecryptionWithKey:(NSData *)key
+                    initializationVector:(NSData *)iv {
+    return [self initWithKey:key initializationVector:iv operation:kCCDecrypt];
+}
 
 - (instancetype)initWithKey:(NSData *)key
        initializationVector:(nullable NSData *)iv

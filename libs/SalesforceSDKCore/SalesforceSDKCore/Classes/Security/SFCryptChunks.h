@@ -23,7 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCrypto.h>
 @class SFCryptChunks;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -31,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 // The cipher block size used by SFCryptChunks.
 extern size_t const SFCryptChunksCipherBlockSize;
 // The cipher algorithm used by SFCryptChunks.
-extern CCAlgorithm const SFCryptChunksCipherAlgorithm;
+extern uint32_t const SFCryptChunksCipherAlgorithm;
 // The cipher options used in the cipher algorithm used by SFCryptChunks.
-extern CCOptions const SFCryptChunksCipherOptions;
+extern uint32_t const SFCryptChunksCipherOptions;
 
 /**
  *  SFCryptChunksDelegate
@@ -65,16 +64,24 @@ extern CCOptions const SFCryptChunksCipherOptions;
 @interface SFCryptChunks : NSObject
 
 /**
- *  Initializes a SFCryptChunks that uses algorithm specified in `SFCryptChunksCipherAlgorithm`
+ *  Initializes a SFCryptChunks for encryption that uses algorithm specified in `SFCryptChunksCipherAlgorithm`
  *  and options specified in `SFCryptChunksCipherOptions`.
  *  @param key      the cipher key.
  *  @param iv       the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
- *  @param operation whether it will encrypt or decrypt.
- *  @return a SFCryptChunks ready for encryption or decryption.
+ *  @return a SFCryptChunks ready for encryption.
  */
-- (instancetype)initWithKey:(NSData *)key
-       initializationVector:(nullable NSData *)iv
-                  operation:(CCOperation)operation;
+- (instancetype)initForEncryptionWithKey:(NSData *)key
+                    initializationVector:(nullable NSData *)iv;
+
+/**
+ *  Initializes a SFCryptChunks for decryption that uses algorithm specified in `SFCryptChunksCipherAlgorithm`
+ *  and options specified in `SFCryptChunksCipherOptions`.
+ *  @param key      the cipher key.
+ *  @param iv       the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
+ *  @return a SFCryptChunks ready for decryption.
+ */
+- (instancetype)initForDecryptionWithKey:(NSData *)key
+                    initializationVector:(nullable NSData *)iv;
 
 /**
  *  The delegate to receive crypt results.
