@@ -67,7 +67,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
         CCCryptorStatus status = CCCryptorCreate(operation,
                                                  SFCryptChunksCipherAlgorithm,
                                                  SFCryptChunksCipherOptions,
-                                                 [key bytes],
+                                                 keyPtr,
                                                  SFCryptChunksCipherKeySize,
                                                  [iv bytes],
                                                  &_cryptor);
