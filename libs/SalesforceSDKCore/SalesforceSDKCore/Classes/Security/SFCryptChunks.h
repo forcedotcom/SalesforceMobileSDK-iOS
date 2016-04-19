@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 extern size_t const SFCryptChunksCipherBlockSize;
 // The cipher algorithm used by SFCryptChunks.
 extern uint32_t const SFCryptChunksCipherAlgorithm;
+// The cipher key size used by SFCryptChunks.
+extern size_t const SFCryptChunksCipherKeySize;
 // The cipher options used in the cipher algorithm used by SFCryptChunks.
 extern uint32_t const SFCryptChunksCipherOptions;
 
