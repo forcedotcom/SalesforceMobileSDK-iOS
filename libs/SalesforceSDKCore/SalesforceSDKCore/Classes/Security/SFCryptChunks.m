@@ -56,7 +56,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
                   operation:(CCOperation)operation {
     if ((self = [super init])) {
         // For compatibility with SFCrypto, fill/truncate key if necessary.
-        uint8_t keyPtr[SFCryptChunksCipherKeySize + 1] = {0};
+        uint8_t keyPtr[SFCryptChunksCipherKeySize] = {0};
         [key getBytes:keyPtr length:SFCryptChunksCipherKeySize];
         if (key.length != SFCryptChunksCipherKeySize) {
             // (in the future this should probably be an assertion instead).
@@ -67,7 +67,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
         CCCryptorStatus status = CCCryptorCreate(operation,
                                                  SFCryptChunksCipherAlgorithm,
                                                  SFCryptChunksCipherOptions,
-                                                 [key bytes],
+                                                 keyPtr,
                                                  SFCryptChunksCipherKeySize,
                                                  [iv bytes],
                                                  &_cryptor);
