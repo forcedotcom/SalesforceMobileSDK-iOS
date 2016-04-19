@@ -27,6 +27,7 @@
 
 size_t const SFCryptChunksCipherBlockSize = kCCBlockSizeAES128;
 uint32_t const SFCryptChunksCipherAlgorithm = kCCAlgorithmAES;
+size_t const SFCryptChunksCipherKeySize = kCCKeySizeAES256;
 uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
 
 @interface SFCryptChunks()
@@ -54,12 +55,20 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
        initializationVector:(nullable NSData *)iv
                   operation:(CCOperation)operation {
     if ((self = [super init])) {
+        // For compatibility with SFCrypto, fill/truncate key if necessary.
+        uint8_t keyPtr[SFCryptChunksCipherKeySize + 1] = {0};
+        [key getBytes:keyPtr length:SFCryptChunksCipherKeySize];
+        if (key.length != SFCryptChunksCipherKeySize) {
+            // (in the future this should probably be an assertion instead).
+            NSLog(@"SFCryptChunks - (warning) Key size is %lu when it should be %zu.", key.length, SFCryptChunksCipherKeySize);
+        }
+        
         NSAssert(!iv || [iv length] == SFCryptChunksCipherBlockSize, @"SFCryptChunks - invalid initialization vector size.");
         CCCryptorStatus status = CCCryptorCreate(operation,
                                                  SFCryptChunksCipherAlgorithm,
                                                  SFCryptChunksCipherOptions,
                                                  [key bytes],
-                                                 [key length],
+                                                 SFCryptChunksCipherKeySize,
                                                  [iv bytes],
                                                  &_cryptor);
         if (status != kCCSuccess) {
