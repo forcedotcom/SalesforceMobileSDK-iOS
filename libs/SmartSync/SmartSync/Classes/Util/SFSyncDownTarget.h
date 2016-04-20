@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -44,14 +44,25 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 // Set during a fetch
 @property (nonatomic)         NSUInteger totalSize;
 
-/** Methods to translate to/from dictionary
+/**
+ * Methods to translate to/from dictionary
  */
 + (SFSyncDownTarget*) newFromDict:(NSDictionary *)dict;
 
-/** Sart fetching records conforming to target
+/**
+ * Start fetching records conforming to target
  */
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
+
+/**
+ * Start fetching records conforming to target with query
+ */
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+           queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -83,10 +83,8 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak SFMruSyncDownTarget *weakSelf = self;
-    
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
         NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:self.idFieldName];
@@ -96,13 +94,20 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
                             from:self.objectType]
                            whereClause:inPredicate]
                           build];
-        
-        
-        SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:soql];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
-            weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
-            completeBlock(d[kResponseRecords]);
-        }];
+        [weakSelf startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
+    }];
+}
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+           queryRun:(NSString*)queryRun
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    __weak SFMruSyncDownTarget *weakSelf = self;
+    SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
+        weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
+        completeBlock(d[kResponseRecords]);
     }];
 }
 
@@ -113,6 +118,5 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     }
     return result;
 }
-
 
 @end
