@@ -31,6 +31,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFLogger.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
+#import <SalesforceSDKCore/SFLoginViewController.h>
 
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"__ConnectedAppIdentifier__";
@@ -87,15 +88,20 @@ static NSString * const OAuthRedirectURI        = @"__ConnectedAppRedirectUri__"
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     [self initializeAppViewState];
     
-    //If you wish to customize the color, textcolor, font and fontsize of the navigation bar uncomment the
-    //code below.
+    //
+    //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
     //
     //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    //Set showNavBar to NO if you want to hide the top bar
+    //loginViewController.showNavbar = YES;
+    //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
+    //loginViewController.showSettingsIcon = YES;
     // Set primary color to different color to style the navigation header
     //loginViewController.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
     //loginViewController.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];
     //loginViewController.navBarTextColor = [UIColor blackColor];
     //
+
     [[SalesforceSDKManager sharedManager] launch];
     return YES;
 }
