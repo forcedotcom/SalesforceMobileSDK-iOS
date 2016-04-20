@@ -92,12 +92,17 @@ ABSTRACT_METHOD
 
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (long long)getLatestModificationTimeStamp:(NSArray *)records {
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                       localIds:(NSArray*)localIds
+                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
+ABSTRACT_METHOD
+
+- (long long)getLatestModificationTimeStamp:(NSArray*)records {
     long long maxTimeStamp = -1L;
     for(NSDictionary* record in records) {
         NSString* timeStampStr = record[self.modificationDateFieldName];

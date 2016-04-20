@@ -39,10 +39,10 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
 
 @interface SFSyncDownTarget : SFSyncTarget
 
-@property (nonatomic)         SFSyncDownTargetQueryType queryType;
+@property (nonatomic) SFSyncDownTargetQueryType queryType;
 
 // Set during a fetch
-@property (nonatomic)         NSUInteger totalSize;
+@property (nonatomic) NSUInteger totalSize;
 
 /**
  * Methods to translate to/from dictionary
@@ -74,15 +74,25 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
- Gets the latest modification timestamp from the array of records.  Note: inheriting classes can
- override this method to determine the timestamp in a customized way.  The default implementation
- looks at the LastModifiedDate field of each record.
- @param records The array of records to query.
- @return The timestamp of the record with the most recent modification date.
+ * Fetch list of IDs still present on the server from the list of local IDs
  */
-- (long long)getLatestModificationTimeStamp:(NSArray *)records;
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                       localIds:(NSArray*)localIds
+                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
-/** Enum to/from string helper methods
+/**
+ * Gets the latest modification timestamp from the array of records. Note: inheriting classes can
+ * override this method to determine the timestamp in a customized way. The default implementation
+ * looks at the LastModifiedDate field of each record.
+ *
+ * @param records The array of records to query.
+ * @return The timestamp of the record with the most recent modification date.
+ */
+- (long long) getLatestModificationTimeStamp:(NSArray*)records;
+
+/**
+ * Enum to/from string helper methods
  */
 + (SFSyncDownTargetQueryType) queryTypeFromString:(NSString*)queryType;
 + (NSString*) queryTypeToString:(SFSyncDownTargetQueryType)queryType;

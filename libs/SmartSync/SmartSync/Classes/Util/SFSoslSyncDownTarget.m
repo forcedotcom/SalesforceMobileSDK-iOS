@@ -92,10 +92,17 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak SFSoslSyncDownTarget* weakSelf = self;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:queryRun];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records) {
         weakSelf.totalSize = [records count];
         completeBlock(records);
     }];
+}
+
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                       localIds:(NSArray*)localIds
+                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
 }
 
 @end

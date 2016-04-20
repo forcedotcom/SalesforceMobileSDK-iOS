@@ -111,6 +111,22 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     }];
 }
 
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                   localIds:(NSArray*)localIds
+                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    if (localIds == nil) {
+        completeBlock(nil);
+    }
+    NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [localIds componentsJoinedByString:@"', '"], @"')"]
+                             componentsJoinedByString:@""];
+    NSString* soql = [[[[SFSmartSyncSoqlBuilder withFields:self.idFieldName]
+                        from:self.objectType]
+                       whereClause:inPredicate]
+                      build];
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
+}
+
 - (NSArray*) pluck:(NSArray*)arrayOfDictionaries key:(NSString*)key {
     NSMutableArray* result = [NSMutableArray array];
     for (NSDictionary* d in arrayOfDictionaries) {

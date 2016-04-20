@@ -132,6 +132,45 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
 }
 
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                   localIds:(NSArray*)localIds
+                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    if (localIds == nil) {
+        completeBlock(nil);
+    }
+    NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
+    [soql appendString:self.idFieldName];
+    [soql appendString:@" FROM"];
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@"from" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, [self.query length])];
+    NSTextCheckingResult* firstMatch = [regexp firstMatchInString:self.query options:0 range:rangeFirst];
+    NSString* fromClause = [self.query substringWithRange:[firstMatch rangeAtIndex:2]];
+    [soql appendString:fromClause];
+    __block NSUInteger countFetched = 0;
+    __block NSUInteger totalSize = 0;
+    __block NSMutableArray* allRecords = [[NSMutableArray alloc] init];
+    __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
+    __weak SFSoqlSyncDownTarget* weakSelf = self;
+    SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
+        totalSize = self.totalSize;
+        if (countFetched == 0) {
+            if (totalSize == 0) {
+                completeBlock(nil);
+            }
+        }
+        countFetched += [records count];
+        [allRecords addObjectsFromArray:records];
+        if (countFetched < totalSize) {
+            [weakSelf continueFetch:syncManager errorBlock:errorBlock completeBlock:completionBlockRecurse];
+        } else {
+            completeBlock(allRecords);
+        }
+    };
+    completionBlockRecurse = completionBlock;
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:completionBlock];
+}
+
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp {
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
