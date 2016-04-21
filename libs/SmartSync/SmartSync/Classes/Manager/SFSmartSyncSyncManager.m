@@ -451,35 +451,21 @@ static NSMutableDictionary *syncMgrList = nil;
     [smartSqlQuery appendString:soupName];
     [smartSqlQuery appendString:@":"];
     [smartSqlQuery appendString:kSyncManagerLocal];
-    [smartSqlQuery appendString:@"}='false'"];
+    [smartSqlQuery appendString:@"}='0'"];
     querySpec = [SFQuerySpec newSmartQuerySpec:smartSqlQuery withPageSize:count];
-    
-    
-    
-    
-    
-    
-    /*final JSONArray localIdArray = smartStore.query(querySpec, 0);
-    if (localIdArray != null && localIdArray.length() > 0) {
-        for (int i = 0; i < localIdArray.length(); i++) {
-            final JSONArray idJson = localIdArray.optJSONArray(i);
-            if (idJson != null) {
-                localIds.add(idJson.optString(0));
-            }
-        }
-    }*/
-    
-    
-    
-    
-    
-    
+    NSMutableArray* localIds = [[NSMutableArray alloc] init];
+    NSArray* rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        [localIds addObject:row[0]];
+    }
+
     /*
      * Fetches list of IDs still present on the server from the list of local IDs
      * and removes the list of IDs that are still present on the server.
      */
+    __weak SFSmartSyncSyncManager *weakSelf = self;
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError *e) {
-        [self log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
     } completeBlock:^(NSArray *records) {
         if (records != nil) {
             
@@ -560,7 +546,6 @@ static NSMutableDictionary *syncMgrList = nil;
         (action == SFSyncUpTargetActionUpdate || action == SFSyncUpTargetActionDelete)) {
         // Need to check the modification date on the server, against the local date.
         __weak SFSmartSyncSyncManager *weakSelf = self;
-        
         SFSyncUpRecordModificationResultBlock modificationBlock = ^(NSDate *localDate, NSDate *serverDate, NSError *error) {
             __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
             if (error) {
