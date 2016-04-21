@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -416,6 +416,103 @@ static NSMutableDictionary *syncMgrList = nil;
 
     // Otherwise, there's work to do.
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failBlock:failBlock];
+}
+
+- (void) cleanReSyncGhosts:(NSNumber*)syncId {
+    if ([self.runningSyncIds containsObject:syncId]) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:still running", syncId];
+        return;
+    }
+    SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
+    if (sync == nil) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:no sync found", syncId];
+        return;
+    }
+    if (sync.type != SFSyncStateSyncTypeDown) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        return;
+    }
+    NSString* soupName = [sync soupName];
+    NSString* idFieldName = [sync.target idFieldName];
+
+    /*
+     * Fetches list of IDs present in local soup that have not been modified locally.
+     */
+    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
+    NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
+    [smartSqlQuery appendString:@"SELECT {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@":"];
+    [smartSqlQuery appendString:idFieldName];
+    [smartSqlQuery appendString:@"} FROM {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@"} WHERE {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@":"];
+    [smartSqlQuery appendString:kSyncManagerLocal];
+    [smartSqlQuery appendString:@"}='false'"];
+    querySpec = [SFQuerySpec newSmartQuerySpec:smartSqlQuery withPageSize:count];
+    
+    
+    
+    
+    
+    
+    /*final JSONArray localIdArray = smartStore.query(querySpec, 0);
+    if (localIdArray != null && localIdArray.length() > 0) {
+        for (int i = 0; i < localIdArray.length(); i++) {
+            final JSONArray idJson = localIdArray.optJSONArray(i);
+            if (idJson != null) {
+                localIds.add(idJson.optString(0));
+            }
+        }
+    }*/
+    
+    
+    
+    
+    
+    
+    /*
+     * Fetches list of IDs still present on the server from the list of local IDs
+     * and removes the list of IDs that are still present on the server.
+     */
+    [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError *e) {
+        [self log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+    } completeBlock:^(NSArray *records) {
+        if (records != nil) {
+            
+            /*final Set<String> remoteIds = new HashSet<String>();
+                for (int i = 0; i < records.length(); i++) {
+                    final JSONObject idJson = records.optJSONObject(i);
+                    if (idJson != null) {
+                        remoteIds.add(idJson.optString(getIdFieldName()));
+                    }
+                }*/
+            
+        }
+    }];
+    
+    
+    /*final Set<String> remoteIds = ((SyncDownTarget) sync.getTarget()).getListOfRemoteIds(this, localIds);
+    if (remoteIds != null) {
+        localIds.removeAll(remoteIds);
+    }*/
+    
+    // Deletes extra IDs from SmartStore.
+    /*if (localIds.size() > 0) {
+        final Long[] soupEntryIds = new Long[localIds.size()];
+        int index = 0;
+        for (final String localId : localIds) {
+            soupEntryIds[index] = smartStore.lookupSoupEntryId(soupName, idFieldName, localId);
+            index++;
+        }
+        smartStore.delete(soupName, soupEntryIds, true);
+    }*/
+    
+    
+    
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
