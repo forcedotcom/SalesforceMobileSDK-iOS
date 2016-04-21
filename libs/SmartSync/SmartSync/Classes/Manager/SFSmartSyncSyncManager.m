@@ -475,28 +475,24 @@ static NSMutableDictionary *syncMgrList = nil;
                     [remoteIds addObject:id];
                 }
             }
+            [localIds removeObjectsInArray:remoteIds];
+
+            // Deletes extra IDs from SmartStore.
+            if (localIds.count > 0) {
+                NSMutableArray* soupEntryIds = [[NSMutableArray alloc] init];
+                for (NSString* localId in localIds) {
+                    NSNumber* soupEntryId = [weakSelf.store lookupSoupEntryIdForSoupName:soupName
+                                                                            forFieldPath:idFieldName
+                                                                              fieldValue:localId
+                                                                                   error:nil];
+                    if (soupEntryId != nil) {
+                        [soupEntryIds addObject:soupEntryId];
+                    }
+                }
+                [weakSelf.store removeEntries:soupEntryIds fromSoup:soupName];
+            }
         }
     }];
-    
-    
-    /*final Set<String> remoteIds = ((SyncDownTarget) sync.getTarget()).getListOfRemoteIds(this, localIds);
-    if (remoteIds != null) {
-        localIds.removeAll(remoteIds);
-    }*/
-    
-    // Deletes extra IDs from SmartStore.
-    /*if (localIds.size() > 0) {
-        final Long[] soupEntryIds = new Long[localIds.size()];
-        int index = 0;
-        for (final String localId : localIds) {
-            soupEntryIds[index] = smartStore.lookupSoupEntryId(soupName, idFieldName, localId);
-            index++;
-        }
-        smartStore.delete(soupName, soupEntryIds, true);
-    }*/
-    
-    
-    
 }
 
 - (void)syncUpOneEntry:(SFSyncState*)sync
