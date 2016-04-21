@@ -453,7 +453,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [smartSqlQuery appendString:kSyncManagerLocal];
     [smartSqlQuery appendString:@"}='0'"];
     querySpec = [SFQuerySpec newSmartQuerySpec:smartSqlQuery withPageSize:count];
-    NSMutableArray* localIds = [[NSMutableArray alloc] init];
+    __block NSMutableArray* localIds = [[NSMutableArray alloc] init];
     NSArray* rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     for (NSArray* row in rows) {
         [localIds addObject:row[0]];
@@ -463,20 +463,18 @@ static NSMutableDictionary *syncMgrList = nil;
      * Fetches list of IDs still present on the server from the list of local IDs
      * and removes the list of IDs that are still present on the server.
      */
-    __weak SFSmartSyncSyncManager *weakSelf = self;
-    [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError *e) {
+    __weak SFSmartSyncSyncManager* weakSelf = self;
+    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
+    [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
-    } completeBlock:^(NSArray *records) {
+    } completeBlock:^(NSArray* records) {
         if (records != nil) {
-            
-            /*final Set<String> remoteIds = new HashSet<String>();
-                for (int i = 0; i < records.length(); i++) {
-                    final JSONObject idJson = records.optJSONObject(i);
-                    if (idJson != null) {
-                        remoteIds.add(idJson.optString(getIdFieldName()));
-                    }
-                }*/
-            
+            for (NSDictionary* record in records) {
+                if (record != nil) {
+                    NSString *id = record[idFieldName];
+                    [remoteIds addObject:id];
+                }
+            }
         }
     }];
     
