@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -1118,6 +1118,24 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
+                              forFieldPath:(NSString *)fieldPath
+                                fieldValue:(NSString *)fieldValue
+                                     error:(NSError **)error
+{
+    __block NSNumber* result;
+    [self inDatabase:^(FMDatabase* db) {
+        NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
+        result = [self lookupSoupEntryIdForSoupName:(NSString *)soupName
+                                      soupTableName:(NSString *)soupTableName
+                                       forFieldPath:(NSString *)fieldPath
+                                         fieldValue:(NSString *)fieldValue
+                                              error:(NSError **)error
+                                             withDb:(FMDatabase*)db];
+    } error:nil];
+    return result;
+}
+
+- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
                              soupTableName:(NSString *)soupTableName
                               forFieldPath:(NSString *)fieldPath
                                 fieldValue:(NSString *)fieldValue
@@ -1309,8 +1327,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     
     return result;
 }
-
-
 
 - (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices withDb:(FMDatabase*) db
 {

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -418,6 +418,85 @@ static NSMutableDictionary *syncMgrList = nil;
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failBlock:failBlock];
 }
 
+- (void) cleanReSyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
+    if ([self.runningSyncIds containsObject:syncId]) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:still running", syncId];
+        return;
+    }
+    SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
+    if (sync == nil) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:no sync found", syncId];
+        return;
+    }
+    if (sync.type != SFSyncStateSyncTypeDown) {
+        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        return;
+    }
+    NSString* soupName = [sync soupName];
+    NSString* idFieldName = [sync.target idFieldName];
+
+    /*
+     * Fetches list of IDs present in local soup that have not been modified locally.
+     */
+    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
+    NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
+    [smartSqlQuery appendString:@"SELECT {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@":"];
+    [smartSqlQuery appendString:idFieldName];
+    [smartSqlQuery appendString:@"} FROM {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@"} WHERE {"];
+    [smartSqlQuery appendString:soupName];
+    [smartSqlQuery appendString:@":"];
+    [smartSqlQuery appendString:kSyncManagerLocal];
+    [smartSqlQuery appendString:@"}='0'"];
+    querySpec = [SFQuerySpec newSmartQuerySpec:smartSqlQuery withPageSize:count];
+    __block NSMutableArray* localIds = [[NSMutableArray alloc] init];
+    NSArray* rows = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    for (NSArray* row in rows) {
+        [localIds addObject:row[0]];
+    }
+
+    /*
+     * Fetches list of IDs still present on the server from the list of local IDs
+     * and removes the list of IDs that are still present on the server.
+     */
+    __weak SFSmartSyncSyncManager* weakSelf = self;
+    __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
+    [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
+        [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        completionStatusBlock(SFSyncStateStatusFailed);
+    } completeBlock:^(NSArray* records) {
+        if (records != nil) {
+            for (NSDictionary* record in records) {
+                if (record != nil) {
+                    NSString *id = record[idFieldName];
+                    [remoteIds addObject:id];
+                }
+            }
+            [localIds removeObjectsInArray:remoteIds];
+
+            // Deletes extra IDs from SmartStore.
+            if (localIds.count > 0) {
+                NSMutableArray* soupEntryIds = [[NSMutableArray alloc] init];
+                for (NSString* localId in localIds) {
+                    NSNumber* soupEntryId = [weakSelf.store lookupSoupEntryIdForSoupName:soupName
+                                                                            forFieldPath:idFieldName
+                                                                              fieldValue:localId
+                                                                                   error:nil];
+                    if (soupEntryId != nil) {
+                        [soupEntryIds addObject:soupEntryId];
+                    }
+                }
+                [weakSelf.store removeEntries:soupEntryIds fromSoup:soupName];
+            }
+        }
+        completionStatusBlock(SFSyncStateStatusDone);
+    }];
+}
+
 - (void)syncUpOneEntry:(SFSyncState*)sync
              recordIds:(NSArray*)recordIds
                  index:(NSUInteger)i
@@ -463,7 +542,6 @@ static NSMutableDictionary *syncMgrList = nil;
         (action == SFSyncUpTargetActionUpdate || action == SFSyncUpTargetActionDelete)) {
         // Need to check the modification date on the server, against the local date.
         __weak SFSmartSyncSyncManager *weakSelf = self;
-        
         SFSyncUpRecordModificationResultBlock modificationBlock = ^(NSDate *localDate, NSDate *serverDate, NSError *error) {
             __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
             if (error) {
