@@ -45,6 +45,7 @@ extern NSString * const kSyncManagerLocallyDeleted;
 
 // block type
 typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
+typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncStatus);
 
 /**
  * This class provides methods for doing synching records to/from the server from/to the smartstore.
@@ -148,8 +149,9 @@ typedef void (^SFSyncSyncManagerUpdateBlock) (SFSyncState* sync);
  * or do not match the query results on the server anymore.
  *
  * @param syncId Sync ID.
+ * @param completionStatusBlock Completion status block.
  */
-- (void) cleanReSyncGhosts:(NSNumber*)syncId;
+- (void) cleanReSyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 /**
  * Returns IDs (specified ID field) from dirty records in the given soup.

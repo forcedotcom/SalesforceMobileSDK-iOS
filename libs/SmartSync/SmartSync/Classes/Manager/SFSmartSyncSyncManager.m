@@ -418,7 +418,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failBlock:failBlock];
 }
 
-- (void) cleanReSyncGhosts:(NSNumber*)syncId {
+- (void) cleanReSyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
     if ([self.runningSyncIds containsObject:syncId]) {
         [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:still running", syncId];
         return;
@@ -467,6 +467,7 @@ static NSMutableDictionary *syncMgrList = nil;
     __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
         if (records != nil) {
             for (NSDictionary* record in records) {
@@ -492,6 +493,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 [weakSelf.store removeEntries:soupEntryIds fromSoup:soupName];
             }
         }
+        completionStatusBlock(SFSyncStateStatusDone);
     }];
 }
 
