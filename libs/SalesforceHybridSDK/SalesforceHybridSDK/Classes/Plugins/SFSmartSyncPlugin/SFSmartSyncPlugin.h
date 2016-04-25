@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,45 +27,50 @@
 #import "SFForcePlugin.h"
 
 /**
- String used with Cordova to uniquely identify this plugin
+ * String used with Cordova to uniquely identify this plugin.
  */
 extern NSString * const kSmartSyncPluginIdentifier;
 
 @interface SFSmartSyncPlugin : SFForcePlugin
 
 /**
- Used for unit testing purposes only: allows the shared sync manager instance to be reset.
+ * Used for unit testing purposes only: allows the shared sync manager instance to be reset.
  */
 - (void)resetSyncManager;
 
 /**
  * Return details about a sync operation previously created. See [SFSmartSyncSyncManager:getSyncStatus].
- * @param command Cordova arguments object containing "syncId".
  *
+ * @param command Cordova arguments object containing "syncId".
  */
 - (void)getSyncStatus:(CDVInvokedUrlCommand *)command;
 
 /**
  * Starts a sync up operation. See [SFSmartSyncSyncManager syncUp].
- * @param command Cordova arguments object containing "soupName" and "options".
  *
+ * @param command Cordova arguments object containing "soupName" and "options".
  */
 - (void)syncUp:(CDVInvokedUrlCommand *)command;
 
-
 /**
  * Starts a sync down operation. See [SFSmartSyncSyncManager syncDown].
- * @param command Cordova arguments object containing "soupName", "target" and "options".
  *
+ * @param command Cordova arguments object containing "soupName", "target" and "options".
  */
 - (void)syncDown:(CDVInvokedUrlCommand *)command;
 
 /**
  * Starts a re-sync operation. See [SFSmartSyncSyncManager reSync].
- * @param command Cordova arguments object containing "syncId".
  *
+ * @param command Cordova arguments object containing "syncId".
  */
 - (void)reSync:(CDVInvokedUrlCommand *)command;
 
+/**
+ * Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanReSyncGhosts].
+ *
+ * @param command Cordova arguments object containing "syncId".
+ */
+- (void) cleanReSyncGhosts:(CDVInvokedUrlCommand *)command;
 
 @end
