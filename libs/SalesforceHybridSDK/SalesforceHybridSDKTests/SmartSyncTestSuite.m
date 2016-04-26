@@ -25,6 +25,7 @@
 #import <UIKit/UIKit.h>
 #import <SmartStore/SmartStore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
+#import <SalesforceSDKCore/SFApplicationHelper.h>
 
 #import "SmartSyncTestSuite.h"
 #import "AppDelegate.h"
@@ -38,7 +39,7 @@
     self.jsSuiteName = @"SmartSyncTestSuite";
     if ([self isTestRunnerReady]) {
         [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *smartstorePlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
         [smartstorePlugin resetSharedStore];
         SFSmartSyncPlugin *smartsyncPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartSyncPluginIdentifier];
