@@ -37,8 +37,7 @@
 
 - (id)contentFromData:(NSData *)data fromResponse:(NSHTTPURLResponse *)response error:(NSError *__autoreleasing *)error {
     
-    // Parent is fine for (JSON) parsing the response, or if the response is otherwise JSON.
-    NSString *responseContentType = response.allHeaderFields[@"Content-Type"];
+    // Parse if desired
     if (_parseResponse) {
         return [super contentFromData:data fromResponse:response error:error];
     }
