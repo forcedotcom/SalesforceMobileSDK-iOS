@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -57,9 +57,7 @@ RCT_EXPORT_METHOD(getSyncStatus:(NSDictionary *)args callback:(RCTResponseSender
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
-    
     [self log:SFLogLevelDebug format:@"getSyncStatus with sync id: %@", syncId];
-    
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] getSyncStatus:syncId];
     callback(@[[NSNull null], [sync asDict]]);
 }
@@ -70,12 +68,10 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
     BOOL isGlobal = [self isGlobal:args];
-    
     __weak SFSmartSyncReactBridge *weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
-    
     [self log:SFLogLevelDebug format:@"syncDown # %d to soup: %@", sync.syncId, soupName];
 }
 
@@ -83,13 +79,20 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
-    
     [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
-    
     __weak SFSmartSyncReactBridge *weakSelf = self;
     [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
+}
+
+RCT_EXPORT_METHOD(cleanReSyncGhosts:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
+{
+    NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
+    BOOL isGlobal = [self isGlobal:args];
+    [self log:SFLogLevelDebug format:@"cleanReSyncGhosts with sync id: %@", syncId];
+    [[self getSyncManagerInst:isGlobal] cleanReSyncGhosts:syncId];
+    callback(@[[NSNull null]]);
 }
 
 RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
@@ -98,15 +101,12 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
     BOOL isGlobal = [self isGlobal:args];
-    
     __weak SFSmartSyncReactBridge *weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
-    
     [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
 }
-
 
 #pragma mark - Helper methods
 
@@ -136,11 +136,9 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     syncDict[kSyncIsGlobalStoreArg] = isGlobal ? @YES : @NO;
     if (sync.status == SFSyncStateStatusDone) {
         callback(@[[NSNull null], syncDict]);
-    }
-    else if (sync.status == SFSyncStateStatusFailed) {
+    } else if (sync.status == SFSyncStateStatusFailed) {
         callback(@[RCTMakeError(@"Sync failed", nil, nil), syncDict]);
     }
 }
-
 
 @end
