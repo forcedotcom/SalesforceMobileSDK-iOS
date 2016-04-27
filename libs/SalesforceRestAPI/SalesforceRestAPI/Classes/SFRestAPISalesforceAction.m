@@ -39,7 +39,7 @@
     
     // Parent is fine for (JSON) parsing the response, or if the response is otherwise JSON.
     NSString *responseContentType = response.allHeaderFields[@"Content-Type"];
-    if (_parseResponse || [responseContentType hasPrefix:@"application/json"]) {
+    if (_parseResponse) {
         return [super contentFromData:data fromResponse:response error:error];
     }
     
