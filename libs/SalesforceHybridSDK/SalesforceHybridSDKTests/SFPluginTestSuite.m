@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SmartStore/SmartStore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
+#import <SalesforceSDKCore/SFApplicationHelper.h>
 #import "SFPluginTestSuite.h"
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
@@ -39,7 +40,7 @@
 {
     [super setUp];
     
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
     _testRunnerPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
 
     
@@ -124,7 +125,7 @@
     NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"com.salesforce.plugin.testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
-    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate*)[SFApplicationHelper sharedApplication].delegate;
     NSString *cmdResult = [app evalJS:testCmd];
     [self log:SFLogLevelDebug format:@"cmdResult: '%@'",cmdResult];
     
@@ -132,7 +133,7 @@
     XCTAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
     if (!timedOut) {
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
         SFTestResult *testResult = [plugin testResults][0];
         [[plugin testResults] removeObjectAtIndex:0];
@@ -141,12 +142,5 @@
         XCTAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
     }
 }
-
-
-
-
-
-
-
 
 @end
