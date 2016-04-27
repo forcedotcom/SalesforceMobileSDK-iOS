@@ -91,7 +91,7 @@ RCT_EXPORT_METHOD(cleanReSyncGhosts:(NSDictionary *)args callback:(RCTResponseSe
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
     [self log:SFLogLevelDebug format:@"cleanReSyncGhosts with sync id: %@", syncId];
-    [[self getSyncManagerInst:isGlobal] cleanReSyncGhosts:syncId];
+    [[self getSyncManagerInst:isGlobal] cleanReSyncGhosts:syncId completionStatusBlock:nil];
     callback(@[[NSNull null]]);
 }
 
