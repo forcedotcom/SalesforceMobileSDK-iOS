@@ -210,6 +210,9 @@
     if (self.navBarTextColor) {
         navigationBar.tintColor = self.navBarTextColor;
         [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
+    } else {
+        // default color
+        navigationBar.tintColor = [UIColor whiteColor];
     }
     
     if (self.navBarFont && self.navBarTextColor) {
