@@ -109,12 +109,11 @@
     self.navBar.items = @[item];
     if(self.showSettingsIcon) {
         // setup right bar button
-        UIImage *image = [SFSDKResourceUtils imageNamed:@"login-window-gear"];
+        UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
         rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
         self.navBar.topItem.rightBarButtonItem = rightButton;
     }
-    self.navBar.tintColor = [UIColor whiteColor];
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
     [self setNeedsStatusBarAppearanceUpdate];
@@ -124,7 +123,7 @@
 - (void)setupBackButton {
     // setup left bar button
     if ([self shouldShowBackButton]) {
-        UIImage *image = [SFSDKResourceUtils imageNamed:@"globalheader-back-arrow"];
+        UIImage *image = [[SFSDKResourceUtils imageNamed:@"globalheader-back-arrow"]  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         self.navBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backToPreviousHost:)];
     } else {
         self.navBar.topItem.leftBarButtonItem = nil;
@@ -209,7 +208,11 @@
         [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
     }
     if (self.navBarTextColor) {
+        navigationBar.tintColor = self.navBarTextColor;
         [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
+    } else {
+        // default color
+        navigationBar.tintColor = [UIColor whiteColor];
     }
     
     if (self.navBarFont && self.navBarTextColor) {
