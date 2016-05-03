@@ -707,17 +707,6 @@
     XCTAssertTrue(result, @"Create db dir failed");
 }
 
--(void)copyDbToDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
-{
-    NSError *copyError = nil;
-    
-    // Copy legacy database from test bundle (This database was generated with v7.3.3 using the old SqlCipher
-    NSString *dbPath = [[NSBundle bundleForClass:[self class]]  pathForResource:@"legacy_db" ofType:@"sqlite"];
-    NSString * dbDestinationpath = [dbMgr fullDbFilePathForStoreName:dbName];
-    [[NSFileManager defaultManager] copyItemAtPath: dbPath toPath: dbDestinationpath error: &copyError];
-    XCTAssertNil(copyError, @"Error copying store dir: %@", [copyError localizedDescription]);
-}
-
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
     NSError *openDbError = nil;
