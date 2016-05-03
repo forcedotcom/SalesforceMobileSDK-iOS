@@ -364,16 +364,20 @@
         [encryptedDb close];
         
         // Try to open the DB with an empty key, verify no read access.
-        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
         
         // Try to read the encrypted database with the wrong key.
-        [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
+        FMDatabase *encryptedDbWrongKey = [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
+        XCTAssertNil(encryptedDbWrongKey, @"Shouldn't be able to read encrypted database, opened with the wrong key.");
+        if(encryptedDbWrongKey) [encryptedDbWrongKey close];
         
         // Finally, try to re-open the encrypted database with the right key.  Verify read access.
-        FMDatabase *encryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
-        isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb3];
+        FMDatabase *encryptedDbCorrectKey = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
+        isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDbCorrectKey];
         XCTAssertTrue(isTableNameInMaster, @"Should find the original table name in sqlite_master, with proper encryption key.");
-        [encryptedDb3 close];
+        [encryptedDbCorrectKey close];
         
         [dbMgr removeStoreDir:storeName];
     }
@@ -395,8 +399,54 @@
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
+        
+        // Unencrypt the database, verify data.
+        FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
+        NSError *unencryptError = nil;
+        FMDatabase *unencryptedDb2 = [dbMgr unencryptDb:encryptedDb2
+                                                   name:storeName
+                                                 oldKey:encKey
+                                                  error:&unencryptError];
+        XCTAssertNil(unencryptError, @"Error unencrypting the database: %@", [unencryptError localizedDescription]);
+        isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb2];
+        XCTAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
+        [unencryptedDb2 close];
+        
+        // Open the database with no key, out of band.  Verify data.
+        FMDatabase *unencryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
+        isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb3];
+        XCTAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
+        [unencryptedDb3 close];
+        
+        [dbMgr removeStoreDir:storeName];
+    }
+}
 
+- (void)testUnencryptSqlCipher206Database
+{
+    NSString *storeName = @"lookAtThatData";
+    
+    for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
+        
+        // Copy legacy database from test bundle (This database was generated with v7.3.3 using the old SqlCipher
+        [self createDbDir:storeName withManager:dbMgr];
+        [self copyDbToDir:storeName withManager:dbMgr];
+        
+        NSString *encKey = @"GiantSecret";
+        FMDatabase *encryptedDb = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
+        NSString *tableName = @"My_Table";
+        BOOL isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
+        XCTAssertTrue(isTableNameInMaster, @"Table %@ should exist in sqlite_master.", tableName);
+        [encryptedDb close];
+        
+        // Verify that we can't read data with a plaintext DB open.
+        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
+        
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSError *unencryptError = nil;
@@ -473,9 +523,10 @@
             BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newNoPasscodeStore.storeQueue close];
-            [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
-            [rawDb close];
+            
+            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+            if(rawDb) [rawDb close];
             
             // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
             NSString *newPasscodeStoreName = @"new_passcode_store";
@@ -488,9 +539,10 @@
             canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newPasscodeStore.storeQueue close];
-            [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:passcodeKey openShouldFail:NO];
-            [rawDb close];
+            
+            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+            if(rawDb) [rawDb close];
             
             // Make sure existing stores have the expected keys associated with them, between launches.
             [SFSmartStore clearSharedStoreMemoryState];
@@ -699,6 +751,17 @@
     XCTAssertTrue(result, @"Create db dir failed");
 }
 
+-(void)copyDbToDir:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr
+{
+    NSError *copyError = nil;
+    
+    // Copy legacy database from test bundle (This database was generated with v7.3.3 using the old SqlCipher
+    NSString *dbPath = [[NSBundle bundleForClass:[self class]]  pathForResource:@"legacy_db" ofType:@"sqlite"];
+    NSString * dbDestinationpath = [dbMgr fullDbFilePathForStoreName:dbName];
+    [[NSFileManager defaultManager] copyItemAtPath: dbPath toPath: dbDestinationpath error: &copyError];
+    XCTAssertNil(copyError, @"Error copying store dir: %@", [copyError localizedDescription]);
+}
+
 - (FMDatabase *)openDatabase:(NSString *)dbName withManager:(SFSmartStoreDatabaseManager *)dbMgr key:(NSString *)key openShouldFail:(BOOL)openShouldFail
 {
     NSError *openDbError = nil;
@@ -772,5 +835,7 @@
     NSUInteger allStoreCount = [allStoreNames count];
     XCTAssertEqual(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
 }
+
+
 
 @end
