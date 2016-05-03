@@ -167,7 +167,7 @@ static  NSString * cachedPasscode;
             action = SFSecurityLockoutActionPasscodeVerified;
             break;
         default:
-            [self log:SFLogLevelError format:@"Unknown passcode controller mode: %d.  No security lockout action will be configured.", self.mode];
+            [self log:SFLogLevelError format:@"Unknown passcode controller mode: %lu.  No security lockout action will be configured.", (unsigned long)self.mode];
             action = SFSecurityLockoutActionNone;
             break;
     }

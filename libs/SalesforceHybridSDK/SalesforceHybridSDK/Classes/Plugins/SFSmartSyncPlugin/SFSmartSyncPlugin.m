@@ -136,7 +136,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];
-        [self log:SFLogLevelDebug format:@"syncDown # %d from soup: %@", sync.syncId, soupName];
+        [self log:SFLogLevelDebug format:@"syncDown # %ld from soup: %@", sync.syncId, soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }
@@ -184,7 +184,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];
-        [self log:SFLogLevelDebug format:@"syncUp # %d from soup: %@", sync.syncId, soupName];
+        [self log:SFLogLevelDebug format:@"syncUp # %ld from soup: %@", sync.syncId, soupName];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[sync asDict]];
     } command:command];
 }

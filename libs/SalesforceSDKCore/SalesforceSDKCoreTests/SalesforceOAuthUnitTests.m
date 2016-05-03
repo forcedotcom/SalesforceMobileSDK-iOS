@@ -33,6 +33,9 @@
 static NSString * const kIdentifier = @"com.salesforce.ios.oauth.test";
 static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 
+static NSString * const kTestAccessToken = @"AccessGranted!";
+static NSString * const kTestRefreshToken = @"HowRefreshing";
+
 @interface SalesforceOAuthUnitTests ()
 
 - (void)verifySuccessfulTokenUpdate:(NSString *)accessToken refreshToken:(NSString *)refreshToken;
@@ -151,7 +154,7 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     NSMutableData *data = [NSMutableData data];
     NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
     
-    SFOAuthCredentials *credsIn = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    SFOAuthKeychainCredentials *credsIn = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     credsIn.domain          = @"login.salesforce.com";
     credsIn.redirectUri     = @"sfdc:///axm/detect/oauth/done";
     credsIn.organizationId  = @"org";
@@ -253,13 +256,11 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
  */
 - (void)testTokenEncryptionDecryption
 {
-    NSString *accessToken = @"gimmeAccess!!!";
+    NSString *accessToken = @"gimmeAccess!";
     NSString *refreshToken = @"IWannaRefresh!";
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     
     NSDictionary *keyDict = @{
-                              @"mac":
-                                  @[ [credentials keyMacForService:kSFOAuthServiceAccess], [credentials keyMacForService:kSFOAuthServiceRefresh] ],
                               @"vendorId":
                                   @[ [credentials keyVendorIdForService:kSFOAuthServiceAccess], [credentials keyVendorIdForService:kSFOAuthServiceRefresh] ],
                               @"baseAppId":
@@ -303,8 +304,9 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
             retrievedAccessToken = [credentials accessTokenWithKey:badDecryptKey];
             retrievedRefreshToken = [credentials refreshTokenWithKey:badDecryptKey];
         }
-        XCTAssertNil(retrievedAccessToken, @"For encType '%@', access token should be nil if it couldn't be decrypted.", encTypeKey);
-        XCTAssertNil(retrievedRefreshToken, @"For encType '%@', refresh token should be nil if it couldn't be decrypted.", encTypeKey);
+        
+        XCTAssertNotEqual(accessToken,retrievedAccessToken, @"For encType '%@', should not be able to decrypt accessToken with wrong key.", encTypeKey);
+        XCTAssertNotEqual(refreshToken,retrievedRefreshToken, @"For encType '%@', should not be able to decrypt refreshToken with wrong key.", encTypeKey);
     }
     
     [credentials revoke];
@@ -329,66 +331,115 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
     [credentials revoke];
 }
 
-/**
- Test the different token encryption update scenarios.
- */
-- (void)testUpdateTokenEncryption
+- (void)testTokenWithKeyNotEncrypted
 {
-    NSString *accessToken = @"AccessGranted!";
-    NSString *refreshToken = @"HowRefreshing";
-    
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:NO];
+    [credentials setAccessToken:kTestAccessToken withKey:nil];
+
+    // retrieve token and compare
+    NSString *retrievedToken = [credentials accessTokenWithKey:nil];
+    XCTAssertEqualObjects(kTestAccessToken, retrievedToken);
+    [credentials revoke];
+}
+
+- (void)testTokenWithKeyEncrypted
+{
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+
+    // retrieve token and compare
+    NSString *retrievedToken = [credentials accessTokenWithKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+    XCTAssertEqualObjects(kTestAccessToken, retrievedToken);
+    [credentials revoke];
+}
+
+- (void)testTokenWithKeyEncryptedButTooSmall
+{
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:@"123" withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+
+    // retrieve token and compare
+    NSString *retrievedToken = [credentials accessTokenWithKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+    XCTAssertNil(retrievedToken, @"If a token is 'small' then nil should be returned");
+    [credentials revoke];
+}
+
+
+#pragma mark - Test the different token encryption update scenarios
+-(void)testUpdateTokenEncryptionForMacKey
+{
     // Set MAC-key tokens, resetting update state to pre-update.
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyMacForService:kSFOAuthServiceRefresh]];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyMacForService:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // New credentials instantiation should convert the existing credentials to latest encryption scheme.
-    [self verifySuccessfulTokenUpdate:accessToken refreshToken:refreshToken];
-    
+    [self verifySuccessfulTokenUpdate:kTestAccessToken refreshToken:kTestRefreshToken];
+
+    [credentials revoke];
+}
+
+- (void)testUpdateTokenEncryptionForVendorId
+{
     // Set vendorId-key tokens, resetting update state to pre-update.
-    credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyVendorIdForService:kSFOAuthServiceAccess]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyVendorIdForService:kSFOAuthServiceRefresh]];
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyVendorIdForService:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyVendorIdForService:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // New credentials instantiation should convert the existing credentials to latest encryption scheme.
-    [self verifySuccessfulTokenUpdate:accessToken refreshToken:refreshToken];
-    
+    [self verifySuccessfulTokenUpdate:kTestAccessToken refreshToken:kTestRefreshToken];
+
+    [credentials revoke];
+}
+
+- (void)testUpdateTokenEncryptionForAppId
+{
     // Set base app id tokens, resetting update state to pre-update.
-    credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyBaseAppIdForService:kSFOAuthServiceAccess]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyBaseAppIdForService:kSFOAuthServiceRefresh]];
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyBaseAppIdForService:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyBaseAppIdForService:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeBaseAppId forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // New credentials instantiation should convert the existing credentials to latest encryption scheme.
-    [self verifySuccessfulTokenUpdate:accessToken refreshToken:refreshToken];
-    
+    [self verifySuccessfulTokenUpdate:kTestAccessToken refreshToken:kTestRefreshToken];
+
+    [credentials revoke];
+}
+
+- (void)testUpdateTokenEncryptionBadMacAddress
+{
     // Test update with bad MAC-key tokens (post-iOS7 scenario).
     NSString *badMacAddress = @"2F:00:00:00:00:00";
-    credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceAccess]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceRefresh]];
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // New credentials instantiation should nil out the tokens, since they can't be converted in iOS7 and later.
     [self verifyUnsuccessfulTokenUpdate];
-    
+
+    [credentials revoke];
+}
+
+- (void)testUpdateTokenEncryptionBadVendorId
+{
     // Test update with bad vendorId-key tokens (identifierForVendor inexplicably changes).
     NSString *badVendorId = @"2F:00:00:00:00:00";  // Not even a vendorId format.  Guaranteed to be bad.
-    credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:accessToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceAccess]];
-    [credentials setRefreshToken:refreshToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceRefresh]];
+    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    [credentials setAccessToken:kTestAccessToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceAccess]];
+    [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceRefresh]];
     [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     // New credentials instantiation should nil out the tokens, since they can't be converted in iOS7 and later.
     [self verifyUnsuccessfulTokenUpdate];
-    
+
     [credentials revoke];
 }
 
@@ -407,11 +458,16 @@ static NSString * const kClientId   = @"SfdcMobileChatteriOS";
 
 - (void)verifyUnsuccessfulTokenUpdate
 {
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     NSString *accessTokenVerify = credentials.accessToken;
-    XCTAssertNil(accessTokenVerify, @"Access token should be nil, since it cannot be converted with bad inputs.");
+
+    // Use assertTrue here because if assertNil is used, the contents of the token are printed to the unit test XML results file and causes invalid XML
+    XCTAssertTrue(nil == accessTokenVerify, @"Access token should be nil, since it cannot be converted with bad inputs.");
     NSString *refreshTokenVerify = credentials.refreshToken;
-    XCTAssertNil(refreshTokenVerify, @"Refresh token should be nil, since it cannot be converted with bad inputs.");
+
+    // Use assertTrue here because if assertNil is used, the contents of the token are printed to the unit test XML results file and causes invalid XML
+    XCTAssertTrue(nil == refreshTokenVerify, @"Refresh token should be nil, since it cannot be converted with bad inputs.");
+
     SFOAuthCredsEncryptionType encType = [[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
     XCTAssertEqual(encType, kSFOAuthCredsEncryptionTypeKeyStore, @"Encryption type still should have been updated to key store.");
 }

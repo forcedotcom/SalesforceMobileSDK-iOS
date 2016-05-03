@@ -222,7 +222,7 @@ static BOOL _showPasscode = YES;
     // Lockout time can only go down, to enforce the most restrictive passcode policy across users.
     if (newLockoutTime < securityLockoutTime) {
         if (newLockoutTime > 0) {
-            [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %d seconds.", newLockoutTime];
+            [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %lu seconds.", (unsigned long)newLockoutTime];
             [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
             configData.lockoutTime = newLockoutTime;
             [SFInactivityTimerCenter removeTimer:kTimerSecurity];
@@ -511,7 +511,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode
 {
-    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %d", mode];
+    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %lu", (unsigned long)mode];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
                                                       object:[NSNumber numberWithInt:mode]
                                                     userInfo:nil];
