@@ -197,7 +197,7 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode < 200 || statusCode >= 300) {
-                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
             }
             else {
