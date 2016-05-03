@@ -425,50 +425,6 @@
     }
 }
 
-- (void)testUnencryptSqlCipher206Database
-{
-    NSString *storeName = @"lookAtThatData";
-    
-    for (SFSmartStoreDatabaseManager *dbMgr in @[ [SFSmartStoreDatabaseManager sharedManager], [SFSmartStoreDatabaseManager sharedGlobalManager] ]) {
-        
-        // Copy legacy database from test bundle (This database was generated with v7.3.3 using the old SqlCipher
-        [self createDbDir:storeName withManager:dbMgr];
-        [self copyDbToDir:storeName withManager:dbMgr];
-        
-        NSString *encKey = @"GiantSecret";
-        FMDatabase *encryptedDb = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
-        NSString *tableName = @"My_Table";
-        BOOL isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb];
-        XCTAssertTrue(isTableNameInMaster, @"Table %@ should exist in sqlite_master.", tableName);
-        [encryptedDb close];
-        
-        // Verify that we can't read data with a plaintext DB open.
-        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
-        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
-        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
-        
-        // Unencrypt the database, verify data.
-        FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
-        NSError *unencryptError = nil;
-        FMDatabase *unencryptedDb2 = [dbMgr unencryptDb:encryptedDb2
-                                                   name:storeName
-                                                 oldKey:encKey
-                                                  error:&unencryptError];
-        XCTAssertNil(unencryptError, @"Error unencrypting the database: %@", [unencryptError localizedDescription]);
-        isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb2];
-        XCTAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
-        [unencryptedDb2 close];
-        
-        // Open the database with no key, out of band.  Verify data.
-        FMDatabase *unencryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:NO];
-        isTableNameInMaster = [self tableNameInMaster:tableName db:unencryptedDb3];
-        XCTAssertTrue(isTableNameInMaster, @"Table should be present in unencrypted DB.");
-        [unencryptedDb3 close];
-        
-        [dbMgr removeStoreDir:storeName];
-    }
-}
-
 - (void)testAllStoreNames
 {
     // Test with no stores. (Note: Have to get rid of the 'default' store created at setup.)

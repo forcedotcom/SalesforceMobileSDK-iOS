@@ -62,7 +62,6 @@
 		828917A81C52D9CE002F9981 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917A11C52D9BC002F9981 /* SalesforceSDKCore.framework */; };
 		828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C0DB4A381CD93B2200DCEBF4 /* legacy_db.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = C0DB4A371CD93B2200DCEBF4 /* legacy_db.sqlite */; };
 		CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CE0AB0781C10D3B500BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0771C10D3B500BFAEED /* libxml2.tbd */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
@@ -273,7 +272,6 @@
 		828917AC1C52DB6B002F9981 /* libsqlcipher.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlcipher.a; path = ../../external/ThirdPartyDependencies/sqlcipher/libsqlcipher.a; sourceTree = "<group>"; };
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
 		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C0DB4A371CD93B2200DCEBF4 /* legacy_db.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = legacy_db.sqlite; sourceTree = "<group>"; };
 		CE0AB0771C10D3B500BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -502,7 +500,6 @@
 		CEAAAE5F195911E600CBBFE9 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C0DB4A371CD93B2200DCEBF4 /* legacy_db.sqlite */,
 				4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */,
 				CEAAAE61195911E600CBBFE9 /* InfoPlist.strings */,
 			);
@@ -775,7 +772,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0DB4A381CD93B2200DCEBF4 /* legacy_db.sqlite in Resources */,
 				4FFEE6351BFE98E100B7AA8A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

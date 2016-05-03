@@ -71,7 +71,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString * refreshToken     = kRefreshToken;
     NSString * userId           = kUserId18;
     
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
     identifier = nil;
     clientId = nil;
     
@@ -124,7 +124,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString * userId           = nil;
     NSString * activationCode   = nil;
     
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] init];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] init];
     
     XCTAssertNotNil(credentials, @"credentials object should not be nil");
     XCTAssertThrows(accessToken = credentials.accessToken, @"should raise exception if no identifier is set");
@@ -191,7 +191,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
  */
 - (void)testCoordinator {
     
-    SFOAuthKeychainCredentials *creds = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     XCTAssertNotNil(creds, @"credentials should not be nil");
     creds.domain = @"localhost";
     creds.redirectUri = @"sfdc://expected/to/fail";
@@ -235,8 +235,8 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     NSString * const kUserA_Identifier   = @"userA";
     NSString * const kUserB_Identifier   = @"userB";    
 
-    SFOAuthKeychainCredentials *ca = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kUserA_Identifier clientId:kClientId encrypted:YES];
-    SFOAuthKeychainCredentials *cb = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kUserB_Identifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *ca = [[SFOAuthCredentials alloc] initWithIdentifier:kUserA_Identifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *cb = [[SFOAuthCredentials alloc] initWithIdentifier:kUserB_Identifier clientId:kClientId encrypted:YES];
 
     XCTAssertFalse([ca.identifier isEqual:ca.clientId], @"identifier and client id for user A must be different");
     XCTAssertFalse([cb.identifier isEqual:cb.clientId], @"identifier and client id for user B must be different");
@@ -458,7 +458,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 - (void)verifyUnsuccessfulTokenUpdate
 {
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
+    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     NSString *accessTokenVerify = credentials.accessToken;
 
     // Use assertTrue here because if assertNil is used, the contents of the token are printed to the unit test XML results file and causes invalid XML
