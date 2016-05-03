@@ -152,7 +152,6 @@
 }
 
 - (void)close {
-    [self.cryptChunks finalizeCrypt];
     [self.inStream close];
 }
 
