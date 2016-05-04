@@ -353,18 +353,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     [credentials revoke];
 }
 
-- (void)testTokenWithKeyEncryptedButTooSmall
-{
-    SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
-    [credentials setAccessToken:@"123" withKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
-
-    // retrieve token and compare
-    NSString *retrievedToken = [credentials accessTokenWithKey:[credentials keyMacForService:kSFOAuthServiceAccess]];
-    XCTAssertNil(retrievedToken, @"If a token is 'small' then nil should be returned");
-    [credentials revoke];
-}
-
-
 #pragma mark - Test the different token encryption update scenarios
 -(void)testUpdateTokenEncryptionForMacKey
 {
@@ -413,13 +401,14 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 - (void)testUpdateTokenEncryptionBadMacAddress
 {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     // Test update with bad MAC-key tokens (post-iOS7 scenario).
     NSString *badMacAddress = @"2F:00:00:00:00:00";
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     [credentials setAccessToken:kTestAccessToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceAccess]];
     [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyWithSeed:badMacAddress service:kSFOAuthServiceRefresh]];
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFOAuthEncryptionTypeKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 
     // New credentials instantiation should nil out the tokens, since they can't be converted in iOS7 and later.
     [self verifyUnsuccessfulTokenUpdate];
@@ -429,14 +418,15 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
 
 - (void)testUpdateTokenEncryptionBadVendorId
 {
+    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     // Test update with bad vendorId-key tokens (identifierForVendor inexplicably changes).
     NSString *badVendorId = @"2F:00:00:00:00:00";  // Not even a vendorId format.  Guaranteed to be bad.
     SFOAuthKeychainCredentials *credentials = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     [credentials setAccessToken:kTestAccessToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceAccess]];
     [credentials setRefreshToken:kTestRefreshToken withKey:[credentials keyWithSeed:badVendorId service:kSFOAuthServiceRefresh]];
-    [[NSUserDefaults standardUserDefaults] setInteger:kSFOAuthCredsEncryptionTypeIdForVendor forKey:kSFOAuthEncryptionTypeKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
     // New credentials instantiation should nil out the tokens, since they can't be converted in iOS7 and later.
     [self verifyUnsuccessfulTokenUpdate];
 
