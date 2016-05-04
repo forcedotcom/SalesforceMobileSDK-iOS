@@ -745,7 +745,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*)db
 {
-    [self log:SFLogLevelDebug format:@"convertSmartSQl:%@", smartSql];
+    [self log:SFLogLevelVerbose format:@"convertSmartSQl:%@", smartSql];
     NSObject* sql = _smartSqlToSql[smartSql];
     
     if (nil == sql) {
@@ -753,17 +753,17 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
         // Conversion failed, putting the NULL in the cache so that we don't retry conversion
         if (sql == nil) {
-            [self log:SFLogLevelDebug format:@"convertSmartSql:putting NULL in cache"];
+            [self log:SFLogLevelVerbose format:@"convertSmartSql:putting NULL in cache"];
             _smartSqlToSql[smartSql] = [NSNull null];
         }
         // Updating cache
         else {
-            [self log:SFLogLevelDebug format:@"convertSmartSql:putting %@ in cache", sql];
+            [self log:SFLogLevelVerbose format:@"convertSmartSql:putting %@ in cache", sql];
             _smartSqlToSql[smartSql] = sql;
         }
     }
     else if ([sql isEqual:[NSNull null]]) {
-        [self log:SFLogLevelDebug format:@"convertSmartSql:found NULL in cache"];
+        [self log:SFLogLevelVerbose format:@"convertSmartSql:found NULL in cache"];
         return nil;
     }
     

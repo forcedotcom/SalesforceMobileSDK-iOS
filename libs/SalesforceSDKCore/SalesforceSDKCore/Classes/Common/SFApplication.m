@@ -65,7 +65,9 @@
     if ([allTouches count] > 0) {
         UITouchPhase phase = ((UITouch *)[allTouches anyObject]).phase;
         if (phase == UITouchPhaseEnded) {
-            self.lastEventDate = [NSDate date];
+            if (!self.ignoreEvents) {
+                self.lastEventDate = [NSDate date];
+            }
         }
     }
     
@@ -74,7 +76,9 @@
 
 - (void)keyPressed:(NSNotification *)notification
 {
-    self.lastEventDate = [NSDate date];
+    if (!self.ignoreEvents) {
+        self.lastEventDate = [NSDate date];
+    }
 }
 
 @end

@@ -852,7 +852,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
-        if ([accountOrg isEqualToString:orgId]) {
+        if ([accountOrg isEqualToEntityId:orgId]) {
             [array addObject:account];
         }
     }
@@ -1036,7 +1036,12 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         self.currentUser = [self createUserAccountWithCredentials:credentials];
         change |= SFUserAccountChangeNewUser;
     } else {
-        self.currentUser.credentials = credentials;
+        if ([self.currentUser.accountIdentity matchesCredentials:credentials]) {
+            self.currentUser.credentials = credentials;
+        } else {
+            [self log:SFLogLevelWarning format:@"Attempted to apply credentials to incorrect user"];
+            return;
+        }
     }
     
     // If the user has logged using a community-base URL, then let's create the community data

@@ -304,7 +304,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 - (NSString*)computeFieldReference:(NSString*) field {
     NSString* fieldRef = [@[@"{", self.soupName, @":", field, @"}"] componentsJoinedByString:@""];
-    [self log:SFLogLevelDebug format:@"computeFieldReference: %@ --> %@", field, fieldRef];
+    [self log:SFLogLevelVerbose format:@"computeFieldReference: %@ --> %@", field, fieldRef];
     return fieldRef;
 }
 
