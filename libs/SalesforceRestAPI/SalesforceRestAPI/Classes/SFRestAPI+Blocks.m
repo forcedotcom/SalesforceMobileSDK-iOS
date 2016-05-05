@@ -59,13 +59,13 @@ static char CompleteBlockKey;
     objc_setAssociatedObject(request, &FailBlockKey, failBlock, OBJC_ASSOCIATION_COPY);
     objc_setAssociatedObject(request, &CompleteBlockKey, completeBlock, OBJC_ASSOCIATION_COPY);
     
-    [[SFRestAPI sharedInstance] send:request delegate:self];
+    [self send:request delegate:self];
 }
 
 #pragma mark - various request types
 
 - (SFRestRequest *) performSOQLQuery:(NSString *)query failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:query];
+    SFRestRequest *request = [self requestForQuery:query];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -74,7 +74,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performSOQLQueryAll:(NSString *)query failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQueryAll:query];
+    SFRestRequest *request = [self requestForQueryAll:query];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -83,7 +83,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performSOSLSearch:(NSString *)search failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestArrayResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearch:search];
+    SFRestRequest *request = [self requestForSearch:search];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -92,7 +92,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performDescribeGlobalWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeGlobal];
+    SFRestRequest *request = [self requestForDescribeGlobal];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -101,7 +101,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fields:(NSDictionary *)fields failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
+    SFRestRequest *request = [self requestForUpdateWithObjectType:objectType objectId:objectId fields:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -110,7 +110,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType externalIdField:(NSString *)externalIdField externalId:(NSString *)externalId fields:(NSDictionary *)fields failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForUpsertWithObjectType:objectType
+    SFRestRequest *request = [self requestForUpsertWithObjectType:objectType
                                                                         externalIdField:externalIdField
                                                                              externalId:externalId
                                                                                  fields:fields];
@@ -122,7 +122,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType fields:(NSDictionary *)fields failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForCreateWithObjectType:objectType fields:fields];
+    SFRestRequest *request = [self requestForCreateWithObjectType:objectType fields:fields];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -131,7 +131,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performDeleteWithObjectType:(NSString *)objectType objectId:(NSString *)objectId failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:objectType objectId:objectId];
+    SFRestRequest *request = [self requestForDeleteWithObjectType:objectType objectId:objectId];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -140,7 +140,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performDescribeWithObjectType:(NSString *)objectType failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForDescribeWithObjectType:objectType];
+    SFRestRequest *request = [self requestForDescribeWithObjectType:objectType];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -149,7 +149,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performMetadataWithObjectType:(NSString *)objectType failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:objectType];
+    SFRestRequest *request = [self requestForMetadataWithObjectType:objectType];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -159,7 +159,7 @@ static char CompleteBlockKey;
 
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType objectId:(NSString *)objectId fieldList:(NSArray *)fieldList failBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
     NSString *fields = fieldList ? [[[NSSet setWithArray:fieldList] allObjects] componentsJoinedByString:@","] : nil;
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:objectType 
+    SFRestRequest *request = [self requestForRetrieveWithObjectType:objectType
                                                                                  objectId:objectId 
                                                                                 fieldList:fields];
     [self sendRESTRequest:request
@@ -170,7 +170,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performRequestForResourcesWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForResources];
+    SFRestRequest *request = [self requestForResources];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -179,7 +179,7 @@ static char CompleteBlockKey;
 }
 
 - (SFRestRequest *) performRequestForVersionsWithFailBlock:(SFRestFailBlock)failBlock completeBlock:(SFRestDictionaryResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForVersions];
+    SFRestRequest *request = [self requestForVersions];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -194,7 +194,7 @@ static char CompleteBlockKey;
                                          failBlock:(SFRestFailBlock)failBlock
                                      completeBlock:(SFRestDataResponseBlock)completeBlock {
     
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForFileRendition:sfdcId version:version renditionType:renditionType page:page];
+    SFRestRequest *request = [self requestForFileRendition:sfdcId version:version renditionType:renditionType page:page];
     [self sendRESTRequest:request
                 failBlock:failBlock
             completeBlock:completeBlock];
@@ -204,7 +204,7 @@ static char CompleteBlockKey;
 
 - (SFRestRequest *) performRequestForSearchScopeAndOrderWithFailBlock:(SFRestFailBlock)failBlock
                                            completeBlock:(SFRestArrayResponseBlock)completeBlock {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearchScopeAndOrder];
+    SFRestRequest *request = [self requestForSearchScopeAndOrder];
     [self sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
     return request;
 }
@@ -213,7 +213,7 @@ static char CompleteBlockKey;
                                               failBlock:(SFRestFailBlock)failBlock
                                           completeBlock:(SFRestArrayResponseBlock)completeBlock {
     
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForSearchResultLayout:objectList];
+    SFRestRequest *request = [self requestForSearchResultLayout:objectList];
     [self sendRESTRequest:request failBlock:failBlock completeBlock:completeBlock];
     return request;
 }

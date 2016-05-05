@@ -852,7 +852,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
-        if ([accountOrg isEqualToString:orgId]) {
+        if ([accountOrg isEqualToEntityId:orgId]) {
             [array addObject:account];
         }
     }
@@ -1036,7 +1036,12 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         self.currentUser = [self createUserAccountWithCredentials:credentials];
         change |= SFUserAccountChangeNewUser;
     } else {
-        self.currentUser.credentials = credentials;
+        if ([self.currentUser.accountIdentity matchesCredentials:credentials]) {
+            self.currentUser.credentials = credentials;
+        } else {
+            [self log:SFLogLevelWarning format:@"Attempted to apply credentials to incorrect user"];
+            return;
+        }
     }
     
     // If the user has logged using a community-base URL, then let's create the community data
@@ -1120,6 +1125,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 #pragma mark -
 #pragma mark User Change Notifications
+- (BOOL)hasCommunityChanged {
+    // If the last changed communityID exists and is inequal or
+    // if there was no previous communityID and now there is
+    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
+        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 - (void)userChanged:(SFUserAccountChange)change {
     if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {
@@ -1134,7 +1149,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
     }
 
-    if (![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId]) {
+    if ([self hasCommunityChanged])
+    {
         self.lastChangedCommunityId = self.currentUser.communityId;
         change |= SFUserAccountChangeCommunityId;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit

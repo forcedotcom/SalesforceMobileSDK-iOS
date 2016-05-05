@@ -745,7 +745,7 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
 - (NSString*) convertSmartSql:(NSString*)smartSql withDb:(FMDatabase*)db
 {
-    [self log:SFLogLevelDebug format:@"convertSmartSQl:%@", smartSql];
+    [self log:SFLogLevelVerbose format:@"convertSmartSQl:%@", smartSql];
     NSObject* sql = _smartSqlToSql[smartSql];
     
     if (nil == sql) {
@@ -753,17 +753,17 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
         
         // Conversion failed, putting the NULL in the cache so that we don't retry conversion
         if (sql == nil) {
-            [self log:SFLogLevelDebug format:@"convertSmartSql:putting NULL in cache"];
+            [self log:SFLogLevelVerbose format:@"convertSmartSql:putting NULL in cache"];
             _smartSqlToSql[smartSql] = [NSNull null];
         }
         // Updating cache
         else {
-            [self log:SFLogLevelDebug format:@"convertSmartSql:putting %@ in cache", sql];
+            [self log:SFLogLevelVerbose format:@"convertSmartSql:putting %@ in cache", sql];
             _smartSqlToSql[smartSql] = sql;
         }
     }
     else if ([sql isEqual:[NSNull null]]) {
-        [self log:SFLogLevelDebug format:@"convertSmartSql:found NULL in cache"];
+        [self log:SFLogLevelVerbose format:@"convertSmartSql:found NULL in cache"];
         return nil;
     }
     
@@ -1255,12 +1255,18 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     while ([frs next]) {
         // Smart queries
         if (querySpec.queryType == kSFSoupQueryTypeSmart) {
-            [result addObject:[self getDataFromRow:frs]];
+            NSArray *data = [self getDataFromRow:frs];
+            if (data) {
+                [result addObject:data];
+            }
         }
         // Exact/like/range queries
         else {
             NSString *rawJson = [frs stringForColumn:SOUP_COL];
-            [result addObject:[SFJsonUtils objectFromJSONString:rawJson]];
+            id entry = [SFJsonUtils objectFromJSONString:rawJson];
+            if (entry) {
+                [result addObject:entry];
+            }
         }
     }
     [frs close];
@@ -1275,11 +1281,16 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     for(int i=0; i<frs.columnCount; i++) {
         NSString* columnName = [frs columnNameForIndex:i];
         id value = valuesMap[columnName];
-        if ([columnName hasSuffix:SOUP_COL]) {
-            [result addObject:[SFJsonUtils objectFromJSONString:(NSString*)value]];
+        if ([columnName hasSuffix:SOUP_COL] && [value isKindOfClass:[NSString class]]) {
+            id entry = [SFJsonUtils objectFromJSONString:value];
+            if (entry) {
+                [result addObject:entry];
+            }
         }
         else {
-            [result addObject:value];
+            if (value) {
+                [result addObject:value];
+            }
         }
     }
     return result;
