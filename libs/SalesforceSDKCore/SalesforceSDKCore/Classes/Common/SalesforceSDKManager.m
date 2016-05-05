@@ -49,6 +49,29 @@ static NSString* uid = nil;
 // Instance class
 static Class InstanceClass = nil;
 
+@implementation SnapshotViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.frame = [UIScreen mainScreen].bounds;
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (BOOL)shouldAutorotate {
+    return !(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        return UIInterfaceOrientationMaskPortrait;
+    } else {
+        return UIInterfaceOrientationMaskAll;
+    }
+}
+
+@end
+
 @implementation SalesforceSDKManager
 
 + (void)setInstanceClass:(Class)className {
@@ -344,7 +367,7 @@ static Class InstanceClass = nil;
     }];
     
     @try {
-        [self removeSnapshotView];
+        [self dismissSnapshot];
     }
     @catch (NSException *exception) {
         [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
@@ -402,7 +425,7 @@ static Class InstanceClass = nil;
     }];
     
     @try {
-        [self removeSnapshotView];
+        [self dismissSnapshot];
     }
     @catch (NSException *exception) {
         [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
@@ -421,7 +444,7 @@ static Class InstanceClass = nil;
     
     // Set up snapshot security view, if it's configured.
     @try {
-        [self setupSnapshotView];
+        [self presentSnapshot];
     }
     @catch (NSException *exception) {
         [self log:SFLogLevelWarning format:@"Exception thrown while setting up security snapshot view: '%@'. Continuing resign active.", [exception reason]];
@@ -459,37 +482,60 @@ static Class InstanceClass = nil;
     [SFInactivityTimerCenter saveActivityTimestamp];
 }
     
-- (void)removeSnapshotView
+- (BOOL)isSnapshotPresented
 {
-    if (self.useSnapshotView) {
-        [[SFRootViewManager sharedManager] popViewController:_snapshotViewController];
-    }
+    return (_snapshotViewController.presentingViewController || _snapshotViewController.view.superview);
 }
 
-- (void)setupSnapshotView
+- (void)presentSnapshot
 {
-    if (self.useSnapshotView) {
-        if (self.snapshotView == nil) {
-            self.snapshotView = [self createDefaultSnapshotView];
+    if (!self.useSnapshotView) {
+        return;
+    }
+    
+    // Dismiss it first if it is currently presented
+    if ([self isSnapshotPresented]) {
+        [self dismissSnapshot];
+    }
+    
+    // Try to retrieve a custom snapshot view controller
+    UIViewController* customSnapshotViewController = nil;
+    if (self.snapshotViewControllerCreationAction) {
+        customSnapshotViewController = self.snapshotViewControllerCreationAction();
+    }
+    
+    // Custom snapshot view controller provided
+    if (customSnapshotViewController) {
+        _snapshotViewController = customSnapshotViewController;
+        _defaultSnapshotViewController = nil; //no need to keep the default in memory
+    }
+    // No custom snapshot view controller provided
+    else {
+        if (!_defaultSnapshotViewController) {
+            _defaultSnapshotViewController = [[SnapshotViewController alloc] initWithNibName:nil bundle:nil];
         }
-        
-        if (_snapshotViewController == nil) {
-            _snapshotViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
-        }
-        
-        [self.snapshotView removeFromSuperview];
-        [_snapshotViewController.view addSubview:self.snapshotView];
-        
+        _snapshotViewController = _defaultSnapshotViewController;
+    }
+    
+    // Presentation
+    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
+        self.snapshotPresentationAction(_snapshotViewController);
+    } else {
         [[SFRootViewManager sharedManager] pushViewController:_snapshotViewController];
     }
 }
 
-- (UIView *)createDefaultSnapshotView
+- (void)dismissSnapshot
 {
-    UIView *opaqueView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    opaqueView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    opaqueView.backgroundColor = [UIColor whiteColor];
-    return opaqueView;
+    if (![self isSnapshotPresented]) {
+        return;
+    }
+    
+    if (self.snapshotPresentationAction && self.snapshotDismissalAction) {
+        self.snapshotDismissalAction(_snapshotViewController);
+    } else {
+        [[SFRootViewManager sharedManager] popViewController:_snapshotViewController];
+    }
 }
 
 - (void)clearClipboard
