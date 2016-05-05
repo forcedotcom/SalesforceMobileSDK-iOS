@@ -29,7 +29,7 @@
 @property (atomic, readwrite, strong) NSDate *lastEventDate;
 
 /**
- * Boolean which defaults to NO, and is only set to YES in the viewDidAppear of ChatterPasscodeViewController and is set to NO in the dealloc of the VC.
+ * Boolean which defaults to NO, and is only set to YES in the viewDidAppear and is set to NO in the dealloc of the VC.
  * The boolean is used to ignore the keypressed & touch gestures in the UIApplication's sendEvents & keyPressed methods.  Otherwise, the lastEventDate
  * variable was being updated and if the timing was right on the Notification/Control Center displaying the PIN Code View could be circumvented.
  */
