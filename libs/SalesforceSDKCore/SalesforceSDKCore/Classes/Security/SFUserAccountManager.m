@@ -1125,6 +1125,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 #pragma mark -
 #pragma mark User Change Notifications
+- (BOOL)hasCommunityChanged {
+    // If the last changed communityID exists and is inequal or
+    // if there was no previous communityID and now there is
+    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
+        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 - (void)userChanged:(SFUserAccountChange)change {
     if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {
@@ -1139,7 +1149,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
     }
 
-    if (![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId]) {
+    if ([self hasCommunityChanged])
+    {
         self.lastChangedCommunityId = self.currentUser.communityId;
         change |= SFUserAccountChangeCommunityId;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
