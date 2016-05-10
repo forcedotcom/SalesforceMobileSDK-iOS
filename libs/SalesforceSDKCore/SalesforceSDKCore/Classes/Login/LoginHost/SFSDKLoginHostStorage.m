@@ -158,7 +158,16 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
 }
 
 - (void)removeAllLoginHosts {
-    [self.loginHostList removeObjectsInRange:NSMakeRange(2, [self.loginHostList count]-2)];
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    NSUInteger startingIndex = 2;
+
+    /*
+     * If MDM policy is set to hide hosts, 'Production' and 'Sandbox' won't be on the list.
+     */
+    if (managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts) {
+        startingIndex = 0;
+    }
+    [self.loginHostList removeObjectsInRange:NSMakeRange(startingIndex, [self.loginHostList count] - 2)];
 }
 
 - (NSUInteger)numberOfLoginHosts {
