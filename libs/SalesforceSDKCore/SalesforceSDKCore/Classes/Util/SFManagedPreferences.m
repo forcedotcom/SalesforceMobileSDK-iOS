@@ -36,8 +36,7 @@ static NSString * const kManagedKeyLoginHostLabels            = @"AppServiceHost
 static NSString * const kManagedKeyConnectedAppId             = @"ManagedAppOAuthID";
 static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCallbackURL";
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
-static NSString * const kManagedKeyOnlyAllowAuthorizedHosts   = @"OnlyAllowAuthorizedHosts";
-// TODO: Change key once made official with ACE.
+static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
 
 @interface SFManagedPreferences ()
 
@@ -81,8 +80,8 @@ static NSString * const kManagedKeyOnlyAllowAuthorizedHosts   = @"OnlyAllowAutho
     return [self.rawPreferences[kManagedKeyRequireCertAuth] boolValue];
 }
 
-- (BOOL)onlyAllowAuthorizedHosts {
-    return [self.rawPreferences[kManagedKeyOnlyAllowAuthorizedHosts] boolValue];
+- (BOOL)onlyShowAuthorizedHosts {
+    return [self.rawPreferences[kManagedKeyOnlyShowAuthorizedHosts] boolValue];
 }
 
 - (NSArray *)loginHosts {

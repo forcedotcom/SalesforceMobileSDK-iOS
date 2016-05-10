@@ -70,9 +70,9 @@
 @property (nonatomic, readonly) BOOL clearClipboardOnBackground;
 
 /**
- Whether or not to display only the allowed hosts. (OnlyAllowAuthorizedHosts)
+ Whether or not to display only the authorized hosts. (OnlyShowAuthorizedHosts)
  */
-@property (nonatomic, readonly) BOOL onlyAllowAuthorizedHosts; // TODO: Change key once made official with ACE.
+@property (nonatomic, readonly) BOOL onlyShowAuthorizedHosts;
 
 /**
  The raw NSDictionary of managed preferences.
