@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -68,6 +68,11 @@
  Whether or not to clear the clipboard when the app is backgrounded. (ClearClipboardOnBackground)
  */
 @property (nonatomic, readonly) BOOL clearClipboardOnBackground;
+
+/**
+ Whether or not to display only the allowed hosts. (OnlyAllowAuthorizedHosts)
+ */
+@property (nonatomic, readonly) BOOL onlyAllowAuthorizedHosts; // TODO: Change key once made official with ACE.
 
 /**
  The raw NSDictionary of managed preferences.

@@ -60,19 +60,23 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
 
 - (id)init {
     self = [super init];
-    
     if (self) {
         self.loginHostList = [NSMutableArray array];
-        
-        // Add the Production and Sandbox login hosts are defined. These two items cannot be deleted.
-        [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_PRODUCTION"] host:@"login.salesforce.com" deletable:NO]];
-        
-        [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_SANDBOX"] host:@"test.salesforce.com" deletable:NO]];
-        
-        // Load from managed preferences (e.g. MDM).
         SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+
+        // Add the Production and Sandbox login hosts, unless an MDM policy explicitly forbids this.
+        if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyAllowAuthorizedHosts)) {
+            [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_PRODUCTION"] host:@"login.salesforce.com" deletable:NO]];
+            [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[SFSDKResourceUtils localizedString:@"LOGIN_SERVER_SANDBOX"] host:@"test.salesforce.com" deletable:NO]];
+        }
+
+        // Load from managed preferences (e.g. MDM).
         if (managedPreferences.hasManagedPreferences) {
-            //If ther are any existing login hosts, remove them as MDM should take highest priority and only the hosts enforced by MDM should be in the list.
+
+            /*
+             * If there are any existing login hosts, remove them as MDM should take
+             * highest priority and only the hosts enforced by MDM should be in the list.
+             */
             if([self.loginHostList count] > 0) {
                 [self removeAllLoginHosts];
             }
@@ -84,15 +88,17 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             return self;
         }
         
-        //Load from info.plist
+        // Load from info.plist.
         if([[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"]) {
             NSString *customHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"SFDCOAuthLoginHost"];
-            //Add the login host from info.plist only if it is not already added
-            if(![self loginHostForHostAddress:customHost]){
+
+            // Add the login host from info.plist only if it is not already added.
+            if(![self loginHostForHostAddress:customHost]) {
                 [self.loginHostList addObject:[SFSDKLoginHost hostWithName:customHost host:customHost deletable:NO]];
             }
         }
-        // Load from the user defaults
+
+        // Load from the user defaults.
         NSArray *persistedList = [[NSUserDefaults standardUserDefaults] objectForKey:SFSDKLoginHostList];
         if (persistedList) {
             for (NSDictionary *dic in persistedList) {
@@ -102,7 +108,6 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             }
         }
     }
-    
     return self;
 }
 
