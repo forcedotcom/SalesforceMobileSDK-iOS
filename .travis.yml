@@ -37,16 +37,10 @@ script:
    - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
    - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
    # run tests that don't need a host app
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   - set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerUITest -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   # run tests that need a host app
-   # set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   # set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPITestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   # set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   # set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
-   # set -o pipefail && xctool test -parallelize -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDKTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK test -only SalesforceHybridSDKTests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore test -only SalesforceSDKCoreTests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore test -only SmartStoreTests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync test -only SmartSyncTests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI test -only SalesforceRestAPITests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerUITest test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
