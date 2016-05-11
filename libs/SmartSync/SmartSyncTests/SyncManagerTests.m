@@ -119,6 +119,8 @@ static NSException *authException = nil;
         [SFLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
+        [SFSmartStore removeAllStores];
+        
     } @catch (NSException *exception) {
         [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
         authException = exception;
@@ -138,7 +140,6 @@ static NSException *authException = nil;
     currentUser = [SFUserAccountManager sharedInstance].currentUser;
     syncManager = [SFSmartSyncSyncManager sharedInstance:currentUser];
     store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:currentUser];
-    
     [super setUp];
 }
 
