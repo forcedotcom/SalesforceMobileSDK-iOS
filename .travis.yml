@@ -44,3 +44,4 @@ script:
    - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync test -only SmartSyncTests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -A 5 error: | xcpretty --simple --color
    - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI test -only SalesforceRestAPITests -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -A 5 error: | xcpretty --simple --color
    - set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerUITest test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -A 5 error: | xcpretty --simple --color
+   
