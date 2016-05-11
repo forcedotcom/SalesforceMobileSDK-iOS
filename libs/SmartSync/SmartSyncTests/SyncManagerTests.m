@@ -699,7 +699,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesCreated];
+    [idToNames addEntriesFromDictionary:idToNamesCreated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
@@ -830,7 +834,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesUpdated];
+    [idToNames addEntriesFromDictionary:idToNamesUpdated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
