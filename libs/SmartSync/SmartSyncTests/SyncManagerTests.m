@@ -1090,9 +1090,10 @@ static NSException *authException = nil;
 {
     NSDateFormatter* isoDateFormatter = [NSDateFormatter new];
     isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    NSString* dateStr = @"2015-02-05T13:12:03.956-0800";
-    NSDate* date = [isoDateFormatter dateFromString:dateStr];
+    NSString* baseDateStr = @"2015-02-05T13:12:03.956-0800";
+    NSDate* date = [isoDateFormatter dateFromString:baseDateStr];
     long long dateLong = (long long)([date timeIntervalSince1970] * 1000.0);
+    NSString* dateStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:dateLong];
     
     // Original queries
     NSString* originalBasicQuery = @"select Id from Account";
