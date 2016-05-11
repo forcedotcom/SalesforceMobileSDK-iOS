@@ -46,7 +46,7 @@ class SalesforceTestCase: XCTestCase {
     
     func loginThroughUI() {
         // TODO move credentials to external file similar to test_credentials.json
-        loginDelegate.loginToSalesforce("sdktest@cs1.com", password:"test123456", host:Host.sandbox)
+        loginDelegate.loginToSalesforce("sdktest@cs1.com", password:"test1234", host:Host.sandbox)
     }
 
 }
