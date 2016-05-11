@@ -119,6 +119,8 @@ static NSException *authException = nil;
         [SFLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
+        [SFSmartStore removeAllStores];
+        
     } @catch (NSException *exception) {
         [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
         authException = exception;
@@ -138,7 +140,6 @@ static NSException *authException = nil;
     currentUser = [SFUserAccountManager sharedInstance].currentUser;
     syncManager = [SFSmartSyncSyncManager sharedInstance:currentUser];
     store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:currentUser];
-    
     [super setUp];
 }
 
@@ -699,7 +700,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesCreated];
+    [idToNames addEntriesFromDictionary:idToNamesCreated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
@@ -830,7 +835,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesUpdated];
+    [idToNames addEntriesFromDictionary:idToNamesUpdated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
