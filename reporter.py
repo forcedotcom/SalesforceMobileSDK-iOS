@@ -6,8 +6,8 @@ import sys
 
 for line in fileinput.input():
     if "write-file" in line:
-            sys.stdout.write('skipped')
-        else:
-            sys.stdout.write(line)
+        sys.stdout.write('skipped')
+    else:
+        sys.stdout.write(line)
 
 sys.stdout.write('\n')
