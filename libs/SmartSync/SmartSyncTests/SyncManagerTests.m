@@ -179,7 +179,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a SOQL target.
  */
-- (void)testCleanReSyncGhostsForSOQLTarget
+- (void)testCleanResyncGhostsForSOQLTarget
 {
 
     // Creates 3 accounts on the server.
@@ -205,10 +205,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-                [cleanReSyncGhosts fulfill];
+                [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -225,7 +225,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
-- (void)testCleanReSyncGhostsForMRUTarget
+- (void)testCleanResyncGhostsForMRUTarget
 {
 
     // Creates 3 accounts on the server.
@@ -246,10 +246,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-            [cleanReSyncGhosts fulfill];
+            [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -266,7 +266,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a SOSL target.
  */
-- (void)testCleanReSyncGhostsForSOSLTarget
+- (void)testCleanResyncGhostsForSOSLTarget
 {
 
     // Creates 1 account on the server.
@@ -288,10 +288,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-            [cleanReSyncGhosts fulfill];
+            [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
