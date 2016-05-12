@@ -65,7 +65,11 @@
 - (void)setUp
 {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    #if defined(DEBUG)
+        [SFLogger setLogLevel:SFLogLevelDebug];
+    #else
+        [SFLogger setLogLevel:SFLogLevelInfo];
+    #endif
 
     [[SFPasscodeManager sharedManager] resetPasscode];
     [SFPasscodeProviderManager resetCurrentPasscodeProviderName];

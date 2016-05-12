@@ -54,7 +54,11 @@ static NSString* const kCaseOneName = @"00001001";
 + (void)setUp
 {
     @try {
-        [SFLogger setLogLevel:SFLogLevelDebug];
+        #if defined(DEBUG)
+            [SFLogger setLogLevel:SFLogLevelDebug];
+        #else
+            [SFLogger setLogLevel:SFLogLevelInfo];
+        #endif
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     } @catch (NSException *exception) {

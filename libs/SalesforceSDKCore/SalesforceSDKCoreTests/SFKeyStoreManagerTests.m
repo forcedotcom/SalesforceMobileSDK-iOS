@@ -37,7 +37,11 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    #if defined(DEBUG)
+        [SFLogger setLogLevel:SFLogLevelDebug];
+    #else
+        [SFLogger setLogLevel:SFLogLevelInfo];
+    #endif
     
     // initialize passcode mgr
     [[SFPasscodeManager sharedManager] changePasscode: nil];

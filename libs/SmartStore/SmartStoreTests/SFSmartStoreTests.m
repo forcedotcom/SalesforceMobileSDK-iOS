@@ -63,7 +63,11 @@
 - (void) setUp
 {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    #if defined(DEBUG)
+        [SFLogger setLogLevel:SFLogLevelDebug];
+    #else
+        [SFLogger setLogLevel:SFLogLevelInfo];
+    #endif
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
