@@ -28,9 +28,14 @@ NSString * const kSoupIndexTypeString   = @"string";
 NSString * const kSoupIndexTypeInteger  = @"integer";
 NSString * const kSoupIndexTypeFloating = @"floating";
 NSString * const kSoupIndexTypeFullText = @"full_text";
+NSString * const kSoupIndexTypeJSON1    = @"json1";
 NSString * const kSoupIndexPath         = @"path";
 NSString * const kSoupIndexType         = @"type";
 NSString * const kSoupIndexColumnName   = @"columnName";
+
+SFIndexSpecTypeFilterBlock const kValueExtractedToColumn = ^BOOL (SFSoupIndex* idx) { return ![idx.indexType isEqualToString:kSoupIndexTypeJSON1]; };
+SFIndexSpecTypeFilterBlock const kValueExtractedToFtsColumn = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeFullText]; };;
+SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract = ^BOOL (SFSoupIndex* idx) { return [idx.indexType isEqualToString:kSoupIndexTypeJSON1]; };;
 
 
 @implementation SFSoupIndex
@@ -76,6 +81,8 @@ NSString * const kSoupIndexColumnName   = @"columnName";
         result = @"INTEGER";
     } else if ([self.indexType isEqualToString:kSoupIndexTypeFloating]) {
         result = @"REAL";
+    } else if ([self.indexType isEqualToString:kSoupIndexTypeJSON1]) {
+        result = nil;
     }
     return  result;
 }
