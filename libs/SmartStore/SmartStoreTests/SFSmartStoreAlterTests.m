@@ -99,7 +99,7 @@
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
     [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
-
+    
     
     // Check indices
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
@@ -135,16 +135,16 @@
     
     [self.store upsertEntries:@[@{kName:@"San Francisco", kPopulation:@825863}, @{kName:@"Paris", kPopulation:@2234105}]
                        toSoup:kTestSoupName];
-
+    
     // Query all sorted by population ascending - we should get Paris first because we indexed population as a string
     NSArray* results = [self.store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:kPopulation withOrder:kSFSoupQuerySortOrderAscending withPageSize:2 ] pageIndex:0 error:nil];
     XCTAssertEqualObjects(results[0][kName], @"Paris", "Paris should be first");
     XCTAssertEqualObjects(results[1][kName], @"San Francisco", "San Francisco should be second");
-
+    
     // Alter soup - index population as integer
     NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kName, @"type": @"string"}, @{@"path": kPopulation, @"type": @"integer"}]];
     [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
-
+    
     // Query all sorted by population ascending - we should get San Francisco first because we indexed population as an integer
     NSArray* results2 = [self.store queryWithQuerySpec:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:kPopulation withOrder:kSFSoupQuerySortOrderAscending withPageSize:2 ] pageIndex:0 error:nil];
     XCTAssertEqualObjects(results2[0][kName], @"San Francisco", "San Francisco should be first");
@@ -160,14 +160,14 @@
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
     [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
-
+    
     NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
                                                toSoup:kTestSoupName];
     
     // Check indices
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
-
+    
     // Check soup table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -179,15 +179,15 @@
     
     // Check fts table
     XCTAssertFalse([self hasTable:kTestSoupFtsTableName store:self.store], "No fts table expected");
-
+    
     // Alter soup - country now full_text
     NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"string"}, @{@"path": kCountry, @"type": @"full_text"}]];
     [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
-
+    
     // Check indices
     NSArray* actualIndexSpecsNew = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecsNew withExpectedIndexSpecs:indexSpecsNew checkColumnName:NO];
-
+    
     // Check soup table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -196,7 +196,7 @@
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
         [frs close];
     }];
-
+    
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCountryCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -242,14 +242,14 @@
     XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
     [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
     XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
-
+    
     NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
                                                toSoup:kTestSoupName];
     
     // Check indices
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
-
+    
     // Check soup table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -267,15 +267,15 @@
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
         [frs close];
     }];
-
+    
     // Alter soup - country now string
     NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": @"full_text"}, @{@"path": kCountry, @"type": @"string"}]];
     [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecsNew reIndexData:YES];
-
+    
     // Check indices
     NSArray* actualIndexSpecsNew = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecsNew withExpectedIndexSpecs:indexSpecsNew checkColumnName:NO];
-
+    
     // Check soup table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupTableName forColumns:nil orderBy:@"id ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -284,7 +284,7 @@
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
         [frs close];
     }];
-
+    
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
         FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:@[DOCID_COL, kCityCol] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
@@ -359,7 +359,7 @@
                                                         @{kLastName:@"Watson", kAddress: @{kCity: @"London", kStreet: @"50 market"}}]
                                                toSoup:kTestSoupName];
     
-
+    
     // Check indices
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:indexSpecs checkColumnName:NO];
@@ -407,7 +407,7 @@
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
         XCTAssertFalse([store soupExists:kTestSoupName], @"Soup %@ should not exist", kTestSoupName);
- 
+        
         // Register
         NSDictionary* lastNameSoupIndex = @{@"path": @"lastName",@"type": @"string"};
         NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[lastNameSoupIndex]];
