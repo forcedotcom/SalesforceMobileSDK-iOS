@@ -116,11 +116,7 @@ static NSException *authException = nil;
 + (void)setUp
 {
     @try {
-        #if defined(DEBUG)
-            [SFLogger setLogLevel:SFLogLevelDebug];
-        #else
-            [SFLogger setLogLevel:SFLogLevelInfo];
-        #endif
+        [SFLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
         [SFSmartStore removeAllStores];

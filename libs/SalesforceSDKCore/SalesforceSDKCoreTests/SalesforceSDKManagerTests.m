@@ -40,11 +40,7 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 
 + (void)setUp
 {
-    #if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-    #else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-    #endif
+    [SFLogger setLogLevel:SFLogLevelDebug];
 }
 
 - (void)setUp

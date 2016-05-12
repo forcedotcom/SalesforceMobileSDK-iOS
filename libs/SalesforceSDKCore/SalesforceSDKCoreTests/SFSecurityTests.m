@@ -46,11 +46,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 - (void)setUp {
     [super setUp];
     
-    #if defined(DEBUG)
-        [SFLogger setLogLevel:SFLogLevelDebug];
-    #else
-        [SFLogger setLogLevel:SFLogLevelInfo];
-    #endif
+    [SFLogger setLogLevel:SFLogLevelDebug];
     
     // No passcode, to start.
     [[SFPasscodeManager sharedManager] changePasscode:nil];
