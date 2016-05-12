@@ -37,4 +37,4 @@ script:
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    # run tests that don't need a host app
-   - travis_wait 20 set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme Everything -configuration Release test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -v 'write-file' | grep -v 'Compile'
+   - travis_wait 20 set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme Everything -configuration Release test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -v 'write-file' | grep -v 'DEBUG'
