@@ -67,10 +67,10 @@ extern NSString * const kSmartSyncPluginIdentifier;
 - (void)reSync:(CDVInvokedUrlCommand *)command;
 
 /**
- * Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanReSyncGhosts].
+ * Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanResyncGhosts].
  *
  * @param command Cordova arguments object containing "syncId".
  */
-- (void) cleanReSyncGhosts:(CDVInvokedUrlCommand *)command;
+- (void) cleanResyncGhosts:(CDVInvokedUrlCommand *)command;
 
 @end

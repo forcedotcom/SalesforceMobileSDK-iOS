@@ -105,9 +105,9 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         if (syncStatus == SFSyncStateStatusDone) {
-            [self log:SFLogLevelDebug format:@"cleanReSyncGhosts completed successfully"];
+            [self log:SFLogLevelDebug format:@"cleanResyncGhosts completed successfully"];
         } else {
-            [self log:SFLogLevelError format:@"cleanReSyncGhosts did not complete successfully"];
+            [self log:SFLogLevelError format:@"cleanResyncGhosts did not complete successfully"];
         }
     });
 }
@@ -159,14 +159,14 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
     } command:command];
 }
 
-- (void) cleanReSyncGhosts:(CDVInvokedUrlCommand *)command
+- (void) cleanResyncGhosts:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
         BOOL isGlobal = [self isGlobal:argsDict];
-        [self log:SFLogLevelDebug format:@"cleanReSyncGhosts with sync id: %@", syncId];
+        [self log:SFLogLevelDebug format:@"cleanResyncGhosts with sync id: %@", syncId];
         __weak SFSmartSyncPlugin *weakSelf = self;
-        [[self getSyncManagerInst:isGlobal] cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        [[self getSyncManagerInst:isGlobal] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
             [weakSelf handleGhostSyncUpdate:syncStatus];
         }];
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];

@@ -238,8 +238,8 @@
     [self runTest:@"testReSync"];
 }
 
-- (void)testCleanReSyncGhosts {
-    [self runTest:@"testCleanReSyncGhosts"];
+- (void)testCleanResyncGhosts {
+    [self runTest:@"testCleanResyncGhosts"];
 }
 
 - (void)testSyncUpLocallyUpdated {
