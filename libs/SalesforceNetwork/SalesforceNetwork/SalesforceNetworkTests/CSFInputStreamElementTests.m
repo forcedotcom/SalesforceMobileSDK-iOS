@@ -89,8 +89,12 @@
     NSInteger readCount = [element read:buffer maxLength:element.length];
     XCTAssertEqual(readCount, 79U);
     
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss";
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
     NSString *stringData = [[NSString alloc] initWithBytesNoCopy:buffer length:element.length encoding:NSUTF8StringEncoding freeWhenDone:YES];
-    XCTAssertEqualObjects(stringData, @"--FOO123\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T10:21:02Z\r\n");
+    NSString *expectedString = [NSString stringWithFormat:@"--FOO123\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n%@Z\r\n",dateString];
+    XCTAssertEqualObjects(stringData, expectedString);
 }
 
 - (void)testStringWithMimeTypeInputElement {

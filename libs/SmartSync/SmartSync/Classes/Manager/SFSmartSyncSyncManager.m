@@ -418,18 +418,18 @@ static NSMutableDictionary *syncMgrList = nil;
     [self syncUpOneEntry:sync recordIds:dirtyRecordIds index:0 updateSync:updateSync failBlock:failBlock];
 }
 
-- (void) cleanReSyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock {
     if ([self.runningSyncIds containsObject:syncId]) {
-        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:still running", syncId];
+        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:still running", syncId];
         return;
     }
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
     if (sync == nil) {
-        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:no sync found", syncId];
+        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:no sync found", syncId];
         return;
     }
     if (sync.type != SFSyncStateSyncTypeDown) {
-        [self log:SFLogLevelError format:@"Cannot run cleanReSyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
+        [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
     NSString* soupName = [sync soupName];
