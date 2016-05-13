@@ -1347,8 +1347,29 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 - (NSDictionary *)insertOneEntry:(NSDictionary*)entry inSoupTable:(NSString*)soupTableName indices:(NSArray*)indices withDb:(FMDatabase*) db
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
+    NSNumber *newEntryId;
+    
+    // Get next id
+    FMResultSet *frs = [self executeQueryThrows:@"SELECT seq FROM SQLITE_SEQUENCE WHERE name = ?" withArgumentsInArray:@[soupTableName] withDb:db];
+    if ([frs next]) {
+        newEntryId = [NSNumber numberWithLongLong:1LL + [frs longLongIntForColumnIndex:0]];
+    }
+    else {
+        // First time, we won't find any rows;
+        newEntryId = [NSNumber numberWithLongLong:1LL];
+    }
+    [frs close];
+
+    //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
+    NSMutableDictionary *mutableEntry = [entry mutableCopy];
+    [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
+    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
+    
+    //now update the SOUP_COL (raw json) for the soup entry
+    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+    
     NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        @"", SOUP_COL,
+                                        rawJson, SOUP_COL,
                                         nowVal, CREATED_COL,
                                         nowVal, LAST_MODIFIED_COL,
                                         nil];
@@ -1357,23 +1378,6 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
     [self projectIndexedPaths:entry values:values indices:indices typeFilter:kValueExtractedToColumn];
     [self insertIntoTable:soupTableName values:values withDb:db];
     
-    //set the newly-calculated entry ID so that our next update will update this entry (and not create a new one)
-    NSNumber *newEntryId = [NSNumber numberWithLongLong:[db lastInsertRowId]];
-    
-    //clone the entry so that we can insert the new SOUP_ENTRY_ID into the json
-    NSMutableDictionary *mutableEntry = [entry mutableCopy];
-    [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
-    [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
-    
-    //now update the SOUP_COL (raw json) for the soup entry
-    NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
-    NSArray *binds = @[rawJson,
-                      newEntryId];
-    NSString *updateSql = [NSString stringWithFormat:@"UPDATE %@ SET %@=? WHERE %@=?", soupTableName, SOUP_COL, ID_COL];
-    //    [self log:SFLogLevelDebug format:@"updateSql: \n %@ \n binds: %@",updateSql,binds];
-    
-    [self executeUpdateThrows:updateSql withArgumentsInArray:binds withDb:db];
-
     // fts
     if ([SFSoupIndex hasFts:indices]) {
         NSMutableDictionary *ftsValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
