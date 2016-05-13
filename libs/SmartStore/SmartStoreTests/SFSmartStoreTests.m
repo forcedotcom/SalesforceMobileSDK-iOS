@@ -191,9 +191,22 @@
 }
 
 /**
- * Test register/remove soup
+ * Test register/remove soup with only string indexes
+ * The underlying table's columns and indexes are checked
  */
-- (void) testRegisterRemoveSoup
+- (void) testRegisterRemoveSoupWithStringIndexes {
+    [self tryRegisterRemoveSoup:@"string"];
+}
+
+/**
+ * Test register/remove soup with json1 and string indexes
+ * The underlying table's columns and indexes are checked
+ */
+- (void) testRegisterRemoveSoupWithJSON1Indexes {
+    [self tryRegisterRemoveSoup:@"json1"];
+}
+
+- (void) tryRegisterRemoveSoup:(NSString*)indexType
 {
     NSUInteger const numRegisterAndDropIterations = 10;
     
@@ -204,12 +217,40 @@
             XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
             
             // Register
-            NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
             NSError* error = nil;
-            [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
+            [store registerSoup:kTestSoupName
+                 withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}, @{@"path": @"value",@"type": @"string"}]]
+                          error:&error];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
             XCTAssertNil(error, @"There should be no errors.");
+            NSString* soupTableName = [self getSoupTableName:kTestSoupName store:store];
+            
+            // Check soup indexes
+            NSString* expectedColumnName0 = ([indexType isEqualToString:@"json1"]
+                                             ? @"json_extract(soup, '$.key')"
+                                             : [NSString stringWithFormat:@"%@_0", soupTableName]);
+            NSString* expectedColumnName1 = [NSString stringWithFormat:@"%@_1", soupTableName];
+
+            NSArray* indexSpecs = [store indicesForSoup:kTestSoupName];
+            [self checkSoupIndex:(SFSoupIndex*)indexSpecs[0] expectedPath:@"key" expectedType:indexType expectedColumnName:expectedColumnName0];
+            [self checkSoupIndex:(SFSoupIndex*)indexSpecs[1] expectedPath:@"value" expectedType:@"string" expectedColumnName:expectedColumnName1];
+
+            // Check db columns
+            NSArray* expectedColumns = ([indexType isEqualToString:@"json1"]
+                                        ? @[@"id", @"soup", @"created", @"lastModified", expectedColumnName1]
+                                        : @[@"id", @"soup", @"created", @"lastModified", expectedColumnName0, expectedColumnName1]);
+            [self checkColumns:soupTableName
+               expectedColumns:expectedColumns
+                         store:store];
+            
+            // Check db indexes
+            NSString* indexSqlFormat = @"CREATE INDEX %@_%2$u_idx ON %1$@ ( %3$@ )";
+            [self checkDatabaseIndexes:soupTableName
+                 expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, soupTableName, 0, expectedColumnName0],
+                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, 1, expectedColumnName1]
+                                         ]
+                                 store:store];
             
             // Remove
             [store removeSoup:kTestSoupName];
