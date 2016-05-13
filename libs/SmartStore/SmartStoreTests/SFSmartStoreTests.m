@@ -294,6 +294,7 @@
         XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
         XCTAssertNil(error, @"There should be no errors.");
 
+        // Populate soup
         NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
         NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
         NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
@@ -354,6 +355,7 @@
         XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
         XCTAssertNil(error, @"There should be no errors.");
         
+        // Populate soup
         NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
         NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
         NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
@@ -409,6 +411,7 @@
         XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
         XCTAssertNil(error, @"There should be no errors.");
         
+        // Populate soup
         NSDictionary* soupElt1 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
         NSDictionary* soupElt2 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
         NSDictionary* soupElt3 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
@@ -460,6 +463,50 @@
     }
 }
 
+/**
+ * Test to verify an aggregate query on floating point values indexed as floating.
+ */
+-(void) testAggregateQueryOnFloatingIndexedField
+{
+    [self tryAggregateQueryOnIndexedField:kSoupIndexTypeFloating];
+}
+
+/**
+ * Test to verify an aggregate query on floating point values indexed as JSON1.
+ */
+- (void) testAggregateQueryOnJSON1IndexedField
+{
+    [self tryAggregateQueryOnIndexedField:kSoupIndexTypeJSON1];
+}
+
+- (void) tryAggregateQueryOnIndexedField:(NSString*) indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"amount",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt1 = @{@"amount": [NSNumber numberWithDouble:10.2]};
+        NSDictionary* soupElt2 = @{@"amount": [NSNumber numberWithDouble:9.9]};
+        [store upsertEntries:@[ soupElt1, soupElt2] toSoup:kTestSoupName];
+        
+        // Aggregate query
+        NSString* smartSql = [NSString stringWithFormat:@"SELECT SUM({%@:amount}) FROM {%@}", kTestSoupName, kTestSoupName];
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[[NSNumber numberWithDouble:20.1]]]
+                                           store:store];
+    }
+}
 
 -(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults store:(SFSmartStore*)store
 {
@@ -471,7 +518,6 @@
     // Check results
     [self assertSameJSONArrayWithExpected:expectedResults actual:results message:@"Wrong results"];
 }
-
 
 /**
  * Test registering same soup name multiple times.
