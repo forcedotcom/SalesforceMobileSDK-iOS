@@ -261,6 +261,219 @@
 }
 
 /**
+ * Test query when looking for all elements when soup has string index
+ */
+-(void) testAllQueryWithStringIndex
+{
+    [self tryAllQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test query when looking for all elements when soup has json1 index
+ */
+-(void) testAllQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test query when looking for all elements
+ */
+-(void) tryAllQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+
+        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Query all - small page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                                           store:store];
+        
+        // Query all - next small page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
+                                            page:1
+                                 expectedResults:@[soupEltsCreated[2]]
+                                           store:store];
+
+        // Query all - large page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]]
+                                           store:store];
+    }
+}
+
+/**
+ * Test range query when soup has string index
+ */
+-(void) testRangeQueryWithStringIndex
+{
+    [self tryRangeQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test range query when soup has json1 index
+ */
+-(void) testRangeQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test range query
+ */
+-(void) tryRangeQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Range query
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[2]]
+                                           store:store];
+        
+        // Range query - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
+                                           store:store];
+        
+    }
+}
+
+/**
+ * Test like query when soup has string index
+ */
+-(void) testLikeQueryWithStringIndex
+{
+    [self tryRangeQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test like query when soup has json1 index
+ */
+-(void) testLikeQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test like query
+ */
+-(void) tryLikeQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        NSDictionary* soupElt1 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt4 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3, soupElt4] toSoup:kTestSoupName];
+        
+         // Like query (starts with)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[0]]
+                                           store:store];
+        
+         
+         // Like query (ends with)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                                           store:store];
+        
+         
+         // Like query (starts with) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[2]]
+                                           store:store];
+        
+         
+         // Like query (ends with) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[0]]
+                                           store:store];
+        
+         
+         // Like query (contains)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[0], soupEltsCreated[1]]
+                                           store:store];
+        
+         
+         // Like query (contains) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[0], soupEltsCreated[2]]
+                                           store:store];
+    }
+}
+
+
+-(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults store:(SFSmartStore*)store
+{
+    // Run query
+    NSError* error = nil;
+    NSArray* results = [store queryWithQuerySpec:querySpec pageIndex:page error:&error];
+    XCTAssertNil(error, @"There should be no errors.");
+    
+    // Check results
+    [self assertSameJSONArrayWithExpected:expectedResults actual:results message:@"Wrong results"];
+}
+
+
+/**
  * Test registering same soup name multiple times.
  */
 - (void) testMultipleRegisterSameSoup
