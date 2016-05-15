@@ -74,6 +74,7 @@
 		82AF5AB71A0DAA8D006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AB11A0DAA8D006C7A4B /* CDVLogger.m */; };
 		82AF5ABB1A0DAAD6006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AB51A0DAA8D006C7A4B /* console-via-logger.js */; };
 		82AF5ABC1A0DAAD6006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AB61A0DAA8D006C7A4B /* logger.js */; };
+		CE2B8D9F1CE9330200C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3AE1C10C5B60012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3AD1C10C5B60012125E /* libz.tbd */; };
 		CE6AB3B01C10C5BD0012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3AF1C10C5BD0012125E /* libxml2.tbd */; };
 /* End PBXBuildFile section */
@@ -401,6 +402,41 @@
 			remoteGlobalIDString = CEA884431C191795008D871B;
 			remoteInfo = SalesforceHybridSDKStatic;
 		};
+		CE2B8D7F1CE932E800C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE2B8BCF1CE900F500C6FC6A;
+			remoteInfo = SalesforceAnalytics;
+		};
+		CE2B8D811CE932E800C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE2B8BD91CE900F500C6FC6A;
+			remoteInfo = SalesforceAnalyticsTests;
+		};
+		CE2B8D831CE932E800C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE2B8BFF1CE91BFA00C6FC6A;
+			remoteInfo = SalesforceAnalyticsStatic;
+		};
+		CE2B8D851CE932E800C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CE2B8C2A1CE9218900C6FC6A;
+			remoteInfo = SalesforceAnalyticsTestApp;
+		};
+		CE2B8D9D1CE932F300C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CE2B8BCE1CE900F500C6FC6A;
+			remoteInfo = SalesforceAnalytics;
+		};
 		CE4CE4C81C0E6813009F6029 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4FFEE5F61BFE912300B7AA8A /* SalesforceHybridSDK.xcodeproj */;
@@ -575,6 +611,7 @@
 		82AF5AB11A0DAA8D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AB51A0DAA8D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AB61A0DAA8D006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
+		CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3AD1C10C5B60012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB3AF1C10C5BD0012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -584,6 +621,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B8D9F1CE9330200C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				8236AD101C4D9FF5004B69B8 /* SalesforceHybridSDK.framework in Frameworks */,
 				8236ACF71C4D9F9F004B69B8 /* SalesforceSDKCore.framework in Frameworks */,
 				CE6AB3AE1C10C5B60012125E /* libz.tbd in Frameworks */,
@@ -778,6 +816,7 @@
 		824A9BD01721FCA400C9BD79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */,
 				8236ACAC1C4D9F44004B69B8 /* Lumberjack.xcodeproj */,
 				8236AC7C1C4D9EFC004B69B8 /* SalesforceSDKCore.xcodeproj */,
 				8236AC8C1C4D9F0E004B69B8 /* SmartStore.xcodeproj */,
@@ -915,6 +954,17 @@
 			path = www;
 			sourceTree = "<group>";
 		};
+		CE2B8D691CE932E800C6FC6A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */,
+				CE2B8D821CE932E800C6FC6A /* SalesforceAnalyticsTests.xctest */,
+				CE2B8D841CE932E800C6FC6A /* libSalesforceAnalytics.a */,
+				CE2B8D861CE932E800C6FC6A /* SalesforceAnalyticsTestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -935,6 +985,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE2B8D9E1CE932F300C6FC6A /* PBXTargetDependency */,
 				CE4CE4C91C0E6813009F6029 /* PBXTargetDependency */,
 				8236ACFA1C4D9F9F004B69B8 /* PBXTargetDependency */,
 				8236ACFF1C4D9FAA004B69B8 /* PBXTargetDependency */,
@@ -972,6 +1023,10 @@
 				{
 					ProductGroup = 8236ACAD1C4D9F44004B69B8 /* Products */;
 					ProjectRef = 8236ACAC1C4D9F44004B69B8 /* Lumberjack.xcodeproj */;
+				},
+				{
+					ProductGroup = CE2B8D691CE932E800C6FC6A /* Products */;
+					ProjectRef = CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */;
 				},
 				{
 					ProductGroup = 4FFEE5F71BFE912300B7AA8A /* Products */;
@@ -1279,6 +1334,34 @@
 			remoteRef = 82C5E3FF1C1B638D00376C00 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SalesforceAnalytics.framework;
+			remoteRef = CE2B8D7F1CE932E800C6FC6A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE2B8D821CE932E800C6FC6A /* SalesforceAnalyticsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SalesforceAnalyticsTests.xctest;
+			remoteRef = CE2B8D811CE932E800C6FC6A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE2B8D841CE932E800C6FC6A /* libSalesforceAnalytics.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSalesforceAnalytics.a;
+			remoteRef = CE2B8D831CE932E800C6FC6A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE2B8D861CE932E800C6FC6A /* SalesforceAnalyticsTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SalesforceAnalyticsTestApp.app;
+			remoteRef = CE2B8D851CE932E800C6FC6A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1345,6 +1428,11 @@
 			isa = PBXTargetDependency;
 			name = SalesforceHybridSDK;
 			targetProxy = 8236AD121C4D9FF5004B69B8 /* PBXContainerItemProxy */;
+		};
+		CE2B8D9E1CE932F300C6FC6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SalesforceAnalytics;
+			targetProxy = CE2B8D9D1CE932F300C6FC6A /* PBXContainerItemProxy */;
 		};
 		CE4CE4C91C0E6813009F6029 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

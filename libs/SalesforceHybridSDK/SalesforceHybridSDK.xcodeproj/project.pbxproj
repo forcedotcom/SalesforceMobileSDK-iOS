@@ -123,6 +123,8 @@
 		CE0AB0B51C10D63A00BFAEED /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1316EC3AE300BD1EA2 /* Security.framework */; };
 		CE0AB0B71C10D63A00BFAEED /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8251CA1516EC3AF900BD1EA2 /* SystemConfiguration.framework */; };
 		CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFDAD711C06918B009BCD6D /* libCordova.a */; };
+		CE2B8CFC1CE9322D00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */; };
+		CE2B8D001CE9324700C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4CE2E81C0E465B009F6029 /* SalesforceHybridSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; };
 		CE4CE2E91C0E465B009F6029 /* SalesforceHybridSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE4CE4501C0E5AD2009F6029 /* SFForcePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F22155619DF480100FF2D26 /* SFForcePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -519,6 +521,7 @@
 		CE0AB08C1C10D4F800BFAEED /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE0AB08E1C10D4FE00BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
 		CE0AB0901C10D50500BFAEED /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
+		CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE4CE2E11C0E465B009F6029 /* SalesforceHybridSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceHybridSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE65C2311C0FD51400319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
@@ -545,6 +548,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B8D001CE9324700C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */,
 				CE0AB0A51C10D60400BFAEED /* SalesforceHybridSDK.framework in Frameworks */,
 				CE0AB0981C10D5E400BFAEED /* SmartStore.framework in Frameworks */,
@@ -603,6 +607,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B8CFC1CE9322D00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */,
 				CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */,
 				CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */,
@@ -875,6 +880,7 @@
 		82EFF2D216E7C57100A63CDF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */,
 				CEA884851C191F60008D871B /* SalesforceSDKCore.framework */,
 				CEA884611C19186C008D871B /* libSmartStore.a */,
 				CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */,
