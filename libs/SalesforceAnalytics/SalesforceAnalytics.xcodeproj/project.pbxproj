@@ -24,14 +24,9 @@
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
 		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
-		CE2B8C3A1CE9218900C6FC6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C381CE9218900C6FC6A /* Main.storyboard */; };
-		CE2B8C3C1CE9218900C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
-		CE2B8C3F1CE9218900C6FC6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */; };
 		CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE2B8C451CE921E000C6FC6A /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C4D1CE9243600C6FC6A /* ViewController.m */; };
-		CE2B8C541CE9245B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
-		CE2B8C551CE9245B00C6FC6A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C511CE9245B00C6FC6A /* Images.xcassets */; };
 		CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */; };
 		CE2B8CAF1CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */; };
 		CE2B8CB01CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */; };
@@ -41,6 +36,8 @@
 		CE2B8CB41CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */; };
 		CE2B8CB51CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */; };
 		CE2B8CB61CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */; };
+		CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
+		CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,14 +81,11 @@
 		CE2B8C2D1CE9218900C6FC6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CE2B8C301CE9218900C6FC6A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		CE2B8C391CE9218900C6FC6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		CE2B8C3E1CE9218900C6FC6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SalesforceAnalyticsTestApp-Prefix.pch"; sourceTree = "<group>"; };
 		CE2B8C4C1CE9243600C6FC6A /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		CE2B8C4D1CE9243600C6FC6A /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CE2B8C501CE9245B00C6FC6A /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
-		CE2B8C511CE9245B00C6FC6A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SalesforceAnalyticsTestApp-Info.plist"; sourceTree = "<group>"; };
 		CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Dynamic.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Dynamic.xcconfig"; sourceTree = "<group>"; };
 		CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Common-Static.xcconfig"; path = "Configuration/SalesforceAnalytics-Common-Static.xcconfig"; sourceTree = "<group>"; };
@@ -178,16 +172,13 @@
 			isa = PBXGroup;
 			children = (
 				CE2B8C501CE9245B00C6FC6A /* en.lproj */,
-				CE2B8C511CE9245B00C6FC6A /* Images.xcassets */,
 				CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */,
 				CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */,
 				CE2B8C4C1CE9243600C6FC6A /* ViewController.h */,
 				CE2B8C4D1CE9243600C6FC6A /* ViewController.m */,
 				CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */,
 				CE2B8C301CE9218900C6FC6A /* AppDelegate.m */,
-				CE2B8C381CE9218900C6FC6A /* Main.storyboard */,
 				CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */,
-				CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */,
 				CE2B8C2C1CE9218900C6FC6A /* Supporting Files */,
 			);
 			path = SalesforceAnalyticsTestApp;
@@ -387,11 +378,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE2B8C3F1CE9218900C6FC6A /* LaunchScreen.storyboard in Resources */,
-				CE2B8C3C1CE9218900C6FC6A /* Assets.xcassets in Resources */,
-				CE2B8C551CE9245B00C6FC6A /* Images.xcassets in Resources */,
-				CE2B8C541CE9245B00C6FC6A /* en.lproj in Resources */,
-				CE2B8C3A1CE9218900C6FC6A /* Main.storyboard in Resources */,
+				CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */,
+				CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */,
 				CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,25 +474,6 @@
 			targetProxy = CE2B8C491CE9233700C6FC6A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		CE2B8C381CE9218900C6FC6A /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CE2B8C391CE9218900C6FC6A /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CE2B8C3E1CE9218900C6FC6A /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CE2B8BE11CE900F500C6FC6A /* Debug */ = {
@@ -647,7 +616,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = "SalesforceAnalyticsTests/SalesforceAnalyticsTests-Info.plist";
+				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
@@ -661,7 +630,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */;
 			buildSettings = {
-				INFOPLIST_FILE = "SalesforceAnalyticsTests/SalesforceAnalyticsTests-Info.plist";
+				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
