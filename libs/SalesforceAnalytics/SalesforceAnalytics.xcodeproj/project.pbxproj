@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8BDA1CE900F500C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
-		CE2B8BF81CE903C900C6FC6A /* Configuration in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8BF71CE903C900C6FC6A /* Configuration */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +27,7 @@
 		CE2B8BD41CE900F500C6FC6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BF71CE903C900C6FC6A /* Configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configuration; sourceTree = "<group>"; };
+		CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +43,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8BDA1CE900F500C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE2B8BFC1CE91BFA00C6FC6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +71,7 @@
 			children = (
 				CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */,
 				CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */,
+				CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +103,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE2B8C081CE91DC600C6FC6A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -106,6 +121,8 @@
 				CE2B8BCB1CE900F500C6FC6A /* Frameworks */,
 				CE2B8BCC1CE900F500C6FC6A /* Headers */,
 				CE2B8BCD1CE900F500C6FC6A /* Resources */,
+				CE2B8BF91CE91AAC00C6FC6A /* ShellScript */,
+				CE2B8BFA1CE91AC700C6FC6A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -134,6 +151,23 @@
 			productReference = CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		CE2B8BFE1CE91BFA00C6FC6A /* SalesforceAnalyticsStatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE2B8C051CE91BFA00C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsStatic" */;
+			buildPhases = (
+				CE2B8BFB1CE91BFA00C6FC6A /* Sources */,
+				CE2B8BFC1CE91BFA00C6FC6A /* Frameworks */,
+				CE2B8C081CE91DC600C6FC6A /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SalesforceAnalyticsStatic;
+			productName = SalesforceAnalyticsStatic;
+			productReference = CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -147,6 +181,9 @@
 						CreatedOnToolsVersion = 7.3.1;
 					};
 					CE2B8BD81CE900F500C6FC6A = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					CE2B8BFE1CE91BFA00C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -165,6 +202,7 @@
 			targets = (
 				CE2B8BCE1CE900F500C6FC6A /* SalesforceAnalytics */,
 				CE2B8BD81CE900F500C6FC6A /* SalesforceAnalyticsTests */,
+				CE2B8BFE1CE91BFA00C6FC6A /* SalesforceAnalyticsStatic */,
 			);
 		};
 /* End PBXProject section */
@@ -174,7 +212,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE2B8BF81CE903C900C6FC6A /* Configuration in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +224,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CE2B8BF91CE91AAC00C6FC6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/../../shared/common/build/tools/generate_headers.sh\" -o \"$TARGET_BUILD_DIR/$PRODUCT_NAME.framework/Headers/$PRODUCT_NAME.h\" -u \"$SRCROOT/$TARGET_NAME/$TARGET_NAME.h\"";
+		};
+		CE2B8BFA1CE91AC700C6FC6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkanalytics";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CE2B8BCA1CE900F500C6FC6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -196,6 +262,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CE2B8BD51CE900F500C6FC6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE2B8BFB1CE91BFA00C6FC6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -308,6 +381,10 @@
 		CE2B8BE41CE900F500C6FC6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -316,15 +393,19 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SalesforceAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		CE2B8BE51CE900F500C6FC6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -333,9 +414,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SalesforceAnalytics;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -356,6 +439,51 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SalesforceAnalyticsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		CE2B8C061CE91BFA00C6FC6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
+				PRODUCT_NAME = SalesforceAnalytics;
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE2B8C071CE91BFA00C6FC6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/Headers",
+					"$(TARGET_BUILD_DIR)/Headers",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = "PrivateHeaders/$(PRODUCT_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalytics;
+				PRODUCT_NAME = SalesforceAnalytics;
+				PUBLIC_HEADERS_FOLDER_PATH = "Headers/$(PRODUCT_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -384,6 +512,14 @@
 			buildConfigurations = (
 				CE2B8BE71CE900F500C6FC6A /* Debug */,
 				CE2B8BE81CE900F500C6FC6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CE2B8C051CE91BFA00C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsStatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE2B8C061CE91BFA00C6FC6A /* Debug */,
+				CE2B8C071CE91BFA00C6FC6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
