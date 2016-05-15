@@ -6,20 +6,65 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		CE2B8C091CE91F9200C6FC6A /* Documentation */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = CE2B8C0A1CE91F9200C6FC6A /* Build configuration list for PBXAggregateTarget "Documentation" */;
+			buildPhases = (
+				CE2B8C0D1CE91FD400C6FC6A /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Documentation;
+			productName = Documentation;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8BDA1CE900F500C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
+		CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C2D1CE9218900C6FC6A /* main.m */; };
+		CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C301CE9218900C6FC6A /* AppDelegate.m */; };
+		CE2B8C3A1CE9218900C6FC6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C381CE9218900C6FC6A /* Main.storyboard */; };
+		CE2B8C3C1CE9218900C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
+		CE2B8C3F1CE9218900C6FC6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */; };
+		CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
+		CE2B8C451CE921E000C6FC6A /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C4D1CE9243600C6FC6A /* ViewController.m */; };
+		CE2B8C541CE9245B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
+		CE2B8C551CE9245B00C6FC6A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C511CE9245B00C6FC6A /* Images.xcassets */; };
+		CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		CE2B8BDB1CE900F500C6FC6A /* PBXContainerItemProxy */ = {
+		CE2B8C461CE921E000C6FC6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE2B8BC61CE900F500C6FC6A /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CE2B8BCE1CE900F500C6FC6A;
 			remoteInfo = SalesforceAnalytics;
 		};
+		CE2B8C491CE9233700C6FC6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE2B8BC61CE900F500C6FC6A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE2B8C291CE9218900C6FC6A;
+			remoteInfo = SalesforceAnalyticsTestApp;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE2B8C481CE921E000C6FC6A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				CE2B8C451CE921E000C6FC6A /* SalesforceAnalytics.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,6 +73,19 @@
 		CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SalesforceAnalyticsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BF71CE903C900C6FC6A /* Configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configuration; sourceTree = "<group>"; };
 		CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceAnalytics.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceAnalyticsTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE2B8C2D1CE9218900C6FC6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CE2B8C301CE9218900C6FC6A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CE2B8C391CE9218900C6FC6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE2B8C3E1CE9218900C6FC6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SalesforceAnalyticsTestApp-Prefix.pch"; sourceTree = "<group>"; };
+		CE2B8C4C1CE9243600C6FC6A /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		CE2B8C4D1CE9243600C6FC6A /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CE2B8C501CE9245B00C6FC6A /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
+		CE2B8C511CE9245B00C6FC6A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SalesforceAnalyticsTestApp-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +100,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE2B8BDA1CE900F500C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +107,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE2B8C271CE9218900C6FC6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +127,7 @@
 				CE2B8BF71CE903C900C6FC6A /* Configuration */,
 				CE2B8BD11CE900F500C6FC6A /* SalesforceAnalytics */,
 				CE2B8BDD1CE900F500C6FC6A /* SalesforceAnalyticsTests */,
+				CE2B8C2B1CE9218900C6FC6A /* SalesforceAnalyticsTestApp */,
 				CE2B8BD01CE900F500C6FC6A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,6 +138,7 @@
 				CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */,
 				CE2B8BD91CE900F500C6FC6A /* SalesforceAnalyticsTests.xctest */,
 				CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */,
+				CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,6 +157,33 @@
 			children = (
 			);
 			path = SalesforceAnalyticsTests;
+			sourceTree = "<group>";
+		};
+		CE2B8C2B1CE9218900C6FC6A /* SalesforceAnalyticsTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				CE2B8C501CE9245B00C6FC6A /* en.lproj */,
+				CE2B8C511CE9245B00C6FC6A /* Images.xcassets */,
+				CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */,
+				CE2B8C4B1CE9243600C6FC6A /* SalesforceAnalyticsTestApp-Prefix.pch */,
+				CE2B8C4C1CE9243600C6FC6A /* ViewController.h */,
+				CE2B8C4D1CE9243600C6FC6A /* ViewController.m */,
+				CE2B8C2F1CE9218900C6FC6A /* AppDelegate.h */,
+				CE2B8C301CE9218900C6FC6A /* AppDelegate.m */,
+				CE2B8C381CE9218900C6FC6A /* Main.storyboard */,
+				CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */,
+				CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */,
+				CE2B8C2C1CE9218900C6FC6A /* Supporting Files */,
+			);
+			path = SalesforceAnalyticsTestApp;
+			sourceTree = "<group>";
+		};
+		CE2B8C2C1CE9218900C6FC6A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CE2B8C2D1CE9218900C6FC6A /* main.m */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,7 +238,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE2B8BDC1CE900F500C6FC6A /* PBXTargetDependency */,
+				CE2B8C4A1CE9233700C6FC6A /* PBXTargetDependency */,
 			);
 			name = SalesforceAnalyticsTests;
 			productName = SalesforceAnalyticsTests;
@@ -168,6 +262,25 @@
 			productReference = CE2B8BFF1CE91BFA00C6FC6A /* libSalesforceAnalytics.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		CE2B8C291CE9218900C6FC6A /* SalesforceAnalyticsTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE2B8C411CE9218900C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsTestApp" */;
+			buildPhases = (
+				CE2B8C261CE9218900C6FC6A /* Sources */,
+				CE2B8C271CE9218900C6FC6A /* Frameworks */,
+				CE2B8C281CE9218900C6FC6A /* Resources */,
+				CE2B8C481CE921E000C6FC6A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE2B8C471CE921E000C6FC6A /* PBXTargetDependency */,
+			);
+			name = SalesforceAnalyticsTestApp;
+			productName = SalesforceAnalyticsTestApp;
+			productReference = CE2B8C2A1CE9218900C6FC6A /* SalesforceAnalyticsTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -182,8 +295,15 @@
 					};
 					CE2B8BD81CE900F500C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = CE2B8C291CE9218900C6FC6A;
 					};
 					CE2B8BFE1CE91BFA00C6FC6A = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					CE2B8C091CE91F9200C6FC6A = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					CE2B8C291CE9218900C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
@@ -194,6 +314,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CE2B8BC51CE900F500C6FC6A;
 			productRefGroup = CE2B8BD01CE900F500C6FC6A /* Products */;
@@ -203,6 +324,8 @@
 				CE2B8BCE1CE900F500C6FC6A /* SalesforceAnalytics */,
 				CE2B8BD81CE900F500C6FC6A /* SalesforceAnalyticsTests */,
 				CE2B8BFE1CE91BFA00C6FC6A /* SalesforceAnalyticsStatic */,
+				CE2B8C091CE91F9200C6FC6A /* Documentation */,
+				CE2B8C291CE9218900C6FC6A /* SalesforceAnalyticsTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -219,6 +342,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE2B8C281CE9218900C6FC6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE2B8C3F1CE9218900C6FC6A /* LaunchScreen.storyboard in Resources */,
+				CE2B8C3C1CE9218900C6FC6A /* Assets.xcassets in Resources */,
+				CE2B8C551CE9245B00C6FC6A /* Images.xcassets in Resources */,
+				CE2B8C541CE9245B00C6FC6A /* en.lproj in Resources */,
+				CE2B8C3A1CE9218900C6FC6A /* Main.storyboard in Resources */,
+				CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +387,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PROJECT_DIR}/../../shared/common/build/tools/update_podspec_headers.sh\" -s sdkanalytics";
 		};
+		CE2B8C0D1CE91FD400C6FC6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "docOutputDir=\"${PROJECT_DIR}/../../build/artifacts/doc/build_out/${PROJECT_NAME}\"\nif [ ! -d \"$docOutputDir\" ]; then\nmkdir -p \"$docOutputDir\"\nfi\n\n/usr/bin/headerdoc2html \\\n-o \"$docOutputDir\" \\\n${PROJECT_DIR}/SalesforceAnalytics/ -j -C -L -N -Q -t --tocformat=\"default\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -275,15 +424,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CE2B8C261CE9218900C6FC6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
+				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
+				CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		CE2B8BDC1CE900F500C6FC6A /* PBXTargetDependency */ = {
+		CE2B8C471CE921E000C6FC6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CE2B8BCE1CE900F500C6FC6A /* SalesforceAnalytics */;
-			targetProxy = CE2B8BDB1CE900F500C6FC6A /* PBXContainerItemProxy */;
+			targetProxy = CE2B8C461CE921E000C6FC6A /* PBXContainerItemProxy */;
+		};
+		CE2B8C4A1CE9233700C6FC6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE2B8C291CE9218900C6FC6A /* SalesforceAnalyticsTestApp */;
+			targetProxy = CE2B8C491CE9233700C6FC6A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE2B8C381CE9218900C6FC6A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE2B8C391CE9218900C6FC6A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE2B8C3D1CE9218900C6FC6A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE2B8C3E1CE9218900C6FC6A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CE2B8BE11CE900F500C6FC6A /* Debug */ = {
@@ -425,20 +608,26 @@
 		CE2B8BE71CE900F500C6FC6A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SalesforceAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = "SalesforceAnalyticsTests/SalesforceAnalyticsTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SalesforceAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceAnalyticsTestApp.app/SalesforceAnalyticsTestApp";
 			};
 			name = Debug;
 		};
 		CE2B8BE81CE900F500C6FC6A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = SalesforceAnalyticsTests/Info.plist;
+				INFOPLIST_FILE = "SalesforceAnalyticsTests/SalesforceAnalyticsTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SalesforceAnalyticsTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.salesforce.mobilesdk.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SalesforceAnalyticsTestApp.app/SalesforceAnalyticsTestApp";
 			};
 			name = Release;
 		};
@@ -487,6 +676,61 @@
 			};
 			name = Release;
 		};
+		CE2B8C0B1CE91F9200C6FC6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CE2B8C0C1CE91F9200C6FC6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		CE2B8C421CE9218900C6FC6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalyticsTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE2B8C431CE9218900C6FC6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.mobilesdk.SalesforceAnalyticsTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -520,6 +764,22 @@
 			buildConfigurations = (
 				CE2B8C061CE91BFA00C6FC6A /* Debug */,
 				CE2B8C071CE91BFA00C6FC6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CE2B8C0A1CE91F9200C6FC6A /* Build configuration list for PBXAggregateTarget "Documentation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE2B8C0B1CE91F9200C6FC6A /* Debug */,
+				CE2B8C0C1CE91F9200C6FC6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		CE2B8C411CE9218900C6FC6A /* Build configuration list for PBXNativeTarget "SalesforceAnalyticsTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE2B8C421CE9218900C6FC6A /* Debug */,
+				CE2B8C431CE9218900C6FC6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
