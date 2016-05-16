@@ -36,6 +36,18 @@ static BOOL sPopulatedAuthCredentials = NO;
 
 @implementation TestSetupUtils
 
++ (NSDictionary *)populateUILoginInfoFromConfigFileForClass:(Class)testClass
+{
+    NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"ui_test_credentials" ofType:@"json"];
+    NSAssert(nil != tokenPath, @"UI test config file not found!");
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    NSData *tokenJson = [fm contentsAtPath:tokenPath];
+    id jsonResponse = [SFJsonUtils objectFromJSONData:tokenJson];
+    NSAssert(jsonResponse != nil, @"Error parsing JSON from config file: %@", [SFJsonUtils lastError]);
+    NSDictionary *dictResponse = (NSDictionary *)jsonResponse;
+    return dictResponse;
+}
+
 + (SFSDKTestCredentialsData *)populateAuthCredentialsFromConfigFileForClass:(Class)testClass
 {
     NSString *tokenPath = [[NSBundle bundleForClass:testClass] pathForResource:@"test_credentials" ofType:@"json"];
