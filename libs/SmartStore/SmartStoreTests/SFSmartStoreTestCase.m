@@ -191,9 +191,11 @@
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)
     {
-        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
-        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
-        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        if (kValueExtractedToColumn(soupIndex)) {
+            NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+            NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+            XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        }
     }
     
     // Check soup column
@@ -210,7 +212,7 @@
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)
     {
-        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeFullText]) {
+        if (kValueExtractedToFtsColumn(soupIndex)) {
             NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
             NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
             XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
