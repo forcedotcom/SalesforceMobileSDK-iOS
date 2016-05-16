@@ -99,6 +99,7 @@
     XCTAssertFalse(network.refreshingAccessToken);
     XCTAssertNil(network.defaultConnectCommunityId);
     XCTAssertFalse(network.networkSuspended);
+    [network setNetworkSuspended:YES];
     
     CSFSalesforceAction *action1 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
     CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
@@ -106,15 +107,18 @@
     // Setting verbs and methods (values do not matter - but can't be nil otherwise it confuses duplicateActionInFlight/isEqualToAction
     action1.method = action2.method = @"GET";
     action1.verb = action2.verb = @"/xyz";
-
+    
     [network executeAction:action1];
+    [NSThread sleepForTimeInterval:1];
     XCTAssertEqual(network.actionCount, 1);
     
     [network executeAction:action2];
+    [NSThread sleepForTimeInterval:1];
     XCTAssertEqual(network.actionCount, 2);
     
     CSFAction *duplicateAction = [network duplicateActionInFlight:action2];
-    XCTAssertEqual(duplicateAction, action1);
+    [NSThread sleepForTimeInterval:1];
+    XCTAssertEqual(duplicateAction, action2);
     XCTAssertTrue([action2.dependencies containsObject:action1]);
 }
 
