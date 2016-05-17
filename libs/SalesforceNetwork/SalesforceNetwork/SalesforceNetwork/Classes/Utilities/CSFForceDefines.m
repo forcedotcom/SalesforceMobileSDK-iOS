@@ -23,7 +23,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 #include "CSFForceDefines.h"
 
