@@ -46,7 +46,6 @@ class SalesforceTestCase: XCTestCase {
     }
     
     func loginThroughUI() {
-        // TODO move credentials to external file similar to test_credentials.json
         let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
         loginDelegate.loginToSalesforce(String(loginInfo.valueForKey("username")), password:(String(loginInfo.valueForKey("password"))), host:Host.sandbox)
     }
