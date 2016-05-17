@@ -67,6 +67,8 @@
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
+    self.store.captureExplainQueryPlan = YES;
+    self.globalStore.captureExplainQueryPlan = YES;
 }
 
 - (void) tearDown
@@ -305,18 +307,21 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
         // Query all - next small page
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
                                             page:1
                                  expectedResults:@[soupEltsCreated[2]]
+                             expectedDbOperation:@"SCAN"
                                            store:store];
 
         // Query all - large page
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]]
+                             expectedDbOperation:@"SCAN"
                                            store:store];
     }
 }
@@ -366,12 +371,14 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
         // Range query - descending order
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
     }
@@ -424,6 +431,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[0]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
          
@@ -431,6 +439,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
          
@@ -438,6 +447,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
          
@@ -445,6 +455,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[0]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
          
@@ -452,6 +463,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
         
          
@@ -459,6 +471,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[0], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
                                            store:store];
     }
 }
@@ -504,11 +517,12 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
                                             page:0
                                  expectedResults:@[@[[NSNumber numberWithDouble:20.1]]]
+                             expectedDbOperation:nil
                                            store:store];
     }
 }
 
--(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults store:(SFSmartStore*)store
+-(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults expectedDbOperation:(NSString*)expectedDbOperation store:(SFSmartStore*)store
 {
     // Run query
     NSError* error = nil;
@@ -517,6 +531,11 @@
     
     // Check results
     [self assertSameJSONArrayWithExpected:expectedResults actual:results message:@"Wrong results"];
+    
+    // Check explain plan and make sure index was used unless caller passed nil for expectedDbOperation
+    if (expectedDbOperation) {
+        [self checkExplainQueryPlan:kTestSoupName index:0 dbOperation:expectedDbOperation store:store];
+    }
 }
 
 /**

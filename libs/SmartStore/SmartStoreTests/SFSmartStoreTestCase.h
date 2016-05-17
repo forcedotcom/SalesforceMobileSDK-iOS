@@ -41,6 +41,8 @@
 
 - (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
 - (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store;
+
+- (void) checkExplainQueryPlan:(NSString*)soupName index:(NSUInteger)index dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store;
 - (void) checkColumns:(NSString*)tableName expectedColumns:(NSArray*)expectedColumns store:(SFSmartStore*)store;
 - (void) checkDatabaseIndexes:(NSString*)tableName expectedSqlStatements:(NSArray*)expectedSqlStatements store:(SFSmartStore*)store;
 - (void) checkSoupIndex:(SFSoupIndex*)indexSpec expectedPath:(NSString*)expectedPath expectedType:(NSString*)expectedType expectedColumnName:(NSString*)expectedColumnName ;

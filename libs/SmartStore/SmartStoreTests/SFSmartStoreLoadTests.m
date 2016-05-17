@@ -39,7 +39,7 @@
 
 @implementation SFSmartStoreLoadTests
 
-#define NUMBER_ENTRIES           10000
+#define NUMBER_ENTRIES           1000//0
 #define NUMBER_ENTRIES_PER_BATCH 100
 #define MS_IN_S                  1000
 #define TEST_SMARTSTORE          @"testSmartStore"

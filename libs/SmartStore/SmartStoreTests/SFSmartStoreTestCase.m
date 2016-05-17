@@ -142,6 +142,15 @@
     
 }
 
+- (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store
+{
+    NSString* soupTableName = [self getSoupTableName:soupName store:store];
+    NSString* indexName = [NSString stringWithFormat:@"%@_%u_idx", soupTableName, index];
+    NSString* expectedDetailPrefix = [NSString stringWithFormat:@"%@ TABLE %@ USING INDEX %@", dbOperation, soupTableName, indexName];
+    NSString* detail = ((NSArray*)store.lastExplainQueryPlan[EXPLAIN_ROWS])[0][@"detail"];
+    XCTAssertTrue([detail hasPrefix:expectedDetailPrefix]);
+}
+
 - (void) checkColumns:(NSString*)tableName expectedColumns:(NSArray*)expectedColumns store:(SFSmartStore*)store {
     __block NSMutableArray* actualColumns = [NSMutableArray new];
     [store.storeQueue inDatabase:^(FMDatabase* db) {

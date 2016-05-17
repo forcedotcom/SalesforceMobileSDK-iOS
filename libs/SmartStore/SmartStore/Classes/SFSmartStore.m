@@ -97,13 +97,12 @@ NSString *const STATUS_COL = @"status";
 NSString *const SOUP_ENTRY_ID = @"_soupEntryId";
 NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 
-@implementation SFSmartStore
+// Explain support
+NSString *const EXPLAIN_SQL = @"sql";
+NSString *const EXPLAIN_ARGS = @"args";
+NSString *const EXPLAIN_ROWS = @"rows";
 
-@synthesize storeQueue = _storeQueue;
-@synthesize storeName = _storeName;
-@synthesize user = _user;
-@synthesize isGlobal = _isGlobal;
-@synthesize dbMgr = _dbMgr;
+@implementation SFSmartStore
 
 + (void)initialize
 {
@@ -533,6 +532,26 @@ NSString *const SOUP_LAST_MODIFIED_DATE = @"_soupLastModifiedDate";
 }
 
 - (FMResultSet*) executeQueryThrows:(NSString*)sql withArgumentsInArray:(NSArray*)arguments withDb:(FMDatabase*)db {
+    if (self.captureExplainQueryPlan) {
+        NSString* explainSql = [NSString stringWithFormat:@"EXPLAIN QUERY PLAN %@", sql];
+        NSMutableDictionary* lastPlan = [NSMutableDictionary new];
+        lastPlan[EXPLAIN_SQL] = explainSql;
+        if (arguments.count > 0) lastPlan[EXPLAIN_ARGS] = arguments;
+        NSMutableArray* explainRows = [NSMutableArray new];
+        
+        FMResultSet* frs = [db executeQuery:explainSql withArgumentsInArray:arguments];
+        while ([frs next]) {
+            NSMutableDictionary* explainRow = [NSMutableDictionary new];
+            for (NSUInteger i=0; i<frs.columnCount; i++) {
+                explainRow[[frs columnNameForIndex:i]] = [frs stringForColumnIndex:i];
+            }
+            [explainRows addObject:explainRow];
+        }
+        [frs close];
+        lastPlan[EXPLAIN_ROWS] = explainRows;
+        self.lastExplainQueryPlan = lastPlan;
+    }
+    
     FMResultSet* result = [db executeQuery:sql withArgumentsInArray:arguments];
     if (!result) {
         [self logAndThrowLastError:[NSString stringWithFormat:@"executeQuery [%@] failed", sql] withDb:db];
