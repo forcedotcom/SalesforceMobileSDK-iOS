@@ -15,7 +15,7 @@ typedef enum : NSInteger {
 	SFSDKReachabilityNotReachable = 0,
 	SFSDKReachabilityReachableViaWiFi,
 	SFSDKReachabilityReachableViaWWAN
-} NetworkStatus;
+} SFSDKReachabilityNetworkStatus;
 
 #pragma mark IPv6 Support
 //Reachability fully support IPv6.  For full details, see ReadMe.md.

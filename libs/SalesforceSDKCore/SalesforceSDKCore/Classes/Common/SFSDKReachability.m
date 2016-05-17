@@ -172,7 +172,7 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 		return SFSDKReachabilityNotReachable;
 	}
 
-    NetworkStatus returnValue = SFSDKReachabilityNotReachable;
+    SFSDKReachabilityNetworkStatus returnValue = SFSDKReachabilityNotReachable;
 
 	if ((flags & kSCNetworkReachabilityFlagsConnectionRequired) == 0)
 	{
