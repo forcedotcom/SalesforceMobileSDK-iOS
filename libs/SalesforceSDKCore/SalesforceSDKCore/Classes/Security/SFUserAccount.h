@@ -23,7 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 #import "SFUserAccountConstants.h"
 
 NS_ASSUME_NONNULL_BEGIN
