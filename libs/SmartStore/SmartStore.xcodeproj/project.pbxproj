@@ -31,6 +31,7 @@
 		4F06AFF11C49D53D00F70798 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE2B91C0E4581009F6029 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F883C761C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F883C751C16279F007D4BAE /* SalesforceSDKManagerWithSmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4F883C7B1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F883C7A1C1627BD007D4BAE /* SalesforceSDKManagerWithSmartStore.m */; };
+		4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */; };
 		4FEE44851BFD5CCC00F09C43 /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */; };
 		4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */; };
 		4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */; };
@@ -257,6 +258,8 @@
 		4F96FC4E1BFD31EF0022F021 /* SmartStore-Static-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Debug.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		4F96FC4F1BFD31EF0022F021 /* SmartStore-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Static-iOS-Release.xcconfig"; path = "Configuration/SmartStore-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		4F96FC501BFD31EF0022F021 /* SmartStore-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SmartStore-Test.xcconfig"; path = "Configuration/SmartStore-Test.xcconfig"; sourceTree = "<group>"; };
+		4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreLoadTests.m; sourceTree = "<group>"; };
+		4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSmartStoreLoadTests.h; sourceTree = "<group>"; };
 		4FFEE6341BFE98B600B7AA8A /* SmartStoreTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SmartStoreTests-Info.plist"; path = "SmartStoreTests/SmartStoreTests-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8289177A1C52B705002F9981 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = ../../../../external/fmdb/src/fmdb/FMDatabase.h; sourceTree = "<group>"; };
 		8289177B1C52B705002F9981 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = ../../../../external/fmdb/src/fmdb/FMDatabase.m; sourceTree = "<group>"; };
@@ -480,10 +483,12 @@
 		CEAAAE5E195911E600CBBFE9 /* SmartStoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */,
 				4F9601531BFD33B30022F021 /* SFSmartSqlTests.h */,
 				4F9601541BFD33B30022F021 /* SFSmartSqlTests.m */,
 				4F9601551BFD33B30022F021 /* SFSmartStoreAlterTests.h */,
 				4F9601561BFD33B30022F021 /* SFSmartStoreAlterTests.m */,
+				4F99B53B1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m */,
 				4F9601571BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.h */,
 				4F9601581BFD33B30022F021 /* SFSmartStoreFullTextSearchSpeedTests.m */,
 				4F9601591BFD33B30022F021 /* SFSmartStoreFullTextSearchTests.h */,
@@ -884,6 +889,7 @@
 				4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */,
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlTests.m in Sources */,
 				4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */,
+				4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */,
 				4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */,
 				4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */,
 				4FEE44871BFD5CD500F09C43 /* SFSmartStoreFullTextSearchSpeedTests.m in Sources */,

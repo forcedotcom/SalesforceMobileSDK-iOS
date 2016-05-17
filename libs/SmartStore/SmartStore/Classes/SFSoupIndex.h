@@ -30,6 +30,17 @@ extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeInteger;
 extern NSString * const kSoupIndexTypeFloating;
 extern NSString * const kSoupIndexTypeFullText;
+extern NSString * const kSoupIndexTypeJSON1;
+
+
+/**
+ * Index types filter
+ */
+@class SFSoupIndex;
+typedef BOOL (^SFIndexSpecTypeFilterBlock)(SFSoupIndex*);
+extern SFIndexSpecTypeFilterBlock const kValueExtractedToColumn;
+extern SFIndexSpecTypeFilterBlock const kValueExtractedToFtsColumn;
+extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 
 /**
  * Definition of an index on a given soup.
@@ -120,3 +131,5 @@ extern NSString * const kSoupIndexTypeFullText;
 - (NSString*) getPathType;
 
 @end
+
+
