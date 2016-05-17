@@ -47,7 +47,14 @@ class SalesforceTestCase: XCTestCase {
     
     func loginThroughUI() {
         let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
-        loginDelegate.loginToSalesforce(String(loginInfo.valueForKey("username")), password:(String(loginInfo.valueForKey("password"))), host:Host.sandbox)
+        var swiftDict : Dictionary<String, String!> = Dictionary<String, String!>()
+        for key : AnyObject in loginInfo.allKeys {
+            let stringKey = key as! String
+            if let keyValue = loginInfo.valueForKey(stringKey){
+                swiftDict[stringKey] = String(keyValue)
+            }
+        }
+        loginDelegate.loginToSalesforce(swiftDict["username"]!, password:swiftDict["password"]!, host:Host.sandbox)
     }
 
 }
