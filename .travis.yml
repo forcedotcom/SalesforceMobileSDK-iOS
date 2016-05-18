@@ -36,5 +36,5 @@ script:
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme AccountEditor CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
-   # run tests that don't need a host app
-   - travis_wait 20 set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme Everything test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -v 'write-file' | grep -v 'DEBUG'
+   # run all tests
+   - travis_wait 20 set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme Everything test -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -v 'write-file' | grep -v 'DEBUG'
