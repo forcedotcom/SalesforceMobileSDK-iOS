@@ -89,6 +89,12 @@ extern NSString *const STATUS_COL;
 extern NSString *const SOUP_ENTRY_ID;
 extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
+/*
+ Support for explain query plan
+ */
+extern NSString *const EXPLAIN_SQL;
+extern NSString *const EXPLAIN_ARGS;
+extern NSString *const EXPLAIN_ROWS;
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
@@ -124,6 +130,16 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  User for this store - nil for global stores
  */
 @property (nonatomic, strong) SFUserAccount *user;
+
+/**
+ Flag to cause explain plan to be captured for every query
+ */
+@property (nonatomic, assign) BOOL captureExplainQueryPlan;
+
+/**
+ Dictionary with results of last explain query plan
+ */
+@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan;
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.
