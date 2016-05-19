@@ -28,7 +28,7 @@
 @class SFUserAccount;
 
 /** Preferences class that handles scoped preferences.
- A scope allows to bounds the preferences to a specific user,
+ A scope binds the preferences to a specific user,
  org or community.
  */
 @interface SFPreferences : NSObject
@@ -47,10 +47,12 @@
 
 /** Returns the preferences instance related to the specified user's organization
  or nil if there is no specified user or scope.
+ @param scope The scope to which the preferences apply: global, user's org, user's community, or user's account.
+ @param user The account to which the preferences apply. Not used if scope is global.
  */
 + (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount*)user;
 
-/** Returns the preferences instance related to the currrent user's organization
+/** Returns the preferences instance related to the current user's organization
  or nil if there is no current user.
  */
 + (instancetype)currentOrgLevelPreferences;
@@ -65,20 +67,48 @@
  */
 + (instancetype)currentCommunityLevelPreferences;
 
+/** Returns the preferences object for the given key.
+ @param key The key of the requested object.
+ */
 - (id)objectForKey:(NSString*)key;
+
+/** Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.
+ @param object Object to be set.
+ @param key Key of object to be set.
+ */
 
 - (void)setObject:(id)object forKey:(NSString*)key;
 
+/** Removes the preference object for the given attribute key.
+ @param key Key of object to be removed.
+ */
 - (void)removeObjectForKey:(NSString*)key;
 
+/** Returns the Boolean preference value for the given key.
+ @param key The key of the requested preference value.
+ */
 - (BOOL)boolForKey:(NSString*)key;
 
+/** Assigns the given Boolean preference value to the given key.
+ @param value The Boolean value.
+ @param key The key of the preference value to be edited.
+ */
 - (void)setBool:(BOOL)value forKey:(NSString*)key;
 
+/** Returns the integer preference value for the given key.
+ @param key The key of the requested preference value.
+ */
 - (NSInteger)integerForKey:(NSString *)key;
 
+/** Assigns the given integer preference value to the given key.
+ @param value The integer value.
+ @param key The key of the preference value to be edited.
+ */
 - (void)setInteger:(NSInteger)value forKey:(NSString *)key;
 
+/** Returns the string preference value for the given key.
+ @param key The key of the requested preference value.
+ */
 - (NSString*)stringForKey:(NSString*)key;
 
 /** Saves the preferences to the disk

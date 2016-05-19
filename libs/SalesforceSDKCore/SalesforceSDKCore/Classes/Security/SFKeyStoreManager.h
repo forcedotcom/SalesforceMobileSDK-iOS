@@ -41,7 +41,7 @@
  Key will be stored with the default encryption type of 'passcode', and will fall back to a 'generated'
  store encryption if a passcode is not configured.
  @param keyLabel The label associated with the stored key.
- @param autoCreate Indicates whether a new key should be created if one does not exist.
+ @param create Indicates whether a new key should be created if one does not exist.
  @return The encryption key, or `nil` depending on the autoCreate value.
  */
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create;
@@ -52,7 +52,7 @@
  @param keyType The type of key store encryption to use for the key.  If 'passcode' is specified and
  a passcode is not configured, the key will still be encrypted with a generated key.  If 'generated' is
  specified, the key will be encrypted with a generated key, even if a passcode is configured.
- @param autoCreate Indicates whether a new key should be created if one does not exist.
+ @param create Indicates whether a new key should be created if one does not exist.
  @return The encryption key, or `nil` depending on the autoCreate value.
  */
 - (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType autoCreate:(BOOL)create;

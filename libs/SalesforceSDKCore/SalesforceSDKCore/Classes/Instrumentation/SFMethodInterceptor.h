@@ -47,11 +47,17 @@ typedef void(^SFMethodInterceptorInvocationAfterCallback)(NSInvocation *invocati
 @property (nonatomic) BOOL instanceMethod;
 
 // The various blocks of interceptions (each of them can be nil)
+/** Block to be called before the target method. Can be nil.
+ */
 @property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock;
+/** Block that replaces the target method. Can be nil.
+ */
 @property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock;
+/** Block to be called after the target method. Can be nil.
+ */
 @property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock;
 
-/** Set this property to YES to enable the interceptor
+/** Set this property to YES to enable the interceptor.
 */
 @property (nonatomic) BOOL enabled;
 

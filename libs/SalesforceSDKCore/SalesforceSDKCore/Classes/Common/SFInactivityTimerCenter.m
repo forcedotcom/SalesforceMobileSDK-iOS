@@ -71,21 +71,25 @@ static NSDate *lastActivityTimestamp = nil;
 }
 
 + (void)updateActivityTimestamp {
-	lastActivityTimestamp  = [[NSDate alloc] init];
-	NSMutableArray *keysToRemove = [NSMutableArray array];
-	for (NSString *timerName in allTimers) {
-		NSTimer *t = [allTimers objectForKey:timerName];
-		NSNumber *interval = [allIntervals objectForKey:timerName];
-		if (t.valid) {
+    [self updateActivityTimestampTo:[NSDate date]];
+}
+
++ (void)updateActivityTimestampTo:(NSDate *)date {
+    lastActivityTimestamp  = [date copy];
+    NSMutableArray *keysToRemove = [NSMutableArray array];
+    for (NSString *timerName in allTimers) {
+        NSTimer *t = [allTimers objectForKey:timerName];
+        NSNumber *interval = [allIntervals objectForKey:timerName];
+        if (t.valid) {
             [t setFireDate:[[NSDate date] dateByAddingTimeInterval:[interval doubleValue]]];
             [self log:SFLogLevelDebug format:@"timer %@ updated to +%@ seconds", timerName, interval];
-		} else {
-			[self log:SFLogLevelError format:@"timer %@ is invalid. removing...", timerName];
-			[keysToRemove addObject:timerName];
-		}
-	}
-	[allTimers removeObjectsForKeys:keysToRemove];
-	[allIntervals removeObjectsForKeys:keysToRemove];
+        } else {
+            [self log:SFLogLevelError format:@"timer %@ is invalid. removing...", timerName];
+            [keysToRemove addObject:timerName];
+        }
+    }
+    [allTimers removeObjectsForKeys:keysToRemove];
+    [allIntervals removeObjectsForKeys:keysToRemove];
 }
 
 + (void)saveActivityTimestamp {

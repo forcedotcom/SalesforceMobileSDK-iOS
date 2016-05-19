@@ -12,3 +12,6 @@ PRODUCT_NAME = SalesforceReact
 
 HEADER_SEARCH_PATHS = $(PROJECT_DIR)/../../external/react-native/React/Base/ $(inherited)
 LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlcipher $(inherited)
+
+// Make sure to use only API that are safe for application extensions
+APPLICATION_EXTENSION_API_ONLY = YES

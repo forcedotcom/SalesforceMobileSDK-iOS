@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -80,7 +80,6 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     return syncTarget;
 }
 
-
 #pragma mark - From/to dictionary
 
 - (NSMutableDictionary*) asDict {
@@ -94,16 +93,22 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
+}
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+           queryRun:(NSString*)queryRun
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak SFSoqlSyncDownTarget* weakSelf = self;
 
     // Resync?
-    NSString* queryToRun = self.query;
+    NSString* queryToRun = queryRun;
     if (maxTimeStamp > 0) {
-        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:self.query modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
+        queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:queryRun modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
-    
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
@@ -114,8 +119,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 - (void) continueFetch:(SFSmartSyncSyncManager *)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (self.nextRecordsUrl) {
         __weak SFSoqlSyncDownTarget* weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
@@ -123,38 +127,69 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
             weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
             completeBlock(d[kResponseRecords]);
         }];
-    }
-    else {
+    } else {
         completeBlock(nil);
     }
 }
 
-+ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp
-{
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                   localIds:(NSArray*)localIds
+                 errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+              completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    if (localIds == nil) {
+        completeBlock(nil);
+    }
+    NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
+    [soql appendString:self.idFieldName];
+    [soql appendString:@" "];
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@"from" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, self.query.length)];
+    NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
+    [soql appendString:fromClause];
+    __block NSUInteger countFetched = 0;
+    __block NSUInteger totalSize = 0;
+    __block NSMutableArray* allRecords = [[NSMutableArray alloc] init];
+    __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
+    __weak SFSoqlSyncDownTarget* weakSelf = self;
+    SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
+        totalSize = self.totalSize;
+        if (countFetched == 0) {
+            if (totalSize == 0) {
+                completeBlock(nil);
+            }
+        }
+        countFetched += [records count];
+        [allRecords addObjectsFromArray:records];
+        if (countFetched < totalSize) {
+            [weakSelf continueFetch:syncManager errorBlock:errorBlock completeBlock:completionBlockRecurse];
+        } else {
+            completeBlock(allRecords);
+        }
+    };
+    completionBlockRecurse = completionBlock;
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:completionBlock];
+}
+
++ (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp {
     NSString* queryToRun = query;
     if (maxTimeStamp > 0) {
         NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
         NSString* extraPredicate =  [@[modDateFieldName, @">", maxTimeStampStr] componentsJoinedByString:@" "];
         if ([[query lowercaseString] rangeOfString:@" where "].location != NSNotFound) {
             queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" where " stringToAppend:[@[extraPredicate, @" and "] componentsJoinedByString:@""]];
-        }
-        else {
+        } else {
             queryToRun = [SFSoqlSyncDownTarget appendToFirstOccurence:query pattern:@" from[ ]+[^ ]*" stringToAppend:[@[@" where ", extraPredicate] componentsJoinedByString:@""]];
         }
     }
     return queryToRun;
 }
 
-+ (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend
-{
++ (NSString*) appendToFirstOccurence:(NSString*)str pattern:(NSString*)pattern stringToAppend:(NSString*)stringToAppend {
     NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:pattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSRange rangeFirst = [regexp rangeOfFirstMatchInString:str options:0 range:NSMakeRange(0, [str length])];
     NSString* firstMatch = [str substringWithRange:rangeFirst];
     NSString* modifiedStr = [str stringByReplacingCharactersInRange:rangeFirst withString:[@[firstMatch, stringToAppend] componentsJoinedByString:@""]];
     return modifiedStr;
 }
-
-
-
 
 @end

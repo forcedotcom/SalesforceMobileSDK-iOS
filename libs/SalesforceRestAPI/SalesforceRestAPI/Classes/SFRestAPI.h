@@ -156,7 +156,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 @property (nonatomic, strong) NSString *apiVersion;
 
 /**
- * Returns the singleton instance of `SFRestAPI`
+ * Returns the singleton instance of `SFRestAPI`.
  * Dependent on authenticated credentials in SFAccountManager, to properly form up
  * authenticated requests.
  */
@@ -164,6 +164,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * Specifies whether the current execution is a test run or not.
+ @param isTestRun YES if this is a test run
  */
 + (void) setIsTestRun:(BOOL)isTestRun;
 
@@ -173,12 +174,12 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 + (BOOL) getIsTestRun;
 
 /**
- * Clean up due to host change or logout
+ * Clean up due to host change or logout.
  */
 - (void)cleanup;
 
 /** 
- * Cancel all requests that are waiting to be excecuted
+ * Cancel all requests that are waiting to be excecuted.
  */
 - (void)cancelAllRequests;
 
@@ -329,7 +330,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 /**
  * Returns an `SFRestRequest` which returns search result layout information for the objects in the query string.
- * @param fieldList comma-separated list of objects for which
+ * @param objectList comma-separated list of objects for which
  *               to return values; for example, "Account,Contact".
  * @see  http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_search_layouts.htm
  */
@@ -346,7 +347,8 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 + (NSString *)userAgentString;
 
 /**
- * Returns the User-Agent string used by the SDK adding the qualifier after the app type
+ * Returns the User-Agent string used by the SDK, adding the qualifier after the app type.
+ @param qualifier Optional sub-type of native or hybrid Mobile SDK app.
  */
 + (NSString *)userAgentString:(NSString*)qualifier;
 

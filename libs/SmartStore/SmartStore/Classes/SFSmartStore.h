@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,9 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Foundation/Foundation.h>
-
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -91,6 +89,12 @@ extern NSString *const STATUS_COL;
 extern NSString *const SOUP_ENTRY_ID;
 extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
+/*
+ Support for explain query plan
+ */
+extern NSString *const EXPLAIN_SQL;
+extern NSString *const EXPLAIN_ARGS;
+extern NSString *const EXPLAIN_ROWS;
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
@@ -126,6 +130,16 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  User for this store - nil for global stores
  */
 @property (nonatomic, strong) SFUserAccount *user;
+
+/**
+ Flag to cause explain plan to be captured for every query
+ */
+@property (nonatomic, assign) BOOL captureExplainQueryPlan;
+
+/**
+ Dictionary with results of last explain query plan
+ */
+@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan;
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.
@@ -287,6 +301,19 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 - (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error;
 
 /**
+ Lookup soup entry IDs for a soup.
+ 
+ @param soupName Soup name.
+ @param fieldPath Field path.
+ @param fieldValue Field value.
+ @param error Error callback.
+ */
+- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
+                              forFieldPath:(NSString *)fieldPath
+                                fieldValue:(NSString *)fieldValue
+                                     error:(NSError **)error;
+
+/**
  Remove soup entries exactly matching the soup entry IDs
  
  @param entryIds An array of opaque soup entry IDs from _soupEntryId
@@ -328,7 +355,6 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  @return YES if the soup got altered OK
  */
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
-
 
 /**
  Re-index soup

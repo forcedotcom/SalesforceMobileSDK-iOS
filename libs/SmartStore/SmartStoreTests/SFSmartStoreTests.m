@@ -67,6 +67,8 @@
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
+    self.store.captureExplainQueryPlan = YES;
+    self.globalStore.captureExplainQueryPlan = YES;
 }
 
 - (void) tearDown
@@ -103,12 +105,14 @@
 
     XCTAssertTrue([options containsObject:@"ENABLE_FTS4"]);
     XCTAssertTrue([options containsObject:@"ENABLE_FTS3_PARENTHESIS"]);
+    XCTAssertTrue([options containsObject:@"ENABLE_FTS5"]);
+    XCTAssertTrue([options containsObject:@"ENABLE_JSON1"]);
 }
 
 - (void) testSqliteVersion
 {
     NSString* version = [NSString stringWithUTF8String:sqlite3_libversion()];
-    XCTAssertEqualObjects(version, @"3.8.8.3");
+    XCTAssertEqualObjects(version, @"3.11.0");
 }
 
 /**
@@ -189,9 +193,22 @@
 }
 
 /**
- * Test register/remove soup
+ * Test register/remove soup with only string indexes
+ * The underlying table's columns and indexes are checked
  */
-- (void) testRegisterRemoveSoup
+- (void) testRegisterRemoveSoupWithStringIndexes {
+    [self tryRegisterRemoveSoup:@"string"];
+}
+
+/**
+ * Test register/remove soup with json1 and string indexes
+ * The underlying table's columns and indexes are checked
+ */
+- (void) testRegisterRemoveSoupWithJSON1Indexes {
+    [self tryRegisterRemoveSoup:@"json1"];
+}
+
+- (void) tryRegisterRemoveSoup:(NSString*)indexType
 {
     NSUInteger const numRegisterAndDropIterations = 10;
     
@@ -202,18 +219,322 @@
             XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
             
             // Register
-            NSDictionary* soupIndex = @{@"path": @"name",@"type": @"string"};
             NSError* error = nil;
-            [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
+            [store registerSoup:kTestSoupName
+                 withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}, @{@"path": @"value",@"type": @"string"}]]
+                          error:&error];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
             XCTAssertNil(error, @"There should be no errors.");
+            NSString* soupTableName = [self getSoupTableName:kTestSoupName store:store];
+            
+            // Check soup indexes
+            NSString* expectedColumnName0 = ([indexType isEqualToString:@"json1"]
+                                             ? @"json_extract(soup, '$.key')"
+                                             : [NSString stringWithFormat:@"%@_0", soupTableName]);
+            NSString* expectedColumnName1 = [NSString stringWithFormat:@"%@_1", soupTableName];
+
+            NSArray* indexSpecs = [store indicesForSoup:kTestSoupName];
+            [self checkSoupIndex:(SFSoupIndex*)indexSpecs[0] expectedPath:@"key" expectedType:indexType expectedColumnName:expectedColumnName0];
+            [self checkSoupIndex:(SFSoupIndex*)indexSpecs[1] expectedPath:@"value" expectedType:@"string" expectedColumnName:expectedColumnName1];
+
+            // Check db columns
+            NSArray* expectedColumns = ([indexType isEqualToString:@"json1"]
+                                        ? @[@"id", @"soup", @"created", @"lastModified", expectedColumnName1]
+                                        : @[@"id", @"soup", @"created", @"lastModified", expectedColumnName0, expectedColumnName1]);
+            [self checkColumns:soupTableName
+               expectedColumns:expectedColumns
+                         store:store];
+            
+            // Check db indexes
+            NSString* indexSqlFormat = @"CREATE INDEX %@_%2$u_idx ON %1$@ ( %3$@ )";
+            [self checkDatabaseIndexes:soupTableName
+                 expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, soupTableName, 0, expectedColumnName0],
+                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, 1, expectedColumnName1]
+                                         ]
+                                 store:store];
             
             // Remove
             [store removeSoup:kTestSoupName];
             testSoupExists = [store soupExists:kTestSoupName];
             XCTAssertFalse(testSoupExists, @"In iteration %u: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
         }
+    }
+}
+
+/**
+ * Test query when looking for all elements when soup has string index
+ */
+-(void) testAllQueryWithStringIndex
+{
+    [self tryAllQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test query when looking for all elements when soup has json1 index
+ */
+-(void) testAllQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test query when looking for all elements
+ */
+-(void) tryAllQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+
+        // Populate soup
+        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Query all - small page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+        
+        // Query all - next small page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
+                                            page:1
+                                 expectedResults:@[soupEltsCreated[2]]
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+
+        // Query all - large page
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]]
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+    }
+}
+
+/**
+ * Test range query when soup has string index
+ */
+-(void) testRangeQueryWithStringIndex
+{
+    [self tryRangeQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test range query when soup has json1 index
+ */
+-(void) testRangeQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test range query
+ */
+-(void) tryRangeQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Range query
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+        // Range query - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+    }
+}
+
+/**
+ * Test like query when soup has string index
+ */
+-(void) testLikeQueryWithStringIndex
+{
+    [self tryRangeQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test like query when soup has json1 index
+ */
+-(void) testLikeQueryWithJSON1Index
+{
+    [self tryAllQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test like query
+ */
+-(void) tryLikeQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt1 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt2 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt3 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt4 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3, soupElt4] toSoup:kTestSoupName];
+        
+         // Like query (starts with)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[0]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+         
+         // Like query (ends with)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+         
+         // Like query (starts with) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[0], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+         
+         // Like query (ends with) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[0]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+         
+         // Like query (contains)
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[0], soupEltsCreated[1]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+         
+         // Like query (contains) - descending order
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[0], soupEltsCreated[2]]
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+    }
+}
+
+/**
+ * Test to verify an aggregate query on floating point values indexed as floating.
+ */
+-(void) testAggregateQueryOnFloatingIndexedField
+{
+    [self tryAggregateQueryOnIndexedField:kSoupIndexTypeFloating];
+}
+
+/**
+ * Test to verify an aggregate query on floating point values indexed as JSON1.
+ */
+- (void) testAggregateQueryOnJSON1IndexedField
+{
+    [self tryAggregateQueryOnIndexedField:kSoupIndexTypeJSON1];
+}
+
+- (void) tryAggregateQueryOnIndexedField:(NSString*) indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"amount",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt1 = @{@"amount": [NSNumber numberWithDouble:10.2]};
+        NSDictionary* soupElt2 = @{@"amount": [NSNumber numberWithDouble:9.9]};
+        [store upsertEntries:@[ soupElt1, soupElt2] toSoup:kTestSoupName];
+        
+        // Aggregate query
+        NSString* smartSql = [NSString stringWithFormat:@"SELECT SUM({%@:amount}) FROM {%@}", kTestSoupName, kTestSoupName];
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[[NSNumber numberWithDouble:20.1]]]
+                             expectedDbOperation:nil
+                                           store:store];
+    }
+}
+
+-(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults expectedDbOperation:(NSString*)expectedDbOperation store:(SFSmartStore*)store
+{
+    // Run query
+    NSError* error = nil;
+    NSArray* results = [store queryWithQuerySpec:querySpec pageIndex:page error:&error];
+    XCTAssertNil(error, @"There should be no errors.");
+    
+    // Check results
+    [self assertSameJSONArrayWithExpected:expectedResults actual:results message:@"Wrong results"];
+    
+    // Check explain plan and make sure index was used unless caller passed nil for expectedDbOperation
+    if (expectedDbOperation) {
+        [self checkExplainQueryPlan:kTestSoupName index:0 dbOperation:expectedDbOperation store:store];
     }
 }
 
@@ -364,16 +685,20 @@
         [encryptedDb close];
         
         // Try to open the DB with an empty key, verify no read access.
-        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
         
         // Try to read the encrypted database with the wrong key.
-        [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
+        FMDatabase *encryptedDbWrongKey = [self openDatabase:storeName withManager:dbMgr key:@"WrongKey" openShouldFail:YES];
+        XCTAssertNil(encryptedDbWrongKey, @"Shouldn't be able to read encrypted database, opened with the wrong key.");
+        if(encryptedDbWrongKey) [encryptedDbWrongKey close];
         
         // Finally, try to re-open the encrypted database with the right key.  Verify read access.
-        FMDatabase *encryptedDb3 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
-        isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDb3];
+        FMDatabase *encryptedDbCorrectKey = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
+        isTableNameInMaster = [self tableNameInMaster:tableName db:encryptedDbCorrectKey];
         XCTAssertTrue(isTableNameInMaster, @"Should find the original table name in sqlite_master, with proper encryption key.");
-        [encryptedDb3 close];
+        [encryptedDbCorrectKey close];
         
         [dbMgr removeStoreDir:storeName];
     }
@@ -395,8 +720,10 @@
         [encryptedDb close];
         
         // Verify that we can't read data with a plaintext DB open.
-        [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
-
+        FMDatabase *encryptedDbEmptyKey = [self openDatabase:storeName withManager:dbMgr key:@"" openShouldFail:YES];
+        XCTAssertNil(encryptedDbEmptyKey, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+        if(encryptedDbEmptyKey) [encryptedDbEmptyKey close];
+        
         // Unencrypt the database, verify data.
         FMDatabase *encryptedDb2 = [self openDatabase:storeName withManager:dbMgr key:encKey openShouldFail:NO];
         NSError *unencryptError = nil;
@@ -473,9 +800,10 @@
             BOOL canReadSmartStoreDb = [self canReadDatabaseQueue:newNoPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newNoPasscodeStore.storeQueue close];
-            [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:noPasscodeKey openShouldFail:NO];
-            [rawDb close];
+            
+            FMDatabase *rawDb = [self openDatabase:newNoPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+            if(rawDb) [rawDb close];
             
             // Make sure SFSmartStore encrypts a new store with a passcode, if a passcode exists.
             NSString *newPasscodeStoreName = @"new_passcode_store";
@@ -488,9 +816,10 @@
             canReadSmartStoreDb = [self canReadDatabaseQueue:newPasscodeStore.storeQueue];
             XCTAssertTrue(canReadSmartStoreDb, @"For provider '%@': Can't read DB created by SFSmartStore.", passcodeProviderName);
             [newPasscodeStore.storeQueue close];
-            [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
-            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:passcodeKey openShouldFail:NO];
-            [rawDb close];
+            
+            rawDb = [self openDatabase:newPasscodeStoreName withManager:dbMgr key:@"" openShouldFail:YES];
+            XCTAssertNil(rawDb, @"Shouldn't be able to read encrypted database, opened as unencrypted.");
+            if(rawDb) [rawDb close];
             
             // Make sure existing stores have the expected keys associated with them, between launches.
             [SFSmartStore clearSharedStoreMemoryState];
@@ -772,5 +1101,7 @@
     NSUInteger allStoreCount = [allStoreNames count];
     XCTAssertEqual(allStoreCount, (NSUInteger)0, @"Should not be any stores after removing them all.");
 }
+
+
 
 @end

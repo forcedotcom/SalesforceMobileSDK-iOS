@@ -24,7 +24,9 @@
  */
 
 #import <Foundation/Foundation.h>
-
+/** 
+ * Class that handles access to Mobile SDK's main bundle.
+ */
 @interface SFSDKResourceUtils : NSObject
 
 /**

@@ -505,16 +505,12 @@ static Class InstanceClass = nil;
     
     // Check that the current user itself has a valid session
     SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    if ([userAcct isSessionValid]) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [userAcct isSessionValid];
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    self.advancedAuthConfiguration = advancedAuthConfiguration;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
     self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
@@ -941,7 +937,7 @@ static Class InstanceClass = nil;
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
-                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
+                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
                                                    [weakSelf execFailureBlocks];
                                                    return YES;
                                                }
@@ -955,7 +951,7 @@ static Class InstanceClass = nil;
                                             initWithName:kSFConnectedAppVersionAuthErrorHandler
                                             evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                 if (error.code == kSFOAuthErrorWrongVersion) {
-                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
                                                     [weakSelf showAlertForConnectedAppVersionMismatchError];
                                                     return YES;
                                                 }

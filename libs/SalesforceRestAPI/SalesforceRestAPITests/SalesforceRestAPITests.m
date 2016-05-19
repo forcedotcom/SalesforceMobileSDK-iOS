@@ -246,9 +246,15 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
         XCTAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
-        // Raw data will be converted to JSON if that's what's returned, regardless of parseResponse.
+        // Raw data will not be converted to JSON if that's what's returned, regardless of parseResponse.
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         request.parseResponse = NO;
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"Should be NSData when parseResponse is no.");
+        
+        // Raw data will be converted to JSON if that's what's returned, when parseResponse is YES by default
+        request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         XCTAssertTrue([listener.dataResponse isKindOfClass:[NSDictionary class]], @"Should be parsed JSON for JSON response.");

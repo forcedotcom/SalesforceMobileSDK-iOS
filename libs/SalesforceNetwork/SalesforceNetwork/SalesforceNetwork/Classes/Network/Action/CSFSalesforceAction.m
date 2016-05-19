@@ -76,9 +76,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 		_enqueuedNetwork = network;
         // add observers to the new network
         if (_enqueuedNetwork) {
-            if (!self.baseURL.scheme && !self.baseURL.host) {
-                // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
-                // this check is necessary as there are salesforce URL that is content server based and not API based
+            if ([self shouldUpdateBaseUrl]) {
                 self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
             }
             [_enqueuedNetwork addObserver:self forKeyPath:kNetworkAccessTokenPath
@@ -245,6 +243,11 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                 self.enqueuedNetwork.defaultConnectCommunityId = account.communityId;
             } else if (account.credentials.accessToken && account.credentials.instanceUrl) {
                 self.credentialsReady = YES;
+                if ([keyPath isEqualToString:kNetworkInstanceURLPath] && [self shouldUpdateBaseUrl]) {
+                    // If an action is API based action, make sure the base URL it matches current credential's api URL
+                    // For actions that uses absolute URL like https://c.gus.visual.force.com/resource/1460146879000/HatImage, we should avoid the logic of changing base URL, otherwise raw content served server by absolute URL will not work
+                    self.baseURL = self.enqueuedNetwork.account.credentials.apiUrl;
+                }
             } else {
                 self.credentialsReady = NO;
             }
@@ -253,6 +256,12 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (BOOL)shouldUpdateBaseUrl {
+    // only set base URL to apiURL if baseURL is not already specified as absolute URL with it's own host
+    // this check is necessary as there are salesforce URL that is content server based and not API based
+    return (!self.baseURL.scheme && !self.baseURL.host);
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
@@ -273,6 +282,30 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     }
     
     return YES;
+}
+
++ (BOOL)isNetworkError:(nullable NSError *)error {
+    if (nil == error) {
+        return NO;
+    }
+    //If error domain is CSFNetworkErrorDomain then it could be a wrapper
+    //and may contain actual NSError object in userInfo dictionary
+    if ([error.domain isEqualToString:CSFNetworkErrorDomain] && error.userInfo[NSUnderlyingErrorKey]) {
+        error = error.userInfo[NSUnderlyingErrorKey];
+    }
+    switch (error.code) {
+        case kCFURLErrorNotConnectedToInternet:
+        case kCFURLErrorCannotFindHost:
+        case kCFURLErrorCannotConnectToHost:
+        case kCFURLErrorNetworkConnectionLost:
+        case kCFURLErrorDNSLookupFailed:
+        case kCFURLErrorResourceUnavailable:
+        case kCFURLErrorTimedOut:
+            return YES;
+            break;
+        default:
+            return NO;
+    }
 }
 
 #pragma mark SFAuthenticationManagerDelegate

@@ -35,7 +35,9 @@ typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
 typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
 typedef void (^SFRestDataResponseBlock) (NSData* data);
 typedef void (^SFRestResponseBlock) (id response);
-
+/** Creates an error object with the given description.
+ @param description Description
+ */
 + (NSError *)errorWithDescription:(NSString *)description;
 
 
@@ -234,7 +236,7 @@ typedef void (^SFRestResponseBlock) (id response);
 
 /**
  * Executes a request to get search result layout
- * @param fieldList comma-separated list of objects for which
+ * @param objectList comma-separated list of objects for which
  *               to return values; for example, "Account,Contact".
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes

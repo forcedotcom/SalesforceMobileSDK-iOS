@@ -28,17 +28,17 @@
  * The data structure for the identity data that's retrieved from the Salesforce service.
  * @see SFIdentityCoordinator
  */
-@interface SFIdentityData : NSObject <NSCoding>
+@interface SFIdentityData : NSObject <NSSecureCoding>
 
 /**
  * The NSDictionary representation of this identity data.
  */
-@property (strong, nonatomic, readonly) NSDictionary *dictRepresentation;
+@property (nonnull, strong, nonatomic, readonly) NSDictionary *dictRepresentation;
 
 /**
  * The ID URL.
  */
-@property (strong, nonatomic, readonly) NSURL *idUrl;
+@property (nonnull, strong, nonatomic, readonly) NSURL *idUrl;
 
 /**
  * Whether or not this is the asserted user for this session.
@@ -48,129 +48,129 @@
 /**
  * The User ID of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *userId;
+@property (nonnull, strong, nonatomic, readonly) NSString *userId;
 
 /**
  * The Organization ID of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *orgId;
+@property (nonnull, strong, nonatomic, readonly) NSString *orgId;
 
 /**
  * The username of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *username;
+@property (nonnull, strong, nonatomic, readonly) NSString *username;
 
 /**
  * The nickname of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *nickname;
+@property (nonnull, strong, nonatomic, readonly) NSString *nickname;
 
 /**
  * The display name of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *displayName;
+@property (nonnull, strong, nonatomic, readonly) NSString *displayName;
 
 /**
  * The email address of the associated user.
  */
-@property (strong, nonatomic, readonly) NSString *email;
+@property (nonnull, strong, nonatomic, readonly) NSString *email;
 
 /**
  * The first name of the user.
  */
-@property (strong, nonatomic, readonly) NSString *firstName;
+@property (nonnull, strong, nonatomic, readonly) NSString *firstName;
 
 /**
  * The last name of the user.
  */
-@property (strong, nonatomic, readonly) NSString *lastName;
+@property (nonnull, strong, nonatomic, readonly) NSString *lastName;
 
 /**
  * The URL to retrieve the user's picture.
  */
-@property (strong, nonatomic, readonly) NSURL *pictureUrl;
+@property (nonnull, strong, nonatomic, readonly) NSURL *pictureUrl;
 
 /**
  * The URL to retrieve a thumbnail picture for the user.
  */
-@property (strong, nonatomic, readonly) NSURL *thumbnailUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *thumbnailUrl;
 
 /**
  * The enterprise SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *enterpriseSoapUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *enterpriseSoapUrl;
 
 /**
  * The metadata SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *metadataSoapUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *metadataSoapUrl;
 
 /**
  * The partner SOAP API URL string for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *partnerSoapUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *partnerSoapUrl;
 
 /**
  * The REST API URL string entry point for this user.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *restUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *restUrl;
 
 /**
  * The REST endpoint string for SObjects.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *restSObjectsUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *restSObjectsUrl;
 
 /**
  * The REST endpoint string for search.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *restSearchUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *restSearchUrl;
 
 /**
  * The REST endpoint string for queries.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *restQueryUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *restQueryUrl;
 
 /**
  * The REST endpoint string for recent activity.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *restRecentUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *restRecentUrl;
 
 /**
  * The user profile URL.
  */
-@property (strong, nonatomic, readonly) NSURL *profileUrl;
+@property (nullable, strong, nonatomic, readonly) NSURL *profileUrl;
 
 /**
  * The URL string for Chatter feeds.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *chatterFeedsUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedsUrl;
 
 /**
  * The URL string for Chatter groups.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *chatterGroupsUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *chatterGroupsUrl;
 
 /**
  * The URL string for Chatter users.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *chatterUsersUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *chatterUsersUrl;
 
 /**
  * The URL string for Chatter feed items.
  * Note: API URLs require replacement of the `version` token with a valid API version string.
  */
-@property (strong, nonatomic, readonly) NSString *chatterFeedItemsUrl;
+@property (nullable, strong, nonatomic, readonly) NSString *chatterFeedItemsUrl;
 
 /**
  * Whether or not this user is active.
@@ -180,17 +180,17 @@
 /**
  * The user type.
  */
-@property (strong, nonatomic, readonly) NSString *userType;
+@property (nonnull, strong, nonatomic, readonly) NSString *userType;
 
 /**
  * The user's configured language.
  */
-@property (strong, nonatomic, readonly) NSString *language;
+@property (nonnull, strong, nonatomic, readonly) NSString *language;
 
 /**
  * The user's configured locale.
  */
-@property (strong, nonatomic, readonly) NSString *locale;
+@property (nonnull, strong, nonatomic, readonly) NSString *locale;
 
 /**
  * The UTC offset for this user.
@@ -220,22 +220,22 @@
 /**
  * An optional dictionary of custom attributes defined on the Connected App.
  */
-@property (strong, nonatomic, readonly) NSDictionary *customAttributes;
+@property (nullable, strong, nonatomic, readonly) NSDictionary *customAttributes;
 
 /**
  * An optional dictionary of custom permissions defined on the Connected App.
  */
-@property (strong, nonatomic, readonly) NSDictionary *customPermissions;
+@property (nullable, strong, nonatomic, readonly) NSDictionary *customPermissions;
 
 /**
  * The date this record was last modified.
  */
-@property (strong, nonatomic, readonly) NSDate *lastModifiedDate;
+@property (nonnull, strong, nonatomic, readonly) NSDate *lastModifiedDate;
 
 /**
  * Designated initializer for creating an instance of the SFIdentityData object.
  * @param jsonDict The JSON dictionary containing the user data.
  */
-- (id)initWithJsonDict:(NSDictionary *)jsonDict;
+- (nonnull instancetype)initWithJsonDict:(nonnull NSDictionary *)jsonDict;
 
 @end

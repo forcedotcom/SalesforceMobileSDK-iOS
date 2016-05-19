@@ -51,6 +51,11 @@ static NSString * const kCSFInputStreamHeaderFullFormat = @"--%@\r\nContent-Disp
 
 #pragma mark Designated initializers
 
+- (instancetype)init {
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithObject:(id)object boundary:(NSString*)boundary key:(NSString*)key {
     self = [super init];
     if (self) {

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class SFUserAccount;
-
+NS_ASSUME_NONNULL_BEGIN
 // Errors
 extern NSString * const kSalesforceSDKManagerErrorDomain;
 extern NSString * const kSalesforceSDKManagerErrorDetailsKey;
@@ -55,4 +55,6 @@ typedef void (^SFSDKAppForegroundCallbackBlock)(void);
 /**
  Block to return a user agent string, with an optional qualifier.
  */
-typedef NSString* (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+typedef NSString*_Nonnull (^SFSDKUserAgentCreationBlock)(NSString *qualifier);
+
+NS_ASSUME_NONNULL_END
