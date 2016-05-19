@@ -1553,11 +1553,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
     
     return result;
 }
+
 - (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName
+{
+    [self removeEntries:soupEntryIds fromSoup:soupName error:nil];
+}
+
+- (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName error:(NSError**)error
 {
     [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
         [self removeEntries:soupEntryIds fromSoup:soupName withDb:db];
-    } error:nil];
+    } error:error];
 }
 
 - (void)removeEntries:(NSArray*)soupEntryIds fromSoup:(NSString*)soupName withDb:(FMDatabase*) db
@@ -1571,6 +1577,30 @@ NSString *const EXPLAIN_ROWS = @"rows";
             NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:DOCID_COL]];
             [self executeUpdateThrows:deleteFtsSql withDb:db];
         }
+    }
+}
+
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName
+{
+    [self removeEntriesByQuery:querySpec fromSoup:soupName error:nil];
+}
+
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName error:(NSError**)error
+{
+    [self inTransaction:^(FMDatabase* db, BOOL* rollback) {
+        [self removeEntriesByQuery:querySpec fromSoup:soupName withDb:db];
+    } error:nil];
+}
+
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName withDb:(FMDatabase*) db
+{
+    NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, querySpec.idsSmartSql];
+    [self executeUpdateThrows:deleteSql withDb:db];
+    // fts
+    if ([self hasFts:soupName withDb:db]) {
+        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts %@ in (%@)", soupTableName, DOCID_COL, querySpec.idsSmartSql];
+        [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 }
 
