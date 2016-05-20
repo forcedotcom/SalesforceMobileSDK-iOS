@@ -41,7 +41,7 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
-
+#import "SFManagedPreferences.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
 #import "NSURL+SFAdditions.h"
@@ -758,16 +758,27 @@ static Class InstanceClass = nil;
 - (void)loginWithUser:(SFUserAccount*)account {
     NSAssert(account != nil, @"Account should be set at this point.");
     [SFUserAccountManager sharedInstance].currentUser = account;
-    
-    // Setup the internal logic for the specified user
+
+    // Setup the internal logic for the specified user.
     [self setupWithUser:account];
-    
-    // Trigger the login flow
+
+    // Trigger the login flow.
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
     }
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    }
+
+    // Don't try to authenticate if MDM OnlyShowAuthorizedHosts is configured and there are no hosts.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        [self log:SFLogLevelDebug msg:@"Invalid MDM Configuration, OnlyShowAuthorizedHosts is enabled, but no hosts are provided"];
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSDictionary *dict = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ doesn't have a login page set up yet. Ask your Salesforce admin for help.", appName]};
+        NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidMDMConfiguration userInfo:dict];
+        [self oauthCoordinator:self.coordinator didFailWithError:error authInfo:nil];
+        return;
     }
     [self.coordinator authenticate];
 }
