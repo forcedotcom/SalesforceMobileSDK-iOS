@@ -8,9 +8,7 @@ osx_image: xcode7.2
 
 env:
   matrix:
-    - SDK=iphonesimulator OS=8.4 NAME="iPhone 6"
     - SDK=iphonesimulator9.2 OS=9.2 NAME="iPhone 6"
-    - SDK=iphonesimulator OS=8.4 NAME="iPad 2"
     - SDK=iphonesimulator9.2 OS=9.2 NAME="iPad 2"
 
 before_install:
@@ -37,5 +35,14 @@ script:
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme AccountEditor CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
-   # run tests that don't need a host app
-   - travis_wait 20 set -o pipefail && xctool -workspace SalesforceMobileSDK.xcworkspace -scheme Everything test -parallelize -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | grep -v 'write-file' | grep -v 'DEBUG'
+
+# run tests that don't need a host app
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+  
+# run tests that need a host app
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test

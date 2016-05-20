@@ -204,6 +204,9 @@
          <FileRef
             location = "group:test_credentials.json">
          </FileRef>
+         <FileRef
+            location = "group:ui_test_credentials.json">
+         </FileRef>
       </Group>
    </Group>
 </Workspace>

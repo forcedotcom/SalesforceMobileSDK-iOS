@@ -219,6 +219,12 @@
         for (NSString* keptPath in keptPaths) {
             SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
             SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
+            
+            if (newIndexSpec.columnType == nil) {
+                // we are now using json1, there is no column to populate
+                continue;
+            }
+            
             if ([oldIndexSpec.columnType isEqualToString:newIndexSpec.columnType]) {
                 [oldColumns addObject:oldIndexSpec.columnName];
                 [newColumns addObject:newIndexSpec.columnName];

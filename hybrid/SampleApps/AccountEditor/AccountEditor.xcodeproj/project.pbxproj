@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1010,7 +1010,7 @@
 				ORGANIZATIONNAME = salesforce.com;
 			};
 			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "AccountEditor" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
