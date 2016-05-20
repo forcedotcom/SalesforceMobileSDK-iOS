@@ -37,11 +37,11 @@ script:
 
 # run tests that don't need a host app
    - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStoreTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPITests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDKTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
   
 # run tests that need a host app
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerUITests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
