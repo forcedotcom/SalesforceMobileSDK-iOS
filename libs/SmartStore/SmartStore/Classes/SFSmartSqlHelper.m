@@ -90,6 +90,11 @@ static SFSmartSqlHelper *sharedInstance = nil;
                     [sql appendString:tableQualifier];
                     [sql appendString:@"id"];
                 }
+                // {soupName:_soupCreatedDate}
+                else if ([path isEqualToString:@"_soupCreatedDate"]) {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"created"];
+                }
                 // {soupName:_soupLastModifiedDate}
                 else if ([path isEqualToString:@"_soupLastModifiedDate"]) {
                     [sql appendString:tableQualifier];

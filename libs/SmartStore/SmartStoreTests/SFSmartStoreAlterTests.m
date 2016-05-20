@@ -199,6 +199,37 @@
     [self tryAlterSoupTypeChange:@"json1" toType:@"full_text"];
 }
 
+/**
+ * Test for alterSoup passing in same index specs (string)
+ * Make sure db table / indexes are recreated
+ * That way soup created before 4.2 can get the new indexes (create/lastModified) by calling alterSoup
+ */
+-(void) testAlterSoupWithStringIndexesToGetIndexesOnCreatedAndLastModified
+{
+    [self tryAlterSoupToGetIndexesOnCreatedAndLastModified:@"string"];
+}
+
+/**
+ * Test for alterSoup passing in same index specs (json1)
+ * Make sure db table / indexes are recreated
+ * That way soup created before 4.2 can get the new indexes (create/lastModified) by calling alterSoup
+ */
+-(void) testAlterSoupWithJSON1IndexesToGetIndexesOnCreatedAndLastModified
+{
+    [self tryAlterSoupToGetIndexesOnCreatedAndLastModified:@"json1"];
+}
+
+/**
+ * Test for alterSoup passing in same index specs (full_text)
+ * Make sure db table / indexes are recreated
+ * That way soup created before 4.2 can get the new indexes (create/lastModified) by calling alterSoup
+ */
+-(void) testAlterSoupWithFullTextIndexesToGetIndexesOnCreatedAndLastModified
+{
+    [self tryAlterSoupToGetIndexesOnCreatedAndLastModified:@"full_text"];
+}
+
+
 -(void) testAlterSoupResumeAfterRenameOldSoupTable
 {
     [self tryAlterSoupInterruptResume:SFAlterSoupStepRenameOldSoupTable];
@@ -269,6 +300,17 @@
     NSArray* expectedIndexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path": kCity, @"type": cityColType, @"columnName":expectedCityCol}, @{@"path": kCountry, @"type": countryColType, @"columnName":expectedCountryCol}]];
     NSArray* actualIndexSpecs = [self.store indicesForSoup:kTestSoupName];
     [self checkIndexSpecs:actualIndexSpecs withExpectedIndexSpecs:expectedIndexSpecs checkColumnName:YES];
+
+    // Check db indexes
+    NSString* indexSqlFormat = @"CREATE INDEX %@_%@_idx ON %1$@ ( %3$@ )";
+    [self checkDatabaseIndexes:kTestSoupTableName
+         expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"0", expectedCityCol],
+                                  [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"1", expectedCountryCol],
+                                  [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"created", @"created"],
+                                  [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"lastModified", @"lastModified"]
+                                  ]
+                         store:self.store];
+    
     
     // Check soup table columns
     NSMutableArray* expectedColumns = [NSMutableArray new];
@@ -307,6 +349,56 @@
             [frs close];
         }];
     }
+}
+
+/**
+ Create soup
+ Drop created/lastModified indexes - to simulate the soup having been created before SDK 4.2
+ Alter soup passing in the same indexes
+ Check underlying table
+ */
+- (void) tryAlterSoupToGetIndexesOnCreatedAndLastModified:(NSString*)indexType
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":indexType}, @{@"path": kCountry, @"type":indexType}]];
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+    
+    NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
+                                               toSoup:kTestSoupName];
+    
+    // Check db
+    [self checkDb:savedEntries cityColType:indexType countryColType:indexType];
+    
+    // Drop db indexes on created and lastModified to simulate soup having been created before SDK 4.2
+    NSString* dropIndexSqlFormat = @"DROP INDEX %@_%@_idx";
+
+    NSArray* dropIndexStatements = @[[NSString stringWithFormat:dropIndexSqlFormat, kTestSoupTableName, @"created"],
+                                     [NSString stringWithFormat:dropIndexSqlFormat, kTestSoupTableName, @"lastModified"]
+                                     ];
+    
+    [self.store.storeQueue inDatabase:^(FMDatabase *db) {
+        for (NSString* dropIndexStatement in dropIndexStatements) {
+            [db executeUpdate:dropIndexStatement];
+        }
+    }];
+    
+    // Check db indexes after the drop - created and lastModified should be gone
+    NSString* expectedCityCol = ([indexType isEqualToString:kSoupIndexTypeJSON1] ? [NSString stringWithFormat:@"json_extract(soup, '$.%@')", kCity] : kCityCol);
+    NSString* expectedCountryCol = ([indexType isEqualToString:kSoupIndexTypeJSON1] ? [NSString stringWithFormat:@"json_extract(soup, '$.%@')", kCountry] : kCountryCol);
+    NSString* indexSqlFormat = @"CREATE INDEX %@_%@_idx ON %1$@ ( %3$@ )";
+    [self checkDatabaseIndexes:kTestSoupTableName
+         expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"0", expectedCityCol],
+                                  [NSString stringWithFormat:indexSqlFormat, kTestSoupTableName, @"1", expectedCountryCol],
+                                  ]
+                         store:self.store];
+    
+    
+    // Alter soup - passing same indexSpecs as before
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecs reIndexData:YES];
+    
+    // Check db - created and lastModified indexes should be there
+    [self checkDb:savedEntries cityColType:indexType countryColType:indexType];
 }
 
 - (void) alterSoupHelper:(BOOL)reIndexData

@@ -247,10 +247,12 @@
                          store:store];
             
             // Check db indexes
-            NSString* indexSqlFormat = @"CREATE INDEX %@_%2$u_idx ON %1$@ ( %3$@ )";
+            NSString* indexSqlFormat = @"CREATE INDEX %@_%@_idx ON %1$@ ( %3$@ )";
             [self checkDatabaseIndexes:soupTableName
-                 expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, soupTableName, 0, expectedColumnName0],
-                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, 1, expectedColumnName1]
+                 expectedSqlStatements:@[ [NSString stringWithFormat:indexSqlFormat, soupTableName, @"0", expectedColumnName0],
+                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, @"1", expectedColumnName1],
+                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, @"created", @"created"],
+                                          [NSString stringWithFormat:indexSqlFormat, soupTableName, @"lastModified", @"lastModified"]
                                          ]
                                  store:store];
             
