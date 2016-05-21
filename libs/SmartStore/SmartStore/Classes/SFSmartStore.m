@@ -1006,6 +1006,12 @@ NSString *const EXPLAIN_ROWS = @"rows";
     NSMutableString *createFtsStmt = [NSMutableString new];
     NSMutableArray *columnsForFts = [NSMutableArray new];
     
+    // Indexes on created and lastModified
+    NSString* createIndexFormat = @"CREATE INDEX IF NOT EXISTS %@_%@_idx ON %@ ( %@ )";
+    for (NSString* col in @[CREATED_COL, LAST_MODIFIED_COL]) {
+        [createIndexStmts addObject:[NSString stringWithFormat:createIndexFormat, soupTableName, col, soupTableName, col]];
+    }
+    
     for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
         SFSoupIndex *indexSpec = (SFSoupIndex*) indexSpecs[i];
         
@@ -1034,10 +1040,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [soupIndexMapInserts addObject:values];
         
         // for creating an index on the soup table
-        NSString *indexName = [NSString stringWithFormat:@"%@_%lu_idx",soupTableName,(unsigned long)i];
-        [createIndexStmts addObject:
-         [NSString stringWithFormat:@"CREATE INDEX IF NOT EXISTS %@ ON %@ ( %@ )",indexName, soupTableName, columnName]
-         ];
+        [createIndexStmts addObject:[NSString stringWithFormat:createIndexFormat, soupTableName, [NSString stringWithFormat:@"%u", i], soupTableName, columnName]];
     }
     
     [createTableStmt appendString:@")"];

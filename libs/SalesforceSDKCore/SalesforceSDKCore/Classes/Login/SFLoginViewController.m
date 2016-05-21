@@ -29,6 +29,7 @@
 @import UIKit;
 
 #import "SFLoginViewController.h"
+#import "SFManagedPreferences.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
@@ -52,7 +53,7 @@
 @synthesize oauthView = _oauthView;
 
 
-+(instancetype)sharedInstance {
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static SFLoginViewController *loginViewController = nil;
     dispatch_once(&onceToken, ^{
@@ -89,7 +90,6 @@
     [self layoutViews];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self setupBackButton];
@@ -104,11 +104,19 @@
 - (void)setupNavigationBar {
     self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
-    // setup top item
+
+    // Setup top item.
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     self.navBar.items = @[item];
+
+    // Hides the gear icon if there are no hosts to switch to.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        self.showSettingsIcon = NO;
+    }
     if(self.showSettingsIcon) {
-        // setup right bar button
+
+        // Setup right bar button.
         UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
         rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
@@ -117,7 +125,6 @@
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
     [self setNeedsStatusBarAppearanceUpdate];
-
 }
 
 - (void)setupBackButton {
@@ -163,7 +170,6 @@
         _loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         _loginHostListViewController.delegate = self;
     }
-    
     return _loginHostListViewController;
 }
 
@@ -173,7 +179,6 @@
     if (![oauthView isEqual:_oauthView]) {
         [_oauthView removeFromSuperview];
         _oauthView = oauthView;
-        
         if (nil != _oauthView) {
             [self.view addSubview:_oauthView];
             [self layoutViews];
@@ -184,13 +189,13 @@
 #pragma mark - Layout Methods
 
 - (void)layoutViews {
+
     // Let navBar tell us what height it would prefer at the current orientation
     CGFloat navBarHeight = [self.navBar sizeThatFits:self.view.bounds.size].height;
-    
+
     // Resize navBar
     self.navBar.frame = CGRectMake(0, self.topLayoutGuide.length, self.view.bounds.size.width, navBarHeight);
-    
-    
+
     // resize oAuth view
     if (_oauthView) {
         _oauthView.frame = CGRectMake(0, CGRectGetMaxY(self.navBar.frame), self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(self.navBar.frame));

@@ -174,8 +174,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 - (NSString *)loginHost {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    // First let's import any previously stored settings, if available
+
+    // First let's import any previously stored settings, if available.
     NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
     if (host) {
         [defaults setObject:host forKey:kSFUserAccountOAuthLoginHost];
@@ -183,27 +183,33 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         [defaults synchronize];
         return host;
     }
-    
-    // Fetch from the standard defaults or bundle
+
+    // Fetch from the standard defaults or bundle.
     NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
-    if ([loginHost length] > 0) return loginHost;
-    
-    // Login host not initialized.  Set it up.
+    if ([loginHost length] > 0) {
+        return loginHost;
+    }
+
+    // Login host not initialized. Set it up.
     NSString *managedLoginHost = ([SFManagedPreferences sharedPreferences].loginHosts)[0];
     if (managedLoginHost.length > 0) {
         loginHost = managedLoginHost;
     } else {
-        NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
-        if (bundleLoginHost.length > 0) {
-            loginHost = bundleLoginHost;
-        } else {
-            loginHost = kSFUserAccountOAuthLoginHostDefault;
+
+        /*
+         * Do not fall back to default login host if MDM only permits authorized hosts, even if there are no other hosts.
+         */
+        if (![SFManagedPreferences sharedPreferences].onlyShowAuthorizedHosts) {
+            NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
+            if (bundleLoginHost.length > 0) {
+                loginHost = bundleLoginHost;
+            } else {
+                loginHost = kSFUserAccountOAuthLoginHostDefault;
+            }
         }
     }
-    
     [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
     [defaults synchronize];
-    
     return loginHost;
 }
 
