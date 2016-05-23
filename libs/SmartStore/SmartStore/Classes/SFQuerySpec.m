@@ -232,6 +232,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     [idsSmartSql appendString:[NSString stringWithFormat:@"SELECT %@ ", ID_COL]];
     [idsSmartSql appendString:fromClause];
     [idsSmartSql appendString:whereClause];
+    [idsSmartSql appendString:orderClause];
     self.idsSmartSql = idsSmartSql;
 }
 

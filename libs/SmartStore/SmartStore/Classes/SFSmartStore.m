@@ -1595,11 +1595,14 @@ NSString *const EXPLAIN_ROWS = @"rows";
 - (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName withDb:(FMDatabase*) db
 {
     NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
-    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, querySpec.idsSmartSql];
-    [self executeUpdateThrows:deleteSql withDb:db];
+    NSString* querySql = [self convertSmartSql: querySpec.idsSmartSql withDb:db];
+    NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %u", querySql, querySpec.pageSize];
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
+    NSArray* args = [querySpec bindsForQuerySpec];
+    [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts
     if ([self hasFts:soupName withDb:db]) {
-        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts %@ in (%@)", soupTableName, DOCID_COL, querySpec.idsSmartSql];
+        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts %@ in (%@)", soupTableName, DOCID_COL, querySql];
         [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 }
