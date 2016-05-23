@@ -59,7 +59,8 @@ enum {
     kSFOAuthErrorUnsupportedResponseType,
     kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
     kSFOAuthErrorBrowserLaunchFailed,
-    kSFOAuthErrorUnknownAdvancedAuthConfig
+    kSFOAuthErrorUnknownAdvancedAuthConfig,
+    kSFOAuthErrorInvalidMDMConfiguration
 };
 
 /**
