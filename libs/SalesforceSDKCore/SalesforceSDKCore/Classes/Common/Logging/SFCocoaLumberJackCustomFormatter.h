@@ -23,12 +23,13 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <CocoaLumberjack/DDLog.h>
 
-@interface SFCocoaLumberJackCustomFormatter : NSObject {
-    int loggerCount;
-    NSDateFormatter *threadUnsafeDateFormatter;
-}
+@class SFLogger;
+@interface SFCocoaLumberJackCustomFormatter : NSObject<DDLogFormatter>
 
-- (id)init;
+@property (nonatomic, weak, readonly) SFLogger *logger;
+
+- (instancetype)initWithLogger:(SFLogger*)logger NS_DESIGNATED_INITIALIZER;
 
 @end

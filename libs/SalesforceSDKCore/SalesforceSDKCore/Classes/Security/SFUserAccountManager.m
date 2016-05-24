@@ -112,7 +112,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials {
-    switch ([SFLogger logLevel]) {
+    switch ([SFLogger sharedLogger].logLevel) {
         case SFLogLevelDebug:
             credentials.logLevel = kSFOAuthLogLevelDebug;
             break;
@@ -131,6 +131,9 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
         case SFLogLevelVerbose:
             credentials.logLevel = kSFOAuthLogLevelVerbose;
+            break;
+            
+        default:
             break;
     }
 }

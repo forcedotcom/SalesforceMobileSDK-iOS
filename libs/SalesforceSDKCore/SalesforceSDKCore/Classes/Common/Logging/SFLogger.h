@@ -24,6 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NSNotificationCenter+SFAdditions.h"
+#import "SFLoggerMacros.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 //Prevent all NSLog commands in release versions
 #ifndef DEBUG
@@ -35,20 +38,12 @@ extern NSString * const kSFLogLevelDebugString;
 extern NSString * const kSFLogLevelInfoString;
 extern NSString * const kSFLogLevelWarningString;
 extern NSString * const kSFLogLevelErrorString;
-
-typedef NS_ENUM(NSUInteger, SFLogLevel) {
-    SFLogLevelVerbose,
-	SFLogLevelDebug,
-	SFLogLevelInfo,
-	SFLogLevelWarning,
-	SFLogLevelError
-};
+extern NSString * const kSFLogIdentifierDefault;
 
 typedef NS_ENUM(NSUInteger, SFLogContext) {
     MobileSDKLogContext = 1
-};
+} __attribute__((deprecated("Use logging identifiers instead")));
 
-typedef void (^SFLogBlock) (NSString *msg);
 
 #define SFLogAssert(_cond, _desc, ...) \
 do { \
@@ -57,62 +52,95 @@ if (!(_cond)) { \
 } \
 } while (0) \
 
-
 /*!
  Allows your class to log messages specific to that class.
  You should be able to use this 99% of the time.
  */
 @interface NSObject (SFLogging)
+
+/**
+ * Default logging identifier to use when none is supplied
+ * @return Logging identifier string, or `nil` for default.
+ */
++ (NSString*)loggingIdentifier;
+
 /**
  * Logs a message with the given level.
  * @param level The minimum log level to log at.
  * @param msg The message to log.
  */
--(void)log:(SFLogLevel)level msg:(NSString *)msg;
+- (void)log:(SFLogLevel)level msg:(NSString *)msg;
 
 /**
  * Logs a formatted message with the given log level and format parameters.
  * @param level The minimum log level to log at.
- * @param msg The format message, and optional arguments to expand in the format.
+ * @param format The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
  */
--(void)log:(SFLogLevel)level format:(NSString *)msg, ...;
+- (void)log:(SFLogLevel)level format:(NSString *)format, ...;
 
 /**
  * Analagous Log methods with the addition of context
 */
--(void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg;
--(void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...;
+- (void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg __attribute__((deprecated("Use log:identifier:msg: instead")));
+- (void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)format, ... __attribute__((deprecated("Use log:identifier:format: instead")));
+
+- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
+- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier format:(NSString *)format, ...;
 
 @end
 
 /*!
  Generic logging utility: logs to both console and persistent file.
- */
-@interface SFLogger : NSObject {
-	SFLogLevel		logLevel;
-}
+ 
+ When creating a new logging identifier, it is recommended to create your own logging macros to encapsulate that behavior, since the log:level:msg: and other methods impose additional performance overhead into your code base that could otherwise be avoided.
+ 
+ Simply create logging macros like so:
+    extern NSString * const MyLogIdentifier;
+    static NSInteger kMyLogContext;
+ 
+    #define MyLogError(frmt, ...)      SFLogErrorToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+    #define MyLogWarn(frmt, ...)        SFLogWarnToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+    #define MyLogInfo(frmt, ...)        SFLogInfoToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+    #define MyLogDebug(frmt, ...)      SFLogDebugToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+    #define MyLogVerbose(frmt, ...)  SFLogVerboseToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
 
-/**
- * The current log level of the app.
+ And make sure you initilize your log context at some early point within your application, preferably within the `+initialize` or `+load` method of one of your application's classes.
+
+    NSString * const MyLogIdentifier = @"com.my.application";
+
+    @implementation MyClass
+ 
+    + (void)load {
+        if (self == [MyClass class]) {
+            kMyLogContext = [[SFLogger sharedLogger] registerIdentifier:MyLogIdentifier]
+        }
+    }
+ 
+    @end
+ 
+ Alternatively once you register your identifier, you can use the SFLogErrorToIdentifier and other companion macros with the log identifier string, or you can use the log:level:identifier:format: method directly.  Furthermore, if your [NSObject loggingIdentifier] returns a valid log identifier string, the [NSObject log:msg:] and [NSObject log:format:] methods can be used as well, though those will incur additional performance overhead as well.
  */
-+ (SFLogLevel)logLevel;
+@interface SFLogger : NSObject
+
++ (instancetype)sharedLogger;
+
+@property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL;
 
 /** Turn on and off for logging to a file
- @param logToFile Yes to log to file. Set to NO will turn off logging to file and also remove existing logging file
+ Set to `YES` to log to file. Set to `NO` will turn off logging to file and also remove existing logging file.
  */
-+ (void)logToFile:(BOOL)logToFile;
+@property (nonatomic, assign, getter=shouldLogToFile) BOOL logToFile;
 
-/**
- * Sets the log level of the app.
- * @param newLevel The new log level to configure.
- */
-+ (void)setLogLevel:(SFLogLevel)newLevel;
+@property (nonatomic, assign) SFLogLevel logLevel;
 
+- (SFLogLevel)logLevelForIdentifier:(nullable NSString*)identifier;
+- (void)setLogLevel:(SFLogLevel)logLevel forIdentifier:(nullable NSString*)identifier;
+- (void)setLogLevel:(SFLogLevel)logLevel forIdentifiersWithPrefix:(nonnull NSString*)identifierPrefix;
 
 /** Get access to the content of the application log file.
  */
-+ (NSString *)logFileContents;
+- (nullable NSString *)logFileContents:(NSError * _Nullable *)error;
 
 /**
  * Logs at the Class level.  Should only be used if you don't have an NSObject instance to
@@ -131,7 +159,7 @@ if (!(_cond)) { \
  * @param logContext The context of the log
  * @param msg The message to log.
  */
-+ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg;
++ (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
 
 /**
  * Logs an assertion failure to a file.
@@ -142,7 +170,7 @@ if (!(_cond)) { \
  * @param desc The formatted description to log.
  * @param ... The format arguments of the description.
  */
-+ (void)logAssertionFailureInMethod:(SEL)method object:(id)obj file:(NSString *)file lineNumber:(NSUInteger)line description:(NSString *)desc, ...;
++ (void)logAssertionFailureInMethod:(SEL)method object:(nullable id)obj file:(nullable NSString *)file lineNumber:(NSUInteger)line description:(NSString *)desc, ...;
 
 /**
  * Logs a formatted message with the given log level and format parameters.
@@ -151,7 +179,7 @@ if (!(_cond)) { \
  * @param msg The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
  */
-+ (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)msg, ...;
++ (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ...;
 
 /**
  * Logs a formatted message with the given log level and format parameters.
@@ -161,7 +189,7 @@ if (!(_cond)) { \
  * @param msg The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
  */
-+ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ...;
++ (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString*)logIdentifier format:(NSString *)format, ...;
 
 /*!
  Sets the log level based on the user preferences.
@@ -182,6 +210,42 @@ if (!(_cond)) { \
  */
 + (BOOL)assertionRecordedAndClear;
 
+- (NSInteger)registerIdentifier:(NSString*)identifier;
+
+@end
+
+@interface SFLogger (MacroHelper)
+
++ (void)logAsync:(BOOL)asynchronous
+           level:(SFLogLevel)level
+            flag:(SFLogFlag)flag
+         context:(NSInteger)context
+            file:(nullable const char *)file
+        function:(nullable const char *)function
+            line:(NSUInteger)line
+             tag:(nullable id)tag
+          format:(nullable NSString *)format, ...;
+
+@end
+
+@interface SFLogger (Deprecated)
+
++ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg __attribute__((deprecated("Use log:level:identifier:msg: instead")));
++ (void)log:(Class)cls level:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)msg, ... __attribute__((deprecated("Use log:level:identifier:msg: instead")));
+
+/**
+ * The current log level of the app.
+ */
++ (SFLogLevel)logLevel __attribute__((deprecated("Use [SFLogger sharedLogger].logLevel")));
+
+/**
+ * Sets the log level of the app.
+ * @param newLevel The new log level to configure.
+ */
++ (void)setLogLevel:(SFLogLevel)newLevel __attribute__((deprecated("Use [SFLogger sharedLogger].logToFile")));
+
++ (void)logToFile:(BOOL)logToFile __attribute__((deprecated("Use [SFLogger sharedLogger].logToFile")));
+
 /**
  *  Return SFLogLevel for corresponding user readable string. Does
  *  a case insensitive comparison against "Verbose", "Debug", "Info", "Warning", "Error"
@@ -190,7 +254,9 @@ if (!(_cond)) { \
  *
  *  @return Corresponding SFLogLevel value
  */
-+ (SFLogLevel)logLevelForString:(NSString *)value;
++ (SFLogLevel)logLevelForString:(NSString *)value __attribute__((deprecated));
+
++ (nullable NSString *)logFileContents  __attribute__((deprecated("Use [SFLogger sharedLogger].logFileContents")));
 
 //Context Based Filtering
 //Two filters: blacklist, whitelist.
@@ -200,21 +266,22 @@ if (!(_cond)) { \
 
 + (void)resetLoggingFilter; //back to original settings (set to blacklist filter; empty blacklist/whitelist)
 
-
 // black list formatter (logs with contexts on the black list will not be displayed )
-+ (void)blackListFilterAddContext:(SFLogContext)logContext;
-+ (void)blackListFilterRemoveContext:(SFLogContext)logContext;
++ (void)blackListFilterAddContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
++ (void)blackListFilterRemoveContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
 
 // white list formatter (ONLY logs with contexts on the white list will be displayed)
-+ (void)whiteListFilterAddContext:(SFLogContext)logContext;
-+ (void)whiteListFilterRemoveContext:(SFLogContext)logContext;
-+ (void)filterByContext:(SFLogContext)logContext; //if you want to RESET the whitelist and filter only ONE context
++ (void)whiteListFilterAddContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
++ (void)whiteListFilterRemoveContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
++ (void)filterByContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead"))); //if you want to RESET the whitelist and filter only ONE context
 
 //contexts on respective filter
-+ (NSArray *)contextsOnBlackList;
-+ (NSArray *)contextsOnWhiteList;
++ (nullable NSArray *)contextsOnBlackList __attribute__((deprecated("Use logging identifiers instead")));
++ (nullable NSArray *)contextsOnWhiteList __attribute__((deprecated("Use logging identifiers instead")));
 
-+ (BOOL)isOnContextBlackList:(SFLogContext)logContext;
-+ (BOOL)isOnContextWhiteList:(SFLogContext)logContext;
++ (BOOL)isOnContextBlackList:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
++ (BOOL)isOnContextWhiteList:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));
 
 @end
+
+NS_ASSUME_NONNULL_END
