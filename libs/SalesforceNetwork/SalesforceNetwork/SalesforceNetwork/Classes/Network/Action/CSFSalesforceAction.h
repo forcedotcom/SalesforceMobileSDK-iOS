@@ -46,4 +46,9 @@ CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 @property (nonatomic, copy) NSString *pathPrefix;
 @property (nonatomic, copy) NSString *apiVersion;
 
+/**
+ * Returns YES if error is a network error
+ */
++ (BOOL)isNetworkError:(nullable NSError *)error;
+
 @end

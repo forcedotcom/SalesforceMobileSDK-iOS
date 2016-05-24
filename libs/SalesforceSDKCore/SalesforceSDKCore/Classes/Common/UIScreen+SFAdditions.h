@@ -23,9 +23,14 @@
  */
 
 #import <UIKit/UIKit.h>
+/** Salesforce Mobile SDK additions to the UIScreen class.
+ */
 
 @interface UIScreen (SFAdditions)
 
+/** Returns the rectangle that describes the screen boundaries in portrait orientation.
+ @return Screen boundaries in portrait orientation.
+ */
 - (CGRect)portraitScreenBounds;
 
 @end

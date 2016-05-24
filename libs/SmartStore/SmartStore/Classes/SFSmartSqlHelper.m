@@ -90,6 +90,11 @@ static SFSmartSqlHelper *sharedInstance = nil;
                     [sql appendString:tableQualifier];
                     [sql appendString:@"id"];
                 }
+                // {soupName:_soupCreatedDate}
+                else if ([path isEqualToString:@"_soupCreatedDate"]) {
+                    [sql appendString:tableQualifier];
+                    [sql appendString:@"created"];
+                }
                 // {soupName:_soupLastModifiedDate}
                 else if ([path isEqualToString:@"_soupLastModifiedDate"]) {
                     [sql appendString:tableQualifier];
@@ -112,6 +117,13 @@ static SFSmartSqlHelper *sharedInstance = nil;
             [scanner scanString:@"}" intoString:nil];
         }
     }
+    
+    // With json1 support, the column name could be an expression of the form json_extract(soup, '$.x.y.z')
+    // We can't have TABLE_x.json_extract(soup, ...) in the sql query
+    // Instead we should have json_extract(TABLE_x.soup, ...)
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(TABLE_[0-9]+)\\.json_extract\\(soup" options:0 error:&error];
+    [regex replaceMatchesInString:sql options:0 range:NSMakeRange(0, [sql length]) withTemplate:@"json_extract($1.soup"];
     
     return sql;
 }

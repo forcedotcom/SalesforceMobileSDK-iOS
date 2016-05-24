@@ -26,6 +26,10 @@
 #import <CocoaLumberjack/DDLog.h>
 
 @class SFLogger;
+
+/**
+ This class applies custom formatting to log messages.
+ */
 @interface SFCocoaLumberJackCustomFormatter : NSObject<DDLogFormatter>
 
 @property (nonatomic, weak, readonly) SFLogger *logger;

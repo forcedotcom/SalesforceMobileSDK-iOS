@@ -4,14 +4,12 @@ branches:
      - unstable
 
 language: objective-c
-osx_image: xcode7
+osx_image: xcode7.2
 
 env:
   matrix:
-    - SDK=iphonesimulator OS=8.4 NAME='iphone 6'
-    - SDK=iphonesimulator9.1 OS=9.1 NAME='iphone 6'
-    - SDK=iphonesimulator OS=8.4 NAME='ipad 2'
-    - SDK=iphonesimulator9.1 OS=9.1 NAME='ipad 2'
+    - SDK=iphonesimulator9.2 OS=9.2 NAME="iPhone 6"
+    - SDK=iphonesimulator9.2 OS=9.2 NAME="iPad 2"
 
 before_install:
    - gem install xcpretty
@@ -22,25 +20,28 @@ before_script:
 
 script:
    # build libs
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceReact CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceReact CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    # build native sample apps
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme RestAPIExplorer CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme RestAPIExplorer CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    # build hybrid sample apps
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme AccountEditor CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   - xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --color --simple
-   # run tests that don't need a host app
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   # run tests that need a host app
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPITestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStoreTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDKTestApp -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme AccountEditor CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
+
+# run tests that don't need a host app
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetworkTests -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+  
+# run tests that need a host app
+   - xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test

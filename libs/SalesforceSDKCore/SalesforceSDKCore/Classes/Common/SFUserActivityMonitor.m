@@ -25,6 +25,7 @@
 #import "SFUserActivityMonitor.h"
 #import "SFApplication.h"
 #import "SFInactivityTimerCenter.h"
+#import "SFApplicationHelper.h"
 
 // Singleton instance
 static SFUserActivityMonitor *_instance;
@@ -77,7 +78,7 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 {
     [self stopMonitoring];
     
-    _lastEventDate = [[(SFApplication *)[UIApplication sharedApplication] lastEventDate] copy];
+    _lastEventDate = [[(SFApplication *)[SFApplicationHelper sharedApplication] lastEventDate] copy];
     _monitorTimer = [NSTimer timerWithTimeInterval:kActivityCheckPeriodSeconds
                                              target:self
                                            selector:@selector(timerFired:)
@@ -96,10 +97,10 @@ static NSTimeInterval const kActivityCheckPeriodSeconds = 20;
 
 - (void)timerFired:(NSTimer *)theTimer
 {
-    NSDate *lastEventAsOfNow = [(SFApplication *)[UIApplication sharedApplication] lastEventDate];
+    NSDate *lastEventAsOfNow = [(SFApplication *)[SFApplicationHelper sharedApplication] lastEventDate];
     if (![_lastEventDate isEqualToDate:lastEventAsOfNow]) {
         [self log:SFLogLevelDebug format:@"New user activity at %@", lastEventAsOfNow];
-        [SFInactivityTimerCenter updateActivityTimestamp];
+        [SFInactivityTimerCenter updateActivityTimestampTo:lastEventAsOfNow];
         // TODO: Possibly consider a notification, if other objects would like to subscribe to this.
         _lastEventDate = [lastEventAsOfNow copy];
     } else {

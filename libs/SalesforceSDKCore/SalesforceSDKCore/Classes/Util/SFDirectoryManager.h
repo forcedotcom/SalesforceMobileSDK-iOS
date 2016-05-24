@@ -53,6 +53,7 @@
 
 /** Ensure the specified string contains only characters that can be
  safely used to identify a path on the disk.
+ @param candidate The string to be checked for compatibility.
  */
 + (NSString*)safeStringForDiskRepresentation:(NSString*)candidate;
 

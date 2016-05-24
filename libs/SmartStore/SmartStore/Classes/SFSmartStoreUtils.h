@@ -25,11 +25,13 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 
+/**Utility methods used by SmartStore.
+ */
 @interface SFSmartStoreUtils : NSObject
 
-/**
- @return A unique key for the given user.  This will return a "global" key if no proper
+/** Returns a unique key for the given user, or a "global" key if no proper
  user is configured.
+ @return Unique key for the given user
  */
 + (NSString *)userKeyForUser:(SFUserAccount *)user;
 

@@ -235,6 +235,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 + (BOOL)isPasscodeNeeded;
 
 /** Show the passcode view. Used by unit tests.
+ @param showPasscode If YES, passcode view can be displayed.
  */
 + (void)setCanShowPasscode:(BOOL)showPasscode;
 
@@ -297,6 +298,7 @@ typedef void (^SFPasscodeViewControllerPresentationBlock)(UIViewController*);
 
 /**
  * Sets a retained instance of the current passcode view controller that's displayed.
+ @param vc The passcode view controller.
  */
 + (void)setPasscodeViewController:(UIViewController *)vc;
 

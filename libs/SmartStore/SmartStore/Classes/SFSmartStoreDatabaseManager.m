@@ -179,7 +179,9 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     if ([db open]) {
         NSString* pragmaQuery = [NSString stringWithFormat:@"PRAGMA cipher_default_kdf_iter = '%d'", kdfIter];
         [[db executeQuery:pragmaQuery] close];
-        [db setKey:key];
+        if(key) {
+            [db setKey:key];
+        }
     }
     BOOL accessible = [self verifyDatabaseAccess:db error:nil];
     if (accessible) {

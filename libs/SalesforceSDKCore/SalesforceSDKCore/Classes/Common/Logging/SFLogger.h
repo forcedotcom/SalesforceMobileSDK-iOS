@@ -66,7 +66,7 @@ if (!(_cond)) { \
 
 /**
  * Logs a message with the given level.
- * @param level The minimum log level to log at.
+ * @param level The minimum log level to observe.
  * @param msg The message to log.
  */
 - (void)log:(SFLogLevel)level msg:(NSString *)msg;
@@ -80,13 +80,24 @@ if (!(_cond)) { \
 - (void)log:(SFLogLevel)level format:(NSString *)format, ...;
 
 /**
- * Analagous Log methods with the addition of context
+ * Log method with the addition of context.
+ * @param level The minimum log level to observe.
+ * @param identifier Identifier to use when scoping the context of this log message.
+ * @param msg The format message.
 */
+- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
+
+/**
+ * Log method with the addition of context
+ * @param level The minimum log level to observe.
+ * @param identifier Identifier to use when scoping the context of this log message.
+ * @param format The format message.
+ * @param ... Optional arguments for the message format string.
+ */
+- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier format:(NSString *)format, ...;
+
 - (void)log:(SFLogLevel)level context:(SFLogContext)logContext msg:(NSString *)msg __attribute__((deprecated("Use log:identifier:msg: instead")));
 - (void)log:(SFLogLevel)level context:(SFLogContext)logContext format:(NSString *)format, ... __attribute__((deprecated("Use log:identifier:format: instead")));
-
-- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
-- (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier format:(NSString *)format, ...;
 
 @end
 
@@ -261,10 +272,13 @@ if (!(_cond)) { \
 //Context Based Filtering
 //Two filters: blacklist, whitelist.
 
+/** Sets the log formatter to use the black list filter.
+ */
 + (void)setBlackListFilter;
-+ (void)setWhiteListFilter;
 
-+ (void)resetLoggingFilter; //back to original settings (set to blacklist filter; empty blacklist/whitelist)
+/** Sets the log formatter to use the white list filter.
+ */
++ (void)setWhiteListFilter;
 
 // black list formatter (logs with contexts on the black list will not be displayed )
 + (void)blackListFilterAddContext:(SFLogContext)logContext __attribute__((deprecated("Use logging identifiers instead")));

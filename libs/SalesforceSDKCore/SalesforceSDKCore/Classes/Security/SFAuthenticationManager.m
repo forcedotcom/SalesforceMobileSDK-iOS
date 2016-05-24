@@ -41,7 +41,7 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
-
+#import "SFManagedPreferences.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
 #import "NSURL+SFAdditions.h"
@@ -505,16 +505,12 @@ static Class InstanceClass = nil;
     
     // Check that the current user itself has a valid session
     SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    if ([userAcct isSessionValid]) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [userAcct isSessionValid];
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    self.advancedAuthConfiguration = advancedAuthConfiguration;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
     self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
@@ -762,16 +758,27 @@ static Class InstanceClass = nil;
 - (void)loginWithUser:(SFUserAccount*)account {
     NSAssert(account != nil, @"Account should be set at this point.");
     [SFUserAccountManager sharedInstance].currentUser = account;
-    
-    // Setup the internal logic for the specified user
+
+    // Setup the internal logic for the specified user.
     [self setupWithUser:account];
-    
-    // Trigger the login flow
+
+    // Trigger the login flow.
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
     }
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    }
+
+    // Don't try to authenticate if MDM OnlyShowAuthorizedHosts is configured and there are no hosts.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        [self log:SFLogLevelDebug msg:@"Invalid MDM Configuration, OnlyShowAuthorizedHosts is enabled, but no hosts are provided"];
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSDictionary *dict = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ doesn't have a login page set up yet. Ask your Salesforce admin for help.", appName]};
+        NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidMDMConfiguration userInfo:dict];
+        [self oauthCoordinator:self.coordinator didFailWithError:error authInfo:nil];
+        return;
     }
     [self.coordinator authenticate];
 }
@@ -941,7 +948,7 @@ static Class InstanceClass = nil;
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
-                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
+                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
                                                    [weakSelf execFailureBlocks];
                                                    return YES;
                                                }
@@ -955,7 +962,7 @@ static Class InstanceClass = nil;
                                             initWithName:kSFConnectedAppVersionAuthErrorHandler
                                             evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                 if (error.code == kSFOAuthErrorWrongVersion) {
-                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
                                                     [weakSelf showAlertForConnectedAppVersionMismatchError];
                                                     return YES;
                                                 }

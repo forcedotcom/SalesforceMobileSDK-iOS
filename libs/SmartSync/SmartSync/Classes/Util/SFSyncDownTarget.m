@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -83,14 +83,26 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 ABSTRACT_METHOD
 
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+           queryRun:(NSString*)queryRun
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
+ABSTRACT_METHOD
+
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     completeBlock(nil);
 }
 
-- (long long)getLatestModificationTimeStamp:(NSArray *)records {
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                       localIds:(NSArray*)localIds
+                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
+ABSTRACT_METHOD
+
+- (long long)getLatestModificationTimeStamp:(NSArray*)records {
     long long maxTimeStamp = -1L;
     for(NSDictionary* record in records) {
         NSString* timeStampStr = record[self.modificationDateFieldName];

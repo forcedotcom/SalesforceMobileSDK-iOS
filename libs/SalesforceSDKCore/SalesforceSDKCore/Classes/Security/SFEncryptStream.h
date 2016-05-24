@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,41 +22,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
+#import "SFCryptChunks.h"
 
-#import "CSFNetwork.h"
-#import "CSFAction.h"
-#import "CSFOutput.h"
-#import "CSFInput.h"
-#import "CSFActionModel.h"
-#import "CSFNetworkOutputCache.h"
+NS_ASSUME_NONNULL_BEGIN
 
-@interface JSONNetworkTests : XCTestCase
-@end
+/**
+ *  SFEncryptStream is an output stream that encrypts data before it is written out.
+ *  SFCryptChunks is used to perform the encryption.
+ */
+@interface SFEncryptStream : NSOutputStream <SFCryptChunksDelegate>
 
-@implementation JSONNetworkTests
-
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
-}
-
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
-}
+/**
+ *  Setup for encryption. You must call this method before using the stream.
+ *  @param key the cipher key.
+ *  @param iv  the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
+ */
+- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -26,23 +26,25 @@
 #import "SFSmartStore.h"
 
 /**
- * The view controller for managing the smartstore inspector screen.
+ * The view controller for managing the SmartStore inspector screen.
  */
 @interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
 
 
 /**
- Constructor
+ Constructor.
+ @param store The SmartStore database to be inspected
  */
 - (instancetype) initWithStore:(SFSmartStore*)store;
 
 /**
- Show smart store inspector
+ Show SmartStore inspector.
+ @param currentViewController View controller that's currently controlling the display
  */
 - (void) present:(UIViewController*) currentViewController;
 
 /**
- Hide smart store inspector
+ Hide SmartStore inspector.
  */
 - (void) dismiss;
 

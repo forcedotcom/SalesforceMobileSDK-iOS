@@ -70,10 +70,13 @@
                                 SFLogNameForFlag((SFLogFlag)logMessage->_flag),
                                 identifier.identifier];
     
-    if (logMessage->_file && logMessage->_function) {
-        [message appendFormat:@" <%@:%ld %@>", [logMessage->_file lastPathComponent], logMessage->_line, logMessage->_function];
-    } else if (classString && logMessage->_file) {
-        [message appendFormat:@" <%@:%ld %@>", [logMessage->_file lastPathComponent], logMessage->_line, classString];
+    NSString *file = ([logMessage->_file isEqualToString:@"(null)"]) ? nil : logMessage->_file;
+    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? nil : logMessage->_function;
+    
+    if (file && function) {
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, function];
+    } else if (classString && file) {
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, classString];
     } else if (classString) {
         [message appendFormat:@" <%@>", classString];
     }

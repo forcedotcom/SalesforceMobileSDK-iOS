@@ -216,16 +216,20 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (CSFAction*)duplicateActionInFlight:(CSFAction*)action {
     CSFAction *result = nil;
-    if ([action.method isEqualToString:@"POST"] || [action.method isEqualToString:@"PUT"]) {
-        // bypass duplicate detection for POST and PUT
+    if ([self shouldBypassDedupeForMethod:action.method]) {
         return result;
     }
     
     for (CSFAction *operation in self.queue.operations.reverseObjectEnumerator) {
         if (![operation isKindOfClass:[CSFAction class]])
             continue;
-        if ([operation.method isEqualToString:@"POST"] || [operation.method isEqualToString:@"PUT"]) {
-            // bypass duplicate detection for POST and PUT
+        
+        // we should NOT de-dupe between two actions if their requireBackgroundSession is set differently
+        if (operation.requireBackgroundSession != action.requireBackgroundSession) {
+            continue;
+        }
+        
+        if ([self shouldBypassDedupeForMethod:operation.method]) {
             continue;
         }
         
@@ -263,8 +267,7 @@ static NSMutableDictionary *SharedInstances = nil;
         [self.progress resignCurrent];
     }
     
-    // bypass duplicate detection for POST and PUT
-    if ([action.method isEqualToString:@"POST"] || [action.method isEqualToString:@"PUT"]) {
+    if ([self shouldBypassDedupeForMethod:action.method]) {
         [self.queue addOperation:action];
     }
     else {
@@ -326,6 +329,12 @@ static NSMutableDictionary *SharedInstances = nil;
     return [[self.queue.operations filteredArrayUsingPredicate:predicate] firstObject];
 }
 
+- (BOOL)shouldBypassDedupeForMethod:(NSString *)method {
+    return ([method isEqualToString:@"POST"] ||
+              [method isEqualToString:@"PUT"] ||
+              [method isEqualToString:@"PATCH"]);
+}
+            
 #pragma mark -
 
 #pragma mark NSURLSessionDataDelegate

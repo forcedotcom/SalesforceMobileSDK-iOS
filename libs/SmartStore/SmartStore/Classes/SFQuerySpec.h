@@ -83,6 +83,11 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
 @property (nonatomic, strong) NSString *countSmartSql;
 
 /**
+ idsSmartSql: query returning only ids
+ */
+@property (nonatomic, strong) NSString *idsSmartSql;
+
+/**
  * The number of entries per page to return.
  */
 @property (nonatomic, assign) NSUInteger pageSize;
