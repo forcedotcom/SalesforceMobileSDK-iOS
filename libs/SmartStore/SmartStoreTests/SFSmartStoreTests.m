@@ -299,16 +299,17 @@
         XCTAssertNil(error, @"There should be no errors.");
 
         // Populate soup
-        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
-        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
-        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt0 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
 
-        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2] toSoup:kTestSoupName];
         
         // Query all - small page
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
+                                        covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
         
@@ -316,6 +317,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:2]
                                             page:1
                                  expectedResults:@[soupEltsCreated[2]]
+                                        covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
 
@@ -323,6 +325,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]]
+                                        covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
     }
@@ -341,7 +344,7 @@
  */
 -(void) testRangeQueryWithJSON1Index
 {
-    [self tryAllQuery:kSoupIndexTypeJSON1];
+    [self tryRangeQuery:kSoupIndexTypeJSON1];
 }
 
 /**
@@ -363,16 +366,17 @@
         XCTAssertNil(error, @"There should be no errors.");
         
         // Populate soup
-        NSDictionary* soupElt1 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
-        NSDictionary* soupElt2 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
-        NSDictionary* soupElt3 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt0 = @{@"key": @"ka1", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"ka2", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"ka3", @"value":@"va3", @"otherValue":@"ova3"};
         
-        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2] toSoup:kTestSoupName];
         
         // Range query
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[2]]
+                                        covering:NO
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -380,6 +384,7 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
+                                        covering:NO
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -391,7 +396,7 @@
  */
 -(void) testLikeQueryWithStringIndex
 {
-    [self tryRangeQuery:kSoupIndexTypeString];
+    [self tryLikeQuery:kSoupIndexTypeString];
 }
 
 /**
@@ -399,7 +404,7 @@
  */
 -(void) testLikeQueryWithJSON1Index
 {
-    [self tryAllQuery:kSoupIndexTypeJSON1];
+    [self tryLikeQuery:kSoupIndexTypeJSON1];
 }
 
 /**
@@ -421,19 +426,20 @@
         XCTAssertNil(error, @"There should be no errors.");
         
         // Populate soup
-        NSDictionary* soupElt1 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
-        NSDictionary* soupElt2 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
-        NSDictionary* soupElt3 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
-        NSDictionary* soupElt4 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt3 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
 
         
-        NSArray* soupEltsCreated = [store upsertEntries:@[ soupElt1, soupElt2, soupElt3, soupElt4] toSoup:kTestSoupName];
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
         
          // Like query (starts with)
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[0]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
          
@@ -441,7 +447,8 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[1]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
          
@@ -449,7 +456,8 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[0], soupEltsCreated[2]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
          
@@ -457,7 +465,8 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bcd" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[0]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
          
@@ -465,7 +474,8 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[0], soupEltsCreated[1]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
         
          
@@ -473,10 +483,189 @@
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
                                             page:0
                                  expectedResults:@[soupEltsCreated[1], soupEltsCreated[0], soupEltsCreated[2]]
-                             expectedDbOperation:@"SEARCH"
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
                                            store:store];
     }
 }
+
+/**
+ * Test smart query when soup has string index
+ */
+-(void) testSmartQueryWithStringIndex
+{
+    [self trySmartQuery:kSoupIndexTypeString];
+}
+
+/**
+ * Test smart query when soup has json1 index
+ */
+-(void) testSmartQueryWithJSON1Index
+{
+    [self trySmartQuery:kSoupIndexTypeJSON1];
+}
+
+/**
+ * Test smart query
+ */
+-(void) trySmartQuery:(NSString*)indexType
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt3 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+        
+        
+        /* NSArray* soupEltsCreated = */[store upsertEntries:@[soupElt0, soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Smart query
+        NSString* smartSql = [NSString stringWithFormat:@"SELECT {%1$@:key} FROM {%1$@} WHERE {%1$@:key} LIKE 'abc%%' ORDER BY {%1$@:key}", kTestSoupName];
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"abcc"], @[@"abcd"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+        // Anoter smart query
+        smartSql = [NSString stringWithFormat:@"SELECT {%1$@:key} FROM {%1$@} ORDER BY {%1$@:key}", kTestSoupName];
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:2]
+                                            page:0
+                                 expectedResults:@[@[@"abcc"], @[@"abcd"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+    }
+}
+
+/**
+ * Test remove entries with ids
+ */
+-(void) testRemoveEntriesByIds
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": kSoupIndexTypeString}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt3 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+        
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Remove two entries
+        [store removeEntries:@[soupEltsCreated[1][SOUP_ENTRY_ID], soupEltsCreated[3][SOUP_ENTRY_ID]] fromSoup:kTestSoupName error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+        
+
+        // Query all and make sure the two entries are gone
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2], soupEltsCreated[0]]
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+
+        // Remove one more entry
+        [store removeEntries:@[soupEltsCreated[0][SOUP_ENTRY_ID]] fromSoup:kTestSoupName error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Query all and make sure the removed entry is gone
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[2]]
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+    
+    }
+}
+
+/**
+ * Test remove entries by query
+ */
+-(void) testRemoveEntriesByQuery
+{
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kTestSoupName], @"%@ should not exist before registration.", kTestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoup:kTestSoupName
+             withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": kSoupIndexTypeString}]]
+                      error:&error];
+        BOOL testSoupExists = [store soupExists:kTestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kTestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt3 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+        
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2, soupElt3] toSoup:kTestSoupName];
+        
+        // Remove two entries
+        [store removeEntriesByQuery:[SFQuerySpec newLikeQuerySpec:kTestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                           fromSoup:kTestSoupName
+                              error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        
+        // Query all and make sure the removed entries are gone
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[1], soupEltsCreated[3]]
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+        
+        // Remove one more entry using a query all with page size of 1
+        [store removeEntriesByQuery:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1]
+                           fromSoup:kTestSoupName
+                              error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+
+        
+        // Query all and make sure the removed entry is gone
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[soupEltsCreated[3]]
+                                        covering:NO
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+        
+    }
+}
+
 
 /**
  * Test to verify an aggregate query on floating point values indexed as floating.
@@ -512,19 +701,20 @@
         // Populate soup
         NSDictionary* soupElt1 = @{@"amount": [NSNumber numberWithDouble:10.2]};
         NSDictionary* soupElt2 = @{@"amount": [NSNumber numberWithDouble:9.9]};
-        [store upsertEntries:@[ soupElt1, soupElt2] toSoup:kTestSoupName];
+        [store upsertEntries:@[soupElt1, soupElt2] toSoup:kTestSoupName];
         
         // Aggregate query
         NSString* smartSql = [NSString stringWithFormat:@"SELECT SUM({%@:amount}) FROM {%@}", kTestSoupName, kTestSoupName];
         [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newSmartQuerySpec:smartSql withPageSize:10]
                                             page:0
                                  expectedResults:@[@[[NSNumber numberWithDouble:20.1]]]
+                                        covering:NO
                              expectedDbOperation:nil
                                            store:store];
     }
 }
 
--(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults expectedDbOperation:(NSString*)expectedDbOperation store:(SFSmartStore*)store
+-(void) runQueryCheckResultsAndExplainPlan:(SFQuerySpec*)querySpec page:(NSUInteger)page expectedResults:(NSArray*)expectedResults covering:(BOOL)covering expectedDbOperation:(NSString*)expectedDbOperation store:(SFSmartStore*)store
 {
     // Run query
     NSError* error = nil;
@@ -536,7 +726,7 @@
     
     // Check explain plan and make sure index was used unless caller passed nil for expectedDbOperation
     if (expectedDbOperation) {
-        [self checkExplainQueryPlan:kTestSoupName index:0 dbOperation:expectedDbOperation store:store];
+        [self checkExplainQueryPlan:kTestSoupName index:0 covering:covering dbOperation:expectedDbOperation store:store];
     }
 }
 

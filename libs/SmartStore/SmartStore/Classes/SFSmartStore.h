@@ -240,7 +240,7 @@ extern NSString *const EXPLAIN_ROWS;
  
  @param soupName The name of the soup to register
  @param indexSpecs Array of one ore more SFSoupIndex objects
- @param error Error description
+ @param error Sets/returns any error generated as part of the process.
  @return YES if the soup registered OK
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs __attribute__((deprecated("Use -registerSoup:withIndexSpecs:error:")));
@@ -306,7 +306,7 @@ extern NSString *const EXPLAIN_ROWS;
  @param soupName Soup name.
  @param fieldPath Field path.
  @param fieldValue Field value.
- @param error Error callback.
+ @param error Sets/returns any error generated as part of the process.
  */
 - (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
                               forFieldPath:(NSString *)fieldPath
@@ -318,9 +318,22 @@ extern NSString *const EXPLAIN_ROWS;
  
  @param entryIds An array of opaque soup entry IDs from _soupEntryId
  @param soupName The name of the soup from which to remove the soup entries
- 
+ @param error Sets/returns any error generated as part of the process.
  */
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;
+- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error;
+
+
+/**
+ Remove soup entries returned by queries
+ NB: a single SQL call is executed to improve performance
+
+ @param querySpec Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids)
+ @param soupName The name of the soup from which to remove the soup entries
+ @param error Sets/returns any error generated as part of the process.
+ */
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName;
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error;
 
 /**
  Remove all elements from soup.
