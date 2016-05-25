@@ -100,13 +100,6 @@ static BOOL const kSFASLLoggerEnabledDefault = NO;
         }                                                                          \
     } while(0)
 
-//static void SF_LOG_MAYBE(BOOL async, SFLogFlag flg, NSUInteger ctx, id tag, const char * fnct, const char * frmt, ...) {
-//    do {
-//        if (flg & SFLoggerContextLogLevels[ctx])
-//            SF_LOG_MACRO(async, SFLoggerContextLogLevels[ctx], flg, ctx, tag, fnct, frmt);
-//    } while(0);
-//}
-
 #define SFLogErrorToContext(context, tag, frmt, ...)   SF_LOG_MAYBE(NO,  SFLogFlagError,   context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
 #define SFLogWarnToContext(context, tag, frmt, ...)    SF_LOG_MAYBE(YES, SFLogFlagWarning, context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
 #define SFLogInfoToContext(context, tag, frmt, ...)    SF_LOG_MAYBE(YES, SFLogFlagInfo,    context, tag, __PRETTY_FUNCTION__, frmt, ##__VA_ARGS__)
