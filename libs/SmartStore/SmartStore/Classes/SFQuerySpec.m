@@ -62,7 +62,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.orderPath = orderPath;
         querySpec.order = order;
         querySpec.pageSize = pageSize;
-        [querySpec computeSmartAndCountSql];
+        [querySpec computeSmartAndCountAndIdsSql];
     }
     return querySpec;
 }
@@ -77,7 +77,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.orderPath = orderPath;
         querySpec.order = order;
         querySpec.pageSize = pageSize;
-        [querySpec computeSmartAndCountSql];
+        [querySpec computeSmartAndCountAndIdsSql];
     }
     return querySpec;
 }
@@ -93,7 +93,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.orderPath = orderPath;
         querySpec.order = order;
         querySpec.pageSize = pageSize;
-        [querySpec computeSmartAndCountSql];
+        [querySpec computeSmartAndCountAndIdsSql];
     }
     return querySpec;
 }
@@ -110,6 +110,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.pageSize = pageSize;
     }
     querySpec.countSmartSql = [querySpec computeCountSql:smartSql];
+    querySpec.idsSmartSql = [querySpec computeIdsSql:smartSql];
     return querySpec;
 }
 
@@ -124,7 +125,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         querySpec.orderPath = orderPath;
         querySpec.order = order;
         querySpec.pageSize = pageSize;
-        [querySpec computeSmartAndCountSql];
+        [querySpec computeSmartAndCountAndIdsSql];
     }
     return querySpec;
 }
@@ -208,7 +209,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
 #pragma mark - Smart sql computation
 
-- (void)computeSmartAndCountSql {
+- (void)computeSmartAndCountAndIdsSql {
     NSString* selectClause = [self computeSelectClause];
     NSString* fromClause = [self computeFromClause];
     NSString* whereClause = [self computeWhereClause];
@@ -226,10 +227,22 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
      [countSmartSql appendString:fromClause];
      [countSmartSql appendString:whereClause];
      self.countSmartSql = countSmartSql;
+
+    NSMutableString* idsSmartSql = [NSMutableString string];
+    [idsSmartSql appendString:[NSString stringWithFormat:@"SELECT %@ ", ID_COL]];
+    [idsSmartSql appendString:fromClause];
+    [idsSmartSql appendString:whereClause];
+    [idsSmartSql appendString:orderClause];
+    self.idsSmartSql = idsSmartSql;
 }
 
 - (NSString*) computeCountSql:(NSString*) smartSql {
     return [NSString stringWithFormat:@"SELECT count(*) FROM (%@)", smartSql];
+}
+
+- (NSString*) computeIdsSql:(NSString*) smartSql {
+    return [NSString stringWithFormat:@"SELECT %@ FROM (%@)", ID_COL, smartSql];
+    // NB: that query won't successfully run if smartSql doesn't select the id col
 }
 
 - (NSString*)computeSelectClause {

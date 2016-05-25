@@ -97,6 +97,10 @@
     [self runTest:@"testRemoveFromSoup"];
 }
 
+- (void) testRemoveFromSoupByQuery {
+    [self runTest:@"testRemoveFromSoupByQuery"];
+}
+
 - (void) testQuerySoupWithExactQuery {
     [self runTest:@"testQuerySoupWithExactQuery"];
 }

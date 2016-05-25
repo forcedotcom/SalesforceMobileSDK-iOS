@@ -142,13 +142,13 @@
     
 }
 
-- (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store
+- (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index covering:(BOOL) covering dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store
 {
     NSString* soupTableName = [self getSoupTableName:soupName store:store];
     NSString* indexName = [NSString stringWithFormat:@"%@_%u_idx", soupTableName, index];
-    NSString* expectedDetailPrefix = [NSString stringWithFormat:@"%@ TABLE %@ USING INDEX %@", dbOperation, soupTableName, indexName];
-    NSString* detail = ((NSArray*)store.lastExplainQueryPlan[EXPLAIN_ROWS])[0][@"detail"];
-    XCTAssertTrue([detail hasPrefix:expectedDetailPrefix]);
+    NSString* expectedDetailPrefix = [NSString stringWithFormat:@"%@ TABLE %@ USING %@INDEX %@", dbOperation, soupTableName, (covering ? @"COVERING " : @""), indexName];
+    NSString* actualDetail = ((NSArray*)store.lastExplainQueryPlan[EXPLAIN_ROWS])[0][@"detail"];
+    XCTAssertTrue([actualDetail hasPrefix:expectedDetailPrefix], "Wrong explain plan actual: %@", actualDetail);
 }
 
 - (void) checkColumns:(NSString*)tableName expectedColumns:(NSArray*)expectedColumns store:(SFSmartStore*)store {
@@ -162,7 +162,8 @@
         }
         [frs close];
     }];
-    [self assertSameJSONArrayWithExpected:expectedColumns actual:actualColumns message:@"Wrong columns"];
+    NSString* message = [NSString stringWithFormat:@"Wrong columns actual: %@", [actualColumns componentsJoinedByString:@","]];
+    [self assertSameJSONArrayWithExpected:expectedColumns actual:actualColumns message:message];
 }
 
 - (void) checkDatabaseIndexes:(NSString*)tableName expectedSqlStatements:(NSArray*)expectedSqlStatements store:(SFSmartStore*)store {
@@ -175,7 +176,8 @@
         }
         [frs close];
     }];
-    [self assertSameJSONArrayWithExpected:expectedSqlStatements actual:actualSqlStatements message:@"Wrong indexes"];
+    NSString* message = [NSString stringWithFormat:@"Wrong indexes actual:%@", [actualSqlStatements componentsJoinedByString:@","]];
+    [self assertSameJSONArrayWithExpected:expectedSqlStatements actual:actualSqlStatements message:message];
     
 }
 
