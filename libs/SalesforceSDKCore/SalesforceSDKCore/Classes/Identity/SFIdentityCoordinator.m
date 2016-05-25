@@ -28,6 +28,7 @@
 #import "SFOAuthSessionRefresher.h"
 #import "SFIdentityData.h"
 #import "SFJsonUtils.h"
+#import "SFUserAccountManager.h"
 
 // Public constants
 
@@ -134,11 +135,21 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     [request setHTTPShouldHandleCookies:NO];
     [self log:SFLogLevelDebug format:@"SFIdentityCoordinator:Starting identity request at %@", self.credentials.identityUrl.absoluteString];
     
+    __weak __typeof(self) weakSelf = self;
+    
     self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+         __strong __typeof(self) strongSelf = weakSelf;
+        SFOAuthCredentials *currentCredentials = [SFUserAccountManager sharedInstance].currentUser.credentials;
+        if (![request.URL isEqual:currentCredentials.identityUrl]) {
+            // user account has changed, ignore the ID update
+            [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator Ignore ID data due to account change, old identity URL %@, new identity URL %@", request.URL.absoluteString, currentCredentials.identityUrl];
+            return;
+        }
+        
         if (error) {
-            [self log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
-            [self notifyDelegateOfFailure:error];
+            [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
+            [strongSelf notifyDelegateOfFailure:error];
             return;
             
         }
@@ -147,18 +158,15 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
         NSInteger statusCode = [(NSHTTPURLResponse *)response statusCode];
         if (statusCode == 401 || statusCode == 403) {
             // The session timed out.  Identity service tends to send 403s for session timeouts.  Try to refresh.
-            [self log:SFLogLevelInfo format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
-            self.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:self.credentials];
-            __weak SFIdentityCoordinator *weakSelf = self;
-            [self.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
-                __strong SFIdentityCoordinator *strongSelf = weakSelf;
+            [strongSelf log:SFLogLevelInfo format:@"%@: Identity request failed due to expired credentials.  Attempting to refresh credentials.", NSStringFromSelector(_cmd)];
+            strongSelf.oauthSessionRefresher = [[SFOAuthSessionRefresher alloc] initWithCredentials:strongSelf.credentials];
+            [strongSelf.oauthSessionRefresher refreshSessionWithCompletion:^(SFOAuthCredentials *updatedCredentials) {
                 [strongSelf log:SFLogLevelInfo format:@"%@: Credentials refresh successful.  Replaying original identity request.", NSStringFromSelector(_cmd)];
                 strongSelf.credentials = updatedCredentials;
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [strongSelf sendRequest];
                 });
             } error:^(NSError *refreshError) {
-                __strong SFIdentityCoordinator *strongSelf = weakSelf;
                 [strongSelf log:SFLogLevelError format:@"SFIdentityCoordinator failed to refresh expired session. Error: %@", refreshError];
                 [strongSelf notifyDelegateOfFailure:refreshError];
             }];
@@ -166,10 +174,10 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
             // Some other HTTP error.
             NSError *httpError = [self errorWithType:kSFIdentityErrorTypeBadHttpResponse
                                          description:[NSString stringWithFormat:@"Unexpected HTTP response code from the identity service: %ld", (long)statusCode]];
-            [self notifyDelegateOfFailure:httpError];
+            [strongSelf notifyDelegateOfFailure:httpError];
         } else {
             // Successful response.  Process the return data.
-            [self processResponse:data];
+            [strongSelf processResponse:data];
         }
     }] resume];
 }
