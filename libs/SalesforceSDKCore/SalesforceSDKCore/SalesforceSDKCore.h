@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Joao Neves on Fri Apr 15 15:26:17 PDT 2016.
+ Created by Michael Nachbaur on Wed May 11 11:34:05 PDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -45,7 +45,6 @@
 #import <SalesforceSDKCore/SFAuthenticationViewHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandler.h>
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
-#import <SalesforceSDKCore/SFCocoaLumberJackCustomFormatter.h>
 #import <SalesforceSDKCore/SFCommunityData.h>
 #import <SalesforceSDKCore/SFCryptChunks.h>
 #import <SalesforceSDKCore/SFCrypto.h>
@@ -68,6 +67,7 @@
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
 #import <SalesforceSDKCore/SFKeyStoreManager.h>
 #import <SalesforceSDKCore/SFLogger.h>
+#import <SalesforceSDKCore/SFLoggerMacros.h>
 #import <SalesforceSDKCore/SFLoginViewController.h>
 #import <SalesforceSDKCore/SFManagedPreferences.h>
 #import <SalesforceSDKCore/SFMethodInterceptor.h>
