@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ InstrumentationEvent.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sat May 14 15:26:17 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 5/25/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,5 +27,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SFAnalytics/DeviceAppAttributes.h>
-#import <SFAnalytics/InstrumentationEvent.h>
+@interface InstrumentationEvent : NSObject
+
+@property (nonatomic, strong, readonly) NSString *appVersion;
+
+@end

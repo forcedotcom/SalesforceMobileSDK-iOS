@@ -48,6 +48,14 @@
 		CE2B8FF31CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */; };
 		CE2B8FF51CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF41CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h */; };
 		CE2B8FF61CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF41CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h */; };
+		CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* InstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* InstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE2B8FFB1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FFA1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h */; };
+		CE2B8FFC1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FFA1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h */; };
+		CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */; };
+		CE2B8FFF1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */; };
+		CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */; };
+		CE2B90011CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +117,9 @@
 		CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceAppAttributes.h; path = Classes/Model/DeviceAppAttributes.h; sourceTree = "<group>"; };
 		CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceAppAttributes.m; path = Classes/Model/DeviceAppAttributes.m; sourceTree = "<group>"; };
 		CE2B8FF41CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DeviceAppAttributes+Internal.h"; path = "Classes/Model/DeviceAppAttributes+Internal.h"; sourceTree = "<group>"; };
+		CE2B8FF71CF5FF8A00C6FC6A /* InstrumentationEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEvent.h; path = Classes/Model/InstrumentationEvent.h; sourceTree = "<group>"; };
+		CE2B8FFA1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
+		CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEvent.m; path = Classes/Model/InstrumentationEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +256,9 @@
 				CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */,
 				CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */,
 				CE2B8FF41CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h */,
+				CE2B8FF71CF5FF8A00C6FC6A /* InstrumentationEvent.h */,
+				CE2B8FFA1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h */,
+				CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -257,8 +271,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8FF51CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h in Headers */,
+				CE2B8FFB1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h in Headers */,
 				CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
+				CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +285,8 @@
 			files = (
 				CE2B8FF61CF55A8700C6FC6A /* DeviceAppAttributes+Internal.h in Headers */,
 				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
+				CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
+				CE2B8FFC1CF6027C00C6FC6A /* InstrumentationEvent+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,6 +509,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8FF11CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CE2B8FFF1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +529,7 @@
 				CE2B8FF31CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
 				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
+				CE2B90011CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 				CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
