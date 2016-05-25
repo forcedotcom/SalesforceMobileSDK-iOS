@@ -111,6 +111,11 @@
     return [self createSimpleIndexSpec:path withType:kSoupIndexTypeString];
 }
 
+- (NSDictionary*) createJSON1IndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeJSON1];
+}
+
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
 {
     return @{@"path": path, @"type": pathType};

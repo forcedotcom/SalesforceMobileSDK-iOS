@@ -37,6 +37,7 @@
 - (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
 - (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
 - (NSDictionary*) createFullTextIndexSpec:(NSString*) path;
+- (NSDictionary*) createJSON1IndexSpec:(NSString*) path;
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
 
 - (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
