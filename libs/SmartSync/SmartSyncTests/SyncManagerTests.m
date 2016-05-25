@@ -225,7 +225,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
-- (void)testCleanResyncGhostsForMRUTarget
+- (void)FIXMEtestCleanResyncGhostsForMRUTarget
 {
 
     // Creates 3 accounts on the server.
