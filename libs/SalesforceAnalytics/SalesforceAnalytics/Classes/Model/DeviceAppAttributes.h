@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ DeviceAppAttributes.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sat May 14 15:26:17 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 5/24/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,4 +27,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SFAnalytics/DeviceAppAttributes.h>
+@interface DeviceAppAttributes : NSObject
+
+@property (nonatomic, strong, readonly) NSString *appVersion;
+@property (nonatomic, strong, readonly) NSString *appName;
+@property (nonatomic, strong, readonly) NSString *osVersion;
+@property (nonatomic, strong, readonly) NSString *osName;
+@property (nonatomic, strong, readonly) NSString *nativeAppType;
+@property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
+@property (nonatomic, strong, readonly) NSString *deviceModel;
+@property (nonatomic, strong, readonly) NSString *deviceId;
+@property (nonatomic, strong, readonly) NSString *connectionType;
+
+@end

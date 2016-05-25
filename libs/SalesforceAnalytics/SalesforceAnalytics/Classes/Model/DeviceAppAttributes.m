@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ DeviceAppAttributes.m
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sat May 14 15:26:17 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 5/24/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,4 +27,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SFAnalytics/DeviceAppAttributes.h>
+#import "DeviceAppAttributes+Internal.h"
+
+@implementation DeviceAppAttributes
+
+- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
+        osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
+        mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
+        deviceId:(NSString *) deviceId connectionType:(NSString *) connectionType {
+    self = [super init];
+    if (self) {
+        self.appVersion = appVersion;
+        self.appName = appName;
+        self.osVersion = osVersion;
+        self.osName = osName;
+        self.nativeAppType = nativeAppType;
+        self.mobileSdkVersion = mobileSdkVersion;
+        self.deviceModel = deviceModel;
+        self.deviceId = deviceId;
+        self.connectionType = connectionType;
+    }
+    return self;
+}
+
+@end

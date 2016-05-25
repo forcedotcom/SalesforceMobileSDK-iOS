@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ DeviceAppAttributes+Internal.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Sat May 14 15:26:17 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 5/24/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,4 +27,36 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SFAnalytics/DeviceAppAttributes.h>
+#import "DeviceAppAttributes.h"
+
+@interface DeviceAppAttributes ()
+
+@property (nonatomic, strong, readwrite) NSString *appVersion;
+@property (nonatomic, strong, readwrite) NSString *appName;
+@property (nonatomic, strong, readwrite) NSString *osVersion;
+@property (nonatomic, strong, readwrite) NSString *osName;
+@property (nonatomic, strong, readwrite) NSString *nativeAppType;
+@property (nonatomic, strong, readwrite) NSString *mobileSdkVersion;
+@property (nonatomic, strong, readwrite) NSString *deviceModel;
+@property (nonatomic, strong, readwrite) NSString *deviceId;
+@property (nonatomic, strong, readwrite) NSString *connectionType;
+
+/**
+ * Parameterized initializer.
+ *
+ * @param appVersion App version.
+ * @param appName App name.
+ * @param osVersion OS version.
+ * @param osName OS name.
+ * @param nativeAppType Native app type.
+ * @param mobileSdkVersion Mobile SDK version.
+ * @param deviceModel Device model.
+ * @param deviceId Device ID.
+ * @param connectionType Connection type.
+ */
+- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
+        osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
+        mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
+        deviceId:(NSString *) deviceId connectionType:(NSString *) connectionType;
+
+@end
