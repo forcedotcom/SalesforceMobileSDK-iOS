@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,17 +23,26 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <CocoaLumberjack/DDLog.h>
 
-@class SFLogger;
+@protocol SFLogStorage <NSObject>
 
-/**
- This class applies custom formatting to log messages.
- */
-@interface SFCocoaLumberJackCustomFormatter : NSObject<DDLogFormatter>
+@property (nonatomic, strong, readonly) NSArray<id<DDLogger>> *allLoggers;
 
-@property (nonatomic, weak, readonly) SFLogger *logger;
+- (void)flushLog;
 
-- (instancetype)initWithLogger:(SFLogger*)logger NS_DESIGNATED_INITIALIZER;
+- (void)addLogger:(id <DDLogger>)logger;
+- (void)removeLogger:(id <DDLogger>)logger;
+- (void)removeAllLoggers;
+
+- (void)log:(BOOL)asynchronous
+      level:(DDLogLevel)level
+       flag:(DDLogFlag)flag
+    context:(NSInteger)context
+       file:(const char *)file
+   function:(const char *)function
+       line:(NSUInteger)line
+        tag:(id)tag
+     format:(NSString *)format
+       args:(va_list)args;
 
 @end

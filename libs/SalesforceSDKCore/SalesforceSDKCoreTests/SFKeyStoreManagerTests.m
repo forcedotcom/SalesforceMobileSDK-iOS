@@ -36,7 +36,7 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     
     // initialize passcode mgr
     [[SFPasscodeManager sharedManager] changePasscode: nil];
