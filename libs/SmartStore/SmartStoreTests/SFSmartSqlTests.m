@@ -151,8 +151,8 @@
 
 - (void) testConvertSmartSqlWithSpecialColumns
 {
-    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.lastModified, TABLE_1.soup from TABLE_1", 
-                         [self.store convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}"], @"Bad conversion");
+    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.created, TABLE_1.lastModified, TABLE_1.soup from TABLE_1",
+                         [self.store convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupCreatedDate}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}"], @"Bad conversion");
 }
 	
 - (void) testConvertSmartSqlWithSpecialColumnsAndJoin

@@ -152,10 +152,22 @@ RCT_EXPORT_METHOD(removeFromSoup:(NSDictionary *)argsDict callback:(RCTResponseS
 {
     NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
+    NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
+    
     [self log:SFLogLevelDebug format:@"removeFromSoup with soup name: %@", soupName];
-        
-    [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName];
-    callback(@[[NSNull null], @"OK"]);
+    NSError* error = nil;
+    if (entryIds) {
+        [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName error:&error];
+    }
+    else {
+        SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
+        [[self getStoreInst:argsDict] removeEntriesByQuery:querySpec fromSoup:soupName error:&error];
+    }
+    if (error == nil) {
+        callback(@[[NSNull null], @"OK"]);
+    } else {
+        callback(@[RCTMakeError(@"removeFromSoup failed", error, nil)]);
+    }
 }
 
 RCT_EXPORT_METHOD(closeCursor:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)

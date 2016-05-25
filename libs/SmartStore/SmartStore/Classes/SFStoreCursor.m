@@ -93,7 +93,7 @@
 
 
 - (void)close {
-    [self log:SFLogLevelDebug format:@"closing cursor id: %@",self.cursorId];
+    [self log:SFLogLevelVerbose format:@"closing cursor id: %@",self.cursorId];
 
      _store = nil;
     self.cursorId = nil;
@@ -131,11 +131,11 @@
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     result[@"cursorId"] = self.cursorId;
     //note that we only encode the current page worth of entries
-    result[@"currentPageOrderedEntries"] = self.currentPageOrderedEntries;
-    result[@"currentPageIndex"] = self.currentPageIndex;
-    result[@"pageSize"] = self.pageSize;
-    result[@"totalPages"] = self.totalPages;
-    result[@"totalEntries"] = self.totalEntries;
+    result[@"currentPageOrderedEntries"] = self.currentPageOrderedEntries ?: @[];
+    result[@"currentPageIndex"] = self.currentPageIndex ?: @0;
+    result[@"pageSize"] = self.pageSize ?: @0;
+    result[@"totalPages"] = self.totalPages ?: @0;
+    result[@"totalEntries"] = self.totalEntries ?: @0;
     
     return result;
 }

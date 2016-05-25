@@ -151,7 +151,7 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param syncId Sync ID.
  * @param completionStatusBlock Completion status block.
  */
-- (void) cleanReSyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
+- (void) cleanResyncGhosts:(NSNumber*)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock;
 
 /**
  * Returns IDs (specified ID field) from dirty records in the given soup.

@@ -119,6 +119,8 @@ static NSException *authException = nil;
         [SFLogger setLogLevel:SFLogLevelDebug];
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
+        [SFSmartStore removeAllStores];
+        
     } @catch (NSException *exception) {
         [self log:SFLogLevelDebug format:@"Populating auth from config failed: %@", exception];
         authException = exception;
@@ -138,7 +140,6 @@ static NSException *authException = nil;
     currentUser = [SFUserAccountManager sharedInstance].currentUser;
     syncManager = [SFSmartSyncSyncManager sharedInstance:currentUser];
     store = [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName user:currentUser];
-    
     [super setUp];
 }
 
@@ -178,7 +179,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a SOQL target.
  */
-- (void)testCleanReSyncGhostsForSOQLTarget
+- (void)testCleanResyncGhostsForSOQLTarget
 {
 
     // Creates 3 accounts on the server.
@@ -204,10 +205,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-                [cleanReSyncGhosts fulfill];
+                [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -224,7 +225,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
-- (void)testCleanReSyncGhostsForMRUTarget
+- (void)testCleanResyncGhostsForMRUTarget
 {
 
     // Creates 3 accounts on the server.
@@ -245,10 +246,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-            [cleanReSyncGhosts fulfill];
+            [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -265,7 +266,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a SOSL target.
  */
-- (void)testCleanReSyncGhostsForSOSLTarget
+- (void)testCleanResyncGhostsForSOSLTarget
 {
 
     // Creates 1 account on the server.
@@ -287,10 +288,10 @@ static NSException *authException = nil;
 
     // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
     [self deleteAccountsOnServer:@[accountIds[0]]];
-    XCTestExpectation* cleanReSyncGhosts = [self expectationWithDescription:@"cleanReSyncGhosts"];
-    [syncManager cleanReSyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
         if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
-            [cleanReSyncGhosts fulfill];
+            [cleanResyncGhosts fulfill];
         }
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -699,7 +700,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesCreated];
+    [idToNames addEntriesFromDictionary:idToNamesCreated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
@@ -830,7 +835,11 @@ static NSException *authException = nil;
     }
     
     // Adding to idToNames so that they get deleted in tearDown
-    [idToNames setDictionary:idToNamesUpdated];
+    [idToNames addEntriesFromDictionary:idToNamesUpdated];
+    
+    // Deletes the remaining accounts on the server.
+    [self deleteAccountsOnServer:[idToNames allKeys]];
+    [self deleteSyncs];
 }
 
 /**
@@ -1090,9 +1099,10 @@ static NSException *authException = nil;
 {
     NSDateFormatter* isoDateFormatter = [NSDateFormatter new];
     isoDateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    NSString* dateStr = @"2015-02-05T13:12:03.956-0800";
-    NSDate* date = [isoDateFormatter dateFromString:dateStr];
+    NSString* baseDateStr = @"2015-02-05T13:12:03.956-0800";
+    NSDate* date = [isoDateFormatter dateFromString:baseDateStr];
     long long dateLong = (long long)([date timeIntervalSince1970] * 1000.0);
+    NSString* dateStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:dateLong];
     
     // Original queries
     NSString* originalBasicQuery = @"select Id from Account";

@@ -30,6 +30,11 @@
 
 @class SFUserAccount, SFSDKAppConfig;
 
+/**
+ Block typedef for creating a custom snapshot view controller.
+ */
+typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(void);
+
 typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNative,
     kSFAppTypeHybrid,
@@ -37,6 +42,17 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 };
 
 NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Block typedef for presenting the snapshot view controller.
+ */
+typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController);
+
+/**
+ Block typedef for dismissing the snapshot view controller.
+ */
+typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController);
+
 
 /** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
  */
@@ -153,10 +169,27 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
- A custom view to use as the "image" that represents the app display when it is backgrounded.
- Default will be an opaque white view.
+ The block to provide custom view to use as the "image" that represents the app display when it is backgrounded.
+ @discussion
+ This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
+ a default opaque white view will be used.
  */
-@property (nonatomic, strong) UIView *snapshotView;
+@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
+
+/**
+ The block to execute to present the snapshot viewcontroller.
+ If this property is not set, SFRootViewManager will be used to present the snapshot.
+ @discussion
+ This block is only invoked if the dismissal action is also set.
+ */
+@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
+
+/**
+ The block to execute to dismiss the snapshot viewcontroller.
+ @discussion
+ This block is only invoked if the presentation action is also set.
+ */
+@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
 
 /**
  The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.

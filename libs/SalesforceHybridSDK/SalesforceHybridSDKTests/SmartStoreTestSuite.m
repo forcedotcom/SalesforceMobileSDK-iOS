@@ -41,7 +41,8 @@
     self.jsSuiteName = @"SmartStoreTestSuite";
 
     if ([self isTestRunnerReady]) {
-        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+        [SFSmartStore removeAllStores];
+        [SFSmartStore removeAllGlobalStores];
         AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
         [pluginInstance resetSharedStore];
@@ -94,6 +95,10 @@
 
 - (void) testRemoveFromSoup {
     [self runTest:@"testRemoveFromSoup"];
+}
+
+- (void) testRemoveFromSoupByQuery {
+    [self runTest:@"testRemoveFromSoupByQuery"];
 }
 
 - (void) testQuerySoupWithExactQuery {

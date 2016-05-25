@@ -27,6 +27,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import Foundation
 import XCTest
+import SalesforceSDKCore
 
 class SalesforceTestCase: XCTestCase {
     
@@ -45,8 +46,15 @@ class SalesforceTestCase: XCTestCase {
     }
     
     func loginThroughUI() {
-        // TODO move credentials to external file similar to test_credentials.json
-        loginDelegate.loginToSalesforce("sdktest@cs1.com", password:"test123456", host:Host.sandbox)
+        let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
+        var swiftDict : Dictionary<String, String!> = Dictionary<String, String!>()
+        for key : AnyObject in loginInfo.allKeys {
+            let stringKey = key as! String
+            if let keyValue = loginInfo.valueForKey(stringKey){
+                swiftDict[stringKey] = String(keyValue)
+            }
+        }
+        loginDelegate.loginToSalesforce(swiftDict["username"]!, password:swiftDict["password"]!, host:Host.sandbox)
     }
 
 }

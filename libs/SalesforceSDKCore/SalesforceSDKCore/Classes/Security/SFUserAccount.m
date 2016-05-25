@@ -203,21 +203,22 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setPhoto:(UIImage *)photo {
     NSError *error = nil;
     NSString *photoPath = [self photoPath];
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    if ([fm fileExistsAtPath:photoPath]) {
-        if (![fm removeItemAtPath:photoPath error:&error]) {
-            [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+    if (photoPath) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:photoPath]) {
+            if (![fm removeItemAtPath:photoPath error:&error]) {
+                [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+            }
         }
+        NSData *data = UIImagePNGRepresentation(photo);
+        if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
+            [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
+        }
+        
+        [self willChangeValueForKey:@"photo"];
+        _photo = photo;
+        [self didChangeValueForKey:@"photo"];
     }
-    
-    NSData *data = UIImagePNGRepresentation(photo);
-    if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-        [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
-    }
-    
-    [self willChangeValueForKey:@"photo"];
-    _photo = photo;
-    [self didChangeValueForKey:@"photo"];
 }
 
 - (void)setIdData:(SFIdentityData *)idData {

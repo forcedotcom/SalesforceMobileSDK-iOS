@@ -38,7 +38,8 @@
     [super setUp];
     self.jsSuiteName = @"SmartSyncTestSuite";
     if ([self isTestRunnerReady]) {
-        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+        [SFSmartStore removeAllStores];
+        [SFSmartStore removeAllGlobalStores];
         AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *smartstorePlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
         [smartstorePlugin resetSharedStore];
@@ -237,8 +238,8 @@
     [self runTest:@"testReSync"];
 }
 
-- (void)testCleanReSyncGhosts {
-    [self runTest:@"testCleanReSyncGhosts"];
+- (void)testCleanResyncGhosts {
+    [self runTest:@"testCleanResyncGhosts"];
 }
 
 - (void)testSyncUpLocallyUpdated {
