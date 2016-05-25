@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.subspec 'SalesforceAnalytics' do |sdkanalytics|
 
       sdkanalytics.source_files = 'libs/SalesforceAnalytics/SalesforceAnalytics/Classes/**/*.{h,m}'
-      sdkanalytics.public_header_files = 'libs/SalesforceAnalytics/SalesforceAnalytics/Classes/Model/DeviceAppAttributes.h', 'libs/SalesforceAnalytics/SalesforceAnalytics/SalesforceAnalytics.h'
+      sdkanalytics.public_header_files = 'libs/SalesforceAnalytics/SalesforceAnalytics/Classes/Model/DeviceAppAttributes.h', 'libs/SalesforceAnalytics/SalesforceAnalytics/Classes/Model/InstrumentationEvent.h', 'libs/SalesforceAnalytics/SalesforceAnalytics/SalesforceAnalytics.h'
       sdkanalytics.requires_arc = true
 
   end

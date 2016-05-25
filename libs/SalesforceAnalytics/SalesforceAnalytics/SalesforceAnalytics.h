@@ -2,7 +2,7 @@
  SalesforceAnalytics.h
  SalesforceAnalytics
 
- Created by Bharath Hariharan on Sat May 14 15:26:17 PDT 2016.
+ Created by Bharath Hariharan on Wed May 25 14:40:40 PDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,5 +27,5 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SFAnalytics/DeviceAppAttributes.h>
-#import <SFAnalytics/InstrumentationEvent.h>
+#import <SalesforceAnalytics/DeviceAppAttributes.h>
+#import <SalesforceAnalytics/InstrumentationEvent.h>
