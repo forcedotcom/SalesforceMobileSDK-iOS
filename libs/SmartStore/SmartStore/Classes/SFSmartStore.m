@@ -1281,7 +1281,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     FMResultSet *frs = [self executeQueryThrows:limitSql withArgumentsInArray:args withDb:db];
     while ([frs next]) {
         // Smart queries
-        if (querySpec.queryType == kSFSoupQueryTypeSmart) {
+        if (querySpec.queryType == kSFSoupQueryTypeSmart || querySpec.selectPaths != nil) {
             NSArray *data = [self getDataFromRow:frs];
             if (data) {
                 [result addObject:data];

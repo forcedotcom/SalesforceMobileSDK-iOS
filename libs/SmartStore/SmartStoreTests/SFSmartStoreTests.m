@@ -328,6 +328,15 @@
                                         covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
+
+        // Query all with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"ka1"], @[@"ka2"], @[@"ka3"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] //interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+
     }
 }
 
@@ -385,6 +394,15 @@
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
                                         covering:NO
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+
+        // Range query with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"ka3"], @[@"ka2"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -486,6 +504,15 @@
                                         covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
+
+        // Like query (contains) with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"bbcd"], @[@"abcd"], @[@"abcc"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+    
     }
 }
 
