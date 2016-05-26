@@ -45,6 +45,12 @@
     XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} ORDER BY {employees}.{employees:lastName} DESC ", querySpec.smartSql, @"Wrong smart sql for all query spec");
 }
 
+- (void) testAllQuerySmartSqlWithSelectPaths
+{
+    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:@"employees" withSelectPaths:@[@"firstName", @"lastName"] withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderDescending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:firstName}, {employees:lastName} FROM {employees} ORDER BY {employees}.{employees:lastName} DESC ", querySpec.smartSql, @"Wrong ids smart sql for all query spec with select paths");
+}
+
 - (void) testAllQueryCountSmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:@"employees" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderDescending withPageSize:1];
@@ -61,6 +67,12 @@
 {
     SFQuerySpec* querySpec = [SFQuerySpec newRangeQuerySpec:@"employees" withPath:@"lastName" withBeginKey:@"Bond" withEndKey:@"Smith" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:lastName} >= ? AND {employees:lastName} <= ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for range query spec");
+}
+
+- (void) testRangeQuerySmartSqlWithSelectPaths
+{
+    SFQuerySpec* querySpec = [SFQuerySpec newRangeQuerySpec:@"employees" withSelectPaths:@[@"firstName"] withPath:@"lastName" withBeginKey:@"Bond" withEndKey:@"Smith" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:firstName} FROM {employees} WHERE {employees:lastName} >= ? AND {employees:lastName} <= ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for range query spec with select paths");
 }
 
 - (void) testRangeQueryCountSmartSql
@@ -81,6 +93,12 @@
     XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:lastName} = ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for exact query spec");
 }
 
+- (void) testExactQuerySmartSqlWithSelectPaths
+{
+    SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:@"employees" withSelectPaths:@[@"firstName", @"lastName"] withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:firstName}, {employees:lastName} FROM {employees} WHERE {employees:lastName} = ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for exact query spec with select paths");
+}
+
 - (void) testExactQueryCountSmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newExactQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
@@ -99,6 +117,12 @@
     XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees}, {employees}_fts WHERE {employees}_fts.docid = {employees:_soupEntryId} AND {employees}_fts.{employees:lastName} MATCH 'Bond' ORDER BY {employees}.{employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec");
 }
 
+- (void) testMatchQuerySmartSqlWithSelectPaths
+{
+    SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withSelectPaths:@[@"firstName", @"lastName", @"title"] withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:firstName}, {employees:lastName}, {employees:title} FROM {employees}, {employees}_fts WHERE {employees}_fts.docid = {employees:_soupEntryId} AND {employees}_fts.{employees:lastName} MATCH 'Bond' ORDER BY {employees}.{employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec with select paths");
+}
+
 - (void) testMatchQueryCountSmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
@@ -111,12 +135,16 @@
     XCTAssertEqualObjects(@"SELECT id FROM {employees}, {employees}_fts WHERE {employees}_fts.docid = {employees:_soupEntryId} AND {employees}_fts.{employees:lastName} MATCH 'Bond' ORDER BY {employees}.{employees:firstName} ASC ", querySpec.idsSmartSql, @"Wrong ids smart sql for match query spec");
 }
 
-
-
 - (void) testLikeQuerySmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newLikeQuerySpec:@"employees" withPath:@"lastName" withLikeKey:@"Bon%" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
     XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:lastName} LIKE ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for like query spec");
+}
+
+- (void) testLikeQuerySmartSqlWithSelectPaths
+{
+    SFQuerySpec* querySpec = [SFQuerySpec newLikeQuerySpec:@"employees" withSelectPaths:@[@"title"] withPath:@"lastName" withLikeKey:@"Bon%" withOrderPath:@"lastName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    XCTAssertEqualObjects(@"SELECT {employees:title} FROM {employees} WHERE {employees:lastName} LIKE ? ORDER BY {employees}.{employees:lastName} ASC ", querySpec.smartSql, @"Wrong smart sql for like query spec");
 }
 
 - (void) testLikeQueryCountSmartSql
