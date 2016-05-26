@@ -283,12 +283,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 }
 
 - (NSString*)computeFromClause {
-    if (self.queryType == kSFSoupQueryTypeMatch) {
-        return [@[@"FROM ", [self computeSoupReference], @", ", [self computeSoupFtsReference], @" "] componentsJoinedByString:@""];
-    }
-    else {
-        return [@[@"FROM ", [self computeSoupReference], @" "] componentsJoinedByString:@""];
-    }
+    return [@[@"FROM ", [self computeSoupReference], @" "] componentsJoinedByString:@""];
 }
 
 - (NSString*)computeWhereClause {
@@ -298,15 +293,9 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     
     NSString* field;
     
-    if (self.queryType == kSFSoupQueryTypeMatch) {
-        if (self.path == nil) {
-            field = [self computeSoupFtsReference];
-        }
-        else {
-            field = [@[[self computeSoupFtsReference], @".", [self computeFieldReference:self.path]] componentsJoinedByString:@""];
-        }
-    }
-    else {
+    if (self.queryType == kSFSoupQueryTypeMatch && self.path == nil) {
+        field = [self computeSoupFtsReference];
+    } else {
         field = [self computeFieldReference:self.path];
     }
     
@@ -329,10 +318,19 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
 
         case kSFSoupQueryTypeMatch:
             return [@[@"WHERE ",
-                      [self computeSoupFtsReference], @".", DOCID_COL, @" = ", [self computeFieldReference:SOUP_ENTRY_ID], // join clause
-                      @" AND ",
-                      field, @" MATCH '", self.matchKey, @"' "  // match clause -- statement arg binding doesn't seem to work so inlining matchKey
-                      ] componentsJoinedByString:@""];
+                      [self computeFieldReference:SOUP_ENTRY_ID],
+                      @" IN ",
+                      @"(SELECT ",
+                      DOCID_COL,
+                      @" FROM ",
+                      [self computeSoupFtsReference],
+                      @" WHERE ",
+                      field,
+                      @" MATCH '",
+                      self.matchKey, // match clause -- statement arg binding doesn't seem to work so inlining matchKey
+                      @"') "
+                      ]
+                    componentsJoinedByString:@""];
 
         default: break;
     }
