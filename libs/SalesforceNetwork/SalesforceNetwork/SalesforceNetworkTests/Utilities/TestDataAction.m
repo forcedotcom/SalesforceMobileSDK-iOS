@@ -80,11 +80,13 @@
     return self;
 }
 
+- (void)updateProgress {
+}
+
 - (NSURLSessionTask*)sessionTaskToProcessRequest:(NSURLRequest*)request session:(NSURLSession*)session {
     self.composedRequest = request;
     
     id task = OCMClassMock([NSURLSessionDataTask class]);
-    OCMStub([task response]).andReturn(self.testResponseObject);
     [[[task expect] andDo:^(NSInvocation *invocation) {
         self.wasCancelled = YES;
     }] cancel];
@@ -92,7 +94,7 @@
         self.wasResumed = YES;
         
         self.responseData = [NSMutableData dataWithData:self.testResponseData];
-        [self completeOperationWithResponse:(NSHTTPURLResponse *)[task response]];
+        [self completeOperationWithResponse:self.testResponseObject];
     }] resume];
     return task;
 }
