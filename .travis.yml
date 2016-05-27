@@ -40,6 +40,3 @@ script:
     
    # run UI tests that need a host app
    - set -o pipefail && xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
-
-   #run test_force.js to test template app generation
-   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native
