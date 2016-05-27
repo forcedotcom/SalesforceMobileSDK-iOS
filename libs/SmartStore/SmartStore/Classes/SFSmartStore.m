@@ -542,7 +542,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         FMResultSet* frs = [db executeQuery:explainSql withArgumentsInArray:arguments];
         while ([frs next]) {
             NSMutableDictionary* explainRow = [NSMutableDictionary new];
-            for (NSUInteger i=0; i<frs.columnCount; i++) {
+            for (int i=0; i<frs.columnCount; i++) {
                 explainRow[[frs columnNameForIndex:i]] = [frs stringForColumnIndex:i];
             }
             [explainRows addObject:explainRow];
@@ -1012,7 +1012,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [createIndexStmts addObject:[NSString stringWithFormat:createIndexFormat, soupTableName, col, soupTableName, col]];
     }
     
-    for (NSUInteger i = 0; i < [indexSpecs count]; i++) {
+    for (int i = 0; i < [indexSpecs count]; i++) {
         SFSoupIndex *indexSpec = (SFSoupIndex*) indexSpecs[i];
         
         // for creating the soup table itself in the store db
@@ -1281,7 +1281,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     FMResultSet *frs = [self executeQueryThrows:limitSql withArgumentsInArray:args withDb:db];
     while ([frs next]) {
         // Smart queries
-        if (querySpec.queryType == kSFSoupQueryTypeSmart) {
+        if (querySpec.queryType == kSFSoupQueryTypeSmart || querySpec.selectPaths != nil) {
             NSArray *data = [self getDataFromRow:frs];
             if (data) {
                 [result addObject:data];
@@ -1596,7 +1596,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 {
     NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     NSString* querySql = [self convertSmartSql: querySpec.idsSmartSql withDb:db];
-    NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %u", querySql, querySpec.pageSize];
+    NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %lu", querySql, (unsigned long)querySpec.pageSize];
     NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     NSArray* args = [querySpec bindsForQuerySpec];
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];

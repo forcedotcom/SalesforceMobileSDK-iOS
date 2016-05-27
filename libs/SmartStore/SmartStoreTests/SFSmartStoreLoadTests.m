@@ -136,7 +136,7 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
 {
     NSMutableArray* indexSpecs = [NSMutableArray new];
     for (NSUInteger indexNumber=0; indexNumber<numberIndexes; indexNumber++) {
-        indexSpecs[indexNumber] = @{kSoupIndexPath:[NSString stringWithFormat:@"k_%u", indexNumber], kSoupIndexType:indexType};
+        indexSpecs[indexNumber] = @{kSoupIndexPath:[NSString stringWithFormat:@"k_%tu", indexNumber], kSoupIndexType:indexType};
     }
     NSError* error = nil;
     [self.store registerSoup:TEST_SOUP withIndexSpecs:[SFSoupIndex asArraySoupIndexes:indexSpecs] error:&error];
@@ -154,8 +154,8 @@ numberCharactersPerField:(NSUInteger)numberCharactersPerField
         for (NSUInteger entryNumber=0; entryNumber<numberEntriesPerBatch; entryNumber++) {
             NSMutableDictionary* entry = [NSMutableDictionary new];
             for (NSUInteger fieldNumber=0; fieldNumber<numberFieldsPerEntry; fieldNumber++) {
-                NSString* value = [self pad:[NSString stringWithFormat:@"v_%u_%u_%u_", batchNumber, entryNumber, fieldNumber] numberCharacters:numberCharactersPerField];
-                entry[[NSString stringWithFormat:@"k_%u", fieldNumber]] = value;
+                NSString* value = [self pad:[NSString stringWithFormat:@"v_%lu_%lu_%lu_", (unsigned long)batchNumber, (unsigned long)entryNumber, (unsigned long)fieldNumber] numberCharacters:numberCharactersPerField];
+                entry[[NSString stringWithFormat:@"k_%lu", (unsigned long)fieldNumber]] = value;
             }
             [entries addObject:entry];
         }
