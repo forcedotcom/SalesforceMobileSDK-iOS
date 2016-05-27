@@ -399,12 +399,22 @@
 
 - (void) trySearch:(NSArray*)expectedIds path:(NSString*)path matchKey:(NSString*)matchKey orderPath:(NSString*)orderPath
 {
+    // Returning soup elements
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:kEmployeesSoup withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:25];
     NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     XCTAssertEqual(expectedIds.count, results.count, @"Wrong number of results");
     for (int i=0; i<results.count; i++) {
-        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][SOUP_ENTRY_ID]).longValue, @"Wrong results");
+        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][SOUP_ENTRY_ID]).longValue, @"Wrong results for match query returning soup elements");
     }
+    
+    // Returning just id
+    querySpec = [SFQuerySpec newMatchQuerySpec:kEmployeesSoup withSelectPaths:@[SOUP_ENTRY_ID] withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:25];
+    results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    XCTAssertEqual(expectedIds.count, results.count, @"Wrong number of results");
+    for (int i=0; i<results.count; i++) {
+        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][0]).longValue, @"Wrong results for match query with selectPaths");
+    }
+    
 }
 
 

@@ -90,7 +90,7 @@ static NSString* const kCaseOneName = @"00001001";
     [super tearDown];
 }
 
-- (void)testGlobalMRUObjectsFromServer
+- (void)FIXMEtestGlobalMRUObjectsFromServer
 {
     XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
     [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {

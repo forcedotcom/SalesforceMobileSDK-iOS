@@ -150,7 +150,7 @@
 - (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index covering:(BOOL) covering dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store
 {
     NSString* soupTableName = [self getSoupTableName:soupName store:store];
-    NSString* indexName = [NSString stringWithFormat:@"%@_%u_idx", soupTableName, index];
+    NSString* indexName = [NSString stringWithFormat:@"%@_%lu_idx", soupTableName, (unsigned long)index];
     NSString* expectedDetailPrefix = [NSString stringWithFormat:@"%@ TABLE %@ USING %@INDEX %@", dbOperation, soupTableName, (covering ? @"COVERING " : @""), indexName];
     NSString* actualDetail = ((NSArray*)store.lastExplainQueryPlan[EXPLAIN_ROWS])[0][@"detail"];
     XCTAssertTrue([actualDetail hasPrefix:expectedDetailPrefix], "Wrong explain plan actual: %@", actualDetail);

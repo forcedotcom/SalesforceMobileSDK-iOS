@@ -216,7 +216,7 @@
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         for (NSUInteger i = 0; i < numRegisterAndDropIterations; i++) {
             // Before
-            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %u: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
+            XCTAssertFalse([store soupExists:kTestSoupName], @"In iteration %lu: Soup %@ should not exist before registration.", (i + 1), kTestSoupName);
             
             // Register
             NSError* error = nil;
@@ -224,7 +224,7 @@
                  withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[@{@"path": @"key",@"type": indexType}, @{@"path": @"value",@"type": @"string"}]]
                           error:&error];
             BOOL testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertTrue(testSoupExists, @"In iteration %u: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
+            XCTAssertTrue(testSoupExists, @"In iteration %lu: Soup %@ should exist after registration.", (i + 1), kTestSoupName);
             XCTAssertNil(error, @"There should be no errors.");
             NSString* soupTableName = [self getSoupTableName:kTestSoupName store:store];
             
@@ -259,7 +259,7 @@
             // Remove
             [store removeSoup:kTestSoupName];
             testSoupExists = [store soupExists:kTestSoupName];
-            XCTAssertFalse(testSoupExists, @"In iteration %u: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
+            XCTAssertFalse(testSoupExists, @"In iteration %lu: Soup %@ should no longer exist after dropping.", (i + 1), kTestSoupName);
         }
     }
 }
@@ -328,6 +328,15 @@
                                         covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
+
+        // Query all with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newAllQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"ka1"], @[@"ka2"], @[@"ka3"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] //interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+
     }
 }
 
@@ -385,6 +394,15 @@
                                             page:0
                                  expectedResults:@[soupEltsCreated[2], soupEltsCreated[1]]
                                         covering:NO
+                             expectedDbOperation:@"SEARCH"
+                                           store:store];
+        
+
+        // Range query with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newRangeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withBeginKey:@"ka2" withEndKey:@"ka3" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"ka3"], @[@"ka2"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
                              expectedDbOperation:@"SEARCH"
                                            store:store];
         
@@ -486,6 +504,15 @@
                                         covering:NO
                              expectedDbOperation:@"SCAN"
                                            store:store];
+
+        // Like query (contains) with select paths
+        [self runQueryCheckResultsAndExplainPlan:[SFQuerySpec newLikeQuerySpec:kTestSoupName withSelectPaths:@[@"key"] withPath:@"key" withLikeKey:@"%bc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderDescending withPageSize:10]
+                                            page:0
+                                 expectedResults:@[@[@"bbcd"], @[@"abcd"], @[@"abcc"]]
+                                        covering:![indexType isEqualToString:kSoupIndexTypeJSON1] // interestingly the explain plan doesn't use a covering index with a functional index
+                             expectedDbOperation:@"SCAN"
+                                           store:store];
+    
     }
 }
 

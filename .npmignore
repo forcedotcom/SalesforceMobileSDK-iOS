@@ -30,3 +30,4 @@ build.md
 install.sh
 *.podspec
 UPGRADE.md
+.github/ISSUE_TEMPLATE

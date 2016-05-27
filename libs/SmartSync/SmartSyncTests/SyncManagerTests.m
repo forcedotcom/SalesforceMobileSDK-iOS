@@ -225,7 +225,7 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
-- (void)testCleanResyncGhostsForMRUTarget
+- (void)FIXMEtestCleanResyncGhostsForMRUTarget
 {
 
     // Creates 3 accounts on the server.
@@ -1273,7 +1273,7 @@ static NSException *authException = nil;
         NSInteger expectedProgress = (actualNumberChanges - 1) * 100 / numberChanges;
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeUp expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:completionStatus expectedProgress:expectedProgress expectedTotalSize:numberChanges];
     } else {
-        XCTFail(@"completionStatus value '%d' not currently supported.", completionStatus);
+        XCTFail(@"completionStatus value '%ld' not currently supported.", (long)completionStatus);
     }
 }
 
