@@ -13,3 +13,4 @@ node_modules
 /libs/SalesforceRestAPI/build/
 /native/SampleApps/RestAPIExplorer/build/
 node_modules/
+.github/
