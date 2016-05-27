@@ -35,8 +35,14 @@ script:
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme NoteSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
 
-# run unit tests that don't need a host app
+   # run unit tests that don't need a host app
    - set -o pipefail && xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme $SCHEME -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
     
-# run UI tests that need a host app
+   # run UI tests that need a host app
    - set -o pipefail && xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+
+language: node_js
+node_js:
+  - "0.12"
+   #run test_force.js to test template app generation
+   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native
