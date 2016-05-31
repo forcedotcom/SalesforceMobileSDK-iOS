@@ -627,7 +627,7 @@ static NSInteger kMyLogContext;
     NSError *error = nil;
     static NSRegularExpression *regex = nil;
     if (!regex) {
-        regex = [NSRegularExpression regularExpressionWithPattern:@"^([\\d/]+ [\\d:\\.]+)\\s(.*)"
+        regex = [NSRegularExpression regularExpressionWithPattern:@"^([\\d/]+ [\\d:\\.]+)\\sSalesforceSDKCoreTestApp\\[[\\d:]+\\]\\s(.*)"
                                                           options:0
                                                             error:&error];
         XCTAssertNil(error);
