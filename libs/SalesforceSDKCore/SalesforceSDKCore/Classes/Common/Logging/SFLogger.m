@@ -379,8 +379,7 @@ static BOOL assertionRecorded = NO;
     
     // configure logging
     // NOTE: We're poking the sharedInstance, but use a separate instance so we can change the log formatter.
-    [DDTTYLogger sharedInstance];
-    _ttyLogger = [[DDTTYLogger alloc] init];
+    _ttyLogger = [DDTTYLogger sharedInstance];
     _ttyLogger.colorsEnabled = YES;
     [_ttyLogger setForegroundColor:[UIColor greenColor]
                    backgroundColor:nil

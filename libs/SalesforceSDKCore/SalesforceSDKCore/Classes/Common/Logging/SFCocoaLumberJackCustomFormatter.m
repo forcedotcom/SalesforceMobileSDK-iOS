@@ -22,6 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <pthread.h>
+
 #import "SFCocoaLumberJackCustomFormatter.h"
 #import "SFLogger.h"
 #import "SFLogger_Internal.h"
@@ -29,6 +31,8 @@
 @implementation SFCocoaLumberJackCustomFormatter {
     int loggerCount;
     NSDateFormatter *threadUnsafeDateFormatter;
+    NSString *_processName;
+    int _processId;
 }
 
 - (instancetype)init {
@@ -39,6 +43,10 @@
     self = [super init];
     if (self) {
         _logger = logger;
+        
+        NSProcessInfo *process = [NSProcessInfo processInfo];
+        _processName = [process.processName copy];
+        _processId = process.processIdentifier;
         
         threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
         [threadUnsafeDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
@@ -65,8 +73,15 @@
         identifier = _logger->_logIdentifiersByContext[logMessage->_context];
     }
     
-    NSMutableString *message = [NSMutableString stringWithFormat:@"%@ %@ %@",
+    NSString *thread = [NSThread currentThread].name;
+    if (thread.length == 0) {
+        thread = [NSString stringWithFormat:@"%x", pthread_mach_thread_np(pthread_self())];
+    }
+    NSMutableString *message = [NSMutableString stringWithFormat:@"%@ %@[%d:%@] %@ %@",
                                 dateAndTime,
+                                _processName,
+                                _processId,
+                                thread,
                                 SFLogNameForFlag((SFLogFlag)logMessage->_flag),
                                 identifier.identifier];
     
