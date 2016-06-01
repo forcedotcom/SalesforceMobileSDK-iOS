@@ -100,6 +100,7 @@ static NSString* const kCaseOneName = @"00001001";
         [objectMarkedAsViewed fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
+    sleep(2); //for server side to settle
     XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
     [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure
                  refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
