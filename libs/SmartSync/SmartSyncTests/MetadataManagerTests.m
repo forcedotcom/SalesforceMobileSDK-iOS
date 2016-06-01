@@ -90,7 +90,7 @@ static NSString* const kCaseOneName = @"00001001";
     [super tearDown];
 }
 
-- (void)FIXMEtestGlobalMRUObjectsFromServer
+- (void)testGlobalMRUObjectsFromServer
 {
     XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
     [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {
@@ -275,7 +275,7 @@ static NSString* const kCaseOneName = @"00001001";
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
-- (void)FIXMEtestCleanCache
+- (void)testCleanCache
 {
     XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
     [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO
