@@ -13,12 +13,15 @@ env:
 
 before_install:
    - gem install xcpretty
+   - npm install shelljs@0.7.0
 
 #before the script is run for the build, inject data into test_credentials file
 before_script:
    - ./build/pre-build
 
 script:
+   #run template app generation
+   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native
    # build libs
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceNetwork CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
