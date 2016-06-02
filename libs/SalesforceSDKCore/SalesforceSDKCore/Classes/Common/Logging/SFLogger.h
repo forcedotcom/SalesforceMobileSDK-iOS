@@ -82,7 +82,7 @@ if (!(_cond)) { \
 /**
  * Log method with the addition of context.
  * @param level The minimum log level to observe.
- * @param identifier Identifier to use when scoping the context of this log message.
+ * @param logIdentifier Identifier to use when scoping the context of this log message.
  * @param msg The format message.
 */
 - (void)log:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
@@ -90,7 +90,7 @@ if (!(_cond)) { \
 /**
  * Log method with the addition of context
  * @param level The minimum log level to observe.
- * @param identifier Identifier to use when scoping the context of this log message.
+ * @param logIdentifier Identifier to use when scoping the context of this log message.
  * @param format The format message.
  * @param ... Optional arguments for the message format string.
  */
@@ -167,7 +167,7 @@ if (!(_cond)) { \
  * log from.
  * @param cls The class associated with the log event.
  * @param level The level to log at.
- * @param logContext The context of the log
+ * @param logIdentifier The context of the log
  * @param msg The message to log.
  */
 + (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString*)logIdentifier msg:(NSString *)msg;
@@ -187,7 +187,7 @@ if (!(_cond)) { \
  * Logs a formatted message with the given log level and format parameters.
  * @param cls The class associated with the log event.
  * @param level The minimum log level to log at.
- * @param msg The format message, and optional arguments to expand in the format.
+ * @param format The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
  */
 + (void)log:(Class)cls level:(SFLogLevel)level format:(NSString *)format, ...;
@@ -196,8 +196,8 @@ if (!(_cond)) { \
  * Logs a formatted message with the given log level and format parameters.
  * @param cls The class associated with the log event.
  * @param level The minimum log level to log at.
- * @param logContext The context of the log
- * @param msg The format message, and optional arguments to expand in the format.
+ * @param logIdentifier The context of the log
+ * @param format The format message, and optional arguments to expand in the format.
  * @param ... The arguments to the message format string.
  */
 + (void)log:(Class)cls level:(SFLogLevel)level identifier:(NSString*)logIdentifier format:(NSString *)format, ...;

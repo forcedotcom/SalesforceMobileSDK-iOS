@@ -81,7 +81,7 @@
 /**
  Helper method re-index a soup.
  @param soupName The soup to re-index
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param indexPaths Array of one ore more IndexSpec objects as dictionaries
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return YES if the insert was successful, NO otherwise.
  */
@@ -98,7 +98,7 @@
 /**
  Helper method to update existing values in a table.
  @param tableName The name of the table to update.
- @param values The column name/value mapping to update.
+ @param map The column name/value mapping to update.
  @param entryId The ID value used to determine what to update.
  @param idCol The name of the ID column
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
@@ -108,11 +108,12 @@
 
 /**
  Helper to query table
- @param table
- @param columns
- @param limit
- @param whereClause
- @param whereArgs
+ @param table Table
+ @param columns Column names
+ @param orderBy Order by column
+ @param limit Limit
+ @param whereClause Where clause
+ @param whereArgs  Arguments to where clause
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return FMResultSet
  */

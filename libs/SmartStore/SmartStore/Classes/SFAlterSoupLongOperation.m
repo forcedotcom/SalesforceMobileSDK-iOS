@@ -208,7 +208,7 @@
 {
     [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // We need column names in the index specs
-        _indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
+        self->_indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
 		
         // Move data (core columns + indexed paths that we are still indexing)
         NSDictionary* mapOldSpecs = [SFSoupIndex mapForSoupIndexes:self.oldIndexSpecs];
@@ -363,7 +363,8 @@
 /**
  Update row in long operations status table for on-going alter soup operation
  Delete row if newStatus is AlterStatus.LAST
- @param newStatus
+ @param newStatus New status
+ @param db Database
  */
 - (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
 {

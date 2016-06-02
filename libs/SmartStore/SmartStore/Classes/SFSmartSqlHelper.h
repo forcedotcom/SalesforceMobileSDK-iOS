@@ -39,7 +39,7 @@
  Converts a smart sql query to sql.
  @param smartSql The smart sql query to convert.
  @param store The smart store.
- @param The sql query.
+ @param db Database.
  */
 - (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store withDb:(FMDatabase*)db;
 
