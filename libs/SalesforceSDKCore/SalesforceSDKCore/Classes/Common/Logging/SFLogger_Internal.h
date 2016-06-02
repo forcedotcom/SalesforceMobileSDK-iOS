@@ -47,10 +47,10 @@ extern NSString * SFLogNameForLogLevel(SFLogLevel level);
 
 @interface SFLogTag : NSObject
 
-@property (nonatomic, strong, readonly) id sender;
+@property (nonatomic, readonly) SEL selector;
 @property (nonatomic, strong, readonly) Class originClass;
 
-- (instancetype)initWithClass:(Class)originClass sender:(id)sender;
+- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector;
 
 @end
 

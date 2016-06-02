@@ -151,11 +151,11 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
 
 @implementation SFLogTag
 
-- (instancetype)initWithClass:(Class)originClass sender:(id)sender {
+- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector {
     self = [self init];
     if (self) {
         _originClass = originClass;
-        _sender = sender;
+        _selector = selector;
     }
     return self;
 }
@@ -168,7 +168,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
         result = NO;
     } else if (_originClass != object->_originClass) {
         result = NO;
-    } else if (_sender != object->_sender) {
+    } else if (_selector != object->_selector) {
         result = NO;
     }
     return result;
@@ -245,7 +245,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
               format:msg
                 args:nil];
 }
@@ -264,7 +264,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
               format:format
                 args:args];
     va_end(args);
@@ -287,7 +287,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
               format:format
                 args:args];
     va_end(args);
@@ -306,7 +306,7 @@ SFLogLevel SFLoggerContextLogLevels[SF_LOG_MAX_IDENTIFIER_COUNT];
                 file:nil
             function:nil
                 line:0
-                 tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                 tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
               format:format
                 args:args];
     va_end(args);
@@ -538,7 +538,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls sender:nil]
+               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
             format:msg];
 }
 
@@ -552,7 +552,7 @@ static BOOL assertionRecorded = NO;
               file:nil
           function:nil
               line:0
-               tag:[[SFLogTag alloc] initWithClass:cls sender:nil]
+               tag:[[SFLogTag alloc] initWithClass:cls selector:nil]
             format:msg];
 }
 
@@ -681,7 +681,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:nil sender:obj]
+                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
                          format:message
                            args:args];
     va_end(args);
@@ -708,7 +708,7 @@ static BOOL assertionRecorded = NO;
                            file:[file cStringUsingEncoding:NSUTF8StringEncoding]
                        function:[NSStringFromSelector(method) cStringUsingEncoding:NSUTF8StringEncoding]
                            line:line
-                            tag:[[SFLogTag alloc] initWithClass:nil sender:obj]
+                            tag:[[SFLogTag alloc] initWithClass:[obj class] selector:method]
                          format:stackTraces
                            args:nil];
     
@@ -763,9 +763,9 @@ static BOOL assertionRecorded = NO;
         va_start(args, format);
         if (tag && ![tag isKindOfClass:[SFLogTag class]]) {
             if ([tag conformsToProtocol:@protocol(NSObject)]) {
-                tag = [[SFLogTag alloc] initWithClass:[(NSObject*)tag class] sender:tag];
+                tag = [[SFLogTag alloc] initWithClass:[(NSObject*)tag class] selector:nil];
             } else {
-                tag = [[SFLogTag alloc] initWithClass:tag sender:nil];
+                tag = [[SFLogTag alloc] initWithClass:tag selector:nil];
             }
         }
         

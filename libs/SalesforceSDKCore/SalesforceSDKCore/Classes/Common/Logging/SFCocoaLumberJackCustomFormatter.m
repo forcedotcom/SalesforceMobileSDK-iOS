@@ -60,12 +60,15 @@
     NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
 
     NSString *classString = nil;
+    NSString *selectorString = nil;
     if ([logMessage->_tag isKindOfClass:[SFLogTag class]]) {
         SFLogTag *tag = (SFLogTag*)logMessage->_tag;
         if (tag.originClass) {
             classString = NSStringFromClass(tag.originClass);
-        } else if ([tag.sender isKindOfClass:[NSObject class]]) {
-            classString = NSStringFromClass([tag.sender class]);
+        }
+
+        if (tag.selector) {
+            selectorString = NSStringFromSelector(tag.selector);
         }
     }
     
@@ -87,7 +90,7 @@
                                 identifier.identifier];
     
     NSString *file = ([logMessage->_file isEqualToString:@"(null)"]) ? nil : logMessage->_file;
-    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? nil : logMessage->_function;
+    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? selectorString : logMessage->_function;
     
     if (file && function) {
         [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, function];
