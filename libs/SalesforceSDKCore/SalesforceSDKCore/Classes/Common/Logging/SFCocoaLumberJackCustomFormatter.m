@@ -24,6 +24,7 @@
 
 #include <pthread.h>
 
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SFCocoaLumberJackCustomFormatter.h"
 #import "SFLogger.h"
 #import "SFLogger_Internal.h"

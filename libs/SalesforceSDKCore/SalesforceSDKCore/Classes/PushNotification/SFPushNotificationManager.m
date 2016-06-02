@@ -203,8 +203,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
             else {
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+                self->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+                [[SFPreferences currentUserLevelPreferences] setObject:self->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
         }
