@@ -341,7 +341,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class sender:nil]
+                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                        format:@"Warning message"
                                       message:@"Warning message"];
     [SFLogger log:self.class level:SFLogLevelWarning msg:@"Warning message"];
@@ -355,7 +355,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class sender:nil]
+                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                        format:@"Warning message with an argument"
                                       message:@"Warning message with an argument"];
     [SFLogger log:self.class level:SFLogLevelError format:@"Warning message with %@", @"an argument"];
@@ -382,7 +382,7 @@
                                          file:nil
                                      function:nil
                                          line:0
-                                          tag:[[SFLogTag alloc] initWithClass:self.class sender:nil]
+                                          tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                        format:@"Message to Woof"
                                       message:@"Message to Woof"];
     XCTAssertEqualObjects([recorder.results lastObject], expected);
@@ -415,7 +415,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 2
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                   format:@"This is a verbose message"
                                                  message:@"This is a verbose message"]);
     XCTAssertEqualObjects(recorder.results[1],
@@ -426,7 +426,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 4
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                   format:@"This is a debug message: %d"
                                                  message:@"This is a debug message: 1"]);
     XCTAssertEqualObjects(recorder.results[2],
@@ -437,7 +437,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 6
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                   format:@"This is a info message"
                                                  message:@"This is a info message"]);
     XCTAssertEqualObjects(recorder.results[3],
@@ -448,7 +448,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 8
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                   format:@"This is a warning %@"
                                                  message:@"This is a warning message"]);
     XCTAssertEqualObjects(recorder.results[4],
@@ -459,7 +459,7 @@
                                                     file:__FILE__
                                                 function:"-[SFLoggerTests testMacroLogging]"
                                                     line:baseLine + 10
-                                                     tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                     tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                   format:@"This is a error message"
                                                  message:@"This is a error message"]);
 }
@@ -477,7 +477,7 @@
                                                   file:nil
                                               function:nil
                                                   line:0
-                                                   tag:[[SFLogTag alloc] initWithClass:self.class sender:nil]
+                                                   tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                 format:@"This is a error message"
                                                message:@"This is a error message"];
     
@@ -531,7 +531,7 @@
                                                      file:nil
                                                  function:nil
                                                      line:0
-                                                      tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                      tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                    format:@"This is a error message"
                                                   message:nil];
     [self log:SFLogLevelError msg:@"This is a error message"];
@@ -559,7 +559,7 @@
                                                   file:nil
                                               function:nil
                                                   line:0
-                                                   tag:[[SFLogTag alloc] initWithClass:self.class sender:self]
+                                                   tag:[[SFLogTag alloc] initWithClass:self.class selector:nil]
                                                 format:@"This is a error message"
                                                message:@"This is a error message"];
     
