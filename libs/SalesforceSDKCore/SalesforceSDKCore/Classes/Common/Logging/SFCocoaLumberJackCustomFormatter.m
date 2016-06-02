@@ -22,6 +22,9 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <pthread.h>
+
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SFCocoaLumberJackCustomFormatter.h"
 #import "SFLogger.h"
 #import "SFLogger_Internal.h"
@@ -29,6 +32,8 @@
 @implementation SFCocoaLumberJackCustomFormatter {
     int loggerCount;
     NSDateFormatter *threadUnsafeDateFormatter;
+    NSString *_processName;
+    int _processId;
 }
 
 - (instancetype)init {
@@ -39,6 +44,10 @@
     self = [super init];
     if (self) {
         _logger = logger;
+        
+        NSProcessInfo *process = [NSProcessInfo processInfo];
+        _processName = [process.processName copy];
+        _processId = process.processIdentifier;
         
         threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
         [threadUnsafeDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
@@ -51,12 +60,15 @@
     NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
 
     NSString *classString = nil;
+    NSString *selectorString = nil;
     if ([logMessage->_tag isKindOfClass:[SFLogTag class]]) {
         SFLogTag *tag = (SFLogTag*)logMessage->_tag;
         if (tag.originClass) {
             classString = NSStringFromClass(tag.originClass);
-        } else if ([tag.sender isKindOfClass:[NSObject class]]) {
-            classString = NSStringFromClass([tag.sender class]);
+        }
+
+        if (tag.selector) {
+            selectorString = NSStringFromSelector(tag.selector);
         }
     }
     
@@ -65,13 +77,20 @@
         identifier = _logger->_logIdentifiersByContext[logMessage->_context];
     }
     
-    NSMutableString *message = [NSMutableString stringWithFormat:@"%@ %@ %@",
+    NSString *thread = [NSThread currentThread].name;
+    if (thread.length == 0) {
+        thread = [NSString stringWithFormat:@"%x", pthread_mach_thread_np(pthread_self())];
+    }
+    NSMutableString *message = [NSMutableString stringWithFormat:@"%@ %@[%d:%@] %@ %@",
                                 dateAndTime,
+                                _processName,
+                                _processId,
+                                thread,
                                 SFLogNameForFlag((SFLogFlag)logMessage->_flag),
                                 identifier.identifier];
     
     NSString *file = ([logMessage->_file isEqualToString:@"(null)"]) ? nil : logMessage->_file;
-    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? nil : logMessage->_function;
+    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? selectorString : logMessage->_function;
     
     if (file && function) {
         [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, function];
