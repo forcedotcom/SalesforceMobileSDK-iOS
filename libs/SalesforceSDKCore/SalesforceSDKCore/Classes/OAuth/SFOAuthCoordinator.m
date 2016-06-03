@@ -744,6 +744,19 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     if (nil != communityUrl) {
         self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
     }
+    
+    // Parse additional flags
+    if(self.additionalOAuthParameterKeys.count > 0) {
+        NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
+        for(NSString * key in self.additionalOAuthParameterKeys) {
+            id obj = [params objectForKey:key];
+            if(obj) {
+                [parsedValues setObject:obj forKey:key];
+            }
+        }
+        
+        self.credentials.additionalOAuthFields = parsedValues;
+    }
 }
 
 - (void)configureWebUserAgent

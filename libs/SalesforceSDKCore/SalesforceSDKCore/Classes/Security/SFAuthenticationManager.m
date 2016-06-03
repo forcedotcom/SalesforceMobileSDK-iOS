@@ -766,6 +766,9 @@ static Class InstanceClass = nil;
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
     }
+
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
     }
