@@ -65,6 +65,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize protocol                  = _protocol;
 @synthesize encrypted                 = _encrypted;
 @synthesize legacyIdentityInformation = _legacyIdentityInformation;
+@synthesize additionalOAuthFields     = _additionalOAuthFields;
 
 + (BOOL)supportsSecureCoding {
     return YES;
@@ -92,6 +93,7 @@ NSException * SFOAuthInvalidIdentifierException() {
             self.communityId    = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthCommunityId"];
             self.communityUrl   = [coder decodeObjectOfClass:[NSURL class]    forKey:@"SFOAuthCommunityUrl"];
             self.issuedAt       = [coder decodeObjectOfClass:[NSDate class]   forKey:@"SFOAuthIssuedAt"];
+            self.additionalOAuthFields = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"SFOAuthAdditionalFields"];
             
             NSString *protocolVal = [coder decodeObjectOfClass:[NSString class] forKey:@"SFOAuthProtocol"];
             if (nil != protocolVal)
@@ -131,6 +133,8 @@ NSException * SFOAuthInvalidIdentifierException() {
     [coder encodeObject:self.protocol           forKey:@"SFOAuthProtocol"];
     [coder encodeObject:kSFOAuthArchiveVersion  forKey:@"SFOAuthArchiveVersion"];
     [coder encodeObject:@(self.isEncrypted)     forKey:@"SFOAuthEncrypted"];
+    [coder encodeObject:self.additionalOAuthFields forKey:@"SFOAuthAdditionalFields"];
+   
 }
 
 - (id)init {
