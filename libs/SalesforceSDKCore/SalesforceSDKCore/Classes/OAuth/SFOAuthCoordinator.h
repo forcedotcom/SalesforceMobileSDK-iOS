@@ -297,6 +297,10 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
  */
 @property (nonatomic, copy) NSString *userAgentForAuth;
 
+/**
+ An array of additional keys (NSString) to parse during OAuth
+ */
+@property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
