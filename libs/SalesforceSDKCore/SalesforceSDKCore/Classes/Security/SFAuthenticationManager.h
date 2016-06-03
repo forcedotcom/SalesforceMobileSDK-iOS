@@ -268,6 +268,11 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration;
 
 /**
+ An array of additional keys (NSString) to parse during OAuth
+ */
+@property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
