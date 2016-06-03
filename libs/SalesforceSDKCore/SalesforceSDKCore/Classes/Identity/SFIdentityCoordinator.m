@@ -140,15 +140,6 @@ static NSString * const kSFIdentityDataPropertyKey            = @"com.salesforce
     self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]];
     [[self.session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
          __strong __typeof(self) strongSelf = weakSelf;
-        SFOAuthCredentials *currentCredentials = [SFUserAccountManager sharedInstance].currentUser.credentials;
-        if (![request.URL isEqual:currentCredentials.identityUrl]) {
-            // user account has changed, ignore the ID update
-            [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator Ignore ID data due to account change, old identity URL %@, new identity URL %@",
-             request.URL.absoluteString,
-             currentCredentials.identityUrl.absoluteString];
-            return;
-        }
-        
         if (error) {
             [strongSelf log:SFLogLevelDebug format:@"SFIdentityCoordinator session failed with error: %@", error];
             [strongSelf notifyDelegateOfFailure:error];

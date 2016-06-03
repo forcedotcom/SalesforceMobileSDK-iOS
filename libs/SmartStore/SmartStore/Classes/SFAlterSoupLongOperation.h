@@ -80,18 +80,19 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 
 /**
  Called when first running the alter soup
- @param store
- @param soupName
- @param newIndexSpecs
- @param reIndexData
+ @param store Store
+ @param soupName Soup name
+ @param newIndexSpecs New index specs
+ @param reIndexData Should re-index data
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /** 
  Called when resuming an alter soup operation from the data stored in the long operations status table
- @param store
- @param details
- @param status
+ @param store Store
+ @param rowId Row ID
+ @param details Details
+ @param status Soup status
 */
 - (id) initWithStore:(SFSmartStore*) store rowId:(long) rowId details:(NSDictionary*)details status:(SFAlterSoupStep)status;
 
@@ -102,7 +103,7 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 
 /**
  Run this operation up to a given step (used by tests)
- @param toStep
+ @param toStep Step
  */
 - (void) runToStep:(SFAlterSoupStep) toStep;
 
