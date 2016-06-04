@@ -225,8 +225,10 @@ static NSException *authException = nil;
 /**
  * Tests if ghost records are cleaned locally for a MRU target.
  */
-- (void)FIXMEtestCleanResyncGhostsForMRUTarget
+- (void)testCleanResyncGhostsForMRUTarget
 {
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:@"Account"];
+    NSMutableArray* existingAcccounts =[self sendSyncRequest:request][kRecentItems];
 
     // Creates 3 accounts on the server.
     NSMutableDictionary* accountIdToNames = [[NSMutableDictionary alloc] initWithDictionary:[self createAccountsOnServer:3]];
@@ -234,6 +236,10 @@ static NSException *authException = nil;
     NSArray* accountIds = [accountIdToNames allKeys];
     NSString* soupName = @"Accounts";
     [self createAccountsSoup:soupName];
+    
+    [existingAcccounts enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        accountIdToNames[obj[@"Id"]] = obj[@"Name"];
+    }];
 
     // Builds MRU sync down target and performs initial sync.
     NSMutableArray* fieldList = [[NSMutableArray alloc] init];
