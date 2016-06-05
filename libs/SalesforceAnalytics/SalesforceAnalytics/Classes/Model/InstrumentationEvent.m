@@ -156,6 +156,26 @@
     return jsonData;
 }
 
+- (NSUInteger) hash {
+    return [self.eventId hash];
+}
+
+- (BOOL) isEqual:(id) object {
+    if (nil == object || ![object isKindOfClass:[InstrumentationEvent class]]) {
+        return NO;
+    }
+    InstrumentationEvent *otherObj = (InstrumentationEvent *) object;
+
+    /*
+     * Since event ID is globally unique and is set during construction of the event,
+     * if the event IDs of both events are equal, the events themselves are the same.
+     */
+    if ([self.eventId isEqualToString:otherObj.eventId]) {
+        return YES;
+    }
+    return NO;
+}
+
 - (NSString *) stringValueOfEventType:(EventType) eventType {
     NSString *typeString = nil;
     switch (eventType) {
