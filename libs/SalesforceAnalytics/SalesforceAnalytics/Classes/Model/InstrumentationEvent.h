@@ -27,8 +27,93 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "DeviceAppAttributes.h"
+
+static NSString* const kEventIdKey = @"eventId";
+static NSString* const kStartTimeKey = @"startTime";
+static NSString* const kEndTimeKey = @"endTime";
+static NSString* const kNameKey = @"name";
+static NSString* const kAttributesKey = @"attributes";
+static NSString* const kSessionIdKey = @"sessionId";
+static NSString* const kSequenceIdKey = @"sequenceId";
+static NSString* const kSenderIdKey = @"senderId";
+static NSString* const kSenderContextKey = @"senderContext";
+static NSString* const kEventTypeKey = @"eventType";
+static NSString* const kTypeKey = @"type";
+static NSString* const kSubtypeKey = @"subtype";
+static NSString* const kErrorTypeKey = @"errorType";
+static NSString* const kConnectionTypeKey = @"connectionType";
+static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
+
+/**
+ * Represents the type of event being measured.
+ */
+typedef NS_ENUM(NSInteger, EventType) {
+    EventTypeInteraction = 0,
+    EventTypePageView,
+    EventTypePerf,
+    EventTypeError
+};
+
+/**
+ * Represents the type of interaction being logged.
+ */
+typedef NS_ENUM(NSInteger, Type) {
+    TypeUser = 0,
+    TypeSystem,
+    TypeError,
+    TypeCrud
+};
+
+/**
+ * Represents the subtype of interaction being logged.
+ */
+typedef NS_ENUM(NSInteger, Subtype) {
+    SubtypeClick = 0,
+    SubtypeMouseover,
+    SubtypeCreate,
+    SubtypeSwipe
+};
+
+/**
+ * Represents the type of error being logged.
+ */
+typedef NS_ENUM(NSInteger, ErrorType) {
+    ErrorTypeInfo = 0,
+    ErrorTypeWarn,
+    ErrorTypeError
+};
+
 @interface InstrumentationEvent : NSObject
 
-@property (nonatomic, strong, readonly) NSString *appVersion;
+@property (nonatomic, strong, readonly) NSString *eventId;
+@property (nonatomic, assign, readonly) NSInteger startTime;
+@property (nonatomic, assign, readonly) NSInteger endTime;
+@property (nonatomic, strong, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSDictionary *attributes;
+@property (nonatomic, assign, readonly) NSInteger sessionId;
+@property (nonatomic, assign, readonly) NSInteger sequenceId;
+@property (nonatomic, strong, readonly) NSString *senderId;
+@property (nonatomic, strong, readonly) NSDictionary *senderContext;
+@property (nonatomic, assign, readonly) EventType eventType;
+@property (nonatomic, assign, readonly) Type type;
+@property (nonatomic, assign, readonly) Subtype subtype;
+@property (nonatomic, assign, readonly) ErrorType errorType;
+@property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readonly) NSString *connectionType;
+
+/**
+ * Parameterized initializer.
+ *
+ * @param jsonRepresentation JSON representation.
+ */
+- (id) initWithJson:(NSData *) jsonRepresentation;
+
+/**
+ * Returns a JSON representation of this event.
+ *
+ * @return JSON representation.
+ */
+- (NSData *) jsonRepresentation;
 
 @end

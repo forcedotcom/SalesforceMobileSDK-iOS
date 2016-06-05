@@ -1,8 +1,8 @@
 /*
- InstrumentationEvent+Internal.h
+ EventStoreManager.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 5/25/16.
+ Created by Bharath Hariharan on 6/4/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,29 +27,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InstrumentationEvent.h"
-
-@interface InstrumentationEvent ()
-
-/**
- * Parameterized initializer.
- *
- * @param eventId Event ID.
- * @param startTime Start time.
- * @param endTime End time.
- * @param name Name.
- * @param attributes Attributes.
- * @param sessionId Session ID.
- * @param sequenceId Sequence ID.
- * @param senderId Sender ID.
- * @param senderContext Sender context.
- * @param eventType Event type.
- * @param type Type.
- * @param subtype Subtype.
- * @param errorType Error type.
- * @param deviceAppAttributes Device app attributes.
- * @param connectionType Connection type.
- */
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext eventType:(EventType) eventType type:(Type) type subtype:(Subtype) subtype errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType;
+@interface EventStoreManager : NSObject
 
 @end
