@@ -37,6 +37,35 @@
 @property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
 @property (nonatomic, strong, readonly) NSString *deviceModel;
 @property (nonatomic, strong, readonly) NSString *deviceId;
-@property (nonatomic, strong, readonly) NSString *connectionType;
+
+/**
+ * Parameterized initializer.
+ *
+ * @param appVersion App version.
+ * @param appName App name.
+ * @param osVersion OS version.
+ * @param osName OS name.
+ * @param nativeAppType Native app type.
+ * @param mobileSdkVersion Mobile SDK version.
+ * @param deviceModel Device model.
+ * @param deviceId Device ID.
+ */
+- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
+    mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
+    deviceId:(NSString *) deviceId;
+
+/**
+ * Parameterized initializer.
+ *
+ * @param jsonRepresentation JSON representation.
+ */
+- (id) initWithJson:(NSData *) jsonRepresentation;
+
+/**
+ * Returns a JSON representation of device app attributes.
+ *
+ * @return JSON representation.
+ */
+- (NSData *) jsonRepresentation;
 
 @end

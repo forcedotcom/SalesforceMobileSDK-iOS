@@ -1,8 +1,8 @@
 /*
- InstrumentationEvent+Internal.h
+ InstrumentationEventBuilder.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 5/25/16.
+ Created by Bharath Hariharan on 6/5/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,29 +27,110 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InstrumentationEvent.h"
+#import "InstrumentationEvent+Internal.h"
 
-@interface InstrumentationEvent ()
+@interface InstrumentationEventBuilder : NSObject
 
 /**
- * Parameterized initializer.
+ * Returns an instance of this class.
  *
- * @param eventId Event ID.
- * @param startTime Start time.
- * @param endTime End time.
- * @param name Name.
- * @param attributes Attributes.
- * @param sessionId Session ID.
- * @param sequenceId Sequence ID.
- * @param senderId Sender ID.
- * @param senderContext Sender context.
- * @param eventType Event type.
- * @param type Type.
- * @param subtype Subtype.
- * @param errorType Error type.
- * @param deviceAppAttributes Device app attributes.
- * @param connectionType Connection type.
+ * @return Instance of this class.
  */
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext eventType:(EventType) eventType type:(Type) type subtype:(Subtype) subtype errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType;
++ (InstrumentationEventBuilder *) getInstance;
+
+/**
+ * Sets start time.
+ *
+ * @param startTime Start time.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) startTime:(NSInteger) startTime;
+
+/**
+ * Sets end time.
+ *
+ * @param endTime End time.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) endTime:(NSInteger) endTime;
+
+/**
+ * Sets name.
+ *
+ * @param name Name.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) name:(NSString *) name;
+
+/**
+ * Sets attributes.
+ *
+ * @param attributes Attributes.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) attributes:(NSDictionary *) attributes;
+
+/**
+ * Sets session ID.
+ *
+ * @param sessionId Session ID.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) sessionId:(NSInteger) sessionId;
+
+/**
+ * Sets sender ID.
+ *
+ * @param senderId Sender ID.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) senderId:(NSString *) senderId;
+
+/**
+ * Sets sender conetxt.
+ *
+ * @param senderContext Sender context.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext;
+
+/**
+ * Sets event type.
+ *
+ * @param eventType Event type.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) eventType:(EventType) eventType;
+
+/**
+ * Sets type.
+ *
+ * @param type Type.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) type:(Type) type;
+
+/**
+ * Sets subtype.
+ *
+ * @param subtype Subtype.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) subtype:(Subtype) subtype;
+
+/**
+ * Sets error type.
+ *
+ * @param errorType Error type.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) errorType:(ErrorType) errorType;
+
+/**
+ * Builds the event.
+ *
+ * @return Event instance.
+ */
+- (InstrumentationEvent *) buildEvent;
 
 @end
