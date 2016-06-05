@@ -27,27 +27,71 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "DeviceAppAttributes+Internal.h"
+#import "DeviceAppAttributes.h"
+
+static NSString* const kSFAppVersionKey = @"appVersion";
+static NSString* const kSFAppNameKey = @"appName";
+static NSString* const kSFOsVersionKey = @"osVersion";
+static NSString* const kSFOsNameKey = @"osName";
+static NSString* const kSFNativeAppTypeKey = @"nativeAppType";
+static NSString* const kSFMobileSdkVersionKey = @"mobileSdkVersion";
+static NSString* const kSFDeviceModelKey = @"deviceModel";
+static NSString* const kSFDeviceIdKey = @"deviceId";
 
 @implementation DeviceAppAttributes
 
 - (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
         osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
         mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-        deviceId:(NSString *) deviceId connectionType:(NSString *) connectionType {
+        deviceId:(NSString *) deviceId {
     self = [super init];
     if (self) {
-        self.appVersion = appVersion;
-        self.appName = appName;
-        self.osVersion = osVersion;
-        self.osName = osName;
-        self.nativeAppType = nativeAppType;
-        self.mobileSdkVersion = mobileSdkVersion;
-        self.deviceModel = deviceModel;
-        self.deviceId = deviceId;
-        self.connectionType = connectionType;
+        _appVersion = appVersion;
+        _appName = appName;
+        _osVersion = osVersion;
+        _osName = osName;
+        _nativeAppType = nativeAppType;
+        _mobileSdkVersion = mobileSdkVersion;
+        _deviceModel = deviceModel;
+        _deviceId = deviceId;
     }
     return self;
+}
+
+- (id) initWithJson:(NSData *) jsonRepresentation {
+    self = [super init];
+    if (self && jsonRepresentation) {
+        NSError *error;
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonRepresentation
+                                                             options:NSJSONReadingAllowFragments
+                                                               error:&error];
+        if (dict) {
+            _appVersion = dict[kSFAppVersionKey];
+            _appName = dict[kSFAppNameKey];
+            _osVersion = dict[kSFOsVersionKey];
+            _osName = dict[kSFOsNameKey];
+            _nativeAppType = dict[kSFNativeAppTypeKey];
+            _mobileSdkVersion = dict[kSFMobileSdkVersionKey];
+            _deviceModel = dict[kSFDeviceModelKey];
+            _deviceId = dict[kSFDeviceIdKey];
+        }
+    }
+    return self;
+}
+
+- (NSData *) jsonRepresentation {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setValue:self.appVersion forKey:kSFAppVersionKey];
+    [dict setValue:self.appName forKey:kSFAppNameKey];
+    [dict setValue:self.osVersion forKey:kSFOsVersionKey];
+    [dict setValue:self.osName forKey:kSFOsNameKey];
+    [dict setValue:self.nativeAppType forKey:kSFNativeAppTypeKey];
+    [dict setValue:self.mobileSdkVersion forKey:kSFMobileSdkVersionKey];
+    [dict setValue:self.deviceModel forKey:kSFDeviceModelKey];
+    [dict setValue:self.deviceId forKey:kSFDeviceIdKey];
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    return jsonData;
 }
 
 @end
