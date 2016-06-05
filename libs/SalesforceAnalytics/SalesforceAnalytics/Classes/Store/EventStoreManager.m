@@ -29,6 +29,128 @@
 
 #import "EventStoreManager.h"
 
+@interface EventStoreManager ()
+
+@property (nonatomic, strong, readwrite) NSString *rootStoreDir;
+@property (nonatomic, strong, readwrite) NSString *encryptionKey;
+
+@end
+
 @implementation EventStoreManager
+
+- (id) init:(NSString *) rootStoreDir encryptionKey:(NSString *) encryptionKey {
+    self = [super init];
+    if (self) {
+        self.rootStoreDir = rootStoreDir;
+        self.encryptionKey = encryptionKey;
+    }
+    return self;
+}
+
+- (void) storeEvent:(InstrumentationEvent *) event {
+    if (!event || ![event jsonRepresentation]) {
+        NSLog(@"Invalid event");
+        return;
+    }
+
+    /*
+     * TODO: Add implementation.
+     */
+}
+
+- (void) storeEvents:(NSArray<InstrumentationEvent *> *) events {
+    if (!events || [events count] == 0) {
+        NSLog(@"No events to store");
+        return;
+    }
+    for (InstrumentationEvent* event in events) {
+        [self storeEvent:event];
+    }
+}
+
+- (InstrumentationEvent *) fetchEvent:(NSString *) eventId {
+    if (!eventId) {
+        NSLog(@"Invalid event ID supplied: %@", eventId);
+        return nil;
+    }
+
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
+
+- (NSArray<InstrumentationEvent *> *) fetchAllEvents {
+
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
+
+- (BOOL) deleteEvent:(NSString *) eventId {
+    if (!eventId) {
+        NSLog(@"Invalid event ID supplied: %@", eventId);
+        return NO;
+    }
+
+    /*
+     * TODO: Add implementation.
+     */
+    return NO;
+}
+
+- (void) deleteEvents:(NSArray<NSString *> *) eventIds {
+    if (!eventIds || [eventIds count] == 0) {
+        NSLog(@"No events to delete");
+        return;
+    }
+    for (NSString* eventId in eventIds) {
+        [self deleteEvent:eventId];
+    }
+}
+
+- (void) deleteAllEvents {
+
+    /*
+     * TODO: Add implementation.
+     */
+}
+
+- (InstrumentationEvent *) fetchEventFromFile:(NSFileHandle *) file {
+    if (!file) {
+        NSLog(@"File does not exist");
+        return nil;
+    }
+
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
+
+- (NSArray<InstrumentationEvent *> *) getAllFiles {
+
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
+
+- (NSData *) encrypt:(NSData *) data {
+
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
+
+- (NSData *) decrypt:(NSData *) data {
+    
+    /*
+     * TODO: Add implementation.
+     */
+    return nil;
+}
 
 @end

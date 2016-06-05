@@ -27,6 +27,68 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "InstrumentationEvent+Internal.h"
+
 @interface EventStoreManager : NSObject
+
+@property (nonatomic, strong, readonly) NSString *rootStoreDir;
+@property (nonatomic, strong, readonly) NSString *encryptionKey;
+
+/**
+ * Parameterized initializer.
+ *
+ * @param rootStoreDir Root store directory.
+ * @param encryptionKey Encryption key.
+ * @return Instance of this class.
+ */
+- (id) init:(NSString *) rootStoreDir encryptionKey:(NSString *) encryptionKey;
+
+/**
+ * Stores an event to the filesystem. A combination of event's unique ID and
+ * filename suffix is used to generate a unique filename per event.
+ *
+ * @param event Event to be persisted.
+ */
+- (void) storeEvent:(InstrumentationEvent *) event;
+
+/**
+ * Stores a list of events to the filesystem.
+ *
+ * @param events List of events.
+ */
+- (void) storeEvents:(NSArray<InstrumentationEvent *> *) events;
+
+/**
+ * Returns a specific event stored on the filesystem.
+ *
+ * @param eventId Unique identifier for the event.
+ * @return Event.
+ */
+- (InstrumentationEvent *) fetchEvent:(NSString *) eventId;
+
+/**
+ * Returns all the events stored on the filesystem for that unique identifier.
+ *
+ * @return List of events.
+ */
+- (NSArray<InstrumentationEvent *> *) fetchAllEvents;
+
+/**
+ * Deletes a specific event stored on the filesystem.
+ *
+ * @param eventId Unique identifier for the event.
+ * @return True - if successful, False - otherwise.
+ */
+- (BOOL) deleteEvent:(NSString *) eventId;
+
+/**
+ * Deletes the events stored on the filesystem for that unique identifier.
+ */
+- (void) deleteEvents:(NSArray<NSString *> *) eventIds;
+
+/**
+ * Deletes all the events stored on the filesystem for that unique identifier.
+ */
+- (void) deleteAllEvents;
 
 @end
