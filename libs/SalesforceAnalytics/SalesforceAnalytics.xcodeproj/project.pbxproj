@@ -60,6 +60,12 @@
 		CE2B91B61D03A6A900C6FC6A /* EventStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B91AE1D03A61000C6FC6A /* EventStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB54F1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */; };
 		CEFEB5501D03EDB6007D5EAE /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */; };
+		CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
+		CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5561D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
+		CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
+		CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +131,8 @@
 		CE2B91AE1D03A61000C6FC6A /* EventStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventStoreManager.h; path = Classes/Store/EventStoreManager.h; sourceTree = "<group>"; };
 		CE2B91AF1D03A61000C6FC6A /* EventStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventStoreManager.m; path = Classes/Store/EventStoreManager.m; sourceTree = "<group>"; };
 		CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
+		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
+		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +267,8 @@
 		CE2B8FE91CF5510B00C6FC6A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */,
+				CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */,
 				CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */,
 				CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */,
 				CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */,
@@ -287,6 +297,7 @@
 				CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */,
 				CEFEB54F1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
 				CE2B91B01D03A61000C6FC6A /* EventStoreManager.h in Headers */,
+				CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
@@ -300,6 +311,7 @@
 				CE2B91B61D03A6A900C6FC6A /* EventStoreManager.h in Headers */,
 				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
+				CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */,
 				CEFEB5501D03EDB6007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -514,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B11D03A61000C6FC6A /* EventStoreManager.m in Sources */,
+				CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -524,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B31D03A69C00C6FC6A /* EventStoreManager.m in Sources */,
+				CEFEB5561D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CE2B8FF11CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8FFF1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -534,6 +548,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B41D03A69D00C6FC6A /* EventStoreManager.m in Sources */,
+				CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -543,6 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CE2B8FF31CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
 				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
