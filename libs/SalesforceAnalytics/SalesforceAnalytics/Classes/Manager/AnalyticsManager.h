@@ -1,8 +1,8 @@
 /*
- DeviceAppAttributes.h
+ AnalyticsManager.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 5/24/16.
+ Created by Bharath Hariharan on 6/5/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,47 +27,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface DeviceAppAttributes : NSObject
+#import "DeviceAppAttributes.h"
+#import "EventStoreManager.h"
 
-@property (nonatomic, strong, readonly) NSString *appVersion;
-@property (nonatomic, strong, readonly) NSString *appName;
-@property (nonatomic, strong, readonly) NSString *osVersion;
-@property (nonatomic, strong, readonly) NSString *osName;
-@property (nonatomic, strong, readonly) NSString *nativeAppType;
-@property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
-@property (nonatomic, strong, readonly) NSString *deviceModel;
-@property (nonatomic, strong, readonly) NSString *deviceId;
+@interface AnalyticsManager : NSObject
+
+@property (nonatomic, readonly, strong) NSString *uniqueId;
+@property (nonatomic, readonly, strong) EventStoreManager *storeManager;
+@property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readonly, assign) NSInteger globalSequenceId;
 
 /**
- * Parameterized initializer.
+ * Returns an instance of this class associated with the specified unique ID.
  *
- * @param appVersion App version.
- * @param appName App name.
- * @param osVersion OS version.
- * @param osName OS name.
- * @param nativeAppType Native app type.
- * @param mobileSdkVersion Mobile SDK version.
- * @param deviceModel Device model.
- * @param deviceId Device ID.
+ * @param uniqueId Unique ID that is used to determine where the events are stored.
+ * @param encryptionKey Encryption key.
+ * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
-    mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-    deviceId:(NSString *) deviceId;
++ (id) sharedInstance:(NSString *) uniqueId encryptionKey:(NSString *) encryptionKey deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
 
 /**
- * Parameterized initializer.
+ * Resets and removes the instance associated with the specified unique ID.
  *
- * @param jsonRepresentation JSON representation.
- * @return Instance of this class.
+ * @param uniqueId Unique ID.
  */
-- (id) initWithJson:(NSData *) jsonRepresentation;
-
-/**
- * Returns a JSON representation of device app attributes.
- *
- * @return JSON representation.
- */
-- (NSData *) jsonRepresentation;
++ (void) removeSharedInstance:(NSString *) uniqueId;
 
 @end

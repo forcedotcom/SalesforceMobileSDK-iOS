@@ -66,6 +66,16 @@
 		CEFEB5561D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
+		CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
+		CEFEB55B1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
+		CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
+		CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */; };
+		CEFEB5631D05E3ED007D5EAE /* AnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */; };
+		CEFEB5641D05E3F3007D5EAE /* AnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
+		CEFEB5661D05E3FE007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
+		CEFEB5671D05E3FF007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +143,10 @@
 		CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
 		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
 		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
+		CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentationEventBuilderTests.m; sourceTree = "<group>"; };
+		CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsManager.h; path = Classes/Manager/AnalyticsManager.h; sourceTree = "<group>"; };
+		CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsManager.m; path = Classes/Manager/AnalyticsManager.m; sourceTree = "<group>"; };
+		CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AnalyticsManager+Internal.h"; path = "Classes/Manager/AnalyticsManager+Internal.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +217,7 @@
 		CE2B8BDD1CE900F500C6FC6A /* SalesforceAnalyticsTests */ = {
 			isa = PBXGroup;
 			children = (
+				CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */,
 			);
 			path = SalesforceAnalyticsTests;
 			sourceTree = "<group>";
@@ -258,6 +273,7 @@
 		CE2B8FE61CF550BA00C6FC6A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEFEB55C1D050E20007D5EAE /* Manager */,
 				CE2B91B21D03A61800C6FC6A /* Store */,
 				CE2B8FE91CF5510B00C6FC6A /* Model */,
 			);
@@ -287,6 +303,16 @@
 			name = Store;
 			sourceTree = "<group>";
 		};
+		CEFEB55C1D050E20007D5EAE /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */,
+				CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */,
+				CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */,
+			);
+			name = Manager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -297,7 +323,9 @@
 				CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */,
 				CEFEB54F1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
 				CE2B91B01D03A61000C6FC6A /* EventStoreManager.h in Headers */,
+				CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */,
 				CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */,
+				CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
@@ -310,8 +338,10 @@
 			files = (
 				CE2B91B61D03A6A900C6FC6A /* EventStoreManager.h in Headers */,
 				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
+				CEFEB5631D05E3ED007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */,
+				CEFEB5641D05E3F3007D5EAE /* AnalyticsManager.h in Headers */,
 				CEFEB5501D03EDB6007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,6 +557,7 @@
 			files = (
 				CE2B91B11D03A61000C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -536,8 +567,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFEB5661D05E3FE007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B91B31D03A69C00C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5561D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
 				CE2B8FF11CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8FFF1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -549,6 +582,7 @@
 			files = (
 				CE2B91B41D03A69D00C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
@@ -558,7 +592,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEFEB5671D05E3FF007D5EAE /* AnalyticsManager.m in Sources */,
 				CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB55B1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
 				CE2B8FF31CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
 				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
