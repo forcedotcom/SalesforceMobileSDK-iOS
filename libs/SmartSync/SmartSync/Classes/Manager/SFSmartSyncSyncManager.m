@@ -438,7 +438,7 @@ static NSMutableDictionary *syncMgrList = nil;
     /*
      * Fetches list of IDs present in local soup that have not been modified locally.
      */
-    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    __block SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
     NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
     [smartSqlQuery appendString:@"SELECT {"];
@@ -480,17 +480,9 @@ static NSMutableDictionary *syncMgrList = nil;
 
             // Deletes extra IDs from SmartStore.
             if (localIds.count > 0) {
-                NSMutableArray* soupEntryIds = [[NSMutableArray alloc] init];
-                for (NSString* localId in localIds) {
-                    NSNumber* soupEntryId = [weakSelf.store lookupSoupEntryIdForSoupName:soupName
-                                                                            forFieldPath:idFieldName
-                                                                              fieldValue:localId
-                                                                                   error:nil];
-                    if (soupEntryId != nil) {
-                        [soupEntryIds addObject:soupEntryId];
-                    }
-                }
-                [weakSelf.store removeEntries:soupEntryIds fromSoup:soupName];
+                NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, idFieldName, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
+                querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
+                [weakSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
         completionStatusBlock(SFSyncStateStatusDone);

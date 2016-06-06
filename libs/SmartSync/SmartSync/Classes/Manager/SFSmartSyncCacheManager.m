@@ -418,10 +418,8 @@ static NSMutableDictionary *cacheMgrList = nil;
         return;
     }
     
-    NSDictionary *storeEntry = [self retrieveDataFromStoreWithCacheType:cacheType cacheKey:cacheKey];
-    if (storeEntry != nil) {
-        [self.store removeEntries:@[ storeEntry[SOUP_ENTRY_ID] ] fromSoup:cacheType];
-    }
+    SFQuerySpec * querySpec = [SFQuerySpec newExactQuerySpec:cacheType withPath:kSmartStoreCacheKeyPath withMatchKey:cacheKey withOrderPath:kSmartStoreCacheKeyPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
+    [self.store removeEntriesByQuery:querySpec fromSoup:cacheType];
 }
 
 - (void)createCacheSoupMappingSoup {
