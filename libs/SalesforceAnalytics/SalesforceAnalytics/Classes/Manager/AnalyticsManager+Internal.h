@@ -1,8 +1,8 @@
 /*
- DeviceAppAttributes.h
+ AnalyticsManager+Internal.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 5/24/16.
+ Created by Bharath Hariharan on 6/6/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,47 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@interface DeviceAppAttributes : NSObject
+#import "AnalyticsManager.h"
 
-@property (nonatomic, strong, readonly) NSString *appVersion;
-@property (nonatomic, strong, readonly) NSString *appName;
-@property (nonatomic, strong, readonly) NSString *osVersion;
-@property (nonatomic, strong, readonly) NSString *osName;
-@property (nonatomic, strong, readonly) NSString *nativeAppType;
-@property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
-@property (nonatomic, strong, readonly) NSString *deviceModel;
-@property (nonatomic, strong, readonly) NSString *deviceId;
+@interface AnalyticsManager ()
 
-/**
- * Parameterized initializer.
- *
- * @param appVersion App version.
- * @param appName App name.
- * @param osVersion OS version.
- * @param osName OS name.
- * @param nativeAppType Native app type.
- * @param mobileSdkVersion Mobile SDK version.
- * @param deviceModel Device model.
- * @param deviceId Device ID.
- * @return Instance of this class.
- */
-- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
-    mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-    deviceId:(NSString *) deviceId;
-
-/**
- * Parameterized initializer.
- *
- * @param jsonRepresentation JSON representation.
- * @return Instance of this class.
- */
-- (id) initWithJson:(NSData *) jsonRepresentation;
-
-/**
- * Returns a JSON representation of device app attributes.
- *
- * @return JSON representation.
- */
-- (NSData *) jsonRepresentation;
+@property (nonatomic, readwrite, assign) NSInteger globalSequenceId;
 
 @end

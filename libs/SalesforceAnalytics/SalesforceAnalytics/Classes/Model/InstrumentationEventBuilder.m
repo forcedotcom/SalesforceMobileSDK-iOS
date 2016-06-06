@@ -31,6 +31,7 @@
 
 @interface InstrumentationEventBuilder ()
 
+@property (nonatomic, strong, readwrite) AnalyticsManager *analyticsManager;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
@@ -47,8 +48,16 @@
 
 @implementation InstrumentationEventBuilder
 
-+ (InstrumentationEventBuilder *) getInstance {
-    return [[InstrumentationEventBuilder alloc] init];
++ (InstrumentationEventBuilder *) getInstance:(AnalyticsManager *) analyticsManager {
+    return [[InstrumentationEventBuilder alloc] init:analyticsManager];
+}
+
+- (InstrumentationEventBuilder *) init:(AnalyticsManager *) analyticsManager {
+    self = [super init];
+    if (self) {
+        self.analyticsManager = analyticsManager;
+    }
+    return self;
 }
 
 - (InstrumentationEventBuilder *) startTime:(NSInteger) startTime {
@@ -108,14 +117,9 @@
 
 - (InstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
-
-    /*
-     * TODO:
-     * Assign device app attributes and sequence ID from AnalyticsManager.
-     * Set incremented sequence ID in AnalyticsManager.
-     */
-    NSInteger sequenceId;
-    DeviceAppAttributes *deviceAppAttributes;
+    NSInteger sequenceId = self.analyticsManager.globalSequenceId + 1;
+    self.analyticsManager.globalSequenceId = sequenceId;
+    DeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
 
     // Defaults to current time if not explicitly set.
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;

@@ -27,6 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "AnalyticsManager+Internal.h"
 #import "InstrumentationEvent+Internal.h"
 
 @interface InstrumentationEventBuilder : NSObject
@@ -36,7 +37,7 @@
  *
  * @return Instance of this class.
  */
-+ (InstrumentationEventBuilder *) getInstance;
++ (InstrumentationEventBuilder *) getInstance:(AnalyticsManager *) analyticsManager;
 
 /**
  * Sets start time.

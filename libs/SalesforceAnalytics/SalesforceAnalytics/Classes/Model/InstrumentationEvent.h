@@ -106,6 +106,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
  * Parameterized initializer.
  *
  * @param jsonRepresentation JSON representation.
+ * @return Instance of this class.
  */
 - (id) initWithJson:(NSData *) jsonRepresentation;
 
