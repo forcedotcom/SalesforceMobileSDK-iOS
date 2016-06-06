@@ -23,9 +23,9 @@ before_script:
 
 script:
    #run template app generation
-   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native
-   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native_swift
-   - set -o pipefail && node external/shared/node/test_force.js --os=ios --test=react_native
+   - travis_wait 30 set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native
+   - travis_wait 30 set -o pipefail && node external/shared/node/test_force.js --os=ios --test=native_swift
+   - travis_wait 30 set -o pipefail && node external/shared/node/test_force.js --os=ios --test=react_native
    - travis_wait 30 set -o pipefail && node external/shared/node/test_force.js --os=ios --test=hybrid_local
    - travis_wait 30 set -o pipefail && node external/shared/node/test_force.js --os=ios --test=hybrid_remote
    # build libs
