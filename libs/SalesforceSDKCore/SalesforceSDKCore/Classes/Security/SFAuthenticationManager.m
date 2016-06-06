@@ -615,6 +615,7 @@ static Class InstanceClass = nil;
             case NSURLErrorCannotConnectToHost:
             case NSURLErrorNetworkConnectionLost:
             case NSURLErrorNotConnectedToInternet:
+            case NSURLErrorInternationalRoamingOff:
                 isNetworkFailure = YES;
                 break;
             default:
@@ -766,6 +767,9 @@ static Class InstanceClass = nil;
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
     }
+
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
     }
