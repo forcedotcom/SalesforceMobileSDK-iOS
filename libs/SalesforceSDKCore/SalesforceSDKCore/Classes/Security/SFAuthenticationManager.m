@@ -615,6 +615,7 @@ static Class InstanceClass = nil;
             case NSURLErrorCannotConnectToHost:
             case NSURLErrorNetworkConnectionLost:
             case NSURLErrorNotConnectedToInternet:
+            case NSURLErrorInternationalRoamingOff:
                 isNetworkFailure = YES;
                 break;
             default:
