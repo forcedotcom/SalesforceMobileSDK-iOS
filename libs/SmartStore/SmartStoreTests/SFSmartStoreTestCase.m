@@ -222,8 +222,8 @@
 {
     XCTAssertTrue([frs next], @"Expected rows to be returned");
     
-    // Check docid
-    XCTAssertEqualObjects(@([frs longForColumn:DOCID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    // Check rowid
+    XCTAssertEqualObjects(@([frs longForColumn:ROWID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
 
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)

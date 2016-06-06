@@ -128,7 +128,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
         [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
@@ -162,7 +162,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
         [self checkFtsRow:frs withExpectedEntry:secondEmployeeUpdated withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
@@ -195,7 +195,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only one should have been returned");
         [frs close];
@@ -213,7 +213,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         XCTAssertFalse([frs next], @"No rows should have been returned");
         [frs close];
     }];
@@ -240,7 +240,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         XCTAssertFalse([frs next], @"No rows should have been returned");
         [frs close];
     }];

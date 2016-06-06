@@ -335,14 +335,14 @@
     if ([kCityCol isEqualToString:kSoupIndexTypeFullText] || [kCountryCol isEqualToString:kSoupIndexTypeFullText]) {
         // Check fts table columns
         expectedColumns = [NSMutableArray new];
-        [expectedColumns addObject:@"docid"];
+        [expectedColumns addObject:@"rowid"];
         if ([cityColType isEqualToString:kSoupIndexTypeFullText]) [expectedColumns addObject:kCityCol];
         if ([countryColType isEqualToString:kSoupIndexTypeFullText]) [expectedColumns addObject:kCountryCol];
         [self checkColumns:kTestSoupFtsTableName expectedColumns:expectedColumns store:self.store];
 
         // Check fts table rows
         [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-            FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:expectedColumns orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+            FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:expectedColumns orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
             [self checkFtsRow:frs withExpectedEntry:expectedEntries[0] withSoupIndexes:actualIndexSpecs];
             [self checkFtsRow:frs withExpectedEntry:expectedEntries[1] withSoupIndexes:actualIndexSpecs];
             XCTAssertFalse([frs next], @"Only two rows should have been returned");

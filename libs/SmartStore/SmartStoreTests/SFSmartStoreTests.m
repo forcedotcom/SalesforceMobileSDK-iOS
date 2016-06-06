@@ -116,6 +116,14 @@
 }
 
 /**
+ * Test fts extension
+ */
+- (void) testFtsExtension
+{
+    XCTAssertEqual(self.store.ftsExtension, 5, @"Expected FTS5");
+}
+
+/**
  * Testing method with paths to top level string/integer/array/map as well as edge cases (nil object/nil or empty path)
  */
 - (void) testProjectTopLevel

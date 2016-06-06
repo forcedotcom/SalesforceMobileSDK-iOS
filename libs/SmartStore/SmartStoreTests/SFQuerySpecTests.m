@@ -26,6 +26,10 @@
 #import "SFQuerySpec.h"
 
 
+@interface SFQuerySpec ()
++ (NSString*) qualifyMatchKey:(NSString*)matchKey field:(NSString*)field;
+@end
+
 @implementation SFQuerySpecTests
 
 
@@ -114,25 +118,25 @@
 - (void) testMatchQuerySmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT docid FROM {employees}_fts WHERE {employees:lastName} MATCH 'Bond') ORDER BY {employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec");
+    XCTAssertEqualObjects(@"SELECT {employees:_soup} FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:Bond') ORDER BY {employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec");
 }
 
 - (void) testMatchQuerySmartSqlWithSelectPaths
 {
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withSelectPaths:@[@"firstName", @"lastName", @"title"] withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    XCTAssertEqualObjects(@"SELECT {employees:firstName}, {employees:lastName}, {employees:title} FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT docid FROM {employees}_fts WHERE {employees:lastName} MATCH 'Bond') ORDER BY {employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec with select paths");
+    XCTAssertEqualObjects(@"SELECT {employees:firstName}, {employees:lastName}, {employees:title} FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:Bond') ORDER BY {employees:firstName} ASC ", querySpec.smartSql, @"Wrong smart sql for match query spec with select paths");
 }
 
 - (void) testMatchQueryCountSmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    XCTAssertEqualObjects(@"SELECT count(*) FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT docid FROM {employees}_fts WHERE {employees:lastName} MATCH 'Bond') ", querySpec.countSmartSql, @"Wrong count smart sql for match query spec");
+    XCTAssertEqualObjects(@"SELECT count(*) FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:Bond') ", querySpec.countSmartSql, @"Wrong count smart sql for match query spec");
 }
 
 - (void) testMatchQueryIdsSmartSql
 {
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:@"employees" withPath:@"lastName" withMatchKey:@"Bond" withOrderPath:@"firstName" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    XCTAssertEqualObjects(@"SELECT id FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT docid FROM {employees}_fts WHERE {employees:lastName} MATCH 'Bond') ORDER BY {employees:firstName} ASC ", querySpec.idsSmartSql, @"Wrong ids smart sql for match query spec");
+    XCTAssertEqualObjects(@"SELECT id FROM {employees} WHERE {employees:_soupEntryId} IN (SELECT rowid FROM {employees}_fts WHERE {employees}_fts MATCH '{employees:lastName}:Bond') ORDER BY {employees:firstName} ASC ", querySpec.idsSmartSql, @"Wrong ids smart sql for match query spec");
 }
 
 - (void) testLikeQuerySmartSql
@@ -169,6 +173,18 @@
 {
     SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
     XCTAssertEqualObjects(@"SELECT id FROM (select {employees:salary} from {employees} where {employees:lastName} = 'Haas')", querySpec.idsSmartSql, @"Wrong ids smart sql");
+}
+
+- (void)testQualifyMatchKey
+{
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc" field:nil], @"abc", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc" field:@"{soup:path}"], @"{soup:path}:abc", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"{soup:path2}:abc" field:@"{soup:path1}"], @"{soup:path2}:abc", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc AND def" field:@"{soup:path}"], @"{soup:path}:abc AND {soup:path}:def", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc OR def" field:@"{soup:path}"], @"{soup:path}:abc OR {soup:path}:def", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc OR {soup:path2}:def" field:@"{soup:path1}"], @"{soup:path1}:abc OR {soup:path2}:def", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"(abc AND def) OR ghi" field:@"{soup:path}"], @"({soup:path}:abc AND {soup:path}:def) OR {soup:path}:ghi", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"(abc AND {soup:path2}:def) OR ghi" field:@"{soup:path1}"], @"({soup:path1}:abc AND {soup:path2}:def) OR {soup:path1}:ghi", "Wrong qualified match query");
 }
 
 @end
