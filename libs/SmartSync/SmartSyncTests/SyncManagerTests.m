@@ -1183,6 +1183,30 @@ static NSException *authException = nil;
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
 
+- (void) testSyncForSelectedPath {
+    [self createAccountsSoup:ACCOUNTS_SOUP];
+    
+    NSString* soql = @"SELECT Id, Name, BillingCity, LastModifiedDate FROM Account limit 10";
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soql];
+    
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite];
+    SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:ACCOUNTS_SOUP store:store];
+    // Runs sync.
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runSync:sync syncManager:syncManager];
+    while (true) {
+        SFSyncState *state = [queue getNextSyncUpdate];
+        if (SFSyncStateStatusDone == state.status || SFSyncStateStatusFailed == state.status) {
+            XCTAssertEqual(SFSyncStateStatusDone, state.status, @"Expect Sync Successfully");            
+            break;
+        }
+    }
+    
+    SFQuerySpec *querySpec = [SFQuerySpec newMatchQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[ACCOUNT_NAME,ACCOUNT_ID] withPath:ACCOUNT_NAME withMatchKey:@"Acme" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
+    
+    NSArray *result =[store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    XCTAssertNotNil(result);
+}
 
 #pragma mark - helper methods
 
