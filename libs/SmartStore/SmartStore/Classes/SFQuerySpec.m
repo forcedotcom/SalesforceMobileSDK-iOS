@@ -345,9 +345,36 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
         return matchKey;
     }
     else {
-        // FIXME
-        return [NSString stringWithFormat:@"%@:%@", field, matchKey];
-     }
+        NSMutableString* qualifiedMatchKey = [NSMutableString new];
+        NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\(\\) ]+" options:NSRegularExpressionCaseInsensitive error:nil];
+        
+        NSArray *matches = [regex matchesInString:matchKey
+                                          options:0
+                                            range:NSMakeRange(0, [matchKey length])];
+        
+        NSUInteger locationAlreadyCopied = 0;
+        for (NSTextCheckingResult *match in matches) {
+            NSRange matchRange = [match range];
+            NSString* part = [matchKey substringWithRange:matchRange];
+            NSString* lowerCasePart = [part lowercaseString];
+            
+            NSRange beforeMatchRange = NSMakeRange(locationAlreadyCopied, matchRange.location - locationAlreadyCopied);
+            [qualifiedMatchKey appendString:[matchKey substringWithRange:beforeMatchRange]];
+            locationAlreadyCopied = matchRange.location + matchRange.length;
+            
+            if ([lowerCasePart isEqualToString:@"and"] || [lowerCasePart isEqualToString:@"or"] || [lowerCasePart isEqualToString:@"not"] || [lowerCasePart hasPrefix:@"{"]) {
+                [qualifiedMatchKey appendString:part];
+            }
+            else {
+                [qualifiedMatchKey appendString:[NSString stringWithFormat:@"%@:%@", field, part]];
+            }
+        }
+        // tail
+        NSRange tailRange = NSMakeRange(locationAlreadyCopied, [matchKey length] - locationAlreadyCopied);
+        [qualifiedMatchKey appendString:[matchKey substringWithRange:tailRange]];
+        
+        return qualifiedMatchKey;
+    }
 }
 
 - (NSString*)computeOrderClause {

@@ -185,6 +185,8 @@
     XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"abc OR {soup:path2}:def" field:@"{soup:path1}"], @"{soup:path1}:abc OR {soup:path2}:def", "Wrong qualified match query");
     XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"(abc AND def) OR ghi" field:@"{soup:path}"], @"({soup:path}:abc AND {soup:path}:def) OR {soup:path}:ghi", "Wrong qualified match query");
     XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"(abc AND {soup:path2}:def) OR ghi" field:@"{soup:path1}"], @"({soup:path1}:abc AND {soup:path2}:def) OR {soup:path1}:ghi", "Wrong qualified match query");
+    XCTAssertEqualObjects([SFQuerySpec qualifyMatchKey:@"((abc AND {soup:path2}:def) AND NOT ghi) OR jkl" field:@"{soup:path1}"], @"(({soup:path1}:abc AND {soup:path2}:def) AND NOT {soup:path1}:ghi) OR {soup:path1}:jkl", "Wrong qualified match query");
+
 }
 
 @end
