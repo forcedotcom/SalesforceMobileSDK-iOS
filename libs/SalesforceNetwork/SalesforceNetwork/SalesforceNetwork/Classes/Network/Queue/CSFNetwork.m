@@ -56,7 +56,9 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
 @property (nonatomic, retain) NSCache *actionSessionLimitCache;
 @property (nonatomic, strong) dispatch_queue_t actionQueue;
 @property (nonatomic, readwrite, getter = isOnline) BOOL online;
-
+@property (nonatomic, strong) NSPointerArray* delegates;
+@property (nonatomic, strong) dispatch_queue_t delegatesQueue; //The queue used to add/remove/enumerate delegates
+@property (nonatomic, strong) dispatch_queue_t delegatesDispatchingQueue; //The queue used to dispatch messages to the delegates
 @property (nonatomic, strong) dispatch_queue_t duplicateActionDetectionQueue; //The queue used to check for duplicate actions
 @end
 
@@ -121,7 +123,13 @@ static NSMutableDictionary *SharedInstances = nil;
 - (id)init {
     self = [super init];
     if (self) {
-        NSString *queueName = [NSString stringWithFormat:@"CSFNetworkDuplicateActionDetectionQueue[%p]", self];
+        self.delegates = [NSPointerArray weakObjectsPointerArray];
+        NSString* queueName = [NSString stringWithFormat:@"CSFNetworkDelegatesQueue[%p]", self];
+        self.delegatesQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_CONCURRENT);
+        queueName = [NSString stringWithFormat:@"CSFNetworkDelegatesDispatchingQueue[%p]", self];
+        self.delegatesDispatchingQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
+        
+        queueName = [NSString stringWithFormat:@"CSFNetworkDuplicateActionDetectionQueue[%p]", self];
         self.duplicateActionDetectionQueue = dispatch_queue_create([queueName UTF8String], DISPATCH_QUEUE_SERIAL);
         
         self.queue = [NSOperationQueue new];
@@ -334,7 +342,107 @@ static NSMutableDictionary *SharedInstances = nil;
               [method isEqualToString:@"PUT"] ||
               [method isEqualToString:@"PATCH"]);
 }
-            
+
+#pragma mark -
+
+#pragma mark - CSFNetworkDelegate
+
+- (void)addDelegate:(id<CSFNetworkDelegate>)delegate {
+    NSAssert([delegate conformsToProtocol:@protocol(CSFNetworkDelegate)], @"Delegate must conform to CSFNetworkDelegate protocol.");
+    
+    dispatch_barrier_async(self.delegatesQueue, ^{
+        for (id object in self.delegates) {
+            if (object == delegate) {
+                return;
+            }
+        }
+        [self.delegates addPointer:(__bridge void*)delegate];
+    });
+}
+
+- (void)removeDelegate:(id<CSFNetworkDelegate>)delegate {
+    dispatch_barrier_async(self.delegatesQueue, ^{
+        NSUInteger index = NSNotFound;
+        
+        for (NSUInteger idx = 0; idx < self.delegates.count; idx++) {
+            id object = [self.delegates pointerAtIndex:idx];
+            if (object == delegate) {
+                index = idx;
+                break;
+            }
+        }
+        
+        if (index != NSNotFound) {
+            [self.delegates removePointerAtIndex:index];
+        }
+    });
+}
+
+- (void)enumerateDelegatesSync:(void(^)(NSObject<CSFNetworkDelegate>*))block {
+    dispatch_sync(self.delegatesQueue, ^{
+        dispatch_sync(self.delegatesDispatchingQueue, ^{
+            for (NSObject<CSFNetworkDelegate>* delegate in self.delegates) {
+                block(delegate);
+            }
+        });
+    });
+}
+
+- (void)enumerateDelegatesAsync:(void(^)(NSObject<CSFNetworkDelegate>*))block {
+    // Enumeration is done in the delegates queue
+    dispatch_async(self.delegatesQueue, ^{
+        // Dealing with the delegate is done in the dispatching queue
+        dispatch_sync(self.delegatesDispatchingQueue, ^{
+            for (NSObject<CSFNetworkDelegate>* delegate in self.delegates) {
+                block(delegate);
+            }
+        });
+    });
+}
+
+- (void)delegate_networkWillEnqueueAction:(CSFAction*)action {
+    [self enumerateDelegatesSync:^(NSObject<CSFNetworkDelegate>* delegate) {
+        if ([delegate respondsToSelector:@selector(network:willEnqueueAction:)]) {
+            [delegate network:self willEnqueueAction:action];
+        }
+    }];
+}
+
+- (void)delegate_networkStartedAction:(CSFAction*)action {
+    [self enumerateDelegatesAsync:^(NSObject<CSFNetworkDelegate>* delegate) {
+        if ([delegate respondsToSelector:@selector(network:didStartAction:)]) {
+            [delegate network:self didStartAction:action];
+        }
+    }];
+}
+
+- (void)delegate_networkCanceledAction:(CSFAction*)action {
+    [self enumerateDelegatesAsync:^(NSObject<CSFNetworkDelegate>* delegate) {
+        if ([delegate respondsToSelector:@selector(network:didCancelAction:)]) {
+            [delegate network:self didCancelAction:action];
+        }
+    }];
+}
+
+- (void)delegate_networkCompletedAction:(CSFAction*)action withError:(NSError*)error {
+    [self enumerateDelegatesAsync:^(NSObject<CSFNetworkDelegate>* delegate) {
+        if ([delegate respondsToSelector:@selector(network:didCompleteAction:withError:)]) {
+            [delegate network:self didCompleteAction:action withError:error];
+        }
+    }];
+}
+
+- (void)delegate_networkTask:(NSURLSessionTask*)task
+                changedState:(NSURLSessionTaskState)oldState
+                     toState:(NSURLSessionTaskState)newState
+                   forAction:(CSFAction*)action {
+    [self enumerateDelegatesAsync:^(NSObject<CSFNetworkDelegate>* delegate) {
+        if ([delegate respondsToSelector:@selector(network:sessionTask:changedState:toState:forAction:)]) {
+            [delegate network:self sessionTask:task changedState:oldState toState:newState forAction:action];
+        }
+    }];
+}
+
 #pragma mark -
 
 #pragma mark NSURLSessionDataDelegate
