@@ -335,14 +335,14 @@
     if ([kCityCol isEqualToString:kSoupIndexTypeFullText] || [kCountryCol isEqualToString:kSoupIndexTypeFullText]) {
         // Check fts table columns
         expectedColumns = [NSMutableArray new];
-        [expectedColumns addObject:@"docid"];
+        [expectedColumns addObject:@"rowid"];
         if ([cityColType isEqualToString:kSoupIndexTypeFullText]) [expectedColumns addObject:kCityCol];
         if ([countryColType isEqualToString:kSoupIndexTypeFullText]) [expectedColumns addObject:kCountryCol];
         [self checkColumns:kTestSoupFtsTableName expectedColumns:expectedColumns store:self.store];
 
         // Check fts table rows
         [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-            FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:expectedColumns orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+            FMResultSet* frs = [self.store queryTable:kTestSoupFtsTableName forColumns:expectedColumns orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
             [self checkFtsRow:frs withExpectedEntry:expectedEntries[0] withSoupIndexes:actualIndexSpecs];
             [self checkFtsRow:frs withExpectedEntry:expectedEntries[1] withSoupIndexes:actualIndexSpecs];
             XCTAssertFalse([frs next], @"Only two rows should have been returned");
@@ -399,6 +399,45 @@
     
     // Check db - created and lastModified indexes should be there
     [self checkDb:savedEntries cityColType:indexType countryColType:indexType];
+}
+
+/**
+ * Create soup with fts4 virtual table
+ * Call alterSoup passing in same index specs
+ * Make sure virtual table is recreated with fts5
+ * That way soup created before 4.2 (using fts4 virutal table) can be migrated to fts5 by calling alterSoup
+ */
+- (void) testAlterSoupwithFullTextIndexesFromFts4ToFts5
+{
+    NSArray* indexSpecs = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":kSoupIndexTypeFullText}, @{@"path": kCountry, @"type":kSoupIndexTypeFullText}]];
+    
+    // Using fts4 to simulate pre 4.2 sdk
+    self.store.ftsExtension = SFSmartStoreFTS4;
+    
+    XCTAssertFalse([self.store soupExists:kTestSoupName], "Test soup should not exists");
+    [self.store registerSoup:kTestSoupName withIndexSpecs:indexSpecs error:nil];
+    XCTAssertTrue([self.store soupExists:kTestSoupName], "Register soup call failed");
+    
+    NSArray* savedEntries = [self.store upsertEntries:@[@{kCity:@"San Francisco", kCountry:@"United States"}, @{kName:@"Paris", kCountry:@"France"}]
+                                               toSoup:kTestSoupName];
+    
+    // Check db
+    [self checkDb:savedEntries cityColType:kSoupIndexTypeFullText countryColType:kSoupIndexTypeFullText];
+    
+    // Check type of fts table
+    [self checkCreateTableStatment:kTestSoupFtsTableName expectedSqlStatementPrefix:[NSString stringWithFormat:@"CREATE VIRTUAL TABLE %@ USING fts4", kTestSoupFtsTableName] store:self.store];
+
+    // Using fts5
+    self.store.ftsExtension = SFSmartStoreFTS5;
+    
+    // Alter soup - passing same indexSpecs as before
+    [self.store alterSoup:kTestSoupName withIndexSpecs:indexSpecs reIndexData:YES];
+    
+    // Check db
+    [self checkDb:savedEntries cityColType:kSoupIndexTypeFullText countryColType:kSoupIndexTypeFullText];
+    
+    // Check type of fts table
+    [self checkCreateTableStatment:kTestSoupFtsTableName expectedSqlStatementPrefix:[NSString stringWithFormat:@"CREATE VIRTUAL TABLE %@ USING fts5", kTestSoupFtsTableName] store:self.store];
 }
 
 - (void) alterSoupHelper:(BOOL)reIndexData
