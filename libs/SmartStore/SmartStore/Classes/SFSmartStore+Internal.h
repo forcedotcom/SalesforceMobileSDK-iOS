@@ -31,11 +31,18 @@
 @class FMDatabase;
 @class FMResultSet;
 
+typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
+    SFSmartStoreFTS4 = 4,
+    SFSmartStoreFTS5 = 5
+};
+
+
 @interface SFSmartStore () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
 @property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
 @property (nonatomic, assign) BOOL isGlobal;
+@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension;
 
 /**
  Simply open the db file.
