@@ -103,6 +103,11 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 - (void)showAddLoginHost:(id)sender {
     SFSDKNewLoginHostViewController *detailViewController = [[SFSDKNewLoginHostViewController alloc] initWithStyle:UITableViewStyleGrouped];
     detailViewController.loginHostListViewController = self;
+    
+    if ([self.delegate respondsToSelector:@selector(hostListViewController:willPresentNewLoginHostViewController:)]) {
+        [self.delegate hostListViewController:self willPresentNewLoginHostViewController:self];
+    }
+    
     if (self.navigationController) {
         self.navigationController.delegate = self;
         [self.navigationController pushViewController:detailViewController animated:YES];

@@ -37,6 +37,13 @@
 @optional
 
 /**
+ * Notifies the delegate that a new login host viewcontroller will be presented.
+ * @param hostListViewController The instance sending this message.
+ * @param newLoginHostViewController The view controller that will be presented.
+ */
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentNewLoginHostViewController:(UIViewController *)newLoginHostViewController;
+
+/**
  * Notifies the delegate that a login host has been selected by the user.
  * This will be a good time to dismiss the host list view controller.
  * @param hostListViewController The instance sending this message.
@@ -54,5 +61,6 @@
  * @param hostListViewController The instance sending this message.
  */
 - (void)hostListViewControllerDidCancelLoginHost:(SFSDKLoginHostListViewController *)hostListViewController;
+
 
 @end
