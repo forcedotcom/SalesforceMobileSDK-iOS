@@ -39,9 +39,9 @@
 /**
  * Notifies the delegate that a new login host viewcontroller will be presented.
  * @param hostListViewController The instance sending this message.
- * @param newLoginHostViewController The view controller that will be presented.
+ * @param loginHostViewController The view controller that will be presented.
  */
-- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentNewLoginHostViewController:(UIViewController *)newLoginHostViewController;
+- (void)hostListViewController:(SFSDKLoginHostListViewController *)hostListViewController willPresentLoginHostViewController:(UIViewController *)loginHostViewController;
 
 /**
  * Notifies the delegate that a login host has been selected by the user.
