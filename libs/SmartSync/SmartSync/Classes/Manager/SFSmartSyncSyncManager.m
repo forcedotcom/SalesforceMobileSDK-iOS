@@ -438,7 +438,7 @@ static NSMutableDictionary *syncMgrList = nil;
     /*
      * Fetches list of IDs present in local soup that have not been modified locally.
      */
-    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    __block SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
     NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
     [smartSqlQuery appendString:@"SELECT {"];
@@ -480,17 +480,9 @@ static NSMutableDictionary *syncMgrList = nil;
 
             // Deletes extra IDs from SmartStore.
             if (localIds.count > 0) {
-                NSMutableArray* soupEntryIds = [[NSMutableArray alloc] init];
-                for (NSString* localId in localIds) {
-                    NSNumber* soupEntryId = [weakSelf.store lookupSoupEntryIdForSoupName:soupName
-                                                                            forFieldPath:idFieldName
-                                                                              fieldValue:localId
-                                                                                   error:nil];
-                    if (soupEntryId != nil) {
-                        [soupEntryIds addObject:soupEntryId];
-                    }
-                }
-                [weakSelf.store removeEntries:soupEntryIds fromSoup:soupName];
+                NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, idFieldName, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
+                querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
+                [weakSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
         completionStatusBlock(SFSyncStateStatusDone);
@@ -518,12 +510,16 @@ static NSMutableDictionary *syncMgrList = nil;
     NSMutableDictionary* record = [[self.store retrieveEntries:@[idStr] fromSoup:soupName][0] mutableCopy];
     
     // Do we need to do a create, update or delete
+    BOOL locallyCreated = [record[kSyncManagerLocallyCreated] boolValue];
+    BOOL locallyUpdated = [record[kSyncManagerLocallyUpdated] boolValue];
+    BOOL locallyDeleted = [record[kSyncManagerLocallyDeleted] boolValue];
+    
     SFSyncUpTargetAction action = SFSyncUpTargetActionNone;
-    if ([record[kSyncManagerLocallyDeleted] boolValue])
+    if (locallyDeleted)
         action = SFSyncUpTargetActionDelete;
-    else if ([record[kSyncManagerLocallyCreated] boolValue])
+    else if (locallyCreated)
         action = SFSyncUpTargetActionCreate;
-    else if ([record[kSyncManagerLocallyUpdated] boolValue])
+    else if (locallyUpdated)
         action = SFSyncUpTargetActionUpdate;
     
     if (action == SFSyncUpTargetActionNone) {
@@ -538,18 +534,15 @@ static NSMutableDictionary *syncMgrList = nil;
      * passed in tells us to leave the record alone under these
      * circumstances, we will do nothing and return here.
      */
-    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged &&
-        (action == SFSyncUpTargetActionUpdate || action == SFSyncUpTargetActionDelete)) {
+    if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && !locallyCreated) {
         // Need to check the modification date on the server, against the local date.
         __weak SFSmartSyncSyncManager *weakSelf = self;
         SFSyncUpRecordModificationResultBlock modificationBlock = ^(NSDate *localDate, NSDate *serverDate, NSError *error) {
             __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
-            if (error) {
-                if (failBlock != NULL) {
-                    failBlock(error);
-                }
-            } else if ([localDate compare:serverDate] != NSOrderedAscending) {
-                // Local date is newer than or the same as the server date.
+            if (localDate == nil // We didn't capture the last modified date so we can't really enforce merge mode
+                || serverDate == nil // We were unable to get the last modified date from the server
+                || [localDate compare:serverDate] != NSOrderedAscending) // local date is newer than server
+            {
                 [strongSelf resumeSyncUpOneEntry:sync
                                        recordIds:recordIds
                                            index:i

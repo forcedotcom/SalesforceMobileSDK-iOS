@@ -198,9 +198,69 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [self encryptOrUnencryptDb:db name:storeName oldKey:@"" newKey:key error:error];
 }
 
++ (BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
+{
+    NSError *openDbError = nil;
+    FMDatabase *db = [self openDatabaseWithPath:storePath key:@"" error:&openDbError];
+    if (openDbError != nil) {
+        if (db) {
+            [db close];
+        }
+        if (error) {
+            *error = openDbError;
+        }
+        return NO;
+    }
+    
+    NSError *encryptDbError = nil;
+    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:@"" newKey:key error:&encryptDbError];
+    if (encryptDbError != nil) {
+        if (db) {
+            [db close];
+        }
+        if (error) {
+            *error = encryptDbError;
+        }
+        return NO;
+    }
+    
+    [db close];
+    return YES;
+}
+
 - (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error
 {
     return [self encryptOrUnencryptDb:db name:storeName oldKey:oldKey newKey:@"" error:error];
+}
+
++ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
+{
+    NSError *openDbError = nil;
+    FMDatabase *db = [self openDatabaseWithPath:storePath key:key error:&openDbError];
+    if (openDbError != nil) {
+        if (db) {
+            [db close];
+        }
+        if (error) {
+            *error = openDbError;
+        }
+        return NO;
+    }
+    
+    NSError *encryptDbError = nil;
+    db = [self encryptOrUnencryptDb:db name:storeName path:storePath oldKey:key newKey:@"" error:&encryptDbError];
+    if (encryptDbError != nil) {
+        if (db) {
+            [db close];
+        }
+        if (error) {
+            *error = encryptDbError;
+        }
+        return NO;
+    }
+    
+    [db close];
+    return YES;
 }
 
 - (FMDatabase *)encryptOrUnencryptDb:(FMDatabase *)db

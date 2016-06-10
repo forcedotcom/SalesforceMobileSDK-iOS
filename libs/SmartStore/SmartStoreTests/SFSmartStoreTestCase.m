@@ -183,8 +183,19 @@
     }];
     NSString* message = [NSString stringWithFormat:@"Wrong indexes actual:%@", [actualSqlStatements componentsJoinedByString:@","]];
     [self assertSameJSONArrayWithExpected:expectedSqlStatements actual:actualSqlStatements message:message];
-    
 }
+
+- (void) checkCreateTableStatment:(NSString*)tableName expectedSqlStatementPrefix:(NSString*)expectedSqlStatementPrefix store:(SFSmartStore*)store {
+    __block NSString* actualSqlStatement;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"SELECT sql FROM sqlite_master WHERE type='table' AND tbl_name=?", tableName];
+        [frs next];
+        actualSqlStatement = [frs stringForColumnIndex:0];
+        [frs close];
+    }];
+    XCTAssert([actualSqlStatement containsString:expectedSqlStatementPrefix], @"Wrong statement actual:%@", actualSqlStatement);
+}
+
 
 - (void) checkSoupIndex:(SFSoupIndex*)indexSpec expectedPath:(NSString*)expectedPath expectedType:(NSString*)expectedType expectedColumnName:(NSString*)expectedColumnName {
     XCTAssertEqualObjects(expectedPath, indexSpec.path, @"Wrong path");
@@ -222,8 +233,8 @@
 {
     XCTAssertTrue([frs next], @"Expected rows to be returned");
     
-    // Check docid
-    XCTAssertEqualObjects(@([frs longForColumn:DOCID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    // Check rowid
+    XCTAssertEqualObjects(@([frs longForColumn:ROWID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
 
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)

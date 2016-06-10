@@ -56,7 +56,7 @@ extern NSString *const SOUP_COL;
 /**
  The columns of a soup fts table
  */
-extern NSString *const DOCID_COL;
+extern NSString *const ROWID_COL;
 
 /**
  Soup index map table

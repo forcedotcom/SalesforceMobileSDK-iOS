@@ -666,9 +666,23 @@ static NSException *authException = nil;
 }
 
 /**
- * Create accounts locally, sync up, check smartstore and server afterwards
+ * Create accounts locally, sync up with merge mode SFSyncStateMergeModeOverwrite, check smartstore and server afterwards
  */
 - (void)testSyncUpWithLocallyCreatedRecords
+{
+    [self trySyncUpWithLocallyCreatedRecords:SFSyncStateMergeModeOverwrite];
+}
+
+/**
+ * Create accounts locally, sync up with merge mode SFSyncStateMergeModeLeaveIfChanged, check smartstore and server afterwards
+ */
+- (void)testSyncUpWithLocallyCreatedRecordsWithoutOverwrite
+{
+    [self trySyncUpWithLocallyCreatedRecords:SFSyncStateMergeModeLeaveIfChanged];
+    
+}
+
+-(void) trySyncUpWithLocallyCreatedRecords:(SFSyncStateMergeMode)syncUpMergeMode
 {
     // Create test data
     [self createTestData];
@@ -678,7 +692,7 @@ static NSException *authException = nil;
     [self createAccountsLocally:names];
    
     // Sync up
-    [self trySyncUp:3 mergeMode:SFSyncStateMergeModeOverwrite];
+    [self trySyncUp:3 mergeMode:syncUpMergeMode];
     
     // Check that db doesn't show entries as locally created anymore and that they use sfdc id
     NSString* namesClause = [self buildInClause:names];
@@ -712,6 +726,40 @@ static NSException *authException = nil;
     [self deleteAccountsOnServer:[idToNames allKeys]];
     [self deleteSyncs];
 }
+
+/**
+ * Create accounts locally, delete them locally, sync up with merge mode SFSyncStateMergeModeLeaveIfChanged, check smartstore
+ *
+ * Ideally an application that deletes locally created records should simply remove them from the smartstore
+ * But if records are kept in the smartstore and are flagged as created and deleted (or just deleted), then
+ * sync up should not throw any error and the records should end up being removed from the smartstore
+ *
+ */
+-(void) testSyncUpWithLocallyCreatedAndDeletedRecords
+{
+    // Create test data
+    [self createTestData];
+    
+    // Create a few entries locally
+    NSArray* names = @[ [self createAccountName], [self createAccountName], [self createAccountName]];
+    NSDictionary* idToNamesCreated = [self createAccountsLocally:names];
+
+    // Delete a few entries locally
+    NSArray* allIds = [idToNamesCreated allKeys];
+    NSArray* idsLocallyDeleted = @[ allIds[0], allIds[1], allIds[2] ];
+    [self deleteAccountsLocally:idsLocallyDeleted];
+    
+    // Sync up
+    [self trySyncUp:3 mergeMode:SFSyncStateMergeModeLeaveIfChanged];
+    
+    // Check that db doesn't doesn't contain those entries anymore
+    NSString* idsClause = [self buildInClause:idsLocallyDeleted];
+    NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
+    SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
+    NSArray* rows = [store queryWithQuerySpec:query pageIndex:0 error:nil];
+    XCTAssertEqual(0, rows.count);
+}
+
 
 /**
  Test custom sycn up with locally created records
@@ -963,7 +1011,7 @@ static NSException *authException = nil;
                                                                                         sendSyncUpError:NO];
     [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeOverwrite completionStatus:SFSyncStateStatusDone];
     
-    // Check that db doesn't show entries as locally modified anymore
+    // Check that db doesn't doesn't contain those entries anymore
     NSString* idsClause = [self buildInClause:idsLocallyDeleted];
     NSString* smartSql = [NSString stringWithFormat:@"SELECT {accounts:_soup} FROM {accounts} WHERE {accounts:Id} IN %@", idsClause];
     SFQuerySpec* query = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:idsLocallyDeleted.count];
@@ -1058,6 +1106,7 @@ static NSException *authException = nil;
 
 /**
  * Tests the flow for a failure determining modification date.
+ * NB: Failure to determine the modification date should not stop the sync up.
  */
 - (void)testCustomSyncUpWithFetchModificationDateFailure
 {
@@ -1074,7 +1123,7 @@ static NSException *authException = nil;
     SFSyncUpTarget *customTarget = [[TestSyncUpTarget alloc] initWithRemoteModDateCompare:TestSyncUpTargetRemoteModDateGreaterThanLocal
                                                                                      sendRemoteModError:YES
                                                                                         sendSyncUpError:NO];
-    [self trySyncUp:3 actualChanges:1 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusFailed];
+    [self trySyncUp:3 actualChanges:3 target:customTarget mergeMode:SFSyncStateMergeModeLeaveIfChanged completionStatus:SFSyncStateStatusDone];
 }
 
 /**
@@ -1420,13 +1469,15 @@ static NSException *authException = nil;
     return idToNamesLocallyUpdated;
 }
 
-- (void) createAccountsLocally:(NSArray*)names {
+- (NSDictionary*) createAccountsLocally:(NSArray*)names {
+    NSMutableDictionary* idToNamesLocallyCreated = [NSMutableDictionary new];
     NSMutableArray* createdAccounts = [NSMutableArray new];
     NSMutableDictionary* attributes = [NSMutableDictionary new];
     attributes[TYPE] = ACCOUNT_TYPE;
     for (NSString* name in names) {
         NSMutableDictionary* account = [NSMutableDictionary new];
-        account[ACCOUNT_ID] = [self createLocalId];
+        NSString* accountId = [self createLocalId];
+        account[ACCOUNT_ID] = accountId;
         account[ACCOUNT_NAME] = name;
         account[ATTRIBUTES] = attributes;
         account[kSyncManagerLocal] = @YES;
@@ -1434,8 +1485,10 @@ static NSException *authException = nil;
         account[kSyncManagerLocallyDeleted] = @NO;
         account[kSyncManagerLocallyUpdated] = @NO;
         [createdAccounts addObject:account];
+        idToNamesLocallyCreated[accountId] = name;
     }
     [store upsertEntries:createdAccounts toSoup:ACCOUNTS_SOUP];
+    return idToNamesLocallyCreated;
 }
 
 - (void)updateAccountsLocally:(NSDictionary*)idToNamesLocallyUpdated {

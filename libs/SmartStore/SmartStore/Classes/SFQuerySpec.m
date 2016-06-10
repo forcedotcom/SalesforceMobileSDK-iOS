@@ -293,9 +293,7 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     
     NSString* field;
     
-    if (self.queryType == kSFSoupQueryTypeMatch && self.path == nil) {
-        field = [self computeSoupFtsReference];
-    } else {
+    if (self.path) {
         field = [self computeFieldReference:self.path];
     }
     
@@ -321,13 +319,13 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
                       [self computeFieldReference:SOUP_ENTRY_ID],
                       @" IN ",
                       @"(SELECT ",
-                      DOCID_COL,
+                      ROWID_COL,
                       @" FROM ",
                       [self computeSoupFtsReference],
                       @" WHERE ",
-                      field,
+                      [self computeSoupFtsReference],
                       @" MATCH '",
-                      self.matchKey, // match clause -- statement arg binding doesn't seem to work so inlining matchKey
+                      [SFQuerySpec qualifyMatchKey:self.matchKey field:field], // match clause -- statement arg binding doesn't seem to work so inlining matchKey
                       @"') "
                       ]
                     componentsJoinedByString:@""];
@@ -336,6 +334,47 @@ NSString * const kQuerySpecParamSmartSql = @"smartSql";
     }
 
     return @""; // we should never get here
+}
+
+/**
+ * fts5 doesn't allow WHERE column MATCH 'value' - only allows WHERE table MATCH 'column:value'
+ * This method changes the matchKey to add field: in the right places
+ */
++ (NSString*) qualifyMatchKey:(NSString*)matchKey field:(NSString*)field {
+    if (!field) {
+        return matchKey;
+    }
+    else {
+        NSMutableString* qualifiedMatchKey = [NSMutableString new];
+        NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"[^\\(\\) ]+" options:NSRegularExpressionCaseInsensitive error:nil];
+        
+        NSArray *matches = [regex matchesInString:matchKey
+                                          options:0
+                                            range:NSMakeRange(0, [matchKey length])];
+        
+        NSUInteger locationAlreadyCopied = 0;
+        for (NSTextCheckingResult *match in matches) {
+            NSRange matchRange = [match range];
+            NSString* part = [matchKey substringWithRange:matchRange];
+            NSString* lowerCasePart = [part lowercaseString];
+            
+            NSRange beforeMatchRange = NSMakeRange(locationAlreadyCopied, matchRange.location - locationAlreadyCopied);
+            [qualifiedMatchKey appendString:[matchKey substringWithRange:beforeMatchRange]];
+            locationAlreadyCopied = matchRange.location + matchRange.length;
+            
+            if ([lowerCasePart isEqualToString:@"and"] || [lowerCasePart isEqualToString:@"or"] || [lowerCasePart isEqualToString:@"not"] || [lowerCasePart hasPrefix:@"{"]) {
+                [qualifiedMatchKey appendString:part];
+            }
+            else {
+                [qualifiedMatchKey appendString:[NSString stringWithFormat:@"%@:%@", field, part]];
+            }
+        }
+        // tail
+        NSRange tailRange = NSMakeRange(locationAlreadyCopied, [matchKey length] - locationAlreadyCopied);
+        [qualifiedMatchKey appendString:[matchKey substringWithRange:tailRange]];
+        
+        return qualifiedMatchKey;
+    }
 }
 
 - (NSString*)computeOrderClause {
