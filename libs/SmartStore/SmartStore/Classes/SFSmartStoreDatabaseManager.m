@@ -233,7 +233,7 @@ static NSString * const kSFSmartStoreVerifyReadDbErrorDesc = @"Could not read fr
     return [self encryptOrUnencryptDb:db name:storeName oldKey:oldKey newKey:@"" error:error];
 }
 
-+ (BOOL)unencryptStoreDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
++ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error
 {
     NSError *openDbError = nil;
     FMDatabase *db = [self openDatabaseWithPath:storePath key:key error:&openDbError];

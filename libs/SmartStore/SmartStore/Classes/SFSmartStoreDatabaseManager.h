@@ -120,7 +120,7 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @param error Returned if there's an error during the process.
  @return YES if the existing store was successfully unencrypted, or NO if the process fails at any point.
  */
-+ (BOOL)unencryptStoreDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error;
++ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error;
 
 /**
  Creates the directory for the store, on the filesystem.
