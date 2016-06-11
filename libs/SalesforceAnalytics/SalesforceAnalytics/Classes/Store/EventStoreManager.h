@@ -31,17 +31,22 @@
 
 @interface EventStoreManager : NSObject
 
-@property (nonatomic, strong, readonly) NSString *rootStoreDir;
-@property (nonatomic, strong, readonly) NSString *encryptionKey;
+typedef NSData* (^DataEncryptorBlock)(NSData *data);
+typedef NSData* (^DataDecryptorBlock)(NSData *data);
+
+@property (nonatomic, strong, readonly) NSString *fullFilePath;
+@property (nonatomic, strong, readonly) DataEncryptorBlock dataEncryptorBlock;
+@property (nonatomic, strong, readonly) DataDecryptorBlock dataDecryptorBlock;
 
 /**
  * Parameterized initializer.
  *
- * @param rootStoreDir Root store directory.
- * @param encryptionKey Encryption key.
+ * @param fullFilePath Full file path.
+ * @param dataEncryptorBlock Block that performs encryption.
+ * @param dataDecryptorBlock Block that performs decryption.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) rootStoreDir encryptionKey:(NSString *) encryptionKey;
+- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(dataDecryptorBlock) dataDecryptorBlock;
 
 /**
  * Stores an event to the filesystem. A combination of event's unique ID and
