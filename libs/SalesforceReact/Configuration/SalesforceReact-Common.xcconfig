@@ -7,6 +7,7 @@
 
 GCC_PRECOMPILE_PREFIX_HEADER = YES
 GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
+OTHER_LDFLAGS = -ObjC -lc++
 
 PRODUCT_NAME = SalesforceReact
 
@@ -15,3 +16,4 @@ LIBRARY_SEARCH_PATHS = $(SRCROOT)/../../external/ThirdPartyDependencies/sqlciphe
 
 // Make sure to use only API that are safe for application extensions
 APPLICATION_EXTENSION_API_ONLY = YES
+
