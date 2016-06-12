@@ -39,7 +39,7 @@
 
 @implementation EventStoreManager
 
-- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(dataDecryptorBlock) dataDecryptorBlock {
+- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
         self.fullFilePath = fullFilePath;
@@ -48,8 +48,8 @@
         if (dataEncryptorBlock) {
             self.dataEncryptorBlock = dataEncryptorBlock;
         } else {
-            self.dataEncryptorBlock = (^DataEncryptorBlock)(NSData *data) {
-                return *data;
+            self.dataEncryptorBlock = ^NSData*(NSData *data) {
+                return data;
             };
         }
 
@@ -57,8 +57,8 @@
         if (dataDecryptorBlock) {
             self.dataDecryptorBlock = dataDecryptorBlock;
         } else {
-            self.dataDecryptorBlock = (^DataDecryptorBlock)(NSData *data) {
-                return *data;
+            self.dataDecryptorBlock = ^NSData*(NSData *data) {
+                return data;
             };
         }
     }
@@ -99,14 +99,12 @@
 
 - (NSArray<InstrumentationEvent *> *) fetchAllEvents {
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
+    NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
-        
+        InstrumentationEvent *event = [self fetchEventFromFile:file];
+        [events addObject:event];
     }
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
+    return events;
 }
 
 - (BOOL) deleteEvent:(NSString *) eventId {
@@ -134,7 +132,6 @@
 
 - (void) deleteAllEvents {
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
-    NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if ([fileManager fileExistsAtPath:file]) {
@@ -153,18 +150,8 @@
         NSLog(@"File does not exist");
         return nil;
     }
-    NSData *data = dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
+    NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
     return [[InstrumentationEvent alloc] initWithJson:data];
-}
-
-- (NSArray<InstrumentationEvent *> *) getAllFiles {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
-    NSMutableArray *events = [[NSMutableArray alloc] init];
-    for (NSString *file in files) {
-        InstrumentationEvent *event = [self fetchEventFromFile:file];
-        [events addObject:event];
-    }
-    return events;
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {

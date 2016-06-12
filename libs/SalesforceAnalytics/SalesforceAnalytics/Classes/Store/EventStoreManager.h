@@ -46,7 +46,7 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * @param dataDecryptorBlock Block that performs decryption.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(dataDecryptorBlock) dataDecryptorBlock;
+- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock;
 
 /**
  * Stores an event to the filesystem. A combination of event's unique ID and

@@ -77,7 +77,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.uniqueId = uniqueId;
         self.deviceAttributes = deviceAttributes;
         self.globalSequenceId = 0;
-        self.storeManager = [[EventStoreManager alloc] init:uniqueId encryptionKey:encryptionKey];
+        self.storeManager = [[EventStoreManager alloc] init:uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil];
     }
     return self;
 }
