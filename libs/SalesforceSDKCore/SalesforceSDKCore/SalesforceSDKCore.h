@@ -99,7 +99,6 @@
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
-#import <SalesforceSDKCore/SFSDKReachability.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>

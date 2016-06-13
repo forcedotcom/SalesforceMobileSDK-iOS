@@ -2,7 +2,7 @@
  SalesforceAnalytics.h
  SalesforceAnalytics
 
- Created by Bharath Hariharan on Mon Jun  6 10:01:59 PDT 2016.
+ Created by Bharath Hariharan on Sun Jun 12 19:30:57 PDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -32,3 +32,4 @@
 #import <SalesforceAnalytics/EventStoreManager.h>
 #import <SalesforceAnalytics/InstrumentationEvent.h>
 #import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import <SalesforceAnalytics/SFSDKReachability.h>

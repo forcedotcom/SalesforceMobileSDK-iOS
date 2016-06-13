@@ -27,18 +27,8 @@
 		CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE2B8C451CE921E000C6FC6A /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8C4D1CE9243600C6FC6A /* ViewController.m */; };
-		CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C521CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist */; };
-		CE2B8CAF1CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CA71CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig */; };
-		CE2B8CB01CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CA81CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig */; };
-		CE2B8CB11CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CA91CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig */; };
-		CE2B8CB21CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */; };
-		CE2B8CB31CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */; };
-		CE2B8CB41CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAC1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig */; };
-		CE2B8CB51CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAD1CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig */; };
-		CE2B8CB61CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */; };
 		CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
 		CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
-		CE2B8FE81CF550F900C6FC6A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8FE71CF550F900C6FC6A /* Info.plist */; };
 		CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */; };
 		CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -58,8 +48,18 @@
 		CE2B91B41D03A69D00C6FC6A /* EventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* EventStoreManager.m */; };
 		CE2B91B51D03A69E00C6FC6A /* EventStoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B91AF1D03A61000C6FC6A /* EventStoreManager.m */; };
 		CE2B91B61D03A6A900C6FC6A /* EventStoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B91AE1D03A61000C6FC6A /* EventStoreManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEFEB54F1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */; };
-		CEFEB5501D03EDB6007D5EAE /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */; };
+		CEF371A81D0E57ED0004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
+		CEF371AA1D0E57F50004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
+		CEF371AB1D0E58000004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
+		CEF371AC1D0E58070004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
+		CEF371AD1D0E58130004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
+		CEF371AE1D0E58190004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
+		CEF371AF1D0E58260004A237 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A71D0E57ED0004A237 /* Foundation.framework */; };
+		CEF371B01D0E582C0004A237 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF371A91D0E57F50004A237 /* UIKit.framework */; };
+		CEF371B21D0F6B410004A237 /* SalesforceAnalytics.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEF371B41D0F6E6D0004A237 /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */; };
+		CEF371B51D0F6E710004A237 /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */; };
+		CEF371B61D0F71590004A237 /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */; };
 		CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -67,7 +67,6 @@
 		CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
-		CEFEB55B1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
 		CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
 		CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */; };
@@ -76,6 +75,12 @@
 		CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
 		CEFEB5661D05E3FE007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
 		CEFEB5671D05E3FF007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
+		CEFEB84B1D0E5206007D5EAE /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB8491D0E5206007D5EAE /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB84C1D0E5206007D5EAE /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */; };
+		CEFEB84D1D0E520B007D5EAE /* SFSDKReachability.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB8491D0E5206007D5EAE /* SFSDKReachability.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB84E1D0E5215007D5EAE /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */; };
+		CEFEB84F1D0E5216007D5EAE /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */; };
+		CEFEB8501D0E5217007D5EAE /* SFSDKReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,13 +145,17 @@
 		CE2B8FFD1CF6032C00C6FC6A /* InstrumentationEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEvent.m; path = Classes/Model/InstrumentationEvent.m; sourceTree = "<group>"; };
 		CE2B91AE1D03A61000C6FC6A /* EventStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EventStoreManager.h; path = Classes/Store/EventStoreManager.h; sourceTree = "<group>"; };
 		CE2B91AF1D03A61000C6FC6A /* EventStoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EventStoreManager.m; path = Classes/Store/EventStoreManager.m; sourceTree = "<group>"; };
-		CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
+		CEF371A71D0E57ED0004A237 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CEF371A91D0E57F50004A237 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
 		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
 		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
 		CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentationEventBuilderTests.m; sourceTree = "<group>"; };
 		CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsManager.h; path = Classes/Manager/AnalyticsManager.h; sourceTree = "<group>"; };
 		CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsManager.m; path = Classes/Manager/AnalyticsManager.m; sourceTree = "<group>"; };
 		CEFEB5611D05DFFA007D5EAE /* AnalyticsManager+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AnalyticsManager+Internal.h"; path = "Classes/Manager/AnalyticsManager+Internal.h"; sourceTree = "<group>"; };
+		CEFEB8491D0E5206007D5EAE /* SFSDKReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKReachability.h; path = Classes/Util/SFSDKReachability.h; sourceTree = "<group>"; };
+		CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKReachability.m; path = Classes/Util/SFSDKReachability.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +163,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF371B01D0E582C0004A237 /* UIKit.framework in Frameworks */,
+				CEF371AF1D0E58260004A237 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +172,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF371B61D0F71590004A237 /* SalesforceAnalytics.framework in Frameworks */,
+				CEF371AC1D0E58070004A237 /* UIKit.framework in Frameworks */,
+				CEF371AB1D0E58000004A237 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +182,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF371AE1D0E58190004A237 /* UIKit.framework in Frameworks */,
+				CEF371AD1D0E58130004A237 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -175,6 +191,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF371AA1D0E57F50004A237 /* UIKit.framework in Frameworks */,
+				CEF371A81D0E57ED0004A237 /* Foundation.framework in Frameworks */,
 				CE2B8C441CE921E000C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,6 +203,7 @@
 		CE2B8BC51CE900F500C6FC6A = {
 			isa = PBXGroup;
 			children = (
+				CEF371A61D0E55C70004A237 /* Frameworks */,
 				CE2B8CA61CE9281300C6FC6A /* Configuration */,
 				CE2B8BD11CE900F500C6FC6A /* SalesforceAnalytics */,
 				CE2B8BDD1CE900F500C6FC6A /* SalesforceAnalyticsTests */,
@@ -273,6 +292,7 @@
 		CE2B8FE61CF550BA00C6FC6A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEFEB8481D0E51F0007D5EAE /* Util */,
 				CEFEB55C1D050E20007D5EAE /* Manager */,
 				CE2B91B21D03A61800C6FC6A /* Store */,
 				CE2B8FE91CF5510B00C6FC6A /* Model */,
@@ -283,9 +303,9 @@
 		CE2B8FE91CF5510B00C6FC6A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */,
 				CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */,
 				CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */,
-				CEFEB54E1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h */,
 				CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */,
 				CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */,
 				CE2B8FF71CF5FF8A00C6FC6A /* InstrumentationEvent.h */,
@@ -303,6 +323,15 @@
 			name = Store;
 			sourceTree = "<group>";
 		};
+		CEF371A61D0E55C70004A237 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CEF371A91D0E57F50004A237 /* UIKit.framework */,
+				CEF371A71D0E57ED0004A237 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CEFEB55C1D050E20007D5EAE /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,6 +342,15 @@
 			name = Manager;
 			sourceTree = "<group>";
 		};
+		CEFEB8481D0E51F0007D5EAE /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				CEFEB8491D0E5206007D5EAE /* SFSDKReachability.h */,
+				CEFEB84A1D0E5206007D5EAE /* SFSDKReachability.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -321,12 +359,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B8BD31CE900F500C6FC6A /* SalesforceAnalytics.h in Headers */,
-				CEFEB54F1D03ED6F007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
+				CEFEB84B1D0E5206007D5EAE /* SFSDKReachability.h in Headers */,
 				CE2B91B01D03A61000C6FC6A /* EventStoreManager.h in Headers */,
 				CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */,
 				CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */,
 				CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
+				CEF371B41D0F6E6D0004A237 /* InstrumentationEvent+Internal.h in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 			);
@@ -340,9 +379,11 @@
 				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 				CEFEB5631D05E3ED007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
+				CEF371B51D0F6E710004A237 /* InstrumentationEvent+Internal.h in Headers */,
 				CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */,
+				CEFEB84D1D0E520B007D5EAE /* SFSDKReachability.h in Headers */,
 				CEFEB5641D05E3F3007D5EAE /* AnalyticsManager.h in Headers */,
-				CEFEB5501D03EDB6007D5EAE /* InstrumentationEvent+Internal.h in Headers */,
+				CEF371B21D0F6B410004A237 /* SalesforceAnalytics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,7 +397,6 @@
 				CE2B8BCA1CE900F500C6FC6A /* Sources */,
 				CE2B8BCB1CE900F500C6FC6A /* Frameworks */,
 				CE2B8BCC1CE900F500C6FC6A /* Headers */,
-				CE2B8BCD1CE900F500C6FC6A /* Resources */,
 				CE2B8BF91CE91AAC00C6FC6A /* ShellScript */,
 				CE2B8BFA1CE91AC700C6FC6A /* ShellScript */,
 			);
@@ -473,22 +513,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CE2B8BCD1CE900F500C6FC6A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CE2B8CB51CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Release.xcconfig in Resources */,
-				CE2B8CB31CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig in Resources */,
-				CE2B8FE81CF550F900C6FC6A /* Info.plist in Resources */,
-				CE2B8CAF1CE9281F00C6FC6A /* SalesforceAnalytics-Common-Dynamic.xcconfig in Resources */,
-				CE2B8CB11CE9281F00C6FC6A /* SalesforceAnalytics-Common.xcconfig in Resources */,
-				CE2B8CB61CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig in Resources */,
-				CE2B8CB21CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig in Resources */,
-				CE2B8CB41CE9281F00C6FC6A /* SalesforceAnalytics-Static-iOS-Debug.xcconfig in Resources */,
-				CE2B8CB01CE9281F00C6FC6A /* SalesforceAnalytics-Common-Static.xcconfig in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CE2B8BD71CE900F500C6FC6A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -502,7 +526,6 @@
 			files = (
 				CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */,
 				CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */,
-				CE2B8C561CE9245B00C6FC6A /* SalesforceAnalyticsTestApp-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,6 +582,7 @@
 				CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CEFEB84C1D0E5206007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,6 +594,7 @@
 				CEFEB5661D05E3FE007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B91B31D03A69C00C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5561D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB84F1D0E5216007D5EAE /* SFSDKReachability.m in Sources */,
 				CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
 				CE2B8FF11CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8FFF1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
@@ -584,6 +609,7 @@
 				CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */,
 				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CEFEB84E1D0E5215007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,10 +620,10 @@
 			files = (
 				CEFEB5671D05E3FF007D5EAE /* AnalyticsManager.m in Sources */,
 				CEFEB5581D048ABE007D5EAE /* InstrumentationEventBuilder.m in Sources */,
-				CEFEB55B1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
 				CE2B8FF31CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CE2B8C4E1CE9243600C6FC6A /* ViewController.m in Sources */,
 				CE2B8C311CE9218900C6FC6A /* AppDelegate.m in Sources */,
+				CEFEB8501D0E5217007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B91B51D03A69E00C6FC6A /* EventStoreManager.m in Sources */,
 				CE2B90011CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
 				CE2B8C2E1CE9218900C6FC6A /* main.m in Sources */,

@@ -28,21 +28,40 @@
  */
 
 #import "EventStoreManager.h"
+#import "InstrumentationEvent+Internal.h"
 
 @interface EventStoreManager ()
 
-@property (nonatomic, strong, readwrite) NSString *rootStoreDir;
-@property (nonatomic, strong, readwrite) NSString *encryptionKey;
+@property (nonatomic, strong, readwrite) NSString *fullFilePath;
+@property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
+@property (nonatomic, strong, readwrite) DataDecryptorBlock dataDecryptorBlock;
 
 @end
 
 @implementation EventStoreManager
 
-- (id) init:(NSString *) rootStoreDir encryptionKey:(NSString *) encryptionKey {
+- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
-        self.rootStoreDir = rootStoreDir;
-        self.encryptionKey = encryptionKey;
+        self.fullFilePath = fullFilePath;
+
+        // If a data encryptor block is passed in, uses it. Otherwise, creates a block that returns data as-is.
+        if (dataEncryptorBlock) {
+            self.dataEncryptorBlock = dataEncryptorBlock;
+        } else {
+            self.dataEncryptorBlock = ^NSData*(NSData *data) {
+                return data;
+            };
+        }
+
+        // If a data decryptor block is passed in, uses it. Otherwise, creates a block that returns data as-is.
+        if (dataDecryptorBlock) {
+            self.dataDecryptorBlock = dataDecryptorBlock;
+        } else {
+            self.dataDecryptorBlock = ^NSData*(NSData *data) {
+                return data;
+            };
+        }
     }
     return self;
 }
@@ -52,10 +71,12 @@
         NSLog(@"Invalid event");
         return;
     }
-
-    /*
-     * TODO: Add implementation.
-     */
+    NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
+    if (encryptedData) {
+        [[NSFileManager defaultManager] createFileAtPath:[self filenameForEvent:event.eventId]
+                                                contents:encryptedData
+                                              attributes:nil];
+    }
 }
 
 - (void) storeEvents:(NSArray<InstrumentationEvent *> *) events {
@@ -73,19 +94,18 @@
         NSLog(@"Invalid event ID supplied: %@", eventId);
         return nil;
     }
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
+    NSString *filePath = [self filenameForEvent:eventId];
+    return [self fetchEventFromFile:filePath];
 }
 
 - (NSArray<InstrumentationEvent *> *) fetchAllEvents {
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
+    NSMutableArray *events = [[NSMutableArray alloc] init];
+    for (NSString *file in files) {
+        InstrumentationEvent *event = [self fetchEventFromFile:file];
+        [events addObject:event];
+    }
+    return events;
 }
 
 - (BOOL) deleteEvent:(NSString *) eventId {
@@ -93,10 +113,11 @@
         NSLog(@"Invalid event ID supplied: %@", eventId);
         return NO;
     }
-
-    /*
-     * TODO: Add implementation.
-     */
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *filePath = [self filenameForEvent:eventId];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        return [fileManager removeItemAtPath:filePath error:nil];
+    }
     return NO;
 }
 
@@ -111,46 +132,31 @@
 }
 
 - (void) deleteAllEvents {
-
-    /*
-     * TODO: Add implementation.
-     */
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
+    for (NSString *file in files) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:file]) {
+            [fileManager removeItemAtPath:file error:nil];
+        }
+    }
 }
 
-- (InstrumentationEvent *) fetchEventFromFile:(NSFileHandle *) file {
+- (InstrumentationEvent *) fetchEventFromFile:(NSString *) file {
     if (!file) {
+        NSLog(@"Filename must be specified");
+        return nil;
+    }
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:file]) {
         NSLog(@"File does not exist");
         return nil;
     }
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
+    NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
+    return [[InstrumentationEvent alloc] initWithJson:data];
 }
 
-- (NSArray<InstrumentationEvent *> *) getAllFiles {
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
-}
-
-- (NSData *) encrypt:(NSData *) data {
-
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
-}
-
-- (NSData *) decrypt:(NSData *) data {
-    
-    /*
-     * TODO: Add implementation.
-     */
-    return nil;
+- (NSString *) filenameForEvent:(NSString *) eventId {
+    return [self.fullFilePath stringByAppendingPathComponent:eventId];
 }
 
 @end
