@@ -29,6 +29,8 @@
 
 #import "InstrumentationEventBuilder.h"
 #import "SFSDKReachability.h"
+#import "AnalyticsManager+Internal.h"
+#import "InstrumentationEvent+Internal.h"
 
 @interface InstrumentationEventBuilder ()
 

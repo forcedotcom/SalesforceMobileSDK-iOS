@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InstrumentationEvent+Internal.h"
+#import "InstrumentationEvent.h"
 
 @interface EventStoreManager : NSObject
 

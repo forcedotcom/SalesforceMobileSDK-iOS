@@ -28,6 +28,7 @@
  */
 
 #import "EventStoreManager.h"
+#import "InstrumentationEvent+Internal.h"
 
 @interface EventStoreManager ()
 

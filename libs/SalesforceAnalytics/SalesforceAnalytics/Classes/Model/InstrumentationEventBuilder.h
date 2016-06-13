@@ -27,8 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AnalyticsManager+Internal.h"
-#import "InstrumentationEvent+Internal.h"
+#import "AnalyticsManager.h"
 
 @interface InstrumentationEventBuilder : NSObject
 
