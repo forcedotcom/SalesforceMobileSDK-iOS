@@ -28,6 +28,7 @@
  */
 
 #import "InstrumentationEventBuilder.h"
+#import "SFSDKReachability.h"
 
 @interface InstrumentationEventBuilder ()
 
@@ -128,11 +129,19 @@
 }
 
 - (NSString *) getConnectionType {
-
-    /*
-     * TODO: Find the connection type.
-     */
-    return nil;
+    SFSDKReachability *reachability = [SFSDKReachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    SFSDKReachabilityNetworkStatus networkStatus = [reachability currentReachabilityStatus];
+    switch (networkStatus) {
+        case SFSDKReachabilityNotReachable:
+            return @"None";
+        case SFSDKReachabilityReachableViaWWAN:
+            return @"Cellular";
+        case SFSDKReachabilityReachableViaWiFi:
+            return @"WiFi";
+        default:
+            return @"Unknown";
+    }
 }
 
 @end
