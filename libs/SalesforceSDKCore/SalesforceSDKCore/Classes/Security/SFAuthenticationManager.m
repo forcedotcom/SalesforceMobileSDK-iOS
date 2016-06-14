@@ -1268,37 +1268,4 @@ static Class InstanceClass = nil;
     }
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView == _statusAlert.view) {
-        _statusAlert = nil;
-        [self log:SFLogLevelDebug format:@"clickedButtonAtIndex: %ld", (long)buttonIndex];
-        if (alertView.tag == kOAuthGenericAlertViewTag) {
-            [self dismissAuthViewControllerIfPresent];
-            [self login];
-        } else if (alertView.tag == kIdentityAlertViewTag) {
-            [self.idCoordinator initiateIdentityDataRetrieval];
-        } else if (alertView.tag == kConnectedAppVersionMismatchViewTag) {
-            // The OAuth failure block should be followed, after acknowledging the version mismatch.
-            [self execFailureBlocks];
-        }
-    } else if (alertView.tag == kAdvancedAuthDialogTag) {
-        BOOL proceed = buttonIndex != alertView.cancelButtonIndex;
-        // Notify the delegate if browser flow is taking place or if it's being cancelled.
-        if (proceed) {
-            [self delegateDidProceedWithBrowserFlow];
-        } else {
-            [self cancelAuthentication];
-            [self delegateDidCancelBrowserFlow];
-        }
-        
-        // Let the OAuth coordinator know whether to proceed or not.
-        if (self.authCoordinatorBrowserBlock) {
-            self.authCoordinatorBrowserBlock(proceed);
-        }
-    }
-}
-
 @end
