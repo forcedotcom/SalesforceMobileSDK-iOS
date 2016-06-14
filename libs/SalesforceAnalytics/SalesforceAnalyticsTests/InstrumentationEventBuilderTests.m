@@ -28,8 +28,17 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceAnalytics/DeviceAppAttributes.h>
+#import <SalesforceAnalytics/AnalyticsManager.h>
+
+static DeviceAppAttributes * const kDeviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID"];
+static NSString * const kTestEventName = @"TEST_EVENT_NAME_%@";
+static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 
 @interface InstrumentationEventBuilderTests : XCTestCase
+
+@property (nonatomic, readwrite, strong) NSString *uniqueId;
+@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 
 @end
 
@@ -37,13 +46,12 @@
 
 - (void) setUp {
     [super setUp];
-
-    // TODO:
+    self.uniqueId = [[NSUUID UUID] UUIDString];
+    self.AnalyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:kDeviceAppAttributes];
 }
 
 - (void) tearDown {
-
-    // TODO:
+    [AnalyticsManager removeSharedInstance:self.uniqueId];
     [super tearDown];
 }
 

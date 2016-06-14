@@ -40,11 +40,12 @@
  * Returns an instance of this class associated with the specified unique ID.
  *
  * @param uniqueId Unique ID that is used to determine where the events are stored.
- * @param encryptionKey Encryption key.
+ * @param dataEncryptorBlock Block that performs encryption.
+ * @param dataDecryptorBlock Block that performs decryption.
  * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-+ (id) sharedInstance:(NSString *) uniqueId encryptionKey:(NSString *) encryptionKey deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
++ (id) sharedInstance:(NSString *) uniqueId dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
 
 /**
  * Resets and removes the instance associated with the specified unique ID.
