@@ -93,6 +93,16 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
 - (FMDatabase *)encryptDb:(FMDatabase *)db name:(NSString *)storeName key:(NSString *)key error:(NSError **)error;
 
 /**
+ Encrypts an existing store
+ @param storeName The name of the store representing the DB.
+ @param storePath The path specifying the store location.
+ @param key The encryption key to be used for encrypting the database.
+ @param error Returned if there's an error with encrypting the data.
+ @return YES if the encryption was successful, or NO if the encryption fails at any point in the process.
+ */
++(BOOL)encryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error;
+
+/**
  Unencrypts an encrypted database, back to plaintext.
  @param db The database to unencrypt.
  @param storeName The name of the store associated with the DB.
@@ -101,6 +111,16 @@ extern NSString * const kSFSmartStoreDbErrorDomain;
  @return The unencrypted database, or the original encrypted database if the process fails at any point.
  */
 - (FMDatabase *)unencryptDb:(FMDatabase *)db name:(NSString *)storeName oldKey:(NSString *)oldKey error:(NSError **)error;
+
+/**
+ Unencrypts an encrypted store, back to plaintext.
+ @param storeName The name of the store associated with the DB.
+ @param storePath The path specifying the store location.
+ @param key The original encryption key of the database.
+ @param error Returned if there's an error during the process.
+ @return YES if the existing store was successfully unencrypted, or NO if the process fails at any point.
+ */
++ (BOOL)unencryptDbWithStoreName:(NSString *)storeName storePath:(NSString *)storePath key:(NSString *)key error:(NSError **)error;
 
 /**
  Creates the directory for the store, on the filesystem.
