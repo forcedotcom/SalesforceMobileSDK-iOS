@@ -120,9 +120,22 @@
 
 - (InstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
+    NSString *errorMessage = nil;
+    if (!self.eventType) {
+        errorMessage = @"Mandatory field 'event type' not set!";
+    }
+    if (!self.name) {
+        errorMessage = @"Mandatory field 'name' not set!";
+    }
+    DeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
+    if (!deviceAppAttributes) {
+        errorMessage = @"Mandatory field 'device app attributes' not set!";
+    }
+    if (errorMessage) {
+        @throw [NSException exceptionWithName:@"EventBuilderException" reason:errorMessage userInfo:nil];
+    }
     NSInteger sequenceId = self.analyticsManager.globalSequenceId + 1;
     self.analyticsManager.globalSequenceId = sequenceId;
-    DeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
 
     // Defaults to current time if not explicitly set.
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
