@@ -152,18 +152,6 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidEnterBackground:(SFAuthenticationManager *)manager;
 
-/**
- Called when a browser flow authentication is proceeded.
- @param manager The instance of SFAuthenticationManager making the call.
- */
-- (void)authManagerDidProceedWithBrowserFlow:(SFAuthenticationManager *)manager;
-
-/**
- Called when a browser flow authentication is cancelled.
- @param manager The instance of SFAuthenticationManager making the call.
- */
-- (void)authManagerDidCancelBrowserFlow:(SFAuthenticationManager *)manager;
-
 @end
 
 /**

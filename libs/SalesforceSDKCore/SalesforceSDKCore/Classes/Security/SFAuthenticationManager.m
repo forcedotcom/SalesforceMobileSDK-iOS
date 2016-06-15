@@ -67,10 +67,9 @@ static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErro
 
 // Private constants
 
-static NSInteger const kOAuthGenericAlertViewTag           = 444;
-static NSInteger const kIdentityAlertViewTag               = 555;
-static NSInteger const kConnectedAppVersionMismatchViewTag = 666;
-static NSInteger const kAdvancedAuthDialogTag              = 777;
+static NSInteger  const kOAuthGenericAlertViewTag    = 444;
+static NSInteger  const kIdentityAlertViewTag = 555;
+static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
 
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
@@ -166,12 +165,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  more than one authentication workflow to piggy back on an in-progress authentication.
  */
 @property (atomic, strong) NSMutableArray *authBlockList;
-
-/**
- The callback block used to notify the OAuth coordinator whether it should proceed with
- the browser authentication flow.
- */
-@property (nonatomic, copy) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
 
 /**
  The list of delegates
@@ -933,31 +926,14 @@ static Class InstanceClass = nil;
 
                                            // The OAuth failure block should be followed, after acknowledging the version mismatch.
                                            [weakSelf execFailureBlocks];
-                                       } else if (tag == kAdvancedAuthDialogTag) {
-                                           [weakSelf delegateDidProceedWithBrowserFlow];
-                                           
-                                           // Let the OAuth coordinator know whether to proceed or not.
-                                           if (weakSelf.authCoordinatorBrowserBlock) {
-                                               weakSelf.authCoordinatorBrowserBlock(YES);
-                                           }
                                        }
                                    }];
         [self.statusAlert addAction:okAction];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                                            if(tag == kAdvancedAuthDialogTag) {
-                                                [weakSelf cancelAuthentication];
-                                                [weakSelf delegateDidCancelBrowserFlow];
-                                           
-                                                // Let the OAuth coordinator know whether to proceed or not.
-                                                if (weakSelf.authCoordinatorBrowserBlock) {
-                                                    weakSelf.authCoordinatorBrowserBlock(NO);
-                                                }
-                                            }
                                             [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
                                         }];
-        
         [self.statusAlert addAction:cancelAction];
         [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
     }
@@ -1087,24 +1063,6 @@ static Class InstanceClass = nil;
     }
 }
 
-#pragma mark - Delegate Wrapper Methods
-
-- (void)delegateDidProceedWithBrowserFlow {
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidProceedWithBrowserFlow:)]) {
-            [delegate authManagerDidProceedWithBrowserFlow:self];
-        }
-    }];
-}
-
-- (void)delegateDidCancelBrowserFlow {
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
-            [delegate authManagerDidCancelBrowserFlow:self];
-        }
-    }];
-}
-
 #pragma mark - SFUserAccountManagerDelegate
 
 - (void)userAccountManager:(SFUserAccountManager *)userAccountManager
@@ -1211,40 +1169,6 @@ static Class InstanceClass = nil;
     }];
     
     return result;
-}
-
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self oauthCoordinator:coordinator willBeginBrowserAuthentication:callbackBlock];
-        });
-        return;
-    }
-    
-    self.authCoordinatorBrowserBlock = callbackBlock;
-    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain];
-    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
-                     message:alertMessage
-            firstButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"]
-           secondButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"]
-                         tag:kAdvancedAuthDialogTag];
-}
-
-- (void)oauthCoordinatorDidCancelBrowserFlow:(SFOAuthCoordinator *)coordinator {
-    __block BOOL handledByDelegate = NO;
-    
-    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
-            [delegate authManagerDidCancelBrowserFlow:self];
-            handledByDelegate = YES;
-        }
-    }];
-    
-    // TODO: Determine if this is the correct approach. If so, then SFAuthenticationManager probably needs to conform to SFSDKLoginHostDelegate.
-    if (!handledByDelegate) {
-        SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
-        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
-    }
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

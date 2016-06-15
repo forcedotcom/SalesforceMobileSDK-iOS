@@ -106,12 +106,6 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
     SFOAuthAdvancedAuthStateTokenRequestInitiated
 };
 
-/**
- Callback block used for the browser flow authentication.
- @see oauthCoordinator:willBeginBrowserAuthentication:
- */
-typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
-
 /** Protocol for objects intending to be a delegate for an OAuth coordinator.
  
  Implement this protocol to receive updates from an `SFOAuthCoordinator` instance.
@@ -220,32 +214,6 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  @see SFOAuthCoordinator
  */
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view;
-
-/**
- Sent to notify the delegate that a browser authentication flow is about to begin.
- 
- If the delegate implements this method, it is responsible for using the callbackBlock to let the coordinator know
- whether it should proceed with the browser flow or not.
- 
- @param coordinator   The SFOAuthCoordinator instance processing this message.
- @param callbackBlock A callback block used to notify the coordinator if it should continue with the authentication flow.
- Pass in YES to proceed, NO to cancel the authentication flow.
- */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
-
-/**
- Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
- to application did become active event.
- 
- @discussion
- Ideally the coordinator (via `-handleAdvancedAuthenticationResponse:`) should handle the browser response
- on your app delegate method `-application:openURL:sourceApplication:annotation:`.
- If your coordinator handles the browser response at any point after the application did become active notification is sent,
- this method should be implemented and return NO to disable the browser authentication auto-retry flow.
- 
- The coordinator will auto retry authentication if this method is not implemented.
- */
-- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
 
 @end
 
