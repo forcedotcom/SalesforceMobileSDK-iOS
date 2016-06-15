@@ -55,6 +55,7 @@
 		CEF371B51D0F6E710004A237 /* InstrumentationEvent+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */; };
 		CEF371E51D10D7E60004A237 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */; };
 		CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */; };
+		CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */; };
 		CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -139,6 +140,7 @@
 		CEF371B31D0F6E6D0004A237 /* InstrumentationEvent+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "InstrumentationEvent+Internal.h"; path = "Classes/Model/InstrumentationEvent+Internal.h"; sourceTree = "<group>"; };
 		CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPad.storyboard; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main_iPhone.storyboard; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStoreManagerTests.m; sourceTree = "<group>"; };
 		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
 		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
 		CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentationEventBuilderTests.m; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */,
+				CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */,
 			);
 			path = SalesforceAnalyticsTests;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */,
 				CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
