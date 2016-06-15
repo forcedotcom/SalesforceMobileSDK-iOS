@@ -66,7 +66,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
             id value = object_getIvar(self, ivar);
             [encoder encodeObject:value forKey:propertyName];
         } else if (ivarInfo[@"encoding"]) {
-            const void * ivarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
+            const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
             [encoder encodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:ivarPtr];
         }
     }];
@@ -91,7 +91,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 }
                 object_setIvar(self, ivar, result);
             } else if (ivarInfo[@"encoding"]) {
-                const void * ivarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
+                const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
                 [decoder decodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:(void *)ivarPtr];
             }
         }];
@@ -302,35 +302,35 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 CSFPrimitivePointer outputPtr = {0};
                 
                 if (strcmp(encodingType, @encode(int)) == 0) {
-                    outputPtr.intPtr = (int *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.intPtr = (int *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned int)) == 0) {
-                    outputPtr.unsignedIntPtr = (unsigned int *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedIntPtr = (unsigned int *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(BOOL)) == 0) {
-                    outputPtr.boolPtr = (BOOL *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.boolPtr = (BOOL *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(NSInteger)) == 0) {
-                    outputPtr.integerPtr = (NSInteger *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.integerPtr = (NSInteger *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(NSUInteger)) == 0) {
-                    outputPtr.unsignedIntegerPtr = (NSUInteger *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedIntegerPtr = (NSUInteger *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(float)) == 0) {
-                    outputPtr.floatPtr = (float *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.floatPtr = (float *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(double)) == 0) {
-                    outputPtr.doublePtr = (double *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.doublePtr = (double *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(char)) == 0) {
-                    outputPtr.charPtr = (char *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.charPtr = (char *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned char)) == 0) {
-                    outputPtr.unsignedCharPtr = (unsigned char *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedCharPtr = (unsigned char *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(short)) == 0) {
-                    outputPtr.shortPtr = (short *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.shortPtr = (short *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned short)) == 0) {
-                    outputPtr.unsignedShortPtr = (unsigned short *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedShortPtr = (unsigned short *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(long)) == 0) {
-                    outputPtr.longPtr = (long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.longPtr = (long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned long)) == 0) {
-                    outputPtr.unsignedLongPtr = (unsigned long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedLongPtr = (unsigned long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(long long)) == 0) {
-                    outputPtr.longLongPtr = (long long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.longLongPtr = (long long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned long long)) == 0) {
-                    outputPtr.unsignedLongLongPtr = (unsigned long long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedLongLongPtr = (unsigned long long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 }
                 
                 formatterFunc(storeValue ?: sourceJson, outputPtr);
@@ -449,7 +449,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
 
     NSDictionary *ivars = CSFClassIvars(self.class);
     NSArray *properties = CSFClassProperties(self.class);
-    const void * selfPtr = objc_unretainedPointer(self);
+    const void * selfPtr = (__bridge void*)(self);
     
     [properties enumerateObjectsUsingBlock:^(NSString *propertyName, NSUInteger idx, BOOL *stop) {
         NSString *ivarName = [NSString stringWithFormat:@"_%@", propertyName];
@@ -507,8 +507,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 leftObject = object_getIvar(self, ivar);
                 rightObject = object_getIvar(model, ivar);
             } else if (ivarInfo[@"encoding"]) {
-                const void * leftIvarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
-                const void * rightIvarPtr = objc_unretainedPointer(model) + ivar_getOffset(ivar);
+                const void * leftIvarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
+                const void * rightIvarPtr = (__bridge void*)(model) + ivar_getOffset(ivar);
                 
                 const char * encoding = [ivarInfo[@"encoding"] UTF8String];
                 leftObject = [NSValue value:leftIvarPtr withObjCType:encoding];
