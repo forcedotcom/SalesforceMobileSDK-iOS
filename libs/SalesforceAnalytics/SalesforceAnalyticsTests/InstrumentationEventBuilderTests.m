@@ -28,8 +28,6 @@
  */
 
 #import <XCTest/XCTest.h>
-#import <SalesforceAnalytics/DeviceAppAttributes.h>
-#import <SalesforceAnalytics/AnalyticsManager.h>
 #import <SalesforceAnalytics/InstrumentationEventBuilder.h>
 
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
