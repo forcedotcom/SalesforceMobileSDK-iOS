@@ -130,4 +130,4 @@ var styles = StyleSheet.create({
 });
 
 
-AppRegistry.registerComponent('react_nativeiosApp', () => App);
+AppRegistry.registerComponent('__ReactNativeTemplateAppName__', () => App);
