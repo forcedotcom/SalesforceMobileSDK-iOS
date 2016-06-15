@@ -63,7 +63,7 @@
  * @param jsonRepresentation JSON representation.
  * @return Instance of this class.
  */
-- (id) initWithJson:(NSData *) jsonRepresentation;
+- (id) initWithJson:(NSDictionary *) jsonRepresentation;
 
 /**
  * Returns a JSON representation of device app attributes.

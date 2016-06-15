@@ -72,10 +72,15 @@
         return;
     }
     NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
+    NSError *error = nil;
     if (encryptedData) {
-        [[NSFileManager defaultManager] createFileAtPath:[self filenameForEvent:event.eventId]
-                                                contents:encryptedData
-                                              attributes:@{NSFileProtectionKey : NSFileProtectionCompleteUntilFirstUserAuthentication}];
+        NSString *filename = [self filenameForEvent:event.eventId];
+        NSString *parentDir = [filename stringByDeletingLastPathComponent];
+        [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionCompleteUntilFirstUserAuthentication, NSFileProtectionKey, nil] error:&error];
+        [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
+        if (error) {
+            NSLog(@"Error occurred while writing to file: %@", error.localizedDescription);
+        }
     }
 }
 
