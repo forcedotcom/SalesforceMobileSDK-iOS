@@ -28,8 +28,17 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceAnalytics/DeviceAppAttributes.h>
+#import <SalesforceAnalytics/AnalyticsManager.h>
+#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+
+static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
+static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 
 @interface InstrumentationEventBuilderTests : XCTestCase
+
+@property (nonatomic, readwrite, strong) NSString *uniqueId;
+@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 
 @end
 
@@ -37,14 +46,138 @@
 
 - (void) setUp {
     [super setUp];
-
-    // TODO:
+    DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID"];
+    self.uniqueId = [[NSUUID UUID] UUIDString];
+    self.analyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
 }
 
 - (void) tearDown {
-
-    // TODO:
+    [AnalyticsManager removeSharedInstance:self.uniqueId];
     [super tearDown];
+}
+
+/**
+ * Test for missing mandatory field 'event type'.
+ */
+- (void) testMissingEventType {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder startTime:curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    @try {
+        [builder buildEvent];
+        XCTFail(@"Exception should have been thrown for missing mandatory field 'event type'");
+    } @catch (NSException *exception) {
+        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
+        NSLog(@"Exception thrown as expected");
+    }
+}
+
+/**
+ * Test for missing mandatory field 'name'.
+ */
+- (void) testMissingName {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    [builder startTime:curTime];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder eventType:EventTypeError];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    @try {
+        [builder buildEvent];
+        XCTFail(@"Exception should have been thrown for missing mandatory field 'name'");
+    } @catch (NSException *exception) {
+        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
+        NSLog(@"Exception thrown as expected");
+    }
+}
+
+/**
+ * Test for missing mandatory field 'device app attributes'.
+ */
+- (void) testMissingDeviceAppAttributes {
+    [AnalyticsManager removeSharedInstance:self.uniqueId];
+    self.analyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder startTime:curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder eventType:EventTypeError];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    @try {
+        [builder buildEvent];
+        XCTFail(@"Exception should have been thrown for missing mandatory field 'device app attributes'");
+    } @catch (NSException *exception) {
+        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
+        NSLog(@"Exception thrown as expected");
+    } @finally {
+        [AnalyticsManager removeSharedInstance:self.uniqueId];
+    }
+}
+
+/**
+ * Test for auto population of mandatory field 'start time'.
+ */
+- (void) testAutoPopulateStartTime {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder eventType:EventTypeError];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    InstrumentationEvent *event = [builder buildEvent];
+    XCTAssertTrue(event.startTime > 0, @"Start time should have been auto populated");
+}
+
+/**
+ * Test for auto population of mandatory field 'event ID'.
+ */
+- (void) testAutoPopulateEventId {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder eventType:EventTypeError];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    InstrumentationEvent *event = [builder buildEvent];
+    XCTAssertTrue(event.eventId != nil, @"Event ID should have been auto populated");
+}
+
+/**
+ * Test for auto population of mandatory field 'sequence ID'.
+ */
+- (void) testAutoPopulateSequenceId {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder eventType:EventTypeError];
+    [builder type:TypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    InstrumentationEvent *event = [builder buildEvent];
+    NSInteger sequenceId = event.sequenceId;
+    XCTAssertTrue(sequenceId > 0, @"Sequence ID should have been auto populated");
+    NSInteger globalSequenceId = self.analyticsManager.globalSequenceId;
+    XCTAssertEqual(0, globalSequenceId - sequenceId);
 }
 
 @end

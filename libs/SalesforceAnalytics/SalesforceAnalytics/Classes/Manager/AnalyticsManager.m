@@ -41,7 +41,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @implementation AnalyticsManager
 
-+ (id) sharedInstance:(NSString *) uniqueId encryptionKey:(NSString *) encryptionKey deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
++ (id) sharedInstance:(NSString *) uniqueId dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         analyticsManagerList = [[NSMutableDictionary alloc] init];
@@ -52,7 +52,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         }
         id analyticsMgr = [analyticsManagerList objectForKey:uniqueId];
         if (!analyticsMgr) {
-            analyticsMgr = [[AnalyticsManager alloc] init:uniqueId encryptionKey:encryptionKey deviceAttributes:deviceAttributes];
+            analyticsMgr = [[AnalyticsManager alloc] init:uniqueId dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
             [analyticsManagerList setObject:analyticsMgr forKey:uniqueId];
         }
         return analyticsMgr;
@@ -71,13 +71,13 @@ static NSMutableDictionary *analyticsManagerList = nil;
      */
 }
 
-- (id) init:(NSString *) uniqueId encryptionKey:(NSString *) encryptionKey deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
+- (id) init:(NSString *) uniqueId dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
         self.uniqueId = uniqueId;
         self.deviceAttributes = deviceAttributes;
         self.globalSequenceId = 0;
-        self.storeManager = [[EventStoreManager alloc] init:uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil];
+        self.storeManager = [[EventStoreManager alloc] init:uniqueId dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
     }
     return self;
 }
