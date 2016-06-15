@@ -1,8 +1,8 @@
 /*
- AnalyticsManager.h
+ AnalyticsTestUtil.m
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/5/16.
+ Created by Bharath Hariharan on 6/15/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,31 +27,27 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
+#import "AnalyticsTestUtil.h"
 
-@interface AnalyticsManager : NSObject
+@implementation AnalyticsTestUtil
 
-@property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) EventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
-@property (nonatomic, readonly, assign) NSInteger globalSequenceId;
++ (NSString *) buildTestStoreDirectory {
+    NSString *directory = nil;
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    if (directories.count > 0) {
+        directory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+    }
+    if (directory) {
+        directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:@"TEST_ORG_ID"]];
+        directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:@"TEST_USER_ID"]];
+        directory = [directory stringByAppendingPathComponent:[[self class] safeStringForDiskRepresentation:@"TEST_COMMUNITY_ID"]];
+    }
+    return directory;
+}
 
-/**
- * Returns an instance of this class associated with the specified store directory.
- *
- * @param storeDirectory Store directory that is used to determine where the events are stored.
- * @param dataEncryptorBlock Block that performs encryption.
- * @param dataDecryptorBlock Block that performs decryption.
- * @param deviceAttributes Device app attributes.
- * @return Instance of this class.
- */
-+ (id) sharedInstance:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
-
-/**
- * Resets and removes the instance associated with the specified store directory.
- *
- * @param storeDirectory Store directory.
- */
-+ (void) removeSharedInstance:(NSString *) storeDirectory;
++ (NSString *) safeStringForDiskRepresentation:(NSString *) candidate {
+    NSCharacterSet *invalidCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\"<>:@"];
+    return [[candidate componentsSeparatedByCharactersInSet:invalidCharacters] componentsJoinedByString:@"_"];
+}
 
 @end

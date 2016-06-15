@@ -1,8 +1,8 @@
 /*
- AnalyticsManager.h
+ AnalyticsTestUtil.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/5/16.
+ Created by Bharath Hariharan on 6/15/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,31 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
+#import <Foundation/Foundation.h>
 
-@interface AnalyticsManager : NSObject
-
-@property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) EventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
-@property (nonatomic, readonly, assign) NSInteger globalSequenceId;
+@interface AnalyticsTestUtil : NSObject
 
 /**
- * Returns an instance of this class associated with the specified store directory.
- *
- * @param storeDirectory Store directory that is used to determine where the events are stored.
- * @param dataEncryptorBlock Block that performs encryption.
- * @param dataDecryptorBlock Block that performs decryption.
- * @param deviceAttributes Device app attributes.
- * @return Instance of this class.
+ * Builds a test store directory based on fake org ID, user ID, and community ID.
  */
-+ (id) sharedInstance:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
-
-/**
- * Resets and removes the instance associated with the specified store directory.
- *
- * @param storeDirectory Store directory.
- */
-+ (void) removeSharedInstance:(NSString *) storeDirectory;
++ (NSString *) buildTestStoreDirectory;
 
 @end
