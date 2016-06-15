@@ -107,8 +107,10 @@
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
-        InstrumentationEvent *event = [self fetchEventFromFile:file];
-        [events addObject:event];
+        InstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];
+        if (event) {
+            [events addObject:event];
+        }
     }
     return events;
 }
@@ -140,8 +142,9 @@
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     for (NSString *file in files) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:file]) {
-            [fileManager removeItemAtPath:file error:nil];
+        NSString *filePath = [self filenameForEvent:file];
+        if ([fileManager fileExistsAtPath:filePath]) {
+            [fileManager removeItemAtPath:filePath error:nil];
         }
     }
 }
