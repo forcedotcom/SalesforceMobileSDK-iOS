@@ -71,23 +71,17 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
     return self;
 }
 
-- (id) initWithJson:(NSData *) jsonRepresentation {
+- (id) initWithJson:(NSDictionary *) jsonRepresentation {
     self = [super init];
     if (self && jsonRepresentation) {
-        NSError *error;
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:jsonRepresentation
-                                                             options:NSJSONReadingAllowFragments
-                                                               error:&error];
-        if (dict) {
-            self.appVersion = dict[kSFAppVersionKey];
-            self.appName = dict[kSFAppNameKey];
-            self.osVersion = dict[kSFOsVersionKey];
-            self.osName = dict[kSFOsNameKey];
-            self.nativeAppType = dict[kSFNativeAppTypeKey];
-            self.mobileSdkVersion = dict[kSFMobileSdkVersionKey];
-            self.deviceModel = dict[kSFDeviceModelKey];
-            self.deviceId = dict[kSFDeviceIdKey];
-        }
+        self.appVersion = jsonRepresentation[kSFAppVersionKey];
+        self.appName = jsonRepresentation[kSFAppNameKey];
+        self.osVersion = jsonRepresentation[kSFOsVersionKey];
+        self.osName = jsonRepresentation[kSFOsNameKey];
+        self.nativeAppType = jsonRepresentation[kSFNativeAppTypeKey];
+        self.mobileSdkVersion = jsonRepresentation[kSFMobileSdkVersionKey];
+        self.deviceModel = jsonRepresentation[kSFDeviceModelKey];
+        self.deviceId = jsonRepresentation[kSFDeviceIdKey];
     }
     return self;
 }

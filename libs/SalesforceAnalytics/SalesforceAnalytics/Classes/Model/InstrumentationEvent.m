@@ -114,7 +114,7 @@
             if (stringErrorType) {
                 self.errorType = [self errorTypeFromString:stringErrorType];
             }
-            NSData *deviceAttrDict = dict[kDeviceAppAttributesKey];
+            NSDictionary *deviceAttrDict = dict[kDeviceAppAttributesKey];
             if (deviceAttrDict) {
                 self.deviceAppAttributes = [[DeviceAppAttributes alloc] initWithJson:deviceAttrDict];
             }

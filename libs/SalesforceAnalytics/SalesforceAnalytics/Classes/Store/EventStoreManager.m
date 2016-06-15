@@ -32,7 +32,7 @@
 
 @interface EventStoreManager ()
 
-@property (nonatomic, strong, readwrite) NSString *fullFilePath;
+@property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readwrite) DataDecryptorBlock dataDecryptorBlock;
 
@@ -40,10 +40,10 @@
 
 @implementation EventStoreManager
 
-- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
+- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
-        self.fullFilePath = fullFilePath;
+        self.storeDirectory = storeDirectory;
 
         // If a data encryptor block is passed in, uses it. Otherwise, creates a block that returns data as-is.
         if (dataEncryptorBlock) {
@@ -72,10 +72,15 @@
         return;
     }
     NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
+    NSError *error = nil;
     if (encryptedData) {
-        [[NSFileManager defaultManager] createFileAtPath:[self filenameForEvent:event.eventId]
-                                                contents:encryptedData
-                                              attributes:@{NSFileProtectionKey : NSFileProtectionCompleteUntilFirstUserAuthentication}];
+        NSString *filename = [self filenameForEvent:event.eventId];
+        NSString *parentDir = [filename stringByDeletingLastPathComponent];
+        [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionCompleteUntilFirstUserAuthentication, NSFileProtectionKey, nil] error:&error];
+        [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
+        if (error) {
+            NSLog(@"Error occurred while writing to file: %@", error.localizedDescription);
+        }
     }
 }
 
@@ -99,11 +104,13 @@
 }
 
 - (NSArray<InstrumentationEvent *> *) fetchAllEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
-        InstrumentationEvent *event = [self fetchEventFromFile:file];
-        [events addObject:event];
+        InstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];
+        if (event) {
+            [events addObject:event];
+        }
     }
     return events;
 }
@@ -132,11 +139,12 @@
 }
 
 - (void) deleteAllEvents {
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.fullFilePath error:nil];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     for (NSString *file in files) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:file]) {
-            [fileManager removeItemAtPath:file error:nil];
+        NSString *filePath = [self filenameForEvent:file];
+        if ([fileManager fileExistsAtPath:filePath]) {
+            [fileManager removeItemAtPath:filePath error:nil];
         }
     }
 }
@@ -156,7 +164,7 @@
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {
-    return [self.fullFilePath stringByAppendingPathComponent:eventId];
+    return [self.storeDirectory stringByAppendingPathComponent:eventId];
 }
 
 @end

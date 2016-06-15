@@ -33,7 +33,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface AnalyticsManager ()
 
-@property (nonatomic, readwrite, strong) NSString *uniqueId;
+@property (nonatomic, readwrite, strong) NSString *storeDirectory;
 @property (nonatomic, readwrite, strong) EventStoreManager *storeManager;
 @property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
 
@@ -41,28 +41,28 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @implementation AnalyticsManager
 
-+ (id) sharedInstance:(NSString *) uniqueId dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
++ (id) sharedInstance:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         analyticsManagerList = [[NSMutableDictionary alloc] init];
     });
     @synchronized ([AnalyticsManager class]) {
-        if (!uniqueId) {
+        if (!storeDirectory) {
             return nil;
         }
-        id analyticsMgr = [analyticsManagerList objectForKey:uniqueId];
+        id analyticsMgr = [analyticsManagerList objectForKey:storeDirectory];
         if (!analyticsMgr) {
-            analyticsMgr = [[AnalyticsManager alloc] init:uniqueId dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
-            [analyticsManagerList setObject:analyticsMgr forKey:uniqueId];
+            analyticsMgr = [[AnalyticsManager alloc] init:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+            [analyticsManagerList setObject:analyticsMgr forKey:storeDirectory];
         }
         return analyticsMgr;
     }
 }
 
-+ (void) removeSharedInstance:(NSString *) uniqueId {
++ (void) removeSharedInstance:(NSString *) storeDirectory {
     @synchronized ([AnalyticsManager class]) {
-        if (uniqueId) {
-            [analyticsManagerList removeObjectForKey:uniqueId];
+        if (storeDirectory) {
+            [analyticsManagerList removeObjectForKey:storeDirectory];
         }
     }
 
@@ -71,13 +71,13 @@ static NSMutableDictionary *analyticsManagerList = nil;
      */
 }
 
-- (id) init:(NSString *) uniqueId dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
+- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
-        self.uniqueId = uniqueId;
+        self.storeDirectory = storeDirectory;
         self.deviceAttributes = deviceAttributes;
         self.globalSequenceId = 0;
-        self.storeManager = [[EventStoreManager alloc] init:uniqueId dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
+        self.storeManager = [[EventStoreManager alloc] init:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
     }
     return self;
 }

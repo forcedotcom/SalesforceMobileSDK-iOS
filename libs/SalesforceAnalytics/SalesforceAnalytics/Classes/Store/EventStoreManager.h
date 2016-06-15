@@ -34,19 +34,19 @@
 typedef NSData* (^DataEncryptorBlock)(NSData *data);
 typedef NSData* (^DataDecryptorBlock)(NSData *data);
 
-@property (nonatomic, strong, readonly) NSString *fullFilePath;
+@property (nonatomic, strong, readonly) NSString *storeDirectory;
 @property (nonatomic, strong, readonly) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readonly) DataDecryptorBlock dataDecryptorBlock;
 
 /**
  * Parameterized initializer.
  *
- * @param fullFilePath Full file path.
+ * @param storeDirectory Store directory.
  * @param dataEncryptorBlock Block that performs encryption.
  * @param dataDecryptorBlock Block that performs decryption.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) fullFilePath dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock;
+- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock;
 
 /**
  * Stores an event to the filesystem. A combination of event's unique ID and

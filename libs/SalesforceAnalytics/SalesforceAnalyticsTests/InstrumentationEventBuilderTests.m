@@ -29,13 +29,14 @@
 
 #import <XCTest/XCTest.h>
 #import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import "AnalyticsTestUtil.h"
 
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
 static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 
 @interface InstrumentationEventBuilderTests : XCTestCase
 
-@property (nonatomic, readwrite, strong) NSString *uniqueId;
+@property (nonatomic, readwrite, strong) NSString *storeDirectory;
 @property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 
 @end
@@ -45,12 +46,12 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 - (void) setUp {
     [super setUp];
     DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID"];
-    self.uniqueId = [[NSUUID UUID] UUIDString];
-    self.analyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
+    self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
+    self.analyticsManager = [AnalyticsManager sharedInstance:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
 }
 
 - (void) tearDown {
-    [AnalyticsManager removeSharedInstance:self.uniqueId];
+    [AnalyticsManager removeSharedInstance:self.storeDirectory];
     [super tearDown];
 }
 
@@ -101,8 +102,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
  * Test for missing mandatory field 'device app attributes'.
  */
 - (void) testMissingDeviceAppAttributes {
-    [AnalyticsManager removeSharedInstance:self.uniqueId];
-    self.analyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
+    [AnalyticsManager removeSharedInstance:self.storeDirectory];
+    self.analyticsManager = [AnalyticsManager sharedInstance:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
     InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
@@ -120,7 +121,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
         XCTAssertEqualObjects(@"EventBuilderException", exception.name);
         NSLog(@"Exception thrown as expected");
     } @finally {
-        [AnalyticsManager removeSharedInstance:self.uniqueId];
+        [AnalyticsManager removeSharedInstance:self.storeDirectory];
     }
 }
 

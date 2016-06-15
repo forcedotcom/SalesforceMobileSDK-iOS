@@ -29,14 +29,14 @@
 
 #import <XCTest/XCTest.h>
 #import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import "AnalyticsTestUtil.h"
 
-static NSString * const kTestFullFilePath = @"ORG_ID/USER_ID";
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
 static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 
 @interface EventStoreManagerTests : XCTestCase
 
-@property (nonatomic, readwrite, strong) NSString *uniqueId;
+@property (nonatomic, readwrite, strong) NSString *storeDirectory;
 @property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) EventStoreManager *storeManager;
 
@@ -47,14 +47,14 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 - (void)setUp {
     [super setUp];
     DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID"];
-    self.uniqueId = [[NSUUID UUID] UUIDString];
-    self.analyticsManager = [AnalyticsManager sharedInstance:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
-    self.storeManager = [[EventStoreManager alloc] init:self.uniqueId dataEncryptorBlock:nil dataDecryptorBlock:nil];
+    self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
+    self.analyticsManager = [AnalyticsManager sharedInstance:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
+    self.storeManager = [[EventStoreManager alloc] init:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
 }
 
 - (void)tearDown {
     [self.storeManager deleteAllEvents];
-    [AnalyticsManager removeSharedInstance:self.uniqueId];
+    [AnalyticsManager removeSharedInstance:self.storeDirectory];
     [super tearDown];
 }
 
@@ -86,8 +86,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
     XCTAssertEqual(2, events.count, @"Number of events stored should be 2");
-    XCTAssertEqualObjects(event1, [events firstObject], @"Stored event should be the same as generated event");
-    XCTAssertEqualObjects(event2, [events objectAtIndex:1], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event1 isEqual:[events firstObject]], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event2 isEqual:[events objectAtIndex:1]], @"Stored event should be the same as generated event");
 }
 
 /**
@@ -116,8 +116,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
     XCTAssertEqual(2, events.count, @"Number of events stored should be 2");
-    XCTAssertEqualObjects(event1, [events firstObject], @"Stored event should be the same as generated event");
-    XCTAssertEqualObjects(event2, [events objectAtIndex:1], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event1 isEqual:[events firstObject]], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event2 isEqual:[events objectAtIndex:1]], @"Stored event should be the same as generated event");
 }
 
 /**
@@ -155,8 +155,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSArray<InstrumentationEvent *> *eventsBeforeDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsBeforeDel != nil, @"List of events should not be nil");
     XCTAssertEqual(2, eventsBeforeDel.count, @"Number of events stored should be 2");
-    XCTAssertEqualObjects(event1, [eventsBeforeDel firstObject], @"Stored event should be the same as generated event");
-    XCTAssertEqualObjects(event2, [eventsBeforeDel objectAtIndex:1], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event1 isEqual:[eventsBeforeDel firstObject]], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event2 isEqual:[eventsBeforeDel objectAtIndex:1]], @"Stored event should be the same as generated event");
     NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
     [eventIds addObject:eventId1];
     [eventIds addObject:eventId2];
@@ -181,8 +181,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSArray<InstrumentationEvent *> *eventsBeforeDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsBeforeDel != nil, @"List of events should not be nil");
     XCTAssertEqual(2, eventsBeforeDel.count, @"Number of events stored should be 2");
-    XCTAssertEqualObjects(event1, [eventsBeforeDel firstObject], @"Stored event should be the same as generated event");
-    XCTAssertEqualObjects(event2, [eventsBeforeDel objectAtIndex:1], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event1 isEqual:[eventsBeforeDel firstObject]], @"Stored event should be the same as generated event");
+    XCTAssertTrue([event2 isEqual:[eventsBeforeDel objectAtIndex:1]], @"Stored event should be the same as generated event");
     [self.storeManager deleteAllEvents];
     NSArray<InstrumentationEvent *> *eventsAfterDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsAfterDel != nil, @"List of events should not be nil");
