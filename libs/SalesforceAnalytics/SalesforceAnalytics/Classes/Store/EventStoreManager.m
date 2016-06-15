@@ -75,7 +75,7 @@
     if (encryptedData) {
         [[NSFileManager defaultManager] createFileAtPath:[self filenameForEvent:event.eventId]
                                                 contents:encryptedData
-                                              attributes:nil];
+                                              attributes:@{NSFileProtectionKey : NSFileProtectionCompleteUntilFirstUserAuthentication}];
     }
 }
 
