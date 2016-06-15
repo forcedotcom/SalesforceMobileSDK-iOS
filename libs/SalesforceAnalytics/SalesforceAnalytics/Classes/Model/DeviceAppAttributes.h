@@ -70,6 +70,6 @@
  *
  * @return JSON representation.
  */
-- (NSData *) jsonRepresentation;
+- (NSDictionary *) jsonRepresentation;
 
 @end

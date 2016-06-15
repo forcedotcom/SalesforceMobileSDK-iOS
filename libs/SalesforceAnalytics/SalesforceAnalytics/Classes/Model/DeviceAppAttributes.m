@@ -92,7 +92,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
     return self;
 }
 
-- (NSData *) jsonRepresentation {
+- (NSDictionary *) jsonRepresentation {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     dict[kSFAppVersionKey] = self.appVersion;
     dict[kSFAppNameKey] = self.appName;
@@ -102,9 +102,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
     dict[kSFMobileSdkVersionKey] = self.mobileSdkVersion;
     dict[kSFDeviceModelKey] = self.deviceModel;
     dict[kSFDeviceIdKey] = self.deviceId;
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    return jsonData;
+    return dict;
 }
 
 @end
