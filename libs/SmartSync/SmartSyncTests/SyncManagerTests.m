@@ -1232,6 +1232,39 @@ static NSException *authException = nil;
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
 
+- (void) testSyncForSelectedPath {
+    [self createAccountsSoup:ACCOUNTS_SOUP];
+    
+    NSString* soql = @"SELECT Id, Name, BillingCity, LastModifiedDate FROM Account limit 10";
+
+    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite];
+    
+    // Runs sync.
+    XCTestExpectation *syncExpectation = [self expectationWithDescription:@"store updated"];
+    SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
+        if ([sync isDone] || [sync hasFailed]) {
+            XCTAssertTrue([sync isDone]);
+            SFQuerySpec *querySpec = [SFQuerySpec newMatchQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[ACCOUNT_NAME,ACCOUNT_ID] withPath:ACCOUNT_NAME withMatchKey:@"Acme" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
+            NSArray *result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+            XCTAssertEqual(result.count, 2, @"Expect one account Acme returns");
+            
+            querySpec = [SFQuerySpec newLikeQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[ACCOUNT_NAME] withPath:ACCOUNT_NAME withLikeKey:@"acme-%" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
+            result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+            XCTAssertEqual(result.count, 1, @"Expect two accounts return");
+            
+            querySpec = [SFQuerySpec newLikeQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[@"BillingCity"] withPath:ACCOUNT_NAME withLikeKey:@"new york" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
+            result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+            XCTAssertEqual(result.count, 0, @"Expect no account Acme returns");
+            
+            [syncExpectation fulfill];
+            
+        }
+    };
+    
+    SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
+    [syncManager syncDownWithTarget:syncTarget options:options soupName:ACCOUNTS_SOUP updateBlock:updateBlock];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
+}
 
 #pragma mark - helper methods
 
@@ -1412,8 +1445,8 @@ static NSException *authException = nil;
 
 - (void)createAccountsSoup:(NSString*)soupName {
     NSArray* indexSpecs = @[
-                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeString columnName:nil],
-                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_NAME indexType:kSoupIndexTypeString columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_ID indexType:kSoupIndexTypeFullText columnName:nil],
+                            [[SFSoupIndex alloc] initWithPath:ACCOUNT_NAME indexType:kSoupIndexTypeFullText columnName:nil],
                             [[SFSoupIndex alloc] initWithPath:kSyncManagerLocal indexType:kSoupIndexTypeString columnName:nil]
                             ];
     [store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
