@@ -57,6 +57,13 @@
 		CEF371E61D10D7E60004A237 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */; };
 		CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */; };
 		CEF372461D12100D0004A237 /* AnalyticsTestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372451D12100D0004A237 /* AnalyticsTestUtil.m */; };
+		CEF372CB1D1324040004A237 /* AILTNTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372C81D1324040004A237 /* AILTNTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEF372CC1D1324040004A237 /* AILTNTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372C91D1324040004A237 /* AILTNTransform.m */; };
+		CEF372CD1D1324040004A237 /* Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372CA1D1324040004A237 /* Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEF372CE1D1324080004A237 /* AILTNTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372C81D1324040004A237 /* AILTNTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEF372CF1D1324100004A237 /* Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372CA1D1324040004A237 /* Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEF372D01D1324190004A237 /* AILTNTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372C91D1324040004A237 /* AILTNTransform.m */; };
+		CEF372D21D1326E90004A237 /* AILTNTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372D11D1326E90004A237 /* AILTNTransformTests.m */; };
 		CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
 		CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -144,6 +151,10 @@
 		CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventStoreManagerTests.m; sourceTree = "<group>"; };
 		CEF372441D120FEE0004A237 /* AnalyticsTestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsTestUtil.h; sourceTree = "<group>"; };
 		CEF372451D12100D0004A237 /* AnalyticsTestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalyticsTestUtil.m; sourceTree = "<group>"; };
+		CEF372C81D1324040004A237 /* AILTNTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILTNTransform.h; path = Classes/Transform/AILTNTransform.h; sourceTree = "<group>"; };
+		CEF372C91D1324040004A237 /* AILTNTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILTNTransform.m; path = Classes/Transform/AILTNTransform.m; sourceTree = "<group>"; };
+		CEF372CA1D1324040004A237 /* Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transform.h; path = Classes/Transform/Transform.h; sourceTree = "<group>"; };
+		CEF372D11D1326E90004A237 /* AILTNTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AILTNTransformTests.m; sourceTree = "<group>"; };
 		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
 		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
 		CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentationEventBuilderTests.m; sourceTree = "<group>"; };
@@ -235,6 +246,7 @@
 				CEF371E71D11B76E0004A237 /* EventStoreManagerTests.m */,
 				CEF372441D120FEE0004A237 /* AnalyticsTestUtil.h */,
 				CEF372451D12100D0004A237 /* AnalyticsTestUtil.m */,
+				CEF372D11D1326E90004A237 /* AILTNTransformTests.m */,
 			);
 			path = SalesforceAnalyticsTests;
 			sourceTree = "<group>";
@@ -292,6 +304,7 @@
 		CE2B8FE61CF550BA00C6FC6A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CEF372C71D1323B50004A237 /* Transform */,
 				CEFEB8481D0E51F0007D5EAE /* Util */,
 				CEFEB55C1D050E20007D5EAE /* Manager */,
 				CE2B91B21D03A61800C6FC6A /* Store */,
@@ -332,6 +345,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CEF372C71D1323B50004A237 /* Transform */ = {
+			isa = PBXGroup;
+			children = (
+				CEF372C81D1324040004A237 /* AILTNTransform.h */,
+				CEF372C91D1324040004A237 /* AILTNTransform.m */,
+				CEF372CA1D1324040004A237 /* Transform.h */,
+			);
+			name = Transform;
+			sourceTree = "<group>";
+		};
 		CEFEB55C1D050E20007D5EAE /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,7 +388,9 @@
 				CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */,
 				CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
+				CEF372CB1D1324040004A237 /* AILTNTransform.h in Headers */,
 				CEF371B41D0F6E6D0004A237 /* InstrumentationEvent+Internal.h in Headers */,
+				CEF372CD1D1324040004A237 /* Transform.h in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
 				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 			);
@@ -379,9 +404,11 @@
 				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
 				CEFEB5631D05E3ED007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* InstrumentationEvent.h in Headers */,
+				CEF372CE1D1324080004A237 /* AILTNTransform.h in Headers */,
 				CEF371B51D0F6E710004A237 /* InstrumentationEvent+Internal.h in Headers */,
 				CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */,
 				CEFEB84D1D0E520B007D5EAE /* SFSDKReachability.h in Headers */,
+				CEF372CF1D1324100004A237 /* Transform.h in Headers */,
 				CEFEB5641D05E3F3007D5EAE /* AnalyticsManager.h in Headers */,
 				CEF371B21D0F6B410004A237 /* SalesforceAnalytics.h in Headers */,
 			);
@@ -583,6 +610,7 @@
 				CE2B91B11D03A61000C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */,
+				CEF372CC1D1324040004A237 /* AILTNTransform.m in Sources */,
 				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CEFEB84C1D0E5206007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B8FFE1CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,
@@ -596,6 +624,7 @@
 				CEF371E81D11B76E0004A237 /* EventStoreManagerTests.m in Sources */,
 				CEF372461D12100D0004A237 /* AnalyticsTestUtil.m in Sources */,
 				CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */,
+				CEF372D21D1326E90004A237 /* AILTNTransformTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -606,6 +635,7 @@
 				CE2B91B41D03A69D00C6FC6A /* EventStoreManager.m in Sources */,
 				CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
 				CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */,
+				CEF372D01D1324190004A237 /* AILTNTransform.m in Sources */,
 				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
 				CEFEB84E1D0E5215007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B90001CF6032C00C6FC6A /* InstrumentationEvent.m in Sources */,

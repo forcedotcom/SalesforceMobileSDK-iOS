@@ -40,9 +40,8 @@
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
+@property (nonatomic, assign, readwrite) SchemaType schemaType;
 @property (nonatomic, assign, readwrite) EventType eventType;
-@property (nonatomic, assign, readwrite) Type type;
-@property (nonatomic, assign, readwrite) Subtype subtype;
 @property (nonatomic, assign, readwrite) ErrorType errorType;
 @property (nonatomic, strong, readwrite) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readwrite) NSString *connectionType;
@@ -51,7 +50,7 @@
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext eventType:(EventType) eventType type:(Type) type subtype:(Subtype) subtype errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -63,9 +62,8 @@
         self.sequenceId = sequenceId;
         self.senderId = senderId;
         self.senderContext = senderContext;
+        self.schemaType = schemaType;
         self.eventType = eventType;
-        self.type = type;
-        self.subtype = subtype;
         self.errorType = errorType;
         self.deviceAppAttributes = deviceAppAttributes;
         self.connectionType = connectionType;
@@ -98,17 +96,13 @@
             }
             self.senderId = dict[kSenderIdKey];
             self.senderContext = dict[kSenderContextKey];
+            NSString *stringSchemaType = dict[kSchemaTypeKey];
+            if (stringSchemaType) {
+                self.schemaType = [self schemaTypeFromString:stringSchemaType];
+            }
             NSString *stringEventType = dict[kEventTypeKey];
             if (stringEventType) {
                 self.eventType = [self eventTypeFromString:stringEventType];
-            }
-            NSString *stringType = dict[kTypeKey];
-            if (stringType) {
-                self.type = [self typeFromString:stringType];
-            }
-            NSString *stringSubtype = dict[kSubtypeKey];
-            if (stringSubtype) {
-                self.subtype = [self subtypeFromString:stringSubtype];
             }
             NSString *stringErrorType = dict[kErrorTypeKey];
             if (stringErrorType) {
@@ -135,14 +129,11 @@
     dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
     dict[kSenderIdKey] = self.senderId;
     dict[kSenderContextKey] = self.senderContext;
+    if (self.schemaType) {
+        dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
+    }
     if (self.eventType) {
         dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
-    }
-    if (self.type) {
-        dict[kTypeKey] = [self stringValueOfType:self.type];
-    }
-    if (self.subtype) {
-        dict[kSubtypeKey] = [self stringValueOfSubtype:self.subtype];
     }
     if (self.errorType) {
         dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
@@ -176,19 +167,19 @@
     return NO;
 }
 
-- (NSString *) stringValueOfEventType:(EventType) eventType {
+- (NSString *) stringValueOfSchemaType:(SchemaType) schemaType {
     NSString *typeString = nil;
-    switch (eventType) {
-        case EventTypeInteraction:
+    switch (schemaType) {
+        case SchemaTypeInteraction:
             typeString = @"interaction";
             break;
-        case EventTypePageView:
+        case SchemaTypePageView:
             typeString = @"pageView";
             break;
-        case EventTypePerf:
+        case SchemaTypePerf:
             typeString = @"perf";
             break;
-        case EventTypeError:
+        case SchemaTypeError:
             typeString = @"error";
             break;
         default:
@@ -197,35 +188,35 @@
     return typeString;
 }
 
-- (EventType) eventTypeFromString:(NSString *) eventType {
-    EventType type = EventTypeError;
-    if (eventType) {
-        if ([eventType isEqualToString:@"interaction"]) {
-            type = EventTypeInteraction;
-        } else if ([eventType isEqualToString:@"pageView"]) {
-            type = EventTypePageView;
-        } else if ([eventType isEqualToString:@"perf"]) {
-            type = EventTypePerf;
-        } else if ([eventType isEqualToString:@"error"]) {
-            type = EventTypeError;
+- (SchemaType) schemaTypeFromString:(NSString *) schemaType {
+    SchemaType type = SchemaTypeError;
+    if (schemaType) {
+        if ([schemaType isEqualToString:@"interaction"]) {
+            type = SchemaTypeInteraction;
+        } else if ([schemaType isEqualToString:@"pageView"]) {
+            type = SchemaTypePageView;
+        } else if ([schemaType isEqualToString:@"perf"]) {
+            type = SchemaTypePerf;
+        } else if ([schemaType isEqualToString:@"error"]) {
+            type = SchemaTypeError;
         }
     }
     return type;
 }
 
-- (NSString *) stringValueOfType:(Type) type {
+- (NSString *) stringValueOfEventType:(EventType) eventType {
     NSString *typeString = nil;
-    switch (type) {
-        case TypeUser:
+    switch (eventType) {
+        case EventTypeUser:
             typeString = @"user";
             break;
-        case TypeSystem:
+        case EventTypeSystem:
             typeString = @"system";
             break;
-        case TypeError:
+        case EventTypeError:
             typeString = @"error";
             break;
-        case TypeCrud:
+        case EventTypeCrud:
             typeString = @"crud";
             break;
         default:
@@ -234,57 +225,20 @@
     return typeString;
 }
 
-- (Type) typeFromString:(NSString *) type {
-    Type typeRes = TypeError;
-    if (type) {
-        if ([type isEqualToString:@"user"]) {
-            typeRes = TypeUser;
-        } else if ([type isEqualToString:@"system"]) {
-            typeRes = TypeSystem;
-        } else if ([type isEqualToString:@"error"]) {
-            typeRes = TypeError;
-        } else if ([type isEqualToString:@"crud"]) {
-            typeRes = TypeCrud;
+- (EventType) eventTypeFromString:(NSString *) eventType {
+    EventType typeRes = EventTypeError;
+    if (eventType) {
+        if ([eventType isEqualToString:@"user"]) {
+            typeRes = EventTypeUser;
+        } else if ([eventType isEqualToString:@"system"]) {
+            typeRes = EventTypeSystem;
+        } else if ([eventType isEqualToString:@"error"]) {
+            typeRes = EventTypeError;
+        } else if ([eventType isEqualToString:@"crud"]) {
+            typeRes = EventTypeCrud;
         }
     }
     return typeRes;
-}
-
-- (NSString *) stringValueOfSubtype:(Subtype) subtype {
-    NSString *typeString = nil;
-    switch (subtype) {
-        case SubtypeClick:
-            typeString = @"click";
-            break;
-        case SubtypeMouseover:
-            typeString = @"mouseover";
-            break;
-        case SubtypeCreate:
-            typeString = @"create";
-            break;
-        case SubtypeSwipe:
-            typeString = @"swipe";
-            break;
-        default:
-            typeString = @"click";
-    }
-    return typeString;
-}
-
-- (Subtype) subtypeFromString:(NSString *) subtype {
-    Subtype type = SubtypeClick;
-    if (subtype) {
-        if ([subtype isEqualToString:@"click"]) {
-            type = SubtypeClick;
-        } else if ([subtype isEqualToString:@"mouseover"]) {
-            type = SubtypeMouseover;
-        } else if ([subtype isEqualToString:@"create"]) {
-            type = SubtypeCreate;
-        } else if ([subtype isEqualToString:@"swipe"]) {
-            type = SubtypeSwipe;
-        }
-    }
-    return type;
 }
 
 - (NSString *) stringValueOfErrorType:(ErrorType) errorType {
