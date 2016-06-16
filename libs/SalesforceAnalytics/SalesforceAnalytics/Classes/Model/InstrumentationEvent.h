@@ -43,6 +43,7 @@ static NSString* const kEventTypeKey = @"eventType";
 static NSString* const kErrorTypeKey = @"errorType";
 static NSString* const kConnectionTypeKey = @"connectionType";
 static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
+static NSString* const kSenderParentIdKey = @"senderParentId";
 
 /**
  * Represents the type of schema being logged.
@@ -89,6 +90,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, assign, readonly) ErrorType errorType;
 @property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly) NSString *connectionType;
+@property (nonatomic, strong, readonly) NSString *senderParentId;
 
 /**
  * Parameterized initializer.

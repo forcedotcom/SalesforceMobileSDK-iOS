@@ -48,8 +48,9 @@
  * @param errorType Error type.
  * @param deviceAppAttributes Device app attributes.
  * @param connectionType Connection type.
+ * @param senderParentId Sender parent ID.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType;
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId;
 
 @end

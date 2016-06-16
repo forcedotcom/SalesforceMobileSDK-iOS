@@ -119,6 +119,14 @@
 - (InstrumentationEventBuilder *) errorType:(ErrorType) errorType;
 
 /**
+ * Sets sender parent ID.
+ *
+ * @param senderParentId Sender parent ID.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId;
+
+/**
  * Builds the event.
  *
  * @return Event instance.
