@@ -38,7 +38,7 @@ static NSString* const kSessionIdKey = @"sessionId";
 static NSString* const kSequenceIdKey = @"sequenceId";
 static NSString* const kSenderIdKey = @"senderId";
 static NSString* const kSenderContextKey = @"senderContext";
-static NSString* const kEventTypeKey = @"eventType";
+static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kTypeKey = @"type";
 static NSString* const kSubtypeKey = @"subtype";
 static NSString* const kErrorTypeKey = @"errorType";
@@ -46,13 +46,13 @@ static NSString* const kConnectionTypeKey = @"connectionType";
 static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
 
 /**
- * Represents the type of event being measured.
+ * Represents the type of schema being logged.
  */
-typedef NS_ENUM(NSInteger, EventType) {
-    EventTypeInteraction = 0,
-    EventTypePageView,
-    EventTypePerf,
-    EventTypeError
+typedef NS_ENUM(NSInteger, SchemaType) {
+    SchemaTypeInteraction = 0,
+    SchemaTypePageView,
+    SchemaTypePerf,
+    SchemaTypeError
 };
 
 /**
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, assign, readonly) NSInteger sequenceId;
 @property (nonatomic, strong, readonly) NSString *senderId;
 @property (nonatomic, strong, readonly) NSDictionary *senderContext;
-@property (nonatomic, assign, readonly) EventType eventType;
+@property (nonatomic, assign, readonly) SchemaType schemaType;
 @property (nonatomic, assign, readonly) Type type;
 @property (nonatomic, assign, readonly) Subtype subtype;
 @property (nonatomic, assign, readonly) ErrorType errorType;

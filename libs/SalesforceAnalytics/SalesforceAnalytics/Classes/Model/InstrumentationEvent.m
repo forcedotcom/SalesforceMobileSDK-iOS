@@ -40,7 +40,7 @@
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
-@property (nonatomic, assign, readwrite) EventType eventType;
+@property (nonatomic, assign, readwrite) SchemaType schemaType;
 @property (nonatomic, assign, readwrite) Type type;
 @property (nonatomic, assign, readwrite) Subtype subtype;
 @property (nonatomic, assign, readwrite) ErrorType errorType;
@@ -51,7 +51,7 @@
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext eventType:(EventType) eventType type:(Type) type subtype:(Subtype) subtype errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType type:(Type) type subtype:(Subtype) subtype errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -63,7 +63,7 @@
         self.sequenceId = sequenceId;
         self.senderId = senderId;
         self.senderContext = senderContext;
-        self.eventType = eventType;
+        self.schemaType = schemaType;
         self.type = type;
         self.subtype = subtype;
         self.errorType = errorType;
@@ -98,9 +98,9 @@
             }
             self.senderId = dict[kSenderIdKey];
             self.senderContext = dict[kSenderContextKey];
-            NSString *stringEventType = dict[kEventTypeKey];
-            if (stringEventType) {
-                self.eventType = [self eventTypeFromString:stringEventType];
+            NSString *stringSchemaType = dict[kSchemaTypeKey];
+            if (stringSchemaType) {
+                self.schemaType = [self schemaTypeFromString:stringSchemaType];
             }
             NSString *stringType = dict[kTypeKey];
             if (stringType) {
@@ -135,8 +135,8 @@
     dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
     dict[kSenderIdKey] = self.senderId;
     dict[kSenderContextKey] = self.senderContext;
-    if (self.eventType) {
-        dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
+    if (self.schemaType) {
+        dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
     }
     if (self.type) {
         dict[kTypeKey] = [self stringValueOfType:self.type];
@@ -176,19 +176,19 @@
     return NO;
 }
 
-- (NSString *) stringValueOfEventType:(EventType) eventType {
+- (NSString *) stringValueOfSchemaType:(SchemaType) schemaType {
     NSString *typeString = nil;
-    switch (eventType) {
-        case EventTypeInteraction:
+    switch (schemaType) {
+        case SchemaTypeInteraction:
             typeString = @"interaction";
             break;
-        case EventTypePageView:
+        case SchemaTypePageView:
             typeString = @"pageView";
             break;
-        case EventTypePerf:
+        case SchemaTypePerf:
             typeString = @"perf";
             break;
-        case EventTypeError:
+        case SchemaTypeError:
             typeString = @"error";
             break;
         default:
@@ -197,17 +197,17 @@
     return typeString;
 }
 
-- (EventType) eventTypeFromString:(NSString *) eventType {
-    EventType type = EventTypeError;
-    if (eventType) {
-        if ([eventType isEqualToString:@"interaction"]) {
-            type = EventTypeInteraction;
-        } else if ([eventType isEqualToString:@"pageView"]) {
-            type = EventTypePageView;
-        } else if ([eventType isEqualToString:@"perf"]) {
-            type = EventTypePerf;
-        } else if ([eventType isEqualToString:@"error"]) {
-            type = EventTypeError;
+- (SchemaType) schemaTypeFromString:(NSString *) schemaType {
+    SchemaType type = SchemaTypeError;
+    if (schemaType) {
+        if ([schemaType isEqualToString:@"interaction"]) {
+            type = SchemaTypeInteraction;
+        } else if ([schemaType isEqualToString:@"pageView"]) {
+            type = SchemaTypePageView;
+        } else if ([schemaType isEqualToString:@"perf"]) {
+            type = SchemaTypePerf;
+        } else if ([schemaType isEqualToString:@"error"]) {
+            type = SchemaTypeError;
         }
     }
     return type;

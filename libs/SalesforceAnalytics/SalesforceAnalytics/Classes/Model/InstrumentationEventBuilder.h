@@ -95,12 +95,12 @@
 - (InstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext;
 
 /**
- * Sets event type.
+ * Sets schema type.
  *
- * @param eventType Event type.
+ * @param schemaType Schema type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) eventType:(EventType) eventType;
+- (InstrumentationEventBuilder *) schemaType:(SchemaType) schemaType;
 
 /**
  * Sets type.

@@ -56,9 +56,9 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 }
 
 /**
- * Test for missing mandatory field 'event type'.
+ * Test for missing mandatory field 'schema type'.
  */
-- (void) testMissingEventType {
+- (void) testMissingSchemaType {
     InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
@@ -70,7 +70,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder errorType:ErrorTypeWarn];
     @try {
         [builder buildEvent];
-        XCTFail(@"Exception should have been thrown for missing mandatory field 'event type'");
+        XCTFail(@"Exception should have been thrown for missing mandatory field 'schema type'");
     } @catch (NSException *exception) {
         XCTAssertEqualObjects(@"EventBuilderException", exception.name);
         NSLog(@"Exception thrown as expected");
@@ -86,7 +86,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder startTime:curTime];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeError];
+    [builder schemaType:SchemaTypeError];
     [builder type:TypeSystem];
     [builder errorType:ErrorTypeWarn];
     @try {
@@ -111,7 +111,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder name:eventName];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeError];
+    [builder schemaType:SchemaTypeError];
     [builder type:TypeSystem];
     [builder errorType:ErrorTypeWarn];
     @try {
@@ -135,7 +135,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder name:eventName];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeError];
+    [builder schemaType:SchemaTypeError];
     [builder type:TypeSystem];
     [builder errorType:ErrorTypeWarn];
     InstrumentationEvent *event = [builder buildEvent];
@@ -152,7 +152,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder name:eventName];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeError];
+    [builder schemaType:SchemaTypeError];
     [builder type:TypeSystem];
     [builder errorType:ErrorTypeWarn];
     InstrumentationEvent *event = [builder buildEvent];
@@ -169,7 +169,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder name:eventName];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeError];
+    [builder schemaType:SchemaTypeError];
     [builder type:TypeSystem];
     [builder errorType:ErrorTypeWarn];
     InstrumentationEvent *event = [builder buildEvent];
