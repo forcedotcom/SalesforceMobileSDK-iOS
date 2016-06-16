@@ -1,9 +1,9 @@
 /*
- SalesforceAnalytics.h
+ AILTNTransform.h
  SalesforceAnalytics
-
- Created by Bharath Hariharan on Thu Jun 16 11:28:19 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 6/16/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,11 +27,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/AILTNTransform.h>
-#import <SalesforceAnalytics/AnalyticsManager.h>
-#import <SalesforceAnalytics/DeviceAppAttributes.h>
-#import <SalesforceAnalytics/EventStoreManager.h>
-#import <SalesforceAnalytics/InstrumentationEvent.h>
-#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
-#import <SalesforceAnalytics/SFSDKReachability.h>
-#import <SalesforceAnalytics/Transform.h>
+#import "Transform.h"
+
+@interface AILTNTransform : NSObject <Transform>
+
+@end
