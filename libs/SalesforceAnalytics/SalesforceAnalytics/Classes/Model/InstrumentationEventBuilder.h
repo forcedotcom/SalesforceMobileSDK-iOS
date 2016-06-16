@@ -103,12 +103,12 @@
 - (InstrumentationEventBuilder *) schemaType:(SchemaType) schemaType;
 
 /**
- * Sets type.
+ * Sets event type.
  *
- * @param type Type.
+ * @param eventType Event type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) type:(Type) type;
+- (InstrumentationEventBuilder *) eventType:(EventType) eventType;
 
 /**
  * Sets error type.

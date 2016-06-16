@@ -198,7 +198,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
-    [builder type:TypeSystem];
+    [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
     return [builder buildEvent];
 }

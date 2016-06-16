@@ -39,7 +39,7 @@ static NSString* const kSequenceIdKey = @"sequenceId";
 static NSString* const kSenderIdKey = @"senderId";
 static NSString* const kSenderContextKey = @"senderContext";
 static NSString* const kSchemaTypeKey = @"schemaType";
-static NSString* const kTypeKey = @"type";
+static NSString* const kEventTypeKey = @"eventType";
 static NSString* const kErrorTypeKey = @"errorType";
 static NSString* const kConnectionTypeKey = @"connectionType";
 static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
@@ -55,13 +55,13 @@ typedef NS_ENUM(NSInteger, SchemaType) {
 };
 
 /**
- * Represents the type of interaction being logged.
+ * Represents the type of event being logged.
  */
-typedef NS_ENUM(NSInteger, Type) {
-    TypeUser = 0,
-    TypeSystem,
-    TypeError,
-    TypeCrud
+typedef NS_ENUM(NSInteger, EventType) {
+    EventTypeUser = 0,
+    EventTypeSystem,
+    EventTypeError,
+    EventTypeCrud
 };
 
 /**
@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, strong, readonly) NSString *senderId;
 @property (nonatomic, strong, readonly) NSDictionary *senderContext;
 @property (nonatomic, assign, readonly) SchemaType schemaType;
-@property (nonatomic, assign, readonly) Type type;
+@property (nonatomic, assign, readonly) EventType eventType;
 @property (nonatomic, assign, readonly) ErrorType errorType;
 @property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly) NSString *connectionType;

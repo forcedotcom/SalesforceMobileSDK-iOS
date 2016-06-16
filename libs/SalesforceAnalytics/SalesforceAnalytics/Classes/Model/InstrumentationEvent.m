@@ -41,7 +41,7 @@
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
 @property (nonatomic, assign, readwrite) SchemaType schemaType;
-@property (nonatomic, assign, readwrite) Type type;
+@property (nonatomic, assign, readwrite) EventType eventType;
 @property (nonatomic, assign, readwrite) ErrorType errorType;
 @property (nonatomic, strong, readwrite) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readwrite) NSString *connectionType;
@@ -50,7 +50,7 @@
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType type:(Type) type errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -63,7 +63,7 @@
         self.senderId = senderId;
         self.senderContext = senderContext;
         self.schemaType = schemaType;
-        self.type = type;
+        self.eventType = eventType;
         self.errorType = errorType;
         self.deviceAppAttributes = deviceAppAttributes;
         self.connectionType = connectionType;
@@ -100,9 +100,9 @@
             if (stringSchemaType) {
                 self.schemaType = [self schemaTypeFromString:stringSchemaType];
             }
-            NSString *stringType = dict[kTypeKey];
-            if (stringType) {
-                self.type = [self typeFromString:stringType];
+            NSString *stringEventType = dict[kEventTypeKey];
+            if (stringEventType) {
+                self.eventType = [self eventTypeFromString:stringEventType];
             }
             NSString *stringErrorType = dict[kErrorTypeKey];
             if (stringErrorType) {
@@ -132,8 +132,8 @@
     if (self.schemaType) {
         dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
     }
-    if (self.type) {
-        dict[kTypeKey] = [self stringValueOfType:self.type];
+    if (self.eventType) {
+        dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
     }
     if (self.errorType) {
         dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
@@ -204,19 +204,19 @@
     return type;
 }
 
-- (NSString *) stringValueOfType:(Type) type {
+- (NSString *) stringValueOfEventType:(EventType) eventType {
     NSString *typeString = nil;
-    switch (type) {
-        case TypeUser:
+    switch (eventType) {
+        case EventTypeUser:
             typeString = @"user";
             break;
-        case TypeSystem:
+        case EventTypeSystem:
             typeString = @"system";
             break;
-        case TypeError:
+        case EventTypeError:
             typeString = @"error";
             break;
-        case TypeCrud:
+        case EventTypeCrud:
             typeString = @"crud";
             break;
         default:
@@ -225,17 +225,17 @@
     return typeString;
 }
 
-- (Type) typeFromString:(NSString *) type {
-    Type typeRes = TypeError;
-    if (type) {
-        if ([type isEqualToString:@"user"]) {
-            typeRes = TypeUser;
-        } else if ([type isEqualToString:@"system"]) {
-            typeRes = TypeSystem;
-        } else if ([type isEqualToString:@"error"]) {
-            typeRes = TypeError;
-        } else if ([type isEqualToString:@"crud"]) {
-            typeRes = TypeCrud;
+- (EventType) eventTypeFromString:(NSString *) eventType {
+    EventType typeRes = EventTypeError;
+    if (eventType) {
+        if ([eventType isEqualToString:@"user"]) {
+            typeRes = EventTypeUser;
+        } else if ([eventType isEqualToString:@"system"]) {
+            typeRes = EventTypeSystem;
+        } else if ([eventType isEqualToString:@"error"]) {
+            typeRes = EventTypeError;
+        } else if ([eventType isEqualToString:@"crud"]) {
+            typeRes = EventTypeCrud;
         }
     }
     return typeRes;
