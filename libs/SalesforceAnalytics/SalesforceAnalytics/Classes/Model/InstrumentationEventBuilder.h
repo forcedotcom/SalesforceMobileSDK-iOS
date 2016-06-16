@@ -111,14 +111,6 @@
 - (InstrumentationEventBuilder *) type:(Type) type;
 
 /**
- * Sets subtype.
- *
- * @param subtype Subtype.
- * @return Instance of this class.
- */
-- (InstrumentationEventBuilder *) subtype:(Subtype) subtype;
-
-/**
  * Sets error type.
  *
  * @param errorType Error type.

@@ -44,7 +44,6 @@
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
 @property (nonatomic, assign, readwrite) SchemaType schemaType;
 @property (nonatomic, assign, readwrite) Type type;
-@property (nonatomic, assign, readwrite) Subtype subtype;
 @property (nonatomic, assign, readwrite) ErrorType errorType;
 
 @end
@@ -108,11 +107,6 @@
     return self;
 }
 
-- (InstrumentationEventBuilder *) subtype:(Subtype) subtype {
-    self.subtype = subtype;
-    return self;
-}
-
 - (InstrumentationEventBuilder *) errorType:(ErrorType) errorType {
     self.errorType = errorType;
     return self;
@@ -140,7 +134,7 @@
     // Defaults to current time if not explicitly set.
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
-    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType type:self.type subtype:self.subtype errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType]];
+    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType type:self.type errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType]];
 }
 
 - (NSString *) getConnectionType {

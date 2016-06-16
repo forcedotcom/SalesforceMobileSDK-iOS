@@ -40,7 +40,6 @@ static NSString* const kSenderIdKey = @"senderId";
 static NSString* const kSenderContextKey = @"senderContext";
 static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kTypeKey = @"type";
-static NSString* const kSubtypeKey = @"subtype";
 static NSString* const kErrorTypeKey = @"errorType";
 static NSString* const kConnectionTypeKey = @"connectionType";
 static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
@@ -66,16 +65,6 @@ typedef NS_ENUM(NSInteger, Type) {
 };
 
 /**
- * Represents the subtype of interaction being logged.
- */
-typedef NS_ENUM(NSInteger, Subtype) {
-    SubtypeClick = 0,
-    SubtypeMouseover,
-    SubtypeCreate,
-    SubtypeSwipe
-};
-
-/**
  * Represents the type of error being logged.
  */
 typedef NS_ENUM(NSInteger, ErrorType) {
@@ -97,7 +86,6 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, strong, readonly) NSDictionary *senderContext;
 @property (nonatomic, assign, readonly) SchemaType schemaType;
 @property (nonatomic, assign, readonly) Type type;
-@property (nonatomic, assign, readonly) Subtype subtype;
 @property (nonatomic, assign, readonly) ErrorType errorType;
 @property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly) NSString *connectionType;
