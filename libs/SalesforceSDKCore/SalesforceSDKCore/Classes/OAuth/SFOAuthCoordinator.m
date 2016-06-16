@@ -738,9 +738,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
     self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
 
-    // Need to update the doman as the host may be different after an org split.
-    self.credentials.domain = [self.credentials.instanceUrl host];
-    
     NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
     if (nil != communityId) {
         self.credentials.communityId = communityId;
