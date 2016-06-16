@@ -45,6 +45,8 @@
 @property (nonatomic, assign, readwrite) SchemaType schemaType;
 @property (nonatomic, assign, readwrite) EventType eventType;
 @property (nonatomic, assign, readwrite) ErrorType errorType;
+@property (nonatomic, strong, readwrite) NSString *senderParentId;
+@property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
 
 @end
 
@@ -112,6 +114,16 @@
     return self;
 }
 
+- (InstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId {
+    self.senderParentId = senderParentId;
+    return self;
+}
+
+- (InstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime {
+    self.sessionStartTime = sessionStartTime;
+    return self;
+}
+
 - (InstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
     NSString *errorMessage = nil;
@@ -134,7 +146,8 @@
     // Defaults to current time if not explicitly set.
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
-    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType]];
+    self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
+    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime];
 }
 
 - (NSString *) getConnectionType {

@@ -119,6 +119,22 @@
 - (InstrumentationEventBuilder *) errorType:(ErrorType) errorType;
 
 /**
+ * Sets sender parent ID.
+ *
+ * @param senderParentId Sender parent ID.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId;
+
+/**
+ * Sets session start time.
+ *
+ * @param sessionStartTime Session start time.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
+
+/**
  * Builds the event.
  *
  * @return Event instance.
