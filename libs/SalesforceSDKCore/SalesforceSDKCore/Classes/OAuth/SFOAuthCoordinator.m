@@ -718,7 +718,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 {
     NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
     [scopes addObject:kSFOAuthRefreshToken];
-    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     return [NSString stringWithFormat:@"&%@=%@", kSFOAuthScope, scopeStr];
 }
 
@@ -940,11 +940,9 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         NSString *value = keyValue[1];
         if (decodeParams) {
             key = [[key
-                    stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-                   stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];
             value = [[value
-                      stringByReplacingOccurrencesOfString:@"+" withString:@" "]
-                     stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                      stringByReplacingOccurrencesOfString:@"+" withString:@" "] stringByRemovingPercentEncoding];
         }
         dict[key] = value;
     }
