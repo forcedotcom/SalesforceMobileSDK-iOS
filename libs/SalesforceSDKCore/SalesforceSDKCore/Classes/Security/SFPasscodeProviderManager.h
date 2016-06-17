@@ -35,12 +35,12 @@ typedef NSString * SFPasscodeProviderId NS_EXTENSIBLE_STRING_ENUM;
 /**
  * String representing the provider name for the SHA-256 passcode provider.
  */
-FOUNDATION_EXTERN SFPasscodeProviderId kSFPasscodeProviderSHA256;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderSHA256;
 
 /**
  * String representing the provider name for the PBKDF2 passcode provider.
  */
-FOUNDATION_EXTERN SFPasscodeProviderId kSFPasscodeProviderPBKDF2;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
 
 /**
  * Protocol that a passcode provider class must implement.
