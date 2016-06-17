@@ -24,7 +24,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFRestAPI (Files) <SFRestDelegate>
 
@@ -141,3 +144,5 @@
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
 
 @end
+
+NS_ASSUME_NONNULL_END
