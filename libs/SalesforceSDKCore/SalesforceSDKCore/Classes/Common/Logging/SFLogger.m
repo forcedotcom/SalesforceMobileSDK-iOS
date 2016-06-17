@@ -29,7 +29,6 @@
 #import "SFLogger_Internal.h"
 #import "SFPathUtil.h"
 #import "NSString+SFAdditions.h"
-#import <libkern/OSAtomic.h>
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
 
@@ -435,7 +434,7 @@ static BOOL assertionRecorded = NO;
         
         result = [[SFLogIdentifier alloc] initWithIdentifier:identifier];
         result.logger = self;
-        result.context = OSAtomicIncrement32(&_contextCounter) - 1;
+        result.context = atomic_fetch_add_explicit(&_contextCounter, 1, memory_order_relaxed);
         _logIdentifiers[identifier] = result;
         _logIdentifiersByContext[result.context] = result;
 
