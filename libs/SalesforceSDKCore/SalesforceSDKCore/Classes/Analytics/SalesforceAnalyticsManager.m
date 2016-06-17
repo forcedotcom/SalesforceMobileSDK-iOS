@@ -29,13 +29,15 @@
 
 #import "SalesforceAnalyticsManager.h"
 #import "SFUserAccountManager.h"
-#import "SFAuthenticationManager.h"
+#import "SalesforceSDKManager.h"
+#import <SalesforceAnalytics/DeviceAppAttributes.h>
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
+@property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
 
 @end
 
@@ -80,6 +82,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     self = [super init];
     if (self) {
         self.userAccount = userAccount;
+        self.deviceAttributes = [self buildDeviceAppAttributes];
     }
     return self;
 }
@@ -88,6 +91,31 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
     [[self class] removeSharedInstanceWithUser:user];
+}
+
+- (DeviceAppAttributes *) buildDeviceAppAttributes {
+    SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
+    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey];
+    NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
+    UIDevice *curDevice = [UIDevice currentDevice];
+    NSString *osVersion = [curDevice systemVersion];
+    NSString *osName = [curDevice systemName];
+    NSString *appTypeStr = @"";
+    switch ([sdkManager appType]) {
+        case kSFAppTypeNative:
+            appTypeStr = kSFMobileSDKNativeDesignator;
+            break;
+        case kSFAppTypeHybrid:
+            appTypeStr = kSFMobileSDKHybridDesignator;
+            break;
+        case kSFAppTypeReactNative:
+            appTypeStr = kSFMobileSDKReactNativeDesignator;
+            break;
+    }
+    NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
+    NSString *deviceModel = [curDevice model];
+    NSString *deviceId = [sdkManager deviceId];
+    return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId];
 }
 
 @end
