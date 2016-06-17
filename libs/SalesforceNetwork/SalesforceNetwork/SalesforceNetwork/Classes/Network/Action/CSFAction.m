@@ -41,10 +41,10 @@ NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFai
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
-NSString * const kCSFActionTimingTotalTimeKey = @"total";
-NSString * const kCSFActionTimingNetworkTimeKey = @"network";
-NSString * const kCSFActionTimingStartDelayKey = @"startDelay";
-NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
+CSFActionTiming kCSFActionTimingTotalTimeKey = @"total";
+CSFActionTiming kCSFActionTimingNetworkTimeKey = @"network";
+CSFActionTiming kCSFActionTimingStartDelayKey = @"startDelay";
+CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @interface CSFAction () {
     BOOL _ready;
@@ -876,7 +876,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @implementation CSFAction (Timing)
 
-- (NSTimeInterval)intervalForTimingKey:(NSString *)key {
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key {
     NSTimeInterval result = 0;
     
     NSDate *firstDate = nil, *secondDate = nil;
