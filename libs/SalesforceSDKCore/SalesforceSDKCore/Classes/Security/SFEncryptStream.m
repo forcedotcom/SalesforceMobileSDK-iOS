@@ -63,7 +63,10 @@
 }
 
 - (nullable instancetype)initToFileAtPath:(NSString *)path append:(BOOL)shouldAppend {
-    _outStream = [[NSOutputStream alloc] initToFileAtPath:path append:shouldAppend];
+    self = [super initToFileAtPath:path append:shouldAppend];
+    if (self){
+        _outStream = [[NSOutputStream alloc] initToFileAtPath:path append:shouldAppend];
+    }
     return self;
 }
 

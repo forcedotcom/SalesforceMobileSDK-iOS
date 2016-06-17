@@ -633,10 +633,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     self.previousCommunityId = self.activeCommunityId;
-    
-    SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = self.previousCommunityId;
-    self.currentUser = account;
+
+    if (curUserIdentity){
+        SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
+        account.communityId = self.previousCommunityId;
+        self.currentUser = account;
+    }else{
+        self.currentUser = nil;
+    }
     
     // update the client ID in case it's changed (via settings, etc)
     self.currentUser.credentials.clientId = self.oauthClientId;
@@ -791,7 +795,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         NSFileManager *fm = [[NSFileManager alloc] init];
         if ([fm fileExistsAtPath:userAccountPath]) {
             if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, *error];
+                NSError*const err = error ? *error : nil;
+                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
                 return NO;
             }
         }
