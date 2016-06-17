@@ -1142,56 +1142,56 @@ static NSException *authException = nil;
     
     // Block functions that should always fail
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
-    [api performDeleteWithObjectType:nil objectId:nil
+    [api performDeleteWithObjectType:(NSString* _Nonnull) nil objectId:(NSString* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-nil"];
-    [api performCreateWithObjectType:nil fields:nil
+    [api performCreateWithObjectType:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-nil"];
-    [api performMetadataWithObjectType:nil
+    [api performMetadataWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-nil"];
-    [api performDescribeWithObjectType:nil
+    [api performDescribeWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-nil"];
-    [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
+    [api performRetrieveWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fieldList:(NSArray<NSString*>* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-nil"];
-    [api performUpdateWithObjectType:nil objectId:nil fields:nil
+    [api performUpdateWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-nil"];
-    [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
-                              fields:nil
+    [api performUpsertWithObjectType:(NSString* _Nonnull)nil externalIdField:(NSString* _Nonnull)nil externalId:(NSString* _Nonnull)nil
+                              fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-nil"];
-    [api performSOQLQuery:nil
+    [api performSOQLQuery:(NSString* _Nonnull)nil
                 failBlock:failWithExpectedFail
             completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-nil"];
-    [api performSOQLQueryAll:nil
+    [api performSOQLQueryAll:(NSString* _Nonnull)nil
                    failBlock:failWithExpectedFail
                completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
