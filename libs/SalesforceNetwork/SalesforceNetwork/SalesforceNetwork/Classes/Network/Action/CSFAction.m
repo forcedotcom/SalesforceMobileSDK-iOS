@@ -72,10 +72,12 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
     if (!baseURL) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
+        if (error){
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
@@ -83,10 +85,12 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Make sure path is not empty
     if (!path || path.length == 0) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
+        if(error){
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
