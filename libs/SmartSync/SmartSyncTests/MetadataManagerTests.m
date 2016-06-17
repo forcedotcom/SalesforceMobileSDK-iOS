@@ -112,7 +112,7 @@ static NSString* const kCaseOneName = @"00001001";
     [self waitForExpectationsWithTimeout:20 handler:nil];
 }
 
-- (void)FIXMEtestGlobalMRUObjectsFromServer
+- (void)testGlobalMRUObjectsFromServer
 {
     SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Case"];
     [queryBuilder whereClause:[NSString stringWithFormat:@"CaseNumber = '%@'", kCaseOneName]];
@@ -121,6 +121,7 @@ static NSString* const kCaseOneName = @"00001001";
         kCaseOneId = [result[0] valueForKey:@"Id"];
     }];
     
+    [NSThread sleepForTimeInterval:1]; //give server side a second to settle
     XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
     [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {
         [objectMarkedAsViewed fulfill];
