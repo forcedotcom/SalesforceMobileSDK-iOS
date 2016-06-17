@@ -296,6 +296,6 @@ CSF_EXTERN CSFActionTiming kCSFActionTimingPostProcessingKey;
  
  @return The time interval for the requested key, or `0` if the key is invalid or if the request hasn't gathered enough information to supply that value yet.
  */
-- (NSTimeInterval)intervalForTimingKey:(CSFActionKey)key;
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key;
 
 @end
