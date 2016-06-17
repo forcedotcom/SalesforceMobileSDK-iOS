@@ -90,6 +90,10 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
+		CE145A9C1D138386003BCC20 /* SalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE145A9D1D138386003BCC20 /* SalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */; };
+		CE145A9E1D13838B003BCC20 /* SalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE145A9F1D138394003BCC20 /* SalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */; };
 		CE2B8CDD1CE92FBF00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CD41CE92F8100C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -923,6 +927,8 @@
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceAnalyticsManager.h; path = Analytics/SalesforceAnalyticsManager.h; sourceTree = "<group>"; };
+		CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceAnalyticsManager.m; path = Analytics/SalesforceAnalyticsManager.m; sourceTree = "<group>"; };
 		CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA8825F1C18F722008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1387,6 +1393,7 @@
 		82AF840C16DFD95F008912EF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CE145A881D137FD2003BCC20 /* Analytics */,
 				E139509E1C535F9C00575C03 /* Login */,
 				4F96FC511BFD32130022F021 /* Common */,
 				4F96FC631BFD32130022F021 /* Identity */,
@@ -1450,6 +1457,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CE145A881D137FD2003BCC20 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */,
+				CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */,
+			);
+			name = Analytics;
+			sourceTree = "<group>";
+		};
 		CE2B8CCC1CE92F8100C6FC6A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1501,6 +1517,7 @@
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
+				CE145A9C1D138386003BCC20 /* SalesforceAnalyticsManager.h in Headers */,
 				CE4CE38C1C0E526A009F6029 /* SFSHA256PasscodeProvider.h in Headers */,
 				829DA2951C1266340040F5F1 /* SalesforceSDKCore.h in Headers */,
 				CE4CE3151C0E523B009F6029 /* SFCrypto.h in Headers */,
@@ -1635,6 +1652,7 @@
 				CEA882C01C18FB4D008D871B /* SFOAuthCrypto.h in Headers */,
 				CEA882FD1C18FB8E008D871B /* SFPBKDFData.h in Headers */,
 				CEA882E41C18FB8E008D871B /* SFEncryptionKey.h in Headers */,
+				CE145A9E1D13838B003BCC20 /* SalesforceAnalyticsManager.h in Headers */,
 				CEA882B41C18FB28008D871B /* SFIdentityData.h in Headers */,
 				CEA883211C18FC40008D871B /* SFManagedPreferences.h in Headers */,
 				CEA882BE1C18FB4D008D871B /* SFOAuthCredentials.h in Headers */,
@@ -2138,6 +2156,7 @@
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
 				CE4CE3551C0E5261009F6029 /* SFPushNotificationManager.m in Sources */,
+				CE145A9D1D138386003BCC20 /* SalesforceAnalyticsManager.m in Sources */,
 				CE4CE35A1C0E526A009F6029 /* SFAuthenticationManager.m in Sources */,
 				E1C80CF21C5AEE31001B3A21 /* SFSDKLoginHostStorage.m in Sources */,
 				CE4CE33F1C0E524B009F6029 /* SFInstrumentation.m in Sources */,
@@ -2230,6 +2249,7 @@
 				CEA882CA1C18FB4D008D871B /* SFOAuthSessionRefresher.m in Sources */,
 				CEA882E01C18FB8E008D871B /* SFDefaultUserManagementListViewController.m in Sources */,
 				CEA882CD1C18FB80008D871B /* SFPushNotificationManager.m in Sources */,
+				CE145A9F1D138394003BCC20 /* SalesforceAnalyticsManager.m in Sources */,
 				CEA882D21C18FB8E008D871B /* SFAuthenticationManager.m in Sources */,
 				CEA882B71C18FB3D008D871B /* SFInstrumentation.m in Sources */,
 				E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
