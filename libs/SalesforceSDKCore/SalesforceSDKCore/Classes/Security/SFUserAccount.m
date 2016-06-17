@@ -284,7 +284,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isTemporaryUser {
-    return [SFUserAccountManager isUserTemporary:self];
+    return ([self.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
+           [self.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId]);
 }
 
 - (BOOL)isAnonymousUser {
