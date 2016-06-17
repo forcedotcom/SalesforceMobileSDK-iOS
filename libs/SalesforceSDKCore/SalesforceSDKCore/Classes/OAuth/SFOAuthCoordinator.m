@@ -530,9 +530,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
     
     self.responseData = [NSMutableData dataWithLength:512];
-    NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@",
-                     self.credentials.protocol,
-                     self.credentials.domain,
+    NSString *refreshDomain = self.credentials.communityId ? self.credentials.communityUrl.absoluteString : self.credentials.domain;
+    NSString *protocolHost = self.credentials.communityId ? refreshDomain : [NSString stringWithFormat:@"%@://%@", self.credentials.protocol, refreshDomain];
+    NSString *url = [[NSString alloc] initWithFormat:@"%@%@",
+                     protocolHost,
                      kSFOAuthEndPointToken];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:url]
@@ -736,10 +737,12 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
     self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
     self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
+
     NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
     if (nil != communityId) {
         self.credentials.communityId = communityId;
     }
+    
     NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
     if (nil != communityUrl) {
         self.credentials.communityUrl = [NSURL URLWithString:communityUrl];

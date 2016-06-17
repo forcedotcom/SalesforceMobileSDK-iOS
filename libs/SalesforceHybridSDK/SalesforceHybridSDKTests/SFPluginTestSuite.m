@@ -59,8 +59,8 @@
 }
 
 
-- (BOOL)isTestResultAvailable {
-    return [_testRunnerPlugin testResultAvailable];
+- (BOOL)isTestResultAvailable:(NSString *)testName {
+    return [_testRunnerPlugin testResultAvailable:testName];
 }
 
 - (BOOL)isTestRunnerReady {
@@ -88,11 +88,11 @@
 }
 
 
-- (BOOL)waitForOneCompletion {
+- (BOOL)waitForOneCompletion:(NSString *)testName {
     NSDate *startTime = [NSDate date] ;
     BOOL completionTimedOut = NO;
     
-    while (![self isTestResultAvailable]) {
+    while (![self isTestResultAvailable:testName]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 30.0) {
             [self log:SFLogLevelDebug format:@"test took too long (%f) to complete",elapsed];
@@ -129,17 +129,17 @@
     NSString *cmdResult = [app evalJS:testCmd];
     [self log:SFLogLevelDebug format:@"cmdResult: '%@'",cmdResult];
     
-    BOOL timedOut = [self waitForOneCompletion];
+    BOOL timedOut = [self waitForOneCompletion:testName];
     XCTAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
     if (!timedOut) {
         AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-        SFTestResult *testResult = [plugin testResults][0];
-        [[plugin testResults] removeObjectAtIndex:0];
+        SFTestResult *testResult = [[plugin testResults] objectForKey:testName];
         [self log:SFLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
         XCTAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         XCTAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
+        [[plugin testResults] removeObjectForKey:testName];
     }
 }
 
