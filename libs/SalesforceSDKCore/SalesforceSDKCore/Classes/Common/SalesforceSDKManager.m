@@ -38,11 +38,6 @@
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
 
-// User agent constants
-static NSString * const kSFMobileSDKNativeDesignator = @"Native";
-static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
-
 // Device id
 static NSString* uid = nil;
 
@@ -126,6 +121,10 @@ static Class InstanceClass = nil;
     }
     
     return self;
+}
+
+- (NSString *) deviceId {
+    return uid;
 }
 
 #pragma mark - Public methods / properties

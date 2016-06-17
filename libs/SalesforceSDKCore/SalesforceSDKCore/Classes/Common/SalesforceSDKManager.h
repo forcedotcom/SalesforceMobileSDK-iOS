@@ -43,6 +43,11 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 
 NS_ASSUME_NONNULL_BEGIN
 
+// User agent constants
+static NSString * const kSFMobileSDKNativeDesignator = @"Native";
+static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
+static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
+
 /**
  Block typedef for presenting the snapshot view controller.
  */
@@ -56,7 +61,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 
 /** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
  */
-
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
 @optional
@@ -101,6 +105,13 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 + (nonnull instancetype)sharedManager;
 
+/**
+ * Returns a unique device ID.
+ *
+ * @return Device ID.
+ */
+- (NSString *) deviceId;
+
 /** The OAuth configuration parameters defined in the developer's Salesforce connected app.
  */
 @property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
@@ -109,7 +120,6 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  Whether or not the SDK is currently in the middle of a launch process.
  */
 @property (nonatomic, readonly) BOOL isLaunching;
-
 
 /**
  App type (native, hybrid or react native)
