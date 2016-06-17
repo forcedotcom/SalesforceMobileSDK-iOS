@@ -47,10 +47,6 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The temporary user identity
-static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
-static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
-
 // The anonymous user support the application should add to its Info.plist file
 static NSString * const kSFUserAccountSupportAnonymousUsage = @"SFDCSupportAnonymousUsage";
 static NSString * const kSFUserAccountAutocreateAnonymousUser = @"SFDCAutocreateAnonymousUser";
@@ -296,14 +292,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 #pragma mark - Temporary User
-
-+ (BOOL)isUserTemporary:(SFUserAccount*)user {
-    if (nil == user.accountIdentity) {
-        return NO;
-    }
-    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
-}
 
 - (SFUserAccount *)temporaryUser {
     SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
