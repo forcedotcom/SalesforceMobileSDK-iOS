@@ -1605,7 +1605,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts
     if ([self hasFts:soupName withDb:db]) {
-        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts %@ in (%@)", soupTableName, ROWID_COL, querySql];
+        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@ in (%@)", soupTableName, ROWID_COL, querySql];
         [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 }
