@@ -271,10 +271,12 @@
 
 @end
 
-CSF_EXTERN NSString * const kCSFActionTimingTotalTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingNetworkTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingStartDelayKey;
-CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
+typedef NSString*const CSFActionTiming NS_STRING_ENUM;
+
+CSF_EXTERN CSFActionTiming kCSFActionTimingTotalTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingNetworkTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingStartDelayKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingPostProcessingKey;
 
 @interface CSFAction (Timing)
 
@@ -294,6 +296,6 @@ CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
  
  @return The time interval for the requested key, or `0` if the key is invalid or if the request hasn't gathered enough information to supply that value yet.
  */
-- (NSTimeInterval)intervalForTimingKey:(NSString*)key;
+- (NSTimeInterval)intervalForTimingKey:(CSFActionKey)key;
 
 @end
