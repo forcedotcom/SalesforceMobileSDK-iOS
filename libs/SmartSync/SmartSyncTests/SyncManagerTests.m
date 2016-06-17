@@ -1469,6 +1469,7 @@ static NSException *authException = nil;
         NSString* accountId = [self sendSyncRequest:request][@"id"];
         dict[accountId] = accountName;
     }
+    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
     return dict;
 }
 
@@ -1477,6 +1478,7 @@ static NSException *authException = nil;
         SFRestRequest* request = [[SFRestAPI sharedInstance] requestForDeleteWithObjectType:ACCOUNT_TYPE objectId:accountId];
         [self sendSyncRequest:request ignoreNotFound:YES];
     }
+    [NSThread sleepForTimeInterval:1]; //give server a second to settle to reflect in API
 }
 
 - (NSString*) createAccountName {
