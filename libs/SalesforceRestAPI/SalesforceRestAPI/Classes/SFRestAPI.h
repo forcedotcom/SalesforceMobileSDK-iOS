@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFRestRequest.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /*
  * Domain used for errors reported by the rest API (non HTTP errors)
  * (for example, passing an invalid SOQL string when doing a query)
@@ -190,7 +192,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * This overwrites the delegate property of the request.
  * Returns the SFNetworkOperation through which the network call is actually carried out
  */
-- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(id<SFRestDelegate>)delegate;
+- (SFRestAPISalesforceAction *)send:(SFRestRequest *)request delegate:(nullable id<SFRestDelegate>)delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name SFRestRequest factory methods
@@ -246,7 +248,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 - (SFRestRequest *)requestForRetrieveWithObjectType:(NSString *)objectType
                                            objectId:(NSString *)objectId 
-                                          fieldList:(NSString *)fieldList;
+                                          fieldList:(nullable NSString *)fieldList;
 
 /**
  * Returns an `SFRestRequest` which creates a new record of the given type.
@@ -257,7 +259,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  * @see http://www.salesforce.com/us/developer/docs/api_rest/Content/resources_sobject_retrieve.htm
  */
 - (SFRestRequest *)requestForCreateWithObjectType:(NSString *)objectType 
-                                           fields:(NSDictionary *)fields;
+                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
 
 /**
  * Returns an `SFRestRequest` which creates or updates record of the given type, based on the 
@@ -273,7 +275,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 - (SFRestRequest *)requestForUpsertWithObjectType:(NSString *)objectType
                                   externalIdField:(NSString *)externalIdField
                                        externalId:(NSString *)externalId
-                                           fields:(NSDictionary *)fields;
+                                           fields:(NSDictionary<NSString*, id> *)fields;
 
 /**
  * Returns an `SFRestRequest` which updates field values on a record of the given type.
@@ -286,7 +288,7 @@ extern NSString * const kSFMobileSDKNativeDesignator;
  */
 - (SFRestRequest *)requestForUpdateWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId
-                                           fields:(NSDictionary *)fields;
+                                           fields:(nullable NSDictionary<NSString*, id> *)fields;
 
 /**
  * Returns an `SFRestRequest` which deletes a record of the given type.
@@ -355,3 +357,5 @@ extern NSString * const kSFMobileSDKNativeDesignator;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

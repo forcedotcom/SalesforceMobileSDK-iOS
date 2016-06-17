@@ -405,7 +405,7 @@ static NSException *authException = nil;
 
 // issue invalid SOQL and test for errors
 - (void)testSOQLError {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:(NSString* _Nonnull)nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
     XCTAssertEqualObjects(listener.lastError.domain, CSFNetworkErrorDomain, @"invalid domain");
@@ -818,7 +818,7 @@ static NSException *authException = nil;
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
     
     // request (invalid)
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:(NSString* _Nonnull)nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     
@@ -1326,10 +1326,10 @@ static NSException *authException = nil;
 
 - (void) testSOQL {
 
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil whereClause:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:(NSArray<NSString*>* _Nonnull)nil sObject:(NSString* _Nonnull) nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil whereClause:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:(NSString* _Nonnull)nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
@@ -1357,7 +1357,7 @@ static NSException *authException = nil;
 
 - (void) testSOSL {
     
-    XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
+    XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:(NSString* _Nonnull)nil objectScope:nil],
                  @"Invalid search did not result in nil output.");
     
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
