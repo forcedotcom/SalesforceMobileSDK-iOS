@@ -31,6 +31,7 @@
 @class CSFNetwork;
 @class CSFAction;
 
+NS_ASSUME_NONNULL_BEGIN
 /**
  This is a class that represents an chatter action that the action executer executes
  */
@@ -137,7 +138,7 @@
 @property (nonatomic, readonly) NSUInteger retryCount;
 @property (nonatomic) NSUInteger maxRetryCount;
 
-@property (nonatomic, strong) NSMutableData *responseData;
+@property (nullable, nonatomic, strong) NSMutableData *responseData;
 
 /**
  @brief Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.
@@ -258,7 +259,7 @@
  
  @return `YES` if the network request should be overridden, otherwise `NO`.
  */
-- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
+- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData* _Nullable * _Nonnull)data andHTTPResponse:(NSHTTPURLResponse* _Nullable * _Nonnull)response;
 
 /**
  @brief Overridable method that permits subclasses to opt-out of contributing its progress to the parent CSFNetwork instance.
@@ -299,3 +300,5 @@ CSF_EXTERN CSFActionTiming kCSFActionTimingPostProcessingKey;
 - (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -28,8 +28,8 @@
 #import "SFPBKDF2PasscodeProvider.h"
 
 // Public constants
-SFPasscodeProviderId kSFPasscodeProviderSHA256 = @"sha256";
-SFPasscodeProviderId kSFPasscodeProviderPBKDF2 = @"pbkdf2";
+SFPasscodeProviderId const kSFPasscodeProviderSHA256 = @"sha256";
+SFPasscodeProviderId const kSFPasscodeProviderPBKDF2 = @"pbkdf2";
 
 // Private constants
 static NSString * const kSFCurrentPasscodeProviderUserDefaultsKey = @"com.salesforce.mobilesdk.currentPasscodeProvider";
