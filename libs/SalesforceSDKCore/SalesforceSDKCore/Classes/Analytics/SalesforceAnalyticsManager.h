@@ -50,4 +50,26 @@
  */
 + (void) removeSharedInstanceWithUser:(SFUserAccount *) userAccount;
 
+/**
+ * Publishes all stored events to all registered network endpoints after
+ * applying the required event format transforms.
+ */
+- (void) publishAllEvents;
+
+/**
+ * Publishes a list of events to all registered network endpoints after
+ * applying the required event format transforms.
+ *
+ * @param events List of events.
+ */
+- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events;
+
+/**
+ * Publishes an event to all registered network endpoints after
+ * applying the required event format transforms.
+ *
+ * @param event Event.
+ */
+- (void) publishEvent:(InstrumentationEvent *) event;
+
 @end

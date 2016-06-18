@@ -102,6 +102,33 @@ static NSMutableDictionary *analyticsManagerList = nil;
     return self;
 }
 
+- (void) publishAllEvents {
+    NSArray<InstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
+    [self publishEvents:events];
+}
+
+- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events {
+    if (!events || events.count == 0) {
+        return;
+    }
+
+    /*
+     * TODO:
+     *
+     * Apply transform on each event, send to network interface,
+     * delete stored events after network operation is complete.
+     */
+}
+
+- (void) publishEvent:(InstrumentationEvent *) event {
+    if (!event) {
+        return;
+    }
+    NSMutableArray<InstrumentationEvent *> *events = [[NSMutableArray alloc] init];
+    [events addObject:event];
+    [self publishEvents:events];
+}
+
 - (DeviceAppAttributes *) buildDeviceAppAttributes {
     SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
     NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey];

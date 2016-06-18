@@ -54,8 +54,4 @@
     [self.storeManager deleteAllEvents];
 }
 
-/*
- * TODO: Handle 'changePasscode' in SalesforceSDKManager when the passcode changes (maybe irrelevant if encryption block is used).
- */
-
 @end
