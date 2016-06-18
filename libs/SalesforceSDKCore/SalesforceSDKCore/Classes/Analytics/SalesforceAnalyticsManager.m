@@ -33,6 +33,8 @@
 #import "SFDirectoryManager.h"
 #import <SalesforceAnalytics/DeviceAppAttributes.h>
 
+static NSString * const kEventStoresDirectory = @"event_stores";
+
 static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
@@ -82,7 +84,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     self = [super init];
     if (self) {
         DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
-        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:nil];
+        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         
     }
     return self;
