@@ -30,13 +30,14 @@
 #import "SalesforceAnalyticsManager.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
+#import "SFDirectoryManager.h"
 #import <SalesforceAnalytics/DeviceAppAttributes.h>
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 
 @end
 
@@ -80,7 +81,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (id) init:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        self.deviceAttributes = [self buildDeviceAppAttributes];
+        DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
+        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:nil];
+        
     }
     return self;
 }
