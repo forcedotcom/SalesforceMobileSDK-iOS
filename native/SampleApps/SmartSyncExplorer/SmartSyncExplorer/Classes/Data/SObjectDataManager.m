@@ -26,6 +26,8 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
+#import <SalesforceSDKCore/SalesforceAnalyticsManager.h>
+#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
 
 // Will go away once we are done refactoring SFSyncTarget
 #import <SmartSync/SFSoqlSyncDownTarget.h>
@@ -41,6 +43,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 @property (nonatomic, weak) UITableViewController *parentVc;
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
+@property (nonatomic, strong) SalesforceAnalyticsManager *sfAnalyticsManager;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
@@ -56,6 +59,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     if (self) {
         self.parentVc = parentVc;
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
+        self.sfAnalyticsManager = [SalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
@@ -73,7 +77,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     if (![self.store soupExists:self.dataSpec.soupName]) {
         [self registerSoup];
     }
-    
     __weak SObjectDataManager *weakSelf = self;
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
@@ -81,19 +84,34 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
             [weakSelf refreshLocalData];
         }
     };
-
-    
     if (self.syncDownId == 0) {
-        // first time
+
+        // First time.
         NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
         SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
         SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
         [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
-    }
-    else {
-        // subsequent times
+    } else {
+
+        // Subsequent times.
         [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
     }
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.sfAnalyticsManager.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = @"Contact List Refresh";
+    [builder startTime:curTime];
+    [builder name:eventName];
+    [builder sessionId:1];
+    [builder senderId:@"SmartSyncExplorer"];
+    [builder schemaType:SchemaTypePageView];
+    [builder eventType:EventTypeUser];
+    InstrumentationEvent *event = nil;
+    @try {
+        event = [builder buildEvent];
+    } @catch (NSException *exception) {
+        [self log:SFLogLevelWarning format:@"Exception thrown while attempting to build event"];
+    }
+    [self.sfAnalyticsManager.eventStoreManager storeEvent:event];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
