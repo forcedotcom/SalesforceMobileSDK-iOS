@@ -52,10 +52,6 @@
 
 - (void) reset {
     [self.storeManager deleteAllEvents];
-    
-    /*
-     * TODO: Call this method and cleanup for StoreManager from logout in SalesforceSDKManager.
-     */
 }
 
 /*
