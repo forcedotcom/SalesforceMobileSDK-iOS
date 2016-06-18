@@ -36,7 +36,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
 @property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
 
 @end
@@ -81,16 +80,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (id) init:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        self.userAccount = userAccount;
         self.deviceAttributes = [self buildDeviceAppAttributes];
     }
     return self;
-}
-
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
-    [[self class] removeSharedInstanceWithUser:user];
 }
 
 - (DeviceAppAttributes *) buildDeviceAppAttributes {
@@ -116,6 +108,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
     return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+    [[self class] removeSharedInstanceWithUser:user];
 }
 
 @end

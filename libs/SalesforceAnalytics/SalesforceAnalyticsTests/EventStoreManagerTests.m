@@ -48,13 +48,13 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [super setUp];
     DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID"];
     self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
-    self.analyticsManager = [AnalyticsManager sharedInstance:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
+    self.analyticsManager = [[AnalyticsManager alloc] init:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
     self.storeManager = [[EventStoreManager alloc] init:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
 }
 
 - (void)tearDown {
     [self.storeManager deleteAllEvents];
-    [AnalyticsManager removeSharedInstance:self.storeDirectory];
+    [self.analyticsManager reset];
     [super tearDown];
 }
 
