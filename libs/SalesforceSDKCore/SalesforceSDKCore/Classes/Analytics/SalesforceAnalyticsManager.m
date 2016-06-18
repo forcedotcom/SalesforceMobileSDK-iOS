@@ -30,14 +30,20 @@
 #import "SalesforceAnalyticsManager.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
+#import "SFDirectoryManager.h"
+#import "SFKeyStoreManager.h"
+#import "SFSDKCryptoUtils.h"
 #import <SalesforceAnalytics/DeviceAppAttributes.h>
+
+static NSString * const kEventStoresDirectory = @"event_stores";
+static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
+@property (nonatomic, readwrite, strong) EventStoreManager *eventStoreManager;
 
 @end
 
@@ -81,16 +87,19 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (id) init:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        self.userAccount = userAccount;
-        self.deviceAttributes = [self buildDeviceAppAttributes];
+        DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
+        NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
+        SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
+        DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
+            return [SFSDKCryptoUtils aes256EncryptData:data withKey:encKey.key iv:encKey.initializationVector];
+        };
+        DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
+            return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
+        };
+        self.analyticsManager = [[AnalyticsManager alloc] init:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        self.eventStoreManager = self.analyticsManager.storeManager;
     }
     return self;
-}
-
-#pragma mark - SFAuthenticationManagerDelegate
-
-- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
-    [[self class] removeSharedInstanceWithUser:user];
 }
 
 - (DeviceAppAttributes *) buildDeviceAppAttributes {
@@ -116,6 +125,13 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
     return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId];
+}
+
+#pragma mark - SFAuthenticationManagerDelegate
+
+- (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
+    [self.analyticsManager reset];
+    [[self class] removeSharedInstanceWithUser:user];
 }
 
 @end

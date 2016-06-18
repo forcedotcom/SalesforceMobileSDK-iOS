@@ -29,8 +29,6 @@
 
 #import "AnalyticsManager+Internal.h"
 
-static NSMutableDictionary *analyticsManagerList = nil;
-
 @interface AnalyticsManager ()
 
 @property (nonatomic, readwrite, strong) NSString *storeDirectory;
@@ -41,36 +39,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @implementation AnalyticsManager
 
-+ (id) sharedInstance:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
-    static dispatch_once_t pred;
-    dispatch_once(&pred, ^{
-        analyticsManagerList = [[NSMutableDictionary alloc] init];
-    });
-    @synchronized ([AnalyticsManager class]) {
-        if (!storeDirectory) {
-            return nil;
-        }
-        id analyticsMgr = [analyticsManagerList objectForKey:storeDirectory];
-        if (!analyticsMgr) {
-            analyticsMgr = [[AnalyticsManager alloc] init:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
-            [analyticsManagerList setObject:analyticsMgr forKey:storeDirectory];
-        }
-        return analyticsMgr;
-    }
-}
-
-+ (void) removeSharedInstance:(NSString *) storeDirectory {
-    @synchronized ([AnalyticsManager class]) {
-        if (storeDirectory) {
-            [analyticsManagerList removeObjectForKey:storeDirectory];
-        }
-    }
-
-    /*
-     * TODO: Call this method and cleanup for StoreManager from logout in SalesforceSDKManager.
-     */
-}
-
 - (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
@@ -80,6 +48,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.storeManager = [[EventStoreManager alloc] init:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
     }
     return self;
+}
+
+- (void) reset {
+    [self.storeManager deleteAllEvents];
 }
 
 /*

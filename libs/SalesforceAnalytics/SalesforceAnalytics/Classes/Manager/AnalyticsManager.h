@@ -37,7 +37,7 @@
 @property (nonatomic, readonly, assign) NSInteger globalSequenceId;
 
 /**
- * Returns an instance of this class associated with the specified store directory.
+ * Parameterized initializer.
  *
  * @param storeDirectory Store directory that is used to determine where the events are stored.
  * @param dataEncryptorBlock Block that performs encryption.
@@ -45,13 +45,11 @@
  * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-+ (id) sharedInstance:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
+- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
 
 /**
- * Resets and removes the instance associated with the specified store directory.
- *
- * @param storeDirectory Store directory.
+ * Resets this instance.
  */
-+ (void) removeSharedInstance:(NSString *) storeDirectory;
+- (void) reset;
 
 @end
