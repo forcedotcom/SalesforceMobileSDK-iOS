@@ -33,6 +33,7 @@
 @interface SalesforceAnalyticsManager : NSObject
 
 @property (nonatomic, readonly, strong) EventStoreManager *eventStoreManager;
+@property (nonatomic, readonly, strong) AnalyticsManager *analyticsManager;
 
 /**
  * Returns an instance of this class associated with the specified user account.
