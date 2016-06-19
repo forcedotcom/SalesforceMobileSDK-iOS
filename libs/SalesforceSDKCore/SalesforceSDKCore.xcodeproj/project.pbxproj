@@ -269,6 +269,12 @@
 		CE4CE3B21C0E5279009F6029 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
 		CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
+		CE88BD521D17065C00AE3BF7 /* AILTNPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD4F1D17065B00AE3BF7 /* AILTNPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE88BD531D17065C00AE3BF7 /* AILTNPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88BD501D17065C00AE3BF7 /* AILTNPublisher.m */; };
+		CE88BD541D17065C00AE3BF7 /* AnalyticsPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD511D17065C00AE3BF7 /* AnalyticsPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE88BD661D1707A000AE3BF7 /* AnalyticsPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD511D17065C00AE3BF7 /* AnalyticsPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE88BD671D1707B400AE3BF7 /* AILTNPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88BD501D17065C00AE3BF7 /* AILTNPublisher.m */; };
+		CE88BD681D1707BD00AE3BF7 /* AILTNPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD4F1D17065B00AE3BF7 /* AILTNPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8827A1C18F842008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CEA8827C1C18FA69008D871B /* SFCocoaLumberJackCustomFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF946091BFFF4D9005368C5 /* SFCocoaLumberJackCustomFormatter.m */; };
 		CEA8827D1C18FA76008D871B /* SFLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FF9460B1BFFF4D9005368C5 /* SFLogger.m */; };
@@ -931,6 +937,9 @@
 		CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceAnalyticsManager.m; path = Analytics/SalesforceAnalyticsManager.m; sourceTree = "<group>"; };
 		CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE88BD4F1D17065B00AE3BF7 /* AILTNPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILTNPublisher.h; path = Analytics/AILTNPublisher.h; sourceTree = "<group>"; };
+		CE88BD501D17065C00AE3BF7 /* AILTNPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILTNPublisher.m; path = Analytics/AILTNPublisher.m; sourceTree = "<group>"; };
+		CE88BD511D17065C00AE3BF7 /* AnalyticsPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsPublisher.h; path = Analytics/AnalyticsPublisher.h; sourceTree = "<group>"; };
 		CEA8825F1C18F722008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceSDKCore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBA94EF1C1B5D4C00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CEBA94FE1C1B990A00C0B2E0 /* SalesforceSDKCore-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "SalesforceSDKCore-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -1460,6 +1469,9 @@
 		CE145A881D137FD2003BCC20 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				CE88BD4F1D17065B00AE3BF7 /* AILTNPublisher.h */,
+				CE88BD501D17065C00AE3BF7 /* AILTNPublisher.m */,
+				CE88BD511D17065C00AE3BF7 /* AnalyticsPublisher.h */,
 				CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */,
 				CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */,
 			);
@@ -1514,6 +1526,7 @@
 			files = (
 				E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */,
 				CE4CE3481C0E5252009F6029 /* SFOAuthCrypto.h in Headers */,
+				CE88BD541D17065C00AE3BF7 /* AnalyticsPublisher.h in Headers */,
 				CE4CE30D1C0E523B009F6029 /* NSData+SFAdditions.h in Headers */,
 				CE4CE39D1C0E5272009F6029 /* SFSDKTestRequestListener.h in Headers */,
 				CE4CE3131C0E523B009F6029 /* NSString+SFAdditions.h in Headers */,
@@ -1594,6 +1607,7 @@
 				CE4CE3181C0E523B009F6029 /* SFFileProtectionHelper.h in Headers */,
 				CE4CE36C1C0E526A009F6029 /* SFEncryptionKey.h in Headers */,
 				CE4CE3561C0E526A009F6029 /* SFAbstractPasscodeViewController.h in Headers */,
+				CE88BD521D17065C00AE3BF7 /* AILTNPublisher.h in Headers */,
 				CE4CE3171C0E523B009F6029 /* SFCrypto+Internal.h in Headers */,
 				CE4CE3AD1C0E5279009F6029 /* SFRootViewManager.h in Headers */,
 				CE4CE3111C0E523B009F6029 /* NSNotificationCenter+SFAdditions.h in Headers */,
@@ -1715,6 +1729,8 @@
 				CEA8829D1C18FAAB008D871B /* UIScreen+SFAdditions.h in Headers */,
 				010A9B411CC19E0D002AF4D3 /* SFEncryptStream.h in Headers */,
 				CEA882C41C18FB4D008D871B /* SFOAuthKeychainCredentials.h in Headers */,
+				CE88BD661D1707A000AE3BF7 /* AnalyticsPublisher.h in Headers */,
+				CE88BD681D1707BD00AE3BF7 /* AILTNPublisher.h in Headers */,
 				CEA882901C18FAAB008D871B /* SFFileProtectionHelper.h in Headers */,
 				CEA882871C18FAAB008D871B /* NSDictionary+SFAdditions.h in Headers */,
 				CEA8831F1C18FC40008D871B /* SFJsonUtils.h in Headers */,
@@ -2217,6 +2233,7 @@
 				CE4CE3281C0E523B009F6029 /* NSData+SFSDKUtils.m in Sources */,
 				CE4CE3771C0E526A009F6029 /* SFKeyStoreManager.m in Sources */,
 				CE4CE3191C0E523B009F6029 /* SFFileProtectionHelper.m in Sources */,
+				CE88BD531D17065C00AE3BF7 /* AILTNPublisher.m in Sources */,
 				CE4CE3AC1C0E5279009F6029 /* SFPreferences.m in Sources */,
 				CE4CE3221C0E523B009F6029 /* SFTestContext.m in Sources */,
 				CE4CE3121C0E523B009F6029 /* NSNotificationCenter+SFAdditions.m in Sources */,
@@ -2310,6 +2327,7 @@
 				CEA8829C1C18FAAB008D871B /* UIDevice+SFHardware.m in Sources */,
 				CEA882D41C18FB8E008D871B /* SFAuthenticationViewHandler.m in Sources */,
 				CEA882A01C18FAAB008D871B /* NSData+SFSDKUtils.m in Sources */,
+				CE88BD671D1707B400AE3BF7 /* AILTNPublisher.m in Sources */,
 				CEA882EF1C18FB8E008D871B /* SFKeyStoreManager.m in Sources */,
 				CEA882911C18FAAB008D871B /* SFFileProtectionHelper.m in Sources */,
 				CEA883241C18FC40008D871B /* SFPreferences.m in Sources */,

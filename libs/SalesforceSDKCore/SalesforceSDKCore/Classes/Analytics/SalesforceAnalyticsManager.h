@@ -27,8 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/AnalyticsManager.h>
 #import "SFUserAccount.h"
+#import "AnalyticsPublisher.h"
+#import <SalesforceAnalytics/AnalyticsManager.h>
+#import <SalesforceAnalytics/Transform.h>
 
 @interface SalesforceAnalyticsManager : NSObject
 
@@ -49,5 +51,38 @@
  * @param userAccount User account.
  */
 + (void) removeSharedInstanceWithUser:(SFUserAccount *) userAccount;
+
+/**
+ * Publishes all stored events to all registered network endpoints after
+ * applying the required event format transforms. Stored events will be
+ * deleted if publishing was successful for all registered endpoints.
+ */
+- (void) publishAllEvents;
+
+/**
+ * Publishes a list of events to all registered network endpoints after
+ * applying the required event format transforms. Stored events will be
+ * deleted if publishing was successful for all registered endpoints.
+ *
+ * @param events List of events.
+ */
+- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events;
+
+/**
+ * Publishes an event to all registered network endpoints after
+ * applying the required event format transforms. Stored event will be
+ * deleted if publishing was successful for all registered endpoints.
+ *
+ * @param event Event.
+ */
+- (void) publishEvent:(InstrumentationEvent *) event;
+
+/**
+ * Adds a remote publisher to publish events to.
+ *
+ * @param transformer Transformer class.
+ * @param publisher Publisher class.
+ */
+- (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher;
 
 @end
