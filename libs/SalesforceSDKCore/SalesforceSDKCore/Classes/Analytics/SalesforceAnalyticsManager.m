@@ -33,6 +33,8 @@
 #import "SFDirectoryManager.h"
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
+#import "AILTNPublisher.h"
+#import <SalesforceAnalytics/AILTNTransform.h>
 #import <SalesforceAnalytics/DeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
@@ -44,6 +46,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) EventStoreManager *eventStoreManager;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
 
@@ -98,6 +101,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
         };
         self.analyticsManager = [[AnalyticsManager alloc] init:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
+        self.remotes = [[NSMutableDictionary alloc] init];
+        [self.remotes setObject:[AILTNPublisher class] forKey:(id<NSCopying>) [AILTNTransform class]];
     }
     return self;
 }
@@ -111,13 +116,41 @@ static NSMutableDictionary *analyticsManagerList = nil;
     if (!events || events.count == 0) {
         return;
     }
+    NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
+    BOOL success = YES;
+    NSArray<Class<Transform>> *remoteKeySet = [self.remotes allKeys];
+    for (Class<Transform> transformClass in remoteKeySet) {
+        if (transformClass) {
+            NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
+            for (InstrumentationEvent *event in events) {
+                [eventIds addObject:event.eventId];
+                NSDictionary *eventJSON = [transformClass transform:event];
+                if (eventJSON) {
+                    [eventsJSONArray addObject:eventJSON];
+                }
+            }
+            Class<AnalyticsPublisher> networkPublisher = [self.remotes objectForKey:transformClass];
+            if (networkPublisher) {
+                BOOL networkSuccess = [networkPublisher publish:eventsJSONArray];
+
+                /*
+                 * Updates the success flag only if all previous requests have been
+                 * successful. This ensures that the operation is marked success only
+                 * if all publishers are successful.
+                 */
+                if (success) {
+                    success = networkSuccess;
+                }
+            }
+        }
+    }
 
     /*
-     * TODO:
-     *
-     * Apply transform on each event, send to network interface,
-     * delete stored events after network operation is complete.
+     * Deletes events from the event store if the network publishing was successful.
      */
+    if (success) {
+        [self.eventStoreManager deleteEvents:eventIds];
+    }
 }
 
 - (void) publishEvent:(InstrumentationEvent *) event {
@@ -127,6 +160,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSMutableArray<InstrumentationEvent *> *events = [[NSMutableArray alloc] init];
     [events addObject:event];
     [self publishEvents:events];
+}
+
+- (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
+    if (!transformer || !publisher) {
+        [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
+        return;
+    }
+    [self.remotes setObject:publisher forKey:(id<NSCopying>) transformer];
 }
 
 - (DeviceAppAttributes *) buildDeviceAppAttributes {

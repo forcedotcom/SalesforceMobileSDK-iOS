@@ -1,8 +1,8 @@
 /*
- AILTNTransform.m
- SalesforceAnalytics
+ AILTNPublisher.m
+ SalesforceSDKCore
  
- Created by Bharath Hariharan on 6/16/16.
+ Created by Bharath Hariharan on 6/19/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,16 +27,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AILTNTransform.h"
+#import "AILTNPublisher.h"
 
-@implementation AILTNTransform
+@implementation AILTNPublisher
 
-+ (NSDictionary *) transform:(InstrumentationEvent *) event {
++ (BOOL) publish:(NSArray *) events {
+    if (!events || [events count] == 0) {
+        return true;
+    }
 
     /*
-     * TODO: Transform to AILTN format.
+     * TODO: Construct payload and publish events.
      */
-    return nil;
+    return false;
 }
 
 @end

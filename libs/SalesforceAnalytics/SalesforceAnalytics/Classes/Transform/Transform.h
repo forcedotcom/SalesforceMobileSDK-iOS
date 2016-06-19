@@ -38,6 +38,6 @@
  * @param event Event to be transformed.
  * @return JSON representation after transformation.
  */
-- (NSDictionary *) transform:(InstrumentationEvent *) event;
++ (NSDictionary *) transform:(InstrumentationEvent *) event;
 
 @end

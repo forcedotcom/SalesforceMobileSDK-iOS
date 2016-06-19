@@ -1,8 +1,8 @@
 /*
- AILTNTransform.m
- SalesforceAnalytics
+ AnalyticsPublisher.h
+ SalesforceSDKCore
  
- Created by Bharath Hariharan on 6/16/16.
+ Created by Bharath Hariharan on 6/19/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,16 +27,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AILTNTransform.h"
+#import <Foundation/Foundation.h>
 
-@implementation AILTNTransform
+@protocol AnalyticsPublisher <NSObject>
 
-+ (NSDictionary *) transform:(InstrumentationEvent *) event {
-
-    /*
-     * TODO: Transform to AILTN format.
-     */
-    return nil;
-}
+/**
+ * Publishes events to a network endpoint.
+ *
+ * @param events Events to be published.
+ * @return True - if successful, False - otherwise.
+ */
++ (BOOL) publish:(NSArray *) events;
 
 @end
