@@ -480,7 +480,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
             // Deletes extra IDs from SmartStore.
             if (localIds.count > 0) {
-                NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, idFieldName, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
+                NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, SOUP_ENTRY_ID, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
                 querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
                 [weakSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
