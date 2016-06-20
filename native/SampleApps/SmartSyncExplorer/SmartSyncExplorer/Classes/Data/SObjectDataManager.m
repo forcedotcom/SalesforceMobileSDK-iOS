@@ -41,7 +41,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     dispatch_queue_t _searchFilterQueue;
 }
 
-@property (nonatomic, weak) UITableViewController *parentVc;
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
 @property (nonatomic, strong) SalesforceAnalyticsManager *sfAnalyticsManager;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
@@ -53,11 +52,9 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 
 @implementation SObjectDataManager
 
-- (id)initWithViewController:(UITableViewController *)parentVc
-                    dataSpec:(SObjectDataSpec *)dataSpec {
+- (id)initWithDataSpec:(SObjectDataSpec *)dataSpec {
     self = [super init];
     if (self) {
-        self.parentVc = parentVc;
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
         self.sfAnalyticsManager = [SalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
@@ -73,7 +70,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
 }
 
-- (void)refreshRemoteData {
+- (void)refreshRemoteData:(void (^)(void))completionBlock {
     if (![self.store soupExists:self.dataSpec.soupName]) {
         [self registerSoup];
     }
@@ -81,7 +78,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
         if ([sync isDone] || [sync hasFailed]) {
             weakSelf.syncDownId = sync.syncId;
-            [weakSelf refreshLocalData];
+            [weakSelf refreshLocalData:completionBlock];
         }
     };
     if (self.syncDownId == 0) {
@@ -156,14 +153,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     });
 }
 
-- (void)resetDataRows {
-    self.dataRows = [self.fullDataRowList copy];
-    __weak SObjectDataManager *weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [weakSelf.parentVc.tableView reloadData];
-    });
-}
-
 #pragma mark - Private methods
 
 - (void)registerSoup {
@@ -172,7 +161,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [self.store registerSoup:soupName withIndexSpecs:indexSpecs error:nil];
 }
 
-- (void)refreshLocalData {
+- (void)refreshLocalData:(void (^)(void))completionBlock {
     if (![self.store soupExists:self.dataSpec.soupName]) {
         [self registerSoup];
     }
@@ -188,7 +177,8 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     
     self.fullDataRowList = [self populateDataRows:queryResults];
     [self log:SFLogLevelDebug format:@"Finished generating data rows.  Number of rows: %d.  Refreshing view.", [self.fullDataRowList count]];
-    [self resetDataRows];
+    self.dataRows = [self.fullDataRowList copy];
+    if (completionBlock) completionBlock();
 }
 
 - (void)createLocalData:(SObjectData *)newData {
@@ -207,6 +197,13 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [dataToDelete updateSoupForFieldName:kSyncManagerLocal fieldValue:@YES];
     [dataToDelete updateSoupForFieldName:kSyncManagerLocallyDeleted fieldValue:@YES];
     [self.store upsertEntries:@[ dataToDelete.soupDict ] toSoup:[[dataToDelete class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
+}
+
+- (void)undeleteLocalData:(SObjectData *)dataToUnDelete {
+    [dataToUnDelete updateSoupForFieldName:kSyncManagerLocallyDeleted fieldValue:@NO];
+    NSNumber* locallyCreatedOrUpdated = [NSNumber numberWithBool:[self dataLocallyCreated:dataToUnDelete] || [self dataLocallyUpdated:dataToUnDelete]];
+    [dataToUnDelete updateSoupForFieldName:kSyncManagerLocal fieldValue:locallyCreatedOrUpdated];
+    [self.store upsertEntries:@[ dataToUnDelete.soupDict ] toSoup:[[dataToUnDelete class] dataSpec].soupName withExternalIdPath:kSObjectIdField error:nil];
 }
 
 - (BOOL)dataHasLocalChanges:(SObjectData *)data {
