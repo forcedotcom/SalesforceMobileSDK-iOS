@@ -255,6 +255,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)undeleteContact {
+    [self.dataMgr undeleteLocalData:self.contact];
+    self.contactUpdated = YES;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (UITextField *)contactTextField:(NSString *)propertyValue {
     UITextField *textField = [[UITextField alloc] initWithFrame:CGRectZero];
     textField.text = propertyValue;
@@ -262,13 +268,14 @@
 }
 
 - (UIButton *)deleteButtonView {
+    BOOL deleted = ([[self.contact fieldValueForFieldName:kSyncManagerLocallyDeleted] boolValue]);
     UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [deleteButton setTitle:@"Delete Contact" forState:UIControlStateNormal];
+    [deleteButton setTitle:(deleted ? @"Undelete Contact" : @"Delete Contact") forState:UIControlStateNormal];
     [deleteButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
     deleteButton.titleLabel.font = [UIFont systemFontOfSize:18.0];
     deleteButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     deleteButton.contentEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    [deleteButton addTarget:self action:@selector(deleteContactConfirm) forControlEvents:UIControlEventTouchUpInside];
+    [deleteButton addTarget:self action:(deleted ? @selector(undeleteContact) : @selector(deleteContactConfirm)) forControlEvents:UIControlEventTouchUpInside];
     return deleteButton;
 }
 
