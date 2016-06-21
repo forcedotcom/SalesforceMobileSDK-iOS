@@ -69,9 +69,61 @@ static NSString* const kSFContextKey = @"context";
 }
 
 + (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
-    
-    // TODO: Implementation.
-    return nil;
+    NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
+    payload[kSFVersionKey] = kSFVersionValue;
+    SchemaType schemaType = event.schemaType;
+    if (schemaType) {
+        payload[kSFSchemaTypeKey] = [event stringValueOfSchemaType:schemaType];
+    }
+    payload[kSFIdKey] = event.eventId;
+    payload[kSFEventSourceKey] = event.name;
+    NSInteger startTime = event.startTime;
+    payload[kSFTsKey] = [NSNumber numberWithInteger:startTime];
+    payload[kSFPageStartTimeKey] = [NSNumber numberWithInteger:event.sessionStartTime];
+    NSInteger endTime = event.endTime;
+    if (endTime != 0) {
+        NSInteger duration = startTime - endTime;
+        payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
+    }
+    NSInteger sessionId = event.sessionId;
+    if (sessionId != 0) {
+        payload[kSFClientSessionIdKey] = [NSNumber numberWithInteger:sessionId];
+    }
+    payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
+    NSDictionary *attributes = event.attributes;
+    if (attributes) {
+        payload[kSFAttributesKey] = attributes;
+    }
+    NSDictionary *locator = [[self class] buildLocator:event];
+    if (locator) {
+        payload[kSFLocatorKey] = locator;
+    }
+    EventType eventType = event.eventType;
+    if (eventType && (schemaType == SchemaTypeInteraction)) {
+        payload[kSFEventTypeKey] = [event stringValueOfEventType:eventType];
+    }
+    ErrorType errorType = event.errorType;
+    if (errorType && (schemaType == SchemaTypeError)) {
+        payload[kSFErrorTypeKey] = [event stringValueOfErrorType:errorType];
+    }
+    return payload;
+}
+
++ (NSDictionary *) buildLocator:(InstrumentationEvent *) event {
+    NSMutableDictionary *locator = [[NSMutableDictionary alloc] init];
+    NSString *senderId = event.senderId;
+    if (senderId) {
+        locator[kSFTargetKey] = senderId;
+    }
+    NSString *senderParentId = event.senderParentId;
+    if (senderParentId) {
+        locator[kSFScopeKey] = senderParentId;
+    }
+    NSDictionary *senderContext = event.senderContext;
+    if (senderContext) {
+        locator[kSFContextKey] = senderContext;
+    }
+    return locator;
 }
 
 @end
