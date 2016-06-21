@@ -109,4 +109,28 @@ typedef NS_ENUM(NSInteger, ErrorType) {
  */
 - (NSData *) jsonRepresentation;
 
+/**
+ * Returns a string representation of schema type.
+ *
+ * @param schemaType Schema type.
+ * @return String representation of schema type.
+ */
+- (NSString *) stringValueOfSchemaType:(SchemaType) schemaType;
+
+/**
+ * Returns a string representation of event type.
+ *
+ * @param eventType Event type.
+ * @return String representation of event type.
+ */
+- (NSString *) stringValueOfEventType:(EventType) eventType;
+
+/**
+ * Returns a string representation of error type.
+ *
+ * @param errorType Error type.
+ * @return String representation of error type.
+ */
+- (NSString *) stringValueOfErrorType:(ErrorType) errorType;
+
 @end

@@ -29,14 +29,101 @@
 
 #import "AILTNTransform.h"
 
+static NSString* const kSFConnectionTypeKey = @"connectionType";
+static NSString* const kSFPayloadKey = @"payload";
+static NSString* const kSFVersionKey = @"version";
+static NSString* const kSFVersionValue = @"0.2";
+static NSString* const kSFSchemaTypeKey = @"schemaType";
+static NSString* const kSFIdKey = @"id";
+static NSString* const kSFEventSourceKey = @"eventSource";
+static NSString* const kSFTsKey = @"ts";
+static NSString* const kSFPageStartTimeKey = @"pageStartTime";
+static NSString* const kSFDurationKey = @"duration";
+static NSString* const kSFClientSessionIdKey = @"clientSessionId";
+static NSString* const kSFSequenceKey = @"sequence";
+static NSString* const kSFAttributesKey = @"attributes";
+static NSString* const kSFLocatorKey = @"locator";
+static NSString* const kSFEventTypeKey = @"eventType";
+static NSString* const kSFErrorTypeKey = @"errorType";
+static NSString* const kSFTargetKey = @"target";
+static NSString* const kSFScopeKey = @"scope";
+static NSString* const kSFContextKey = @"context";
+
 @implementation AILTNTransform
 
 + (NSDictionary *) transform:(InstrumentationEvent *) event {
+    if (!event) {
+        return nil;
+    }
+    NSMutableDictionary *logLine = [[NSMutableDictionary alloc] init];
+    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
+    if (deviceAppAttributes) {
+        logLine = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
+    }
+    logLine[kSFConnectionTypeKey] = event.connectionType;
+    NSDictionary *payload = [[self class] buildPayload:event];
+    if (payload) {
+        logLine[kSFPayloadKey] = payload;
+    }
+    return logLine;
+}
 
-    /*
-     * TODO: Transform to AILTN format.
-     */
-    return nil;
++ (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
+    NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
+    payload[kSFVersionKey] = kSFVersionValue;
+    SchemaType schemaType = event.schemaType;
+    if (schemaType) {
+        payload[kSFSchemaTypeKey] = [event stringValueOfSchemaType:schemaType];
+    }
+    payload[kSFIdKey] = event.eventId;
+    payload[kSFEventSourceKey] = event.name;
+    NSInteger startTime = event.startTime;
+    payload[kSFTsKey] = [NSNumber numberWithInteger:startTime];
+    payload[kSFPageStartTimeKey] = [NSNumber numberWithInteger:event.sessionStartTime];
+    NSInteger endTime = event.endTime;
+    if (endTime != 0) {
+        NSInteger duration = startTime - endTime;
+        payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
+    }
+    NSInteger sessionId = event.sessionId;
+    if (sessionId != 0) {
+        payload[kSFClientSessionIdKey] = [NSNumber numberWithInteger:sessionId];
+    }
+    payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
+    NSDictionary *attributes = event.attributes;
+    if (attributes) {
+        payload[kSFAttributesKey] = attributes;
+    }
+    NSDictionary *locator = [[self class] buildLocator:event];
+    if (locator) {
+        payload[kSFLocatorKey] = locator;
+    }
+    EventType eventType = event.eventType;
+    if (eventType && (schemaType == SchemaTypeInteraction)) {
+        payload[kSFEventTypeKey] = [event stringValueOfEventType:eventType];
+    }
+    ErrorType errorType = event.errorType;
+    if (errorType && (schemaType == SchemaTypeError)) {
+        payload[kSFErrorTypeKey] = [event stringValueOfErrorType:errorType];
+    }
+    return payload;
+}
+
++ (NSDictionary *) buildLocator:(InstrumentationEvent *) event {
+    NSMutableDictionary *locator = [[NSMutableDictionary alloc] init];
+    NSString *senderId = event.senderId;
+    if (senderId) {
+        locator[kSFTargetKey] = senderId;
+    }
+    NSString *senderParentId = event.senderParentId;
+    if (senderParentId) {
+        locator[kSFScopeKey] = senderParentId;
+    }
+    NSDictionary *senderContext = event.senderContext;
+    if (senderContext) {
+        locator[kSFContextKey] = senderContext;
+    }
+    return locator;
 }
 
 @end
