@@ -23,7 +23,7 @@
  */
 
 #import <CocoaLumberjack/CocoaLumberjack.h>
-
+#import <stdatomic.h>
 #import "SFLogStorage.h"
 
 extern NSString * SFLogNameForFlag(SFLogFlag flag);
@@ -58,7 +58,7 @@ extern NSString * SFLogNameForLogLevel(SFLogLevel level);
 
 @interface SFLogger () {
 @public
-    int32_t _contextCounter;
+    atomic_int_least32_t _contextCounter;
     NSMutableDictionary<NSString*,SFLogIdentifier*> *_logIdentifiers;
     NSMutableArray<SFLogIdentifier*> *_logIdentifiersByContext;
     NSObject<SFLogStorage> *_ddLog;

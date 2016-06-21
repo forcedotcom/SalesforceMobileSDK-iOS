@@ -47,10 +47,6 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The temporary user identity
-static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
-static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
-
 // The anonymous user support the application should add to its Info.plist file
 static NSString * const kSFUserAccountSupportAnonymousUsage = @"SFDCSupportAnonymousUsage";
 static NSString * const kSFUserAccountAutocreateAnonymousUser = @"SFDCAutocreateAnonymousUser";
@@ -296,14 +292,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 #pragma mark - Temporary User
-
-+ (BOOL)isUserTemporary:(SFUserAccount*)user {
-    if (nil == user.accountIdentity) {
-        return NO;
-    }
-    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
-}
 
 - (SFUserAccount *)temporaryUser {
     SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
@@ -633,10 +621,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     self.previousCommunityId = self.activeCommunityId;
-    
-    SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = self.previousCommunityId;
-    self.currentUser = account;
+
+    if (curUserIdentity){
+        SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
+        account.communityId = self.previousCommunityId;
+        self.currentUser = account;
+    }else{
+        self.currentUser = nil;
+    }
     
     // update the client ID in case it's changed (via settings, etc)
     self.currentUser.credentials.clientId = self.oauthClientId;
@@ -791,7 +783,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         NSFileManager *fm = [[NSFileManager alloc] init];
         if ([fm fileExistsAtPath:userAccountPath]) {
             if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, *error];
+                NSError*const err = error ? *error : nil;
+                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
                 return NO;
             }
         }

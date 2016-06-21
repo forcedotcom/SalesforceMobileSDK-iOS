@@ -41,10 +41,10 @@ NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFai
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
-NSString * const kCSFActionTimingTotalTimeKey = @"total";
-NSString * const kCSFActionTimingNetworkTimeKey = @"network";
-NSString * const kCSFActionTimingStartDelayKey = @"startDelay";
-NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
+CSFActionTiming kCSFActionTimingTotalTimeKey = @"total";
+CSFActionTiming kCSFActionTimingNetworkTimeKey = @"network";
+CSFActionTiming kCSFActionTimingStartDelayKey = @"startDelay";
+CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @interface CSFAction () {
     BOOL _ready;
@@ -72,10 +72,12 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
     if (!baseURL) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
+        if (error){
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
@@ -83,10 +85,12 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Make sure path is not empty
     if (!path || path.length == 0) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
+        if(error){
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
@@ -872,7 +876,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @implementation CSFAction (Timing)
 
-- (NSTimeInterval)intervalForTimingKey:(NSString *)key {
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key {
     NSTimeInterval result = 0;
     
     NSDate *firstDate = nil, *secondDate = nil;

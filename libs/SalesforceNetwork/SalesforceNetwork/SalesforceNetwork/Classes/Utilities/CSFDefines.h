@@ -32,6 +32,10 @@
 #endif
 #endif
 
+#ifndef NS_STRING_ENUM
+#define NS_STRING_ENUM
+#endif
+
 @class CSFAction;
 
 CSF_EXTERN NSString * const kCSFConnectVersion;
