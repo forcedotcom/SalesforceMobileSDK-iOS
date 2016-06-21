@@ -29,13 +29,48 @@
 
 #import "AILTNTransform.h"
 
+static NSString* const kSFConnectionTypeKey = @"connectionType";
+static NSString* const kSFPayloadKey = @"payload";
+static NSString* const kSFVersionKey = @"version";
+static NSString* const kSFVersionValue = @"0.2";
+static NSString* const kSFSchemaTypeKey = @"schemaType";
+static NSString* const kSFIdKey = @"id";
+static NSString* const kSFEventSourceKey = @"eventSource";
+static NSString* const kSFTsKey = @"ts";
+static NSString* const kSFPageStartTimeKey = @"pageStartTime";
+static NSString* const kSFDurationKey = @"duration";
+static NSString* const kSFClientSessionIdKey = @"clientSessionId";
+static NSString* const kSFSequenceKey = @"sequence";
+static NSString* const kSFAttributesKey = @"attributes";
+static NSString* const kSFLocatorKey = @"locator";
+static NSString* const kSFEventTypeKey = @"eventType";
+static NSString* const kSFErrorTypeKey = @"errorType";
+static NSString* const kSFTargetKey = @"target";
+static NSString* const kSFScopeKey = @"scope";
+static NSString* const kSFContextKey = @"context";
+
 @implementation AILTNTransform
 
 + (NSDictionary *) transform:(InstrumentationEvent *) event {
+    if (!event) {
+        return nil;
+    }
+    NSMutableDictionary *logLine = [[NSMutableDictionary alloc] init];
+    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
+    if (deviceAppAttributes) {
+        logLine = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
+    }
+    logLine[kSFConnectionTypeKey] = event.connectionType;
+    NSDictionary *payload = [[self class] buildPayload:event];
+    if (payload) {
+        logLine[kSFPayloadKey] = payload;
+    }
+    return logLine;
+}
 
-    /*
-     * TODO: Transform to AILTN format.
-     */
++ (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
+    
+    // TODO: Implementation.
     return nil;
 }
 
