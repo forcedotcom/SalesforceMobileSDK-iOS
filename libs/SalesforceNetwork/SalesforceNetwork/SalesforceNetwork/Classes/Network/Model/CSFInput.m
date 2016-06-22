@@ -371,8 +371,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFInput_CustomAttribute
     }
     
     if (!getterAdded || !setterAdded) {
-        NSLog(@"====================");
-        NSLog(@"error adding methods %@", info);
+        NetworkVerbose(@"====================");
+        NetworkVerbose(@"error adding methods %@", info);
     }
     
     return YES;

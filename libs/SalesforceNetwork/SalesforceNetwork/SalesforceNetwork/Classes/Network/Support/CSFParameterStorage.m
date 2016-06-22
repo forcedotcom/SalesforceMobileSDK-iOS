@@ -189,6 +189,8 @@
     }
     
     if (resultError) {
+        NetworkDebug(@"Error binding parameters to request %@ %@: %@",
+                     request.HTTPMethod, request.URL.absoluteString, error);
         result = NO;
     }
     
