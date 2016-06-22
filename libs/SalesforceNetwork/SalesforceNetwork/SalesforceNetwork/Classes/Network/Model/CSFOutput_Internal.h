@@ -29,7 +29,8 @@
 
 @interface CSFOutput () {
 @protected
-    NSMutableDictionary *__storage;
+    NSMutableDictionary *__dictionaryStorage;
+    NSMutableArray *__arrayStorage;
     NSDictionary *__context;
     BOOL __allPropertiesImported;
     NSMutableArray *__remainingProperties;
