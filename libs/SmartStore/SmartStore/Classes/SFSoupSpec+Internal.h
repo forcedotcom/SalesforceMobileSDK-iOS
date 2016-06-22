@@ -1,10 +1,5 @@
 /*
- SmartStore.h
- SmartStore
-
- Created by Kevin Hawkins on Thu Dec 31 17:30:07 PST 2015.
-
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,15 +22,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-#import <SmartStore/SFAlterSoupLongOperation.h>
-#import <SmartStore/SFQuerySpec.h>
-#import <SmartStore/SFSmartSqlHelper.h>
-#import <SmartStore/SFSmartStore.h>
-#import <SmartStore/SFSmartStoreDatabaseManager.h>
-#import <SmartStore/SFSmartStoreInspectorViewController.h>
-#import <SmartStore/SFSmartStoreUpgrade.h>
-#import <SmartStore/SFSmartStoreUtils.h>
-#import <SmartStore/SFSoupIndex.h>
-#import <SmartStore/SFStoreCursor.h>
-#import <SmartStore/SFSoupSpec.h>
+#import <Foundation/Foundation.h>
+
+static NSInteger const kSoupFeatureEnabled = 1;
+static NSInteger const kSoupFeatureDisabled = 0;
+
+@interface SFSoupSpec()
+
+@end
