@@ -72,7 +72,7 @@
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
-        NetworkInfo(@"invalid grant error received, triggering logout of %@.", self.network.account.userName);
+        NetworkInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
