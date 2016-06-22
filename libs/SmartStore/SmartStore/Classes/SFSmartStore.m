@@ -1687,6 +1687,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
     NSNumber *newEntryId;
+    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
     
     // Get next id
     FMResultSet *frs = [self executeQueryThrows:@"SELECT seq FROM SQLITE_SEQUENCE WHERE name = ?" withArgumentsInArray:@[soupTableName] withDb:db];
@@ -1704,7 +1705,21 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [mutableEntry setValue:newEntryId forKey:SOUP_ENTRY_ID];
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
     
-    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   nowVal, CREATED_COL,
+                                   nowVal, LAST_MODIFIED_COL,
+                                   nil];
+    if (!soupUsesExternalStorage) {
+        //now update the SOUP_COL (raw json) for the soup entry
+        NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+        values[SOUP_COL] = rawJson;
+    }
+    
+    //build up the set of index column values for this new row
+    [self projectIndexedPaths:entry values:values indices:indices typeFilter:kValueExtractedToColumn];
+    [self insertIntoTable:soupTableName values:values withDb:db];
+    
+    // external storage
     if (soupUsesExternalStorage) {
         BOOL didSave = [self saveSoupEntryExternally:mutableEntry
                                          soupEntryId:newEntryId
@@ -1715,21 +1730,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                          userInfo:nil];
         }
     }
-    else {
-    	//now update the SOUP_COL (raw json) for the soup entry
-    	NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
-    
-    	NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                        rawJson, SOUP_COL,
-                                        nowVal, CREATED_COL,
-                                        nowVal, LAST_MODIFIED_COL,
-                                        nil];
-    
-    	//build up the set of index column values for this new row
-    	[self projectIndexedPaths:entry values:values indices:indices typeFilter:kValueExtractedToColumn];
-	    [self insertIntoTable:soupTableName values:values withDb:db];
-    }
-    
+
     // fts
     if ([SFSoupIndex hasFts:indices]) {
         NSMutableDictionary *ftsValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
