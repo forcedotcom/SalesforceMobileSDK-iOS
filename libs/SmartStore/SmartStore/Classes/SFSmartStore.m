@@ -1051,7 +1051,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     
     // fts
     if (columnsForFts.count > 0) {
-        [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts%u(%@)", soupTableName, self.ftsExtension, [columnsForFts componentsJoinedByString:@","]];
+        [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts%u(%@)", soupTableName, (unsigned)self.ftsExtension, [columnsForFts componentsJoinedByString:@","]];
         [self log:SFLogLevelDebug format:@"createFtsStmt: %@",createFtsStmt];
     }
     

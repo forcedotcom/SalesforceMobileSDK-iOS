@@ -60,6 +60,7 @@ NSString *CSFNetworkInstanceKey(SFUserAccount *user) {
 @property (nonatomic, strong) dispatch_queue_t delegatesQueue; //The queue used to add/remove/enumerate delegates
 @property (nonatomic, strong) dispatch_queue_t delegatesDispatchingQueue; //The queue used to dispatch messages to the delegates
 @property (nonatomic, strong) dispatch_queue_t duplicateActionDetectionQueue; //The queue used to check for duplicate actions
+
 @end
 
 
@@ -160,10 +161,10 @@ static NSMutableDictionary *SharedInstances = nil;
         
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         #ifdef SFPlatformiOS
-		[notificationCenter addObserver:self
-												 selector:@selector(applicationDidBecomeActive:)
-													 name:UIApplicationDidBecomeActiveNotification
-												   object:nil];
+        [notificationCenter addObserver:self
+                               selector:@selector(applicationDidBecomeActive:)
+                                   name:UIApplicationDidBecomeActiveNotification
+                                 object:nil];
         #endif
         [notificationCenter postNotificationName:CSFNetworkInitializedNotification object:self];
         
@@ -339,8 +340,8 @@ static NSMutableDictionary *SharedInstances = nil;
 
 - (BOOL)shouldBypassDedupeForMethod:(NSString *)method {
     return ([method isEqualToString:@"POST"] ||
-              [method isEqualToString:@"PUT"] ||
-              [method isEqualToString:@"PATCH"]);
+            [method isEqualToString:@"PUT"] ||
+            [method isEqualToString:@"PATCH"]);
 }
 
 #pragma mark -
