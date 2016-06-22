@@ -49,7 +49,7 @@ static NSObject *AuthRefreshLock = nil;
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if (error) {
-        NetworkDebug(@"Refresh %@ failed: %@", self.network.account.userName, error);
+        NetworkDebug(@"Refresh failed: %@", error);
     }
 
     @synchronized (AuthRefreshLock) {
