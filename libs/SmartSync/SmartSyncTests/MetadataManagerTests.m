@@ -98,8 +98,8 @@ static NSString* const kCaseOneName = @"00001001";
         NSArray *records = responseAsJson[@"records"];
         if (records && [records isKindOfClass:[NSArray class]]) {
             NSAssert(records.count>0, @"no entity found");
-            [expect fulfill];
             completionBlock(records);
+            [expect fulfill];
         }
     };
     
