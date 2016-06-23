@@ -1752,7 +1752,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                           withDb:(FMDatabase *) db
 {
     NSNumber *nowVal = [self currentTimeInMilliseconds];
-    
+    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
     NSMutableDictionary *values = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                     nowVal, LAST_MODIFIED_COL,
                                     nil];
@@ -1765,10 +1765,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [mutableEntry setValue:nowVal forKey:SOUP_LAST_MODIFIED_DATE];
     [mutableEntry setValue:entryId forKey:SOUP_ENTRY_ID];
 
-	BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    if (!soupUsesExternalStorage) {
+        NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
+        values[SOUP_COL] = rawJson;
+    }
+	
+    [self updateTable:soupTableName values:values entryId:entryId idCol:ID_COL withDb:db];
+    
+    // external storage:
+    // Update db first
+    // (If file save fails, db will be rolledback)
     if (soupUsesExternalStorage) {
-        // Update db first
-        // (If file save fails, db will be rolledback)
         [self updateTable:soupTableName values:values entryId:entryId idCol:ID_COL withDb:db];
         
         BOOL didSave = [self saveSoupEntryExternally:mutableEntry
@@ -1780,11 +1787,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                          userInfo:nil];
         }
     }
-    else {
-        NSString *rawJson = [SFJsonUtils JSONRepresentation:mutableEntry];
-        values[SOUP_COL] = rawJson;
-        [self updateTable:soupTableName values:values entryId:entryId idCol:ID_COL withDb:db];
-    }
 
     // fts
     if ([SFSoupIndex hasFts:indices]) {
@@ -1794,7 +1796,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }
     
     return mutableEntry;
-    
 }
 
 
