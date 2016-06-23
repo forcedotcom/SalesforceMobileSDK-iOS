@@ -27,5 +27,5 @@
 
 #import "SFSmartStoreTestCase.h"
 
-@interface SFSmartSqlTests : SFSmartStoreTestCase
+@interface SFSmartSqlWithExternalStorageTests : SFSmartStoreTestCase
 @end
