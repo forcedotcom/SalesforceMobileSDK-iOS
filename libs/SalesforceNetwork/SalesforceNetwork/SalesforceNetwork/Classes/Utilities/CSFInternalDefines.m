@@ -32,6 +32,13 @@
 @import LaunchServices;
 #endif
 
+NSInteger kCSFNetworkLogContext = 0;
+
+__attribute__((constructor))
+static void initialize_logging() {
+    kCSFNetworkLogContext = [[SFLogger sharedLogger] registerIdentifier:CSFNetworkLogIdentifier];
+}
+
 NSString * CSFMIMETypeForExtension(NSString * extension) {
     NSString *type = @"application/octet-stream";
     CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, NULL);

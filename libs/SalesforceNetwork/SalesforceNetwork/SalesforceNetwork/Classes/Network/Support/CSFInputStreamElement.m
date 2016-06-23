@@ -157,7 +157,7 @@ static NSString * const kCSFInputStreamHeaderFullFormat = @"--%@\r\nContent-Disp
         NSDictionary *attributes = [manager attributesOfItemAtPath:fileUrl.path error:&error];
 
         if (error) {
-            NSLog(@"Unexpected error while reading filesystem attributes: %@", error);
+            NetworkWarn(@"Unexpected error while reading filesystem attributes: %@", error);
         } else {
             self.body = [NSInputStream inputStreamWithURL:fileUrl];
             self.bodyLength = [attributes[NSFileSize] unsignedIntegerValue];
