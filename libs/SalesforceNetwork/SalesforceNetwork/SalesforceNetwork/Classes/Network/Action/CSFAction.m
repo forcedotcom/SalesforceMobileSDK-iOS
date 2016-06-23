@@ -199,7 +199,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         if ([fm fileExistsAtPath:self.downloadLocation.path]) {
             NSError *error = nil;
             if (![fm removeItemAtURL:self.downloadLocation error:&error]) {
-                NetworkError(@"Error removing temporary download file %@: %@", self.downloadLocation.path, error);
+                NetworkError(@"Error removing temporary download file: %@", error);
             }
         }
     }
@@ -413,7 +413,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     NSError *error = nil;
     if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:temporaryUrl error:&error]) {
-        NetworkError(@"Error moving temporary file %@ to %@: %@", location.path, temporaryUrl.path, error);
+        NetworkError(@"Error moving temporary file: %@", error);
         temporaryUrl = location;
     }
     
@@ -441,8 +441,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             //       or else we might get flagged as using a private API.  So we'll just use the
             //       `kCFURLErrorSecureConnectionFailed` error code by itself, which may falsely print the
             //       following error for non-ATS SSL errors.
-            NetworkError(@"An SSL error occurred while communicating with %@, you may need to review your application's App Transport Security settings",
-                         task.currentRequest.URL.host);
+            NetworkError(@"An SSL error occurred while communicating with the server, you may need to review your application's App Transport Security settings");
         }
 
         // Error from URLSession:task:didCompleteWithError: is generally an error with the request itself
@@ -457,13 +456,13 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                                                                          NSUnderlyingErrorKey: error }]];
         }
     } else if (![task.response isKindOfClass:[NSHTTPURLResponse class]]) {
-        NetworkWarn(@"Received a non-HTTP response from %@", task.currentRequest.URL.absoluteString);
+        NetworkWarn(@"Received a non-HTTP response");
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkURLResponseInvalidError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected URL response type returned.",
                                                                      CSFNetworkErrorActionKey: self }]];
     } else {
-        NetworkVerbose(@"Successfully completed request for %@", task.currentRequest.URL.absoluteString);
+        NetworkVerbose(@"Successfully completed request");
         [self completeOperationWithResponse:(NSHTTPURLResponse *)task.response];
     }
 }
@@ -563,9 +562,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)cancel {
     [super cancel];
-
-    NetworkVerbose(@"In-flight action cancelled for %@", self.sessionTask.originalRequest.URL.absoluteString);
-
+    NetworkVerbose(@"In-flight action cancelled");
     [self.sessionTask cancel];
     [self.progress cancel];
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
@@ -824,11 +821,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                     dispatch_async(dispatchQueue, ^{
                         [outputCache cacheOutputFromAction:self completionBlock:^(NSError *error) {
                             if (error) {
-                                NetworkInfo(@"Error caching response from %@ in %@: %@",
-                                            response.URL.absoluteString, NSStringFromClass(outputCache.class), error);
+                                NetworkInfo(@"Error caching response in %@: %@", NSStringFromClass(outputCache.class), error);
                                 [errors addObject:error];
                             }
-
                             dispatch_group_leave(dispatchGroup);
                         }];
                     });
@@ -870,7 +865,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
             [self triggerActionAfterTokenRefresh];
         }
     } else {
-        NetworkWarn(@"Unauthorized response, but requiresAuthentication not set.  Cannot replay original request %@.", self.url.absoluteString);
+        NetworkWarn(@"Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.");
         refreshLaunched = NO;
     }
     
