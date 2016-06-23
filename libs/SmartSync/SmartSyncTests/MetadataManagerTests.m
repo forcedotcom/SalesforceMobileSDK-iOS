@@ -170,7 +170,7 @@ static NSString* const kCaseOneName = @"00001001";
         [self.metadataManager markObjectAsViewed:objectId objectType:objectType networkFieldName:nil completionBlock:^() {
             [objectMarkedAsViewed fulfill];
         } error:^(NSError *error) {
-            XCTFail(@"Error while marking object as viewed %@", error);
+            XCTFail(@"Error while marking object %@:%@ as viewed %@", objectName,objectId, error);
             [objectMarkedAsViewed fulfill];
         }];
         [self waitForExpectationsWithTimeout:30.0 handler:nil];
