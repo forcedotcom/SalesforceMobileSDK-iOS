@@ -29,6 +29,15 @@
 
 #import "AILTNPublisher.h"
 
+// TODO: Add GZIP compression to the header and data.
+
+static NSString* const kCode = @"code";
+static NSString* const kAiltn = @"ailtn";
+static NSString* const kJsonData = @"jsonData";
+static NSString* const kData = @"data";
+static NSString* const kLogLines = @"logLines";
+static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytics-logging";
+
 @implementation AILTNPublisher
 
 + (BOOL) publish:(NSArray *) events {
@@ -36,10 +45,41 @@
         return true;
     }
 
-    /*
-     * TODO: Construct payload and publish events.
-     */
-    return false;
+    // Builds the POST body of the request.
+    NSMutableDictionary *body = [[NSMutableDictionary alloc] init];
+    NSMutableArray *logLines = [[NSMutableArray alloc] init];
+    for (int i = 0; i < logLines.count; i++) {
+        NSDictionary *event = [events objectAtIndex:i];
+        if (event) {
+            NSMutableDictionary *trackingInfo = [[NSMutableDictionary alloc] init];
+            trackingInfo[kCode] = kAiltn;
+            NSMutableDictionary *eventData = [[NSMutableDictionary alloc] init];
+            eventData[kJsonData] = event;
+            trackingInfo[kData] = eventData;
+            [logLines addObject:trackingInfo];
+        }
+    }
+    body[kLogLines] = logLines;
+    
+    
+    /*final String apiPath = String.format(API_PATH,
+                                         ApiVersionStrings.getVersionNumber(SalesforceSDKManager.getInstance().getAppContext()));
+    final RestClient restClient = SalesforceSDKManager.getInstance().getClientManager().peekRestClient();
+    final RequestBody requestBody = RequestBody.create(RestRequest.MEDIA_TYPE_JSON, body.toString());
+    final RestRequest restRequest = new RestRequest(RestRequest.RestMethod.POST, apiPath, requestBody);
+    RestResponse restResponse = null;
+    try {
+        restResponse = restClient.sendSync(restRequest);
+    } catch (IOException e) {
+        Log.e(TAG, "Exception thrown while making network request", e);
+    }
+    if (restResponse != null && restResponse.isSuccess()) {
+        return true;
+    }
+    return false;*/
+    
+    
+    return NO;
 }
 
 @end

@@ -56,6 +56,7 @@
  * Publishes all stored events to all registered network endpoints after
  * applying the required event format transforms. Stored events will be
  * deleted if publishing was successful for all registered endpoints.
+ * This method should NOT be called from the main thread.
  */
 - (void) publishAllEvents;
 
@@ -63,6 +64,7 @@
  * Publishes a list of events to all registered network endpoints after
  * applying the required event format transforms. Stored events will be
  * deleted if publishing was successful for all registered endpoints.
+ * This method should NOT be called from the main thread.
  *
  * @param events List of events.
  */
@@ -72,6 +74,7 @@
  * Publishes an event to all registered network endpoints after
  * applying the required event format transforms. Stored event will be
  * deleted if publishing was successful for all registered endpoints.
+ * This method should NOT be called from the main thread.
  *
  * @param event Event.
  */
