@@ -71,6 +71,7 @@
 		C03DE7D81D1B298900BFA6BD /* SFSoupSpec+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */; };
 		C03DE7D91D1B29A500BFA6BD /* SFSoupSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */; };
 		C03DE7DB1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7DA1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m */; };
+		C03DE7E11D1B6B8E00BFA6BD /* SFSmartSqlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7E01D1B6B8E00BFA6BD /* SFSmartSqlTests.m */; };
 		CE0AB0761C10D3AF00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE5841C0FB648009F6029 /* libz.tbd */; };
 		CE0AB0781C10D3B500BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0771C10D3B500BFAEED /* libxml2.tbd */; };
 		CE1F0B0419ACF95B0007F22F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */; };
@@ -289,6 +290,8 @@
 		C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupSpec.m; sourceTree = "<group>"; };
 		C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSoupSpec+Internal.h"; sourceTree = "<group>"; };
 		C03DE7DA1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartStoreWithExternalStorageTests.m; sourceTree = "<group>"; };
+		C03DE7DF1D1B6B8E00BFA6BD /* SFSmartSqlTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSqlTests.h; sourceTree = "<group>"; };
+		C03DE7E01D1B6B8E00BFA6BD /* SFSmartSqlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSqlTests.m; sourceTree = "<group>"; };
 		CE0AB0771C10D3B500BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE1F0AFA19ACF95B0007F22F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		CE1F0AFB19ACF95B0007F22F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -500,6 +503,8 @@
 				4FF4DC651CF51D9300385C2C /* SFQuerySpecTests.h */,
 				4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */,
 				4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */,
+				C03DE7DF1D1B6B8E00BFA6BD /* SFSmartSqlTests.h */,
+				C03DE7E01D1B6B8E00BFA6BD /* SFSmartSqlTests.m */,
 				4F9601531BFD33B30022F021 /* SFSmartSqlWithExternalStorageTests.h */,
 				4F9601541BFD33B30022F021 /* SFSmartSqlWithExternalStorageTests.m */,
 				4F9601551BFD33B30022F021 /* SFSmartStoreAlterTests.h */,
@@ -917,6 +922,7 @@
 				4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */,
 				4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */,
 				4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */,
+				C03DE7E11D1B6B8E00BFA6BD /* SFSmartSqlTests.m in Sources */,
 				4FEE44881BFD5CD900F09C43 /* SFSmartStoreFullTextSearchTests.m in Sources */,
 				C03DE7DB1D1B44D000BFA6BD /* SFSmartStoreWithExternalStorageTests.m in Sources */,
 				4FEE448A1BFD5CE500F09C43 /* SFSmartStoreTests.m in Sources */,
