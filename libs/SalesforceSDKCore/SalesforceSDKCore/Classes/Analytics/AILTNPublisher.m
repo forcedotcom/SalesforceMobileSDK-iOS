@@ -33,9 +33,10 @@
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
-static NSString* const kJsonData = @"jsonData";
+static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kData = @"data";
 static NSString* const kLogLines = @"logLines";
+static NSString* const kPayload = @"payload";
 static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytics-logging";
 
 @implementation AILTNPublisher
@@ -53,9 +54,10 @@ static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytic
         if (event) {
             NSMutableDictionary *trackingInfo = [[NSMutableDictionary alloc] init];
             trackingInfo[kCode] = kAiltn;
-            NSMutableDictionary *eventData = [[NSMutableDictionary alloc] init];
-            eventData[kJsonData] = event;
-            trackingInfo[kData] = eventData;
+            NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+            data[kPayload] = event;
+            data[kSchemaTypeKey] = event[kSchemaTypeKey];
+            trackingInfo[kData] = data;
             [logLines addObject:trackingInfo];
         }
     }

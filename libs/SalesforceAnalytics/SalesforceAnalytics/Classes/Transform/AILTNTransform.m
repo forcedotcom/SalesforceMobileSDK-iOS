@@ -30,7 +30,6 @@
 #import "AILTNTransform.h"
 
 static NSString* const kSFConnectionTypeKey = @"connectionType";
-static NSString* const kSFPayloadKey = @"payload";
 static NSString* const kSFVersionKey = @"version";
 static NSString* const kSFVersionValue = @"0.2";
 static NSString* const kSFSchemaTypeKey = @"schemaType";
@@ -48,6 +47,7 @@ static NSString* const kSFErrorTypeKey = @"errorType";
 static NSString* const kSFTargetKey = @"target";
 static NSString* const kSFScopeKey = @"scope";
 static NSString* const kSFContextKey = @"context";
+static NSString* const kSFDeviceAttributesKey = @"deviceAttributes";
 
 @implementation AILTNTransform
 
@@ -56,16 +56,26 @@ static NSString* const kSFContextKey = @"context";
         return nil;
     }
     NSMutableDictionary *logLine = [[NSMutableDictionary alloc] init];
-    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
-    if (deviceAppAttributes) {
-        logLine = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
-    }
-    logLine[kSFConnectionTypeKey] = event.connectionType;
     NSDictionary *payload = [[self class] buildPayload:event];
     if (payload) {
-        logLine[kSFPayloadKey] = payload;
+        logLine = [NSMutableDictionary dictionaryWithDictionary:payload];
+        if (logLine) {
+            logLine[kSFDeviceAttributesKey] = [[self class] buildDeviceAttributes:event];
+        }
     }
     return logLine;
+}
+
++ (NSDictionary *) buildDeviceAttributes:(InstrumentationEvent *) event {
+    NSMutableDictionary *deviceAttributes = [[NSMutableDictionary alloc] init];
+    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
+    if (deviceAppAttributes) {
+        deviceAttributes = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
+        if (deviceAttributes) {
+            deviceAttributes[kSFConnectionTypeKey] = event.connectionType;
+        }
+    }
+    return deviceAttributes;
 }
 
 + (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
