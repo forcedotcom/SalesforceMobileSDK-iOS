@@ -154,6 +154,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     _approvalCode = nil;
     _session = nil;
     _credentials = nil;
@@ -275,6 +276,20 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 - (void)revokeAuthentication {
     [self stopAuthentication];
     [self.credentials revoke];
+}
+
+- (void)setAdvancedAuthState:(SFOAuthAdvancedAuthState)advancedAuthState {
+    if (_advancedAuthState != advancedAuthState) {
+        _advancedAuthState = advancedAuthState;
+        
+        // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
+        if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+        }
+    }
 }
 
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse {
@@ -417,9 +432,23 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)beginNativeBrowserFlow {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginBrowserAuthentication:)]) {
+        __weak SFOAuthCoordinator *weakSelf = self;
+        [self.delegate oauthCoordinator:self willBeginBrowserAuthentication:^(BOOL proceed) {
+            if (proceed) {
+                [weakSelf continueNativeBrowserFlow];
+            }
+        }];
+    } else {
+        // If delegate does not implement the method, simply continue with the browser flow.
+        [self continueNativeBrowserFlow];
+    }
+}
+
+- (void)continueNativeBrowserFlow {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self beginNativeBrowserFlow];
+            [self continueNativeBrowserFlow];
         });
         return;
     }
@@ -460,6 +489,18 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         });
     } else {
         self.advancedAuthState = SFOAuthAdvancedAuthStateBrowserRequestInitiated;
+    }
+    
+}
+
+- (void)handleAppDidBecomeActiveDuringAdvancedAuth:(NSNotification*)notification {
+    BOOL retryAuth = YES;
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:)]) {
+        retryAuth = [self.delegate oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:self];
+    }
+    
+    if (retryAuth) {
+        [self beginNativeBrowserFlow];
     }
 }
 
