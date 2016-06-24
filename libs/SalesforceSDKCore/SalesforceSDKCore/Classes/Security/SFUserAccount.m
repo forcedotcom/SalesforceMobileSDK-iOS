@@ -336,6 +336,13 @@ NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
 }
 
 #pragma mark - Credentials property changes
+// Disable automatic KVO notificaiton for the photo property, as we implement manual KVO in setPhoto
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
+    if ([key isEqualToString:@"photo"]) {
+        return NO;
+    }
+    return YES;
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
