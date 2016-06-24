@@ -98,8 +98,8 @@ static NSString* const kCaseOneName = @"00001001";
         NSArray *records = responseAsJson[@"records"];
         if (records && [records isKindOfClass:[NSArray class]]) {
             NSAssert(records.count>0, @"no entity found");
-            [expect fulfill];
             completionBlock(records);
+            [expect fulfill];
         }
     };
     
@@ -170,7 +170,7 @@ static NSString* const kCaseOneName = @"00001001";
         [self.metadataManager markObjectAsViewed:objectId objectType:objectType networkFieldName:nil completionBlock:^() {
             [objectMarkedAsViewed fulfill];
         } error:^(NSError *error) {
-            XCTFail(@"Error while marking object as viewed %@", error);
+            XCTFail(@"Error while marking object %@:%@ as viewed %@", objectName,objectId, error);
             [objectMarkedAsViewed fulfill];
         }];
         [self waitForExpectationsWithTimeout:30.0 handler:nil];
