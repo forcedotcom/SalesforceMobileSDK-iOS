@@ -181,19 +181,19 @@
     NSString *typeString = nil;
     switch (schemaType) {
         case SchemaTypeInteraction:
-            typeString = @"ui.instrumentation.schema.avro.LightningInteraction";
+            typeString = @"interaction";
             break;
         case SchemaTypePageView:
-            typeString = @"ui.instrumentation.schema.avro.LightningPageView";
+            typeString = @"pageView";
             break;
         case SchemaTypePerf:
-            typeString = @"ui.instrumentation.schema.avro.LightningPerformance";
+            typeString = @"perf";
             break;
         case SchemaTypeError:
-            typeString = @"ui.instrumentation.schema.avro.LightningError";
+            typeString = @"error";
             break;
         default:
-            typeString = @"ui.instrumentation.schema.avro.LightningError";
+            typeString = @"error";
     }
     return typeString;
 }
@@ -201,13 +201,13 @@
 - (SchemaType) schemaTypeFromString:(NSString *) schemaType {
     SchemaType type = SchemaTypeError;
     if (schemaType) {
-        if ([schemaType isEqualToString:@"ui.instrumentation.schema.avro.LightningInteraction"]) {
+        if ([schemaType isEqualToString:@"interaction"]) {
             type = SchemaTypeInteraction;
-        } else if ([schemaType isEqualToString:@"ui.instrumentation.schema.avro.LightningPageView"]) {
+        } else if ([schemaType isEqualToString:@"pageView"]) {
             type = SchemaTypePageView;
-        } else if ([schemaType isEqualToString:@"ui.instrumentation.schema.avro.LightningPerformance"]) {
+        } else if ([schemaType isEqualToString:@"perf"]) {
             type = SchemaTypePerf;
-        } else if ([schemaType isEqualToString:@"ui.instrumentation.schema.avro.LightningError"]) {
+        } else if ([schemaType isEqualToString:@"error"]) {
             type = SchemaTypeError;
         }
     }
