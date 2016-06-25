@@ -195,11 +195,11 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 - (void) testDisablingLogging {
     InstrumentationEvent *event = [self createTestEvent];
     XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
-    [self.storeManager disableOrEnableLogging:NO];
+    self.storeManager.isLoggingEnabled = NO;
     [self.storeManager storeEvent:event];
     NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
-    XCTAssertEqual(1, events.count, @"Number of events stored should be 0");
+    XCTAssertEqual(0, events.count, @"Number of events stored should be 0");
 }
 
 /**
@@ -208,12 +208,44 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 - (void) testEnablingLogging {
     InstrumentationEvent *event = [self createTestEvent];
     XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
-    [self.storeManager disableOrEnableLogging:NO];
+    self.storeManager.isLoggingEnabled = NO;
     [self.storeManager storeEvent:event];
     NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
-    XCTAssertEqual(1, events.count, @"Number of events stored should be 0");
-    [self.storeManager disableOrEnableLogging:YES];
+    XCTAssertEqual(0, events.count, @"Number of events stored should be 0");
+    self.storeManager.isLoggingEnabled = YES;
+    [self.storeManager storeEvent:event];
+    events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(1, events.count, @"Number of events stored should be 1");
+    XCTAssertEqualObjects(event, [events firstObject], @"Stored event should be the same as generated event");
+}
+
+/**
+ * Test for event limit exceeded.
+ */
+- (void) testEventLimitExceeded {
+    InstrumentationEvent *event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    self.storeManager.maxEvents = 0;
+    [self.storeManager storeEvent:event];
+    NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(0, events.count, @"Number of events stored should be 0");
+}
+
+/**
+ * Test for event limit not exceeded.
+ */
+- (void) testEventLimitNotExceeded {
+    InstrumentationEvent *event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    self.storeManager.maxEvents = 0;
+    [self.storeManager storeEvent:event];
+    NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(0, events.count, @"Number of events stored should be 0");
+    self.storeManager.maxEvents = 1;
     [self.storeManager storeEvent:event];
     events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");

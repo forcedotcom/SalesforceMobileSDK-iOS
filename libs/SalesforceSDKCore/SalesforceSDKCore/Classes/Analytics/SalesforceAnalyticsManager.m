@@ -108,7 +108,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) disableOrEnableLogging:(BOOL) enabled {
-    [self.eventStoreManager disableOrEnableLogging:enabled];
+    self.eventStoreManager.isLoggingEnabled = enabled;
 }
 
 - (BOOL) isLoggingEnabled {
