@@ -88,4 +88,19 @@
  */
 - (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher;
 
+/**
+ * Disables or enables logging of events. If logging is disabled, no events
+ * will be stored. However, publishing of events is still possible.
+ *
+ * @param enabled True - if logging should be enabled, False - otherwise.
+ */
+- (void) disableOrEnableLogging:(BOOL) enabled;
+
+/**
+ * Returns whether logging is enabled or disabled.
+ *
+ * @return True - if logging is enabled, False - otherwise.
+ */
+- (BOOL) isLoggingEnabled;
+
 @end
