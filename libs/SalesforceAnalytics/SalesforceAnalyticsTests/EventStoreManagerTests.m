@@ -189,6 +189,38 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     XCTAssertEqual(0, eventsAfterDel.count, @"Number of events stored should be 0");
 }
 
+/**
+ * Test for disabling logging.
+ */
+- (void) testDisablingLogging {
+    InstrumentationEvent *event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    [self.storeManager disableOrEnableLogging:NO];
+    [self.storeManager storeEvent:event];
+    NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(1, events.count, @"Number of events stored should be 0");
+}
+
+/**
+ * Test for enabling logging.
+ */
+- (void) testEnablingLogging {
+    InstrumentationEvent *event = [self createTestEvent];
+    XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
+    [self.storeManager disableOrEnableLogging:NO];
+    [self.storeManager storeEvent:event];
+    NSArray<InstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(1, events.count, @"Number of events stored should be 0");
+    [self.storeManager disableOrEnableLogging:YES];
+    [self.storeManager storeEvent:event];
+    events = [self.storeManager fetchAllEvents];
+    XCTAssertTrue(events != nil, @"List of events should not be nil");
+    XCTAssertEqual(1, events.count, @"Number of events stored should be 1");
+    XCTAssertEqualObjects(event, [events firstObject], @"Stored event should be the same as generated event");
+}
+
 - (InstrumentationEvent *) createTestEvent {
     InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];

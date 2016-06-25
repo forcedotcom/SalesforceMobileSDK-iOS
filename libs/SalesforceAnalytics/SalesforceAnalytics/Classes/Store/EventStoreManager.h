@@ -37,6 +37,7 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
 @property (nonatomic, strong, readonly) NSString *storeDirectory;
 @property (nonatomic, strong, readonly) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readonly) DataDecryptorBlock dataDecryptorBlock;
+@property (nonatomic, assign, readonly) BOOL isLoggingEnabled;
 
 /**
  * Parameterized initializer.
@@ -95,5 +96,13 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * Deletes all the events stored on the filesystem for that unique identifier.
  */
 - (void) deleteAllEvents;
+
+/**
+ * Disables or enables logging of events. If logging is disabled, no events
+ * will be stored. However, publishing of events is still possible.
+ *
+ * @param enabled True - if logging should be enabled, False - otherwise.
+ */
+- (void) disableOrEnableLogging:(BOOL) enabled;
 
 @end

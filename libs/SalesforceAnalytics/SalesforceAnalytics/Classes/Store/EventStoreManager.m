@@ -35,6 +35,7 @@
 @property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readwrite) DataDecryptorBlock dataDecryptorBlock;
+@property (nonatomic, assign, readwrite) BOOL isLoggingEnabled;
 
 @end
 
@@ -43,6 +44,7 @@
 - (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
+        self.isLoggingEnabled = YES;
         self.storeDirectory = storeDirectory;
 
         // If a data encryptor block is passed in, uses it. Otherwise, creates a block that returns data as-is.
@@ -71,6 +73,9 @@
         NSLog(@"Invalid event");
         return;
     }
+    if (![self shouldStoreEvent]) {
+        return;
+    }
     NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
     NSError *error = nil;
     if (encryptedData) {
@@ -87,6 +92,9 @@
 - (void) storeEvents:(NSArray<InstrumentationEvent *> *) events {
     if (!events || [events count] == 0) {
         NSLog(@"No events to store");
+        return;
+    }
+    if (![self shouldStoreEvent]) {
         return;
     }
     for (InstrumentationEvent* event in events) {
@@ -147,6 +155,18 @@
             [fileManager removeItemAtPath:filePath error:nil];
         }
     }
+}
+
+- (void) disableOrEnableLogging:(BOOL) enabled {
+    @synchronized (self) {
+        self.isLoggingEnabled = enabled;
+    }
+}
+
+- (BOOL) shouldStoreEvent {
+    return self.isLoggingEnabled;
+
+    // TODO: Add number of events limit here.
 }
 
 - (InstrumentationEvent *) fetchEventFromFile:(NSString *) file {
