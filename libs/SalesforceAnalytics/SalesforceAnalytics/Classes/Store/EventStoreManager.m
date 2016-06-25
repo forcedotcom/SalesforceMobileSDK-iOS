@@ -35,7 +35,6 @@
 @property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readwrite) DataDecryptorBlock dataDecryptorBlock;
-@property (nonatomic, assign, readwrite) BOOL isLoggingEnabled;
 
 @end
 
@@ -45,6 +44,7 @@
     self = [super init];
     if (self) {
         self.isLoggingEnabled = YES;
+        self.maxEvents = 1000;
         self.storeDirectory = storeDirectory;
 
         // If a data encryptor block is passed in, uses it. Otherwise, creates a block that returns data as-is.
@@ -164,9 +164,12 @@
 }
 
 - (BOOL) shouldStoreEvent {
-    return self.isLoggingEnabled;
-
-    // TODO: Add number of events limit here.
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+    NSInteger fileCount = 0;
+    if (files) {
+        fileCount = files.count;
+    }
+    return (self.isLoggingEnabled && (fileCount < self.maxEvents));
 }
 
 - (InstrumentationEvent *) fetchEventFromFile:(NSString *) file {
