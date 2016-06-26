@@ -217,9 +217,6 @@
     self.allLoggers = [NSArray new];
 }
 
-- (void)flushLog {
-}
-
 - (void)log:(BOOL)asynchronous
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
@@ -627,7 +624,7 @@ static NSInteger kMyLogContext;
     NSError *error = nil;
     static NSRegularExpression *regex = nil;
     if (!regex) {
-        regex = [NSRegularExpression regularExpressionWithPattern:@"^([\\d/]+ [\\d:\\.]+)\\sSalesforceSDKCoreTestApp\\[[\\d:]+\\]\\s(.*)"
+        regex = [NSRegularExpression regularExpressionWithPattern:@"^([\\d/]+ [\\d:\\.]+)\\sSalesforceSDKCoreTestApp\\[[\\w:]+\\]\\s(.*)"
                                                           options:0
                                                             error:&error];
         XCTAssertNil(error);
@@ -647,7 +644,7 @@ static NSInteger kMyLogContext;
     return result;
 }
 
-- (void)FIXMEtestLogFormatter {
+- (void)testLogFormatter {
     SFLogger *logger = [SFLogger sharedLogger];
     logger->_ddLog = [[DDLog alloc] init];
 
@@ -661,15 +658,17 @@ static NSInteger kMyLogContext;
     [SFLogger log:[LogStorageRecorder class] level:SFLogLevelError identifier:@"com.salesforce.test" msg:@"Log message"];
     SFLogError(@"Log message");
     [logger->_ddLog flushLog];
-    [self waitForLogWithCompletionBlock:^{
-        XCTAssertEqual(testLogger.messages.count, 3U);
-        XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[0]], @"ERROR com.salesforce <LogStorageRecorder>: Log message");
-        XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[1]], @"ERROR com.salesforce.test <LogStorageRecorder>: Log message");
-        XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:662 -[SFLoggerTests testLogFormatter]>: Log message");
-    }];
+    
+    [NSThread sleepForTimeInterval:2.0];
+    
+    XCTAssertEqual(testLogger.messages.count, 3U);
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[0]], @"ERROR com.salesforce <LogStorageRecorder>: Log message");
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[1]], @"ERROR com.salesforce.test <LogStorageRecorder>: Log message");
+    XCTAssertEqualObjects([self trimmedLogWithString:testLogger.messages[2]], @"ERROR com.salesforce <SFLoggerTests.m:659 -[SFLoggerTests testLogFormatter]>: Log message");
+
 }
 
-- (void)FIXMEtestExtraLoggers {
+- (void)testExtraLoggers {
     SFLogger *logger = [SFLogger sharedLogger];
     [logger resetLoggers];
     logger.logLevel = SFLogLevelVerbose;
@@ -689,27 +688,20 @@ static NSInteger kMyLogContext;
     SFLogWarn(@"Log warning");
     SFLogVerbose(@"Log verbose");
     [logger->_ddLog flushLog];
-    [self waitForLogWithCompletionBlock:^{
-        NSError *error = nil;
-        NSString *logContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
-        XCTAssertNil(error);
-        
-        NSArray<NSString*> *messages = [logContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        XCTAssertEqual(messages.count, 3U);
-        XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:689 -[SFLoggerTests testExtraLoggers]>: Log warning");
-        XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:690 -[SFLoggerTests testExtraLoggers]>: Log verbose");
-    }];
+    
+    [NSThread sleepForTimeInterval:2.0];
+    
+    NSError *error = nil;
+    NSString *logContents = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+    XCTAssertNil(error);
+    
+    NSArray<NSString*> *messages = [logContents componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+    XCTAssertEqual(messages.count, 3U);
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[0]], @"WARNING com.salesforce <SFLoggerTests.m:688 -[SFLoggerTests testExtraLoggers]>: Log warning");
+    XCTAssertEqualObjects([self trimmedLogWithString:messages[1]], @"VERBOSE com.salesforce <SFLoggerTests.m:689 -[SFLoggerTests testExtraLoggers]>: Log verbose");
+
 }
 
-
-- (void)waitForLogWithCompletionBlock:(void (^)())completionBlock  {
-    dispatch_semaphore_t sema = dispatch_semaphore_create(0);
-    dispatch_async(DDLog.loggingQueue, ^{
-        dispatch_semaphore_signal(sema);
-        completionBlock();
-    });
-    dispatch_semaphore_wait(sema, dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)));
-}
 
 
 @end
