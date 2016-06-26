@@ -217,9 +217,6 @@
     self.allLoggers = [NSArray new];
 }
 
-//- (void)flushLog {
-//}
-
 - (void)log:(BOOL)asynchronous
       level:(DDLogLevel)level
        flag:(DDLogFlag)flag
