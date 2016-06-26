@@ -28,6 +28,7 @@
  */
 
 #import "AILTNPublisher.h"
+#import "SFOAuthCredentials.h"
 
 // TODO: Add GZIP compression to the header and data.
 
@@ -37,7 +38,10 @@ static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kData = @"data";
 static NSString* const kLogLines = @"logLines";
 static NSString* const kPayload = @"payload";
-static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytics-logging";
+static NSString* const kRestApiPrefix = @"services/data";
+static NSString* const kApiVersion = @"v36.0";
+static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
+static NSString* const kBearer = @"Bearer %@";
 
 @implementation AILTNPublisher
 
@@ -47,6 +51,33 @@ static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytic
     }
 
     // Builds the POST body of the request.
+    NSDictionary *body = [[self class] buildRequestBody:events];
+    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].currentUser.credentials;
+    NSURL *loggingEndpointUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/%@", credentials.apiUrl, kRestApiPrefix, kApiVersion, kRestApiSuffix]];
+    NSString *token = [NSString stringWithFormat:kBearer, credentials.accessToken];
+    
+    
+    /*
+    final RestClient restClient = SalesforceSDKManager.getInstance().getClientManager().peekRestClient();
+    final RequestBody requestBody = RequestBody.create(RestRequest.MEDIA_TYPE_JSON, body.toString());
+    final RestRequest restRequest = new RestRequest(RestRequest.RestMethod.POST, apiPath, requestBody);
+    RestResponse restResponse = null;
+    try {
+        restResponse = restClient.sendSync(restRequest);
+    } catch (IOException e) {
+        Log.e(TAG, "Exception thrown while making network request", e);
+    }
+    if (restResponse != null && restResponse.isSuccess()) {
+        return true;
+    }
+    return false;
+    */
+    
+    
+    return NO;
+}
+
++ (NSDictionary *) buildRequestBody:(NSArray *) events {
     NSMutableDictionary *body = [[NSMutableDictionary alloc] init];
     NSMutableArray *logLines = [[NSMutableArray alloc] init];
     for (int i = 0; i < logLines.count; i++) {
@@ -62,26 +93,6 @@ static NSString* const kApiPath = @"/services/data/%s/connect/proxy/app-analytic
         }
     }
     body[kLogLines] = logLines;
-    
-    
-    /*final String apiPath = String.format(API_PATH,
-                                         ApiVersionStrings.getVersionNumber(SalesforceSDKManager.getInstance().getAppContext()));
-    final RestClient restClient = SalesforceSDKManager.getInstance().getClientManager().peekRestClient();
-    final RequestBody requestBody = RequestBody.create(RestRequest.MEDIA_TYPE_JSON, body.toString());
-    final RestRequest restRequest = new RestRequest(RestRequest.RestMethod.POST, apiPath, requestBody);
-    RestResponse restResponse = null;
-    try {
-        restResponse = restClient.sendSync(restRequest);
-    } catch (IOException e) {
-        Log.e(TAG, "Exception thrown while making network request", e);
-    }
-    if (restResponse != null && restResponse.isSuccess()) {
-        return true;
-    }
-    return false;*/
-    
-    
-    return NO;
 }
 
 @end
