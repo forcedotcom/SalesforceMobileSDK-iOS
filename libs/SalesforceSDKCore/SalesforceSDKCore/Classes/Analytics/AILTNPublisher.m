@@ -28,7 +28,7 @@
  */
 
 #import "AILTNPublisher.h"
-#import "SFOAuthCredentials.h"
+#import "SFUserAccountManager.h"
 
 // TODO: Add GZIP compression to the header and data.
 
@@ -93,6 +93,7 @@ static NSString* const kBearer = @"Bearer %@";
         }
     }
     body[kLogLines] = logLines;
+    return body;
 }
 
 @end
