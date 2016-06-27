@@ -43,12 +43,16 @@
 "logoutYes" = "Yes";
 
 // OAuth flow
+"authAlertContinueButton"="Continue";
 "authAlertErrorTitle" = "Salesforce Error";
 "authAlertOkButton" = "OK";
+"authAlertCancelButton"="Cancel";
 "authAlertRetryButton" = "Retry";
 "authAlertDismissButton" = "Dismiss";
 "authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
+"authAlertBrowserFlowTitle"="Log In";
+"authAlertBrowserFlowMessage"="To log you in to %1$@, Safari will open briefly. You'll switch back to %2$@ after authentication.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";
