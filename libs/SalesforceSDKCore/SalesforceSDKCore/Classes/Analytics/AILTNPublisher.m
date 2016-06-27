@@ -81,13 +81,14 @@ static NSString* const kBearer = @"Bearer %@";
     NSMutableDictionary *body = [[NSMutableDictionary alloc] init];
     NSMutableArray *logLines = [[NSMutableArray alloc] init];
     for (int i = 0; i < logLines.count; i++) {
-        NSDictionary *event = [events objectAtIndex:i];
+        NSMutableDictionary *event = [events objectAtIndex:i];
         if (event) {
             NSMutableDictionary *trackingInfo = [[NSMutableDictionary alloc] init];
             trackingInfo[kCode] = kAiltn;
             NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-            data[kPayload] = event;
             data[kSchemaTypeKey] = event[kSchemaTypeKey];
+            [event removeObjectForKey:kSchemaTypeKey];
+            data[kPayload] = event;
             trackingInfo[kData] = data;
             [logLines addObject:trackingInfo];
         }
