@@ -181,19 +181,19 @@
     NSString *typeString = nil;
     switch (schemaType) {
         case SchemaTypeInteraction:
-            typeString = @"interaction";
+            typeString = @"LightningInteraction";
             break;
         case SchemaTypePageView:
-            typeString = @"pageView";
+            typeString = @"LightningPageView";
             break;
         case SchemaTypePerf:
-            typeString = @"perf";
+            typeString = @"LightningPerformance";
             break;
         case SchemaTypeError:
-            typeString = @"error";
+            typeString = @"LightningError";
             break;
         default:
-            typeString = @"error";
+            typeString = @"LightningError";
     }
     return typeString;
 }
@@ -201,13 +201,13 @@
 - (SchemaType) schemaTypeFromString:(NSString *) schemaType {
     SchemaType type = SchemaTypeError;
     if (schemaType) {
-        if ([schemaType isEqualToString:@"interaction"]) {
+        if ([schemaType isEqualToString:@"LightningInteraction"]) {
             type = SchemaTypeInteraction;
-        } else if ([schemaType isEqualToString:@"pageView"]) {
+        } else if ([schemaType isEqualToString:@"LightningPageView"]) {
             type = SchemaTypePageView;
-        } else if ([schemaType isEqualToString:@"perf"]) {
+        } else if ([schemaType isEqualToString:@"LightningPerformance"]) {
             type = SchemaTypePerf;
-        } else if ([schemaType isEqualToString:@"error"]) {
+        } else if ([schemaType isEqualToString:@"LightningError"]) {
             type = SchemaTypeError;
         }
     }
