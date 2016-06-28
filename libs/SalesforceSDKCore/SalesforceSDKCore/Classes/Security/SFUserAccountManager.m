@@ -96,6 +96,8 @@ static const NSUInteger SFUserAccountManagerCannotReadDecryptedArchive = 10001;
 static const NSUInteger SFUserAccountManagerCannotReadPlainTextArchive = 10002;
 static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
+static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.syncqueue";
+
 @implementation SFUserAccountManager
 
 + (instancetype)sharedInstance {
@@ -145,6 +147,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         _userAccountMap = [[NSMutableDictionary alloc] init];
         _temporaryUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerTemporaryUserAccountUserId orgId:SFUserAccountManagerTemporaryUserAccountOrgId];
         _anonymousUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerAnonymousUserAccountUserId orgId:SFUserAccountManagerAnonymousUserAccountOrgId];
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
         [self loadAccounts:nil];
         [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];
 	}
@@ -765,38 +768,43 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    NSDictionary *userAccountMap = [self.userAccountMap copy];
-    
-    for (SFUserAccountIdentity *userIdentity in userAccountMap) {
-        // Don't save the temporary user id
-        if ([userIdentity isEqual:self.temporaryUserIdentity]) {
-            continue;
-        }
+    __weak __typeof(self) weakSelf = self;
+    __block BOOL accountsSaved = YES;
+    dispatch_sync(_syncQueue, ^{
+        NSDictionary *userAccountMap = [weakSelf.userAccountMap copy];
         
-        // Grab the user account...
-        SFUserAccount *user = userAccountMap[userIdentity];
-        
-        // And it's persistent file path
-        NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
-        
-        // Make sure to remove any existing file
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        if ([fm fileExistsAtPath:userAccountPath]) {
-            if (![fm removeItemAtPath:userAccountPath error:error]) {
-                NSError*const err = error ? *error : nil;
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
-                return NO;
+        for (SFUserAccountIdentity *userIdentity in userAccountMap) {
+            // Don't save the temporary user id
+            if ([userIdentity isEqual:weakSelf.temporaryUserIdentity]) {
+                continue;
+            }
+            
+            // Grab the user account...
+            SFUserAccount *user = userAccountMap[userIdentity];
+            
+            // And it's persistent file path
+            NSString *userAccountPath = [[weakSelf class] userAccountPlistFileForUser:user];
+            
+            // Make sure to remove any existing file
+            NSFileManager *fm = [[NSFileManager alloc] init];
+            if ([fm fileExistsAtPath:userAccountPath]) {
+                if (![fm removeItemAtPath:userAccountPath error:error]) {
+                    NSError*const err = error ? *error : nil;
+                    [weakSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
+                    accountsSaved = NO;
+                    return;
+                }
+            }
+            
+            // And now save its content
+            if (![weakSelf saveUserAccount:user toFile:userAccountPath]) {
+                [weakSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
+                accountsSaved = NO;
+                return ;
             }
         }
-        
-        // And now save its content
-        if (![self saveUserAccount:user toFile:userAccountPath]) {
-            [self log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
-            return NO;
-        }
-    }
-    
-    return YES;
+    });
+    return accountsSaved;
 }
 
 - (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath {
@@ -861,12 +869,12 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     return array;
 }
 
-- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
+- (NSArray *)accountsForInstanceURL:(NSURL *)instanceURL {
     NSMutableArray *responseArray = [NSMutableArray array];
     
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
-        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
             [responseArray addObject:account];
         }
     }
