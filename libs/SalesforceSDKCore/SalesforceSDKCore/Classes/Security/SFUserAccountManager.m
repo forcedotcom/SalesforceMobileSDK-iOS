@@ -163,12 +163,22 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 - (void)setLoginHost:(NSString*)host {
     NSString *oldLoginHost = [self loginHost];
     
-    [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    if (nil == host) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    }
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // Only post the login host change notification if the host actually changed.
     if (![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        NSDictionary *userInfoDict;
+        if (host) {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        } else {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost};
+        }
         NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
         [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
     }

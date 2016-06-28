@@ -355,6 +355,12 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 - (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse;
 
 /**
+ Dismisses the auth view controller, resetting the UI state back to its original
+ presentation.
+ */
+- (void)dismissAuthViewControllerIfPresent;
+
+/**
  Clears session cookie data from the cookie store, and sets a new session cookie based on the
  OAuth credentials.
  */

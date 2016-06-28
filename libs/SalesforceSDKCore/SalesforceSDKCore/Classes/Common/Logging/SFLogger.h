@@ -253,7 +253,7 @@ if (!(_cond)) { \
  * Sets the log level of the app.
  * @param newLevel The new log level to configure.
  */
-+ (void)setLogLevel:(SFLogLevel)newLevel __attribute__((deprecated("Use [SFLogger sharedLogger].logToFile")));
++ (void)setLogLevel:(SFLogLevel)newLevel __attribute__((deprecated("Use [SFLogger sharedLogger].logLevel")));
 
 + (void)logToFile:(BOOL)logToFile __attribute__((deprecated("Use [SFLogger sharedLogger].logToFile")));
 
