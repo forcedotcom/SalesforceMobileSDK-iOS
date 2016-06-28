@@ -161,7 +161,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 /** The host that will be used for login.
  */
-@property (nonatomic, strong) NSString *loginHost;
+@property (nonatomic, strong, nullable) NSString *loginHost;
 
 /** Should the login process start again if it fails (default: YES)
  */

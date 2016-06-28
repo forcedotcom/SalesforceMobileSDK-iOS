@@ -200,12 +200,6 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 - (void)presentAuthViewController:(UIWebView *)webView;
 
 /**
- Dismisses the auth view controller, resetting the UI state back to its original
- presentation.
- */
-- (void)dismissAuthViewControllerIfPresent;
-
-/**
  Called after initial authentication has completed.
  @param fromOffline Whether or not the method was called from an offline state.
  */
