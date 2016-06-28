@@ -260,6 +260,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder startTime:curTime];
     [builder name:eventName];
     [builder sessionId:1];
+    [builder page:[[NSDictionary alloc] init]];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];

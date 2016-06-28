@@ -135,6 +135,14 @@
 - (InstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
 
 /**
+ * Sets page.
+ *
+ * @param page Page.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) page:(NSDictionary *) page;
+
+/**
  * Builds the event.
  *
  * @return Event instance.

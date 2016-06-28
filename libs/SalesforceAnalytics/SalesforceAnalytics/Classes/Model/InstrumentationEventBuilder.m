@@ -47,6 +47,7 @@
 @property (nonatomic, assign, readwrite) ErrorType errorType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
+@property (nonatomic, strong, readwrite) NSDictionary *page;
 
 @end
 
@@ -124,18 +125,23 @@
     return self;
 }
 
+- (InstrumentationEventBuilder *) page:(NSDictionary *) page {
+    self.page = page;
+    return self;
+}
+
 - (InstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
     NSString *errorMessage = nil;
-    if (!self.schemaType) {
-        errorMessage = @"Mandatory field 'schema type' not set!";
-    }
     if (!self.name) {
         errorMessage = @"Mandatory field 'name' not set!";
     }
     DeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
     if (!deviceAppAttributes) {
         errorMessage = @"Mandatory field 'device app attributes' not set!";
+    }
+    if (self.schemaType != SchemaTypePerf && !self.page) {
+        errorMessage = @"Mandatory field 'page' not set!";
     }
     if (errorMessage) {
         @throw [NSException exceptionWithName:@"EventBuilderException" reason:errorMessage userInfo:nil];
@@ -146,8 +152,11 @@
     // Defaults to current time if not explicitly set.
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
+    if (self.schemaType == SchemaTypePageView && self.endTime == 0) {
+        self.endTime = curTime;
+    }
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
-    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime];
+    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page];
 }
 
 - (NSString *) getConnectionType {

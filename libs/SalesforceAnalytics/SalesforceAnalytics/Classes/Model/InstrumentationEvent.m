@@ -47,12 +47,13 @@
 @property (nonatomic, strong, readwrite) NSString *connectionType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
+@property (nonatomic, strong, readwrite) NSDictionary *page;
 
 @end
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -71,6 +72,7 @@
         self.connectionType = connectionType;
         self.senderParentId = senderParentId;
         self.sessionStartTime = sessionStartTime;
+        self.page = page;
     }
     return self;
 }
@@ -121,6 +123,7 @@
             if (dict[kSessionStartTimeKey]) {
                 self.sessionStartTime = [dict[kSessionStartTimeKey] integerValue];
             }
+            self.page = dict[kPageKey];
         }
     }
     return self;
@@ -152,6 +155,7 @@
     dict[kConnectionTypeKey] = self.connectionType;
     dict[kSenderParentIdKey] = self.senderParentId;
     dict[kSessionStartTimeKey] = [NSNumber numberWithInteger:self.sessionStartTime];
+    dict[kPageKey] = self.page;
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     return jsonData;
