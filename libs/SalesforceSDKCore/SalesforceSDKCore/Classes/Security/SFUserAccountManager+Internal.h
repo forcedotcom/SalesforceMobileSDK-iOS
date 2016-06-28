@@ -27,6 +27,7 @@
 @interface SFUserAccountManager ()
 {
     NSMutableOrderedSet *_delegates;
+    dispatch_queue_t _syncQueue;
 }
 
 @property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;

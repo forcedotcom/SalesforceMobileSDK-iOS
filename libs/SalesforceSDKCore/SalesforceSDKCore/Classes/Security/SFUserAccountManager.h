@@ -255,7 +255,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  @param instanceURL The host parameter of a given instance URL
  @return An array of accounts that match that instance URL
  */
-- (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSString *)instanceURL;
+- (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
 /** Adds a user account
  @param acct The account to be added
