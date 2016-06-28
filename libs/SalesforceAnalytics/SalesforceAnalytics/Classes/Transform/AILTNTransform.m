@@ -48,6 +48,7 @@ static NSString* const kSFTargetKey = @"target";
 static NSString* const kSFScopeKey = @"scope";
 static NSString* const kSFContextKey = @"context";
 static NSString* const kSFDeviceAttributesKey = @"deviceAttributes";
+static NSString* const kSFPageKey = @"page";
 
 @implementation AILTNTransform
 
@@ -91,25 +92,34 @@ static NSString* const kSFDeviceAttributesKey = @"deviceAttributes";
     payload[kSFTsKey] = [NSNumber numberWithInteger:startTime];
     payload[kSFPageStartTimeKey] = [NSNumber numberWithInteger:event.sessionStartTime];
     NSInteger endTime = event.endTime;
-    if (endTime != 0) {
+    if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
         NSInteger duration = startTime - endTime;
-        payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
+        if (endTime != 0 || schemaType == SchemaTypePageView) {
+            payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
+        }
     }
     NSInteger sessionId = event.sessionId;
     if (sessionId != 0) {
         payload[kSFClientSessionIdKey] = [NSNumber numberWithInteger:sessionId];
     }
-    payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
+    if (schemaType != SchemaTypePerf) {
+        payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
+    }
     NSDictionary *attributes = event.attributes;
-    if (attributes) {
+    if (attributes && schemaType != SchemaTypePageView) {
         payload[kSFAttributesKey] = attributes;
     }
-    NSDictionary *locator = [[self class] buildLocator:event];
-    if (locator) {
-        payload[kSFLocatorKey] = locator;
+    if (schemaType != SchemaTypePerf) {
+        payload[kPageKey] = event.page;
+    }
+    if (schemaType == SchemaTypeInteraction) {
+        NSDictionary *locator = [[self class] buildLocator:event];
+        if (locator) {
+            payload[kSFLocatorKey] = locator;
+        }
     }
     EventType eventType = event.eventType;
-    if (eventType && (schemaType == SchemaTypeInteraction)) {
+    if (eventType && (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePerf)) {
         payload[kSFEventTypeKey] = [event stringValueOfEventType:eventType];
     }
     ErrorType errorType = event.errorType;

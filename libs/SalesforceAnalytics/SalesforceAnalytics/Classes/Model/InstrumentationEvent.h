@@ -45,6 +45,7 @@ static NSString* const kConnectionTypeKey = @"connectionType";
 static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
 static NSString* const kSenderParentIdKey = @"senderParentId";
 static NSString* const kSessionStartTimeKey = @"sessionStartTime";
+static NSString* const kPageKey = @"page";
 
 /**
  * Represents the type of schema being logged.
@@ -93,6 +94,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, strong, readonly) NSString *connectionType;
 @property (nonatomic, strong, readonly) NSString *senderParentId;
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;
+@property (nonatomic, strong, readonly) NSDictionary *page;
 
 /**
  * Parameterized initializer.

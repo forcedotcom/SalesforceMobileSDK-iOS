@@ -56,34 +56,13 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 }
 
 /**
- * Test for missing mandatory field 'schema type'.
- */
-- (void) testMissingSchemaType {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
-    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
-    [builder startTime:curTime];
-    [builder name:eventName];
-    [builder sessionId:1];
-    [builder senderId:kTestSenderId];
-    [builder eventType:EventTypeSystem];
-    [builder errorType:ErrorTypeWarn];
-    @try {
-        [builder buildEvent];
-        XCTFail(@"Exception should have been thrown for missing mandatory field 'schema type'");
-    } @catch (NSException *exception) {
-        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
-        NSLog(@"Exception thrown as expected");
-    }
-}
-
-/**
  * Test for missing mandatory field 'name'.
  */
 - (void) testMissingName {
     InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     [builder startTime:curTime];
+    [builder page:[[NSDictionary alloc] init]];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
@@ -92,6 +71,29 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     @try {
         [builder buildEvent];
         XCTFail(@"Exception should have been thrown for missing mandatory field 'name'");
+    } @catch (NSException *exception) {
+        XCTAssertEqualObjects(@"EventBuilderException", exception.name);
+        NSLog(@"Exception thrown as expected");
+    }
+}
+
+/**
+ * Test for missing mandatory field 'page'.
+ */
+- (void) testMissingPage {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder name:eventName];
+    [builder startTime:curTime];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder schemaType:SchemaTypeError];
+    [builder eventType:EventTypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    @try {
+        [builder buildEvent];
+        XCTFail(@"Exception should have been thrown for missing mandatory field 'page'");
     } @catch (NSException *exception) {
         XCTAssertEqualObjects(@"EventBuilderException", exception.name);
         NSLog(@"Exception thrown as expected");
@@ -108,6 +110,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder startTime:curTime];
+    [builder page:[[NSDictionary alloc] init]];
     [builder name:eventName];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
@@ -133,6 +136,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
+    [builder page:[[NSDictionary alloc] init]];
     [builder sessionId:1];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
@@ -140,6 +144,25 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     [builder errorType:ErrorTypeWarn];
     InstrumentationEvent *event = [builder buildEvent];
     XCTAssertTrue(event.startTime > 0, @"Start time should have been auto populated");
+}
+
+/**
+ * Test for auto population of mandatory field 'end time'.
+ */
+- (void) testAutoPopulateEndTime {
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
+    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
+    [builder name:eventName];
+    [builder startTime:curTime];
+    [builder page:[[NSDictionary alloc] init]];
+    [builder sessionId:1];
+    [builder senderId:kTestSenderId];
+    [builder schemaType:SchemaTypePageView];
+    [builder eventType:EventTypeSystem];
+    [builder errorType:ErrorTypeWarn];
+    InstrumentationEvent *event = [builder buildEvent];
+    XCTAssertTrue(event.endTime > 0, @"End time should have been auto populated");
 }
 
 /**
@@ -151,6 +174,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
     [builder sessionId:1];
+    [builder page:[[NSDictionary alloc] init]];
+    [builder startTime:curTime];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
@@ -168,6 +193,8 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
     [builder sessionId:1];
+    [builder page:[[NSDictionary alloc] init]];
+    [builder startTime:curTime];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
