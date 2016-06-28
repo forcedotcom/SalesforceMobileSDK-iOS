@@ -147,25 +147,6 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
 }
 
 /**
- * Test for auto population of mandatory field 'end time'.
- */
-- (void) testAutoPopulateEndTime {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
-    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-    NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
-    [builder name:eventName];
-    [builder startTime:curTime];
-    [builder page:[[NSDictionary alloc] init]];
-    [builder sessionId:1];
-    [builder senderId:kTestSenderId];
-    [builder schemaType:SchemaTypePageView];
-    [builder eventType:EventTypeSystem];
-    [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
-    XCTAssertTrue(event.endTime > 0, @"End time should have been auto populated");
-}
-
-/**
  * Test for auto population of mandatory field 'event ID'.
  */
 - (void) testAutoPopulateEventId {
