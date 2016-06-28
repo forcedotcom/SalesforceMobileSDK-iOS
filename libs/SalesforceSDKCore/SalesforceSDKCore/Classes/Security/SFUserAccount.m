@@ -149,6 +149,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
         _guestUser        = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
         _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
 	}
 	return self;
 }
