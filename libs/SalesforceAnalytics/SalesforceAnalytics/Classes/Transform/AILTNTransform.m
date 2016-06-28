@@ -94,7 +94,7 @@ static NSString* const kSFPageKey = @"page";
     NSInteger endTime = event.endTime;
     if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
         NSInteger duration = startTime - endTime;
-        if (endTime != 0 || schemaType == SchemaTypePageView) {
+        if (duration > 0) {
             payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
         }
     }
@@ -132,13 +132,12 @@ static NSString* const kSFPageKey = @"page";
 + (NSDictionary *) buildLocator:(InstrumentationEvent *) event {
     NSMutableDictionary *locator = [[NSMutableDictionary alloc] init];
     NSString *senderId = event.senderId;
-    if (senderId) {
-        locator[kSFTargetKey] = senderId;
-    }
     NSString *senderParentId = event.senderParentId;
-    if (senderParentId) {
-        locator[kSFScopeKey] = senderParentId;
+    if (!senderId || !senderParentId) {
+        return nil;
     }
+    locator[kSFTargetKey] = senderId;
+    locator[kSFScopeKey] = senderParentId;
     NSDictionary *senderContext = event.senderContext;
     if (senderContext) {
         locator[kSFContextKey] = senderContext;
