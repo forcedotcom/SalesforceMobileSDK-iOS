@@ -216,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
  extra logic so responseBlock is properly invoked with response data.
  @param error Action error if avaiable.
  */
-- (void)completeOperationWithError:(NSError*)error;
+- (void)completeOperationWithError:(nullable NSError*)error;
 
 /** Returns an instance of NSURLSessionTask to process the specified request 
 
