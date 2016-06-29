@@ -151,6 +151,14 @@
 - (InstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage;
 
 /**
+ * Sets marks.
+ *
+ * @param marks Marks.
+ * @return Instance of this class.
+ */
+- (InstrumentationEventBuilder *) marks:(NSDictionary *) marks;
+
+/**
  * Builds the event.
  *
  * @return Event instance.

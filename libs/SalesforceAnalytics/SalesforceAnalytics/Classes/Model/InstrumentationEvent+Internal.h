@@ -52,8 +52,9 @@
  * @param sessionStartTime Session start time.
  * @param page Page.
  * @param previousPage Previous page.
+ * @param marks Marks.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage;
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks;
 
 @end

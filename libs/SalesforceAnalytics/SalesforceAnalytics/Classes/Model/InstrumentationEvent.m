@@ -49,12 +49,13 @@
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
 @property (nonatomic, strong, readwrite) NSDictionary *page;
 @property (nonatomic, strong, readwrite) NSDictionary *previousPage;
+@property (nonatomic, strong, readwrite) NSDictionary *marks;
 
 @end
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -75,6 +76,7 @@
         self.sessionStartTime = sessionStartTime;
         self.page = page;
         self.previousPage = previousPage;
+        self.marks = marks;
     }
     return self;
 }
@@ -127,6 +129,7 @@
             }
             self.page = dict[kPageKey];
             self.previousPage = dict[kPreviousPageKey];
+            self.marks = dict[kMarksKey];
         }
     }
     return self;
@@ -160,6 +163,7 @@
     dict[kSessionStartTimeKey] = [NSNumber numberWithInteger:self.sessionStartTime];
     dict[kPageKey] = self.page;
     dict[kPreviousPageKey] = self.previousPage;
+    dict[kMarksKey] = self.marks;
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     return jsonData;

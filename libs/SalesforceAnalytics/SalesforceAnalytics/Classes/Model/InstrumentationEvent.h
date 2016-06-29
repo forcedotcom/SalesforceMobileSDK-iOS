@@ -47,6 +47,7 @@ static NSString* const kSenderParentIdKey = @"senderParentId";
 static NSString* const kSessionStartTimeKey = @"sessionStartTime";
 static NSString* const kPageKey = @"page";
 static NSString* const kPreviousPageKey = @"previousPage";
+static NSString* const kMarksKey = @"marks";
 
 /**
  * Represents the type of schema being logged.
@@ -97,6 +98,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;
 @property (nonatomic, strong, readonly) NSDictionary *page;
 @property (nonatomic, strong, readonly) NSDictionary *previousPage;
+@property (nonatomic, strong, readonly) NSDictionary *marks;
 
 /**
  * Parameterized initializer.

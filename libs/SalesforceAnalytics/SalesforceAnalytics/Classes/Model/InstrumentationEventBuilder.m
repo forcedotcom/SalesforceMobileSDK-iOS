@@ -49,6 +49,7 @@
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
 @property (nonatomic, strong, readwrite) NSDictionary *page;
 @property (nonatomic, strong, readwrite) NSDictionary *previousPage;
+@property (nonatomic, strong, readwrite) NSDictionary *marks;
 
 @end
 
@@ -136,6 +137,11 @@
     return self;
 }
 
+- (InstrumentationEventBuilder *) marks:(NSDictionary *) marks {
+    self.marks = marks;
+    return self;
+}
+
 - (InstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
     NSString *errorMessage = nil;
@@ -159,7 +165,7 @@
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
-    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage];
+    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
 }
 
 - (NSString *) getConnectionType {

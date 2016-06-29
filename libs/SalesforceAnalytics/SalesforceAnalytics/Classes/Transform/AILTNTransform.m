@@ -50,6 +50,7 @@ static NSString* const kSFContextKey = @"context";
 static NSString* const kSFDeviceAttributesKey = @"deviceAttributes";
 static NSString* const kSFPageKey = @"page";
 static NSString* const kSFPreviousPageKey = @"previousPage";
+static NSString* const kSFMarksKey = @"marks";
 
 @implementation AILTNTransform
 
@@ -116,6 +117,10 @@ static NSString* const kSFPreviousPageKey = @"previousPage";
     NSDictionary *previousPage = event.previousPage;
     if (previousPage && schemaType == SchemaTypePageView) {
         payload[kPreviousPageKey] = previousPage;
+    }
+    NSDictionary *marks = event.marks;
+    if (marks && schemaType == SchemaTypePageView) {
+        payload[kMarksKey] = marks;
     }
     if (schemaType == SchemaTypeInteraction) {
         NSDictionary *locator = [[self class] buildLocator:event];
