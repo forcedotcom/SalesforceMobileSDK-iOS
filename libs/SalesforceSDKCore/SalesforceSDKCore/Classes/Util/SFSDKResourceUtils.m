@@ -58,6 +58,7 @@
 }
 
 + (UIImage *)imageNamed:(NSString *)name {
+    NSAssert(name != nil, @"name must contain a value.");
     NSBundle *bundle = [NSBundle mainBundle];
     UIImage *image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
     if (image) {
@@ -66,7 +67,6 @@
     }
     
     bundle = [NSBundle bundleForClass:[self class]];
-    NSAssert(name != nil, @"name must contain a value.");
     image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
     return image;
 }
