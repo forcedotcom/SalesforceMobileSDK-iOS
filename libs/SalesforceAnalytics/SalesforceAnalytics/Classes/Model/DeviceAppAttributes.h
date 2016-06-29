@@ -39,6 +39,7 @@
 @property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
 @property (nonatomic, strong, readonly) NSString *deviceModel;
 @property (nonatomic, strong, readonly) NSString *deviceId;
+@property (nonatomic, strong, readonly) NSString *clientId;
 
 /**
  * Parameterized initializer.
@@ -51,11 +52,12 @@
  * @param mobileSdkVersion Mobile SDK version.
  * @param deviceModel Device model.
  * @param deviceId Device ID.
+ * @param clientId Client ID.
  * @return Instance of this class.
  */
 - (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
     mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-    deviceId:(NSString *) deviceId;
+   deviceId:(NSString *) deviceId clientId:(NSString *) clientId;
 
 /**
  * Parameterized initializer.
