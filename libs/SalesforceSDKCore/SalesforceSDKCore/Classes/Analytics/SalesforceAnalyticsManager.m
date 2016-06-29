@@ -200,7 +200,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
-    return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId];
+    NSString *clientId = sdkManager.connectedAppId;
+    return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

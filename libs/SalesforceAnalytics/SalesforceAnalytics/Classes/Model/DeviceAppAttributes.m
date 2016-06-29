@@ -37,6 +37,7 @@ static NSString* const kSFNativeAppTypeKey = @"nativeAppType";
 static NSString* const kSFMobileSdkVersionKey = @"mobileSdkVersion";
 static NSString* const kSFDeviceModelKey = @"deviceModel";
 static NSString* const kSFDeviceIdKey = @"deviceId";
+static NSString* const kSFClientIdKey = @"clientId";
 
 @interface DeviceAppAttributes ()
 
@@ -48,6 +49,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
 @property (nonatomic, strong, readwrite) NSString *mobileSdkVersion;
 @property (nonatomic, strong, readwrite) NSString *deviceModel;
 @property (nonatomic, strong, readwrite) NSString *deviceId;
+@property (nonatomic, strong, readwrite) NSString *clientId;
 
 @end
 
@@ -56,7 +58,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
 - (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
         osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
         mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-        deviceId:(NSString *) deviceId {
+        deviceId:(NSString *) deviceId clientId:(NSString *) clientId {
     self = [super init];
     if (self) {
         self.appVersion = appVersion;
@@ -67,6 +69,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
         self.mobileSdkVersion = mobileSdkVersion;
         self.deviceModel = deviceModel;
         self.deviceId = deviceId;
+        self.clientId = clientId;
     }
     return self;
 }
@@ -82,6 +85,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
         self.mobileSdkVersion = jsonRepresentation[kSFMobileSdkVersionKey];
         self.deviceModel = jsonRepresentation[kSFDeviceModelKey];
         self.deviceId = jsonRepresentation[kSFDeviceIdKey];
+        self.clientId = jsonRepresentation[kSFClientIdKey];
     }
     return self;
 }
@@ -96,6 +100,7 @@ static NSString* const kSFDeviceIdKey = @"deviceId";
     dict[kSFMobileSdkVersionKey] = self.mobileSdkVersion;
     dict[kSFDeviceModelKey] = self.deviceModel;
     dict[kSFDeviceIdKey] = self.deviceId;
+    dict[kSFClientIdKey] = self.clientId;
     return dict;
 }
 
