@@ -51,6 +51,7 @@ static NSString* const kSFDeviceAttributesKey = @"deviceAttributes";
 static NSString* const kSFPageKey = @"page";
 static NSString* const kSFPreviousPageKey = @"previousPage";
 static NSString* const kSFMarksKey = @"marks";
+static NSString* const kSFPerfEventType = @"defs";
 
 @implementation AILTNTransform
 
@@ -129,8 +130,14 @@ static NSString* const kSFMarksKey = @"marks";
         }
     }
     EventType eventType = event.eventType;
-    if (eventType && (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePerf)) {
-        payload[kSFEventTypeKey] = [event stringValueOfEventType:eventType];
+    NSString *eventTypeString;
+    if (schemaType == SchemaTypePerf) {
+        eventTypeString = kSFPerfEventType;
+    } else if (schemaType == SchemaTypeInteraction && eventType) {
+        eventTypeString = [event stringValueOfEventType:eventType];
+    }
+    if (eventTypeString) {
+        payload[kSFEventTypeKey] = eventTypeString;
     }
     ErrorType errorType = event.errorType;
     if (errorType && (schemaType == SchemaTypeError)) {
