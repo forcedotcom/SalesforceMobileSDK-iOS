@@ -38,6 +38,7 @@ static NSString* const kSFEventSourceKey = @"eventSource";
 static NSString* const kSFTsKey = @"ts";
 static NSString* const kSFPageStartTimeKey = @"pageStartTime";
 static NSString* const kSFDurationKey = @"duration";
+static NSString* const kSFEptKey = @"ept";
 static NSString* const kSFClientSessionIdKey = @"clientSessionId";
 static NSString* const kSFSequenceKey = @"sequence";
 static NSString* const kSFAttributesKey = @"attributes";
@@ -95,10 +96,12 @@ static NSString* const kSFPerfEventType = @"defs";
     payload[kSFTsKey] = [NSNumber numberWithInteger:startTime];
     payload[kSFPageStartTimeKey] = [NSNumber numberWithInteger:event.sessionStartTime];
     NSInteger endTime = event.endTime;
-    if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
-        NSInteger duration = startTime - endTime;
-        if (duration > 0) {
+    NSInteger duration = startTime - endTime;
+    if (duration > 0) {
+        if (schemaType == SchemaTypeInteraction) {
             payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
+        } else if (schemaType == SchemaTypePageView) {
+            payload[kSFEptKey] = [NSNumber numberWithInteger:duration];
         }
     }
     NSInteger sessionId = event.sessionId;
