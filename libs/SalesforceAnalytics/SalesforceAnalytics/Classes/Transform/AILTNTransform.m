@@ -94,7 +94,7 @@ static NSString* const kSFPerfEventType = @"defs";
     payload[kSFTsKey] = [NSNumber numberWithInteger:startTime];
     payload[kSFPageStartTimeKey] = [NSNumber numberWithInteger:event.sessionStartTime];
     NSInteger endTime = event.endTime;
-    NSInteger duration = startTime - endTime;
+    NSInteger duration = endTime - startTime;
     if (duration > 0) {
         if (schemaType == SchemaTypeInteraction) {
             payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
