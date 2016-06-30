@@ -85,7 +85,9 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
                 NSString *hostLabel = hostLabels.count > idx ? hostLabels[idx] : loginHost;
                 [self.loginHostList addObject:[SFSDKLoginHost hostWithName:hostLabel host:loginHost deletable:NO]];
             }];
-            return self;
+            
+            if(managedPreferences.onlyShowAuthorizedHosts)
+                return self;
         }
         
         // Load from info.plist.

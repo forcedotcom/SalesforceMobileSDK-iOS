@@ -98,8 +98,8 @@ static NSString* const kCaseOneName = @"00001001";
         NSArray *records = responseAsJson[@"records"];
         if (records && [records isKindOfClass:[NSArray class]]) {
             NSAssert(records.count>0, @"no entity found");
-            [expect fulfill];
             completionBlock(records);
+            [expect fulfill];
         }
     };
     
@@ -121,6 +121,7 @@ static NSString* const kCaseOneName = @"00001001";
         kCaseOneId = [result[0] valueForKey:@"Id"];
     }];
     
+    [NSThread sleepForTimeInterval:1]; //give server side a second to settle
     XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
     [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {
         [objectMarkedAsViewed fulfill];
@@ -129,7 +130,6 @@ static NSString* const kCaseOneName = @"00001001";
         [objectMarkedAsViewed fulfill];
     }];
     [self waitForExpectationsWithTimeout:30.0 handler:nil];
-    sleep(2); //for server side to settle
     XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
     [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure
                  refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO completion:^(NSArray *results, BOOL isDataFromCache, BOOL needToReloadCache) {
@@ -170,7 +170,7 @@ static NSString* const kCaseOneName = @"00001001";
         [self.metadataManager markObjectAsViewed:objectId objectType:objectType networkFieldName:nil completionBlock:^() {
             [objectMarkedAsViewed fulfill];
         } error:^(NSError *error) {
-            XCTFail(@"Error while marking object as viewed %@", error);
+            XCTFail(@"Error while marking object %@:%@ as viewed %@", objectName,objectId, error);
             [objectMarkedAsViewed fulfill];
         }];
         [self waitForExpectationsWithTimeout:30.0 handler:nil];

@@ -27,6 +27,7 @@
 @interface SFUserAccountManager ()
 {
     NSMutableOrderedSet *_delegates;
+    dispatch_queue_t _syncQueue;
 }
 
 @property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;
@@ -45,14 +46,6 @@
  credentials towards a server.
  */
 + (BOOL)isUserAnonymous:(SFUserAccount*)user;
-
-/** Returns YES if the specified user is temporary.
- Note: a temporary user is created when a new user
- is requested, for example during the login into
- a new org, and is replaced by the real user once
- the login is finished.
- */
-+ (BOOL)isUserTemporary:(SFUserAccount*)user;
 
 /**
  Executes the given block for each configured delegate.

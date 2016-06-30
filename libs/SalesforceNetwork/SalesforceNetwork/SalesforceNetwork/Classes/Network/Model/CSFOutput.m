@@ -27,7 +27,8 @@
 #import "CSFDefines.h"
 #import "CSFInternalDefines.h"
 
-static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
+static NSString * const kCSFInputCustomDictionaryAttributes = @"__CSFOutput_Dictionary_Storage";
+static NSString * const kCSFInputCustomArrayAttributes = @"__CSFOutput_Array_Storage";
 
 @implementation CSFOutput
 
@@ -40,13 +41,19 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
     return self;
 }
 
-- (id)initWithJSON:(NSDictionary*)json context:(NSDictionary *)context {
+- (instancetype)initWithJSON:(id)json context:(NSDictionary *)context {
     self = [super init];
     if (self) {
-        __storage = [CSFNotNullDictionary(json) mutableCopy];
         __context = context;
         __remainingProperties = [CSFClassProperties(self.class) mutableCopy];
-        [self importSynthesizedProperties];
+        
+        if ([json isKindOfClass:[NSDictionary class]]) {
+            __dictionaryStorage = [CSFNotNullDictionary(json) mutableCopy];
+            [self importSynthesizedProperties];
+        } else if ([json isKindOfClass:[NSArray class]]) {
+            __arrayStorage = [CSFNotNullArray(json) mutableCopy];
+            [self importSynthesizedPropertyForArray];
+        }
     }
     return self;
 }
@@ -54,7 +61,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
 - (void)encodeWithCoder:(NSCoder*)encoder {
     [self importAllProperties];
     
-    [encoder encodeObject:__storage forKey:kCSFInputCustomAttributes];
+    [encoder encodeObject:__dictionaryStorage forKey:kCSFInputCustomDictionaryAttributes];
+    [encoder encodeObject:__arrayStorage forKey:kCSFInputCustomArrayAttributes];
     
     NSDictionary *ivars = CSFClassIvars(self.class);
     [ivars enumerateKeysAndObjectsUsingBlock:^(NSString *ivarName, NSDictionary *ivarInfo, BOOL *stop) {
@@ -66,7 +74,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
             id value = object_getIvar(self, ivar);
             [encoder encodeObject:value forKey:propertyName];
         } else if (ivarInfo[@"encoding"]) {
-            const void * ivarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
+            const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
             [encoder encodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:ivarPtr];
         }
     }];
@@ -75,8 +83,9 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
 - (id)initWithCoder:(NSCoder*)decoder {
     self = [self init];
     if (self) {
-        __storage = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kCSFInputCustomAttributes] mutableCopy];
-
+        __dictionaryStorage = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kCSFInputCustomDictionaryAttributes] mutableCopy];
+        __arrayStorage = [[decoder decodeObjectOfClass:[NSArray class] forKey:kCSFInputCustomArrayAttributes] mutableCopy];
+        
         NSDictionary *ivars = CSFClassIvars(self.class);
         [ivars enumerateKeysAndObjectsUsingBlock:^(NSString *ivarName, NSDictionary *ivarInfo, BOOL *stop) {
             NSString *propertyName = CSFPropertyNameFromIvarName(ivarName);
@@ -91,7 +100,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 }
                 object_setIvar(self, ivar, result);
             } else if (ivarInfo[@"encoding"]) {
-                const void * ivarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
+                const void * ivarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
                 [decoder decodeValueOfObjCType:[ivarInfo[@"encoding"] UTF8String] at:(void *)ivarPtr];
             }
         }];
@@ -136,6 +145,74 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
     }
 }
 
+- (void)importSynthesizedPropertyForArray {
+    if (__allPropertiesImported) return;
+    
+    NSDictionary *context = __context;
+    NSDictionary *ivars = CSFClassIvars(self.class);
+    
+    // Expand properties to their target values
+    NSArray *properties = [__remainingProperties copy];
+    
+    for (NSString *propertyName in properties) {
+        
+        NSDictionary *info = CSFPropertyAttributes(self.class, propertyName);
+        Class propertyClass = info[CSFPropertyClassKey];
+        
+        if ([propertyClass isSubclassOfClass:[NSArray class]]) {
+            if ([[self class] isDefaultPropertyForArray:propertyName]) {
+                
+                NSDictionary *info = CSFPropertyAttributes(self.class, propertyName);
+                Method getterMethod = class_getInstanceMethod(self.class, NSSelectorFromString(info[CSFPropertyGetterNameKey]));
+                if (getterMethod) {
+                    
+                    NSArray *sourceArray = __arrayStorage;
+                    NSMutableArray *array = [NSMutableArray arrayWithCapacity:sourceArray.count];
+                    [sourceArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+                        Class itemClass = [self.class actionModelForPropertyName:propertyName propertyClass:propertyClass contents:obj];
+                        if ([itemClass conformsToProtocol:@protocol(CSFActionModel)]) {
+                            NSObject<CSFActionModel> *resultItem = [[itemClass alloc] initWithJSON:obj context:context];
+                            if (resultItem) {
+                                if ([resultItem isKindOfClass:[CSFOutput class]]) {
+                                    CSFOutput *resultItemOutput = (CSFOutput*)resultItem;
+                                    resultItemOutput.parentObject = self;
+                                }
+                            } else {
+                                resultItem = (NSObject<CSFActionModel>*)[NSNull null];
+                            }
+                            
+                            [array addObject:resultItem];
+                        } else {
+                            [array addObject:obj];
+                        }
+                    }];
+                    
+                    NSArray *storeValue = [NSArray arrayWithArray:array];
+                    
+                    // Check to see if an ivar exists for this property
+                    NSString *ivarName = [NSString stringWithFormat:@"_%@", propertyName];
+                    NSDictionary *ivarInfo = ivars[ivarName];
+                    if (ivarInfo) {
+                        Ivar ivar = class_getInstanceVariable(ivarInfo[@"class"], [ivarName UTF8String]);
+                        
+                        Class ivarClass = CSFClassFromEncoding(ivarInfo[@"encoding"]);
+                        if (ivarClass) {
+                            if ([propertyClass isSubclassOfClass:ivarClass]) {
+                                object_setIvar(self, ivar, storeValue);
+                            }
+                        }
+                    } else if (storeValue) {
+                        [__arrayStorage removeAllObjects];
+                        [__arrayStorage addObjectsFromArray:storeValue];
+                    }
+                }
+            }
+        }
+        
+        [self markPropertyCompleted:propertyName];
+    }
+}
+
 - (void)importSynthesizedProperties {
     if (__allPropertiesImported) return;
     
@@ -149,6 +226,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
         }
     }
 }
+
 
 - (void)markPropertyCompleted:(NSString*)propertyName {
     @synchronized (__remainingProperties) {
@@ -172,7 +250,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
     }
     
     id storeValue = nil;
-    id sourceJson = [__storage valueForKeyPath:storageKey];
+    id sourceJson = [__dictionaryStorage valueForKeyPath:storageKey];
     if ([sourceJson isEqual:[NSNull null]]) {
         sourceJson = nil;
     }
@@ -291,7 +369,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 
                 // Only remove the JSON from local storage if it's not a keypath
                 if ([storageKey rangeOfString:@"."].location == NSNotFound) {
-                    [__storage removeObjectForKey:storageKey];
+                    [__dictionaryStorage removeObjectForKey:storageKey];
                 }
             }
         } else if (ivarInfo[@"encoding"]) {
@@ -302,48 +380,52 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 CSFPrimitivePointer outputPtr = {0};
                 
                 if (strcmp(encodingType, @encode(int)) == 0) {
-                    outputPtr.intPtr = (int *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.intPtr = (int *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned int)) == 0) {
-                    outputPtr.unsignedIntPtr = (unsigned int *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedIntPtr = (unsigned int *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(BOOL)) == 0) {
-                    outputPtr.boolPtr = (BOOL *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.boolPtr = (BOOL *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(NSInteger)) == 0) {
-                    outputPtr.integerPtr = (NSInteger *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.integerPtr = (NSInteger *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(NSUInteger)) == 0) {
-                    outputPtr.unsignedIntegerPtr = (NSUInteger *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedIntegerPtr = (NSUInteger *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(float)) == 0) {
-                    outputPtr.floatPtr = (float *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.floatPtr = (float *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(double)) == 0) {
-                    outputPtr.doublePtr = (double *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.doublePtr = (double *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(char)) == 0) {
-                    outputPtr.charPtr = (char *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.charPtr = (char *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned char)) == 0) {
-                    outputPtr.unsignedCharPtr = (unsigned char *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedCharPtr = (unsigned char *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(short)) == 0) {
-                    outputPtr.shortPtr = (short *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.shortPtr = (short *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned short)) == 0) {
-                    outputPtr.unsignedShortPtr = (unsigned short *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedShortPtr = (unsigned short *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(long)) == 0) {
-                    outputPtr.longPtr = (long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.longPtr = (long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned long)) == 0) {
-                    outputPtr.unsignedLongPtr = (unsigned long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedLongPtr = (unsigned long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(long long)) == 0) {
-                    outputPtr.longLongPtr = (long long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.longLongPtr = (long long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 } else if (strcmp(encodingType, @encode(unsigned long long)) == 0) {
-                    outputPtr.unsignedLongLongPtr = (unsigned long long *)(objc_unretainedPointer(self) + ivar_getOffset(ivar));
+                    outputPtr.unsignedLongLongPtr = (unsigned long long *)((__bridge void*)(self) + ivar_getOffset(ivar));
                 }
                 
                 formatterFunc(storeValue ?: sourceJson, outputPtr);
             }
         }
     } else if (storeValue) {
-        [__storage setValue:storeValue forKeyPath:storageKey];
+        [__dictionaryStorage setValue:storeValue forKeyPath:storageKey];
     }
     
     [self markPropertyCompleted:propertyName];
 }
 
 #pragma mark Public customization overrides
+
++ (BOOL)isDefaultPropertyForArray:(NSString *)propertyName {
+    return YES;
+}
 
 + (NSString*)storageKeyPathForPropertyName:(NSString*)propertyName {
     return propertyName;
@@ -449,7 +531,7 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
 
     NSDictionary *ivars = CSFClassIvars(self.class);
     NSArray *properties = CSFClassProperties(self.class);
-    const void * selfPtr = objc_unretainedPointer(self);
+    const void * selfPtr = (__bridge void*)(self);
     
     [properties enumerateObjectsUsingBlock:^(NSString *propertyName, NSUInteger idx, BOOL *stop) {
         NSString *ivarName = [NSString stringWithFormat:@"_%@", propertyName];
@@ -507,8 +589,8 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
                 leftObject = object_getIvar(self, ivar);
                 rightObject = object_getIvar(model, ivar);
             } else if (ivarInfo[@"encoding"]) {
-                const void * leftIvarPtr = objc_unretainedPointer(self) + ivar_getOffset(ivar);
-                const void * rightIvarPtr = objc_unretainedPointer(model) + ivar_getOffset(ivar);
+                const void * leftIvarPtr = (__bridge void*)(self) + ivar_getOffset(ivar);
+                const void * rightIvarPtr = (__bridge void*)(model) + ivar_getOffset(ivar);
                 
                 const char * encoding = [ivarInfo[@"encoding"] UTF8String];
                 leftObject = [NSValue value:leftIvarPtr withObjCType:encoding];
@@ -553,9 +635,9 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
     id result = nil;
     if ([CSFClassProperties(self.class) containsObject:key]) {
         [self importProperty:key];
-        result = __storage[key];
-    } else if (__storage[key]) {
-        result = __storage[key];
+        result = __dictionaryStorage[key];
+    } else if (__dictionaryStorage[key]) {
+        result = __dictionaryStorage[key];
     } else {
         result = [super valueForUndefinedKey:key];
     }
@@ -591,11 +673,11 @@ static NSString * const kCSFInputCustomAttributes = @"__CSFOutput_Storage";
         key = [[key substringWithRange:NSMakeRange(3, [key length]-4)] lowercaseString];
         NSString *obj;
         [invocation getArgument:&obj atIndex:2];
-        __storage[key] = obj;
+        __dictionaryStorage[key] = obj;
     } else {
         [self importProperty:propertyName];
         
-        id value = __storage[key];
+        id value = __dictionaryStorage[key];
         [invocation setReturnValue:&value];
     }
 }

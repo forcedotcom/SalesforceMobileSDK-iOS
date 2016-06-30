@@ -48,7 +48,7 @@ static NSString * const kPBKDFArchiveDataKey = @"pbkdfDataArchive";
 
 #pragma mark - SFPasscodeProvider
 
-- (id)initWithProviderName:(NSString *)providerName
+- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName
 {
     self = [super init];
     if (self) {

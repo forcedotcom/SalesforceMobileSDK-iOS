@@ -47,10 +47,6 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The temporary user identity
-static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
-static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
-
 // The anonymous user support the application should add to its Info.plist file
 static NSString * const kSFUserAccountSupportAnonymousUsage = @"SFDCSupportAnonymousUsage";
 static NSString * const kSFUserAccountAutocreateAnonymousUser = @"SFDCAutocreateAnonymousUser";
@@ -99,6 +95,8 @@ static NSString * const SFUserAccountManagerErrorDomain = @"SFUserAccountManager
 static const NSUInteger SFUserAccountManagerCannotReadDecryptedArchive = 10001;
 static const NSUInteger SFUserAccountManagerCannotReadPlainTextArchive = 10002;
 static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
+
+static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.syncqueue";
 
 @implementation SFUserAccountManager
 
@@ -149,6 +147,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         _userAccountMap = [[NSMutableDictionary alloc] init];
         _temporaryUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerTemporaryUserAccountUserId orgId:SFUserAccountManagerTemporaryUserAccountOrgId];
         _anonymousUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerAnonymousUserAccountUserId orgId:SFUserAccountManagerAnonymousUserAccountOrgId];
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
         [self loadAccounts:nil];
         [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];
 	}
@@ -164,12 +163,22 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 - (void)setLoginHost:(NSString*)host {
     NSString *oldLoginHost = [self loginHost];
     
-    [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    if (nil == host) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    }
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // Only post the login host change notification if the host actually changed.
     if (![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        NSDictionary *userInfoDict;
+        if (host) {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        } else {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost};
+        }
         NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
         [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
     }
@@ -296,14 +305,6 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 #pragma mark - Temporary User
-
-+ (BOOL)isUserTemporary:(SFUserAccount*)user {
-    if (nil == user.accountIdentity) {
-        return NO;
-    }
-    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
-}
 
 - (SFUserAccount *)temporaryUser {
     SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
@@ -633,10 +634,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     self.previousCommunityId = self.activeCommunityId;
-    
-    SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = self.previousCommunityId;
-    self.currentUser = account;
+
+    if (curUserIdentity){
+        SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
+        account.communityId = self.previousCommunityId;
+        self.currentUser = account;
+    }else{
+        self.currentUser = nil;
+    }
     
     // update the client ID in case it's changed (via settings, etc)
     self.currentUser.credentials.clientId = self.oauthClientId;
@@ -773,37 +778,43 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    NSDictionary *userAccountMap = [self.userAccountMap copy];
-    
-    for (SFUserAccountIdentity *userIdentity in userAccountMap) {
-        // Don't save the temporary user id
-        if ([userIdentity isEqual:self.temporaryUserIdentity]) {
-            continue;
-        }
+    __weak __typeof(self) weakSelf = self;
+    __block BOOL accountsSaved = YES;
+    dispatch_sync(_syncQueue, ^{
+        NSDictionary *userAccountMap = [weakSelf.userAccountMap copy];
         
-        // Grab the user account...
-        SFUserAccount *user = userAccountMap[userIdentity];
-        
-        // And it's persistent file path
-        NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
-        
-        // Make sure to remove any existing file
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        if ([fm fileExistsAtPath:userAccountPath]) {
-            if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, *error];
-                return NO;
+        for (SFUserAccountIdentity *userIdentity in userAccountMap) {
+            // Don't save the temporary user id
+            if ([userIdentity isEqual:weakSelf.temporaryUserIdentity]) {
+                continue;
+            }
+            
+            // Grab the user account...
+            SFUserAccount *user = userAccountMap[userIdentity];
+            
+            // And it's persistent file path
+            NSString *userAccountPath = [[weakSelf class] userAccountPlistFileForUser:user];
+            
+            // Make sure to remove any existing file
+            NSFileManager *fm = [[NSFileManager alloc] init];
+            if ([fm fileExistsAtPath:userAccountPath]) {
+                if (![fm removeItemAtPath:userAccountPath error:error]) {
+                    NSError*const err = error ? *error : nil;
+                    [weakSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
+                    accountsSaved = NO;
+                    return;
+                }
+            }
+            
+            // And now save its content
+            if (![weakSelf saveUserAccount:user toFile:userAccountPath]) {
+                [weakSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
+                accountsSaved = NO;
+                return ;
             }
         }
-        
-        // And now save its content
-        if (![self saveUserAccount:user toFile:userAccountPath]) {
-            [self log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
-            return NO;
-        }
-    }
-    
-    return YES;
+    });
+    return accountsSaved;
 }
 
 - (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath {
@@ -868,12 +879,12 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     return array;
 }
 
-- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
+- (NSArray *)accountsForInstanceURL:(NSURL *)instanceURL {
     NSMutableArray *responseArray = [NSMutableArray array];
     
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
-        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
             [responseArray addObject:account];
         }
     }

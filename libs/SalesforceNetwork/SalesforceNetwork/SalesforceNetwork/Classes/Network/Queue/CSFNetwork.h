@@ -27,6 +27,7 @@
 @class CSFAction;
 @class SFUserAccount;
 @protocol CSFNetworkOutputCache;
+@protocol CSFNetworkDelegate;
 
 /**
  This is the scheduler and network dispatch class for managing a series of network operations
@@ -121,6 +122,9 @@
  */
 @property (nonatomic, copy) NSString *securityToken;
 
+- (void)addDelegate:(id<CSFNetworkDelegate>)delegate;
+- (void)removeDelegate:(id<CSFNetworkDelegate>)delegate;
+
 @end
 
 @interface CSFNetwork (Salesforce)
@@ -182,3 +186,36 @@
 - (void)removeOutputCache:(NSObject<CSFNetworkOutputCache> *)outputCache;
 
 @end
+
+@protocol CSFNetworkDelegate <NSObject>
+
+@optional
+/** Called when an action is about to get enqueued.
+ 
+ @discussion
+ This method is called synchronously, giving the delegates a chance to inspect the action before CSFNetwork acts on it.
+ Perform as little work as possible on this callback to avoid performance degradation.
+ */
+- (void)network:(CSFNetwork*)network willEnqueueAction:(CSFAction*)action;
+
+/** These methods inform delegates asynchronously about state of actions.
+ */
+- (void)network:(CSFNetwork*)network didStartAction:(CSFAction*)action;
+- (void)network:(CSFNetwork*)network didCancelAction:(CSFAction*)action;
+- (void)network:(CSFNetwork*)network didCompleteAction:(CSFAction*)action withError:(NSError*)error;
+
+/** Inform delegates asynchronously about states of tasks for an action
+ 
+ @discussion
+ This method enables monitoring states of particular tasks that an action might trigger.
+ @see NSURLSessionTaskState
+ */
+- (void)network:(CSFNetwork*)network
+    sessionTask:(NSURLSessionTask*)task
+   changedState:(NSURLSessionTaskState)oldState
+        toState:(NSURLSessionTaskState)newState
+      forAction:(CSFAction*)action;
+
+
+@end
+

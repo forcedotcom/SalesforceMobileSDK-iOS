@@ -113,7 +113,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     NSString *objectType = [SFJsonUtils projectIntoJson:record path:kObjectTypeField];
     NSString *objectId = record[self.idFieldName];
     NSDate *localLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:record[self.modificationDateFieldName]];
-    __block NSDate *serverLastModifiedDate = [NSDate dateWithTimeIntervalSince1970:0.0];
+    __block NSDate *serverLastModifiedDate = nil;
     
     SFSmartSyncSoqlBuilder *soqlBuilder = [SFSmartSyncSoqlBuilder withFields:self.modificationDateFieldName];
     [soqlBuilder from:objectType];
@@ -123,7 +123,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
     SFRestFailBlock failBlock = ^(NSError *error) {
         [self log:SFLogLevelError format:@"REST request failed with error: %@", error];
         if (modificationResultBlock != NULL) {
-            modificationResultBlock(nil, nil, error);
+            modificationResultBlock(localLastModifiedDate, nil, error);
         }
     };
     
@@ -133,10 +133,7 @@ static NSString * const kSFSyncUpTargetTypeCustom = @"custom";
             if (nil != record) {
                 NSString *serverLastModifiedStr = record[self.modificationDateFieldName];
                 if (nil != serverLastModifiedStr) {
-                    NSDate *testServerModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:serverLastModifiedStr];
-                    if (testServerModifiedDate != nil) {
-                        serverLastModifiedDate = testServerModifiedDate;
-                    }
+                    serverLastModifiedDate = [SFSmartSyncObjectUtils getDateFromIsoDateString:serverLastModifiedStr];
                 }
             }
         }

@@ -251,7 +251,7 @@
         // Fts
         if ([SFSoupIndex hasFts:self.indexSpecs]) {
             NSMutableArray* oldColumnsFts = [NSMutableArray arrayWithObjects:ID_COL, nil];
-            NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:DOCID_COL, nil];
+            NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:ROWID_COL, nil];
 
             // Adding indexed path columns that we are keeping
             for (NSString* keptPath in keptPaths) {

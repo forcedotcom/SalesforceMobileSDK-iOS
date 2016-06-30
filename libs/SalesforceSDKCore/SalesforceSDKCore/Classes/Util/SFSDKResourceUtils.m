@@ -42,6 +42,13 @@
 + (NSString *)localizedString:(NSString *)localizationKey
 {
     NSAssert(localizationKey != nil, @"localizationKey must contain a value.");
+    
+    NSString *value = NSLocalizedString(localizationKey, localizationKey);
+    if (value && ![value isEqualToString:localizationKey]) {
+        // get from main bundle first to allow customer to override
+        return value;
+    }
+    
     NSBundle *sdkBundle = [SFSDKResourceUtils mainSdkBundle];
     if (!sdkBundle) {
         sdkBundle = [NSBundle mainBundle];
@@ -50,17 +57,16 @@
     return NSLocalizedStringFromTableInBundle(localizationKey, @"Localizable", sdkBundle, nil);
 }
 
-+ (UIImage *)imageNamed:(NSString *)name
-{
-    NSBundle *bundle = [NSBundle bundleForClass:[self class]];
++ (UIImage *)imageNamed:(NSString *)name {
     NSAssert(name != nil, @"name must contain a value.");
+    NSBundle *bundle = [NSBundle mainBundle];
     UIImage *image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
     if (image) {
+        // get from main bundle first to allow customer to override
         return image;
     }
     
-    // get from main bundle
-    bundle = [NSBundle mainBundle];
+    bundle = [NSBundle bundleForClass:[self class]];
     image = [UIImage imageNamed:name inBundle:bundle compatibleWithTraitCollection:nil];
     return image;
 }

@@ -83,7 +83,7 @@ NSString *const LAST_MODIFIED_COL = @"lastModified";
 NSString *const SOUP_COL = @"soup";
 
 // Columns of a soup fts table
-NSString *const DOCID_COL = @"docid";
+NSString *const ROWID_COL = @"rowid";
 
 // Table to keep track of status of long operations in flight
 NSString *const LONG_OPERATIONS_STATUS_TABLE = @"long_operations_status";
@@ -176,6 +176,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
         _indexSpecsBySoup = [[NSMutableDictionary alloc] init];
         
         _smartSqlToSql = [[NSMutableDictionary alloc] init];
+        
+        // Using FTS5 by default
+        _ftsExtension = SFSmartStoreFTS5;
         
         if (![_dbMgr persistentStoreExists:name]) {
             if (![self firstTimeStoreDatabaseSetup]) {
@@ -1048,7 +1051,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     
     // fts
     if (columnsForFts.count > 0) {
-        [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts4(%@)", soupTableName, [columnsForFts componentsJoinedByString:@","]];
+        [createFtsStmt appendFormat:@"CREATE VIRTUAL TABLE %@_fts USING fts%u(%@)", soupTableName, (unsigned)self.ftsExtension, [columnsForFts componentsJoinedByString:@","]];
         [self log:SFLogLevelDebug format:@"createFtsStmt: %@",createFtsStmt];
     }
     
@@ -1403,7 +1406,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     // fts
     if ([SFSoupIndex hasFts:indices]) {
         NSMutableDictionary *ftsValues = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                          newEntryId, DOCID_COL,
+                                          newEntryId, ROWID_COL,
                                           nil];
         [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
         [self insertIntoTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues withDb:db];
@@ -1440,7 +1443,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if ([SFSoupIndex hasFts:indices]) {
         NSMutableDictionary *ftsValues = [NSMutableDictionary new];
         [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
-        [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
+        [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:ROWID_COL withDb:db];
     }
     
     return mutableEntry;
@@ -1574,7 +1577,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [self executeUpdateThrows:deleteSql withDb:db];
         // fts
         if ([self hasFts:soupName withDb:db]) {
-            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:DOCID_COL]];
+            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@", soupTableName, [self idsInPredicate:soupEntryIds idCol:ROWID_COL]];
             [self executeUpdateThrows:deleteFtsSql withDb:db];
         }
     }
@@ -1602,7 +1605,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts
     if ([self hasFts:soupName withDb:db]) {
-        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts %@ in (%@)", soupTableName, DOCID_COL, querySql];
+        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@ in (%@)", soupTableName, ROWID_COL, querySql];
         [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 }
@@ -1690,7 +1693,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 NSMutableDictionary *ftsValues = [NSMutableDictionary dictionary];
                 [self projectIndexedPaths:entry values:ftsValues indices:indices typeFilter:kValueExtractedToFtsColumn];
                 if ([ftsValues count] > 0) {
-                    [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:DOCID_COL withDb:db];
+                    [self updateTable:[NSString stringWithFormat:@"%@_fts", soupTableName] values:ftsValues entryId:entryId idCol:ROWID_COL withDb:db];
                 }
             }
         }

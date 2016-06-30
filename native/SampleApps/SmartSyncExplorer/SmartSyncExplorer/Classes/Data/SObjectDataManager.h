@@ -27,23 +27,24 @@
 #import "SObjectDataSpec.h"
 #import "SObjectData.h"
 
+
 @interface SObjectDataManager : NSObject
 
 @property (nonatomic, readonly) SFSmartStore *store;
 @property (nonatomic, strong) NSArray *dataRows;
 
-- (id)initWithViewController:(UITableViewController *)parentVc
-                    dataSpec:(SObjectDataSpec *)dataSpec;
+- (id)initWithDataSpec:(SObjectDataSpec *)dataSpec;
 
-- (void)refreshLocalData;
+- (void)refreshLocalData:(void (^)(void))completionBlock;
 - (void)createLocalData:(SObjectData *)newData;
 - (void)updateLocalData:(SObjectData *)updatedData;
 - (void)deleteLocalData:(SObjectData *)dataToDelete;
+- (void)undeleteLocalData:(SObjectData *)dataToDelete;
 - (BOOL)dataHasLocalChanges:(SObjectData *)data;
 - (BOOL)dataLocallyCreated:(SObjectData *)data;
 - (BOOL)dataLocallyUpdated:(SObjectData *)data;
 - (BOOL)dataLocallyDeleted:(SObjectData *)data;
-- (void)refreshRemoteData;
+- (void)refreshRemoteData:(void (^)(void))completionBlock;
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
 - (void)resetDataRows;

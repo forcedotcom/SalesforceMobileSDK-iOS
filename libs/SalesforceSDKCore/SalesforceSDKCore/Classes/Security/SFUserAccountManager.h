@@ -161,7 +161,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 
 /** The host that will be used for login.
  */
-@property (nonatomic, strong) NSString *loginHost;
+@property (nonatomic, strong, nullable) NSString *loginHost;
 
 /** Should the login process start again if it fails (default: YES)
  */
@@ -255,7 +255,7 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
  @param instanceURL The host parameter of a given instance URL
  @return An array of accounts that match that instance URL
  */
-- (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSString *)instanceURL;
+- (NSArray<SFUserAccount*> *)accountsForInstanceURL:(NSURL *)instanceURL;
 
 /** Adds a user account
  @param acct The account to be added

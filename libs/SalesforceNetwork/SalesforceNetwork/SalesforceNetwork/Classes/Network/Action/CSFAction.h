@@ -31,6 +31,7 @@
 @class CSFNetwork;
 @class CSFAction;
 
+NS_ASSUME_NONNULL_BEGIN
 /**
  This is a class that represents an chatter action that the action executer executes
  */
@@ -137,7 +138,7 @@
 @property (nonatomic, readonly) NSUInteger retryCount;
 @property (nonatomic) NSUInteger maxRetryCount;
 
-@property (nonatomic, strong) NSMutableData *responseData;
+@property (nullable, nonatomic, strong) NSMutableData *responseData;
 
 /**
  @brief Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.
@@ -215,7 +216,7 @@
  extra logic so responseBlock is properly invoked with response data.
  @param error Action error if avaiable.
  */
-- (void)completeOperationWithError:(NSError*)error;
+- (void)completeOperationWithError:(nullable NSError*)error;
 
 /** Returns an instance of NSURLSessionTask to process the specified request 
 
@@ -258,7 +259,7 @@
  
  @return `YES` if the network request should be overridden, otherwise `NO`.
  */
-- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
+- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData* _Nullable * _Nonnull)data andHTTPResponse:(NSHTTPURLResponse* _Nullable * _Nonnull)response;
 
 /**
  @brief Overridable method that permits subclasses to opt-out of contributing its progress to the parent CSFNetwork instance.
@@ -271,10 +272,12 @@
 
 @end
 
-CSF_EXTERN NSString * const kCSFActionTimingTotalTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingNetworkTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingStartDelayKey;
-CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
+typedef NSString*const CSFActionTiming NS_STRING_ENUM;
+
+CSF_EXTERN CSFActionTiming kCSFActionTimingTotalTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingNetworkTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingStartDelayKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingPostProcessingKey;
 
 @interface CSFAction (Timing)
 
@@ -294,6 +297,8 @@ CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
  
  @return The time interval for the requested key, or `0` if the key is invalid or if the request hasn't gathered enough information to supply that value yet.
  */
-- (NSTimeInterval)intervalForTimingKey:(NSString*)key;
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key;
 
 @end
+
+NS_ASSUME_NONNULL_END
