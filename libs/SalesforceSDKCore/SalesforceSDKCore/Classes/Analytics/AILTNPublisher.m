@@ -29,8 +29,9 @@
 
 #import "AILTNPublisher.h"
 #import "SFUserAccountManager.h"
-
-// TODO: Add GZIP compression to the header and data.
+#import "SalesforceSDKManager.h"
+#import "SFLogger.h"
+#import <zlib.h>
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
@@ -51,36 +52,54 @@ static NSString* const kBearer = @"Bearer %@";
     }
 
     // Builds the POST body of the request.
-    NSDictionary *body = [[self class] buildRequestBody:events];
+    NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
     SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].currentUser.credentials;
     NSURL *loggingEndpointUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/%@", credentials.apiUrl, kRestApiPrefix, kApiVersion, kRestApiSuffix]];
     NSString *token = [NSString stringWithFormat:kBearer, credentials.accessToken];
-    
-    
-    /*
-    final RestClient restClient = SalesforceSDKManager.getInstance().getClientManager().peekRestClient();
-    final RequestBody requestBody = RequestBody.create(RestRequest.MEDIA_TYPE_JSON, body.toString());
-    final RestRequest restRequest = new RestRequest(RestRequest.RestMethod.POST, apiPath, requestBody);
-    RestResponse restResponse = null;
-    try {
-        restResponse = restClient.sendSync(restRequest);
-    } catch (IOException e) {
-        Log.e(TAG, "Exception thrown while making network request", e);
+    NSString *userAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    NSData *body = [[[self class] dictionaryAsJSONString:bodyDictionary] dataUsingEncoding:NSUTF8StringEncoding];
+    __block NSError *error = nil;
+    NSHTTPURLResponse* (^makeSynchronousRequest)(NSError**) = ^NSHTTPURLResponse* (NSError** error) {
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:loggingEndpointUrl
+                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                           timeoutInterval:60.0];
+        [request setHTTPMethod:@"POST"];
+        [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+        [request setValue:@"false" forHTTPHeaderField:@"X-Chatter-Entity-Encoding"];
+        [request setValue:token forHTTPHeaderField:@"Authorization"];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+
+        // Adds GZIP compression.
+        NSData *postData = [[self class] gzipCompressedData:body];
+        [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
+        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
+        [request setHTTPBody:postData];
+        NSHTTPURLResponse* response = nil;
+        [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
+        return response;
+    };
+    NSHTTPURLResponse *response = makeSynchronousRequest(&error);
+    NSInteger code = [response statusCode];
+
+    // Retries the request after token refresh, if a 401 is received.
+    if (code == 401) {
+        error = nil;
+        response = makeSynchronousRequest(&error);
+        code = [response statusCode];
     }
-    if (restResponse != null && restResponse.isSuccess()) {
-        return true;
+    if (error) {
+        [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[error code], [error localizedDescription]];
+        return NO;
+    } else if (code >= 200 && code < 300) {
+        return YES;
     }
-    return false;
-    */
-    
-    
     return NO;
 }
 
 + (NSDictionary *) buildRequestBody:(NSArray *) events {
     NSMutableDictionary *body = [[NSMutableDictionary alloc] init];
     NSMutableArray *logLines = [[NSMutableArray alloc] init];
-    for (int i = 0; i < logLines.count; i++) {
+    for (int i = 0; i < events.count; i++) {
         NSMutableDictionary *event = [events objectAtIndex:i];
         if (event) {
             NSMutableDictionary *trackingInfo = [[NSMutableDictionary alloc] init];
@@ -95,6 +114,50 @@ static NSString* const kBearer = @"Bearer %@";
     }
     body[kLogLines] = logLines;
     return body;
+}
+
++ (NSString *) dictionaryAsJSONString:(NSDictionary *) dict {
+    NSError *error = nil;
+    if ([NSJSONSerialization isValidJSONObject:dict]) {
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+        if (error) {
+            return nil;
+        }
+        NSString *jsonString = [[NSString alloc] initWithBytes:[jsonData bytes] length:[jsonData length] encoding:NSUTF8StringEncoding];
+        jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\/" withString:@"/"];
+        return jsonString;
+    } else {
+        [self log:SFLogLevelError format:@"%@ - invalid object passed to JSONDataRepresentation", [self class]];
+        return nil;
+    }
+}
+
++ (NSData *) gzipCompressedData:(NSData *) data {
+    if ([data length] == 0) {
+        return data;
+    }
+    z_stream stream;
+    stream.zalloc = Z_NULL;
+    stream.zfree = Z_NULL;
+    stream.opaque = Z_NULL;
+    stream.total_out = 0;
+    stream.next_in = (Bytef *)[data bytes];
+    stream.avail_in = (uInt)[data length];
+    if (deflateInit2(&stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15 + 16), 8, Z_DEFAULT_STRATEGY) != Z_OK) {
+        return nil;
+    }
+    NSMutableData *compressed = [NSMutableData dataWithLength:16384];
+    do {
+        if (stream.total_out >= [compressed length]) {
+            [compressed increaseLengthBy:16384];
+        }
+        stream.next_out = [compressed mutableBytes] + stream.total_out;
+        stream.avail_out = (uInt)([compressed length] - stream.total_out);
+        deflate(&stream, Z_FINISH);
+    } while (stream.avail_out == 0);
+    deflateEnd(&stream);
+    [compressed setLength: stream.total_out];
+    return [NSData dataWithData:compressed];
 }
 
 @end

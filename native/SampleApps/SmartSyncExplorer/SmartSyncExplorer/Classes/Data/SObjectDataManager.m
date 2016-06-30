@@ -113,6 +113,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         [self log:SFLogLevelWarning format:@"Exception thrown while attempting to build event"];
     }
     [self.sfAnalyticsManager.eventStoreManager storeEvent:event];
+    [self.sfAnalyticsManager publishAllEvents];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
