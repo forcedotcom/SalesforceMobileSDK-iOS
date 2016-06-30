@@ -87,9 +87,7 @@ static NSString* const kSFPerfEventType = @"defs";
     NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
     payload[kSFVersionKey] = kSFVersionValue;
     SchemaType schemaType = event.schemaType;
-    if (schemaType) {
-        payload[kSFSchemaTypeKey] = [event stringValueOfSchemaType:schemaType];
-    }
+    payload[kSFSchemaTypeKey] = [event stringValueOfSchemaType:schemaType];
     payload[kSFIdKey] = event.eventId;
     payload[kSFEventSourceKey] = event.name;
     NSInteger startTime = event.startTime;

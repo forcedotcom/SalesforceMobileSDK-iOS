@@ -57,7 +57,6 @@ static NSString* const kBearer = @"Bearer %@";
     NSURL *loggingEndpointUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/%@", credentials.apiUrl, kRestApiPrefix, kApiVersion, kRestApiSuffix]];
     NSString *token = [NSString stringWithFormat:kBearer, credentials.accessToken];
     NSString *userAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
-    NSData *body = [[[self class] dictionaryAsJSONString:bodyDictionary] dataUsingEncoding:NSUTF8StringEncoding];
     __block NSError *error = nil;
     NSHTTPURLResponse* (^makeSynchronousRequest)(NSError**) = ^NSHTTPURLResponse* (NSError** error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:loggingEndpointUrl
@@ -70,7 +69,9 @@ static NSString* const kBearer = @"Bearer %@";
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 
         // Adds GZIP compression.
-        NSData *postData = [[self class] gzipCompressedData:body];
+        NSString *bodyString = [[self class] dictionaryAsJSONString:bodyDictionary];
+        NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+        NSData *postData = [[self class] gzipCompressedData:bodyData];
         [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
         [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:postData];
@@ -107,7 +108,7 @@ static NSString* const kBearer = @"Bearer %@";
             NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
             data[kSchemaTypeKey] = event[kSchemaTypeKey];
             [event removeObjectForKey:kSchemaTypeKey];
-            data[kPayload] = event;
+            data[kPayload] = [[self class] dictionaryAsJSONString:event];
             trackingInfo[kData] = data;
             [logLines addObject:trackingInfo];
         }
