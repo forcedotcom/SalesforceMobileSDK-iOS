@@ -103,7 +103,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     [builder schemaType:SchemaTypeInteraction];
     [builder eventType:EventTypeUser];
     NSMutableDictionary *page = [[NSMutableDictionary alloc] init];
-    page["context"] = @"SObjectDataManager";
+    page[@"context"] = @"SObjectDataManager";
     [builder page:page];
     [builder endTime:1000 * [[NSDate date] timeIntervalSince1970]];
     InstrumentationEvent *event = nil;
