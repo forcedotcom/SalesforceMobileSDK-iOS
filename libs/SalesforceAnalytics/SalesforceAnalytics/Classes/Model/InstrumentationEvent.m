@@ -146,15 +146,9 @@
     dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
     dict[kSenderIdKey] = self.senderId;
     dict[kSenderContextKey] = self.senderContext;
-    if (self.schemaType) {
-        dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
-    }
-    if (self.eventType) {
-        dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
-    }
-    if (self.errorType) {
-        dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
-    }
+    dict[kSchemaTypeKey] = [self stringValueOfSchemaType:self.schemaType];
+    dict[kEventTypeKey] = [self stringValueOfEventType:self.eventType];
+    dict[kErrorTypeKey] = [self stringValueOfErrorType:self.errorType];
     if (self.deviceAppAttributes) {
         dict[kDeviceAppAttributesKey] = [self.deviceAppAttributes jsonRepresentation];
     }

@@ -134,14 +134,14 @@ static NSString* const kSFPerfEventType = @"defs";
     NSString *eventTypeString;
     if (schemaType == SchemaTypePerf) {
         eventTypeString = kSFPerfEventType;
-    } else if (schemaType == SchemaTypeInteraction && eventType) {
+    } else if (schemaType == SchemaTypeInteraction) {
         eventTypeString = [event stringValueOfEventType:eventType];
     }
     if (eventTypeString) {
         payload[kSFEventTypeKey] = eventTypeString;
     }
     ErrorType errorType = event.errorType;
-    if (errorType && (schemaType == SchemaTypeError)) {
+    if (schemaType == SchemaTypeError) {
         payload[kSFErrorTypeKey] = [event stringValueOfErrorType:errorType];
     }
     return payload;
