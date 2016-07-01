@@ -948,8 +948,10 @@ static Class InstanceClass = nil;
                                                 if (weakSelf.authCoordinatorBrowserBlock) {
                                                     weakSelf.authCoordinatorBrowserBlock(NO);
                                                 }
+                                            } else if (tag == kOAuthGenericAlertViewTag){
+                                                // Let the delegate know about the cancellation
+                                                [weakSelf delegateDidCancelGenericFlow];
                                             }
-                                            [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
                                         }];
         
         [self.statusAlert addAction:cancelAction];
@@ -1105,6 +1107,14 @@ static Class InstanceClass = nil;
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
+}
+
+- (void)delegateDidCancelGenericFlow {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidCancelGenericFlow:)]) {
+            [delegate authManagerDidCancelGenericFlow:self];
+        }
+    }];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

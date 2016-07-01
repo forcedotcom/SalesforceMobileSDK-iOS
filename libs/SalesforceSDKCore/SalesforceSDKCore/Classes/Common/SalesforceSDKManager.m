@@ -626,7 +626,7 @@ static Class InstanceClass = nil;
     // especially if the user is anonymous, to ensure the auth view controller
     // is dismissed otherwise it stays visible - because by default it is dismissed
     // only after a successfully authentication.
-    // A typical scenario when this happen is when the user switch to a new user
+    // A typical scenario when this happen is when the user switches to a new user
     // but decides to "go back" to the existing user and that existing user is
     // the anonymous user - the auth flow never happens and the auth view controller
     // stays on the screen, masking the main UI.
