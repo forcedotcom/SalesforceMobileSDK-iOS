@@ -164,6 +164,12 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  */
 - (void)authManagerDidCancelBrowserFlow:(SFAuthenticationManager *)manager;
 
+/**
+ Called when a generic flow authentication is cancelled.
+ @param manager The instance of SFAuthenticationManager making the call.
+*/
+- (void)authManagerDidCancelGenericFlow:(SFAuthenticationManager *)manager;
+
 @end
 
 /**
