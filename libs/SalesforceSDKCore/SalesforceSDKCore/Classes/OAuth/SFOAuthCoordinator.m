@@ -583,7 +583,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                     if (dict[kSFOAuthAccessToken]) {
                         NSString *escapedString = [self URLEncodeStringFromString:approvalUrl];
                         NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.instanceUrl, dict[kSFOAuthAccessToken],escapedString];
-                        [self doLoadURL:approvalUrl];
+                        [self doLoadURL:approvalUrl withCookie:YES];
                         swapOK = YES;
                         self.credentials.jwt = nil;
                     }
@@ -591,12 +591,12 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             }
             if (!swapOK) {
                 [self log:SFLogLevelInfo msg:@"Fail to swap JWT for access token"];
-                [self doLoadURL:approvalUrl];
+                [self doLoadURL:approvalUrl withCookie:NO];
             }
         }] resume];
     }
     else {
-        [self doLoadURL:approvalUrl];
+        [self doLoadURL:approvalUrl withCookie:NO];
     }
 }
 
@@ -608,13 +608,13 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, str, NULL, charset, encoding));
 }
 
-- (void)doLoadURL:(NSString*)approvalUrl{
+- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(bool)enableCookie {
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
-    [request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
+    if(!enableCookie) [request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     
     [self.view loadRequest:request];
