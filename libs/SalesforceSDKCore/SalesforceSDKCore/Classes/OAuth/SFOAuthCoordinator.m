@@ -559,19 +559,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     
     // JWT Flow
     if (self.credentials.jwt && self.credentials.instanceUrl) {
-        NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
-                         self.credentials.instanceUrl.absoluteString,
-                         kSFOAuthEndPointToken];
-        
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                           timeoutInterval:self.timeout];
-        NSString *bodyStr = [NSString stringWithFormat:@"grant_type=urn%%3Aietf%%3Aparams%%3Aoauth%%3Agrant-type%%3Ajwt-bearer&assertion=%@",self.credentials.jwt];
-        NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
-        [request setHTTPBody:body];
-        [request setHTTPMethod:kHttpMethodPost];
-        [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
-        
-        [[self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             bool swapOK = NO;
             if (!error) {
                 NSError *jsonError = nil;
@@ -593,11 +581,28 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 [self log:SFLogLevelInfo msg:@"Fail to swap JWT for access token"];
                 [self doLoadURL:approvalUrl withCookie:NO];
             }
-        }] resume];
+        }];
     }
     else {
         [self doLoadURL:approvalUrl withCookie:NO];
     }
+}
+
+
+- (void)swapJWTWithcompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler  {
+    NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
+                     self.credentials.instanceUrl.absoluteString,
+                     kSFOAuthEndPointToken];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                       timeoutInterval:self.timeout];
+    NSString *bodyStr = [NSString stringWithFormat:@"grant_type=urn%%3Aietf%%3Aparams%%3Aoauth%%3Agrant-type%%3Ajwt-bearer&assertion=%@",self.credentials.jwt];
+    NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:body];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    
+    [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
 - (NSString *)URLEncodeStringFromString:(NSString *)string
