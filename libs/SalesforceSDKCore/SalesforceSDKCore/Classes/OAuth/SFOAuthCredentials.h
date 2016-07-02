@@ -117,6 +117,13 @@ typedef NS_ENUM(NSInteger, SFOAuthCredentialsStorageType){
  @exception NSInternalInconsistencyException If accessed while the identifier property is `nil`.
  */
 @property (nonatomic, copy) NSString *activationCode;
+/** JWT.
+ 
+ JWT code used in the client breeze link flow.
+ @warning This property must not be modified while authenticating.
+ @warning This property should be set to nil after authentication.
+ */
+@property (nonatomic, copy) NSString *jwt;
 
 /** Token used to refresh the user's session.
  

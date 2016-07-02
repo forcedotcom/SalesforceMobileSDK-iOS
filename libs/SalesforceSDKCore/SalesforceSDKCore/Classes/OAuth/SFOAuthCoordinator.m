@@ -540,7 +540,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
 
     NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                    self.credentials.protocol, (self.credentials.instanceUrl)?self.credentials.instanceUrl:self.credentials.domain, kSFOAuthEndPointAuthorize,
                                     kSFOAuthClientId, self.credentials.clientId,
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch];
@@ -557,15 +557,67 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [approvalUrl appendString:scopeString];
     }
     
+    // JWT Flow
+    if (self.credentials.jwt && self.credentials.instanceUrl) {
+        NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
+                         self.credentials.instanceUrl.absoluteString,
+                         kSFOAuthEndPointToken];
+        
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                           timeoutInterval:self.timeout];
+        NSString *bodyStr = [NSString stringWithFormat:@"grant_type=urn%%3Aietf%%3Aparams%%3Aoauth%%3Agrant-type%%3Ajwt-bearer&assertion=%@",self.credentials.jwt];
+        NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+        [request setHTTPBody:body];
+        [request setHTTPMethod:kHttpMethodPost];
+        [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+        
+        [[self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            bool swapOK = NO;
+            if (!error) {
+                NSError *jsonError = nil;
+                id json = nil;
+                
+                json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *dict = (NSDictionary *)json;
+                    if (dict[kSFOAuthAccessToken]) {
+                        NSString *escapedString = [self URLEncodeStringFromString:approvalUrl];
+                        NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.instanceUrl, dict[kSFOAuthAccessToken],escapedString];
+                        [self doLoadURL:approvalUrl];
+                        swapOK = YES;
+                        self.credentials.jwt = nil;
+                    }
+                }
+            }
+            if (!swapOK) {
+                [self log:SFLogLevelInfo msg:@"Fail to swap JWT for access token"];
+                [self doLoadURL:approvalUrl];
+            }
+        }] resume];
+    }
+    else {
+        [self doLoadURL:approvalUrl];
+    }
+}
+
+- (NSString *)URLEncodeStringFromString:(NSString *)string
+{
+    static CFStringRef charset = CFSTR("!@#$%&*()+'\";:=,/?[] ");
+    CFStringRef str = (__bridge CFStringRef)string;
+    CFStringEncoding encoding = kCFStringEncodingUTF8;
+    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, str, NULL, charset, encoding));
+}
+
+- (void)doLoadURL:(NSString*)approvalUrl{
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
-	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
+    [request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
-	
-	[self.view loadRequest:request];
+    
+    [self.view loadRequest:request];
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
@@ -906,6 +958,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     BOOL result = YES;
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
+    [self log:SFLogLevelDebug format:@"Start to load %@", requestUrlString];
     if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         result = NO; // we're finished, don't load this request
         [self handleUserAgentResponse:requestUrl];
