@@ -81,13 +81,6 @@ static NSString* const kBearer = @"Bearer %@";
     };
     NSHTTPURLResponse *response = makeSynchronousRequest(&error);
     NSInteger code = [response statusCode];
-
-    // Retries the request after token refresh, if a 401 is received.
-    if (code == 401) {
-        error = nil;
-        response = makeSynchronousRequest(&error);
-        code = [response statusCode];
-    }
     if (error) {
         [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[error code], [error localizedDescription]];
         return NO;
