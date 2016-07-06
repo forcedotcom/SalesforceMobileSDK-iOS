@@ -98,7 +98,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     NSString *eventName = @"Contact List Refresh";
     [builder startTime:curTime];
     [builder name:eventName];
-    [builder sessionId:1];
+    [builder sessionId:[[NSUUID UUID] UUIDString]];
     [builder senderId:@"SmartSyncExplorer"];
     [builder schemaType:SchemaTypeInteraction];
     [builder eventType:EventTypeUser];

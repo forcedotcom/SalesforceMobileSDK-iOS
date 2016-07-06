@@ -39,7 +39,7 @@
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, assign, readwrite) NSInteger sessionId;
+@property (nonatomic, assign, readwrite) NSString *sessionId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
 @property (nonatomic, assign, readwrite) SchemaType schemaType;
@@ -87,7 +87,7 @@
     return self;
 }
 
-- (InstrumentationEventBuilder *) sessionId:(NSInteger) sessionId {
+- (InstrumentationEventBuilder *) sessionId:(NSString *) sessionId {
     self.sessionId = sessionId;
     return self;
 }

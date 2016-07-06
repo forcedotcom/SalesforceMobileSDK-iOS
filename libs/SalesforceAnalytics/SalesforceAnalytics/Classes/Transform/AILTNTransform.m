@@ -102,9 +102,9 @@ static NSString* const kSFPerfEventType = @"defs";
             payload[kSFEptKey] = [NSNumber numberWithInteger:duration];
         }
     }
-    NSInteger sessionId = event.sessionId;
-    if (sessionId != 0) {
-        payload[kSFClientSessionIdKey] = [NSNumber numberWithInteger:sessionId];
+    NSString *sessionId = event.sessionId;
+    if (sessionId) {
+        payload[kSFClientSessionIdKey] = sessionId;
     }
     if (schemaType != SchemaTypePerf) {
         payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
