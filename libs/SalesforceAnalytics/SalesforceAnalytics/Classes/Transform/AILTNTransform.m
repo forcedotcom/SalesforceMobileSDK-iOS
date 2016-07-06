@@ -124,7 +124,7 @@ static NSString* const kSFPerfEventType = @"defs";
     if (marks && schemaType == SchemaTypePageView) {
         payload[kMarksKey] = marks;
     }
-    if (schemaType == SchemaTypeInteraction) {
+    if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
         NSDictionary *locator = [[self class] buildLocator:event];
         if (locator) {
             payload[kSFLocatorKey] = locator;
