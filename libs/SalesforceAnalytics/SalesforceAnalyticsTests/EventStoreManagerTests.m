@@ -33,6 +33,7 @@
 
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
 static NSString * const kTestSenderId = @"TEST_SENDER_ID";
+static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 
 @interface EventStoreManagerTests : XCTestCase
 
@@ -259,7 +260,7 @@ static NSString * const kTestSenderId = @"TEST_SENDER_ID";
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder startTime:curTime];
     [builder name:eventName];
-    [builder sessionId:1];
+    [builder sessionId:kTestSessionId];
     [builder page:[[NSDictionary alloc] init]];
     [builder senderId:kTestSenderId];
     [builder schemaType:SchemaTypeError];

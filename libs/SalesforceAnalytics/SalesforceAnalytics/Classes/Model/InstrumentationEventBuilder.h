@@ -76,7 +76,7 @@
  * @param sessionId Session ID.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) sessionId:(NSInteger) sessionId;
+- (InstrumentationEventBuilder *) sessionId:(NSString *) sessionId;
 
 /**
  * Sets sender ID.

@@ -36,7 +36,7 @@
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, assign, readwrite) NSInteger sessionId;
+@property (nonatomic, assign, readwrite) NSString *sessionId;
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
@@ -55,7 +55,7 @@
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSInteger) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SchemaType) schemaType eventType:(EventType) eventType errorType:(ErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -98,9 +98,7 @@
             }
             self.name = dict[kNameKey];
             self.attributes = dict[kAttributesKey];
-            if (dict[kSessionIdKey]) {
-                self.sessionId = [dict[kSessionIdKey] integerValue];
-            }
+            self.sessionId = dict[kSessionIdKey];
             if (dict[kSequenceIdKey]) {
                 self.sequenceId = [dict[kSequenceIdKey] integerValue];
             }
@@ -142,7 +140,7 @@
     dict[kEndTimeKey] = [NSNumber numberWithInteger:self.endTime];
     dict[kNameKey] = self.name;
     dict[kAttributesKey] = self.attributes;
-    dict[kSessionIdKey] = [NSNumber numberWithInteger:self.sessionId];
+    dict[kSessionIdKey] = self.sessionId;
     dict[kSequenceIdKey] = [NSNumber numberWithInteger:self.sequenceId];
     dict[kSenderIdKey] = self.senderId;
     dict[kSenderContextKey] = self.senderContext;

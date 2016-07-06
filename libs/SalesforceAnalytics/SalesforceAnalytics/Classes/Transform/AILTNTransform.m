@@ -96,15 +96,15 @@ static NSString* const kSFPerfEventType = @"defs";
     NSInteger endTime = event.endTime;
     NSInteger duration = endTime - startTime;
     if (duration > 0) {
-        if (schemaType == SchemaTypeInteraction) {
+        if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePerf) {
             payload[kSFDurationKey] = [NSNumber numberWithInteger:duration];
         } else if (schemaType == SchemaTypePageView) {
             payload[kSFEptKey] = [NSNumber numberWithInteger:duration];
         }
     }
-    NSInteger sessionId = event.sessionId;
-    if (sessionId != 0) {
-        payload[kSFClientSessionIdKey] = [NSNumber numberWithInteger:sessionId];
+    NSString *sessionId = event.sessionId;
+    if (sessionId) {
+        payload[kSFClientSessionIdKey] = sessionId;
     }
     if (schemaType != SchemaTypePerf) {
         payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
@@ -124,7 +124,7 @@ static NSString* const kSFPerfEventType = @"defs";
     if (marks && schemaType == SchemaTypePageView) {
         payload[kMarksKey] = marks;
     }
-    if (schemaType == SchemaTypeInteraction) {
+    if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
         NSDictionary *locator = [[self class] buildLocator:event];
         if (locator) {
             payload[kSFLocatorKey] = locator;

@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, assign, readonly) NSInteger endTime;
 @property (nonatomic, strong, readonly) NSString *name;
 @property (nonatomic, strong, readonly) NSDictionary *attributes;
-@property (nonatomic, assign, readonly) NSInteger sessionId;
+@property (nonatomic, assign, readonly) NSString *sessionId;
 @property (nonatomic, assign, readonly) NSInteger sequenceId;
 @property (nonatomic, strong, readonly) NSString *senderId;
 @property (nonatomic, strong, readonly) NSDictionary *senderContext;
