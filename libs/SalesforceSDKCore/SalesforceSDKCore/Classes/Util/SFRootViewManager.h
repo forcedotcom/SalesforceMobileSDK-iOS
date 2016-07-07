@@ -25,6 +25,30 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@class SFRootViewManager;
+
+/**
+ Delegate of the root view manager
+ */
+@protocol SFRootViewManagerDelegate <NSObject>
+
+@optional
+
+/**
+ Called when the root view manager is going to push a view controller
+ @param manager The root view manager performing the action
+ @param viewController The view controller that is going to be pushed
+ */
+- (void)rootViewManager:(SFRootViewManager*)manager willPushViewControler:(UIViewController*)viewController;
+
+/**
+ Called when the root view manager is did pop a view controller
+ @param manager The root view manager performing the action
+ @param viewController The view controller that got dismissed
+ */
+- (void)rootViewManager:(SFRootViewManager*)manager didPopViewControler:(UIViewController*)viewController;
+
+@end
 /**
  Class to control the presentation of temporary modal views in an existing view stack.  Used
  internally for things like the authentication view and the passcode screen.
@@ -40,6 +64,18 @@
  The main window of the application.  If not explicitly set, defaults to `[UIApplication sharedApplication].windows[0]`.
  */
 @property (nonatomic, strong) UIWindow *mainWindow;
+
+/**
+ Add a delegate
+ @param delegate The delegate to add
+ */
+- (void)addDelegate:(id<SFRootViewManagerDelegate>)delegate;
+
+/**
+ Remove a delegate
+ @param delegate The delegate to remove
+ */
+- (void)removeDelegate:(id<SFRootViewManagerDelegate>)delegate;
 
 /**
  Push a view controller onto the top of the presentation stack.
