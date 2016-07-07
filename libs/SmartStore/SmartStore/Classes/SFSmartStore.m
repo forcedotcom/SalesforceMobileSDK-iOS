@@ -1055,19 +1055,20 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [self log:SFLogLevelDebug format:@"attrs sql: %@",attrsSql];
         
         FMResultSet *frs = [self executeQueryThrows:attrsSql withArgumentsInArray:@[soupName] withDb:db];
-        [frs next];
-        NSMutableArray *soupFeatures = [[NSMutableArray alloc] init];
-        for (NSString *feature in [self registeredSoupFeaturesWithDb:db]) {
-            if ([frs intForColumn:feature] == kSoupFeatureEnabled) {
-                [soupFeatures addObject:feature];
+        if ([frs next]) {
+            NSMutableArray *soupFeatures = [[NSMutableArray alloc] init];
+            for (NSString *feature in [self registeredSoupFeaturesWithDb:db]) {
+                if ([frs intForColumn:feature] == kSoupFeatureEnabled) {
+                    [soupFeatures addObject:feature];
+                }
             }
+            attrs = [SFSoupSpec newSoupSpec:soupName withFeatures:soupFeatures];
+            
+            //update the cache
+            _attrSpecBySoup[soupName] = attrs;
         }
+        
         [frs close];
-        
-        attrs = [SFSoupSpec newSoupSpec:soupName withFeatures:soupFeatures];
-        
-        //update the cache
-        _attrSpecBySoup[soupName] = attrs;
     }
     
     if (!attrs) {
