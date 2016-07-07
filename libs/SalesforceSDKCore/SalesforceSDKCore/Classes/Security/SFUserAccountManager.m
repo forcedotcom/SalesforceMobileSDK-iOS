@@ -954,7 +954,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     return result;
 }
 
-- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
++ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
     NSUserDefaults *standardDefaults;
     if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
         standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -972,6 +972,10 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
     }
     [standardDefaults synchronize];
+}
+
+- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    [SFUserAccountManager setActiveUserIdentity:activeUserIdentity];
 }
 
 - (NSString *)activeCommunityId {

@@ -205,6 +205,12 @@ FOUNDATION_EXTERN NSString * const kSFLoginHostChangedNotificationUpdatedHostKey
 + (NSString*)userAccountPlistFileForUser:(SFUserAccount*)user;
 
 /**
+ Sets the active user identity without instantiating the class
+ @param activeUserIdentity The desired active user
+ */
++ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity;
+
+/**
  Adds a delegate to this user account manager.
  @param delegate The delegate to add.
  */
