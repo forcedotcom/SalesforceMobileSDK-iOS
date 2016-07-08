@@ -100,7 +100,7 @@
  * @param schemaType Schema type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) schemaType:(SFSchemaType) schemaType;
+- (InstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType;
 
 /**
  * Sets event type.
@@ -108,7 +108,7 @@
  * @param eventType Event type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) eventType:(SFEventType) eventType;
+- (InstrumentationEventBuilder *) eventType:(SFAEventType) eventType;
 
 /**
  * Sets error type.
@@ -116,7 +116,7 @@
  * @param errorType Error type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) errorType:(SFErrorType) errorType;
+- (InstrumentationEventBuilder *) errorType:(SFAErrorType) errorType;
 
 /**
  * Sets sender parent ID.

@@ -40,9 +40,9 @@
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
-@property (nonatomic, assign, readwrite) SFSchemaType schemaType;
-@property (nonatomic, assign, readwrite) SFEventType eventType;
-@property (nonatomic, assign, readwrite) SFErrorType errorType;
+@property (nonatomic, assign, readwrite) SFASchemaType schemaType;
+@property (nonatomic, assign, readwrite) SFAEventType eventType;
+@property (nonatomic, assign, readwrite) SFAErrorType errorType;
 @property (nonatomic, strong, readwrite) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readwrite) NSString *connectionType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
@@ -55,7 +55,7 @@
 
 @implementation InstrumentationEvent
 
-- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SFSchemaType) schemaType eventType:(SFEventType) eventType errorType:(SFErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
+- (id) init:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SFASchemaType) schemaType eventType:(SFAEventType) eventType errorType:(SFAErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -181,7 +181,7 @@
     return NO;
 }
 
-- (NSString *) stringValueOfSchemaType:(SFSchemaType) schemaType {
+- (NSString *) stringValueOfSchemaType:(SFASchemaType) schemaType {
     NSString *typeString = nil;
     switch (schemaType) {
         case SchemaTypeInteraction:
@@ -202,8 +202,8 @@
     return typeString;
 }
 
-- (SFSchemaType) schemaTypeFromString:(NSString *) schemaType {
-    SFSchemaType type = SchemaTypeError;
+- (SFASchemaType) schemaTypeFromString:(NSString *) schemaType {
+    SFASchemaType type = SchemaTypeError;
     if (schemaType) {
         if ([schemaType isEqualToString:@"LightningInteraction"]) {
             type = SchemaTypeInteraction;
@@ -218,7 +218,7 @@
     return type;
 }
 
-- (NSString *) stringValueOfEventType:(SFEventType) eventType {
+- (NSString *) stringValueOfEventType:(SFAEventType) eventType {
     NSString *typeString = nil;
     switch (eventType) {
         case EventTypeUser:
@@ -239,8 +239,8 @@
     return typeString;
 }
 
-- (SFEventType) eventTypeFromString:(NSString *) eventType {
-    SFEventType typeRes = EventTypeError;
+- (SFAEventType) eventTypeFromString:(NSString *) eventType {
+    SFAEventType typeRes = EventTypeError;
     if (eventType) {
         if ([eventType isEqualToString:@"user"]) {
             typeRes = EventTypeUser;
@@ -255,7 +255,7 @@
     return typeRes;
 }
 
-- (NSString *) stringValueOfErrorType:(SFErrorType) errorType {
+- (NSString *) stringValueOfErrorType:(SFAErrorType) errorType {
     NSString *typeString = nil;
     switch (errorType) {
         case ErrorTypeInfo:
@@ -273,8 +273,8 @@
     return typeString;
 }
 
-- (SFErrorType) errorTypeFromString:(NSString *) errorType {
-    SFErrorType type = ErrorTypeError;
+- (SFAErrorType) errorTypeFromString:(NSString *) errorType {
+    SFAErrorType type = ErrorTypeError;
     if (errorType) {
         if ([errorType isEqualToString:@"info"]) {
             type = ErrorTypeInfo;
