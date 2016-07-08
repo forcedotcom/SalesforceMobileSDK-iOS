@@ -52,7 +52,7 @@ static NSString* const kMarksKey = @"marks";
 /**
  * Represents the type of schema being logged.
  */
-typedef NS_ENUM(NSInteger, SchemaType) {
+typedef NS_ENUM(NSInteger, SFSchemaType) {
     SchemaTypeInteraction = 0,
     SchemaTypePageView,
     SchemaTypePerf,
@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, SchemaType) {
 /**
  * Represents the type of event being logged.
  */
-typedef NS_ENUM(NSInteger, EventType) {
+typedef NS_ENUM(NSInteger, SFEventType) {
     EventTypeUser = 0,
     EventTypeSystem,
     EventTypeError,
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, EventType) {
 /**
  * Represents the type of error being logged.
  */
-typedef NS_ENUM(NSInteger, ErrorType) {
+typedef NS_ENUM(NSInteger, SFErrorType) {
     ErrorTypeInfo = 0,
     ErrorTypeWarn,
     ErrorTypeError
@@ -89,9 +89,9 @@ typedef NS_ENUM(NSInteger, ErrorType) {
 @property (nonatomic, assign, readonly) NSInteger sequenceId;
 @property (nonatomic, strong, readonly) NSString *senderId;
 @property (nonatomic, strong, readonly) NSDictionary *senderContext;
-@property (nonatomic, assign, readonly) SchemaType schemaType;
-@property (nonatomic, assign, readonly) EventType eventType;
-@property (nonatomic, assign, readonly) ErrorType errorType;
+@property (nonatomic, assign, readonly) SFSchemaType schemaType;
+@property (nonatomic, assign, readonly) SFEventType eventType;
+@property (nonatomic, assign, readonly) SFErrorType errorType;
 @property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly) NSString *connectionType;
 @property (nonatomic, strong, readonly) NSString *senderParentId;
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
  * @param schemaType Schema type.
  * @return String representation of schema type.
  */
-- (NSString *) stringValueOfSchemaType:(SchemaType) schemaType;
+- (NSString *) stringValueOfSchemaType:(SFSchemaType) schemaType;
 
 /**
  * Returns a string representation of event type.
@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, ErrorType) {
  * @param eventType Event type.
  * @return String representation of event type.
  */
-- (NSString *) stringValueOfEventType:(EventType) eventType;
+- (NSString *) stringValueOfEventType:(SFEventType) eventType;
 
 /**
  * Returns a string representation of error type.
@@ -137,6 +137,6 @@ typedef NS_ENUM(NSInteger, ErrorType) {
  * @param errorType Error type.
  * @return String representation of error type.
  */
-- (NSString *) stringValueOfErrorType:(ErrorType) errorType;
+- (NSString *) stringValueOfErrorType:(SFErrorType) errorType;
 
 @end

@@ -42,9 +42,9 @@
 @property (nonatomic, assign, readwrite) NSString *sessionId;
 @property (nonatomic, strong, readwrite) NSString *senderId;
 @property (nonatomic, strong, readwrite) NSDictionary *senderContext;
-@property (nonatomic, assign, readwrite) SchemaType schemaType;
-@property (nonatomic, assign, readwrite) EventType eventType;
-@property (nonatomic, assign, readwrite) ErrorType errorType;
+@property (nonatomic, assign, readwrite) SFSchemaType schemaType;
+@property (nonatomic, assign, readwrite) SFEventType eventType;
+@property (nonatomic, assign, readwrite) SFErrorType errorType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
 @property (nonatomic, strong, readwrite) NSDictionary *page;
@@ -102,17 +102,17 @@
     return self;
 }
 
-- (InstrumentationEventBuilder *) schemaType:(SchemaType) schemaType {
+- (InstrumentationEventBuilder *) schemaType:(SFSchemaType) schemaType {
     self.schemaType = schemaType;
     return self;
 }
 
-- (InstrumentationEventBuilder *) eventType:(EventType) eventType {
+- (InstrumentationEventBuilder *) eventType:(SFEventType) eventType {
     self.eventType = eventType;
     return self;
 }
 
-- (InstrumentationEventBuilder *) errorType:(ErrorType) errorType {
+- (InstrumentationEventBuilder *) errorType:(SFErrorType) errorType {
     self.errorType = errorType;
     return self;
 }

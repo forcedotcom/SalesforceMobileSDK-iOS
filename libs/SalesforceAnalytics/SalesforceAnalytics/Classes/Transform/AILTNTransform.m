@@ -86,7 +86,7 @@ static NSString* const kSFPerfEventType = @"defs";
 + (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
     NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
     payload[kSFVersionKey] = kSFVersionValue;
-    SchemaType schemaType = event.schemaType;
+    SFSchemaType schemaType = event.schemaType;
     payload[kSFSchemaTypeKey] = [event stringValueOfSchemaType:schemaType];
     payload[kSFIdKey] = event.eventId;
     payload[kSFEventSourceKey] = event.name;
@@ -130,7 +130,7 @@ static NSString* const kSFPerfEventType = @"defs";
             payload[kSFLocatorKey] = locator;
         }
     }
-    EventType eventType = event.eventType;
+    SFEventType eventType = event.eventType;
     NSString *eventTypeString;
     if (schemaType == SchemaTypePerf) {
         eventTypeString = kSFPerfEventType;
@@ -140,7 +140,7 @@ static NSString* const kSFPerfEventType = @"defs";
     if (eventTypeString) {
         payload[kSFEventTypeKey] = eventTypeString;
     }
-    ErrorType errorType = event.errorType;
+    SFErrorType errorType = event.errorType;
     if (schemaType == SchemaTypeError) {
         payload[kSFErrorTypeKey] = [event stringValueOfErrorType:errorType];
     }
