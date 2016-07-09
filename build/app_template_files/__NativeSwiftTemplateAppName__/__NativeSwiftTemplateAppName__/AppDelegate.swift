@@ -33,6 +33,7 @@ let OAuthRedirectURI        = "testsfdc:///mobilesdk/detect/oauth/done";
 //let RemoteAccessConsumerKey = "__ConnectedAppIdentifier__";
 //let OAuthRedirectURI        = "__ConnectedAppRedirectUri__";
 
+@UIApplicationMain
 class AppDelegate : UIResponder, UIApplicationDelegate
 {
     var window: UIWindow?
@@ -41,32 +42,32 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     init()
     {
         super.init()
-        SFLogger.setLogLevel(.Debug)
+        SFLogger.shared().logLevel = .debug
         
-        SalesforceSDKManager.sharedManager().connectedAppId = RemoteAccessConsumerKey
-        SalesforceSDKManager.sharedManager().connectedAppCallbackUri = OAuthRedirectURI
-        SalesforceSDKManager.sharedManager().authScopes = ["web", "api"];
-        SalesforceSDKManager.sharedManager().postLaunchAction = {
+        SalesforceSDKManager.shared().connectedAppId = RemoteAccessConsumerKey
+        SalesforceSDKManager.shared().connectedAppCallbackUri = OAuthRedirectURI
+        SalesforceSDKManager.shared().authScopes = ["web", "api"];
+        SalesforceSDKManager.shared().postLaunchAction = {
             [unowned self] (launchActionList: SFSDKLaunchAction) in
             let launchActionString = SalesforceSDKManager.launchActionsStringRepresentation(launchActionList)
-            self.log(.Info, msg:"Post-launch: launch actions taken: \(launchActionString)");
+            self.log(.info, msg:"Post-launch: launch actions taken: \(launchActionString)");
             self.setupRootViewController();
         }
-        SalesforceSDKManager.sharedManager().launchErrorAction = {
+        SalesforceSDKManager.shared().launchErrorAction = {
             [unowned self] (error: NSError?, launchActionList: SFSDKLaunchAction) in
             if let actualError = error {
-                self.log(.Error, msg:"Error during SDK launch: \(actualError.localizedDescription)")
+                self.log(.error, msg:"Error during SDK launch: \(actualError.localizedDescription)")
             } else {
-                self.log(.Error, msg:"Unknown error during SDK launch.")
+                self.log(.error, msg:"Unknown error during SDK launch.")
             }
             self.initializeAppViewState()
-            SalesforceSDKManager.sharedManager().launch()
+            SalesforceSDKManager.shared().launch()
         }
-        SalesforceSDKManager.sharedManager().postLogoutAction = {
+        SalesforceSDKManager.shared().postLogoutAction = {
             [unowned self] in
             self.handleSdkManagerLogout()
         }
-        SalesforceSDKManager.sharedManager().switchUserAction = {
+        SalesforceSDKManager.shared().switchUserAction = {
             [unowned self] (fromUser: SFUserAccount?, toUser: SFUserAccount?) -> () in
             self.handleUserSwitch(fromUser, toUser: toUser)
         }
@@ -74,9 +75,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     // MARK: - App delegate lifecycle
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
     {
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window = UIWindow(frame: UIScreen.main().bounds)
         self.initializeAppViewState();
         
         //
@@ -99,12 +100,12 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         //loginViewController.navBarFont = UIFont (name: "Helvetica Neue", size: 16);
         //loginViewController.navBarTextColor = UIColor.blackColor();
         //
-        SalesforceSDKManager.sharedManager().launch()
+        SalesforceSDKManager.shared().launch()
         
         return true
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     {
         //
         // Uncomment the code below to register your device token with the push notification manager
@@ -118,7 +119,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
     
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError )
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError )
     {
         // Respond to any push notification registration errors here.
     }
@@ -126,13 +127,13 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     // MARK: - Private methods
     func initializeAppViewState()
     {
-        if (!NSThread.isMainThread()) {
-            dispatch_async(dispatch_get_main_queue()) {
+        if (!Thread.isMainThread) {
+            DispatchQueue.main.asynchronously() {
                 self.initializeAppViewState()
             }
             return
         }
-
+        
         self.window!.rootViewController = InitialViewController(nibName: nil, bundle: nil)
         self.window!.makeKeyAndVisible()
     }
@@ -144,11 +145,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         self.window!.rootViewController = navVC
     }
     
-    func resetViewState(postResetBlock: () -> ())
+    func resetViewState(_ postResetBlock: () -> ())
     {
         if let rootViewController = self.window!.rootViewController {
             if let _ = rootViewController.presentedViewController {
-                rootViewController.dismissViewControllerAnimated(false, completion: postResetBlock)
+                rootViewController.dismiss(animated: false, completion: postResetBlock)
                 return
             }
         }
@@ -158,7 +159,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     func handleSdkManagerLogout()
     {
-        self.log(.Debug, msg: "SFAuthenticationManager logged out.  Resetting app.")
+        self.log(.debug, msg: "SFAuthenticationManager logged out.  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
             
@@ -172,7 +173,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             // your app does not support multiple accounts.  The logic below will work either way.
             
             var numberOfAccounts : Int;
-            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts as! [SFUserAccount]?
+            let allAccounts = SFUserAccountManager.sharedInstance().allUserAccounts as [SFUserAccount]?
             if allAccounts != nil {
                 numberOfAccounts = allAccounts!.count;
             } else {
@@ -182,26 +183,26 @@ class AppDelegate : UIResponder, UIApplicationDelegate
             if numberOfAccounts > 1 {
                 let userSwitchVc = SFDefaultUserManagementViewController(completionBlock: {
                     action in
-                    self.window!.rootViewController!.dismissViewControllerAnimated(true, completion: nil)
+                    self.window!.rootViewController!.dismiss(animated: true, completion: nil)
                 })
-                self.window!.rootViewController!.presentViewController(userSwitchVc, animated: true, completion: nil)
+                self.window!.rootViewController!.present(userSwitchVc!, animated: true, completion: nil)
             } else {
                 if (numberOfAccounts == 1) {
                     SFUserAccountManager.sharedInstance().currentUser = allAccounts![0]
                 }
-                SalesforceSDKManager.sharedManager().launch()
+                SalesforceSDKManager.shared().launch()
             }
         }
     }
     
-    func handleUserSwitch(fromUser: SFUserAccount?, toUser: SFUserAccount?)
+    func handleUserSwitch(_ fromUser: SFUserAccount?, toUser: SFUserAccount?)
     {
         let fromUserName = (fromUser != nil) ? fromUser?.userName : "<none>"
         let toUserName = (toUser != nil) ? toUser?.userName : "<none>"
-        self.log(.Debug, msg:"SFUserAccountManager changed from user \(fromUserName) to \(toUserName).  Resetting app.")
+        self.log(.debug, msg:"SFUserAccountManager changed from user \(fromUserName) to \(toUserName).  Resetting app.")
         self.resetViewState { () -> () in
             self.initializeAppViewState()
-            SalesforceSDKManager.sharedManager().launch()
+            SalesforceSDKManager.shared().launch()
         }
     }
 }
