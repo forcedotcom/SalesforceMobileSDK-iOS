@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = '4.2.0',
+var version = '4.3.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
@@ -119,7 +119,7 @@ function createHybridApp(config) {
     shelljs.exec('cordova create "' + projectDir + '" ' + config.companyid + ' ' + config.appname);
     shelljs.pushd(projectDir);
     shelljs.exec('cordova platform add ios@' + cordovaPlatformVersion);
-    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#v' + version);
+    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#unstable');
 
     // Remove the default Cordova app.
     shelljs.rm('-rf', path.join('www', '*'));
