@@ -36,58 +36,61 @@ class RootViewController : UITableViewController, SFRestDelegate
         self.title = "Mobile SDK Sample App"
         
         //Here we use a query that should work on either Force.com or Database.com
-        let request = SFRestAPI.sharedInstance().requestForQuery("SELECT Name FROM User LIMIT 10");
+        let request = SFRestAPI.sharedInstance().request(forQuery: "SELECT Name FROM User LIMIT 10");
         SFRestAPI.sharedInstance().send(request, delegate: self);
     }
     
     // MARK: - SFRestAPIDelegate
-    func request(request: SFRestRequest!, didLoadResponse jsonResponse: AnyObject!)
+    func request(_ request: SFRestRequest, didLoadResponse jsonResponse: AnyObject)
     {
         self.dataRows = jsonResponse["records"] as! [NSDictionary]
-        self.log(.Debug, msg: "request:didLoadResponse: #records: \(self.dataRows.count)")
-        dispatch_async(dispatch_get_main_queue(), {
+        self.log(.debug, msg: "request:didLoadResponse: #records: \(self.dataRows.count)")
+        DispatchQueue.main.asynchronously(execute: {
             self.tableView.reloadData()
         })
     }
     
-    func request(request: SFRestRequest!, didFailLoadWithError error: NSError!)
+    func request(_ request: SFRestRequest, didFailLoadWithError error: NSError)
     {
-        self.log(.Debug, msg: "didFailLoadWithError: \(error)")
+        self.log(.debug, msg: "didFailLoadWithError: \(error)")
         // Add your failed error handling here
     }
     
-    func requestDidCancelLoad(request: SFRestRequest!)
+    func requestDidCancelLoad(_ request: SFRestRequest)
     {
-        self.log(.Debug, msg: "requestDidCancelLoad: \(request)")
+        self.log(.debug, msg: "requestDidCancelLoad: \(request)")
         // Add your failed error handling here
     }
     
-    func requestDidTimeout(request: SFRestRequest!)
+    func requestDidTimeout(_ request: SFRestRequest)
     {
-        self.log(.Debug, msg: "requestDidTimeout: \(request)")
+        self.log(.debug, msg: "requestDidTimeout: \(request)")
         // Add your failed error handling here
     }
+    
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView?) -> Int
+    override func numberOfSections(in: UITableView?) -> Int
     {
         return 1
     }
     
-    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return self.dataRows.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cellIdentifier = "CellIdentifier"
-
+        
         // Dequeue or create a cell of the appropriate type.
-        var cell:UITableViewCell? = tableView.dequeueReusableCellWithIdentifier(cellIdentifier)
+        var cell:UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         if (cell == nil)
         {
-            cell = UITableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
         }
         
         // If you want to add an image to your cell, here's how.
@@ -99,7 +102,7 @@ class RootViewController : UITableViewController, SFRestDelegate
         cell!.textLabel!.text = obj["Name"] as? String
         
         // This adds the arrow to the right hand side.
-        cell?.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
+        cell?.accessoryType = UITableViewCellAccessoryType.disclosureIndicator
         
         return cell!
     }

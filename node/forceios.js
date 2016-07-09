@@ -81,6 +81,8 @@ function usage() {
 // Helper for 'create' command
 //
 function createApp(config) {
+    // Showing version number
+    console.log(outputColors.magenta + '\nRunning forceios version ' + version + '\n\n' + outputColors.reset);
     // Native app creation
     if (config.apptype === 'native' || config.apptype === 'native_swift' || config.apptype === 'react_native') {
         createNativeApp(config);
@@ -95,6 +97,8 @@ function createApp(config) {
 // Helper to create hybrid application
 //
 function createHybridApp(config) {
+    // Showing version number
+    console.log(outputColors.magenta + '\nRunning forceios version ' + version + '\n\n' + outputColors.reset);
     var outputDir = config.outputdir;
     if (!outputDir) outputDir = process.cwd();
     outputDir = path.resolve(outputDir);
