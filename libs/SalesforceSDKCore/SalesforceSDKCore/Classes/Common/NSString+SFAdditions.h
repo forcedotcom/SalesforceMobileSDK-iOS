@@ -47,17 +47,17 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
 
 /** Escape XML entities
  
- @param value String value to escape. If nil is passed, this method will return nil back
+ @param value String value to escape. If nil is passed, this method will return nil.
  */
 + (NSString *)escapeXMLCharacter:(NSString *)value;
 
 /** unescape XML entities
  
-@param value String value to unescape. If nil is passed, this method will return nil back
+@param value String value to unescape. If nil is passed, this method will return nil.
  */
 + (NSString *)unescapeXMLCharacter:(NSString *)value;
 
-/** Trim string by taking out beginning and ending space*/
+/** Trim string by taking out beginning and ending space.*/
 - (NSString *)trim;
 
 /** Returns the string in debug build or a redacted version of it
@@ -66,12 +66,14 @@ typedef NS_ENUM(NSUInteger, SFEntityIdLength) {
 - (NSString*)redacted;
 
 /** Returns the string in debug build or a redacted version of it
- for production build. The prefix length is the number of character
+ for production build. The prefix length is the number of characters
  that won't be redacted from the beginning of the string.
+ 
+ @param prefixLength The number of characters to preserve at the beginning of the string.
  */
 - (NSString*)redactedWithPrefix:(NSUInteger)prefixLength;
 
-/** Return YES of string is nil or length is 0 or with white space only
+/** Return YES if string is nil or length is 0 or with white space only
  
  @param string String to check
  */

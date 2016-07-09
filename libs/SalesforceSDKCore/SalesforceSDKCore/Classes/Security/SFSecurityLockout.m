@@ -35,6 +35,8 @@
 #import "SFPreferences.h"
 #import "SFUserActivityMonitor.h"
 #import "SFIdentityData.h"
+#import "SFApplicationHelper.h"
+#import "SFApplication.h"
 
 // Private constants
 
@@ -222,7 +224,7 @@ static BOOL _showPasscode = YES;
     // Lockout time can only go down, to enforce the most restrictive passcode policy across users.
     if (newLockoutTime < securityLockoutTime) {
         if (newLockoutTime > 0) {
-            [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %d seconds.", newLockoutTime];
+            [SFLogger log:[SFSecurityLockout class] level:SFLogLevelInfo format:@"Setting lockout time to %lu seconds.", (unsigned long)newLockoutTime];
             [SFSecurityLockout setSecurityLockoutTime:newLockoutTime];
             configData.lockoutTime = newLockoutTime;
             [SFInactivityTimerCenter removeTimer:kTimerSecurity];
@@ -404,8 +406,20 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)timerExpired:(NSTimer*)theTimer
 {
-    [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
-    [SFSecurityLockout lock];
+    [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
+        [[SFAuthenticationManager sharedManager] logout];
+    }];
+    
+    [self log:SFLogLevelInfo msg:@"NSTimer expired, but checking lastUserEvent before locking!"];
+    NSDate *lastEventAsOfNow = [(SFApplication *)[SFApplicationHelper sharedApplication] lastEventDate];
+    NSInteger elapsedTime = [[NSDate date] timeIntervalSinceDate:lastEventAsOfNow];
+    if (elapsedTime >= securityLockoutTime) {
+        [self log:SFLogLevelInfo msg:@"Inactivity NSTimer expired."];
+        [SFSecurityLockout lock];
+    } else {
+        [SFInactivityTimerCenter removeTimer:kTimerSecurity];
+        [SFSecurityLockout setupTimer];
+    }
 }
 
 + (void)setForcePasscodeDisplay:(BOOL)forceDisplay
@@ -511,7 +525,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 
 + (void)sendPasscodeFlowWillBeginNotification:(SFPasscodeControllerMode)mode
 {
-    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %d", mode];
+    [self log:SFLogLevelDebug format:@"Sending passcode flow will begin notification with mode %lu", (unsigned long)mode];
     NSNotification *n = [NSNotification notificationWithName:kSFPasscodeFlowWillBegin
                                                       object:[NSNumber numberWithInt:mode]
                                                     userInfo:nil];

@@ -35,7 +35,23 @@
 #define NSUIImage NSImage
 #endif
 
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+
 @class SFUserAccount;
+
+CSF_PRIVATE_EXTERN NSInteger kCSFNetworkLogContext;
+
+#define NetworkError(frmt, ...)      SFLogErrorToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+#define NetworkWarn(frmt, ...)        SFLogWarnToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+#define NetworkInfo(frmt, ...)        SFLogInfoToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+#define NetworkDebug(frmt, ...)      SFLogDebugToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+#define NetworkVerbose(frmt, ...)  SFLogVerboseToContext(kCSFNetworkLogContext, self, frmt, ##__VA_ARGS__)
+
+#define NetworkCError(frmt, ...)      SFLogErrorToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
+#define NetworkCWarn(frmt, ...)        SFLogWarnToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
+#define NetworkCInfo(frmt, ...)        SFLogInfoToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
+#define NetworkCDebug(frmt, ...)      SFLogDebugToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
+#define NetworkCVerbose(frmt, ...)  SFLogVerboseToContext(kCSFNetworkLogContext, nil, frmt, ##__VA_ARGS__)
 
 CSF_EXTERN NSString * const CSFDateValueTransformerName;
 CSF_EXTERN NSString * const CSFURLValueTransformerName;

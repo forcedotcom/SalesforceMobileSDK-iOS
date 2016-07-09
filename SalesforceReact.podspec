@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceReact"
-  s.version      = "4.1.2"
+  s.version      = "4.2.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SalesforceReact"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -19,7 +19,12 @@ Pod::Spec.new do |s|
 
   s.subspec 'SalesforceReact' do |salesforcereact|
 
+      salesforcereact.dependency 'React'
       salesforcereact.dependency 'SmartSync'
+      salesforcereact.dependency 'SalesforceRestAPI'
+      salesforcereact.dependency 'SmartStore'
+      salesforcereact.dependency 'SalesforceSDKCore'
+
       salesforcereact.source_files = 'libs/SalesforceReact/SalesforceReact/Classes/**/*.{h,m}'
       salesforcereact.public_header_files = 'libs/SalesforceReact/SalesforceReact/Classes/SFNetReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFOauthReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartStoreReactBridge.h', 'libs/SalesforceReact/SalesforceReact/Classes/SFSmartSyncReactBridge.h', 'libs/SalesforceReact/SalesforceReact/SalesforceReact.h'
       salesforcereact.prefix_header_contents = '#import <SalesforceSDKCore/SFLogger.h>'

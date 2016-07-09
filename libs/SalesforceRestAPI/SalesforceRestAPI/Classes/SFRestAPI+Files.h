@@ -24,7 +24,10 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface SFRestAPI (Files) <SFRestDelegate>
 
@@ -36,7 +39,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForOwnedFilesList:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForOwnedFilesList:(nullable NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch a page from the list of files from groups
@@ -46,7 +49,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForFilesInUsersGroups:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForFilesInUsersGroups:(nullable NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch a page from the list of files that have
@@ -56,7 +59,7 @@
  * @param page if nil fetches the first page, otherwise fetches the specified page.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForFilesSharedWithUser:(NSString *)userId page:(NSUInteger)page;
+- (SFRestRequest *) requestForFilesSharedWithUser:(nullable NSString *)userId page:(NSUInteger)page;
 
 /**
  * Build a Request that can fetch the file details of a particular version
@@ -66,7 +69,7 @@
  * @param version if nil fetches the most recent version, otherwise fetches this specific version.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForFileDetails:(NSString *)sfdcId forVersion:(NSString *)version;
+- (SFRestRequest *) requestForFileDetails:(NSString *)sfdcId forVersion:(nullable NSString *)version;
 
 /**
  * Build a request that can fetch the latest file details of one or more
@@ -75,7 +78,7 @@
  * @param sfdcIds The list of file Ids to fetch.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForBatchFileDetails:(NSArray *)sfdcIds;
+- (SFRestRequest *) requestForBatchFileDetails:(NSArray<NSString*> *)sfdcIds;
 
 /**
  * Build a Request that can fetch the a preview/rendition of a particular
@@ -87,7 +90,7 @@
  * @param page which page to fetch, pages start at 0.
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page;
+- (SFRestRequest *) requestForFileRendition:(NSString *)sfdcId version:(nullable NSString *)version renditionType:(NSString *)renditionType page:(NSUInteger)page;
 
 /**
  * Builds a request that can fetch the actual binary file contents of this
@@ -97,7 +100,7 @@
  * @param version The version of the file
  * @return A new SFRestRequest that can be used to fetch this data
  */
-- (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(NSString*) version;
+- (SFRestRequest *) requestForFileContents:(NSString *) sfdcId version:(nullable NSString*) version;
 
 /**
  * Build a request that can fetch a page from the list of entities that this
@@ -141,3 +144,5 @@
 - (SFRestRequest *) requestForUploadFile:(NSData *)data name:(NSString *)name description:(NSString *)description mimeType:(NSString *)mimeType;
 
 @end
+
+NS_ASSUME_NONNULL_END

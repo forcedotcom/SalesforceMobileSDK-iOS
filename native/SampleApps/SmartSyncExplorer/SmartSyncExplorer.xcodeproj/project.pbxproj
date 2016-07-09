@@ -3,10 +3,22 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F1DA68E1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */; };
+		4F1DA6CD1C84FF3D0014FAD3 /* LoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C01C84FF3D0014FAD3 /* LoginHelper.swift */; };
+		4F1DA6CE1C84FF3D0014FAD3 /* AllowDenyPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C31C84FF3D0014FAD3 /* AllowDenyPage.swift */; };
+		4F1DA6CF1C84FF3D0014FAD3 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C41C84FF3D0014FAD3 /* LoginPage.swift */; };
+		4F1DA6D11C84FF3D0014FAD3 /* PageObject+WaitForElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C61C84FF3D0014FAD3 /* PageObject+WaitForElement.swift */; };
+		4F1DA6D21C84FF3D0014FAD3 /* PageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C71C84FF3D0014FAD3 /* PageObject.swift */; };
+		4F1DA6D31C84FF3D0014FAD3 /* PageThatWaits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6C81C84FF3D0014FAD3 /* PageThatWaits.swift */; };
+		4F1DA6D41C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6CA1C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift */; };
+		4F1DA6D51C84FF3D0014FAD3 /* SalesforceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6CB1C84FF3D0014FAD3 /* SalesforceTestCase.swift */; };
+		4F1DA6D61C84FF3D0014FAD3 /* TestCaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */; };
+		4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */; };
+		4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */; };
 		4F60B2291B9A2C2900923174 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F60B2281B9A2C2900923174 /* WYPopoverController.m */; };
 		4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */; };
 		4FEAC2451B97C65C00B08512 /* ActionsPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FEAC2421B97C65C00B08512 /* ActionsPopupController.m */; };
@@ -42,10 +54,18 @@
 		82D0AC131C49A7F60081F833 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82D0AB9A1C49A6FB0081F833 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82D0AC161C49A8120081F833 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; };
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4F1DA6901C84FD7E0014FAD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 827C630919E6018C00027484 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 827C631019E6018C00027484;
+			remoteInfo = SmartSyncExplorer;
+		};
 		8236ABB51C4D9922004B69B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */;
@@ -362,6 +382,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4F1DA68B1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SmartSyncExplorerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartSyncExplorerUITests.swift; sourceTree = "<group>"; };
+		4F1DA68F1C84FD7E0014FAD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F1DA6C01C84FF3D0014FAD3 /* LoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginHelper.swift; sourceTree = "<group>"; };
+		4F1DA6C31C84FF3D0014FAD3 /* AllowDenyPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllowDenyPage.swift; sourceTree = "<group>"; };
+		4F1DA6C41C84FF3D0014FAD3 /* LoginPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		4F1DA6C61C84FF3D0014FAD3 /* PageObject+WaitForElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PageObject+WaitForElement.swift"; sourceTree = "<group>"; };
+		4F1DA6C71C84FF3D0014FAD3 /* PageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageObject.swift; sourceTree = "<group>"; };
+		4F1DA6C81C84FF3D0014FAD3 /* PageThatWaits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageThatWaits.swift; sourceTree = "<group>"; };
+		4F1DA6CA1C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceNoSessionTestCase.swift; sourceTree = "<group>"; };
+		4F1DA6CB1C84FF3D0014FAD3 /* SalesforceTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SalesforceTestCase.swift; sourceTree = "<group>"; };
+		4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCaseManager.swift; sourceTree = "<group>"; };
+		4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchScreen.swift; sourceTree = "<group>"; };
+		4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailScreen.swift; sourceTree = "<group>"; };
 		4F60B2271B9A2C2900923174 /* WYPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WYPopoverController.h; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.h; sourceTree = "<group>"; };
 		4F60B2281B9A2C2900923174 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WYPopoverController.m; path = ../../../../../external/wypopovercontroller/WYPopoverController/WYPopoverController.m; sourceTree = "<group>"; };
 		4FADBCB41BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = ImagesSmartSyncExplorer.xcassets; sourceTree = "<group>"; };
@@ -407,10 +441,18 @@
 		82D0ABAF1C49A73D0081F833 /* SalesforceNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceNetwork.xcodeproj; path = ../../../libs/SalesforceNetwork/SalesforceNetwork.xcodeproj; sourceTree = "<group>"; };
 		82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4F1DA6881C84FD7E0014FAD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		827C630E19E6018C00027484 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -435,6 +477,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F1DA68C1C84FD7E0014FAD3 /* SmartSyncExplorerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				BCC965051CEAE9EB008D9E18 /* Supporting Files */,
+				4F1DA6BE1C84FF3D0014FAD3 /* pagehelpers */,
+				4F1DA6C11C84FF3D0014FAD3 /* pages */,
+				4F1DA6C91C84FF3D0014FAD3 /* test */,
+				4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */,
+				4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */,
+				4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */,
+				4F1DA68F1C84FD7E0014FAD3 /* Info.plist */,
+			);
+			path = SmartSyncExplorerUITests;
+			sourceTree = "<group>";
+		};
+		4F1DA6BE1C84FF3D0014FAD3 /* pagehelpers */ = {
+			isa = PBXGroup;
+			children = (
+				4F1DA6BF1C84FF3D0014FAD3 /* login */,
+			);
+			name = pagehelpers;
+			path = ../../../../shared/test/pagehelpers;
+			sourceTree = "<group>";
+		};
+		4F1DA6BF1C84FF3D0014FAD3 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				4F1DA6C01C84FF3D0014FAD3 /* LoginHelper.swift */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		4F1DA6C11C84FF3D0014FAD3 /* pages */ = {
+			isa = PBXGroup;
+			children = (
+				4F1DA6C21C84FF3D0014FAD3 /* login */,
+				4F1DA6C61C84FF3D0014FAD3 /* PageObject+WaitForElement.swift */,
+				4F1DA6C71C84FF3D0014FAD3 /* PageObject.swift */,
+				4F1DA6C81C84FF3D0014FAD3 /* PageThatWaits.swift */,
+			);
+			name = pages;
+			path = ../../../../shared/test/pages;
+			sourceTree = "<group>";
+		};
+		4F1DA6C21C84FF3D0014FAD3 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				4F1DA6C31C84FF3D0014FAD3 /* AllowDenyPage.swift */,
+				4F1DA6C41C84FF3D0014FAD3 /* LoginPage.swift */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		4F1DA6C91C84FF3D0014FAD3 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				4F1DA6CA1C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift */,
+				4F1DA6CB1C84FF3D0014FAD3 /* SalesforceTestCase.swift */,
+				4F1DA6CC1C84FF3D0014FAD3 /* TestCaseManager.swift */,
+			);
+			name = test;
+			path = ../../../../shared/test/test;
+			sourceTree = "<group>";
+		};
 		4F60B2261B9A2A2900923174 /* WYPopoverController */ = {
 			isa = PBXGroup;
 			children = (
@@ -496,6 +602,7 @@
 			isa = PBXGroup;
 			children = (
 				827C631A19E6018C00027484 /* SmartSyncExplorer */,
+				4F1DA68C1C84FD7E0014FAD3 /* SmartSyncExplorerUITests */,
 				827C631319E6018C00027484 /* Frameworks */,
 				827C631219E6018C00027484 /* Products */,
 			);
@@ -505,6 +612,7 @@
 			isa = PBXGroup;
 			children = (
 				827C631119E6018C00027484 /* SmartSyncExplorer.app */,
+				4F1DA68B1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -628,9 +736,35 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BCC965051CEAE9EB008D9E18 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4F1DA68A1C84FD7E0014FAD3 /* SmartSyncExplorerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F1DA6B51C84FD7E0014FAD3 /* Build configuration list for PBXNativeTarget "SmartSyncExplorerUITests" */;
+			buildPhases = (
+				4F1DA6871C84FD7E0014FAD3 /* Sources */,
+				4F1DA6881C84FD7E0014FAD3 /* Frameworks */,
+				4F1DA6891C84FD7E0014FAD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F1DA6911C84FD7E0014FAD3 /* PBXTargetDependency */,
+			);
+			name = SmartSyncExplorerUITests;
+			productName = SmartSyncExplorerUITests;
+			productReference = 4F1DA68B1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		827C631019E6018C00027484 /* SmartSyncExplorer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 827C634619E6018C00027484 /* Build configuration list for PBXNativeTarget "SmartSyncExplorer" */;
@@ -662,11 +796,18 @@
 		827C630919E6018C00027484 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = salesforce.com;
+				TargetAttributes = {
+					4F1DA68A1C84FD7E0014FAD3 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = 827C631019E6018C00027484;
+					};
+				};
 			};
 			buildConfigurationList = 827C630C19E6018C00027484 /* Build configuration list for PBXProject "SmartSyncExplorer" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -705,6 +846,7 @@
 			projectRoot = "";
 			targets = (
 				827C631019E6018C00027484 /* SmartSyncExplorer */,
+				4F1DA68A1C84FD7E0014FAD3 /* SmartSyncExplorerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -958,6 +1100,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4F1DA6891C84FD7E0014FAD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		827C630F19E6018C00027484 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -971,6 +1121,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4F1DA6871C84FD7E0014FAD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F1DA6D61C84FF3D0014FAD3 /* TestCaseManager.swift in Sources */,
+				4F1DA6D41C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift in Sources */,
+				4F1DA6CF1C84FF3D0014FAD3 /* LoginPage.swift in Sources */,
+				4F1DA6D11C84FF3D0014FAD3 /* PageObject+WaitForElement.swift in Sources */,
+				4F1DA6CE1C84FF3D0014FAD3 /* AllowDenyPage.swift in Sources */,
+				4F1DA6D51C84FF3D0014FAD3 /* SalesforceTestCase.swift in Sources */,
+				4F1DA6D31C84FF3D0014FAD3 /* PageThatWaits.swift in Sources */,
+				4F1DA68E1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift in Sources */,
+				4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */,
+				4F1DA6D21C84FF3D0014FAD3 /* PageObject.swift in Sources */,
+				4F1DA6CD1C84FF3D0014FAD3 /* LoginHelper.swift in Sources */,
+				4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		827C630D19E6018C00027484 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -994,6 +1163,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4F1DA6911C84FD7E0014FAD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 827C631019E6018C00027484 /* SmartSyncExplorer */;
+			targetProxy = 4F1DA6901C84FD7E0014FAD3 /* PBXContainerItemProxy */;
+		};
 		829DA2611C1260A50040F5F1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SmartSync;
@@ -1043,6 +1217,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4F1DA6921C84FD7E0014FAD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = SmartSyncExplorerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = SmartSyncExplorer;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		4F1DA6931C84FD7E0014FAD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = SmartSyncExplorerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = SmartSyncExplorer;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
 		827C634419E6018C00027484 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1165,6 +1379,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4F1DA6B51C84FD7E0014FAD3 /* Build configuration list for PBXNativeTarget "SmartSyncExplorerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F1DA6921C84FD7E0014FAD3 /* Debug */,
+				4F1DA6931C84FD7E0014FAD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		827C630C19E6018C00027484 /* Build configuration list for PBXProject "SmartSyncExplorer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

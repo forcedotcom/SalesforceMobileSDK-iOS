@@ -246,9 +246,15 @@ static NSException *authException = nil;
         XCTAssertEqualObjects(lastName, ((NSDictionary *)listener.dataResponse)[@"LastName"], @"invalid last name");
         XCTAssertEqualObjects(@"John", ((NSDictionary *)listener.dataResponse)[@"FirstName"], @"invalid first name");
         
-        // Raw data will be converted to JSON if that's what's returned, regardless of parseResponse.
+        // Raw data will not be converted to JSON if that's what's returned, regardless of parseResponse.
         request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         request.parseResponse = NO;
+        listener = [self sendSyncRequest:request];
+        XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
+        XCTAssertTrue([listener.dataResponse isKindOfClass:[NSData class]], @"Should be NSData when parseResponse is no.");
+        
+        // Raw data will be converted to JSON if that's what's returned, when parseResponse is YES by default
+        request = [[SFRestAPI sharedInstance] requestForRetrieveWithObjectType:@"Contact" objectId:contactId fieldList:nil];
         listener = [self sendSyncRequest:request];
         XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
         XCTAssertTrue([listener.dataResponse isKindOfClass:[NSDictionary class]], @"Should be parsed JSON for JSON response.");
@@ -399,7 +405,7 @@ static NSException *authException = nil;
 
 // issue invalid SOQL and test for errors
 - (void)testSOQLError {
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:(NSString* _Nonnull)nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail , @"request was supposed to fail");
     XCTAssertEqualObjects(listener.lastError.domain, CSFNetworkErrorDomain, @"invalid domain");
@@ -812,7 +818,7 @@ static NSException *authException = nil;
     [self changeOauthTokens:invalidAccessToken refreshToken:nil];
     
     // request (invalid)
-    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:nil];
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:(NSString* _Nonnull)nil];
     SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidFail, @"request was supposed to fail");
     
@@ -1136,56 +1142,56 @@ static NSException *authException = nil;
     
     // Block functions that should always fail
     self.currentExpectation = [self expectationWithDescription:@"performDeleteWithObjectType-nil"];
-    [api performDeleteWithObjectType:nil objectId:nil
+    [api performDeleteWithObjectType:(NSString* _Nonnull) nil objectId:(NSString* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performCreateWithObjectType-nil"];
-    [api performCreateWithObjectType:nil fields:nil
+    [api performCreateWithObjectType:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performMetadataWithObjectType-nil"];
-    [api performMetadataWithObjectType:nil
+    [api performMetadataWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performDescribeWithObjectType-nil"];
-    [api performDescribeWithObjectType:nil
+    [api performDescribeWithObjectType:(NSString* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performRetrieveWithObjectType-nil"];
-    [api performRetrieveWithObjectType:nil objectId:nil fieldList:nil
+    [api performRetrieveWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fieldList:(NSArray<NSString*>* _Nonnull)nil
                              failBlock:failWithExpectedFail
                          completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performUpdateWithObjectType-nil"];
-    [api performUpdateWithObjectType:nil objectId:nil fields:nil
+    [api performUpdateWithObjectType:(NSString* _Nonnull)nil objectId:(NSString* _Nonnull)nil fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performUpsertWithObjectType-nil"];
-    [api performUpsertWithObjectType:nil externalIdField:nil externalId:nil
-                              fields:nil
+    [api performUpsertWithObjectType:(NSString* _Nonnull)nil externalIdField:(NSString* _Nonnull)nil externalId:(NSString* _Nonnull)nil
+                              fields:(NSDictionary<NSString*, id>* _Nonnull)nil
                            failBlock:failWithExpectedFail
                        completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQuery-nil"];
-    [api performSOQLQuery:nil
+    [api performSOQLQuery:(NSString* _Nonnull)nil
                 failBlock:failWithExpectedFail
             completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
     
     self.currentExpectation = [self expectationWithDescription:@"performSOQLQueryAll-nil"];
-    [api performSOQLQueryAll:nil
+    [api performSOQLQueryAll:(NSString* _Nonnull)nil
                    failBlock:failWithExpectedFail
                completeBlock:successWithUnexpectedSuccessBlock];
     [self waitForExpectation];
@@ -1320,10 +1326,10 @@ static NSException *authException = nil;
 
 - (void) testSOQL {
 
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:nil sObject:nil whereClause:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:(NSArray<NSString*>* _Nonnull)nil sObject:(NSString* _Nonnull) nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
-    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:nil whereClause:nil limit:0],
+    XCTAssertNil( [SFRestAPI SOQLQueryWithFields:@[@"Id"] sObject:(NSString* _Nonnull)nil whereClause:nil limit:0],
                 @"Invalid query did not result in nil output.");
     
     NSString *simpleQuery = @"select id from Lead where id<>null limit 10";
@@ -1351,7 +1357,7 @@ static NSException *authException = nil;
 
 - (void) testSOSL {
     
-    XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:nil objectScope:nil],
+    XCTAssertNil( [SFRestAPI SOSLSearchWithSearchTerm:(NSString* _Nonnull)nil objectScope:nil],
                  @"Invalid search did not result in nil output.");
     
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 

@@ -343,6 +343,18 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
         fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
     }
+    
+    if([returnUrl containsString:@"frontdoor.jsp"]) {
+        NSRange r1 = [returnUrl rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
+        NSRange r2 = [returnUrl rangeOfString: isEncoded ? @"%26display" : @"&display"];
+        NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
+        NSString *newReturnUrl = [returnUrl substringWithRange: range];
+        if(isEncoded) newReturnUrl = [newReturnUrl stringByRemovingPercentEncoding];
+        
+        NSLog(@"%@", newReturnUrl);
+        return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
+    }
+    
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"]) {

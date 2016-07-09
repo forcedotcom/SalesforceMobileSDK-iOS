@@ -59,7 +59,8 @@ enum {
     kSFOAuthErrorUnsupportedResponseType,
     kSFOAuthErrorWrongVersion,              // credentials do not match current Connected App version in the org
     kSFOAuthErrorBrowserLaunchFailed,
-    kSFOAuthErrorUnknownAdvancedAuthConfig
+    kSFOAuthErrorUnknownAdvancedAuthConfig,
+    kSFOAuthErrorInvalidMDMConfiguration
 };
 
 /**
@@ -104,6 +105,12 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
      */
     SFOAuthAdvancedAuthStateTokenRequestInitiated
 };
+
+/**
+ Callback block used for the browser flow authentication.
+ @see oauthCoordinator:willBeginBrowserAuthentication:
+ */
+typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 /** Protocol for objects intending to be a delegate for an OAuth coordinator.
  
@@ -156,6 +163,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
  Sent before oauthcoordinator will begin any kind of authentication
  
  @param coordinator The SFOAuthCoordinator instance processing this message
+ @param info The SFOAuthInfo instance containing details about the type of authentication.
  */
 - (void)oauthCoordinatorWillBeginAuthentication:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info;
 
@@ -192,9 +200,36 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info;
 
 /**
- The delegate can implement this method to return a BOOL indicating if the network is available or not
+ The delegate can implement this method to return a BOOL indicating whether the network is available.
+ @param coordinator The SFOAuthCoordinator object to be queried (typically self).
  */
 - (BOOL)oauthCoordinatorIsNetworkAvailable:(SFOAuthCoordinator*)coordinator;
+
+/**
+ Sent to notify the delegate that a browser authentication flow is about to begin.
+ 
+ If the delegate implements this method, it is responsible for using the callbackBlock to let the coordinator know
+ whether it should proceed with the browser flow or not.
+ 
+ @param coordinator   The SFOAuthCoordinator instance processing this message.
+ @param callbackBlock A callback block used to notify the coordinator if it should continue with the authentication flow.
+ Pass in YES to proceed, NO to cancel the authentication flow.
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock;
+
+/**
+ Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
+ to application did become active event.
+ 
+ @discussion
+ Ideally the coordinator (via `-handleAdvancedAuthenticationResponse:`) should handle the browser response
+ on your app delegate method `-application:openURL:sourceApplication:annotation:`.
+ If your coordinator handles the browser response at any point after the application did become active notification is sent,
+ this method should be implemented and return NO to disable the browser authentication auto-retry flow.
+ 
+ The coordinator will auto retry authentication if this method is not implemented.
+ */
+- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
 
 @required
 
@@ -294,6 +329,10 @@ typedef NS_ENUM(NSUInteger, SFOAuthAdvancedAuthState) {
  */
 @property (nonatomic, copy) NSString *userAgentForAuth;
 
+/**
+ An array of additional keys (NSString) to parse during OAuth
+ */
+@property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------

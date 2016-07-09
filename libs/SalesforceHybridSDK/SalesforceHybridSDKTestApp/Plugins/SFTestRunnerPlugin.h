@@ -36,17 +36,18 @@ extern NSString * const kSFTestRunnerPluginName;
 
 @interface SFTestRunnerPlugin : CDVPlugin {
     
-    NSMutableArray *_testResults;
+    NSMutableDictionary *_testResults;
 }
 
 /// array of SFTestResult
-@property (atomic, readonly, strong) NSMutableArray *testResults;
-@property (atomic, readonly) BOOL testResultAvailable;
+@property (atomic, readonly, strong) NSMutableDictionary *testResults;
+//@property (atomic, readonly) BOOL testResultAvailable;
 @property (atomic, assign) BOOL readyToStartTests;
 
 #pragma mark - Plugin methods called from js
 
 - (void)onReadyForTests:(CDVInvokedUrlCommand *)command;
 - (void)onTestComplete:(CDVInvokedUrlCommand *)command;
+- (BOOL)testResultAvailable:(NSString *)testName;
 
 @end

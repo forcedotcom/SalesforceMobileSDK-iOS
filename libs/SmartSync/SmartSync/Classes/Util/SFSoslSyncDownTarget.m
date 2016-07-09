@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -81,16 +81,28 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-{
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
+}
+
+- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
+       maxTimeStamp:(long long)maxTimeStamp
+           queryRun:(NSString*)queryRun
+         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak SFSoslSyncDownTarget* weakSelf = self;
-    
-    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:self.query];
-    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records){
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:queryRun];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records) {
         weakSelf.totalSize = [records count];
         completeBlock(records);
     }];
 }
 
+- (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
+                       localIds:(NSArray*)localIds
+                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:self.query errorBlock:errorBlock completeBlock:completeBlock];
+}
 
 @end

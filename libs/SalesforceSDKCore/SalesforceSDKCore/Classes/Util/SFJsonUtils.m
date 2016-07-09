@@ -36,16 +36,18 @@ static NSError *sLastError = nil;
 + (id)objectFromJSONData:(NSData *)jsonData
 {
     NSError *err = nil;
-    id result = [NSJSONSerialization JSONObjectWithData:jsonData 
-                                                options:NSJSONReadingMutableContainers 
-                                                  error:&err
-                 ];
-    
-    if (nil != err) {
-        [self log:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
-        sLastError = err;
+    id result = nil;
+    if(jsonData) {
+        result = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                 options:NSJSONReadingMutableContainers
+                                                   error:&err
+                  ];
+
+        if (nil != err) {
+            [self log:SFLogLevelDebug format:@"WARNING error parsing json: %@", err];
+            sLastError = err;
+        }
     }
-    
     return result;
 }
 

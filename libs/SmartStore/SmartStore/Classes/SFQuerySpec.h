@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -38,6 +38,7 @@ extern NSString * const kQuerySpecTypeLike;
 extern NSString * const kQuerySpecTypeSmart;
 extern NSString * const kQuerySpecTypeMatch;
 
+extern NSString * const kQuerySpecParamSelectPaths;
 extern NSString * const kQuerySpecParamIndexPath;
 extern NSString * const kQuerySpecParamOrder;
 extern NSString * const kQuerySpecParamPageSize;
@@ -83,6 +84,11 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
 @property (nonatomic, strong) NSString *countSmartSql;
 
 /**
+ idsSmartSql: query returning only ids
+ */
+@property (nonatomic, strong) NSString *idsSmartSql;
+
+/**
  * The number of entries per page to return.
  */
 @property (nonatomic, assign) NSUInteger pageSize;
@@ -91,6 +97,11 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  soupName is used for range, exact, and like queries.
  */
 @property (nonatomic, strong) NSString *soupName;
+
+/**
+ The paths to return in an array. nil means return the entire soup element.
+ */
+@property (nonatomic, strong) NSArray *selectPaths;
 
 /**
  The indexPath to use for the query. Compound paths must be dot-delimited ie parent.child.grandchild.field .
@@ -137,6 +148,7 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * Factory method to build an exact query spec
  * Note: caller is responsible for releaseing the query spec
  * @param soupName The target soup name.
+ * @param selectPaths The paths to return - if nil the entire soup element is returned.
  * @param path The path to filter on.
  * @param matchKey The exact value to match.
  * @param orderPath The path to sort by.
@@ -144,12 +156,14 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
++ (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newExactQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
  * Factory method to build an like query spec
  * Note: caller is responsible for releaseing the query spec
  * @param soupName The target soup name.
+ * @param selectPaths The paths to return - if nil the entire soup element is returned.
  * @param path The path to filter on.
  * @param likeKey The value to match on.
  * @param orderPath The path to sort by.
@@ -157,12 +171,14 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
++ (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newLikeQuerySpec:(NSString*)soupName withPath:(NSString*)path withLikeKey:(NSString*)likeKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
  * Factory method to build an range query spec
  * Note: caller is responsible for releaseing the query spec
  * @param soupName The target soup name.
+ * @param selectPaths The paths to return - if nil the entire soup element is returned.
  * @param path The path to filter on.
  * @param beginKey The start of the range.
  * @param endKey The end of the range.
@@ -171,16 +187,34 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  * @param pageSize The page size.
  * @return A query spec object.
  */
++ (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newRangeQuerySpec:(NSString*)soupName withPath:(NSString*)path withBeginKey:(NSString*)beginKey withEndKey:(NSString*)endKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
  * Factory method to build a query spec to return all data from a soup.
  * @param soupName The target soup name.
+ * @param selectPaths The paths to return - if nil the entire soup element is returned.
  * @param orderPath The path to sort by.
  * @param order The sort order.
  * @param pageSize The page size.
  */
++ (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 + (SFQuerySpec*) newAllQuerySpec:(NSString*)soupName withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
+
+/**
+ * Factory method to build a match query spec (full-text search)
+ * Note: caller is responsible for releaseing the query spec
+ * @param soupName The target soup name.
+ * @param selectPaths The paths to return - if nil the entire soup element is returned.
+ * @param path The path to filter on - can be nil to match against any full-text indexed paths.
+ * @param matchKey The match query string.
+ * @param orderPath The path to sort by.
+ * @param order The sort order.
+ * @param pageSize The page size.
+ * @return A query spec object.
+ */
++ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withSelectPaths:(NSArray*)selectPaths withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
++ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 
 /**
  * Factory method to build a smart query spec
@@ -191,18 +225,6 @@ typedef NS_ENUM(NSUInteger, SFSoupQuerySortOrder) {
  */
 + (SFQuerySpec*) newSmartQuerySpec:(NSString*)smartSql withPageSize:(NSUInteger)pageSize;
 
-/**
- * Factory method to build a match query spec (full-text search)
- * Note: caller is responsible for releaseing the query spec
- * @param soupName The target soup name.
- * @param path The path to filter on - can be nil to match against any full-text indexed paths
- * @param matchKey The match query string.
- * @param orderPath The path to sort by.
- * @param order The sort order.
- * @param pageSize The page size.
- * @return A query spec object.
- */
-+ (SFQuerySpec*) newMatchQuerySpec:(NSString*)soupName withPath:(NSString*)path withMatchKey:(NSString*)matchKey withOrderPath:(NSString*)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize;
 /**
  * Initializes the object with the given query spec.
  * @param querySpec the name/value pairs defining the query spec.

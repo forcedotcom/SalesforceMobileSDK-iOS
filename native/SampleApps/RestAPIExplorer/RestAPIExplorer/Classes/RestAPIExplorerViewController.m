@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -35,6 +35,7 @@
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFIdentityData.h>
+#import <SalesforceSDKCore/SFApplicationHelper.h>
 
 @interface RestAPIExplorerViewController ()
 
@@ -402,7 +403,7 @@
         [self presentViewController:umvc animated:YES completion:NULL];
     }
     else if ([text isEqualToString:kActionExportCredentialsForTesting]) {
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
         [appDelegate exportTestingCredentials];        
     }
     

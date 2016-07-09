@@ -7,3 +7,6 @@
 //
 
 PRODUCT_NAME = SalesforceNetwork
+
+// Make sure to use only API that are safe for application extensions
+APPLICATION_EXTENSION_API_ONLY = YES

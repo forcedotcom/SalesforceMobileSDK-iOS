@@ -33,7 +33,7 @@ static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.
 
 #pragma mark - SFPasscodeProvider
 
-- (id)initWithProviderName:(NSString *)providerName
+- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName
 {
     self = [super init];
     if (self) {

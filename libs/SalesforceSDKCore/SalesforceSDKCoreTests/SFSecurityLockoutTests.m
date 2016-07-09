@@ -11,7 +11,7 @@
 
 @interface SFSecurityLockoutTests ()
 
-- (void)cleanupSettings;
++ (void)cleanupSettings;
 - (void)verifySettingsValues:(NSNumber *)legacyTimeoutNum
              legacyLockedVal:(BOOL)legacyLockedVal
           keychainTimeoutVal:(NSUInteger)keychainTimeoutVal
@@ -23,10 +23,16 @@
 
 #pragma mark - Tests
 
-- (void)setUp
++ (void)setUp
 {
     [super setUp];
-    [self cleanupSettings];
+    [SFSecurityLockoutTests cleanupSettings];
+}
+
+-(void)tearDown
+{
+    [SFSecurityLockoutTests cleanupSettings];
+    [super tearDown];
 }
 
 - (void)testReadWriteLockoutTime
@@ -56,12 +62,12 @@
     [SFSecurityLockout class];  // Make sure initialize call for SFSecurityLockout is out of the way.
     
     // No initial values: Defaults migrated to keychain.
-    [self cleanupSettings];
+    [SFSecurityLockoutTests cleanupSettings];
     [SFSecurityLockout upgradeSettings];
     [self verifySettingsValues:nil legacyLockedVal:NO keychainTimeoutVal:kDefaultLockoutTime keychainLockedVal:NO];
     
     // Initial legacy values, no keychain values: Legacy values migrated to keychain.
-    [self cleanupSettings];
+    [SFSecurityLockoutTests cleanupSettings];
     NSUInteger timeoutVal = arc4random();
     NSNumber *legacyTimeoutNum = @(timeoutVal);
     BOOL legacyLockedVal = (arc4random() % 2 == 0);
@@ -72,7 +78,7 @@
     [self verifySettingsValues:legacyTimeoutNum legacyLockedVal:legacyLockedVal keychainTimeoutVal:timeoutVal keychainLockedVal:legacyLockedVal];
     
     // Keychain values already defined: No further migration of values.
-    [self cleanupSettings];
+    [SFSecurityLockoutTests cleanupSettings];
     NSNumber *keychainTimeoutNum = @(arc4random());
     NSNumber *keychainLockedNum = [NSNumber numberWithBool:(arc4random() % 2 == 0)];
     [SFSecurityLockout writeIsLockedToKeychain:keychainLockedNum];
@@ -83,7 +89,7 @@
 
 #pragma mark - Helper methods
 
-- (void)cleanupSettings
++ (void)cleanupSettings
 {
     [SFSecurityLockout writeLockoutTimeToKeychain:nil];
     [SFSecurityLockout writeIsLockedToKeychain:nil];

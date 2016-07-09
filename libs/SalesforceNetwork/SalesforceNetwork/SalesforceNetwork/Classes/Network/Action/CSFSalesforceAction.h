@@ -24,6 +24,8 @@
 
 #import "CSFAction.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 CSF_EXTERN NSString * const CSFSalesforceActionDefaultPathPrefix;
 CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
 
@@ -43,7 +45,14 @@ CSF_EXTERN NSString * const CSFSalesforceDefaultAPIVersion;
  */
 @property (nonatomic, readonly) BOOL returnsSecurityToken;
 
-@property (nonatomic, copy) NSString *pathPrefix;
-@property (nonatomic, copy) NSString *apiVersion;
+@property (nullable, nonatomic, copy) NSString *pathPrefix;
+@property (nullable, nonatomic, copy) NSString *apiVersion;
+
+/**
+ * Returns YES if error is a network error
+ */
++ (BOOL)isNetworkError:(nullable NSError *)error;
 
 @end
+
+NS_ASSUME_NONNULL_END

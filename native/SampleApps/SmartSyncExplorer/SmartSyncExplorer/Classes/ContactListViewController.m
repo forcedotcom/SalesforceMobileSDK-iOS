@@ -73,6 +73,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 // Data properties
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
 @property (nonatomic, assign) BOOL isSearching;
+@property (nonatomic, strong) NSString* searchText;
 
 @end
 
@@ -83,7 +84,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+        self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
         self.isSearching = NO;
     }
     return self;
@@ -100,11 +101,19 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 {
     [super viewDidLoad];
     if (!self.dataMgr) {
-        self.dataMgr = [[SObjectDataManager alloc] initWithViewController:self dataSpec:[ContactSObjectData dataSpec]];
+        self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
     }
-    [self.dataMgr refreshLocalData];
-    if ([self.dataMgr.dataRows count] == 0)
-        [self.dataMgr refreshRemoteData];
+    
+    __weak ContactListViewController *weakSelf = self;
+    void (^completionBlock)(void) = ^{
+        [weakSelf refreshList];
+    };
+    
+    [self.dataMgr refreshLocalData:completionBlock];
+    if ([self.dataMgr.dataRows count] == 0) {
+        [self.dataMgr refreshRemoteData:completionBlock];
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearPopovers:)
                                                  name:kSFPasscodeFlowWillBegin
@@ -250,8 +259,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     [self log:SFLogLevelDebug format:@"searching with text: %@", searchText];
+    self.searchText = searchText;
+    [self refreshList];
+}
+
+- (void) refreshList {
     __weak ContactListViewController *weakSelf = self;
-    [self.dataMgr filterOnSearchTerm:searchText completion:^{
+    [self.dataMgr filterOnSearchTerm:self.searchText completion:^{
         [weakSelf.tableView reloadData];
         if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
             [weakSelf.searchBar becomeFirstResponder];
@@ -361,17 +375,24 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showToast:@"Syncing with Salesforce"];
     __weak ContactListViewController *weakSelf = self;
+    void(^completionBlock)(void) = ^{
+        [weakSelf refreshList];
+    };
+    
     [self.dataMgr updateRemoteData:^(SFSyncState *syncProgressDetails) {
         dispatch_async(dispatch_get_main_queue(), ^{
             weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            // NB: when the sync failed it means not everything could be synched up
+            //     it doesn't mean nothing could be synched up
+            // Therefore we should be refreshing whether it was a complete success or not
+            [weakSelf.dataMgr refreshLocalData:completionBlock];
+            [weakSelf.dataMgr refreshRemoteData:completionBlock]; // NB will again call refreshLocalData when completing
+
+            // Letting the user know whether it was a complete success or not
             if ([syncProgressDetails isDone]) {
-                [weakSelf.dataMgr refreshLocalData];
                 [weakSelf showToast:@"Sync complete!"];
-                [weakSelf.dataMgr refreshRemoteData];
             } else if ([syncProgressDetails hasFailed]) {
                 [weakSelf showToast:@"Sync failed."];
-            } else {
-                [weakSelf showToast:[NSString stringWithFormat:@"Unexpected status: %@", [SFSyncState syncStatusToString:syncProgressDetails.status]]];
             }
         });
     }];
@@ -380,7 +401,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)addContact {
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:kNavBarTitleText style:UIBarButtonItemStylePlain target:nil action:nil];
     ContactDetailViewController *detailVc = [[ContactDetailViewController alloc] initForNewContactWithDataManager:self.dataMgr saveBlock:^{
-        [self.dataMgr refreshLocalData];
+        [self.dataMgr refreshLocalData:^{
+            [self refreshList];
+        }];
     }];
     [self.navigationController pushViewController:detailVc animated:YES];
 }

@@ -85,4 +85,15 @@
  */
 + (instancetype)cachedNetworkForUserAccount:(SFUserAccount*)account;
 
+/*
+ These internal methods are used as an interface between CSFAction and CSFNetwork, to handle CSFNetworkDelegate methods.
+ */
+- (void)delegate_networkStartedAction:(CSFAction*)action;
+- (void)delegate_networkCanceledAction:(CSFAction*)action;
+- (void)delegate_networkCompletedAction:(CSFAction*)action withError:(NSError*)error;
+- (void)delegate_networkTask:(NSURLSessionTask*)task
+                changedState:(NSURLSessionTaskState)oldState
+                     toState:(NSURLSessionTaskState)newState
+                   forAction:(CSFAction*)action;
+
 @end

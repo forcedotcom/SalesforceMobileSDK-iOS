@@ -161,11 +161,19 @@
 {
     [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // Removing db indexes on table (otherwise registerSoup will fail to create indexes with the same name)
+        NSMutableArray* dropIndexStatements = [NSMutableArray new];
+        NSString* dropIndexFormat = @"DROP INDEX IF EXISTS %@_%@_idx";
+        for (NSString* col in @[CREATED_COL, LAST_MODIFIED_COL]) {
+            [dropIndexStatements addObject:[NSString stringWithFormat:dropIndexFormat, self.soupTableName, col]];
+        }
         for (int i=0; i<[self.oldIndexSpecs count]; i++) {
-            NSString* sql = [NSString stringWithFormat:@"DROP INDEX IF EXISTS %@_%d_idx", self.soupTableName, i];
-            [self executeUpdate:db sql:sql context:@"dropOldIndexes"];
+            [dropIndexStatements addObject:[NSString stringWithFormat:dropIndexFormat, self.soupTableName, [NSString stringWithFormat:@"%d", i]]];
+        }
+        for (NSString* dropIndexStatement in dropIndexStatements) {
+            [self executeUpdate:db sql:dropIndexStatement context:@"dropOldIndexes"];
         }
         
+        // Removing row from soup index map table
         NSString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@=\"%@\"",
                          SOUP_INDEX_MAP_TABLE, SOUP_NAME_COL, self.soupName];
         [self executeUpdate:db sql:sql context:@"dropOldIndexes"];
@@ -200,7 +208,7 @@
 {
     [self.queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         // We need column names in the index specs
-        _indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
+        self->_indexSpecs = [self.store indicesForSoup:self.soupName withDb:db];
 		
         // Move data (core columns + indexed paths that we are still indexing)
         NSDictionary* mapOldSpecs = [SFSoupIndex mapForSoupIndexes:self.oldIndexSpecs];
@@ -219,6 +227,12 @@
         for (NSString* keptPath in keptPaths) {
             SFSoupIndex* oldIndexSpec = mapOldSpecs[keptPath];
             SFSoupIndex* newIndexSpec = mapNewSpecs[keptPath];
+            
+            if (newIndexSpec.columnType == nil) {
+                // we are now using json1, there is no column to populate
+                continue;
+            }
+            
             if ([oldIndexSpec.columnType isEqualToString:newIndexSpec.columnType]) {
                 [oldColumns addObject:oldIndexSpec.columnName];
                 [newColumns addObject:newIndexSpec.columnName];
@@ -237,7 +251,7 @@
         // Fts
         if ([SFSoupIndex hasFts:self.indexSpecs]) {
             NSMutableArray* oldColumnsFts = [NSMutableArray arrayWithObjects:ID_COL, nil];
-            NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:DOCID_COL, nil];
+            NSMutableArray* newColumnsFts = [NSMutableArray arrayWithObjects:ROWID_COL, nil];
 
             // Adding indexed path columns that we are keeping
             for (NSString* keptPath in keptPaths) {
@@ -349,7 +363,8 @@
 /**
  Update row in long operations status table for on-going alter soup operation
  Delete row if newStatus is AlterStatus.LAST
- @param newStatus
+ @param newStatus New status
+ @param db Database
  */
 - (void) updateLongOperationDbRow:(SFAlterSoupStep)newStatus withDb:(FMDatabase*)db
 {

@@ -42,6 +42,8 @@ extern NSException * SFOAuthInvalidIdentifierException();
 
 @interface SFOAuthCredentials ()
 
+@property (nonatomic, strong) NSDictionary * additionalOAuthFields;
+
 @end
 
 
