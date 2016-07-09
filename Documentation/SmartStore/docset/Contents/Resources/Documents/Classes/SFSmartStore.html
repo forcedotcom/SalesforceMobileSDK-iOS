@@ -56,9 +56,15 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/captureExplainQueryPlan">captureExplainQueryPlan</option>
+		
 		<option value="//api/name/dbMgr">dbMgr</option>
 		
+		<option value="//api/name/ftsExtension">ftsExtension</option>
+		
 		<option value="//api/name/isGlobal">isGlobal</option>
+		
+		<option value="//api/name/lastExplainQueryPlan">lastExplainQueryPlan</option>
 		
 		<option value="//api/name/storeName">storeName</option>
 		
@@ -146,6 +152,8 @@
 		
 		<option value="//api/name/isFileDataProtectionActive">- isFileDataProtectionActive</option>
 		
+		<option value="//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:">- lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</option>
+		
 		<option value="//api/name/openStoreDatabase">- openStoreDatabase</option>
 		
 		<option value="//api/name/queryTable:forColumns:orderBy:limit:whereClause:whereArgs:withDb:">- queryTable:forColumns:orderBy:limit:whereClause:whereArgs:withDb:</option>
@@ -165,6 +173,12 @@
 		<option value="//api/name/removeAllSoups">- removeAllSoups</option>
 		
 		<option value="//api/name/removeEntries:fromSoup:">- removeEntries:fromSoup:</option>
+		
+		<option value="//api/name/removeEntries:fromSoup:error:">- removeEntries:fromSoup:error:</option>
+		
+		<option value="//api/name/removeEntriesByQuery:fromSoup:">- removeEntriesByQuery:fromSoup:</option>
+		
+		<option value="//api/name/removeEntriesByQuery:fromSoup:error:">- removeEntriesByQuery:fromSoup:error:</option>
 		
 		<option value="//api/name/removeFromCache:">- removeFromCache:</option>
 		
@@ -333,6 +347,88 @@
 		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFUserAccount *user</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/captureExplainQueryPlan" title="captureExplainQueryPlan"></a>
+	<h3 class="method-title"><code><a href="#//api/name/captureExplainQueryPlan">&nbsp;&nbsp;captureExplainQueryPlan</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Flag to cause explain plan to be captured for every query</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL captureExplainQueryPlan</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/lastExplainQueryPlan" title="lastExplainQueryPlan"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lastExplainQueryPlan">&nbsp;&nbsp;lastExplainQueryPlan</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dictionary with results of last explain query plan</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan</code></div>
 
 		    
 			
@@ -1054,6 +1150,75 @@ will result in the corruption and loss of existing data.
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/registerSoup:withIndexSpecs:error:" title="registerSoup:withIndexSpecs:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerSoup:withIndexSpecs:error:">&ndash;&nbsp;registerSoup:withIndexSpecs:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Ensure that a soup with the given name exists.
+Either creates a new soup or returns an existing soup.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)registerSoup:(NSString *)<em>soupName</em> withIndexSpecs:(NSArray *)<em>indexSpecs</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The name of the soup to register</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>indexSpecs</code></th>
+						<td><p>Array of one ore more <a href="../Classes/SFSoupIndex.html">SFSoupIndex</a> objects</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Sets/returns any error generated as part of the process.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the soup registered OK</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/registerSoup:withIndexSpecs:" title="registerSoup:withIndexSpecs:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/registerSoup:withIndexSpecs:">&ndash;&nbsp;registerSoup:withIndexSpecs:</a></code>
 </h3>
@@ -1089,11 +1254,6 @@ Either creates a new soup or returns an existing soup.</p>
 						<td><p>Array of one ore more <a href="../Classes/SFSoupIndex.html">SFSoupIndex</a> objects</p></td>
 					</tr>
 				
-					<tr>
-						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>Error description</p></td>
-					</tr>
-				
 				</table>
 			</div>
 			
@@ -1108,6 +1268,11 @@ Either creates a new soup or returns an existing soup.</p>
 			
 
 			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<div class="warning"><p><strong>Warning:</strong> Deprecated, use <a href="#//api/name/registerSoup:withIndexSpecs:error:">registerSoup:withIndexSpecs:error:</a> instead</p></div>
+			</div>
+			
 
 			
 
@@ -1120,22 +1285,6 @@ Either creates a new soup or returns an existing soup.</p>
 			</div>
 			
 			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/registerSoup:withIndexSpecs:error:" title="registerSoup:withIndexSpecs:error:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/registerSoup:withIndexSpecs:error:">&ndash;&nbsp;registerSoup:withIndexSpecs:error:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (BOOL)registerSoup:(NSString *)<em>soupName</em> withIndexSpecs:(NSArray *)<em>indexSpecs</em> error:(NSError **)<em>error</em></code></div>
-
-		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -1467,6 +1616,137 @@ external ID path argument.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:" title="lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:">&ndash;&nbsp;lookupSoupEntryIdForSoupName:forFieldPath:fieldValue:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Lookup soup entry IDs for a soup.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)<em>soupName</em> forFieldPath:(NSString *)<em>fieldPath</em> fieldValue:(NSString *)<em>fieldValue</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>Soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldPath</code></th>
+						<td><p>Field path.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fieldValue</code></th>
+						<td><p>Field value.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Sets/returns any error generated as part of the process.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeEntries:fromSoup:error:" title="removeEntries:fromSoup:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeEntries:fromSoup:error:">&ndash;&nbsp;removeEntries:fromSoup:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove soup entries exactly matching the soup entry IDs</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)removeEntries:(NSArray *)<em>entryIds</em> fromSoup:(NSString *)<em>soupName</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>entryIds</code></th>
+						<td><p>An array of opaque soup entry IDs from _soupEntryId</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The name of the soup from which to remove the soup entries</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Sets/returns any error generated as part of the process.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/removeEntries:fromSoup:" title="removeEntries:fromSoup:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/removeEntries:fromSoup:">&ndash;&nbsp;removeEntries:fromSoup:</a></code>
 </h3>
@@ -1494,6 +1774,129 @@ external ID path argument.</p>
 					<tr>
 						<th scope="row" class="argument-name"><code>entryIds</code></th>
 						<td><p>An array of opaque soup entry IDs from _soupEntryId</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The name of the soup from which to remove the soup entries</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeEntriesByQuery:fromSoup:error:" title="removeEntriesByQuery:fromSoup:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeEntriesByQuery:fromSoup:error:">&ndash;&nbsp;removeEntriesByQuery:fromSoup:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove soup entries returned by queries
+NB: a single SQL call is executed to improve performance</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)removeEntriesByQuery:(SFQuerySpec *)<em>querySpec</em> fromSoup:(NSString *)<em>soupName</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>querySpec</code></th>
+						<td><p>Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids)</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>The name of the soup from which to remove the soup entries</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Sets/returns any error generated as part of the process.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStore.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeEntriesByQuery:fromSoup:" title="removeEntriesByQuery:fromSoup:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeEntriesByQuery:fromSoup:">&ndash;&nbsp;removeEntriesByQuery:fromSoup:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove soup entries returned by queries
+NB: a single SQL call is executed to improve performance</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)removeEntriesByQuery:(SFQuerySpec *)<em>querySpec</em> fromSoup:(NSString *)<em>soupName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>querySpec</code></th>
+						<td><p>Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids)</p></td>
 					</tr>
 				
 					<tr>
@@ -1815,11 +2218,6 @@ external ID path argument.</p>
 						<td><p>Array of one ore more paths that should be re-indexed</p></td>
 					</tr>
 				
-					<tr>
-						<th scope="row" class="argument-name"><code>handleTx</code></th>
-						<td><p>TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction</p></td>
-					</tr>
-				
 				</table>
 			</div>
 			
@@ -2088,6 +2486,22 @@ Note that on the simulator currently, data protection is NEVER active.</p>
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) BOOL isGlobal</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/ftsExtension" title="ftsExtension"></a>
+	<h3 class="method-title"><code><a href="#//api/name/ftsExtension">&nbsp;&nbsp;ftsExtension</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension</code></div>
 
 		    
 		</div>
@@ -2451,13 +2865,13 @@ Create soup names table to map arbitrary soup names to soup table names (SOUP_NA
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>db</code></th>
-						<td><p>This method is expected to be called from [fmdbqueue inDatabase:^(){ &hellip; }]</p></td>
+						<th scope="row" class="argument-name"><code>indexPaths</code></th>
+						<td><p>Array of one ore more IndexSpec objects as dictionaries</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>indexSpecs</code></th>
-						<td><p>Array of one ore more IndexSpec objects as dictionaries</p></td>
+						<th scope="row" class="argument-name"><code>db</code></th>
+						<td><p>This method is expected to be called from [fmdbqueue inDatabase:^(){ &hellip; }]</p></td>
 					</tr>
 				
 				</table>
@@ -2582,6 +2996,11 @@ Create soup names table to map arbitrary soup names to soup table names (SOUP_NA
 					</tr>
 				
 					<tr>
+						<th scope="row" class="argument-name"><code>map</code></th>
+						<td><p>The column name/value mapping to update.</p></td>
+					</tr>
+				
+					<tr>
 						<th scope="row" class="argument-name"><code>entryId</code></th>
 						<td><p>The ID value used to determine what to update.</p></td>
 					</tr>
@@ -2594,11 +3013,6 @@ Create soup names table to map arbitrary soup names to soup table names (SOUP_NA
 					<tr>
 						<th scope="row" class="argument-name"><code>db</code></th>
 						<td><p>This method is expected to be called from [fmdbqueue inDatabase:^(){ &hellip; }]</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>values</code></th>
-						<td><p>The column name/value mapping to update.</p></td>
 					</tr>
 				
 				</table>
@@ -2636,12 +3050,7 @@ Create soup names table to map arbitrary soup names to soup table names (SOUP_NA
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Helper to query table
-@param table
-@param columns
-@param limit
-@param whereClause
-@param whereArgs</p>
+				<p>Helper to query table</p>
 			</div>
 			
 		    
@@ -2653,6 +3062,36 @@ Create soup names table to map arbitrary soup names to soup table names (SOUP_NA
 			<div class="method-subsection arguments-section parameters">
 				<h4 class="method-subtitle parameter-title">Parameters</h4>
 				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>table</code></th>
+						<td><p>Table</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>columns</code></th>
+						<td><p>Column names</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>orderBy</code></th>
+						<td><p>Order by column</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>limit</code></th>
+						<td><p>Limit</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereClause</code></th>
+						<td><p>Where clause</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>whereArgs</code></th>
+						<td><p>Arguments to where clause</p></td>
+					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>db</code></th>
@@ -3219,7 +3658,7 @@ Log errors and throw exception in case of error</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -338,15 +338,25 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:soupName:newIndexSpecs:reIndexData:</TokenIdentifier>
-			<Abstract type="html">Called when first running the alter soup
-@param store
-@param soupName
-@param newIndexSpecs
-@param reIndexData</Abstract>
+			<Abstract type="html">Called when first running the alter soup</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
-			
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">Store</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Soup name</Abstract>
+				</Parameter><Parameter>
+					<Name>newIndexSpecs</Name>
+					<Abstract type="html">New index specs</Abstract>
+				</Parameter><Parameter>
+					<Name>reIndexData</Name>
+					<Abstract type="html">Should re-index data</Abstract>
+				</Parameter>
+			</Parameters>
 			
 			<Anchor>//api/name/initWithStore:soupName:newIndexSpecs:reIndexData:</Anchor>
             <NodeRef refid="2"/>
@@ -354,14 +364,25 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:rowId:details:status:</TokenIdentifier>
-			<Abstract type="html">Called when resuming an alter soup operation from the data stored in the long operations status table
-@param store
-@param details
-@param status</Abstract>
+			<Abstract type="html">Called when resuming an alter soup operation from the data stored in the long operations status table</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithStore:(SFSmartStore *)store rowId:(long)rowId details:(NSDictionary *)details status:(SFAlterSoupStep)status</Declaration>
-			
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">Store</Abstract>
+				</Parameter><Parameter>
+					<Name>rowId</Name>
+					<Abstract type="html">Row ID</Abstract>
+				</Parameter><Parameter>
+					<Name>details</Name>
+					<Abstract type="html">Details</Abstract>
+				</Parameter><Parameter>
+					<Name>status</Name>
+					<Abstract type="html">Soup status</Abstract>
+				</Parameter>
+			</Parameters>
 			
 			<Anchor>//api/name/initWithStore:rowId:details:status:</Anchor>
             <NodeRef refid="2"/>
@@ -381,12 +402,16 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/runToStep:</TokenIdentifier>
-			<Abstract type="html">Run this operation up to a given step (used by tests)
-@param toStep</Abstract>
+			<Abstract type="html">Run this operation up to a given step (used by tests)</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)runToStep:(SFAlterSoupStep)toStep</Declaration>
-			
+			<Parameters>
+				<Parameter>
+					<Name>toStep</Name>
+					<Abstract type="html">Step</Abstract>
+				</Parameter>
+			</Parameters>
 			
 			<Anchor>//api/name/runToStep:</Anchor>
             <NodeRef refid="2"/>

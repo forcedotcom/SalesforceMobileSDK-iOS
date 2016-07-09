@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SFIdentityCoordinatorDelegate.html">
+	<File path="Categories/NSDictionary+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SFIdentityCoordinatorDelegate</TokenIdentifier>
-			<Abstract type="html">Protocol for being a delegate to the SFIdentityCoordinator process.  Delegates may receive
-notifications about the success or failure of the identity request process.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Extension to NSDictionary object</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
             
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/cl/SFIdentityCoordinator</TokenIdentifier>
-		
-	</RelatedTokens>
-	
 			<NodeRef refid="98"/>
 		</Token>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinatorRetrievedData:</TokenIdentifier>
-			<Abstract type="html">Called when the identity coordinator successfully receives identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
+			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator</Declaration>
+			<Declaration>- (id)objectAtPath:(NSString *)path</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">the SFIdentityCoordinator instance associated with the requested data.</Abstract>
+					<Name>path</Name>
+					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/identityCoordinatorRetrievedData:</Anchor>
+			<Anchor>//api/name/objectAtPath:</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SFIdentityCoordinatorDelegate/identityCoordinator:didFailWithError:</TokenIdentifier>
-			<Abstract type="html">Called if there was an error while retrieving the identity data from the service.</Abstract>
-			<DeclaredIn>SFIdentityCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (void)identityCoordinator:(SFIdentityCoordinator *)coordinator didFailWithError:(NSError *)error</Declaration>
+			<Declaration>- (id)nonNullObjectForKey:(id)key</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>coordinator</Name>
-					<Abstract type="html">The SFIdentityCoordinator instance associated with the request.</Abstract>
-				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">The error that occurred during the request.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The ID of an object, or a null value</Abstract>
 				</Parameter>
 			</Parameters>
+			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
+			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
+            <NodeRef refid="98"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
+			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
 			
-			<Anchor>//api/name/identityCoordinator:didFailWithError:</Anchor>
+			<Declaration>- (NSString *)jsonString</Declaration>
+			
+			
+			<Anchor>//api/name/jsonString</Anchor>
             <NodeRef refid="98"/>
 		</Token>
 		

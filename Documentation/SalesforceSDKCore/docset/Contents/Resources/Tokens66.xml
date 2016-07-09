@@ -1,16 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSHA256PasscodeProvider.html">
+	<File path="Classes/SFSDKNewLoginHostViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSHA256PasscodeProvider</TokenIdentifier>
-			<Abstract type="html">Passcode provider for passcodes hashed with the SHA-256 algorithm.</Abstract>
-			<DeclaredIn>SFSHA256PasscodeProvider.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKNewLoginHostViewController</TokenIdentifier>
+			<Abstract type="html">View controller that allows the user to enter a new login host that contains
+a host (the server address) and an optional name.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="66"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setServer:</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/server</TokenIdentifier>
+			<Abstract type="html">The server text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *server</Declaration>
+			
+			
+			<Anchor>//api/name/server</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setName:</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/name</TokenIdentifier>
+			<Abstract type="html">The name text field</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) UITextField *name</Declaration>
+			
+			
+			<Anchor>//api/name/name</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/setLoginHostListViewController:</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKNewLoginHostViewController/loginHostListViewController</TokenIdentifier>
+			<Abstract type="html">A reference to the login host list view controller used to add the host to the list of login hosts
+and to also properly resize the popover controller.</Abstract>
+			<DeclaredIn>SFSDKNewLoginHostViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) SFSDKLoginHostListViewController *loginHostListViewController</Declaration>
+			
+			
+			<Anchor>//api/name/loginHostListViewController</Anchor>
+            <NodeRef refid="66"/>
+		</Token>
 		
         
         

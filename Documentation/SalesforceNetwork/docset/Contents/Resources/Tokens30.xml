@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/CSFNetworkOutputCache.html">
+	<File path="Protocols/CSFNetworkDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkOutputCache</TokenIdentifier>
-			<Abstract type="html">Protocol description that allows arbitrary classes to define caching behavior for network output.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="30"/>
@@ -13,56 +13,62 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheOutputFromAction:completionBlock:</TokenIdentifier>
-			<Abstract type="html">Caches an action response.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:willEnqueueAction:</TokenIdentifier>
+			<Abstract type="html">Called when an action is about to get enqueued.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (void)cacheOutputFromAction:(CSFAction *)action completionBlock:(void ( ^ ) ( NSError *error ))completionBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>action</Name>
-					<Abstract type="html">The completed action to cache</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">Block to be invoked when the cache operation is completed, or nil.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)network:(CSFNetwork *)network willEnqueueAction:(CSFAction *)action</Declaration>
 			
-			<Anchor>//api/name/cacheOutputFromAction:completionBlock:</Anchor>
+			
+			<Anchor>//api/name/network:willEnqueueAction:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/shouldCacheOutputFromAction:</TokenIdentifier>
-			<Abstract type="html">Informs the network instance whether or not this cache instance is capable of handling the output from the supplied action.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didStartAction:</TokenIdentifier>
+			<Abstract type="html">These methods inform delegates asynchronously about state of actions.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)shouldCacheOutputFromAction:(CSFAction *)action</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>action</Name>
-					<Abstract type="html">The action that is being processed.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the receiver is capable of caching this action, otherwise NO if the receiver should be skipped.</Abstract></ReturnValue>
-			<Anchor>//api/name/shouldCacheOutputFromAction:</Anchor>
+			<Declaration>- (void)network:(CSFNetwork *)network didStartAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:didStartAction:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkOutputCache/cacheInstanceForNetwork:</TokenIdentifier>
-			<Abstract type="html">Allows classes conforming CSFNetworkOutputCache to auto-generate and return cache instances to network instances as-needed.</Abstract>
-			<DeclaredIn>CSFNetworkOutputCache.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCancelAction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
 			
-			<Declaration>+ (NSObject&lt;CSFNetworkOutputCache&gt; *)cacheInstanceForNetwork:(CSFNetwork *)network</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>network</Name>
-					<Abstract type="html">Network instance configuring its cache output instances.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Cache instance appropriate for the supplied network, or nil if this class doesn&apos;t have an instance available for the given network.Steps</Abstract></ReturnValue>
-			<Anchor>//api/name/cacheInstanceForNetwork:</Anchor>
+			<Declaration>- (void)network:(CSFNetwork *)network didCancelAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:didCancelAction:</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCompleteAction:withError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network didCompleteAction:(CSFAction *)action withError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/network:didCompleteAction:withError:</Anchor>
+            <NodeRef refid="30"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:sessionTask:changedState:toState:forAction:</TokenIdentifier>
+			<Abstract type="html">Inform delegates asynchronously about states of tasks for an action</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network sessionTask:(NSURLSessionTask *)task changedState:(NSURLSessionTaskState)oldState toState:(NSURLSessionTaskState)newState forAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:sessionTask:changedState:toState:forAction:</Anchor>
             <NodeRef refid="30"/>
 		</Token>
 		

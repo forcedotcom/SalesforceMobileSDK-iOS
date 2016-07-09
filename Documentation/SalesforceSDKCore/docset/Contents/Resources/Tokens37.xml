@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthKeychainCredentials.html">
+	<File path="Classes/SFLoginViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthKeychainCredentials</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLoginViewController</TokenIdentifier>
+			<Abstract type="html">The Salesforce login screen view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="37"/>
@@ -13,170 +13,247 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyMacForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFLoginViewController/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns a shared singleton of SFLoginViewController class.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyMacForService:(NSString *)service</Declaration>
+			<Declaration>+ (_Nonnull instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/keyMacForService:</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyVendorIdForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setOauthView:</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyVendorIdForService:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/keyVendorIdForService:</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyBaseAppIdForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyBaseAppIdForService:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/keyBaseAppIdForService:</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyStoreKeyForService:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/oauthView</TokenIdentifier>
+			<Abstract type="html">Outlet to the OAuth web view.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (SFEncryptionKey *)keyStoreKeyForService:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView</Declaration>
 			
 			
-			<Anchor>//api/name/keyStoreKeyForService:</Anchor>
+			<Anchor>//api/name/oauthView</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/keyWithSeed:service:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarFont:</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)keyWithSeed:(NSString *)seed service:(NSString *)service</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/keyWithSeed:service:</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)refreshTokenWithKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenWithKey:</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/refreshTokenWithSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarFont</TokenIdentifier>
+			<Abstract type="html">Specify the font to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)refreshTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIFont *navBarFont</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenWithSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/navBarFont</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarTextColor:</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)setRefreshToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/setRefreshToken:withSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)accessTokenWithKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenWithKey:</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/accessTokenWithSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarTextColor</TokenIdentifier>
+			<Abstract type="html">Specify the text color to use for navigation bar header text.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)accessTokenWithSFEncryptionKey:(SFEncryptionKey *)encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarTextColor</Declaration>
 			
 			
-			<Anchor>//api/name/accessTokenWithSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/navBarTextColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withSFEncryptionKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setNavBarColor:</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)setAccessToken:(NSString *)token withSFEncryptionKey:(SFEncryptionKey *)key</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/setAccessToken:withSFEncryptionKey:</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/updateTokenEncryption</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)updateTokenEncryption</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/updateTokenEncryption</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setAccessToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/navBarColor</TokenIdentifier>
+			<Abstract type="html">Specify navigation bar color. This color will be used by the login view header.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)setAccessToken:(NSString *)token withKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) UIColor *navBarColor</Declaration>
 			
 			
-			<Anchor>//api/name/setAccessToken:withKey:</Anchor>
+			<Anchor>//api/name/navBarColor</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthKeychainCredentials/setRefreshToken:withKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthKeychainCredentials.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowNavbar:</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
 			
-			<Declaration>- (void)setRefreshToken:(NSString *)token withKey:(NSData *)key</Declaration>
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
 			
 			
-			<Anchor>//api/name/setRefreshToken:withKey:</Anchor>
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showNavbar</TokenIdentifier>
+			<Abstract type="html">Specify visibility of nav bar. This property will be used to hide/show the nav bar</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showNavbar</Declaration>
+			
+			
+			<Anchor>//api/name/showNavbar</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/setShowSettingsIcon:</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLoginViewController/showSettingsIcon</TokenIdentifier>
+			<Abstract type="html">Specifiy the visibility of the settings icon. This property will be used to hide/show the settings icon</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL showSettingsIcon</Declaration>
+			
+			
+			<Anchor>//api/name/showSettingsIcon</Anchor>
+            <NodeRef refid="37"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLoginViewController/styleNavigationBar:</TokenIdentifier>
+			<Abstract type="html">Applies the view&apos;s style attributes to the given navigation bar.</Abstract>
+			<DeclaredIn>SFLoginViewController.h</DeclaredIn>
+			
+			<Declaration>- (void)styleNavigationBar:(nullable UINavigationBar *)navigationBar</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>navigationBar</Name>
+					<Abstract type="html">The navigation bar that the style is applied to.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/styleNavigationBar:</Anchor>
             <NodeRef refid="37"/>
 		</Token>
 		

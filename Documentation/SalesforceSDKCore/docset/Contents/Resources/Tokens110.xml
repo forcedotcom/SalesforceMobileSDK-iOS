@@ -1,47 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFAppType.html">
+	<File path="Protocols/SFLogStorage.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFLogStorage</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
             
 			
 			<NodeRef refid="110"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeNative</Declaration>
-            
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/setAllLoggers:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="110"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeHybrid</Declaration>
-            
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/allLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="110"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFAppTypeReactNative</Declaration>
-            
-            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFLogStorage/allLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSArray&lt;id&lt;DDLogger&gt; &gt; *allLoggers</Declaration>
+			
+			
+			<Anchor>//api/name/allLoggers</Anchor>
             <NodeRef refid="110"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/flushLog</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)flushLog</Declaration>
+			
+			
+			<Anchor>//api/name/flushLog</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/addLogger:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)addLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			
+			
+			<Anchor>//api/name/addLogger:</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeLogger:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)removeLogger:(id&lt;DDLogger&gt;)logger</Declaration>
+			
+			
+			<Anchor>//api/name/removeLogger:</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/removeAllLoggers</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllLoggers</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllLoggers</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFLogStorage/log:level:flag:context:file:function:line:tag:format:args:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)log:(BOOL)asynchronous level:(DDLogLevel)level flag:(DDLogFlag)flag context:(NSInteger)context file:(const char *)file function:(const char *)function line:(NSUInteger)line tag:(id)tag format:(NSString *)format args:(va_list)args</Declaration>
+			
+			
+			<Anchor>//api/name/log:level:flag:context:file:function:line:tag:format:args:</Anchor>
+            <NodeRef refid="110"/>
+		</Token>
+		
         
         
 	</File>

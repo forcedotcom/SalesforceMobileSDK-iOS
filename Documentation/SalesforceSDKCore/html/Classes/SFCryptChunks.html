@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>SFCryptChunks Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">SalesforceSDKCore </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Salesforce.com</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/cryptFinalized">cryptFinalized</option>
+		
+		<option value="//api/name/delegate">delegate</option>
+		
+	</optgroup>
+	
+
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/cryptBuffer:bufferLen:">- cryptBuffer:bufferLen:</option>
+		
+		<option value="//api/name/finalizeCrypt">- finalizeCrypt</option>
+		
+		<option value="//api/name/initForDecryptionWithKey:initializationVector:">- initForDecryptionWithKey:initializationVector:</option>
+		
+		<option value="//api/name/initForEncryptionWithKey:initializationVector:">- initForEncryptionWithKey:initializationVector:</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">SFCryptChunks Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>SFCryptChunks.h</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
+It does not allocate any memory to perform the encryption / decryption,
+the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</p>
+
+<p>Basic usage is:
+1. Create an instance giving it a key and setting a <a href="#//api/name/delegate">delegate</a> to consume results;
+2. Pass encrypted / decrypted data in as many times needed;
+3. Handle results via the <a href="#//api/name/delegate">delegate</a> methods as you pass data in;
+4. When done passing data in, call the finalize crypt method (this is a very important step).</p>
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						
+						
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/initForEncryptionWithKey:initializationVector:" title="initForEncryptionWithKey:initializationVector:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initForEncryptionWithKey:initializationVector:">&ndash;&nbsp;initForEncryptionWithKey:initializationVector:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializes a SFCryptChunks for encryption that uses algorithm specified in <code>SFCryptChunksCipherAlgorithm</code>
+and options specified in <code>SFCryptChunksCipherOptions</code>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initForEncryptionWithKey:(NSData *)<em>key</em> initializationVector:(nullable NSData *)<em>iv</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>the cipher key.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>iv</code></th>
+						<td><p>the initialization vector, must be size of <code>SFCryptChunksCipherBlockSize</code>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>a SFCryptChunks ready for encryption.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initForDecryptionWithKey:initializationVector:" title="initForDecryptionWithKey:initializationVector:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initForDecryptionWithKey:initializationVector:">&ndash;&nbsp;initForDecryptionWithKey:initializationVector:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializes a SFCryptChunks for decryption that uses algorithm specified in <code>SFCryptChunksCipherAlgorithm</code>
+and options specified in <code>SFCryptChunksCipherOptions</code>.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)initForDecryptionWithKey:(NSData *)<em>key</em> initializationVector:(nullable NSData *)<em>iv</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>the cipher key.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>iv</code></th>
+						<td><p>the initialization vector, must be size of <code>SFCryptChunksCipherBlockSize</code>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>a SFCryptChunks ready for decryption.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate" title="delegate"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate">&nbsp;&nbsp;delegate</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate to receive crypt results.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cryptBuffer:bufferLen:" title="cryptBuffer:bufferLen:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cryptBuffer:bufferLen:">&ndash;&nbsp;cryptBuffer:bufferLen:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
+the <a href="#//api/name/delegate">delegate</a> will then be called with results as many times as needed:
+- the <a href="#//api/name/delegate">delegate</a> may be called multiple times with chunk results; or
+- the <a href="#//api/name/delegate">delegate</a> may not be called at all, if there isn&rsquo;t enough data to produce a result.
+This method utilizes a stack memory buffer the size of 2 cipher blocks.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cryptBuffer:(const uint8_t *)<em>buffer</em> bufferLen:(size_t)<em>len</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>buffer</code></th>
+						<td><p>the buffer data to be encrypted or decrypted.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>len</code></th>
+						<td><p>the buffer size.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/cryptFinalized" title="cryptFinalized"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cryptFinalized">&nbsp;&nbsp;cryptFinalized</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, readonly) BOOL cryptFinalized</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/finalizeCrypt" title="finalizeCrypt"></a>
+	<h3 class="method-title"><code><a href="#//api/name/finalizeCrypt">&ndash;&nbsp;finalizeCrypt</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Finalizes the crypt operation. The <a href="#//api/name/delegate">delegate</a> may be called with chunk results if the final crypt produced any results.
+The final result is never bigger than the cipher block size.
+This method utilizes a stack memory buffer the size of 1 cipher block.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)finalizeCrypt</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFCryptChunks.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>

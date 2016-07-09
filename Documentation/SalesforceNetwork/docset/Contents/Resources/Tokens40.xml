@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskCallType.html">
+	<File path="Constants/CSFForceRecordType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskCallType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceRecordType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeOther</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeUnknown</Declaration>
+            <Declaration>CSFForceRecordTypeOther</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInternal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeAccount</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInternal</Declaration>
+            <Declaration>CSFForceRecordTypeAccount</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeContact</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeInbound</Declaration>
+            <Declaration>CSFForceRecordTypeContact</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,69 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeOutbound</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeTask</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskCallTypeOutbound</Declaration>
+            <Declaration>CSFForceRecordTypeTask</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeCase</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeCase</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeContract</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeContract</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeOpportunity</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeOpportunity</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeQuote</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeQuote</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeLead</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeLead</Declaration>
+            
+            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
+            
+            <NodeRef refid="40"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeCampaign</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>CSFForceRecordTypeCampaign</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

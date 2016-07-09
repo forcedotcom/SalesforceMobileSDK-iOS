@@ -68,6 +68,8 @@
 		
 		<option value="//api/name/actionModelFormatterForPrimitiveProperty:encodingType:">+ actionModelFormatterForPrimitiveProperty:encodingType:</option>
 		
+		<option value="//api/name/isDefaultPropertyForArray:">+ isDefaultPropertyForArray:</option>
+		
 		<option value="//api/name/storageKeyPathForPropertyName:">+ storageKeyPathForPropertyName:</option>
 		
 	</optgroup>
@@ -81,6 +83,8 @@
 		<option value="//api/name/importProperty:">- importProperty:</option>
 		
 		<option value="//api/name/importSynthesizedProperties">- importSynthesizedProperties</option>
+		
+		<option value="//api/name/init">- init</option>
 		
 		<option value="//api/name/initWithJSON:context:">- initWithJSON:context:</option>
 		
@@ -149,6 +153,22 @@ capability to encode and expose the data provided from server resources to clien
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/initWithJSON:context:" title="initWithJSON:context:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/initWithJSON:context:">&ndash;&nbsp;initWithJSON:context:</a></code>
 </h3>
@@ -279,8 +299,8 @@ Subclasses of this this class all augment this behavior to compare against their
 						</div>
 						
 
-						<a title="Ancestry Methods" name="task_Ancestry Methods"></a>
-						<h2 class="task-title">Ancestry Methods</h2>
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
@@ -300,7 +320,7 @@ Subclasses of this this class all augment this behavior to compare against their
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readonly) NSObject *parentObject</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, weak, readwrite) NSObject *parentObject</code></div>
 
 		    
 			
@@ -330,55 +350,7 @@ This property is automatically populated as a process of either initializing the
 			
 		</div>
 	</div>
-</div>
-						</div>
-						
-
-						<a title="KeyedSubscript Methods" name="task_KeyedSubscript Methods"></a>
-						<h2 class="task-title">KeyedSubscript Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/objectForKeyedSubscript:" title="objectForKeyedSubscript:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/objectForKeyedSubscript:">&ndash;&nbsp;objectForKeyedSubscript:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (id)objectForKeyedSubscript:(id)<em>key</em></code></div>
-
-		    
-		</div>
-	</div>
 </div><div class="section-method">
-	<a name="//api/name/setObject:forKeyedSubscript:" title="setObject:forKeyedSubscript:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setObject:forKeyedSubscript:">&ndash;&nbsp;setObject:forKeyedSubscript:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>obj</em> forKeyedSubscript:(id&lt;NSCopying&gt;)<em>key</em></code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Extension Methods" name="task_Extension Methods"></a>
-						<h2 class="task-title">Extension Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
 	<a name="//api/name/importAllProperties" title="importAllProperties"></a>
 	<h3 class="method-title"><code><a href="#//api/name/importAllProperties">&ndash;&nbsp;importAllProperties</a></code>
 </h3>
@@ -485,6 +457,72 @@ This class method lets developers use a different Objective-C property name than
 value used when serializing and submitting JSON data to a network API.  This can often
 be used to adjust capitalization or underscore encoding.</p><div class="note"><p><strong>Note:</strong> The default implementation returns the property name unaltered.  If the method returns
 <code>nil</code>, then no properties for the given name will be serialized into JSON.</p></div>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFOutput.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isDefaultPropertyForArray:" title="isDefaultPropertyForArray:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isDefaultPropertyForArray:">+&nbsp;isDefaultPropertyForArray:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a BOOL value indicating if the propertyName specified will store the contents of Array.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isDefaultPropertyForArray:(NSString *)<em>propertyName</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>propertyName</code></th>
+						<td><p>The name of the Objective-C property whose type will be NSArray.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>a BOOL value indicatind if the passed in property name is default.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+This class method lets developers specify the default property to be used when the object is instantiated with
+a JSON Array. You can continue to use the &ldquo;actionModelForPropertyName:propertyClass:contents:&rdquo; method to speciify the types of objects that will be stored in the
+array.</p><div class="note"><p><strong>Note:</strong> in order to use this class method your object must be instantiated with an NSArray in the designater initializer &ldquo;json&rdquo; parameter. you must also ensure you return yes for only one of the properties of type NSArray.</p></div>
 			</div>
 			
 
@@ -692,6 +730,46 @@ handle the property or value supplied.</p>
 </div>
 						</div>
 						
+
+						<a title="KeyedSubscript Methods" name="task_KeyedSubscript Methods"></a>
+						<h2 class="task-title">KeyedSubscript Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/objectForKeyedSubscript:" title="objectForKeyedSubscript:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/objectForKeyedSubscript:">&ndash;&nbsp;objectForKeyedSubscript:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (id)objectForKeyedSubscript:(id)<em>key</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setObject:forKeyedSubscript:" title="setObject:forKeyedSubscript:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setObject:forKeyedSubscript:">&ndash;&nbsp;setObject:forKeyedSubscript:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>obj</em> forKeyedSubscript:(id&lt;NSCopying&gt;)<em>key</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -704,7 +782,7 @@ handle the property or value supplied.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

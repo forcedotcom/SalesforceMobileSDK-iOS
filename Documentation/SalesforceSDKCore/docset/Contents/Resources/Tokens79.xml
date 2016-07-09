@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceSDKManager.html">
+	<File path="Classes/SFUserAccountIdentity.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKManager</TokenIdentifier>
-			<Abstract type="html">This class will manage the basic infrastructure of the Mobile SDK elements of the app,
-including the orchestration of authentication, passcode displaying, and management of app
-backgrounding and foregrounding state.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountIdentity</TokenIdentifier>
+			<Abstract type="html">Represents the unique identity of a given user account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
             
 			
 			<NodeRef refid="79"/>
@@ -15,822 +13,149 @@ backgrounding and foregrounding state.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/setInstanceClass:</TokenIdentifier>
-			<Abstract type="html">The class instance to be used to instantiate the singleton.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setUserId:</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (void)setInstanceClass:(Class)className</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
 			
 			
-			<Anchor>//api/name/setInstanceClass:</Anchor>
+			<Anchor>//api/name/userId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The singleton instance of the SDK Manager.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/userId</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
 			
-			<ReturnValue><Abstract type="html">The singleton instance of the SDK Manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			
+			<Anchor>//api/name/userId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAppConfig:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/userId</TokenIdentifier>
+			<Abstract type="html">The user ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKAppConfig *appConfig</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
 			
 			
-			<Anchor>//api/name/appConfig</Anchor>
+			<Anchor>//api/name/userId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/appConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setOrgId:</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKAppConfig *appConfig</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
 			
 			
-			<Anchor>//api/name/appConfig</Anchor>
+			<Anchor>//api/name/orgId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/appConfig</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/orgId</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFSDKAppConfig *appConfig</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
 			
 			
-			<Anchor>//api/name/appConfig</Anchor>
+			<Anchor>//api/name/orgId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setIsLaunching:</TokenIdentifier>
-			<Abstract type="html">Whether or not the SDK is currently in the middle of a launch process.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/orgId</TokenIdentifier>
+			<Abstract type="html">The organization ID associated with the account.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) BOOL isLaunching</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
 			
 			
-			<Anchor>//api/name/isLaunching</Anchor>
+			<Anchor>//api/name/orgId</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/isLaunching</TokenIdentifier>
-			<Abstract type="html">Whether or not the SDK is currently in the middle of a launch process.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL isLaunching</Declaration>
-			
-			
-			<Anchor>//api/name/isLaunching</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/isLaunching</TokenIdentifier>
-			<Abstract type="html">Whether or not the SDK is currently in the middle of a launch process.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) BOOL isLaunching</Declaration>
-			
-			
-			<Anchor>//api/name/isLaunching</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAppType:</TokenIdentifier>
-			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
-			
-			
-			<Anchor>//api/name/appType</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/appType</TokenIdentifier>
-			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
-			
-			
-			<Anchor>//api/name/appType</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/appType</TokenIdentifier>
-			<Abstract type="html">App type (native, hybrid or react native)</Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) SFAppType appType</Declaration>
-			
-			
-			<Anchor>//api/name/appType</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setConnectedAppId:</TokenIdentifier>
-			<Abstract type="html">The Connected App ID configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The Connected App ID configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/connectedAppId</TokenIdentifier>
-			<Abstract type="html">The Connected App ID configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppId</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppId</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setConnectedAppCallbackUri:</TokenIdentifier>
-			<Abstract type="html">The Connected App Callback URI configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The Connected App Callback URI configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/connectedAppCallbackUri</TokenIdentifier>
-			<Abstract type="html">The Connected App Callback URI configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *connectedAppCallbackUri</Declaration>
-			
-			
-			<Anchor>//api/name/connectedAppCallbackUri</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAuthScopes:</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSArray *authScopes</Declaration>
-			
-			
-			<Anchor>//api/name/authScopes</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/authScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSArray *authScopes</Declaration>
-			
-			
-			<Anchor>//api/name/authScopes</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/authScopes</TokenIdentifier>
-			<Abstract type="html">The OAuth scopes configured for this application.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSArray *authScopes</Declaration>
-			
-			
-			<Anchor>//api/name/authScopes</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setAuthenticateAtLaunch:</TokenIdentifier>
-			<Abstract type="html">Whether or not to attempt authentication as part of the launch process.  Default
-value is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateAtLaunch</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/authenticateAtLaunch</TokenIdentifier>
-			<Abstract type="html">Whether or not to attempt authentication as part of the launch process.  Default
-value is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateAtLaunch</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/authenticateAtLaunch</TokenIdentifier>
-			<Abstract type="html">Whether or not to attempt authentication as part of the launch process.  Default
-value is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL authenticateAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authenticateAtLaunch</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setPostLaunchAction:</TokenIdentifier>
-			<Abstract type="html">The configured post launch action block to execute when launch completes.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLaunchAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/postLaunchAction</TokenIdentifier>
-			<Abstract type="html">The configured post launch action block to execute when launch completes.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLaunchAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/postLaunchAction</TokenIdentifier>
-			<Abstract type="html">The configured post launch action block to execute when launch completes.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLaunchAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setLaunchErrorAction:</TokenIdentifier>
-			<Abstract type="html">The configured launch error action block to execute in the event of an error during launch.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction</Declaration>
-			
-			
-			<Anchor>//api/name/launchErrorAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/launchErrorAction</TokenIdentifier>
-			<Abstract type="html">The configured launch error action block to execute in the event of an error during launch.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction</Declaration>
-			
-			
-			<Anchor>//api/name/launchErrorAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/launchErrorAction</TokenIdentifier>
-			<Abstract type="html">The configured launch error action block to execute in the event of an error during launch.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction</Declaration>
-			
-			
-			<Anchor>//api/name/launchErrorAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setPostLogoutAction:</TokenIdentifier>
-			<Abstract type="html">The post logout action block to execute after the current user has been logged out.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLogoutAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/postLogoutAction</TokenIdentifier>
-			<Abstract type="html">The post logout action block to execute after the current user has been logged out.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLogoutAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/postLogoutAction</TokenIdentifier>
-			<Abstract type="html">The post logout action block to execute after the current user has been logged out.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction</Declaration>
-			
-			
-			<Anchor>//api/name/postLogoutAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSwitchUserAction:</TokenIdentifier>
-			<Abstract type="html">The switch user action block to execute when switching from one user to another.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction</Declaration>
-			
-			
-			<Anchor>//api/name/switchUserAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/switchUserAction</TokenIdentifier>
-			<Abstract type="html">The switch user action block to execute when switching from one user to another.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction</Declaration>
-			
-			
-			<Anchor>//api/name/switchUserAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/switchUserAction</TokenIdentifier>
-			<Abstract type="html">The switch user action block to execute when switching from one user to another.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction</Declaration>
-			
-			
-			<Anchor>//api/name/switchUserAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setPostAppForegroundAction:</TokenIdentifier>
-			<Abstract type="html">The block to execute after the app has entered the foreground.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction</Declaration>
-			
-			
-			<Anchor>//api/name/postAppForegroundAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/postAppForegroundAction</TokenIdentifier>
-			<Abstract type="html">The block to execute after the app has entered the foreground.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction</Declaration>
-			
-			
-			<Anchor>//api/name/postAppForegroundAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/postAppForegroundAction</TokenIdentifier>
-			<Abstract type="html">The block to execute after the app has entered the foreground.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction</Declaration>
-			
-			
-			<Anchor>//api/name/postAppForegroundAction</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setUseSnapshotView:</TokenIdentifier>
-			<Abstract type="html">Whether or not to use a security snapshot view when the app is backgrounded, to prevent
-sensitive data from being displayed outside of the app context.  Default is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/useSnapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/useSnapshotView</TokenIdentifier>
-			<Abstract type="html">Whether or not to use a security snapshot view when the app is backgrounded, to prevent
-sensitive data from being displayed outside of the app context.  Default is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/useSnapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/useSnapshotView</TokenIdentifier>
-			<Abstract type="html">Whether or not to use a security snapshot view when the app is backgrounded, to prevent
-sensitive data from being displayed outside of the app context.  Default is YES.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL useSnapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/useSnapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSnapshotView:</TokenIdentifier>
-			<Abstract type="html">A custom view to use as the &quot;image&quot; that represents the app display when it is backgrounded.
-Default will be an opaque white view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/snapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/snapshotView</TokenIdentifier>
-			<Abstract type="html">A custom view to use as the &quot;image&quot; that represents the app display when it is backgrounded.
-Default will be an opaque white view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/snapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/snapshotView</TokenIdentifier>
-			<Abstract type="html">A custom view to use as the &quot;image&quot; that represents the app display when it is backgrounded.
-Default will be an opaque white view.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) UIView *snapshotView</Declaration>
-			
-			
-			<Anchor>//api/name/snapshotView</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setPreferredPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
-NOTE: If you wanted to set your own provider, you could do the following:
-         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
-NOTE: If you wanted to set your own provider, you could do the following:
-         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
-NOTE: If you wanted to set your own provider, you could do the following:
-         id&lt;SFPasscodeProvider&gt; *myProvider = [[MyProvider alloc] initWithProviderName:myProviderName];
-         [SFPasscodeProviderManager addPasscodeProvider:myProvider];
-         [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setUserAgentString:</TokenIdentifier>
-			<Abstract type="html">Gets or sets a block that will return a user agent string, created with an optional qualifier.
-Default implementation, when executed, will return a user agent of the form:
-SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion Native or Hybrid with optional qualifier Web-based user agent string</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/userAgentString</TokenIdentifier>
-			<Abstract type="html">Gets or sets a block that will return a user agent string, created with an optional qualifier.
-Default implementation, when executed, will return a user agent of the form:
-SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion Native or Hybrid with optional qualifier Web-based user agent string</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/userAgentString</TokenIdentifier>
-			<Abstract type="html">Gets or sets a block that will return a user agent string, created with an optional qualifier.
-Default implementation, when executed, will return a user agent of the form:
-SalesforceMobileSDK/3.0.0 iPhone OS/8.1 (iPad) AppName/AppVersion Native or Hybrid with optional qualifier Web-based user agent string</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) SFSDKUserAgentCreationBlock userAgentString</Declaration>
-			
-			
-			<Anchor>//api/name/userAgentString</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/launch</TokenIdentifier>
-			<Abstract type="html">Launches the SDK.  This will verify an existing passcode the first time it runs, and attempt to
-authenticate if the current user is not already authenticated.  @see postLaunchAction, launchErrorAction,
-postLogoutAction, and switchUserAction for callbacks that can be set for handling post launch
-actions.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)launch</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES if the launch successfully kicks off, NO if launch is already running.</Abstract></ReturnValue>
-			<Anchor>//api/name/launch</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Adds an SDK Manager delegate to the list of delegates.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addDelegate:(id&lt;SalesforceSDKManagerDelegate&gt;)delegate</Declaration>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountIdentity/identityWithUserId:orgId:</TokenIdentifier>
+			<Abstract type="html">Convenience method to return a new account identity with the given User ID and Org ID.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>+ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to add.</Abstract>
+					<Name>userId</Name>
+					<Abstract type="html">The user ID associated with the identity.</Abstract>
+				</Parameter><Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The org ID associated with the identity.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An account identity representing the given User ID and Org ID.</Abstract></ReturnValue>
+			<Anchor>//api/name/identityWithUserId:orgId:</Anchor>
+            <NodeRef refid="79"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/initWithUserId:orgId:</TokenIdentifier>
+			<Abstract type="html">Creates a new account identity object with the given user ID and org ID.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userId</Name>
+					<Abstract type="html">The user ID associated with the identity.</Abstract>
+				</Parameter><Parameter>
+					<Name>orgId</Name>
+					<Abstract type="html">The org ID associated with the identity.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addDelegate:</Anchor>
+			<Anchor>//api/name/initWithUserId:orgId:</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Removes an SDK Manager delegate from the list of delegates.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/compare:</TokenIdentifier>
+			<Abstract type="html">Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>- (void)removeDelegate:(id&lt;SalesforceSDKManagerDelegate&gt;)delegate</Declaration>
+			<Declaration>- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to remove.</Abstract>
+					<Name>otherIdentity</Name>
+					<Abstract type="html">The other identity to compare to this one.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeDelegate:</Anchor>
+			<ReturnValue><Abstract type="html">NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
+NSOrderedSame if they&apos;re equal.</Abstract></ReturnValue>
+			<Anchor>//api/name/compare:</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/launchActionsStringRepresentation:</TokenIdentifier>
-			<Abstract type="html">A log-friendly string of the launch actions that were taken, given in postLaunchAction.</Abstract>
-			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/matchesCredentials:</TokenIdentifier>
+			<Abstract type="html">Compares the user identifying information of the account identity with that in the credentials.</Abstract>
+			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions</Declaration>
-			
-			<ReturnValue><Abstract type="html">A log-friendly string of the launch actions that were taken, given in postLaunchAction.</Abstract></ReturnValue>
-			<Anchor>//api/name/launchActionsStringRepresentation:</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSdkManagerFlow:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerFlow</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/sdkManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerFlow</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/sdkManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
-			
-			
-			<Anchor>//api/name/sdkManagerFlow</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setHasVerifiedPasscodeAtStartup:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup</Declaration>
-			
-			
-			<Anchor>//api/name/hasVerifiedPasscodeAtStartup</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/hasVerifiedPasscodeAtStartup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup</Declaration>
-			
-			
-			<Anchor>//api/name/hasVerifiedPasscodeAtStartup</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/hasVerifiedPasscodeAtStartup</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup</Declaration>
-			
-			
-			<Anchor>//api/name/hasVerifiedPasscodeAtStartup</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setLaunchActions:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFSDKLaunchAction launchActions</Declaration>
-			
-			
-			<Anchor>//api/name/launchActions</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/launchActions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFSDKLaunchAction launchActions</Declaration>
-			
-			
-			<Anchor>//api/name/launchActions</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/launchActions</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, assign) SFSDKLaunchAction launchActions</Declaration>
-			
-			
-			<Anchor>//api/name/launchActions</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/passcodeValidatedToAuthValidation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)passcodeValidatedToAuthValidation</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeValidatedToAuthValidation</Anchor>
-            <NodeRef refid="79"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/authValidatedToPostAuth:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction</Declaration>
-			
-			
-			<Anchor>//api/name/authValidatedToPostAuth:</Anchor>
+			<Declaration>- (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuthCredentials to compare against</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">BOOL Whether or not the user contained is the same</Abstract></ReturnValue>
+			<Anchor>//api/name/matchesCredentials:</Anchor>
             <NodeRef refid="79"/>
 		</Token>
 		

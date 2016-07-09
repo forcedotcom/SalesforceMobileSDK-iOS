@@ -59,6 +59,7 @@
 						<NodeRef refid="28"/>
 						<NodeRef refid="29"/>
 						<NodeRef refid="30"/>
+						<NodeRef refid="31"/>
 						
 					</Subnodes>
 				</Node>
@@ -68,7 +69,6 @@
 					<Name>Constants</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="31"/>
 						<NodeRef refid="32"/>
 						<NodeRef refid="33"/>
 						<NodeRef refid="34"/>
@@ -87,6 +87,7 @@
 						<NodeRef refid="47"/>
 						<NodeRef refid="48"/>
 						<NodeRef refid="49"/>
+						<NodeRef refid="50"/>
 						
 					</Subnodes>
 				</Node>
@@ -96,8 +97,8 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="50"/>
                         <NodeRef refid="51"/>
+                        <NodeRef refid="52"/>
                         
                     </Subnodes>
                 </Node>
@@ -538,6 +539,12 @@
                 </Node>
                 
                 
+                <Node type="section">
+                    <Path>Classes/CSFSalesforceAction.html</Path>
+                    <Name>Class Methods</Name>
+                    <Anchor>class_methods</Anchor>
+                </Node>
+                
                 
             </Subnodes>
             
@@ -831,6 +838,33 @@
             
         </Node>
 		<Node id="30" type="file" documentType="reference">
+            <Name>CSFNetworkDelegate</Name>
+            <Path>Protocols/CSFNetworkDelegate.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkDelegate.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkDelegate.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Protocols/CSFNetworkDelegate.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="31" type="file" documentType="reference">
             <Name>CSFNetworkOutputCache</Name>
             <Path>Protocols/CSFNetworkOutputCache.html</Path>
             
@@ -864,108 +898,108 @@
             
         </Node>
 		
-        <Node id="31" type="file" documentType="reference">
+        <Node id="32" type="file" documentType="reference">
             <Name>CSFActionExecutionCapType</Name>
             <Path>Constants/CSFActionExecutionCapType.html</Path>
             
         </Node>
-		<Node id="32" type="file" documentType="reference">
+		<Node id="33" type="file" documentType="reference">
             <Name>CSFChatterCommunityMode</Name>
             <Path>Constants/CSFChatterCommunityMode.html</Path>
             
         </Node>
-		<Node id="33" type="file" documentType="reference">
+		<Node id="34" type="file" documentType="reference">
             <Name>CSFForceFieldMetadataType</Name>
             <Path>Constants/CSFForceFieldMetadataType.html</Path>
             
         </Node>
-		<Node id="34" type="file" documentType="reference">
+		<Node id="35" type="file" documentType="reference">
             <Name>CSFForceLayoutComponentType</Name>
             <Path>Constants/CSFForceLayoutComponentType.html</Path>
             
         </Node>
-		<Node id="35" type="file" documentType="reference">
+		<Node id="36" type="file" documentType="reference">
             <Name>CSFForceNotificationFrequency</Name>
             <Path>Constants/CSFForceNotificationFrequency.html</Path>
             
         </Node>
-		<Node id="36" type="file" documentType="reference">
+		<Node id="37" type="file" documentType="reference">
             <Name>CSFForcePortalRoleType</Name>
             <Path>Constants/CSFForcePortalRoleType.html</Path>
             
         </Node>
-		<Node id="37" type="file" documentType="reference">
+		<Node id="38" type="file" documentType="reference">
             <Name>CSFForcePortalType</Name>
             <Path>Constants/CSFForcePortalType.html</Path>
             
         </Node>
-		<Node id="38" type="file" documentType="reference">
+		<Node id="39" type="file" documentType="reference">
             <Name>CSFForceQuickActionType</Name>
             <Path>Constants/CSFForceQuickActionType.html</Path>
             
         </Node>
-		<Node id="39" type="file" documentType="reference">
+		<Node id="40" type="file" documentType="reference">
             <Name>CSFForceRecordType</Name>
             <Path>Constants/CSFForceRecordType.html</Path>
             
         </Node>
-		<Node id="40" type="file" documentType="reference">
+		<Node id="41" type="file" documentType="reference">
             <Name>CSFForceTaskCallType</Name>
             <Path>Constants/CSFForceTaskCallType.html</Path>
             
         </Node>
-		<Node id="41" type="file" documentType="reference">
+		<Node id="42" type="file" documentType="reference">
             <Name>CSFForceTaskPriority</Name>
             <Path>Constants/CSFForceTaskPriority.html</Path>
             
         </Node>
-		<Node id="42" type="file" documentType="reference">
+		<Node id="43" type="file" documentType="reference">
             <Name>CSFForceTaskRecurrenceInstance</Name>
             <Path>Constants/CSFForceTaskRecurrenceInstance.html</Path>
             
         </Node>
-		<Node id="43" type="file" documentType="reference">
+		<Node id="44" type="file" documentType="reference">
             <Name>CSFForceTaskRecurrenceMonthOfYear</Name>
             <Path>Constants/CSFForceTaskRecurrenceMonthOfYear.html</Path>
             
         </Node>
-		<Node id="44" type="file" documentType="reference">
+		<Node id="45" type="file" documentType="reference">
             <Name>CSFForceTaskRecurrenceType</Name>
             <Path>Constants/CSFForceTaskRecurrenceType.html</Path>
             
         </Node>
-		<Node id="45" type="file" documentType="reference">
+		<Node id="46" type="file" documentType="reference">
             <Name>CSFForceTaskStatus</Name>
             <Path>Constants/CSFForceTaskStatus.html</Path>
             
         </Node>
-		<Node id="46" type="file" documentType="reference">
+		<Node id="47" type="file" documentType="reference">
             <Name>CSFInteractionContext</Name>
             <Path>Constants/CSFInteractionContext.html</Path>
             
         </Node>
-		<Node id="47" type="file" documentType="reference">
+		<Node id="48" type="file" documentType="reference">
             <Name>CSFNetworkErrorCode</Name>
             <Path>Constants/CSFNetworkErrorCode.html</Path>
             
         </Node>
-		<Node id="48" type="file" documentType="reference">
+		<Node id="49" type="file" documentType="reference">
             <Name>CSFParameterStyle</Name>
             <Path>Constants/CSFParameterStyle.html</Path>
             
         </Node>
-		<Node id="49" type="file" documentType="reference">
+		<Node id="50" type="file" documentType="reference">
             <Name>CSFValidationErrorCode</Name>
             <Path>Constants/CSFValidationErrorCode.html</Path>
             
         </Node>
 		
-        <Node id="50" type="file" documentType="reference">
+        <Node id="51" type="file" documentType="reference">
             <Name>CSFActionResponseBlock</Name>
             <Path>Blocks/CSFActionResponseBlock.html</Path>
             
         </Node>
-        <Node id="51" type="file" documentType="reference">
+        <Node id="52" type="file" documentType="reference">
             <Name>CSFAuthRefreshCompletionBlock</Name>
             <Path>Blocks/CSFAuthRefreshCompletionBlock.html</Path>
             

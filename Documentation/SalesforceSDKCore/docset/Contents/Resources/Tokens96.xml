@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIScreen+SFAdditions.html">
+	<File path="Categories/NSData+SFSDKUtilsInternal.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIScreen(SFAdditions)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtilsInternal)</TokenIdentifier>
+			<Abstract type="html">Internal definitions for the Mobile SDK NSData utilities.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="96"/>
@@ -13,14 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIScreen/portraitScreenBounds</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIScreen+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/replaceBase64CharsForBase64UrlString:</TokenIdentifier>
+			<Abstract type="html">Replace the base64 characters that are invalid in a base64url string.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils_Internal.h</DeclaredIn>
 			
-			<Declaration>- (CGRect)portraitScreenBounds</Declaration>
-			
-			
-			<Anchor>//api/name/portraitScreenBounds</Anchor>
+			<Declaration>+ (NSString *)replaceBase64CharsForBase64UrlString:(NSString *)base64String</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>base64String</Name>
+					<Abstract type="html">The input string with characters to replace.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The base64 string with the URL chars replaced (i.e. the base64url string).</Abstract></ReturnValue>
+			<Anchor>//api/name/replaceBase64CharsForBase64UrlString:</Anchor>
             <NodeRef refid="96"/>
 		</Token>
 		

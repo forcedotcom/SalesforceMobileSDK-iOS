@@ -114,11 +114,21 @@
 		
 		<option value="//api/name/actionsWithContext:">- actionsWithContext:</option>
 		
+		<option value="//api/name/addDelegate:">- addDelegate:</option>
+		
 		<option value="//api/name/addOutputCache:">- addOutputCache:</option>
 		
 		<option value="//api/name/cancelAllActions">- cancelAllActions</option>
 		
 		<option value="//api/name/cancelAllActionsWithContext:">- cancelAllActionsWithContext:</option>
+		
+		<option value="//api/name/delegate_networkCanceledAction:">- delegate_networkCanceledAction:</option>
+		
+		<option value="//api/name/delegate_networkCompletedAction:withError:">- delegate_networkCompletedAction:withError:</option>
+		
+		<option value="//api/name/delegate_networkStartedAction:">- delegate_networkStartedAction:</option>
+		
+		<option value="//api/name/delegate_networkTask:changedState:toState:forAction:">- delegate_networkTask:changedState:toState:forAction:</option>
 		
 		<option value="//api/name/duplicateActionInFlight:">- duplicateActionInFlight:</option>
 		
@@ -129,6 +139,8 @@
 		<option value="//api/name/initWithUserAccount:">- initWithUserAccount:</option>
 		
 		<option value="//api/name/receivedDevicedUnauthorizedError:">- receivedDevicedUnauthorizedError:</option>
+		
+		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
 		
 		<option value="//api/name/removeOutputCache:">- removeOutputCache:</option>
 		
@@ -818,6 +830,122 @@ requests that change state (i.e. POST).</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)addDelegate:(id&lt;CSFNetworkDelegate&gt;)<em>delegate</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/removeDelegate:" title="removeDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/removeDelegate:">&ndash;&nbsp;removeDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)removeDelegate:(id&lt;CSFNetworkDelegate&gt;)<em>delegate</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="SalesforcePrivate Methods" name="task_SalesforcePrivate Methods"></a>
+						<h2 class="task-title">SalesforcePrivate Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/setupSalesforceObserver" title="setupSalesforceObserver"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setupSalesforceObserver">&ndash;&nbsp;setupSalesforceObserver</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setupSalesforceObserver</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Salesforce Methods" name="task_Salesforce Methods"></a>
+						<h2 class="task-title">Salesforce Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/defaultConnectCommunityId" title="defaultConnectCommunityId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/defaultConnectCommunityId">&nbsp;&nbsp;defaultConnectCommunityId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The ID for the Chatter Community that all Connect actions should use.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *defaultConnectCommunityId</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>Not all actions are Chatter Connect requests, nor do all Connect requests need to be
+made against a Chatter Community.  But if a CHConnectAction request is enqueued that
+has a nil [CHConnectAction communityId] value, then this property will be used to set
+the default value that should be used.</p>
+
+<p>If this value is <code>nil</code> then all CHConnectAction requests whose communityId value is
+<code>nil</code> will not be altered.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1162,6 +1290,70 @@ This can happen if the device is unchecked from Chatter settings in the org setu
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate_networkStartedAction:" title="delegate_networkStartedAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate_networkStartedAction:">&ndash;&nbsp;delegate_networkStartedAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)delegate_networkStartedAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate_networkCanceledAction:" title="delegate_networkCanceledAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate_networkCanceledAction:">&ndash;&nbsp;delegate_networkCanceledAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)delegate_networkCanceledAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate_networkCompletedAction:withError:" title="delegate_networkCompletedAction:withError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate_networkCompletedAction:withError:">&ndash;&nbsp;delegate_networkCompletedAction:withError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)delegate_networkCompletedAction:(CSFAction *)<em>action</em> withError:(NSError *)<em>error</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/delegate_networkTask:changedState:toState:forAction:" title="delegate_networkTask:changedState:toState:forAction:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegate_networkTask:changedState:toState:forAction:">&ndash;&nbsp;delegate_networkTask:changedState:toState:forAction:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)delegate_networkTask:(NSURLSessionTask *)<em>task</em> changedState:(NSURLSessionTaskState)<em>oldState</em> toState:(NSURLSessionTaskState)<em>newState</em> forAction:(CSFAction *)<em>action</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1402,90 +1594,6 @@ Output caches support a plugin architechture where classes that implement the <a
 </div>
 						</div>
 						
-
-						<a title="SalesforcePrivate Methods" name="task_SalesforcePrivate Methods"></a>
-						<h2 class="task-title">SalesforcePrivate Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/setupSalesforceObserver" title="setupSalesforceObserver"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setupSalesforceObserver">&ndash;&nbsp;setupSalesforceObserver</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)setupSalesforceObserver</code></div>
-
-		    
-		</div>
-	</div>
-</div>
-						</div>
-						
-
-						<a title="Salesforce Methods" name="task_Salesforce Methods"></a>
-						<h2 class="task-title">Salesforce Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/defaultConnectCommunityId" title="defaultConnectCommunityId"></a>
-	<h3 class="method-title"><code><a href="#//api/name/defaultConnectCommunityId">&nbsp;&nbsp;defaultConnectCommunityId</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>The ID for the Chatter Community that all Connect actions should use.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *defaultConnectCommunityId</code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>Not all actions are Chatter Connect requests, nor do all Connect requests need to be
-made against a Chatter Community.  But if a CHConnectAction request is enqueued that
-has a nil [CHConnectAction communityId] value, then this property will be used to set
-the default value that should be used.</p>
-
-<p>If this value is <code>nil</code> then all CHConnectAction requests whose communityId value is
-<code>nil</code> will not be altered.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFNetwork.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -1498,7 +1606,7 @@ the default value that should be used.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

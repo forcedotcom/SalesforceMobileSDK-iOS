@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskRecurrenceMonthOfYear.html">
+	<File path="Constants/CSFForceTaskRecurrenceInstance.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceMonthOfYear</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceInstance</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearUnknown</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstanceUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearJanuary</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance1st</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearJanuary</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstance1st</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearFebruary</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance2nd</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearFebruary</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstance2nd</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearMarch</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance3rd</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearMarch</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstance3rd</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -54,9 +54,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearApril</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance4th</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearApril</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstance4th</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -64,79 +64,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearMay</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceLast</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearMay</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearJune</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearJune</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearJuly</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearJuly</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearAugust</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearAugust</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearSeptember</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearSeptember</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearOctober</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearOctober</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearNovember</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearNovember</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="43"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceMonthOfYearDecember</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceMonthOfYearDecember</Declaration>
+            <Declaration>CSFForceTaskRecurrenceInstanceLast</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

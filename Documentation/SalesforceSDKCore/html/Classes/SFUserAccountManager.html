@@ -114,8 +114,6 @@
 		
 		<option value="//api/name/isUserAnonymous:">+ isUserAnonymous:</option>
 		
-		<option value="//api/name/isUserTemporary:">+ isUserTemporary:</option>
-		
 		<option value="//api/name/sharedInstance">+ sharedInstance</option>
 		
 		<option value="//api/name/userAccountPlistFileForUser:">+ userAccountPlistFileForUser:</option>
@@ -242,7 +240,7 @@ has never logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFUserAccount *currentUser</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFUserAccount *currentUser</code></div>
 
 		    
 			
@@ -283,7 +281,7 @@ has never logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFUserAccountIdentity *temporaryUserIdentity</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *temporaryUserIdentity</code></div>
 
 		    
 			
@@ -324,7 +322,7 @@ has never logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFUserAccount *temporaryUser</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccount *temporaryUser</code></div>
 
 		    
 			
@@ -457,7 +455,7 @@ to its Info.plist file in order to enable this flag.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) SFUserAccount *anonymousUser</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly, nullable) SFUserAccount *anonymousUser</code></div>
 
 		    
 			
@@ -539,7 +537,7 @@ to its Info.plist file in order to enable this flag.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) SFUserAccountIdentity *currentUserIdentity</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) SFUserAccountIdentity *currentUserIdentity</code></div>
 
 		    
 			
@@ -581,7 +579,7 @@ This property is an alias for <code></code>currentUser<code>.communityId</code><
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *currentCommunityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, nullable) NSString *currentCommunityId</code></div>
 
 		    
 			
@@ -622,7 +620,7 @@ This property is an alias for <code></code>currentUser<code>.communityId</code><
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray *allUserAccounts</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray&lt;SFUserAccount*&gt; *allUserAccounts</code></div>
 
 		    
 			
@@ -663,7 +661,7 @@ This property is an alias for <code></code>currentUser<code>.communityId</code><
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray *allUserIdentities</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSArray&lt;SFUserAccountIdentity*&gt; *allUserIdentities</code></div>
 
 		    
 			
@@ -706,7 +704,7 @@ is removed from the accounts list.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFUserAccountIdentity *activeUserIdentity</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFUserAccountIdentity *activeUserIdentity</code></div>
 
 		    
 			
@@ -748,7 +746,7 @@ is changed and stored to disk for retrieval after bootup</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *activeCommunityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *activeCommunityId</code></div>
 
 		    
 			
@@ -785,12 +783,12 @@ is changed and stored to disk for retrieval after bootup</p>
 			
 			<div class="method-subsection brief-description">
 				<p>A convenience property to store the previous community
-id as it may change during early oAuth flow and we want to retain it</p>
+id as it may change during early OAuth flow and we want to retain it</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *previousCommunityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *previousCommunityId</code></div>
 
 		    
 			
@@ -831,7 +829,7 @@ id as it may change during early oAuth flow and we want to retain it</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *loginHost</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *loginHost</code></div>
 
 		    
 			
@@ -908,7 +906,7 @@ id as it may change during early oAuth flow and we want to retain it</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Oauth client ID to use for login.  Apps may customize
+				<p>OAuth client ID to use for login.  Apps may customize
 by setting this property before login; otherwise, this
 value is determined by the SFDCOAuthClientIdPreference
 configured via the settings bundle.</p>
@@ -916,7 +914,7 @@ configured via the settings bundle.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthClientId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthClientId</code></div>
 
 		    
 			
@@ -957,7 +955,7 @@ configured via the settings bundle.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *oauthCompletionUrl</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *oauthCompletionUrl</code></div>
 
 		    
 			
@@ -998,7 +996,7 @@ configured via the settings bundle.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet *scopes</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet&lt;NSString*&gt; *scopes</code></div>
 
 		    
 			
@@ -1075,8 +1073,8 @@ configured via the settings bundle.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Applies the current log level to the oauth credentials that
-controls the oauth library log level.</p>
+				<p>Applies the current log level to the OAuth credentials that
+control the OAuth library log level.</p>
 			</div>
 			
 		    
@@ -1084,6 +1082,18 @@ controls the oauth library log level.</p>
 			<div class="method-subsection method-declaration"><code>+ (void)applyCurrentLogLevel:(SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>credentials</code></th>
+						<td><p>OAuth credentials whose log level will be updated</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1486,14 +1496,26 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Allows you to lookup the user account associated with a given user identity.</p>
+				<p>Allows you to look up the user account associated with a given user identity.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)<em>userIdentity</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable SFUserAccount *)userAccountForUserIdentity:(SFUserAccountIdentity *)<em>userIdentity</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>userIdentity</code></th>
+						<td><p>The user identity of the user account to be looked up</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1532,7 +1554,7 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSArray *)accountsForOrgId:(NSString *)<em>orgId</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;SFUserAccount*&gt; *)accountsForOrgId:(NSString *)<em>orgId</em></code></div>
 
 		    
 			
@@ -1590,7 +1612,7 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSArray *)accountsForInstanceURL:(NSString *)<em>instanceURL</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSArray&lt;SFUserAccount*&gt; *)accountsForInstanceURL:(NSURL *)<em>instanceURL</em></code></div>
 
 		    
 			
@@ -1651,6 +1673,18 @@ user and saves it with the other users. This method doesn&rsquo;t change the cur
 			<div class="method-subsection method-declaration"><code>- (void)addAccount:(SFUserAccount *)<em>acct</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>acct</code></th>
+						<td><p>The account to be added</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1860,8 +1894,8 @@ current user. This will post user update notification.</p>
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>credentials</code></th>
-						<td><p>The id data to apply</p></td>
+						<th scope="row" class="argument-name"><code>idData</code></th>
+						<td><p>The ID data to apply</p></td>
 					</tr>
 				
 				</table>
@@ -2114,7 +2148,7 @@ The NSDictionary should be NSCoder encodeable.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)switchToUser:(SFUserAccount *)<em>newCurrentUser</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)switchToUser:(nullable SFUserAccount *)<em>newCurrentUser</em></code></div>
 
 		    
 			
@@ -2363,51 +2397,6 @@ credentials towards a server.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/isUserTemporary:" title="isUserTemporary:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/isUserTemporary:">+&nbsp;isUserTemporary:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns YES if the specified user is temporary.
-Note: a temporary user is created when a new user
-is requested, for example during the login into
-a new org, and is replaced by the real user once
-the login is finished.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (BOOL)isUserTemporary:(SFUserAccount *)<em>user</em></code></div>
-
-		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFUserAccountManager+Internal.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/enumerateDelegates:" title="enumerateDelegates:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/enumerateDelegates:">&ndash;&nbsp;enumerateDelegates:</a></code>
 </h3>
@@ -2618,7 +2607,7 @@ Note: method exposed only to unit tests</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

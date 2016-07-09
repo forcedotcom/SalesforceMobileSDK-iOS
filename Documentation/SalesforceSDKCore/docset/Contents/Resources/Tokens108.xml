@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Protocols/SalesforceSDKManagerFlow.html">
+	<File path="Protocols/SFCryptChunksDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFCryptChunksDelegate</TokenIdentifier>
+			<Abstract type="html">SFCryptChunksDelegate</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="108"/>
@@ -13,134 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/passcodeValidationAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFCryptChunksDelegate/cryptChunk:chunkResult:bufferLen:</TokenIdentifier>
+			<Abstract type="html">Encrypted / Decrypted chunk results.
+This method may be invoked none to multiple times - until all result is informed to delegate.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (void)passcodeValidationAtLaunch</Declaration>
+			<Declaration>- (void)cryptChunk:(SFCryptChunks *)cryptChunks chunkResult:(uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>cryptChunks</Name>
+					<Abstract type="html">the instance sending this message.</Abstract>
+				</Parameter><Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the chunk results buffer.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the chunk results buffer length.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/passcodeValidationAtLaunch</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)authAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authAtLaunch</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/authBypassAtLaunch</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)authBypassAtLaunch</Declaration>
-			
-			
-			<Anchor>//api/name/authBypassAtLaunch</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppForeground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppForeground:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppForeground:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppBackground:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppBackground:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppBackground:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppTerminate:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppTerminate:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppTerminate:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppDidBecomeActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppDidBecomeActive:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAppWillResignActive:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAppWillResignActive:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handlePostLogout</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handlePostLogout</Declaration>
-			
-			
-			<Anchor>//api/name/handlePostLogout</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleAuthCompleted:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleAuthCompleted:(NSNotification *)notification</Declaration>
-			
-			
-			<Anchor>//api/name/handleAuthCompleted:</Anchor>
-            <NodeRef refid="108"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerFlow/handleUserSwitch:toUser:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser</Declaration>
-			
-			
-			<Anchor>//api/name/handleUserSwitch:toUser:</Anchor>
+			<Anchor>//api/name/cryptChunk:chunkResult:bufferLen:</Anchor>
             <NodeRef refid="108"/>
 		</Token>
 		

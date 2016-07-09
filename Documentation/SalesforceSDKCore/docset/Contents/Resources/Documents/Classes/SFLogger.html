@@ -54,6 +54,16 @@
 
 	
 	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/logLevel">logLevel</option>
+		
+		<option value="//api/name/logToASL">logToASL</option>
+		
+		<option value="//api/name/logToFile">logToFile</option>
+		
+	</optgroup>
+	
 
 	
 	<optgroup label="Class Methods">
@@ -82,9 +92,15 @@
 		
 		<option value="//api/name/log:level:format:">+ log:level:format:</option>
 		
+		<option value="//api/name/log:level:identifier:format:">+ log:level:identifier:format:</option>
+		
+		<option value="//api/name/log:level:identifier:msg:">+ log:level:identifier:msg:</option>
+		
 		<option value="//api/name/log:level:msg:">+ log:level:msg:</option>
 		
 		<option value="//api/name/logAssertionFailureInMethod:object:file:lineNumber:description:">+ logAssertionFailureInMethod:object:file:lineNumber:description:</option>
+		
+		<option value="//api/name/logAsync:level:flag:context:file:function:line:tag:format:">+ logAsync:level:flag:context:file:function:line:tag:format:</option>
 		
 		<option value="//api/name/logFileContents">+ logFileContents</option>
 		
@@ -94,8 +110,6 @@
 		
 		<option value="//api/name/logToFile:">+ logToFile:</option>
 		
-		<option value="//api/name/resetLoggingFilter">+ resetLoggingFilter</option>
-		
 		<option value="//api/name/setBlackListFilter">+ setBlackListFilter</option>
 		
 		<option value="//api/name/setLogLevel:">+ setLogLevel:</option>
@@ -104,6 +118,8 @@
 		
 		<option value="//api/name/setWhiteListFilter">+ setWhiteListFilter</option>
 		
+		<option value="//api/name/sharedLogger">+ sharedLogger</option>
+		
 		<option value="//api/name/whiteListFilterAddContext:">+ whiteListFilterAddContext:</option>
 		
 		<option value="//api/name/whiteListFilterRemoveContext:">+ whiteListFilterRemoveContext:</option>
@@ -111,6 +127,26 @@
 	</optgroup>
 	
 
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/logFileContents:">- logFileContents:</option>
+		
+		<option value="//api/name/logIdentifierForContext:">- logIdentifierForContext:</option>
+		
+		<option value="//api/name/logIdentifierForIdentifier:">- logIdentifierForIdentifier:</option>
+		
+		<option value="//api/name/logLevelForIdentifier:">- logLevelForIdentifier:</option>
+		
+		<option value="//api/name/registerIdentifier:">- registerIdentifier:</option>
+		
+		<option value="//api/name/resetLoggers">- resetLoggers</option>
+		
+		<option value="//api/name/setLogLevel:forIdentifier:">- setLogLevel:forIdentifier:</option>
+		
+		<option value="//api/name/setLogLevel:forIdentifiersWithPrefix:">- setLogLevel:forIdentifiersWithPrefix:</option>
+		
+	</optgroup>
 	
 	
 </select>
@@ -145,6 +181,36 @@
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
 						<p>Generic logging utility: logs to both console and persistent file.</p>
+
+<p>When creating a new logging identifier, it is recommended to create your own logging macros to encapsulate that behavior, since the <a href="#//api/name/log:level:msg:">log:level:msg:</a> and other methods impose additional performance overhead into your code base that could otherwise be avoided.</p>
+
+<p>Simply create logging macros like so:
+    extern NSString * const MyLogIdentifier;
+    static NSInteger kMyLogContext;</p>
+
+<pre><code>#define MyLogError(frmt, ...)      SFLogErrorToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+#define MyLogWarn(frmt, ...)        SFLogWarnToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+#define MyLogInfo(frmt, ...)        SFLogInfoToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+#define MyLogDebug(frmt, ...)      SFLogDebugToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+#define MyLogVerbose(frmt, ...)  SFLogVerboseToContext(kMyLogContext, self, frmt, ##__VA_ARGS__)
+</code></pre>
+
+<p>And make sure you initilize your log context at some early point within your application, preferably within the <code>+initialize</code> or <code>+load</code> method of one of your application&rsquo;s classes.</p>
+
+<pre><code>NSString * const MyLogIdentifier = @"com.my.application";
+
+@implementation MyClass
+
++ (void)load {
+    if (self == [MyClass class]) {
+        kMyLogContext = [[SFLogger sharedLogger] registerIdentifier:MyLogIdentifier]
+    }
+}
+
+@end
+</code></pre>
+
+<p>Alternatively once you register your identifier, you can use the SFLogErrorToIdentifier and other companion macros with the log identifier string, or you can use the log:level:identifier:format: method directly.  Furthermore, if your [NSObject loggingIdentifier] returns a valid log identifier string, the [NSObject log:msg:] and [NSObject log:format:] methods can be used as well, though those will incur additional performance overhead as well.</p>
 					</div>
 					
 					
@@ -156,12 +222,86 @@
 						
 
 						
-						
+						<h2 class="task-title">Other Methods</h2>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/sharedLogger" title="sharedLogger"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sharedLogger">+&nbsp;sharedLogger</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedLogger</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logToASL" title="logToASL"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logToASL">&nbsp;&nbsp;logToASL</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=shouldLogToASL) BOOL logToASL</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logToFile" title="logToFile"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logToFile">&nbsp;&nbsp;logToFile</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Turn on and off for logging to a file
+Set to <code>YES</code> to log to file. Set to <code>NO</code> will turn off logging to file and also remove existing logging file.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign, getter=shouldLogToFile) BOOL logToFile</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/logLevel" title="logLevel"></a>
-	<h3 class="method-title"><code><a href="#//api/name/logLevel">+&nbsp;logLevel</a></code>
+	<h3 class="method-title"><code><a href="#//api/name/logLevel">&nbsp;&nbsp;logLevel</a></code>
 </h3>
 
 	<div class="method-info">
@@ -169,40 +309,15 @@
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>The current log level of the app.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>+ (SFLogLevel)logLevel</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) SFLogLevel logLevel</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFLogger.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/logToFile:" title="logToFile:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/logToFile:">+&nbsp;logToFile:</a></code>
+	<a name="//api/name/logLevelForIdentifier:" title="logLevelForIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logLevelForIdentifier:">&ndash;&nbsp;logLevelForIdentifier:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -210,52 +325,15 @@
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Turn on and off for logging to a file</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)logToFile:(BOOL)<em>logToFile</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (SFLogLevel)logLevelForIdentifier:(nullable NSString *)<em>identifier</em></code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>logToFile</code></th>
-						<td><p>Yes to log to file. Set to NO will turn off logging to file and also remove existing logging file</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFLogger.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/setLogLevel:" title="setLogLevel:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/setLogLevel:">+&nbsp;setLogLevel:</a></code>
+	<a name="//api/name/setLogLevel:forIdentifier:" title="setLogLevel:forIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLogLevel:forIdentifier:">&ndash;&nbsp;setLogLevel:forIdentifier:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -263,52 +341,31 @@
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Sets the log level of the app.</p>
-			</div>
-			
-		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)setLogLevel:(SFLogLevel)<em>newLevel</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)setLogLevel:(SFLogLevel)<em>logLevel</em> forIdentifier:(nullable NSString *)<em>identifier</em></code></div>
 
 		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>newLevel</code></th>
-						<td><p>The new log level to configure.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFLogger.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/logFileContents" title="logFileContents"></a>
-	<h3 class="method-title"><code><a href="#//api/name/logFileContents">+&nbsp;logFileContents</a></code>
+	<a name="//api/name/setLogLevel:forIdentifiersWithPrefix:" title="setLogLevel:forIdentifiersWithPrefix:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLogLevel:forIdentifiersWithPrefix:">&ndash;&nbsp;setLogLevel:forIdentifiersWithPrefix:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)setLogLevel:(SFLogLevel)<em>logLevel</em> forIdentifiersWithPrefix:(nonnull NSString *)<em>identifierPrefix</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logFileContents:" title="logFileContents:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logFileContents:">&ndash;&nbsp;logFileContents:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -323,7 +380,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (NSString *)logFileContents</code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSString *)logFileContents:(NSError *_Nullable *)<em>error</em></code></div>
 
 		    
 			
@@ -412,8 +469,8 @@ log from.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/log:level:context:msg:" title="log:level:context:msg:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/log:level:context:msg:">+&nbsp;log:level:context:msg:</a></code>
+	<a name="//api/name/log:level:identifier:msg:" title="log:level:identifier:msg:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:identifier:msg:">+&nbsp;log:level:identifier:msg:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -429,7 +486,7 @@ log from.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> msg:(NSString *)<em>msg</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> identifier:(NSString *)<em>logIdentifier</em> msg:(NSString *)<em>msg</em></code></div>
 
 		    
 			
@@ -448,7 +505,7 @@ log from.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>logContext</code></th>
+						<th scope="row" class="argument-name"><code>logIdentifier</code></th>
 						<td><p>The context of the log</p></td>
 					</tr>
 				
@@ -497,7 +554,7 @@ log from.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)logAssertionFailureInMethod:(SEL)<em>method</em> object:(id)<em>obj</em> file:(NSString *)<em>file</em> lineNumber:(NSUInteger)<em>line</em> description:(NSString *)<em>desc</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)logAssertionFailureInMethod:(SEL)<em>method</em> object:(nullable id)<em>obj</em> file:(nullable NSString *)<em>file</em> lineNumber:(NSUInteger)<em>line</em> description:(NSString *)<em>desc</em>, <em>...</em></code></div>
 
 		    
 			
@@ -575,7 +632,7 @@ log from.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> format:(NSString *)<em>msg</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> format:(NSString *)<em>format</em>, <em>...</em></code></div>
 
 		    
 			
@@ -594,7 +651,7 @@ log from.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>msg</code></th>
+						<th scope="row" class="argument-name"><code>format</code></th>
 						<td><p>The format message, and optional arguments to expand in the format.</p></td>
 					</tr>
 				
@@ -627,8 +684,8 @@ log from.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/log:level:context:format:" title="log:level:context:format:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/log:level:context:format:">+&nbsp;log:level:context:format:</a></code>
+	<a name="//api/name/log:level:identifier:format:" title="log:level:identifier:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:identifier:format:">+&nbsp;log:level:identifier:format:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -643,7 +700,7 @@ log from.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> format:(NSString *)<em>msg</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> identifier:(NSString *)<em>logIdentifier</em> format:(NSString *)<em>format</em>, <em>...</em></code></div>
 
 		    
 			
@@ -662,12 +719,12 @@ log from.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>logContext</code></th>
+						<th scope="row" class="argument-name"><code>logIdentifier</code></th>
 						<td><p>The context of the log</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>msg</code></th>
+						<th scope="row" class="argument-name"><code>format</code></th>
 						<td><p>The format message, and optional arguments to expand in the format.</p></td>
 					</tr>
 				
@@ -842,6 +899,196 @@ unit tests.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/registerIdentifier:" title="registerIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerIdentifier:">&ndash;&nbsp;registerIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSInteger)registerIdentifier:(NSString *)<em>identifier</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="MacroHelper Methods" name="task_MacroHelper Methods"></a>
+						<h2 class="task-title">MacroHelper Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/logAsync:level:flag:context:file:function:line:tag:format:" title="logAsync:level:flag:context:file:function:line:tag:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logAsync:level:flag:context:file:function:line:tag:format:">+&nbsp;logAsync:level:flag:context:file:function:line:tag:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)logAsync:(BOOL)<em>asynchronous</em> level:(SFLogLevel)<em>level</em> flag:(SFLogFlag)<em>flag</em> context:(NSInteger)<em>context</em> file:(nullable const char *)<em>file</em> function:(nullable const char *)<em>function</em> line:(NSUInteger)<em>line</em> tag:(nullable id)<em>tag</em> format:(nullable NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Deprecated Methods" name="task_Deprecated Methods"></a>
+						<h2 class="task-title">Deprecated Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/log:level:context:msg:" title="log:level:context:msg:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:context:msg:">+&nbsp;log:level:context:msg:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> msg:(NSString *)<em>msg</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/log:level:context:format:" title="log:level:context:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:level:context:format:">+&nbsp;log:level:context:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)log:(Class)<em>cls</em> level:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> format:(NSString *)<em>msg</em>, <em>...</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logLevel" title="logLevel"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logLevel">+&nbsp;logLevel</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The current log level of the app.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (SFLogLevel)logLevel</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setLogLevel:" title="setLogLevel:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setLogLevel:">+&nbsp;setLogLevel:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the log level of the app.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setLogLevel:(SFLogLevel)<em>newLevel</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newLevel</code></th>
+						<td><p>The new log level to configure.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logToFile:" title="logToFile:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logToFile:">+&nbsp;logToFile:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (void)logToFile:(BOOL)<em>logToFile</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/logLevelForString:" title="logLevelForString:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/logLevelForString:">+&nbsp;logLevelForString:</a></code>
 </h3>
@@ -901,6 +1148,22 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/logFileContents" title="logFileContents"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logFileContents">+&nbsp;logFileContents</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>+ (nullable NSString *)logFileContents</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/setBlackListFilter" title="setBlackListFilter"></a>
 	<h3 class="method-title"><code><a href="#//api/name/setBlackListFilter">+&nbsp;setBlackListFilter</a></code>
 </h3>
@@ -910,10 +1173,35 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the log formatter to use the black list filter.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (void)setBlackListFilter</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -926,26 +1214,35 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the log formatter to use the white list filter.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (void)setWhiteListFilter</code></div>
 
 		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/resetLoggingFilter" title="resetLoggingFilter"></a>
-	<h3 class="method-title"><code><a href="#//api/name/resetLoggingFilter">+&nbsp;resetLoggingFilter</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (void)resetLoggingFilter</code></div>
+			
 
-		    
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -1039,7 +1336,7 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (NSArray *)contextsOnBlackList</code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable NSArray *)contextsOnBlackList</code></div>
 
 		    
 		</div>
@@ -1055,7 +1352,7 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>+ (NSArray *)contextsOnWhiteList</code></div>
+			<div class="method-subsection method-declaration"><code>+ (nullable NSArray *)contextsOnWhiteList</code></div>
 
 		    
 		</div>
@@ -1095,6 +1392,62 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 </div>
 						</div>
 						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/logIdentifierForIdentifier:" title="logIdentifierForIdentifier:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logIdentifierForIdentifier:">&ndash;&nbsp;logIdentifierForIdentifier:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (SFLogIdentifier *)logIdentifierForIdentifier:(NSString *)<em>identifier</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/logIdentifierForContext:" title="logIdentifierForContext:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/logIdentifierForContext:">&ndash;&nbsp;logIdentifierForContext:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (SFLogIdentifier *)logIdentifierForContext:(NSInteger)<em>context</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resetLoggers" title="resetLoggers"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resetLoggers">&ndash;&nbsp;resetLoggers</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)resetLoggers</code></div>
+
+		    
+		</div>
+	</div>
+</div>
+						</div>
+						
 					</div>
 					
 					
@@ -1107,7 +1460,7 @@ a case insensitive comparison against &ldquo;Verbose&rdquo;, &ldquo;Debug&rdquo;
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

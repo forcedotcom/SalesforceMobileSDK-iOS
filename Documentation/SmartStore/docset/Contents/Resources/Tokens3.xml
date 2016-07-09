@@ -121,6 +121,42 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/setIdsSmartSql:</TokenIdentifier>
+			<Abstract type="html">idsSmartSql: query returning only ids</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *idsSmartSql</Declaration>
+			
+			
+			<Anchor>//api/name/idsSmartSql</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/idsSmartSql</TokenIdentifier>
+			<Abstract type="html">idsSmartSql: query returning only ids</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *idsSmartSql</Declaration>
+			
+			
+			<Anchor>//api/name/idsSmartSql</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFQuerySpec/idsSmartSql</TokenIdentifier>
+			<Abstract type="html">idsSmartSql: query returning only ids</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *idsSmartSql</Declaration>
+			
+			
+			<Anchor>//api/name/idsSmartSql</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/setPageSize:</TokenIdentifier>
 			<Abstract type="html">The number of entries per page to return.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
@@ -189,6 +225,42 @@
 			
 			
 			<Anchor>//api/name/soupName</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/setSelectPaths:</TokenIdentifier>
+			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			
+			
+			<Anchor>//api/name/selectPaths</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFQuerySpec/selectPaths</TokenIdentifier>
+			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			
+			
+			<Anchor>//api/name/selectPaths</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFQuerySpec/selectPaths</TokenIdentifier>
+			<Abstract type="html">The paths to return in an array. nil means return the entire soup element.</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSArray *selectPaths</Declaration>
+			
+			
+			<Anchor>//api/name/selectPaths</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
@@ -481,16 +553,19 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an exact query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
 					<Abstract type="html">The target soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>selectPaths</Name>
+					<Abstract type="html">The paths to return - if nil the entire soup element is returned.</Abstract>
 				</Parameter><Parameter>
 					<Name>path</Name>
 					<Abstract type="html">The path to filter on.</Abstract>
@@ -509,21 +584,36 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
+			<Anchor>//api/name/newExactQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newExactQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			
+			
 			<Anchor>//api/name/newExactQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an like query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
 					<Abstract type="html">The target soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>selectPaths</Name>
+					<Abstract type="html">The paths to return - if nil the entire soup element is returned.</Abstract>
 				</Parameter><Parameter>
 					<Name>path</Name>
 					<Abstract type="html">The path to filter on.</Abstract>
@@ -542,21 +632,36 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
+			<Anchor>//api/name/newLikeQuerySpec:withSelectPaths:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newLikeQuerySpec:(NSString *)soupName withPath:(NSString *)path withLikeKey:(NSString *)likeKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			
+			
 			<Anchor>//api/name/newLikeQuerySpec:withPath:withLikeKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build an range query spec
 Note: caller is responsible for releaseing the query spec</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
 					<Abstract type="html">The target soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>selectPaths</Name>
+					<Abstract type="html">The paths to return - if nil the entire soup element is returned.</Abstract>
 				</Parameter><Parameter>
 					<Name>path</Name>
 					<Abstract type="html">The path to filter on.</Abstract>
@@ -578,20 +683,35 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
+			<Anchor>//api/name/newRangeQuerySpec:withSelectPaths:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newRangeQuerySpec:(NSString *)soupName withPath:(NSString *)path withBeginKey:(NSString *)beginKey withEndKey:(NSString *)endKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			
+			
 			<Anchor>//api/name/newRangeQuerySpec:withPath:withBeginKey:withEndKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
 			<Abstract type="html">Factory method to build a query spec to return all data from a soup.</Abstract>
 			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
 			
-			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>soupName</Name>
 					<Abstract type="html">The target soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>selectPaths</Name>
+					<Abstract type="html">The paths to return - if nil the entire soup element is returned.</Abstract>
 				</Parameter><Parameter>
 					<Name>orderPath</Name>
 					<Abstract type="html">The path to sort by.</Abstract>
@@ -604,7 +724,67 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 				</Parameter>
 			</Parameters>
 			
+			<Anchor>//api/name/newAllQuerySpec:withSelectPaths:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newAllQuerySpec:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newAllQuerySpec:(NSString *)soupName withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			
+			
 			<Anchor>//api/name/newAllQuerySpec:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html">Factory method to build a match query spec (full-text search)
+Note: caller is responsible for releaseing the query spec</Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withSelectPaths:(NSArray *)selectPaths withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">The target soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>selectPaths</Name>
+					<Abstract type="html">The paths to return - if nil the entire soup element is returned.</Abstract>
+				</Parameter><Parameter>
+					<Name>path</Name>
+					<Abstract type="html">The path to filter on - can be nil to match against any full-text indexed paths.</Abstract>
+				</Parameter><Parameter>
+					<Name>matchKey</Name>
+					<Abstract type="html">The match query string.</Abstract>
+				</Parameter><Parameter>
+					<Name>orderPath</Name>
+					<Abstract type="html">The path to sort by.</Abstract>
+				</Parameter><Parameter>
+					<Name>order</Name>
+					<Abstract type="html">The sort order.</Abstract>
+				</Parameter><Parameter>
+					<Name>pageSize</Name>
+					<Abstract type="html">The page size.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
+			<Anchor>//api/name/newMatchQuerySpec:withSelectPaths:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			
+			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		
@@ -626,39 +806,6 @@ Note: caller is responsible for releaseing the query spec</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
 			<Anchor>//api/name/newSmartQuerySpec:withPageSize:</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFQuerySpec/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</TokenIdentifier>
-			<Abstract type="html">Factory method to build a match query spec (full-text search)
-Note: caller is responsible for releaseing the query spec</Abstract>
-			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
-			
-			<Declaration>+ (SFQuerySpec *)newMatchQuerySpec:(NSString *)soupName withPath:(NSString *)path withMatchKey:(NSString *)matchKey withOrderPath:(NSString *)orderPath withOrder:(SFSoupQuerySortOrder)order withPageSize:(NSUInteger)pageSize</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The target soup name.</Abstract>
-				</Parameter><Parameter>
-					<Name>path</Name>
-					<Abstract type="html">The path to filter on - can be nil to match against any full-text indexed paths</Abstract>
-				</Parameter><Parameter>
-					<Name>matchKey</Name>
-					<Abstract type="html">The match query string.</Abstract>
-				</Parameter><Parameter>
-					<Name>orderPath</Name>
-					<Abstract type="html">The path to sort by.</Abstract>
-				</Parameter><Parameter>
-					<Name>order</Name>
-					<Abstract type="html">The sort order.</Abstract>
-				</Parameter><Parameter>
-					<Name>pageSize</Name>
-					<Abstract type="html">The page size.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">A query spec object.</Abstract></ReturnValue>
-			<Anchor>//api/name/newMatchQuerySpec:withPath:withMatchKey:withOrderPath:withOrder:withPageSize:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

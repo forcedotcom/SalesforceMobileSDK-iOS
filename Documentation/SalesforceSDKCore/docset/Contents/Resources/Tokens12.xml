@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCrypto.html">
+	<File path="Classes/SFCommunityData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCrypto</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCommunityData</TokenIdentifier>
+			<Abstract type="html">Class that groups the data describing a community</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
@@ -13,407 +13,326 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setFile:</TokenIdentifier>
-			<Abstract type="html">The file to write the encrypted/decrypted data to used in CHCryptoModeDisk mode</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEntityId:</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/file</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/file</TokenIdentifier>
-			<Abstract type="html">The file to write the encrypted/decrypted data to used in CHCryptoModeDisk mode</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/file</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/file</TokenIdentifier>
-			<Abstract type="html">The file to write the encrypted/decrypted data to used in CHCryptoModeDisk mode</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/entityId</TokenIdentifier>
+			<Abstract type="html">The community ID</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *file</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
 			
 			
-			<Anchor>//api/name/file</Anchor>
+			<Anchor>//api/name/entityId</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setMode:</TokenIdentifier>
-			<Abstract type="html">Returns the current mode of operation of the CHCrypto class</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setName:</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/mode</TokenIdentifier>
-			<Abstract type="html">Returns the current mode of operation of the CHCrypto class</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/mode</TokenIdentifier>
-			<Abstract type="html">Returns the current mode of operation of the CHCrypto class</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/name</TokenIdentifier>
+			<Abstract type="html">The community name</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) SFCryptoMode mode</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
 			
 			
-			<Anchor>//api/name/mode</Anchor>
+			<Anchor>//api/name/name</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/initWithOperation:key:mode:</TokenIdentifier>
-			<Abstract type="html">Designated initializer</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setDescriptionText:</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithOperation:(SFCryptoOperation)operation key:(NSData *)key mode:(SFCryptoMode)mode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>operation</Name>
-					<Abstract type="html">operation to be performed encrypt/decrypt</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key used for encyption/decryption pass nil to use the default key</Abstract>
-				</Parameter><Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">Mode which determines whether to perform operation in memory at once or in chunks writing to the disk</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
-			<Anchor>//api/name/initWithOperation:key:mode:</Anchor>
+			
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/initWithOperation:key:iv:mode:</TokenIdentifier>
-			<Abstract type="html">Designated initializer</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithOperation:(SFCryptoOperation)operation key:(NSData *)key iv:(NSData *)iv mode:(SFCryptoMode)mode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>operation</Name>
-					<Abstract type="html">operation to be performed encrypt/decrypt</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key used for encyption/decryption pass nil to use the default key</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">initialization vector, if set to nil, uses the default initialization vector</Abstract>
-				</Parameter><Parameter>
-					<Name>mode</Name>
-					<Abstract type="html">Mode which determines whether to perform operation in memory at once or in chunks writing to the disk</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
-			<Anchor>//api/name/initWithOperation:key:iv:mode:</Anchor>
+			
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/cryptData:</TokenIdentifier>
-			<Abstract type="html">Encrypts or decrypts the passed in data, the input data is assumed to be passed in as a chunk
-Method requires finalizeCipher to be called</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/descriptionText</TokenIdentifier>
+			<Abstract type="html">The community description</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (void)cryptData:(NSData *)inData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>inData</Name>
-					<Abstract type="html">input data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
 			
-			<Anchor>//api/name/cryptData:</Anchor>
+			
+			<Anchor>//api/name/descriptionText</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/decryptDataInMemory:</TokenIdentifier>
-			<Abstract type="html">Decrypt the passed in data initializer, performs the decryption in memory</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSiteUrl:</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)decryptDataInMemory:(NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">encrypted input data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
-			<Anchor>//api/name/decryptDataInMemory:</Anchor>
+			
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/encryptDataInMemory:</TokenIdentifier>
-			<Abstract type="html">Encrypt the passed in data initializer, performs the encryption in memory</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)encryptDataInMemory:(NSData *)data</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">input data</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
-			<Anchor>//api/name/encryptDataInMemory:</Anchor>
+			
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/finalizeCipher</TokenIdentifier>
-			<Abstract type="html">Finalize the the encryption/decryption process</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/siteUrl</TokenIdentifier>
+			<Abstract type="html">The community siteUrl</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)finalizeCipher</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
 			
 			
-			<Anchor>//api/name/finalizeCipher</Anchor>
+			<Anchor>//api/name/siteUrl</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/decrypt:to:</TokenIdentifier>
-			<Abstract type="html">Decrypts a file.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrl:</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)decrypt:(NSString *)inputFile to:(NSString *)outputFile</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>inputFile</Name>
-					<Abstract type="html">the name of the encrypted file</Abstract>
-				</Parameter><Parameter>
-					<Name>outputFile</Name>
-					<Abstract type="html">the name of the decrypted file</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the file was successfully decrypted; NO otherwise</Abstract></ReturnValue>
-			<Anchor>//api/name/decrypt:to:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/secretWithKey:</TokenIdentifier>
-			<Abstract type="html">Creates a secret key, based in part on the input key.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>+ (NSData *)secretWithKey:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The base key which will seed the return key.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The secret key, based on the input key.</Abstract></ReturnValue>
-			<Anchor>//api/name/secretWithKey:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			
+			
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifier</TokenIdentifier>
-			<Abstract type="html">Returns a unique identifier associated with this app install.  The identifier will
-remain the same for the lifetime of the app&apos;s installation on the device.  If the
-app is uninstalled, a new identifier will be created if it is ever reinstalled.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/url</TokenIdentifier>
+			<Abstract type="html">The community URL</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)baseAppIdentifier</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
 			
-			<ReturnValue><Abstract type="html">A unique identifier for the app install on the particular device.</Abstract></ReturnValue>
-			<Anchor>//api/name/baseAppIdentifier</Anchor>
+			
+			<Anchor>//api/name/url</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierIsConfigured</TokenIdentifier>
-			<Abstract type="html">Whether or not the base app identifier has been configured for this app install.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrlPathPrefix:</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)baseAppIdentifierIsConfigured</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if the base app ID has already been configured, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/baseAppIdentifierIsConfigured</Anchor>
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/baseAppIdentifierConfiguredThisLaunch</TokenIdentifier>
-			<Abstract type="html">Whether or not the base app identifier was configured at some point during this launch of
-the app.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)baseAppIdentifierConfiguredThisLaunch</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
-			<ReturnValue><Abstract type="html">YES if the base app ID was configured during this app launch, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/baseAppIdentifierConfiguredThisLaunch</Anchor>
+			
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/hasInitializationVector</TokenIdentifier>
-			<Abstract type="html">Returns whether we have an initialization vector used for encryption stored in the keychain.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/urlPathPrefix</TokenIdentifier>
+			<Abstract type="html">The community URL&apos;s path prefix</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)hasInitializationVector</Declaration>
+			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
 			
 			
-			<Anchor>//api/name/hasInitializationVector</Anchor>
+			<Anchor>//api/name/urlPathPrefix</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setStatus:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/status</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/status</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/status</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/enabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) CCCryptorStatus status</Declaration>
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
 			
 			
-			<Anchor>//api/name/status</Anchor>
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setOutputStream:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setInvitationsEnabled:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/outputStream</Anchor>
+			<Anchor>//api/name/invitationsEnabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/outputStream</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/outputStream</Anchor>
+			<Anchor>//api/name/invitationsEnabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/outputStream</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/invitationsEnabled</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether invitations can be sent to potential new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, retain) NSOutputStream *outputStream</Declaration>
+			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/outputStream</Anchor>
+			<Anchor>//api/name/invitationsEnabled</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/setDataBuffer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSendWelcomeEmail:</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
 			
 			
-			<Anchor>//api/name/dataBuffer</Anchor>
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/dataBuffer</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
 			
 			
-			<Anchor>//api/name/dataBuffer</Anchor>
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCrypto/dataBuffer</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
+			<Abstract type="html">Flag indicating whether to send a welcome email to new members</Abstract>
+			<DeclaredIn>SFCommunityData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSMutableData *dataBuffer</Declaration>
-			
-			
-			<Anchor>//api/name/dataBuffer</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCrypto/appendToBuffer:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)appendToBuffer:(NSData *)data</Declaration>
+			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
 			
 			
-			<Anchor>//api/name/appendToBuffer:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFCrypto/setBaseAppIdentifier:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)setBaseAppIdentifier:(NSString *)appId</Declaration>
-			
-			
-			<Anchor>//api/name/setBaseAppIdentifier:</Anchor>
+			<Anchor>//api/name/sendWelcomeEmail</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFUserAccountIdentity.html">
+	<File path="Classes/SFSDKWebUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFUserAccountIdentity</TokenIdentifier>
-			<Abstract type="html">Represents the unique identity of a given user account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKWebUtils</TokenIdentifier>
+			<Abstract type="html">Class containing web-based utility/helper functionality for the SDK.</Abstract>
+			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="72"/>
@@ -13,132 +13,31 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setUserId:</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/configureUserAgent:</TokenIdentifier>
+			<Abstract type="html">Configures a user agent for the app.</Abstract>
+			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
-			
-			
-			<Anchor>//api/name/userId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
-			
-			
-			<Anchor>//api/name/userId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/userId</TokenIdentifier>
-			<Abstract type="html">The user ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *userId</Declaration>
-			
-			
-			<Anchor>//api/name/userId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/setOrgId:</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountIdentity/orgId</TokenIdentifier>
-			<Abstract type="html">The organization ID associated with the account.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *orgId</Declaration>
-			
-			
-			<Anchor>//api/name/orgId</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountIdentity/identityWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Convenience method to return a new account identity with the given User ID and Org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>+ (SFUserAccountIdentity *)identityWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
+			<Declaration>+ (void)configureUserAgent:(NSString *)userAgentString</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
-				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An account identity representing the given User ID and Org ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/identityWithUserId:orgId:</Anchor>
-            <NodeRef refid="72"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/initWithUserId:orgId:</TokenIdentifier>
-			<Abstract type="html">Creates a new account identity object with the given user ID and org ID.</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithUserId:(NSString *)userId orgId:(NSString *)orgId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>userId</Name>
-					<Abstract type="html">The user ID associated with the identity.</Abstract>
-				</Parameter><Parameter>
-					<Name>orgId</Name>
-					<Abstract type="html">The org ID associated with the identity.</Abstract>
+					<Name>userAgentString</Name>
+					<Abstract type="html">The string to configure as the user agent.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithUserId:orgId:</Anchor>
+			<Anchor>//api/name/configureUserAgent:</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountIdentity/compare:</TokenIdentifier>
-			<Abstract type="html">Compares this identity with another.  Useful for [NSArray sortedArrayUsingSelector:].</Abstract>
-			<DeclaredIn>SFUserAccountIdentity.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKWebUtils/currentUserAgentForApp</TokenIdentifier>
+			<Abstract type="html">The current user agent that&apos;s configured for the application.</Abstract>
+			<DeclaredIn>SFSDKWebUtils.h</DeclaredIn>
 			
-			<Declaration>- (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>otherIdentity</Name>
-					<Abstract type="html">The other identity to compare to this one.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">NSOrderedAscending if other is greater, NSOrderedDescending if other is less,
-NSOrderedSame if they&apos;re equal.</Abstract></ReturnValue>
-			<Anchor>//api/name/compare:</Anchor>
+			<Declaration>+ (NSString *)currentUserAgentForApp</Declaration>
+			
+			<ReturnValue><Abstract type="html">The current user agent that&apos;s configured for the application.</Abstract></ReturnValue>
+			<Anchor>//api/name/currentUserAgentForApp</Anchor>
             <NodeRef refid="72"/>
 		</Token>
 		

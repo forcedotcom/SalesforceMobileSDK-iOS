@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSString+SFAdditions.html">
+	<File path="Categories/NSData+SFBase64.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSString(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Extension to NSString object</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
+			<Abstract type="html">Extension to NSData class to provide common functions. Added functionality includes:
+--base64 encoding of an NSData object
+--MD5 version of an NSData object
+--Gzip deflated representation of a gzip-compressed NSData object
+--Hex version of an NSData object</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="92"/>
@@ -13,229 +17,77 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithHexData:</TokenIdentifier>
-			<Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
+			<Abstract type="html">Returns a specified number of random bytes.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)stringWithHexData:(NSData *)data</Declaration>
+			<Declaration>- (NSData *)randomDataOfLength:(size_t)length</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>data</Name>
-					<Abstract type="html">NSData to be represented as a base 16 string.</Abstract>
+					<Name>length</Name>
+					<Abstract type="html">The number of bytes of random data to return.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">A hex string representation of the supplied data; or nil if data is nil or empty.</Abstract></ReturnValue>
-			<Anchor>//api/name/stringWithHexData:</Anchor>
+			<ReturnValue><Abstract type="html">The specified quantity of random bytes or nil if an error occurs.</Abstract></ReturnValue>
+			<Anchor>//api/name/randomDataOfLength:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/sha256</TokenIdentifier>
-			<Abstract type="html">Returns an SHA 256 hash of the current string</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/newBase64Encoding</TokenIdentifier>
+			<Abstract type="html">Creates a base64 encoded string for this NSData object.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)sha256</Declaration>
+			<Declaration>- (NSString *)newBase64Encoding</Declaration>
 			
-			
-			<Anchor>//api/name/sha256</Anchor>
+			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/newBase64Encoding</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/escapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">Escape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/base64Encode</TokenIdentifier>
+			<Abstract type="html">Returns a base64 encoded string for this NSData object.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)escapeXMLCharacter:(NSString *)value</Declaration>
+			<Declaration>- (NSString *)base64Encode</Declaration>
+			
+			<ReturnValue><Abstract type="html">A base64 encoded version of the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/base64Encode</Anchor>
+            <NodeRef refid="92"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/initWithBase64String:</TokenIdentifier>
+			<Abstract type="html">Creates a base64 encoding of this NSData. Similar to newBase64Encoding.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithBase64String:(NSString *)base64</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to escape. If nil is passed, this method will return nil back</Abstract>
+					<Name>base64</Name>
+					<Abstract type="html">The base64 encoding to use in the new NSData object.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/escapeXMLCharacter:</Anchor>
+			<ReturnValue><Abstract type="html">The base64 encoded NSData object.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithBase64String:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/unescapeXMLCharacter:</TokenIdentifier>
-			<Abstract type="html">unescape XML entities</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/dataFromBase64String:</TokenIdentifier>
+			<Abstract type="html">Creates an NSData object from a base64 encoded string.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)unescapeXMLCharacter:(NSString *)value</Declaration>
+			<Declaration>+ (NSData *)dataFromBase64String:(NSString *)encoding</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">String value to unescape. If nil is passed, this method will return nil back</Abstract>
+					<Name>encoding</Name>
+					<Abstract type="html">The string to convert to NSData.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/unescapeXMLCharacter:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/trim</TokenIdentifier>
-			<Abstract type="html">Trim string by taking out beginning and ending space</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)trim</Declaration>
-			
-			
-			<Anchor>//api/name/trim</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redacted</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)redacted</Declaration>
-			
-			
-			<Anchor>//api/name/redacted</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/redactedWithPrefix:</TokenIdentifier>
-			<Abstract type="html">Returns the string in debug build or a redacted version of it
-for production build. The prefix length is the number of character
-that won&apos;t be redacted from the beginning of the string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)redactedWithPrefix:(NSUInteger)prefixLength</Declaration>
-			
-			
-			<Anchor>//api/name/redactedWithPrefix:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmpty:</TokenIdentifier>
-			<Abstract type="html">Return YES of string is nil or length is 0 or with white space only</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>+ (BOOL)isEmpty:(NSString *)string</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>string</Name>
-					<Abstract type="html">String to check</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/isEmpty:</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/removeWhitespaces</TokenIdentifier>
-			<Abstract type="html">Returns a string after taking out any space</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)removeWhitespaces</Declaration>
-			
-			
-			<Anchor>//api/name/removeWhitespaces</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByURLEncoding</TokenIdentifier>
-			<Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByURLEncoding</Declaration>
-			
-			<ReturnValue><Abstract type="html">A string with all non-legal URL characters (per RFC 3986) escaped.</Abstract></ReturnValue>
-			<Anchor>//api/name/stringByURLEncoding</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringByStrippingHTML</TokenIdentifier>
-			<Abstract type="html">Strips any HTML markup from the source string.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringByStrippingHTML</Declaration>
-			
-			
-			<Anchor>//api/name/stringByStrippingHTML</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/stringWithTitleCharacter</TokenIdentifier>
-			<Abstract type="html">Returns an uppercase title character for the string without accents or other diacritic marks.
-Intended for use with UI index titles.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringWithTitleCharacter</Declaration>
-			
-			
-			<Anchor>//api/name/stringWithTitleCharacter</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/queryStringComponents</TokenIdentifier>
-			<Abstract type="html">Returns a dictionary of query string components for the string object.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSDictionary *)queryStringComponents</Declaration>
-			
-			
-			<Anchor>//api/name/queryStringComponents</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEmptyOrWhitespaceAndNewlines</TokenIdentifier>
-			<Abstract type="html">Returns YES if the string is empty of contains only whitespance or newline characters.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEmptyOrWhitespaceAndNewlines</Declaration>
-			
-			
-			<Anchor>//api/name/isEmptyOrWhitespaceAndNewlines</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/entityId18</TokenIdentifier>
-			<Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)entityId18</Declaration>
-			
-			<ReturnValue><Abstract type="html">The 18 character case-insensitive entity ID representing the receiver.
-Returns nil if the receiver is not a valid Salesforce entity ID.</Abstract></ReturnValue>
-			<Anchor>//api/name/entityId18</Anchor>
-            <NodeRef refid="92"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSString/isEqualToEntityId:</TokenIdentifier>
-			<Abstract type="html">Returns a Boolean value that indicates if the given entity ID is equal to the
-receiver. The comparison properly handles comparing 15 character case-sensitive
-ID&apos;s against 18 character case-insensitive ID&apos;s.</Abstract>
-			<DeclaredIn>NSString+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isEqualToEntityId:(NSString *)entityId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>entityId</Name>
-					<Abstract type="html">The entity ID to compare with the receiver.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">Returns YES if the given entityId is semantically equal to the receiver,
-otherwise returns NO. Returns NO if either the given ID or receiver are not
-valid Salesforce entity ID&apos;s.</Abstract></ReturnValue>
-			<Anchor>//api/name/isEqualToEntityId:</Anchor>
+			<ReturnValue><Abstract type="html">A base64-encoded string version of this object&apos;s data.</Abstract></ReturnValue>
+			<Anchor>//api/name/dataFromBase64String:</Anchor>
             <NodeRef refid="92"/>
 		</Token>
 		

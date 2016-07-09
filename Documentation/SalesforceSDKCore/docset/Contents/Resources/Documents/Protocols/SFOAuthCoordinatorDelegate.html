@@ -72,11 +72,15 @@
 		
 		<option value="//api/name/oauthCoordinator:willBeginAuthenticationWithView:">- oauthCoordinator:willBeginAuthenticationWithView:</option>
 		
+		<option value="//api/name/oauthCoordinator:willBeginBrowserAuthentication:">- oauthCoordinator:willBeginBrowserAuthentication:</option>
+		
 		<option value="//api/name/oauthCoordinatorDidAuthenticate:">- oauthCoordinatorDidAuthenticate:</option>
 		
 		<option value="//api/name/oauthCoordinatorDidAuthenticate:authInfo:">- oauthCoordinatorDidAuthenticate:authInfo:</option>
 		
 		<option value="//api/name/oauthCoordinatorIsNetworkAvailable:">- oauthCoordinatorIsNetworkAvailable:</option>
+		
+		<option value="//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:">- oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:</option>
 		
 		<option value="//api/name/oauthCoordinatorWillBeginAuthentication:authInfo:">- oauthCoordinatorWillBeginAuthentication:authInfo:</option>
 		
@@ -420,6 +424,11 @@ the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthC
 						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance processing this message</p></td>
 					</tr>
 				
+					<tr>
+						<th scope="row" class="argument-name"><code>info</code></th>
+						<td><p>The <a href="../Classes/SFOAuthInfo.html">SFOAuthInfo</a> instance containing details about the type of authentication.</p></td>
+					</tr>
+				
 				</table>
 			</div>
 			
@@ -662,7 +671,7 @@ the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthC
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The delegate can implement this method to return a BOOL indicating if the network is available or not</p>
+				<p>The delegate can implement this method to return a BOOL indicating whether the network is available.</p>
 			</div>
 			
 		    
@@ -671,11 +680,141 @@ the <a href="#//api/name/oauthCoordinatorDidAuthenticate:authInfo:"><code>oauthC
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> object to be queried (typically self).</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
 
 			
 
 			
 
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCoordinator:willBeginBrowserAuthentication:" title="oauthCoordinator:willBeginBrowserAuthentication:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:willBeginBrowserAuthentication:">&ndash;&nbsp;oauthCoordinator:willBeginBrowserAuthentication:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sent to notify the delegate that a browser authentication flow is about to begin.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)<em>callbackBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance processing this message.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>callbackBlock</code></th>
+						<td><p>A callback block used to notify the coordinator if it should continue with the authentication flow.
+Pass in YES to proceed, NO to cancel the authentication flow.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>If the delegate implements this method, it is responsible for using the callbackBlock to let the coordinator know
+whether it should proceed with the browser flow or not.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:" title="oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:">&ndash;&nbsp;oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Whether or not the coordinator retries browser authentication when the coordinator has not handled the browser response prior
+to application did become active event.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)<em>coordinator</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+Ideally the coordinator (via <code>-handleAdvancedAuthenticationResponse:</code>) should handle the browser response
+on your app delegate method <code>-application:openURL:sourceApplication:annotation:</code>.
+If your coordinator handles the browser response at any point after the application did become active notification is sent,
+this method should be implemented and return NO to disable the browser authentication auto-retry flow.</p>
+
+<p>The coordinator will auto retry authentication if this method is not implemented.</p>
+			</div>
 			
 
 			
@@ -779,7 +918,7 @@ The receiver should display the view in the implementation of this method.</p><d
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceNotificationFrequency.html">
+	<File path="Constants/CSFForceLayoutComponentType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceNotificationFrequency</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceLayoutComponentType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceNotificationFrequencyUnknown</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyEachPost</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeEmptySpace</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceNotificationFrequencyEachPost</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeEmptySpace</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyDailyDigest</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeField</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceNotificationFrequencyDailyDigest</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeField</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyWeeklyDigest</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSControl</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceNotificationFrequencyWeeklyDigest</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeSControl</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -54,9 +54,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyNever</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceLayoutComponentTypeSeparator</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceNotificationFrequencyNever</Declaration>
+            <Declaration>CSFForceLayoutComponentTypeSeparator</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

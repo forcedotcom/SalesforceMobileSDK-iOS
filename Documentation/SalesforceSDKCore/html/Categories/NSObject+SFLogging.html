@@ -56,6 +56,12 @@
 	
 
 	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/loggingIdentifier">+ loggingIdentifier</option>
+		
+	</optgroup>
+	
 
 	
 	<optgroup label="Instance Methods">
@@ -65,6 +71,10 @@
 		<option value="//api/name/log:context:msg:">- log:context:msg:</option>
 		
 		<option value="//api/name/log:format:">- log:format:</option>
+		
+		<option value="//api/name/log:identifier:format:">- log:identifier:format:</option>
+		
+		<option value="//api/name/log:identifier:msg:">- log:identifier:msg:</option>
 		
 		<option value="//api/name/log:msg:">- log:msg:</option>
 		
@@ -116,6 +126,52 @@ You should be able to use this 99% of the time.</p>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/loggingIdentifier" title="loggingIdentifier"></a>
+	<h3 class="method-title"><code><a href="#//api/name/loggingIdentifier">+&nbsp;loggingIdentifier</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Default logging identifier to use when none is supplied</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (NSString *)loggingIdentifier</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Logging identifier string, or <code>nil</code> for default.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/log:msg:" title="log:msg:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/log:msg:">&ndash;&nbsp;log:msg:</a></code>
 </h3>
@@ -142,7 +198,7 @@ You should be able to use this 99% of the time.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>level</code></th>
-						<td><p>The minimum log level to log at.</p></td>
+						<td><p>The minimum log level to observe.</p></td>
 					</tr>
 				
 					<tr>
@@ -190,7 +246,7 @@ You should be able to use this 99% of the time.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> format:(NSString *)<em>msg</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> format:(NSString *)<em>format</em>, <em>...</em></code></div>
 
 		    
 			
@@ -204,13 +260,144 @@ You should be able to use this 99% of the time.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>msg</code></th>
+						<th scope="row" class="argument-name"><code>format</code></th>
 						<td><p>The format message, and optional arguments to expand in the format.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>...</code></th>
 						<td><p>The arguments to the message format string.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/log:identifier:msg:" title="log:identifier:msg:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:identifier:msg:">&ndash;&nbsp;log:identifier:msg:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Log method with the addition of context.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> identifier:(NSString *)<em>logIdentifier</em> msg:(NSString *)<em>msg</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>level</code></th>
+						<td><p>The minimum log level to observe.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>logIdentifier</code></th>
+						<td><p>Identifier to use when scoping the context of this log message.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>msg</code></th>
+						<td><p>The format message.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFLogger.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/log:identifier:format:" title="log:identifier:format:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/log:identifier:format:">&ndash;&nbsp;log:identifier:format:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Log method with the addition of context</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> identifier:(NSString *)<em>logIdentifier</em> format:(NSString *)<em>format</em>, <em>...</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>level</code></th>
+						<td><p>The minimum log level to observe.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>logIdentifier</code></th>
+						<td><p>Identifier to use when scoping the context of this log message.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>format</code></th>
+						<td><p>The format message.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>...</code></th>
+						<td><p>Optional arguments for the message format string.</p></td>
 					</tr>
 				
 				</table>
@@ -246,35 +433,10 @@ You should be able to use this 99% of the time.</p>
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Analagous Log methods with the addition of context</p>
-			</div>
-			
-		    
 
 			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> msg:(NSString *)<em>msg</em></code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFLogger.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -288,7 +450,7 @@ You should be able to use this 99% of the time.</p>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> format:(NSString *)<em>msg</em>, <em>...</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)log:(SFLogLevel)<em>level</em> context:(SFLogContext)<em>logContext</em> format:(NSString *)<em>format</em>, <em>...</em></code></div>
 
 		    
 		</div>
@@ -308,7 +470,7 @@ You should be able to use this 99% of the time.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceRecordType.html">
+	<File path="Constants/CSFForceQuickActionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceRecordType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceQuickActionType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeOther</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeOther</Declaration>
+            <Declaration>CSFForceQuickActionTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeAccount</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeCreate</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeAccount</Declaration>
+            <Declaration>CSFForceQuickActionTypeCreate</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeContact</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeVisualforce</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeContact</Declaration>
+            <Declaration>CSFForceQuickActionTypeVisualforce</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeTask</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePost</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeTask</Declaration>
+            <Declaration>CSFForceQuickActionTypePost</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -54,9 +54,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeCase</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFeed</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeCase</Declaration>
+            <Declaration>CSFForceQuickActionTypeFeed</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -64,9 +64,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeContract</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypePoll</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeContract</Declaration>
+            <Declaration>CSFForceQuickActionTypePoll</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -74,9 +74,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeOpportunity</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeFile</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeOpportunity</Declaration>
+            <Declaration>CSFForceQuickActionTypeFile</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -84,29 +84,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeQuote</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceQuickActionTypeThanks</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeQuote</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="39"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeLead</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeLead</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="39"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceRecordTypeCampaign</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceRecordTypeCampaign</Declaration>
+            <Declaration>CSFForceQuickActionTypeThanks</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

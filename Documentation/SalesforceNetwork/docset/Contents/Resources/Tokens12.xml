@@ -17,6 +17,18 @@ capability to encode and expose the data provided from server resources to clien
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/initWithJSON:context:</TokenIdentifier>
 			<Abstract type="html">Designated initializer to construct a model object from its JSON representation.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
@@ -58,7 +70,7 @@ capability to encode and expose the data provided from server resources to clien
 			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
 			
 			
 			<Anchor>//api/name/parentObject</Anchor>
@@ -70,7 +82,7 @@ capability to encode and expose the data provided from server resources to clien
 			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
 			
 			
 			<Anchor>//api/name/parentObject</Anchor>
@@ -82,34 +94,10 @@ capability to encode and expose the data provided from server resources to clien
 			<Abstract type="html">This property exposes the parent object to the receiver, as a weak reference.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) NSObject *parentObject</Declaration>
+			<Declaration>@property (nonatomic, weak, readwrite) NSObject *parentObject</Declaration>
 			
 			
 			<Anchor>//api/name/parentObject</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/objectForKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setObject:forKeyedSubscript:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFOutput.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		
@@ -167,6 +155,23 @@ capability to encode and expose the data provided from server resources to clien
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/isDefaultPropertyForArray:</TokenIdentifier>
+			<Abstract type="html">Returns a BOOL value indicating if the propertyName specified will store the contents of Array.</Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isDefaultPropertyForArray:(NSString *)propertyName</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>propertyName</Name>
+					<Abstract type="html">The name of the Objective-C property whose type will be NSArray.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a BOOL value indicatind if the passed in property name is default.</Abstract></ReturnValue>
+			<Anchor>//api/name/isDefaultPropertyForArray:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/CSFOutput/actionModelForPropertyName:propertyClass:contents:</TokenIdentifier>
 			<Abstract type="html">Returns the underlying class type for a dynamic property, if it isn&apos;t clear from the property description.</Abstract>
 			<DeclaredIn>CSFOutput.h</DeclaredIn>
@@ -199,6 +204,30 @@ capability to encode and expose the data provided from server resources to clien
 			
 			<ReturnValue><Abstract type="html">Pointer to a C function capable of transforming this property to a primitive type.</Abstract></ReturnValue>
 			<Anchor>//api/name/actionModelFormatterForPrimitiveProperty:encodingType:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/objectForKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKeyedSubscript:(id)key</Declaration>
+			
+			
+			<Anchor>//api/name/objectForKeyedSubscript:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOutput/setObject:forKeyedSubscript:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOutput.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)obj forKeyedSubscript:(id&lt;NSCopying&gt;)key</Declaration>
+			
+			
+			<Anchor>//api/name/setObject:forKeyedSubscript:</Anchor>
             <NodeRef refid="12"/>
 		</Token>
 		

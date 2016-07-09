@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
+			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
+			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
 			
 			<NodeRef refid="128"/>
@@ -14,51 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
+            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
             
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="128"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="128"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="128"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="128"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
             
             <NodeRef refid="128"/>
         </Token>

@@ -65,7 +65,7 @@
 					<div class="section section-specification"><table cellspacing="0"><tbody>
 						<tr>
 	<th>Declared in</th>
-	<td>SFLogger.h</td>
+	<td>SFLoggerMacros.h</td>
 </tr>
 						</tbody></table></div>
 					
@@ -83,15 +83,19 @@
                         <h4 class="method-subtitle">Definition</h4>
                         <code>typedef NS_ENUM(NSUInteger, SFLogLevel ) {<br>
                             
-                            &nbsp;&nbsp; <a href="">SFLogLevelVerbose</a>,<br>
+                            &nbsp;&nbsp; <a href="">SFLogLevelOff</a> = 0,<br>
                             
-                            &nbsp;&nbsp; <a href="">SFLogLevelDebug</a>,<br>
+                            &nbsp;&nbsp; <a href="">SFLogLevelError</a> = ( SFLogFlagError ),<br>
                             
-                            &nbsp;&nbsp; <a href="">SFLogLevelInfo</a>,<br>
+                            &nbsp;&nbsp; <a href="">SFLogLevelWarning</a> = ( SFLogLevelError | SFLogFlagWarning ),<br>
                             
-                            &nbsp;&nbsp; <a href="">SFLogLevelWarning</a>,<br>
+                            &nbsp;&nbsp; <a href="">SFLogLevelInfo</a> = ( SFLogLevelWarning | SFLogFlagInfo ),<br>
                             
-                            &nbsp;&nbsp; <a href="">SFLogLevelError</a>,<br>
+                            &nbsp;&nbsp; <a href="">SFLogLevelDebug</a> = ( SFLogLevelInfo | SFLogFlagDebug ),<br>
+                            
+                            &nbsp;&nbsp; <a href="">SFLogLevelVerbose</a> = ( SFLogLevelDebug | SFLogFlagVerbose ),<br>
+                            
+                            &nbsp;&nbsp; <a href="">SFLogLevelAll</a> = NSUIntegerMax,<br>
                             
                             };</code>
                     
@@ -101,42 +105,19 @@
                         <h4 class="method-subtitle">Constants</h4>
                         <dl class="termdef">
                             
-                            <dt><a name="" title="SFLogLevelVerbose"></a><code>SFLogLevelVerbose</code></dt>
+                            <dt><a name="" title="SFLogLevelOff"></a><code>SFLogLevelOff</code></dt>
 <dd>
+
+
+<p>No logs</p>
+
+
+
+
 
     
 	<p>
-		Declared In <code class="declared-in-ref">SFLogger.h</code>.
-	</p>
-	
-</dd>
-                            
-                            <dt><a name="" title="SFLogLevelDebug"></a><code>SFLogLevelDebug</code></dt>
-<dd>
-
-    
-	<p>
-		Declared In <code class="declared-in-ref">SFLogger.h</code>.
-	</p>
-	
-</dd>
-                            
-                            <dt><a name="" title="SFLogLevelInfo"></a><code>SFLogLevelInfo</code></dt>
-<dd>
-
-    
-	<p>
-		Declared In <code class="declared-in-ref">SFLogger.h</code>.
-	</p>
-	
-</dd>
-                            
-                            <dt><a name="" title="SFLogLevelWarning"></a><code>SFLogLevelWarning</code></dt>
-<dd>
-
-    
-	<p>
-		Declared In <code class="declared-in-ref">SFLogger.h</code>.
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
 	</p>
 	
 </dd>
@@ -144,9 +125,101 @@
                             <dt><a name="" title="SFLogLevelError"></a><code>SFLogLevelError</code></dt>
 <dd>
 
+
+<p>Error logs only</p>
+
+
+
+
+
     
 	<p>
-		Declared In <code class="declared-in-ref">SFLogger.h</code>.
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
+	</p>
+	
+</dd>
+                            
+                            <dt><a name="" title="SFLogLevelWarning"></a><code>SFLogLevelWarning</code></dt>
+<dd>
+
+
+<p>Error and warning logs</p>
+
+
+
+
+
+    
+	<p>
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
+	</p>
+	
+</dd>
+                            
+                            <dt><a name="" title="SFLogLevelInfo"></a><code>SFLogLevelInfo</code></dt>
+<dd>
+
+
+<p>Error, warning and info logs</p>
+
+
+
+
+
+    
+	<p>
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
+	</p>
+	
+</dd>
+                            
+                            <dt><a name="" title="SFLogLevelDebug"></a><code>SFLogLevelDebug</code></dt>
+<dd>
+
+
+<p>Error, warning, info and debug logs</p>
+
+
+
+
+
+    
+	<p>
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
+	</p>
+	
+</dd>
+                            
+                            <dt><a name="" title="SFLogLevelVerbose"></a><code>SFLogLevelVerbose</code></dt>
+<dd>
+
+
+<p>Error, warning, info, debug and verbose logs</p>
+
+
+
+
+
+    
+	<p>
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
+	</p>
+	
+</dd>
+                            
+                            <dt><a name="" title="SFLogLevelAll"></a><code>SFLogLevelAll</code></dt>
+<dd>
+
+
+<p>All logs (1&hellip;11111)</p>
+
+
+
+
+
+    
+	<p>
+		Declared In <code class="declared-in-ref">SFLoggerMacros.h</code>.
 	</p>
 	
 </dd>
@@ -164,7 +237,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

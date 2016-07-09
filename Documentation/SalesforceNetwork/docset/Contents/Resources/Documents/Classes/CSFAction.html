@@ -152,6 +152,8 @@
 		
 		<option value="//api/name/headersForAction">- headersForAction</option>
 		
+		<option value="//api/name/init">- init</option>
+		
 		<option value="//api/name/initWithResponseBlock:">- initWithResponseBlock:</option>
 		
 		<option value="//api/name/intervalForTimingKey:">- intervalForTimingKey:</option>
@@ -1050,6 +1052,22 @@ handlers of this action if you want to persist this content.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/responseData" title="responseData"></a>
+	<h3 class="method-title"><code><a href="#//api/name/responseData">&nbsp;&nbsp;responseData</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nullable, nonatomic, strong) NSMutableData *responseData</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/_0" title="_0"></a>
 	<h3 class="method-title"><code><a href="#//api/name/_0">&nbsp;&nbsp;_0</a></code>
 </h3>
@@ -1220,6 +1238,22 @@ fields. For example, all the <a href="#//api/name/parameters">parameters</a> wil
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/responseBlock" title="responseBlock"></a>
+	<h3 class="method-title"><code><a href="#//api/name/responseBlock">&nbsp;&nbsp;responseBlock</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/error" title="error"></a>
 	<h3 class="method-title"><code><a href="#//api/name/error">&nbsp;&nbsp;error</a></code>
 </h3>
@@ -1230,7 +1264,7 @@ fields. For example, all the <a href="#//api/name/parameters">parameters</a> wil
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, readonly) NSError *error</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSError *error</code></div>
 
 		    
 		</div>
@@ -1247,6 +1281,22 @@ fields. For example, all the <a href="#//api/name/parameters">parameters</a> wil
 			
 
 			<div class="method-subsection method-declaration"><code>+ (instancetype)actionWithHTTPMethod:(NSString *)<em>method</em> onURL:(NSURL *)<em>url</em> withResponseBlock:(CSFActionResponseBlock)<em>responseBlock</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/init" title="init"></a>
+	<h3 class="method-title"><code><a href="#//api/name/init">&ndash;&nbsp;init</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (instancetype)init</code></div>
 
 		    
 		</div>
@@ -1576,7 +1626,7 @@ fields. For example, all the <a href="#//api/name/parameters">parameters</a> wil
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)completeOperationWithError:(NSError *)<em>error</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)completeOperationWithError:(nullable NSError *)<em>error</em></code></div>
 
 		    
 			
@@ -1820,7 +1870,7 @@ This <a href="#//api/name/method">method</a> provides an override point for subc
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)overrideRequest:(NSURLRequest *)<em>request</em> withResponseData:(NSData **)<em>data</em> andHTTPResponse:(NSHTTPURLResponse **)<em>response</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)overrideRequest:(NSURLRequest *)<em>request</em> withResponseData:(NSData *_Nullable *_Nonnull)<em>data</em> andHTTPResponse:(NSHTTPURLResponse *_Nullable *_Nonnull)<em>response</em></code></div>
 
 		    
 			
@@ -1918,6 +1968,38 @@ This can be used by subclasses to mock network responses for the purposes of tes
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/sessionDataTask:didReceiveData:" title="sessionDataTask:didReceiveData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sessionDataTask:didReceiveData:">&ndash;&nbsp;sessionDataTask:didReceiveData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)sessionDataTask:(NSURLSessionDataTask *)<em>task</em> didReceiveData:(NSData *)<em>data</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/sessionTask:didCompleteWithError:" title="sessionTask:didCompleteWithError:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/sessionTask:didCompleteWithError:">&ndash;&nbsp;sessionTask:didCompleteWithError:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)sessionTask:(NSURLSessionTask *)<em>task</em> didCompleteWithError:(NSError *)<em>error</em></code></div>
+
+		    
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -1968,22 +2050,6 @@ This can be used by subclasses to mock network responses for the purposes of tes
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/responseBlock" title="responseBlock"></a>
-	<h3 class="method-title"><code><a href="#//api/name/responseBlock">&nbsp;&nbsp;responseBlock</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/duplicateParentAction" title="duplicateParentAction"></a>
 	<h3 class="method-title"><code><a href="#//api/name/duplicateParentAction">&nbsp;&nbsp;duplicateParentAction</a></code>
 </h3>
@@ -2027,22 +2093,6 @@ This can be used by subclasses to mock network responses for the purposes of tes
 			
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSURLSessionDownloadTask *downloadTask</code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/responseData" title="responseData"></a>
-	<h3 class="method-title"><code><a href="#//api/name/responseData">&nbsp;&nbsp;responseData</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableData *responseData</code></div>
 
 		    
 		</div>
@@ -2128,22 +2178,6 @@ This can be used by subclasses to mock network responses for the purposes of tes
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/sessionDataTask:didReceiveData:" title="sessionDataTask:didReceiveData:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sessionDataTask:didReceiveData:">&ndash;&nbsp;sessionDataTask:didReceiveData:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)sessionDataTask:(NSURLSessionDataTask *)<em>task</em> didReceiveData:(NSData *)<em>data</em></code></div>
-
-		    
-		</div>
-	</div>
-</div><div class="section-method">
 	<a name="//api/name/sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:" title="sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:">&ndash;&nbsp;sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:</a></code>
 </h3>
@@ -2191,22 +2225,6 @@ This can be used by subclasses to mock network responses for the purposes of tes
 		    
 		</div>
 	</div>
-</div><div class="section-method">
-	<a name="//api/name/sessionTask:didCompleteWithError:" title="sessionTask:didCompleteWithError:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/sessionTask:didCompleteWithError:">&ndash;&nbsp;sessionTask:didCompleteWithError:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-
-			<div class="method-subsection method-declaration"><code>- (void)sessionTask:(NSURLSessionTask *)<em>task</em> didCompleteWithError:(NSError *)<em>error</em></code></div>
-
-		    
-		</div>
-	</div>
 </div>
 						</div>
 						
@@ -2232,7 +2250,7 @@ This can be used by subclasses to mock network responses for the purposes of tes
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSTimeInterval)intervalForTimingKey:(NSString *)<em>key</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)<em>key</em></code></div>
 
 		    
 			
@@ -2300,7 +2318,7 @@ Different keys supplied can permit the caller to choose what time-range within t
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

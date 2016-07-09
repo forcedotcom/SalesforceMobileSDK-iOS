@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountAccessRestriction.html">
+	<File path="Constants/SFLogLevel.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
-			<Abstract type="html">User account restrictions</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFLogLevel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLoggerMacros.h</DeclaredIn>
             
 			
 			<NodeRef refid="131"/>
@@ -14,41 +14,78 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelOff</TokenIdentifier>
+            <Abstract type="html">No logs
+     </Abstract>
+            <Declaration>SFLogLevelOff</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="131"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
             
             <NodeRef refid="131"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelError</TokenIdentifier>
+            <Abstract type="html">Error logs only
+     </Abstract>
+            <Declaration>SFLogLevelError</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
             
             <NodeRef refid="131"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelWarning</TokenIdentifier>
+            <Abstract type="html">Error and warning logs
+     </Abstract>
+            <Declaration>SFLogLevelWarning</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            
+            <NodeRef refid="131"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelInfo</TokenIdentifier>
+            <Abstract type="html">Error, warning and info logs
+     </Abstract>
+            <Declaration>SFLogLevelInfo</Declaration>
+            
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            
+            <NodeRef refid="131"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelDebug</TokenIdentifier>
+            <Abstract type="html">Error, warning, info and debug logs
+     </Abstract>
+            <Declaration>SFLogLevelDebug</Declaration>
+            
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            
+            <NodeRef refid="131"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelVerbose</TokenIdentifier>
+            <Abstract type="html">Error, warning, info, debug and verbose logs
+     </Abstract>
+            <Declaration>SFLogLevelVerbose</Declaration>
+            
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
+            
+            <NodeRef refid="131"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/SFLogLevelAll</TokenIdentifier>
+            <Abstract type="html">All logs (1...11111)
+     </Abstract>
+            <Declaration>SFLogLevelAll</Declaration>
+            
+            <DeclaredIn>SFLoggerMacros.h</DeclaredIn>
             
             <NodeRef refid="131"/>
         </Token>

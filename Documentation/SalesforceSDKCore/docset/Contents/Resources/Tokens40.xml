@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFOAuthTestFlow.html">
+	<File path="Classes/SFOAuthCoordinator.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthTestFlow</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCoordinator</TokenIdentifier>
+			<Abstract type="html">The SFOAuthCoordinator class is the central class of the OAuth2 authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="40"/>
@@ -13,350 +13,1025 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginUserAgentFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setCredentials:</TokenIdentifier>
+			<Abstract type="html">User credentials to use within the authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCredentials</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/credentials</TokenIdentifier>
+			<Abstract type="html">User credentials to use within the authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCredentials</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginUserAgentFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/credentials</TokenIdentifier>
+			<Abstract type="html">User credentials to use within the authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginUserAgentFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCredentials</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, strong) SFOAuthCredentials *credentials</Declaration>
 			
 			
-			<Anchor>//api/name/beginUserAgentFlowCalled</Anchor>
+			<Anchor>//api/name/credentials</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginTokenEndpointFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate object for this coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate object for this coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginTokenEndpointFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate object for this coordinator.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorDelegate&gt; delegate</Declaration>
 			
 			
-			<Anchor>//api/name/beginTokenEndpointFlowCalled</Anchor>
+			<Anchor>//api/name/delegate</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setBeginNativeBrowserFlowCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setScopes:</TokenIdentifier>
+			<Abstract type="html">A set of scopes for OAuth.
+See:
+https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;amp;id=remoteaccessoauthscopes.htm</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/scopes</TokenIdentifier>
+			<Abstract type="html">A set of scopes for OAuth.
+See:
+https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;amp;id=remoteaccessoauthscopes.htm</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/beginNativeBrowserFlowCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/scopes</TokenIdentifier>
+			<Abstract type="html">A set of scopes for OAuth.
+See:
+https://help.salesforce.com/apex/HTViewHelpDoc?language=en&amp;amp;id=remoteaccessoauthscopes.htm</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled</Declaration>
+			<Declaration>@property (nonatomic, copy) NSSet *scopes</Declaration>
 			
 			
-			<Anchor>//api/name/beginNativeBrowserFlowCalled</Anchor>
+			<Anchor>//api/name/scopes</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTokenEndpointFlowType:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setTimeout:</TokenIdentifier>
+			<Abstract type="html">Timeout interval for OAuth requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/timeout</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/timeout</TokenIdentifier>
+			<Abstract type="html">Timeout interval for OAuth requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/timeout</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/tokenEndpointFlowType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/timeout</TokenIdentifier>
+			<Abstract type="html">Timeout interval for OAuth requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType</Declaration>
+			<Declaration>@property (nonatomic, assign) NSTimeInterval timeout</Declaration>
 			
 			
-			<Anchor>//api/name/tokenEndpointFlowType</Anchor>
+			<Anchor>//api/name/timeout</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setHandleTokenEndpointResponseCalled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAdvancedAuthConfiguration:</TokenIdentifier>
+			<Abstract type="html">The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+Keep the default value if you don&apos;t need advanced authentication options, as this requires an
+additional round trip to the service to get authentication configuration data.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration</Declaration>
 			
 			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/advancedAuthConfiguration</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/advancedAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+Keep the default value if you don&apos;t need advanced authentication options, as this requires an
+additional round trip to the service to get authentication configuration data.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration</Declaration>
 			
 			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/advancedAuthConfiguration</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/handleTokenEndpointResponseCalled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/advancedAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">The configuration for advanced authentication.  Default is SFOAuthAdvancedAuthConfigurationNone.
+Keep the default value if you don&apos;t need advanced authentication options, as this requires an
+additional round trip to the service to get authentication configuration data.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled</Declaration>
+			<Declaration>@property (nonatomic, assign) SFOAuthAdvancedAuthConfiguration advancedAuthConfiguration</Declaration>
 			
 			
-			<Anchor>//api/name/handleTokenEndpointResponseCalled</Anchor>
+			<Anchor>//api/name/advancedAuthConfiguration</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeUserAgentCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAdvancedAuthState:</TokenIdentifier>
+			<Abstract type="html">The current state of any in-progress advanced authentication flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/advancedAuthState</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/advancedAuthState</TokenIdentifier>
+			<Abstract type="html">The current state of any in-progress advanced authentication flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/advancedAuthState</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeUserAgentCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/advancedAuthState</TokenIdentifier>
+			<Abstract type="html">The current state of any in-progress advanced authentication flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeUserAgentCompletion</Declaration>
+			<Declaration>@property (nonatomic, readonly) SFOAuthAdvancedAuthState advancedAuthState</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeUserAgentCompletion</Anchor>
+			<Anchor>//api/name/advancedAuthState</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setTimeBeforeRefreshTokenCompletion:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setView:</TokenIdentifier>
+			<Abstract type="html">View in which the user will input OAuth credentials for the user-agent flow OAuth process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
+			<Anchor>//api/name/view</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/view</TokenIdentifier>
+			<Abstract type="html">View in which the user will input OAuth credentials for the user-agent flow OAuth process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
+			<Anchor>//api/name/view</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/timeBeforeRefreshTokenCompletion</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/view</TokenIdentifier>
+			<Abstract type="html">View in which the user will input OAuth credentials for the user-agent flow OAuth process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) NSTimeInterval timeBeforeRefreshTokenCompletion</Declaration>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorDelegate</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
 			
 			
-			<Anchor>//api/name/timeBeforeRefreshTokenCompletion</Anchor>
+			<Anchor>//api/name/view</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setUserAgentFlowIsSuccessful:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setUserAgentForAuth:</TokenIdentifier>
+			<Abstract type="html">The user agent string that will be used for authentication.  While this property will persist throughout
+the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+its original value in between authentication requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userAgentForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/userAgentForAuth</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/userAgentForAuth</TokenIdentifier>
+			<Abstract type="html">The user agent string that will be used for authentication.  While this property will persist throughout
+the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+its original value in between authentication requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userAgentForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/userAgentForAuth</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/userAgentFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/userAgentForAuth</TokenIdentifier>
+			<Abstract type="html">The user agent string that will be used for authentication.  While this property will persist throughout
+the lifetime of the coordinator object, the user agent configured for the system will be reset back to
+its original value in between authentication requests.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL userAgentFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *userAgentForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/userAgentFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/userAgentForAuth</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRefreshTokenFlowIsSuccessful:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAdditionalOAuthParameterKeys:</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthTestFlow/refreshTokenFlowIsSuccessful</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/additionalOAuthParameterKeys</TokenIdentifier>
+			<Abstract type="html">An array of additional keys (NSString) to parse during OAuth</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) BOOL refreshTokenFlowIsSuccessful</Declaration>
+			<Declaration>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</Declaration>
 			
 			
-			<Anchor>//api/name/refreshTokenFlowIsSuccessful</Anchor>
+			<Anchor>//api/name/additionalOAuthParameterKeys</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/initWithCoordinator:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/initWithCredentials:</TokenIdentifier>
+			<Abstract type="html">Initializes a new OAuth coordinator with the supplied credentials. This is the designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithCoordinator:(SFOAuthCoordinator *)coordinator</Declaration>
-			
-			
-			<Anchor>//api/name/initWithCoordinator:</Anchor>
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/cl/SFOAuthCredentials</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (id)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">An instance of SFOAuthCredentials identifying the user to be authenticated.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The initialized authentication coordinator.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithCredentials:</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthTestFlow/setRetrieveOrgAuthConfigurationData:error:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authenticate</TokenIdentifier>
+			<Abstract type="html">Begins the authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)authenticate</Declaration>
+			
+			
+			<Anchor>//api/name/authenticate</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authenticateWithCredentials:</TokenIdentifier>
+			<Abstract type="html">Sets the credentials property and begins the authentication process. Simply a convenience method for:
+coordinator.credentials = theCredentials;
+[coordinator authenticate];</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)authenticateWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuth credentials used for authentication.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/authenticateWithCredentials:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/isAuthenticating</TokenIdentifier>
+			<Abstract type="html">Returns YES if the coordinator is in the process of authentication; otherwise NO.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)isAuthenticating</Declaration>
+			
+			
+			<Anchor>//api/name/isAuthenticating</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/stopAuthentication</TokenIdentifier>
+			<Abstract type="html">Stops the authentication process.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)stopAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/stopAuthentication</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/revokeAuthentication</TokenIdentifier>
+			<Abstract type="html">Revokes the authentication credentials.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (void)revokeAuthentication</Declaration>
+			
+			
+			<Anchor>//api/name/revokeAuthentication</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/handleAdvancedAuthenticationResponse:</TokenIdentifier>
+			<Abstract type="html">Handle an advanced authentication response from the external browser, continuing any
+in-progress adavanced authentication flow.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)handleAdvancedAuthenticationResponse:(NSURL *)appUrlResponse</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appUrlResponse</Name>
+					<Abstract type="html">The URL response returned to the app from the external browser.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if this is a valid URL response from advanced authentication that the coordinator
+should handle, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/handleAdvancedAuthenticationResponse:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOauthCoordinatorFlow:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthTestFlow.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setRetrieveOrgAuthConfigurationData:(SFOAuthOrgAuthConfiguration *)config error:(NSError *)error</Declaration>
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
 			
 			
-			<Anchor>//api/name/setRetrieveOrgAuthConfigurationData:error:</Anchor>
+			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/oauthCoordinatorFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFOAuthCoordinatorFlow&gt; oauthCoordinatorFlow</Declaration>
+			
+			
+			<Anchor>//api/name/oauthCoordinatorFlow</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAuthenticating:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authenticating</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/authenticating</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (assign) BOOL authenticating</Declaration>
+			
+			
+			<Anchor>//api/name/authenticating</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setSession:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/session</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/session</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSURLSession *session</Declaration>
+			
+			
+			<Anchor>//api/name/session</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setResponseData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setInitialRequestLoaded:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
+			
+			
+			<Anchor>//api/name/initialRequestLoaded</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/initialRequestLoaded</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
+			
+			
+			<Anchor>//api/name/initialRequestLoaded</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/initialRequestLoaded</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL initialRequestLoaded</Declaration>
+			
+			
+			<Anchor>//api/name/initialRequestLoaded</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setApprovalCode:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/approvalCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/approvalCode</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *approvalCode</Declaration>
+			
+			
+			<Anchor>//api/name/approvalCode</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setRefreshFlowConnectionTimer:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer</Declaration>
+			
+			
+			<Anchor>//api/name/refreshFlowConnectionTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/refreshFlowConnectionTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer</Declaration>
+			
+			
+			<Anchor>//api/name/refreshFlowConnectionTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/refreshFlowConnectionTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer</Declaration>
+			
+			
+			<Anchor>//api/name/refreshFlowConnectionTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setRefreshTimerThread:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSThread *refreshTimerThread</Declaration>
+			
+			
+			<Anchor>//api/name/refreshTimerThread</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/refreshTimerThread</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSThread *refreshTimerThread</Declaration>
+			
+			
+			<Anchor>//api/name/refreshTimerThread</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/refreshTimerThread</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSThread *refreshTimerThread</Declaration>
+			
+			
+			<Anchor>//api/name/refreshTimerThread</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setCodeVerifier:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/codeVerifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/codeVerifier</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *codeVerifier</Declaration>
+			
+			
+			<Anchor>//api/name/codeVerifier</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setAuthInfo:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/authInfo</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthInfo *authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/authInfo</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/setOrigWebUserAgent:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
+			
+			
+			<Anchor>//api/name/origWebUserAgent</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/origWebUserAgent</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
+			
+			
+			<Anchor>//api/name/origWebUserAgent</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthCoordinator/origWebUserAgent</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *origWebUserAgent</Declaration>
+			
+			
+			<Anchor>//api/name/origWebUserAgent</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/startRefreshFlowConnectionTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)startRefreshFlowConnectionTimer</Declaration>
+			
+			
+			<Anchor>//api/name/startRefreshFlowConnectionTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/stopRefreshFlowConnectionTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)stopRefreshFlowConnectionTimer</Declaration>
+			
+			
+			<Anchor>//api/name/stopRefreshFlowConnectionTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/refreshFlowConnectionTimerFired:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshFlowConnectionTimerFired:(NSTimer *)rfcTimer</Declaration>
+			
+			
+			<Anchor>//api/name/refreshFlowConnectionTimerFired:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/invalidateRefreshTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)invalidateRefreshTimer</Declaration>
+			
+			
+			<Anchor>//api/name/invalidateRefreshTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/cleanupRefreshTimer</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanupRefreshTimer</Declaration>
+			
+			
+			<Anchor>//api/name/cleanupRefreshTimer</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/handleUserAgentResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleUserAgentResponse:(NSURL *)requestUrl</Declaration>
+			
+			
+			<Anchor>//api/name/handleUserAgentResponse:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/notifyDelegateOfFailure:authInfo:</TokenIdentifier>
+			<Abstract type="html">Notify our delegate that we could not log in, and clear authenticating flag</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)notifyDelegateOfFailure:(NSError *)error authInfo:(SFOAuthInfo *)info</Declaration>
+			
+			
+			<Anchor>//api/name/notifyDelegateOfFailure:authInfo:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthCoordinator/notifyDelegateOfSuccess:</TokenIdentifier>
+			<Abstract type="html">Notify our delegate that login succeeded, and clear authenticating flag</Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)notifyDelegateOfSuccess:(SFOAuthInfo *)authInfo</Declaration>
+			
+			
+			<Anchor>//api/name/notifyDelegateOfSuccess:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/parseQueryString:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSDictionary *)parseQueryString:(NSString *)query</Declaration>
+			
+			
+			<Anchor>//api/name/parseQueryString:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/errorWithType:description:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSError *)errorWithType:(NSString *)type description:(NSString *)description</Declaration>
+			
+			
+			<Anchor>//api/name/errorWithType:description:</Anchor>
+            <NodeRef refid="40"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFOAuthCoordinator/timestampStringToDate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>+ (NSDate *)timestampStringToDate:(NSString *)timestamp</Declaration>
+			
+			
+			<Anchor>//api/name/timestampStringToDate:</Anchor>
             <NodeRef refid="40"/>
 		</Token>
 		

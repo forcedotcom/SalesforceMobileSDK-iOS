@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSURL+SFStringUtils.html">
+	<File path="Categories/NSData+SFMD5.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFStringUtils)</TokenIdentifier>
-			<Abstract type="html">Utilities for interacting with NSURL objects.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFMD5)</TokenIdentifier>
+			<Abstract type="html">Provides MD5 conversion support.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="94"/>
@@ -13,68 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/redactedAbsoluteString:</TokenIdentifier>
-			<Abstract type="html">Will return the absolute string of a URL, with potentially sensitive querystring
-parameter values redacted.  Useful for logging URL values without sensitive data
-included.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/md5</TokenIdentifier>
+			<Abstract type="html">Converts this NSData to md5 format.</Abstract>
+			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
 			
-			<Declaration>- (NSString *)redactedAbsoluteString:(NSArray *)queryStringParamsToRedact</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>queryStringParamsToRedact</Name>
-					<Abstract type="html">An array of querystring parameter names whose values
-should be redacted.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The redacted version of the absolute string value.</Abstract></ReturnValue>
-			<Anchor>//api/name/redactedAbsoluteString:</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithBaseUrl:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
+			<Declaration>- (NSString *)md5</Declaration>
 			
-			<Declaration>+ (NSString *)stringUrlWithBaseUrl:(NSURL *)baseUrl pathComponents:(NSArray *)pathComponents</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>baseUrl</Name>
-					<Abstract type="html">The base URL</Abstract>
-				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithBaseUrl:pathComponents:</Anchor>
-            <NodeRef refid="94"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSURL/stringUrlWithScheme:host:port:pathComponents:</TokenIdentifier>
-			<Abstract type="html">Helper method that constructs an absolute URL string given the specified components.</Abstract>
-			<DeclaredIn>NSURL+SFStringUtils.h</DeclaredIn>
-			
-			<Declaration>+ (NSString *)stringUrlWithScheme:(NSString *)scheme host:(NSString *)host port:(NSNumber *)port pathComponents:(NSArray *)pathComponents</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>scheme</Name>
-					<Abstract type="html">The scheme of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>host</Name>
-					<Abstract type="html">The host of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>port</Name>
-					<Abstract type="html">The port of the URL</Abstract>
-				</Parameter><Parameter>
-					<Name>pathComponents</Name>
-					<Abstract type="html">The components of the path</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">an absolute string URL representation</Abstract></ReturnValue>
-			<Anchor>//api/name/stringUrlWithScheme:host:port:pathComponents:</Anchor>
+			<ReturnValue><Abstract type="html">md5 version of data.</Abstract></ReturnValue>
+			<Anchor>//api/name/md5</Anchor>
             <NodeRef refid="94"/>
 		</Token>
 		

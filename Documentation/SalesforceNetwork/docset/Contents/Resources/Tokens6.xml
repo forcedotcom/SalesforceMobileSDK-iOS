@@ -337,6 +337,18 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
+            <NodeRef refid="6"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFInputStreamElement/initWithObject:boundary:key:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFInputStreamElement.h</DeclaredIn>

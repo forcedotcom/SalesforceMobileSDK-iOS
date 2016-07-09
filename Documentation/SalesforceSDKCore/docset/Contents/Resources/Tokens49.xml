@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPreferences.html">
+	<File path="Classes/SFPBKDF2PasscodeProvider.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPreferences</TokenIdentifier>
-			<Abstract type="html">Preferences class that handles scoped preferences.
-A scope allows to bounds the preferences to a specific user,
-org or community.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDF2PasscodeProvider</TokenIdentifier>
+			<Abstract type="html">Contains configuration values for generating an encryption key.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
             
 			
 			<NodeRef refid="49"/>
@@ -15,258 +13,137 @@ org or community.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setPath:</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setSaltLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/path</TokenIdentifier>
-			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/saltLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The length in bytes to use for the random-generated salt.  This value defaults to
+kSFPBKDFDefaultSaltByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger saltLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/path</Anchor>
+			<Anchor>//api/name/saltLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setDictionaryRepresentation:</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/dictionaryRepresentation</TokenIdentifier>
-			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds to use when generating a key.  This value defaults
+to kSFPBKDFDefaultNumberOfDerivationRounds in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/globalPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the global instance of the preferences (one per application)</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/setDerivedKeyLengthInBytes:</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)globalPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/globalPreferences</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/sharedPreferencesForScope:user:</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the specified user&apos;s organization
-or nil if there is no specified user or scope.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount *)user</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/sharedPreferencesForScope:user:</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentOrgLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s organization
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDF2PasscodeProvider/derivedKeyLengthInBytes</TokenIdentifier>
+			<Abstract type="html">The desired length in bytes of the derived key to use when generating a key.  This
+value defaults to kSFPBKDFDefaultDerivedKeyByteLength in SFSDKCryptoUtils.h.
+NOTE: Differences in this value affect the generated key.  You must keep track of
+this value if you wish to generate the same key at a future date.</Abstract>
+			<DeclaredIn>SFPBKDF2PasscodeProvider.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)currentOrgLevelPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/currentOrgLevelPreferences</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentUserLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)currentUserLevelPreferences</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLengthInBytes</Declaration>
 			
 			
-			<Anchor>//api/name/currentUserLevelPreferences</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentCommunityLevelPreferences</TokenIdentifier>
-			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s community
-or nil if there is no current user.</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>+ (instancetype)currentCommunityLevelPreferences</Declaration>
-			
-			
-			<Anchor>//api/name/currentCommunityLevelPreferences</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/objectForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (id)objectForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/objectForKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setObject:forKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeObjectForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)removeObjectForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/removeObjectForKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/boolForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)boolForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/boolForKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setBool:forKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setBool:(BOOL)value forKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setBool:forKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/integerForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (NSInteger)integerForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/integerForKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setInteger:forKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)setInteger:(NSInteger)value forKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/setInteger:forKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/stringForKey:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)stringForKey:(NSString *)key</Declaration>
-			
-			
-			<Anchor>//api/name/stringForKey:</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/synchronize</TokenIdentifier>
-			<Abstract type="html">Saves the preferences to the disk</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)synchronize</Declaration>
-			
-			
-			<Anchor>//api/name/synchronize</Anchor>
-            <NodeRef refid="49"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeAllObjects</TokenIdentifier>
-			<Abstract type="html">Remove all saved objects</Abstract>
-			<DeclaredIn>SFPreferences.h</DeclaredIn>
-			
-			<Declaration>- (void)removeAllObjects</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllObjects</Anchor>
+			<Anchor>//api/name/derivedKeyLengthInBytes</Anchor>
             <NodeRef refid="49"/>
 		</Token>
 		

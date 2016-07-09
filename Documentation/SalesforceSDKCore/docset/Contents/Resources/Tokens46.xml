@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeProviderManager.html">
+	<File path="Classes/SFOAuthSessionRefresher.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeProviderManager</TokenIdentifier>
-			<Abstract type="html">Class for managing passcode providers.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthSessionRefresher</TokenIdentifier>
+			<Abstract type="html">This class refreshes stale OAuth sessions, if possible.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
             
 			
 			<NodeRef refid="46"/>
@@ -13,114 +13,147 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProviderName</TokenIdentifier>
-			<Abstract type="html">The name of the currently configured passcode provider.  There can only be one &quot;current&quot;
-passcode provider at any given time, though multiple passcode providers can be worked
-with, usign the [SFPasscodeProviderManager passcodeProviderForProviderName:] method.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/initWithCredentials:</TokenIdentifier>
+			<Abstract type="html">Initializes the object with the given credentials.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
 			
-			<Declaration>+ (NSString *)currentPasscodeProviderName</Declaration>
-			
-			<ReturnValue><Abstract type="html">The name of the currently configured passcode provider.</Abstract></ReturnValue>
-			<Anchor>//api/name/currentPasscodeProviderName</Anchor>
-            <NodeRef refid="46"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/setCurrentPasscodeProviderByName:</TokenIdentifier>
-			<Abstract type="html">Sets the current passcode provider.  Note: the passcode provider implementation class itself
-must first be configured through the [SFPasscodeProviderManager addPasscodeProvider:name:]
-method.  The default providers in the SDK will already be configured.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)setCurrentPasscodeProviderByName:(NSString *)providerName</Declaration>
+			<Declaration>- (instancetype)initWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name of the passcode provider that will become the current provider.</Abstract>
+					<Name>credentials</Name>
+					<Abstract type="html">The OAuth credentials used to refresh the session.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setCurrentPasscodeProviderByName:</Anchor>
+			<Anchor>//api/name/initWithCredentials:</Anchor>
             <NodeRef refid="46"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/currentPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The provider implementation for the current passcode provider.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/refreshSessionWithCompletion:error:</TokenIdentifier>
+			<Abstract type="html">Refreshes the expired session, with the given completion and error handler blocks.</Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher.h</DeclaredIn>
 			
-			<Declaration>+ (id&lt;SFPasscodeProvider&gt;)currentPasscodeProvider</Declaration>
-			
-			<ReturnValue><Abstract type="html">The provider implementation for the current passcode provider.</Abstract></ReturnValue>
-			<Anchor>//api/name/currentPasscodeProvider</Anchor>
-            <NodeRef refid="46"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/passcodeProviderForProviderName:</TokenIdentifier>
-			<Abstract type="html">Returns the passcode provider implementation associated with the given provider name, or
-nil if no provider is configured for the given name.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>+ (id&lt;SFPasscodeProvider&gt;)passcodeProviderForProviderName:(NSString *)providerName</Declaration>
+			<Declaration>- (void)refreshSessionWithCompletion:(void ( ^ ) ( SFOAuthCredentials *))completionBlock error:(void ( ^ ) ( NSError *))errorBlock</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name associated with the requested provider.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The passcode provider implementation.</Abstract></ReturnValue>
-			<Anchor>//api/name/passcodeProviderForProviderName:</Anchor>
-            <NodeRef refid="46"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/addPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">Adds a custom passcode provider implementation to the global provider configuration.
-Note: custom providers are not persisted across app restarts.  You should call this method
-to add your provider in your app&apos;s initialization logic.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
-			
-			<Declaration>+ (void)addPasscodeProvider:(id&lt;SFPasscodeProvider&gt;)provider</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>provider</Name>
-					<Abstract type="html">The passcode provider implementation.</Abstract>
+					<Name>completionBlock</Name>
+					<Abstract type="html">Called once the session has been refreshed.</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Called if there was an error refreshing the session.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addPasscodeProvider:</Anchor>
+			<Anchor>//api/name/refreshSessionWithCompletion:error:</Anchor>
             <NodeRef refid="46"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/removePasscodeProviderWithName:</TokenIdentifier>
-			<Abstract type="html">Removes a passcode provider from configuration.  If it is designated as the current-configured provider,
-the current provider will be reset to the default value.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCoordinator:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (void)removePasscodeProviderWithName:(NSString *)providerName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>providerName</Name>
-					<Abstract type="html">The name of the provider to remove.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
 			
-			<Anchor>//api/name/removePasscodeProviderWithName:</Anchor>
+			
+			<Anchor>//api/name/coordinator</Anchor>
             <NodeRef refid="46"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeProviderManager/resetCurrentPasscodeProviderName</TokenIdentifier>
-			<Abstract type="html">Clears the persisted value for the passcode provider name.</Abstract>
-			<DeclaredIn>SFPasscodeProviderManager+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (void)resetCurrentPasscodeProviderName</Declaration>
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
 			
 			
-			<Anchor>//api/name/resetCurrentPasscodeProviderName</Anchor>
+			<Anchor>//api/name/coordinator</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/coordinator</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) SFOAuthCoordinator *coordinator</Declaration>
+			
+			
+			<Anchor>//api/name/coordinator</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setCompletionBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/completionBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( SFOAuthCredentials *) completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/completionBlock</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/setErrorBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
+			
+			
+			<Anchor>//api/name/errorBlock</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
+			
+			
+			<Anchor>//api/name/errorBlock</Anchor>
+            <NodeRef refid="46"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthSessionRefresher/errorBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthSessionRefresher+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) void ( ^ ) ( NSError *) errorBlock</Declaration>
+			
+			
+			<Anchor>//api/name/errorBlock</Anchor>
             <NodeRef refid="46"/>
 		</Token>
 		

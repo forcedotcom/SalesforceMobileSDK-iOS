@@ -147,7 +147,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Creates the file at the specified if it doesn&rsquo;t exist</p>
+				<p>Creates the file at the specified path if it doesn&rsquo;t exist</p>
 			</div>
 			
 		    
@@ -159,6 +159,11 @@
 			<div class="method-subsection arguments-section parameters">
 				<h4 class="method-subtitle parameter-title">Parameters</h4>
 				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>path</code></th>
+						<td><p>The path where the file should be created</p></td>
+					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>skipBackup</code></th>
@@ -198,10 +203,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns application&rsquo;s dcoument directory</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)applicationDocumentDirectory</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -214,10 +244,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns application&rsquo;s cache directory</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)applicationCacheDirectory</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -271,10 +326,54 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the absolute path for a directory/folder located in the apps document directory.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)absolutePathForDocumentFolder:(NSString *)<em>folder</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>folder</code></th>
+						<td><p>Folder to create under Document directory</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes
+and also mark file to be not backup by iCloud
+Folder created will be protected by NSFileProtectionComplete.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -287,10 +386,54 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the absolute path for a directory/folder located in the apps document directory</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)absolutePathForCacheFolder:(NSString *)<em>folder</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>folder</code></th>
+						<td><p>Folder to create under Cache directory</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>It also ensures this sub-directory exists, applies file protection attributes
+and also mark file to be not backup by iCloud
+Folder created will be protected by NSFileProtectionComplete</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -422,10 +565,58 @@ The file or path that is passed in must already exist</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the absolute path for a directory/folder located in the apps document directory</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)absolutePathForDocumentFolder:(NSString *)<em>folder</em> fileProtection:(NSString *)<em>fileProtection</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>folder</code></th>
+						<td><p>Folder to create under Document directory</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fileProtection</code></th>
+						<td><p>File protection string. If nil, NSFileProtectionComplete will be used</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes
+and also mark file to be not backup by iCloud</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -438,10 +629,58 @@ The file or path that is passed in must already exist</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the absolute path for a directory/folder located in the apps document directory</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSString *)absolutePathForCacheFolder:(NSString *)<em>folder</em> fileProtection:(NSString *)<em>fileProtection</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>folder</code></th>
+						<td><p>Folder to create under Cache directory</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>fileProtection</code></th>
+						<td><p>File protection string. If nil, NSFileProtectionComplete will be used</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>It also ensures this sub-directory exists, applies file protection attributes
+and also mark file to be not backup by iCloud</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFPathUtil.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -456,7 +695,7 @@ The file or path that is passed in must already exist</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns the absolute path for libray folder</p>
+				<p>Returns the absolute path for library folder</p>
 			</div>
 			
 		    
@@ -650,7 +889,7 @@ The file or path that is passed in must already exist</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

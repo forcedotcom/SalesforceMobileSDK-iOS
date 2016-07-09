@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/UIDeviceFamily.html">
+	<File path="Constants/SFOAuthCredsEncryptionType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/UIDeviceFamily</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="135"/>
@@ -14,51 +14,51 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPhone</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPhone</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="135"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPod</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPod</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="135"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyiPad</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyiPad</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="135"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyAppleTV</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyAppleTV</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="135"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/UIDeviceFamilyUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>UIDeviceFamilyUnknown</Declaration>
+            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
             
-            <DeclaredIn>UIDevice+SFHardware.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
             
             <NodeRef refid="135"/>
         </Token>

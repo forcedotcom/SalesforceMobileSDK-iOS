@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostStorage.html">
+	<File path="Classes/SFRootViewManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostStorage</TokenIdentifier>
-			<Abstract type="html">This class manages the list of login hosts as well its persistence.
-Currently this list is persisted in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFRootViewManager</TokenIdentifier>
+			<Abstract type="html">Class to control the presentation of temporary modal views in an existing view stack.  Used
+internally for things like the authentication view and the passcode screen.</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="58"/>
@@ -14,110 +14,118 @@ Currently this list is persisted in the user defaults.</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHostStorage/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Returns the shared instance of this class.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFRootViewManager/sharedManager</TokenIdentifier>
+			<Abstract type="html">The singleton SFRootViewManager object.</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>+ (SFSDKLoginHostStorage *)sharedInstance</Declaration>
+			<Declaration>+ (SFRootViewManager *)sharedManager</Declaration>
 			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<ReturnValue><Abstract type="html">The singleton SFRootViewManager object.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedManager</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/setMainWindow:</TokenIdentifier>
+			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)loginHost</Declaration>
+			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
 			
 			
-			<Anchor>//api/name/addLoginHost:</Anchor>
+			<Anchor>//api/name/mainWindow</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeLoginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Removes the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/mainWindow</TokenIdentifier>
+			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (void)removeLoginHostAtIndex:(NSUInteger)index</Declaration>
+			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
 			
 			
-			<Anchor>//api/name/removeLoginHostAtIndex:</Anchor>
+			<Anchor>//api/name/mainWindow</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/indexOfLoginHost:</TokenIdentifier>
-			<Abstract type="html">Returns the index of the specified host if exists.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRootViewManager/mainWindow</TokenIdentifier>
+			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host</Declaration>
+			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
 			
 			
-			<Anchor>//api/name/indexOfLoginHost:</Anchor>
+			<Anchor>//api/name/mainWindow</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostAtIndex:</TokenIdentifier>
-			<Abstract type="html">Returns the login host at the specified index.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/addDelegate:</TokenIdentifier>
+			<Abstract type="html">Add a delegate</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index</Declaration>
+			<Declaration>- (void)addDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to add</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/loginHostAtIndex:</Anchor>
+			<Anchor>//api/name/addDelegate:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostForHostAddress:</TokenIdentifier>
-			<Abstract type="html">Returns the login host with a particular host adress if any.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/removeDelegate:</TokenIdentifier>
+			<Abstract type="html">Remove a delegate</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress</Declaration>
+			<Declaration>- (void)removeDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>delegate</Name>
+					<Abstract type="html">The delegate to remove</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/loginHostForHostAddress:</Anchor>
+			<Anchor>//api/name/removeDelegate:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeAllLoginHosts</TokenIdentifier>
-			<Abstract type="html">Removes all the login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/pushViewController:</TokenIdentifier>
+			<Abstract type="html">Push a view controller onto the top of the presentation stack.</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (void)removeAllLoginHosts</Declaration>
+			<Declaration>- (void)pushViewController:(UIViewController *)viewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>viewController</Name>
+					<Abstract type="html">The view controller to display.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/removeAllLoginHosts</Anchor>
+			<Anchor>//api/name/pushViewController:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/numberOfLoginHosts</TokenIdentifier>
-			<Abstract type="html">Returns the number of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/popViewController:</TokenIdentifier>
+			<Abstract type="html">Take a view controller off of the presentation stack.</Abstract>
+			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
 			
-			<Declaration>- (NSUInteger)numberOfLoginHosts</Declaration>
+			<Declaration>- (void)popViewController:(UIViewController *)viewController</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>viewController</Name>
+					<Abstract type="html">The view to remove.  Does nothing if the view controller is not found in the presented stack.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/numberOfLoginHosts</Anchor>
-            <NodeRef refid="58"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/save</TokenIdentifier>
-			<Abstract type="html">Stores all the login host except the non-deletable ones in the user defaults.</Abstract>
-			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
-			
-			<Declaration>- (void)save</Declaration>
-			
-			
-			<Anchor>//api/name/save</Anchor>
+			<Anchor>//api/name/popViewController:</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		

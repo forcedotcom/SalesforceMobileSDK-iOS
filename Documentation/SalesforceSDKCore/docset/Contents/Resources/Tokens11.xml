@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCommunityData.html">
+	<File path="Classes/SFCocoaLumberJackCustomFormatter.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCommunityData</TokenIdentifier>
-			<Abstract type="html">Class that groups the data describing a community</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCocoaLumberJackCustomFormatter</TokenIdentifier>
+			<Abstract type="html">This class applies custom formatting to log messages.</Abstract>
+			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,326 +13,50 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEntityId:</TokenIdentifier>
-			<Abstract type="html">The community ID</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
-			
-			
-			<Anchor>//api/name/entityId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/entityId</TokenIdentifier>
-			<Abstract type="html">The community ID</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
-			
-			
-			<Anchor>//api/name/entityId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/entityId</TokenIdentifier>
-			<Abstract type="html">The community ID</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *entityId</Declaration>
-			
-			
-			<Anchor>//api/name/entityId</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setName:</TokenIdentifier>
-			<Abstract type="html">The community name</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/name</TokenIdentifier>
-			<Abstract type="html">The community name</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/name</TokenIdentifier>
-			<Abstract type="html">The community name</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *name</Declaration>
-			
-			
-			<Anchor>//api/name/name</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setDescriptionText:</TokenIdentifier>
-			<Abstract type="html">The community description</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
-			
-			
-			<Anchor>//api/name/descriptionText</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/descriptionText</TokenIdentifier>
-			<Abstract type="html">The community description</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
-			
-			
-			<Anchor>//api/name/descriptionText</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/descriptionText</TokenIdentifier>
-			<Abstract type="html">The community description</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *descriptionText</Declaration>
-			
-			
-			<Anchor>//api/name/descriptionText</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSiteUrl:</TokenIdentifier>
-			<Abstract type="html">The community siteUrl</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
-			
-			
-			<Anchor>//api/name/siteUrl</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/siteUrl</TokenIdentifier>
-			<Abstract type="html">The community siteUrl</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
-			
-			
-			<Anchor>//api/name/siteUrl</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/siteUrl</TokenIdentifier>
-			<Abstract type="html">The community siteUrl</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSURL *siteUrl</Declaration>
-			
-			
-			<Anchor>//api/name/siteUrl</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrl:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/setLogger:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/url</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/url</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/url</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/url</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *url</Declaration>
+			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
 			
 			
-			<Anchor>//api/name/url</Anchor>
+			<Anchor>//api/name/logger</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setUrlPathPrefix:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/initWithLogger:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
+			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
-			
-			
-			<Anchor>//api/name/urlPathPrefix</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/urlPathPrefix</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
+			<Declaration>- (instancetype)initWithLogger:(SFLogger *)logger</Declaration>
 			
 			
-			<Anchor>//api/name/urlPathPrefix</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/urlPathPrefix</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSURL *urlPathPrefix</Declaration>
-			
-			
-			<Anchor>//api/name/urlPathPrefix</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setEnabled:</TokenIdentifier>
-			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/enabled</TokenIdentifier>
-			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/enabled</TokenIdentifier>
-			<Abstract type="html">Flag indicating if the community is live or not</Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
-			
-			
-			<Anchor>//api/name/enabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setInvitationsEnabled:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/invitationsEnabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/invitationsEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/invitationsEnabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/invitationsEnabled</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL invitationsEnabled</Declaration>
-			
-			
-			<Anchor>//api/name/invitationsEnabled</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/setSendWelcomeEmail:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
-			
-			
-			<Anchor>//api/name/sendWelcomeEmail</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
-			
-			
-			<Anchor>//api/name/sendWelcomeEmail</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCommunityData/sendWelcomeEmail</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCommunityData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic) BOOL sendWelcomeEmail</Declaration>
-			
-			
-			<Anchor>//api/name/sendWelcomeEmail</Anchor>
+			<Anchor>//api/name/initWithLogger:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
