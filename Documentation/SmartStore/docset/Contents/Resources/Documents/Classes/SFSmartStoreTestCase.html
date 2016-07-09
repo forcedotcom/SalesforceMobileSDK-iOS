@@ -64,7 +64,17 @@
 		
 		<option value="//api/name/assertSameJSONWithExpected:actual:message:">- assertSameJSONWithExpected:actual:message:</option>
 		
+		<option value="//api/name/checkColumns:expectedColumns:store:">- checkColumns:expectedColumns:store:</option>
+		
+		<option value="//api/name/checkCreateTableStatment:expectedSqlStatementPrefix:store:">- checkCreateTableStatment:expectedSqlStatementPrefix:store:</option>
+		
+		<option value="//api/name/checkDatabaseIndexes:expectedSqlStatements:store:">- checkDatabaseIndexes:expectedSqlStatements:store:</option>
+		
+		<option value="//api/name/checkExplainQueryPlan:index:covering:dbOperation:store:">- checkExplainQueryPlan:index:covering:dbOperation:store:</option>
+		
 		<option value="//api/name/checkFtsRow:withExpectedEntry:withSoupIndexes:">- checkFtsRow:withExpectedEntry:withSoupIndexes:</option>
+		
+		<option value="//api/name/checkSoupIndex:expectedPath:expectedType:expectedColumnName:">- checkSoupIndex:expectedPath:expectedType:expectedColumnName:</option>
 		
 		<option value="//api/name/checkSoupRow:withExpectedEntry:withSoupIndexes:">- checkSoupRow:withExpectedEntry:withSoupIndexes:</option>
 		
@@ -73,6 +83,8 @@
 		<option value="//api/name/createFullTextIndexSpec:">- createFullTextIndexSpec:</option>
 		
 		<option value="//api/name/createIntegerIndexSpec:">- createIntegerIndexSpec:</option>
+		
+		<option value="//api/name/createJSON1IndexSpec:">- createJSON1IndexSpec:</option>
 		
 		<option value="//api/name/createSimpleIndexSpec:withType:">- createSimpleIndexSpec:withType:</option>
 		
@@ -240,6 +252,22 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/createJSON1IndexSpec:" title="createJSON1IndexSpec:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/createJSON1IndexSpec:">&ndash;&nbsp;createJSON1IndexSpec:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (NSDictionary *)createJSON1IndexSpec:(NSString *)<em>path</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/createSimpleIndexSpec:withType:" title="createSimpleIndexSpec:withType:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/createSimpleIndexSpec:withType:">&ndash;&nbsp;createSimpleIndexSpec:withType:</a></code>
 </h3>
@@ -283,6 +311,86 @@
 			
 
 			<div class="method-subsection method-declaration"><code>- (NSString *)getSoupTableName:(NSString *)<em>soupName</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/checkExplainQueryPlan:index:covering:dbOperation:store:" title="checkExplainQueryPlan:index:covering:dbOperation:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/checkExplainQueryPlan:index:covering:dbOperation:store:">&ndash;&nbsp;checkExplainQueryPlan:index:covering:dbOperation:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)checkExplainQueryPlan:(NSString *)<em>soupName</em> index:(NSUInteger)<em>index</em> covering:(BOOL)<em>covering</em> dbOperation:(NSString *)<em>dbOperation</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/checkColumns:expectedColumns:store:" title="checkColumns:expectedColumns:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/checkColumns:expectedColumns:store:">&ndash;&nbsp;checkColumns:expectedColumns:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)checkColumns:(NSString *)<em>tableName</em> expectedColumns:(NSArray *)<em>expectedColumns</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/checkDatabaseIndexes:expectedSqlStatements:store:" title="checkDatabaseIndexes:expectedSqlStatements:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/checkDatabaseIndexes:expectedSqlStatements:store:">&ndash;&nbsp;checkDatabaseIndexes:expectedSqlStatements:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)checkDatabaseIndexes:(NSString *)<em>tableName</em> expectedSqlStatements:(NSArray *)<em>expectedSqlStatements</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/checkCreateTableStatment:expectedSqlStatementPrefix:store:" title="checkCreateTableStatment:expectedSqlStatementPrefix:store:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/checkCreateTableStatment:expectedSqlStatementPrefix:store:">&ndash;&nbsp;checkCreateTableStatment:expectedSqlStatementPrefix:store:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)checkCreateTableStatment:(NSString *)<em>tableName</em> expectedSqlStatementPrefix:(NSString *)<em>expectedSqlStatementPrefix</em> store:(SFSmartStore *)<em>store</em></code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/checkSoupIndex:expectedPath:expectedType:expectedColumnName:" title="checkSoupIndex:expectedPath:expectedType:expectedColumnName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/checkSoupIndex:expectedPath:expectedType:expectedColumnName:">&ndash;&nbsp;checkSoupIndex:expectedPath:expectedType:expectedColumnName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>- (void)checkSoupIndex:(SFSoupIndex *)<em>indexSpec</em> expectedPath:(NSString *)<em>expectedPath</em> expectedType:(NSString *)<em>expectedType</em> expectedColumnName:(NSString *)<em>expectedColumnName</em></code></div>
 
 		    
 		</div>
@@ -366,7 +474,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

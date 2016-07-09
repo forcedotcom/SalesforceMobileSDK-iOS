@@ -871,6 +871,42 @@ By default this property is YES.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nullable, nonatomic, strong) NSMutableData *responseData</Declaration>
+			
+			
+			<Anchor>//api/name/responseData</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/set_0:</TokenIdentifier>
 			<Abstract type="html">Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.</Abstract>
 			<DeclaredIn>CSFAction.h</DeclaredIn>
@@ -1018,11 +1054,47 @@ fields. For example, all the parameters will be added using addParameterWithName
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseBlock</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
+			
+			
+			<Anchor>//api/name/responseBlock</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setError:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			<Declaration>@property (nonatomic, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
@@ -1032,9 +1104,9 @@ fields. For example, all the parameters will be added using addParameterWithName
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/error</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			<Declaration>@property (nonatomic, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
@@ -1044,9 +1116,9 @@ fields. For example, all the parameters will be added using addParameterWithName
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/error</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong, readonly) NSError *error</Declaration>
+			<Declaration>@property (nonatomic, strong) NSError *error</Declaration>
 			
 			
 			<Anchor>//api/name/error</Anchor>
@@ -1062,6 +1134,18 @@ fields. For example, all the parameters will be added using addParameterWithName
 			
 			
 			<Anchor>//api/name/actionWithHTTPMethod:onURL:withResponseBlock:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/init</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)init</Declaration>
+			
+			
+			<Anchor>//api/name/init</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		
@@ -1183,7 +1267,7 @@ fields. For example, all the parameters will be added using addParameterWithName
 			<Abstract type="html">Subclassable method that will be called when the action is about to call responseBlock.</Abstract>
 			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>- (void)completeOperationWithError:(NSError *)error</Declaration>
+			<Declaration>- (void)completeOperationWithError:(nullable NSError *)error</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>error</Name>
@@ -1255,7 +1339,7 @@ fields. For example, all the parameters will be added using addParameterWithName
 			<Abstract type="html">Method that can override the HTTP request process, and can allow a subclass to forcibly inject explicit response data without performing a network request.</Abstract>
 			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)overrideRequest:(NSURLRequest *)request withResponseData:(NSData **)data andHTTPResponse:(NSHTTPURLResponse **)response</Declaration>
+			<Declaration>- (BOOL)overrideRequest:(NSURLRequest *)request withResponseData:(NSData *_Nullable *_Nonnull)data andHTTPResponse:(NSHTTPURLResponse *_Nullable *_Nonnull)response</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>data</Name>
@@ -1279,6 +1363,30 @@ fields. For example, all the parameters will be added using addParameterWithName
 			
 			
 			<Anchor>//api/name/shouldReportProgressToParent</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDataTask:didReceiveData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionDataTask:(NSURLSessionDataTask *)task didReceiveData:(NSData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/sessionDataTask:didReceiveData:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionTask:didCompleteWithError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (void)sessionTask:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/sessionTask:didCompleteWithError:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		
@@ -1315,42 +1423,6 @@ fields. For example, all the parameters will be added using addParameterWithName
 			
 			
 			<Anchor>//api/name/basePath</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseBlock:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
-			
-			
-			<Anchor>//api/name/responseBlock</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
-			
-			
-			<Anchor>//api/name/responseBlock</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseBlock</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) CSFActionResponseBlock responseBlock</Declaration>
-			
-			
-			<Anchor>//api/name/responseBlock</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		
@@ -1463,42 +1535,6 @@ fields. For example, all the parameters will be added using addParameterWithName
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setResponseData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/responseData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFAction/responseData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSMutableData *responseData</Declaration>
-			
-			
-			<Anchor>//api/name/responseData</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setAuthRefreshInstance:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
@@ -1607,18 +1643,6 @@ fields. For example, all the parameters will be added using addParameterWithName
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDataTask:didReceiveData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)sessionDataTask:(NSURLSessionDataTask *)task didReceiveData:(NSData *)data</Declaration>
-			
-			
-			<Anchor>//api/name/sessionDataTask:didReceiveData:</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionDownloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
@@ -1655,23 +1679,11 @@ fields. For example, all the parameters will be added using addParameterWithName
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/sessionTask:didCompleteWithError:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)sessionTask:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error</Declaration>
-			
-			
-			<Anchor>//api/name/sessionTask:didCompleteWithError:</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/intervalForTimingKey:</TokenIdentifier>
 			<Abstract type="html">Returns timing information for this request based on the supplied option.</Abstract>
 			<DeclaredIn>CSFAction.h</DeclaredIn>
 			
-			<Declaration>- (NSTimeInterval)intervalForTimingKey:(NSString *)key</Declaration>
+			<Declaration>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>

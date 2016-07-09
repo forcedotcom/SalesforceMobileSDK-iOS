@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPushNotificationManager.html">
+	<File path="Classes/SFPBKDFData.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPushNotificationManager</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPBKDFData</TokenIdentifier>
+			<Abstract type="html">Data class for PBKDF-generated keys.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
             
 			
 			<NodeRef refid="50"/>
@@ -13,159 +13,172 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKey:</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/deviceToken</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/deviceToken</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKey</TokenIdentifier>
+			<Abstract type="html">The PBKDF-derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *derivedKey</Declaration>
 			
 			
-			<Anchor>//api/name/deviceToken</Anchor>
+			<Anchor>//api/name/derivedKey</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceSalesforceId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setSalt:</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/salt</TokenIdentifier>
+			<Abstract type="html">The salt used in conjunction with the plaintext input for creating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			<Declaration>@property (nonatomic, strong) NSData *salt</Declaration>
 			
 			
-			<Anchor>//api/name/deviceSalesforceId</Anchor>
+			<Anchor>//api/name/salt</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setNumDerivationRounds:</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>+ (SFPushNotificationManager *)sharedInstance</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForRemoteNotifications</TokenIdentifier>
-			<Abstract type="html">Register with APNS</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>- (void)registerForRemoteNotifications</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
 			
 			
-			<Anchor>//api/name/registerForRemoteNotifications</Anchor>
+			<Anchor>//api/name/numDerivationRounds</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
-			<Abstract type="html">Call this method from your app delegate&apos;s didRegisterForRemoteNotificationsWithDeviceToken</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/numDerivationRounds</TokenIdentifier>
+			<Abstract type="html">The number of derivation rounds used when generating the key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
 			
-			<Declaration>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceTokenData</Declaration>
+			<Declaration>@property (nonatomic, assign) NSUInteger numDerivationRounds</Declaration>
+			
+			
+			<Anchor>//api/name/numDerivationRounds</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/setDerivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPBKDFData/derivedKeyLength</TokenIdentifier>
+			<Abstract type="html">The length, in bytes, of the derived key.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) NSUInteger derivedKeyLength</Declaration>
+			
+			
+			<Anchor>//api/name/derivedKeyLength</Anchor>
+            <NodeRef refid="50"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPBKDFData/initWithKey:salt:derivationRounds:derivedKeyLength:</TokenIdentifier>
+			<Abstract type="html">Initializes the data object with its core components.</Abstract>
+			<DeclaredIn>SFPBKDFData.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithKey:(NSData *)key salt:(NSData *)salt derivationRounds:(NSUInteger)derivationRounds derivedKeyLength:(NSUInteger)derivedKeyLength</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>deviceTokenData</Name>
-					<Abstract type="html">The device token returned by APNS</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">The derived key.</Abstract>
+				</Parameter><Parameter>
+					<Name>salt</Name>
+					<Abstract type="html">The salt used with the input value to create the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivationRounds</Name>
+					<Abstract type="html">The number of derivation rounds used to generate the key.</Abstract>
+				</Parameter><Parameter>
+					<Name>derivedKeyLength</Name>
+					<Abstract type="html">The length of the derived key, in bytes.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForSalesforceNotifications</TokenIdentifier>
-			<Abstract type="html">Register for notifications with Salesforce
-Call this method after authenticating with Salesforce and registering with APNS</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)registerForSalesforceNotifications</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES for successful registration call made.</Abstract></ReturnValue>
-			<Anchor>//api/name/registerForSalesforceNotifications</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications</TokenIdentifier>
-			<Abstract type="html">Unregister from notifications with Salesforce
-Is called at log out</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications</Declaration>
-			
-			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications</Anchor>
-            <NodeRef refid="50"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications:</TokenIdentifier>
-			<Abstract type="html">Unregister from notifications with Salesforce
-Is called at log out</Abstract>
-			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)unregisterSalesforceNotifications:(SFUserAccount *)user</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">User account.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
-			<Anchor>//api/name/unregisterSalesforceNotifications:</Anchor>
+			<Anchor>//api/name/initWithKey:salt:derivationRounds:derivedKeyLength:</Anchor>
             <NodeRef refid="50"/>
 		</Token>
 		

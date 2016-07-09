@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeManager.html">
+	<File path="Classes/SFOAuthOrgAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeManager</TokenIdentifier>
-			<Abstract type="html">Class for managing storage, retrieval, and verification of passcodes.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFOAuthOrgAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Data class representing the org authentication configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
             
 			
 			<NodeRef refid="45"/>
@@ -13,255 +13,91 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFPasscodeManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The shared instance of the passcode manager.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setUseNativeBrowserForAuth:</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>+ (SFPasscodeManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
-			<ReturnValue><Abstract type="html">The shared instance of the passcode manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/useNativeBrowserForAuth</TokenIdentifier>
+			<Abstract type="html">Whether to use the native browser for authentication.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, readonly) BOOL useNativeBrowserForAuth</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/useNativeBrowserForAuth</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/encryptionKey</TokenIdentifier>
-			<Abstract type="html">The encryption key associated with the app.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/setAuthConfigDict:</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *encryptionKey</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
 			
 			
-			<Anchor>//api/name/encryptionKey</Anchor>
+			<Anchor>//api/name/authConfigDict</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPreferredPasscodeProvider:</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/authConfigDict</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFOAuthOrgAuthConfiguration/authConfigDict</TokenIdentifier>
+			<Abstract type="html">The raw dictionary data representing the org auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSDictionary *authConfigDict</Declaration>
 			
 			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
+			<Anchor>//api/name/authConfigDict</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/preferredPasscodeProvider</TokenIdentifier>
-			<Abstract type="html">The preferred passcode provider for the app.  If another provider was previously configured,
-the passcode manager will automatically update to the preferred provider at the next passcode
-update or verification.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFOAuthOrgAuthConfiguration/initWithConfigDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer.</Abstract>
+			<DeclaredIn>SFOAuthOrgAuthConfiguration.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *preferredPasscodeProvider</Declaration>
-			
-			
-			<Anchor>//api/name/preferredPasscodeProvider</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Adds a delegate to the list of passcode manager delegates.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)addDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
+			<Declaration>- (id)initWithConfigDict:(NSDictionary *)authConfigDict</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to add to the list.</Abstract>
+					<Name>authConfigDict</Name>
+					<Abstract type="html">The NSDictionary containing the org auth configuration.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/addDelegate:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)removeDelegate:(id&lt;SFPasscodeManagerDelegate&gt;)delegate</Declaration>
-			
-			
-			<Anchor>//api/name/removeDelegate:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/passcodeIsSet</TokenIdentifier>
-			<Abstract type="html">Whether or not a passcode has been set.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)passcodeIsSet</Declaration>
-			
-			<ReturnValue><Abstract type="html">Whether or not a passcode has been set.</Abstract></ReturnValue>
-			<Anchor>//api/name/passcodeIsSet</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/resetPasscode</TokenIdentifier>
-			<Abstract type="html">Reset the passcode in the keychain.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)resetPasscode</Declaration>
-			
-			
-			<Anchor>//api/name/resetPasscode</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/verifyPasscode:</TokenIdentifier>
-			<Abstract type="html">Verify the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)verifyPasscode:(NSString *)passcode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to verify.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the passcode verifies, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/verifyPasscode:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/changePasscode:</TokenIdentifier>
-			<Abstract type="html">Change the current passcode.  This method serves as an entry point for managing the change
-or removal of a passcode, notifications of the change, etc.  The setPasscode method, by
-comparison, handles the internals of actually setting a new passcode value.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)changePasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The new passcode to change to.  If nil or empty, this method will unset the
-existing passcode.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/changePasscode:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the passcode.</Abstract>
-			<DeclaredIn>SFPasscodeManager.h</DeclaredIn>
-			
-			<Declaration>- (void)setPasscode:(NSString *)newPasscode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newPasscode</Name>
-					<Abstract type="html">The passcode to set.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setPasscode:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/enumerateDelegates:</TokenIdentifier>
-			<Abstract type="html">Executes the given block against the set of delegates.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFPasscodeManagerDelegate&gt; ))block</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>block</Name>
-					<Abstract type="html">The block to execute against each delegate.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/enumerateDelegates:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKey:</TokenIdentifier>
-			<Abstract type="html">Set a value for the encryption key.  Note: this is just the internal setter for
-the encryptionKey property.  I.e. the value you set should be the end-result
-encryption key value.  Call setEncryptionKeyForPasscode if you want validation
-and encryption based on a plain-text passcode value.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)setEncryptionKey:(NSString *)newEncryptionKey</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>newEncryptionKey</Name>
-					<Abstract type="html">The new value for the encryption key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKey:</Anchor>
-            <NodeRef refid="45"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setEncryptionKeyForPasscode:</TokenIdentifier>
-			<Abstract type="html">Set the value of the encryption key, based on the input passcode.  Note: this method
-will not set the encryption key if a verification passcode is not set and valid, in
-the interests of maintaining a consistent passcode state.</Abstract>
-			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)setEncryptionKeyForPasscode:(NSString *)passcode</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>passcode</Name>
-					<Abstract type="html">The passcode to convert into an encryption key.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setEncryptionKeyForPasscode:</Anchor>
+			<Anchor>//api/name/initWithConfigDict:</Anchor>
             <NodeRef refid="45"/>
 		</Token>
 		

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Classes/SFUserActivityMonitor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFUserActivityMonitor</TokenIdentifier>
+			<Abstract type="html">Singleton class to monitor the application for user activity, and update SFInactivityTimerCenter when
+a change is detected.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
             
 			
 			<NodeRef refid="82"/>
@@ -13,59 +14,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be a kind of the given class</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserActivityMonitor/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the singleton instance of the class.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype)</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="82"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a give value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/startMonitoring</TokenIdentifier>
+			<Abstract type="html">Starts the application monitoring process.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)startMonitoring</Declaration>
 			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
+			
+			<Anchor>//api/name/startMonitoring</Anchor>
             <NodeRef refid="82"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a give value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserActivityMonitor/stopMonitoring</TokenIdentifier>
+			<Abstract type="html">Stops the application monitoring process.</Abstract>
+			<DeclaredIn>SFUserActivityMonitor.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (void)stopMonitoring</Declaration>
 			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			
+			<Anchor>//api/name/stopMonitoring</Anchor>
             <NodeRef refid="82"/>
 		</Token>
 		

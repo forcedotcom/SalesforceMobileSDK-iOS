@@ -43,6 +43,8 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 
 	
 	
@@ -134,6 +136,14 @@
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Utility class for data encryption operations.</p>
+					</div>
+					
+					
 
 					
 					
@@ -157,7 +167,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The file to write the encrypted/decrypted data to used in CHCryptoModeDisk <a href="#//api/name/mode">mode</a></p>
+				<p>The output file for encrypted/decrypted data in CHCryptoModeDisk <a href="#//api/name/mode">mode</a>.</p>
 			</div>
 			
 		    
@@ -198,7 +208,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns the current mode of operation of the CHCrypto class</p>
+				<p>Returns the current mode of operation for the CHCrypto class.</p>
 			</div>
 			
 		    
@@ -239,7 +249,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Designated initializer</p>
+				<p>Initializer. Calls the designated initializer, passing nil to <code>iv</code>.</p>
 			</div>
 			
 		    
@@ -254,17 +264,17 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>operation</code></th>
-						<td><p>operation to be performed encrypt/decrypt</p></td>
+						<td><p>Operation to be performed encrypt/decrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>Key used for encyption/decryption pass nil to use the default key</p></td>
+						<td><p>Key used for encyption/decryption. Pass nil to use the default key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>mode</code></th>
-						<td><p>Mode which determines whether to perform operation in memory at once or in chunks writing to the disk</p></td>
+						<td><p>Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.</p></td>
 					</tr>
 				
 				</table>
@@ -302,7 +312,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Designated initializer</p>
+				<p>Designated initializer.</p>
 			</div>
 			
 		    
@@ -317,22 +327,22 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>operation</code></th>
-						<td><p>operation to be performed encrypt/decrypt</p></td>
+						<td><p>Operation to be performed encrypt/decrypt.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>Key used for encyption/decryption pass nil to use the default key</p></td>
+						<td><p>Key used for encyption/decryption pass nil to use the default key.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>iv</code></th>
-						<td><p>initialization vector, if set to nil, uses the default initialization vector</p></td>
+						<td><p>Initialization vector. If set to nil, uses the default initialization vector.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>mode</code></th>
-						<td><p>Mode which determines whether to perform operation in memory at once or in chunks writing to the disk</p></td>
+						<td><p>Mode which determines whether to perform operation in memory at once or in chunks writing to the disk.</p></td>
 					</tr>
 				
 				</table>
@@ -370,8 +380,8 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Encrypts or decrypts the passed in data, the input data is assumed to be passed in as a chunk
-Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be called</p>
+				<p>Encrypts or decrypts the passed in data. The input data is assumed to be passed in as a chunk.
+This method requires a call to <code>- finalizeCipher</code>.</p>
 			</div>
 			
 		    
@@ -386,7 +396,7 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>inData</code></th>
-						<td><p>input data</p></td>
+						<td><p>Input data.</p></td>
 					</tr>
 				
 				</table>
@@ -424,7 +434,7 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Decrypt the passed in data initializer, performs the decryption in memory</p>
+				<p>Decrypts the passed in data initializer, performing the decryption in memory.</p>
 			</div>
 			
 		    
@@ -439,13 +449,18 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>encrypted input data</p></td>
+						<td><p>Encrypted input data.</p></td>
 					</tr>
 				
 				</table>
 			</div>
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Decrypted data.</p>
+			</div>
 			
 
 			
@@ -477,7 +492,7 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Encrypt the passed in data initializer, performs the encryption in memory</p>
+				<p>Encrypts the passed in data initializer, performing the encryption in memory.</p>
 			</div>
 			
 		    
@@ -492,13 +507,18 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>data</code></th>
-						<td><p>input data</p></td>
+						<td><p>Input data.</p></td>
 					</tr>
 				
 				</table>
 			</div>
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Encrypted data.</p>
+			</div>
 			
 
 			
@@ -530,7 +550,7 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Finalize the the encryption/decryption process</p>
+				<p>Finalizes the encryption/decryption process.</p>
 			</div>
 			
 		    
@@ -586,12 +606,12 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>inputFile</code></th>
-						<td><p>the name of the encrypted <a href="#//api/name/file">file</a></p></td>
+						<td><p>Name of the encrypted <a href="#//api/name/file">file</a>.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>outputFile</code></th>
-						<td><p>the name of the decrypted <a href="#//api/name/file">file</a></p></td>
+						<td><p>Name of the decrypted <a href="#//api/name/file">file</a>.</p></td>
 					</tr>
 				
 				</table>
@@ -601,7 +621,7 @@ Method requires <a href="#//api/name/finalizeCipher">finalizeCipher</a> to be ca
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the <a href="#//api/name/file">file</a> was successfully decrypted; NO otherwise</p>
+				<p>YES if the <a href="#//api/name/file">file</a> was successfully decrypted; NO otherwise.</p>
 			</div>
 			
 
@@ -800,7 +820,7 @@ the app.</p>
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the base app ID was configured during this app launch, NO otherwise.</p>
+				<p>YES if the base app ID was configured during this app launch; NO otherwise.</p>
 			</div>
 			
 
@@ -965,7 +985,7 @@ the app.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

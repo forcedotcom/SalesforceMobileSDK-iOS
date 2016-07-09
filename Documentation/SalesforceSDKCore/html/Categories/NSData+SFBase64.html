@@ -105,13 +105,11 @@
 					<div class="section section-overview">
 						<a title="Overview" name="overview"></a>
 						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>Extension to NSData class to provide common functions</p>
-
-<p>Added functionalities include
-base64 encode of a NSData
-MD5 of a NSData
-Gzip deflat of a gzip compressed NSData
-Hex version of a NSData</p>
+						<p>Extension to NSData class to provide common functions. Added functionality includes:
+&ndash;base64 encoding of an NSData object
+&ndash;MD5 version of an NSData object
+&ndash;Gzip deflated representation of a gzip-compressed NSData object
+&ndash;Hex version of an NSData object</p>
 					</div>
 					
 					
@@ -138,7 +136,7 @@ Hex version of a NSData</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The specified number of random bytes or <code>nil</code> if an error occurs.</p>
+				<p>Returns a specified number of random bytes.</p>
 			</div>
 			
 		    
@@ -147,11 +145,23 @@ Hex version of a NSData</p>
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>length</code></th>
+						<td><p>The number of bytes of random data to return.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The specified number of random bytes or <code>nil</code> if an error occurs.</p>
+				<p>The specified quantity of random bytes or <code>nil</code> if an error occurs.</p>
 			</div>
 			
 
@@ -184,7 +194,7 @@ Hex version of a NSData</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create a new base64 encoding of this NSData</p>
+				<p>Creates a base64 encoded string for this NSData object.</p>
 			</div>
 			
 		    
@@ -194,6 +204,11 @@ Hex version of a NSData</p>
 		    
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A base64 encoded version of the data.</p>
+			</div>
 			
 
 			
@@ -225,7 +240,7 @@ Hex version of a NSData</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return base64 encoded string for the currrent NSData</p>
+				<p>Returns a base64 encoded string for this NSData object.</p>
 			</div>
 			
 		    
@@ -235,6 +250,11 @@ Hex version of a NSData</p>
 		    
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A base64 encoded version of the data.</p>
+			</div>
 			
 
 			
@@ -266,7 +286,7 @@ Hex version of a NSData</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create a new base64 encoding of this NSData.</p>
+				<p>Creates a base64 encoding of this NSData. Similar to <a href="#//api/name/newBase64Encoding">newBase64Encoding</a>.</p>
 			</div>
 			
 		    
@@ -275,16 +295,28 @@ Hex version of a NSData</p>
 
 		    
 			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>Similar to <a href="#//api/name/newBase64Encoding"><code>newBase64Encoding</code></a></p>
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>base64</code></th>
+						<td><p>The base64 encoding to use in the new NSData object.</p></td>
+					</tr>
+				
+				</table>
 			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The base64 encoded NSData object.</p>
+			</div>
+			
+
+			
+
 			
 
 			
@@ -310,10 +342,52 @@ Hex version of a NSData</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Creates an NSData object from a base64 encoded string.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSData *)dataFromBase64String:(NSString *)<em>encoding</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>encoding</code></th>
+						<td><p>The string to convert to NSData.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>A base64-encoded string version of this object&rsquo;s data.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">NSData+SFAdditions.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div>
@@ -331,7 +405,7 @@ Hex version of a NSData</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

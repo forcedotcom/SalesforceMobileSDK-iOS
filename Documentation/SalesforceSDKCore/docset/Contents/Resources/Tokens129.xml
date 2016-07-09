@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKReachabilityNetworkStatus.html">
+	<File path="Constants/SFLogContext.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKReachabilityNetworkStatus</TokenIdentifier>
-			<Abstract type="html">The different network statuses based on reachability.
-@constant SFSDKReachabilityNotReachable The network is not reachable.
-@constant SFSDKReachabilityReachableViaWiFi The network is reachable over WiFi.
-@constant SFSDKReachabilityReachableViaWWAN The network is reachable over cellular.</Abstract>
-			<DeclaredIn>SFSDKReachability.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFLogContext</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger.h</DeclaredIn>
             
 			
 			<NodeRef refid="129"/>
@@ -17,31 +14,11 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKReachabilityNotReachable</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/MobileSDKLogContext</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>SFSDKReachabilityNotReachable</Declaration>
+            <Declaration>MobileSDKLogContext</Declaration>
             
-            <DeclaredIn>SFSDKReachability.h</DeclaredIn>
-            
-            <NodeRef refid="129"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKReachabilityReachableViaWiFi</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKReachabilityReachableViaWiFi</Declaration>
-            
-            <DeclaredIn>SFSDKReachability.h</DeclaredIn>
-            
-            <NodeRef refid="129"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKReachabilityReachableViaWWAN</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKReachabilityReachableViaWWAN</Declaration>
-            
-            <DeclaredIn>SFSDKReachability.h</DeclaredIn>
+            <DeclaredIn>SFLogger.h</DeclaredIn>
             
             <NodeRef refid="129"/>
         </Token>

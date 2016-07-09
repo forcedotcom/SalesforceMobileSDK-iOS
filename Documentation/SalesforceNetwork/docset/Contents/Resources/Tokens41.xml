@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskPriority.html">
+	<File path="Constants/CSFForceTaskCallType.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskPriority</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskCallType</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityUnknown</Declaration>
+            <Declaration>CSFForceTaskCallTypeUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityHigh</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInternal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityHigh</Declaration>
+            <Declaration>CSFForceTaskCallTypeInternal</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityNormal</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeInbound</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityNormal</Declaration>
+            <Declaration>CSFForceTaskCallTypeInbound</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityLow</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskCallTypeOutbound</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskPriorityLow</Declaration>
+            <Declaration>CSFForceTaskCallTypeOutbound</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

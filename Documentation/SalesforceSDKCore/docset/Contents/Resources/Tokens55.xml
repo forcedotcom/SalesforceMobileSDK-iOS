@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKDatasharingHelper.html">
+	<File path="Classes/SFPathUtil.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
-			<Abstract type="html">@class SFSDKDatasharingHelper
-Class used to app data sharing settings</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPathUtil</TokenIdentifier>
+			<Abstract type="html">This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
             
 			
 			<NodeRef refid="55"/>
@@ -14,158 +13,237 @@ Class used to app data sharing settings</Abstract>
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupEnabled:</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/createFileItemIfNotExist:skipBackup:</TokenIdentifier>
+			<Abstract type="html">Creates the file at the specified path if it doesn&apos;t exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>+ (void)createFileItemIfNotExist:(NSString *)path skipBackup:(BOOL)skipBackup</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">The path where the file should be created</Abstract>
+				</Parameter><Parameter>
+					<Name>skipBackup</Name>
+					<Abstract type="html">YES if the file should be marked to not be backed up with iCloud</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/createFileItemIfNotExist:skipBackup:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationDocumentDirectory</TokenIdentifier>
+			<Abstract type="html">Returns application&apos;s dcoument directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>+ (NSString *)applicationDocumentDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/applicationDocumentDirectory</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable app group.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationCacheDirectory</TokenIdentifier>
+			<Abstract type="html">Returns application&apos;s cache directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
+			<Declaration>+ (NSString *)applicationCacheDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/appGroupEnabled</Anchor>
+			<Anchor>//api/name/applicationCacheDirectory</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainSharingEnabled:</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/applicationLibraryDirectory</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for libray folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			<Declaration>+ (NSString *)applicationLibraryDirectory</Declaration>
 			
 			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+			<Anchor>//api/name/applicationLibraryDirectory</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForDocumentFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory.</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			<Declaration>+ (NSString *)absolutePathForDocumentFolder:(NSString *)folder</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Document directory</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+			<Anchor>//api/name/absolutePathForDocumentFolder:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
-			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForCacheFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
+			<Declaration>+ (NSString *)absolutePathForCacheFolder:(NSString *)folder</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Cache directory</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainSharingEnabled</Anchor>
+			<Anchor>//api/name/absolutePathForCacheFolder:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForLibraryFolder:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for libray folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			<Declaration>+ (NSString *)absolutePathForLibraryFolder:(NSString *)folder</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Library directory</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/absolutePathForLibraryFolder:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFilePath:markAsNotBackup:</TokenIdentifier>
+			<Abstract type="html">Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+The file or path that is passed in must already exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			<Declaration>+ (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">Path to file or folder</Abstract>
+				</Parameter><Parameter>
+					<Name>notbackupFlag</Name>
+					<Abstract type="html">Set to YES if need to mark as do not back up by iCloud</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/secureFilePath:markAsNotBackup:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the app group to use to share data.</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForDocumentFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
+			<Declaration>+ (NSString *)absolutePathForDocumentFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Document directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/appGroupName</Anchor>
+			<Anchor>//api/name/absolutePathForDocumentFolder:fileProtection:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForCacheFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for a directory/folder located in the apps document directory</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			<Declaration>+ (NSString *)absolutePathForCacheFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Cache directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
+			<Anchor>//api/name/absolutePathForCacheFolder:fileProtection:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/absolutePathForLibraryFolder:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Returns the absolute path for library folder</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			<Declaration>+ (NSString *)absolutePathForLibraryFolder:(NSString *)folder fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>folder</Name>
+					<Abstract type="html">Folder to create under Library directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
+			<Anchor>//api/name/absolutePathForLibraryFolder:fileProtection:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
-			<Abstract type="html">Name of the keychain group to use</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFilePath:markAsNotBackup:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+The file or path that is passed in must already exist</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
+			<Declaration>+ (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">Path to file or folder</Abstract>
+				</Parameter><Parameter>
+					<Name>notbackupFlag</Name>
+					<Abstract type="html">Set to YES if need to mark as do not back up by iCloud</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/keychainGroupName</Anchor>
+			<Anchor>//api/name/secureFilePath:markAsNotBackup:fileProtection:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSDKDatasharingHelper/sharedInstance</TokenIdentifier>
-			<Abstract type="html">Shared singleton</Abstract>
-			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPathUtil/secureFileAtPath:recursive:fileProtection:</TokenIdentifier>
+			<Abstract type="html">Add DO NOT back up flag to the file resource specified by the file path</Abstract>
+			<DeclaredIn>SFPathUtil.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
+			<Declaration>+ (void)secureFileAtPath:(NSString *)filePath recursive:(BOOL)recursive fileProtection:(NSString *)fileProtection</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>filePath</Name>
+					<Abstract type="html">file path</Abstract>
+				</Parameter><Parameter>
+					<Name>recursive</Name>
+					<Abstract type="html">If filePath points to a directlory, set to YES to recursively apply skip backup attribute to all files under the directory including sub-directory under the directory</Abstract>
+				</Parameter><Parameter>
+					<Name>fileProtection</Name>
+					<Abstract type="html">File protection string. If nil, NSFileProtectionComplete will be used</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/sharedInstance</Anchor>
+			<Anchor>//api/name/secureFileAtPath:recursive:fileProtection:</Anchor>
             <NodeRef refid="55"/>
 		</Token>
 		

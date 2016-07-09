@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
+	<File path="Classes/SFCryptChunks.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
-			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCryptChunks</TokenIdentifier>
+			<Abstract type="html">SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
+It does not allocate any memory to perform the encryption / decryption,
+the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="13"/>
@@ -13,19 +15,157 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
-			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
-			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForEncryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for encryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithUser:(SFUserAccount *)user</Declaration>
+			<Declaration>- (instancetype)initForEncryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user providing the details.</Abstract>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for encryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForEncryptionWithKey:initializationVector:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForDecryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for decryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initForDecryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">the cipher key.</Abstract>
+				</Parameter><Parameter>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for decryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForDecryptionWithKey:initializationVector:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptBuffer:bufferLen:</TokenIdentifier>
+			<Abstract type="html">A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
+the delegate will then be called with results as many times as needed:
+- the delegate may be called multiple times with chunk results; or
+- the delegate may not be called at all, if there isn&apos;t enough data to produce a result.
+This method utilizes a stack memory buffer the size of 2 cipher blocks.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>- (void)cryptBuffer:(const uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the buffer data to be encrypted or decrypted.</Abstract>
+				</Parameter><Parameter>
+					<Name>len</Name>
+					<Abstract type="html">the buffer size.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithUser:</Anchor>
+			<Anchor>//api/name/cryptBuffer:bufferLen:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setCryptFinalized:</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/finalizeCrypt</TokenIdentifier>
+			<Abstract type="html">Finalizes the crypt operation. The delegate may be called with chunk results if the final crypt produced any results.
+The final result is never bigger than the cipher block size.
+This method utilizes a stack memory buffer the size of 1 cipher block.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>- (void)finalizeCrypt</Declaration>
+			
+			
+			<Anchor>//api/name/finalizeCrypt</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		

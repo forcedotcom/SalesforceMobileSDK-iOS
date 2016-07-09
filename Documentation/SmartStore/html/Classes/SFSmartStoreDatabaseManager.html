@@ -66,6 +66,8 @@
 	
 	<optgroup label="Class Methods">
 		
+		<option value="//api/name/encryptDbWithStoreName:storePath:key:error:">+ encryptDbWithStoreName:storePath:key:error:</option>
+		
 		<option value="//api/name/encryptOrUnencryptDb:name:path:oldKey:newKey:error:">+ encryptOrUnencryptDb:name:path:oldKey:newKey:error:</option>
 		
 		<option value="//api/name/openDatabaseWithPath:key:error:">+ openDatabaseWithPath:key:error:</option>
@@ -77,6 +79,8 @@
 		<option value="//api/name/sharedManager">+ sharedManager</option>
 		
 		<option value="//api/name/sharedManagerForUser:">+ sharedManagerForUser:</option>
+		
+		<option value="//api/name/unencryptDbWithStoreName:storePath:key:error:">+ unencryptDbWithStoreName:storePath:key:error:</option>
 		
 		<option value="//api/name/verifyDatabaseAccess:error:">+ verifyDatabaseAccess:error:</option>
 		
@@ -617,6 +621,79 @@
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/encryptDbWithStoreName:storePath:key:error:" title="encryptDbWithStoreName:storePath:key:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/encryptDbWithStoreName:storePath:key:error:">+&nbsp;encryptDbWithStoreName:storePath:key:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Encrypts an existing store</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)encryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the store representing the DB.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storePath</code></th>
+						<td><p>The path specifying the store location.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>The encryption key to be used for encrypting the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Returned if there&rsquo;s an error with encrypting the data.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the encryption was successful, or NO if the encryption fails at any point in the process.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreDatabaseManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/unencryptDb:name:oldKey:error:" title="unencryptDb:name:oldKey:error:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/unencryptDb:name:oldKey:error:">&ndash;&nbsp;unencryptDb:name:oldKey:error:</a></code>
 </h3>
@@ -669,6 +746,79 @@
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>The unencrypted database, or the original encrypted database if the process fails at any point.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStoreDatabaseManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unencryptDbWithStoreName:storePath:key:error:" title="unencryptDbWithStoreName:storePath:key:error:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unencryptDbWithStoreName:storePath:key:error:">+&nbsp;unencryptDbWithStoreName:storePath:key:error:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Unencrypts an encrypted store, back to plaintext.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (BOOL)unencryptDbWithStoreName:(NSString *)<em>storeName</em> storePath:(NSString *)<em>storePath</em> key:(NSString *)<em>key</em> error:(NSError **)<em>error</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storeName</code></th>
+						<td><p>The name of the store associated with the DB.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>storePath</code></th>
+						<td><p>The path specifying the store location.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>The original encryption key of the database.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>Returned if there&rsquo;s an error during the process.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if the existing store was successfully unencrypted, or NO if the process fails at any point.</p>
 			</div>
 			
 
@@ -936,7 +1086,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>storeName</code></th>
-						<td><p>The name of the store (excluding paths)</p></td>
+						<td><p>The name of the store (excluding paths).</p></td>
 					</tr>
 				
 				</table>
@@ -946,7 +1096,7 @@
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>full filesystem path for the store db file</p>
+				<p>Full filesystem path for the store DB file.</p>
 			</div>
 			
 
@@ -993,13 +1143,13 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>error</code></th>
-						<td><p>The output NSError parameter that will be populated in the event of an error.</p></td>
+						<th scope="row" class="argument-name"><code>dbPath</code></th>
+						<td><p>The instance of the database to read.</p></td>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>db</code></th>
-						<td><p>The instance of the database to read.</p></td>
+						<th scope="row" class="argument-name"><code>error</code></th>
+						<td><p>The output NSError parameter that will be populated in the event of an error.</p></td>
 					</tr>
 				
 				</table>
@@ -1009,7 +1159,7 @@
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if the database can be read, NO otherwise.</p>
+				<p>YES if the database can be read.</p>
 			</div>
 			
 
@@ -1237,7 +1387,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

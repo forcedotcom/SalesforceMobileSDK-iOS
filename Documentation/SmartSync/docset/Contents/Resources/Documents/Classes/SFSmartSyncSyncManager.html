@@ -76,6 +76,8 @@
 	
 	<optgroup label="Instance Methods">
 		
+		<option value="//api/name/cleanResyncGhosts:completionStatusBlock:">- cleanResyncGhosts:completionStatusBlock:</option>
+		
 		<option value="//api/name/getDirtyRecordIds:idField:">- getDirtyRecordIds:idField:</option>
 		
 		<option value="//api/name/getSyncStatus:">- getSyncStatus:</option>
@@ -151,7 +153,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing sync manager instance by user.  Configured SmartStore store will be
+				<p>Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
 the default store for the user.</p>
 			</div>
 			
@@ -205,7 +207,7 @@ the default store for the user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Singleton method for accessing a sync manager based on user and store name.  Configured SmartStore
+				<p>Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
 store will be the store with the given name for the given user.</p>
 			</div>
 			
@@ -317,7 +319,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Removes the shared instance associated with the specified user</p>
+				<p>Removes the shared instance associated with the specified user.</p>
 			</div>
 			
 		    
@@ -332,7 +334,7 @@ store will be the store with the given name for the given user.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>user</code></th>
-						<td><p>The user</p></td>
+						<td><p>The user.</p></td>
 					</tr>
 				
 				</table>
@@ -481,8 +483,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return details about a sync
-@param syncId</p>
+				<p>Returns details about a sync.</p>
 			</div>
 			
 		    
@@ -490,6 +491,18 @@ store will be the store with the given name for the given user.</p>
 			<div class="method-subsection method-declaration"><code>- (SFSyncState *)getSyncStatus:(NSNumber *)<em>syncId</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncId</code></th>
+						<td><p>Sync ID.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -523,7 +536,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create and run a sync down that will overwrite any modified records</p>
+				<p>Creates and runs a sync down that will overwrite any modified records.</p>
 			</div>
 			
 		    
@@ -564,7 +577,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create and run a sync down</p>
+				<p>Creates and runs a sync down.</p>
 			</div>
 			
 		    
@@ -605,7 +618,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Resync</p>
+				<p>Performs a resync.</p>
 			</div>
 			
 		    
@@ -646,7 +659,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create and run a sync up with the default <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+				<p>Creates and runs a sync up with the default <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
 			</div>
 			
 		    
@@ -714,7 +727,7 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Create and run a sync up with the configured <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
+				<p>Creates and runs a sync up with the configured <a href="../Classes/SFSyncUpTarget.html">SFSyncUpTarget</a>.</p>
 			</div>
 			
 		    
@@ -776,6 +789,65 @@ store will be the store with the given name for the given user.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/cleanResyncGhosts:completionStatusBlock:" title="cleanResyncGhosts:completionStatusBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/cleanResyncGhosts:completionStatusBlock:">&ndash;&nbsp;cleanResyncGhosts:completionStatusBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Removes local copies of records that have been deleted on the server
+or do not match the query results on the server anymore.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)cleanResyncGhosts:(NSNumber *)<em>syncId</em> completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)<em>completionStatusBlock</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>syncId</code></th>
+						<td><p>Sync ID.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completionStatusBlock</code></th>
+						<td><p>Completion status block.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartSyncSyncManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/getDirtyRecordIds:idField:" title="getDirtyRecordIds:idField:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/getDirtyRecordIds:idField:">&ndash;&nbsp;getDirtyRecordIds:idField:</a></code>
 </h3>
@@ -787,12 +859,12 @@ store will be the store with the given name for the given user.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return ids (specified id field) from dirty records in the given soup.</p>
+				<p>Returns IDs (specified ID field) from dirty records in the given soup.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSSet *)getDirtyRecordIds:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (NSOrderedSet *)getDirtyRecordIds:(NSString *)<em>soupName</em> idField:(NSString *)<em>idField</em></code></div>
 
 		    
 			
@@ -848,7 +920,7 @@ store will be the store with the given name for the given user.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

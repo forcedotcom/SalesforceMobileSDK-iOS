@@ -481,7 +481,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return dictionary for this SFSoupIndex object with or without column name</p>
+				<p>Returns a dictionary For this SFSoupIndex object with or without column name</p>
 			</div>
 			
 		    
@@ -496,7 +496,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>withColumnName</code></th>
-						<td><p>if YES, column name is included in returned dictionary</p></td>
+						<td><p>If YES, column name is included in returned dictionary</p></td>
 					</tr>
 				
 				</table>
@@ -534,9 +534,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return array of dictionaries given an array of SFSoupIndex or NSDictionary
-@param arrayOfSoupIndexes
-@param withColumnName</p>
+				<p>Returns an array of NSDictionary objects for a given array of soup indexes, using the given column name as the index.</p>
 			</div>
 			
 		    
@@ -545,11 +543,28 @@
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>arrayOfSoupIndexes</code></th>
+						<td><p>Array of soup indexes</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>withColumnName</code></th>
+						<td><p>If YES, column name is included in returned dictionary</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>array of dictionaries.</p>
+				<p>Array of NSDictionary objects</p>
 			</div>
 			
 
@@ -582,8 +597,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Return array of SFSoupIndex given an array of SFSoupIndex or NSDictionary
-@param arrayOfDictionaries</p>
+				<p>Returns an array of SFSoupIndex objects for a given array of soup indexes.</p>
 			</div>
 			
 		    
@@ -592,11 +606,23 @@
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>arrayOfDictionaries</code></th>
+						<td><p>Array of dictionaries</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>array of SFSoupIndex.</p>
+				<p>Array of SFSoupIndex objects</p>
 			</div>
 			
 
@@ -627,10 +653,52 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a map <a href="#//api/name/path">path</a> to SFSoupIndex</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (NSDictionary *)mapForSoupIndexes:(NSArray *)<em>soupIndexes</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupIndexes</code></th>
+						<td><p>array of SFSoupIndex objects</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Dictionary that maps paths to soup indexes</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoupIndex.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -643,10 +711,52 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns YES if any of the indexes are full text</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>+ (BOOL)hasFts:(NSArray *)<em>soupIndexes</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupIndexes</code></th>
+						<td><p>array of SFSoupIndex objects</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>YES if any of the indexes are full text</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoupIndex.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -659,10 +769,40 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Using the <a href="#//api/name/path">path</a> and <a href="#//api/name/indexType">indexType</a> property values, constructs a string in the format &ldquo;path&ndash;indexType&rdquo;.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>- (NSString *)getPathType</code></div>
 
 		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>String containing the <a href="#//api/name/path">path</a> and indext type, separated by &ldquo;&ndash;&rdquo;.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSoupIndex.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div>
@@ -680,7 +820,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

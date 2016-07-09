@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKTestCredentialsData.html">
+	<File path="Classes/SFSDKDatasharingHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTestCredentialsData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDatasharingHelper</TokenIdentifier>
+			<Abstract type="html">@class SFSDKDatasharingHelper
+Class used to app data sharing settings</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="62"/>
@@ -13,302 +14,158 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/initWithDict:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithDict:(NSDictionary *)credentialsDict</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/initWithDict:</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setAccessToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable app group.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic) BOOL appGroupEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/appGroupEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/accessToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainSharingEnabled:</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *accessToken</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/accessToken</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRefreshToken:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainSharingEnabled</TokenIdentifier>
+			<Abstract type="html">Set to YES to enable keychain sharing.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic) BOOL keychainSharingEnabled</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/keychainSharingEnabled</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/refreshToken</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setAppGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *refreshToken</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/refreshToken</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setIdentityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/appGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the app group to use to share data.</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *appGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/appGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/identityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/setKeychainGroupName:</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *identityUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/identityUrl</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setInstanceUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDatasharingHelper/keychainGroupName</TokenIdentifier>
+			<Abstract type="html">Name of the keychain group to use</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *keychainGroupName</Declaration>
 			
 			
-			<Anchor>//api/name/instanceUrl</Anchor>
+			<Anchor>//api/name/keychainGroupName</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/instanceUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKDatasharingHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Shared singleton</Abstract>
+			<DeclaredIn>SFSDKDatasharingHelper.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, readonly) NSString *instanceUrl</Declaration>
-			
-			
-			<Anchor>//api/name/instanceUrl</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setClientId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
+			<Declaration>+ (instancetype)sharedInstance</Declaration>
 			
 			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/clientId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *clientId</Declaration>
-			
-			
-			<Anchor>//api/name/clientId</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setRedirectUri:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/redirectUri</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *redirectUri</Declaration>
-			
-			
-			<Anchor>//api/name/redirectUri</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setLoginHost:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/loginHost</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *loginHost</Declaration>
-			
-			
-			<Anchor>//api/name/loginHost</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/setCommunityUrl:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
-            <NodeRef refid="62"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTestCredentialsData/communityUrl</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSDKTestCredentialsData.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *communityUrl</Declaration>
-			
-			
-			<Anchor>//api/name/communityUrl</Anchor>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="62"/>
 		</Token>
 		

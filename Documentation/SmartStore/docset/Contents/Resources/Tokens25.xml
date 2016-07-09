@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFSoupQuerySortOrder.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQuerySortOrder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+			
+			<NodeRef refid="25"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderAscending</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQuerySortOrderAscending</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="25"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQuerySortOrderDescending</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFSoupQuerySortOrderDescending</Declaration>
+            
+            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            
+            <NodeRef refid="25"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

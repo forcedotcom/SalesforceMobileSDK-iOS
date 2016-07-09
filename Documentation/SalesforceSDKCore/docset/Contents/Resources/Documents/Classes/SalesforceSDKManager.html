@@ -86,7 +86,11 @@
 		
 		<option value="//api/name/sdkManagerFlow">sdkManagerFlow</option>
 		
-		<option value="//api/name/snapshotView">snapshotView</option>
+		<option value="//api/name/snapshotDismissalAction">snapshotDismissalAction</option>
+		
+		<option value="//api/name/snapshotPresentationAction">snapshotPresentationAction</option>
+		
+		<option value="//api/name/snapshotViewControllerCreationAction">snapshotViewControllerCreationAction</option>
 		
 		<option value="//api/name/switchUserAction">switchUserAction</option>
 		
@@ -188,7 +192,7 @@ backgrounding and foregrounding state.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The class instance to be used to instantiate the singleton.</p>
+				<p>Class instance to be used to instantiate the singleton.</p>
 			</div>
 			
 		    
@@ -196,6 +200,18 @@ backgrounding and foregrounding state.</p>
 			<div class="method-subsection method-declaration"><code>+ (void)setInstanceClass:(Class)<em>className</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>className</code></th>
+						<td><p>Name of instantiator class.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -234,7 +250,7 @@ backgrounding and foregrounding state.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (instancetype)sharedManager</code></div>
+			<div class="method-subsection method-declaration"><code>+ (nonnull instancetype)sharedManager</code></div>
 
 		    
 			
@@ -273,10 +289,35 @@ backgrounding and foregrounding state.</p>
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>The OAuth configuration parameters defined in the developer&rsquo;s Salesforce connected app.</p>
+			</div>
+			
+		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFSDKAppConfig *appConfig</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -378,7 +419,7 @@ backgrounding and foregrounding state.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *connectedAppId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *connectedAppId</code></div>
 
 		    
 			
@@ -419,7 +460,7 @@ backgrounding and foregrounding state.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *connectedAppCallbackUri</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri</code></div>
 
 		    
 			
@@ -460,7 +501,7 @@ backgrounding and foregrounding state.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *authScopes</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSArray&lt;NSString*&gt; *authScopes</code></div>
 
 		    
 			
@@ -543,7 +584,7 @@ value is YES.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction</code></div>
 
 		    
 			
@@ -584,7 +625,7 @@ value is YES.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction</code></div>
 
 		    
 			
@@ -625,7 +666,7 @@ value is YES.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction</code></div>
 
 		    
 			
@@ -666,7 +707,7 @@ value is YES.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction</code></div>
 
 		    
 			
@@ -707,7 +748,7 @@ value is YES.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction</code></div>
 
 		    
 			
@@ -774,8 +815,8 @@ sensitive data from being displayed outside of the app context.  Default is YES.
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/snapshotView" title="snapshotView"></a>
-	<h3 class="method-title"><code><a href="#//api/name/snapshotView">&nbsp;&nbsp;snapshotView</a></code>
+	<a name="//api/name/snapshotViewControllerCreationAction" title="snapshotViewControllerCreationAction"></a>
+	<h3 class="method-title"><code><a href="#//api/name/snapshotViewControllerCreationAction">&nbsp;&nbsp;snapshotViewControllerCreationAction</a></code>
 </h3>
 
 	<div class="method-info">
@@ -785,13 +826,102 @@ sensitive data from being displayed outside of the app context.  Default is YES.
 			
 			
 			<div class="method-subsection brief-description">
-				<p>A custom view to use as the &ldquo;image&rdquo; that represents the app display when it is backgrounded.
-Default will be an opaque white view.</p>
+				<p>The block to provide custom view to use as the &ldquo;image&rdquo; that represents the app display when it is backgrounded.
+@discussion
+This action is called when <a href="#//api/name/useSnapshotView"><code>useSnapshotView</code></a> is YES. If this action is not set or if nil is returned,
+a default opaque white view will be used.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIView *snapshotView</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/snapshotPresentationAction" title="snapshotPresentationAction"></a>
+	<h3 class="method-title"><code><a href="#//api/name/snapshotPresentationAction">&nbsp;&nbsp;snapshotPresentationAction</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The block to execute to present the snapshot viewcontroller.
+If this property is not set, <a href="../Classes/SFRootViewManager.html">SFRootViewManager</a> will be used to present the snapshot.
+@discussion
+This block is only invoked if the dismissal action is also set.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/snapshotDismissalAction" title="snapshotDismissalAction"></a>
+	<h3 class="method-title"><code><a href="#//api/name/snapshotDismissalAction">&nbsp;&nbsp;snapshotDismissalAction</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The block to execute to dismiss the snapshot viewcontroller.
+@discussion
+This block is only invoked if the presentation action is also set.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction</code></div>
 
 		    
 			
@@ -836,7 +966,7 @@ NOTE: If you wanted to set your own provider, you could do the following:
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *preferredPasscodeProvider</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider</code></div>
 
 		    
 			
@@ -1070,7 +1200,7 @@ actions.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>A log-friendly string of the <a href="#//api/name/launch">launch</a> actions that were taken, given in <a href="#//api/name/postLaunchAction">postLaunchAction</a>.</p>
+				<p>Bit-coded descriptor of actions taken during <a href="#//api/name/launch">launch</a>.</p>
 			</div>
 			
 		    
@@ -1078,6 +1208,18 @@ actions.</p>
 			<div class="method-subsection method-declaration"><code>+ (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)<em>launchActions</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>launchActions</code></th>
+						<td><p>Bit-coded descriptor of actions taken during <a href="#//api/name/launch">launch</a>.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1207,7 +1349,7 @@ actions.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

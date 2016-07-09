@@ -1,51 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthAdvancedAuthState.html">
+	<File path="Protocols/SFUserAccountManagerDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthState</TokenIdentifier>
-			<Abstract type="html">Enumeration of different advanced authentication stages.</Abstract>
-			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/SFUserAccountManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol for handling callbacks from SFUserAccountManager.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="119"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateNotStarted</TokenIdentifier>
-            <Abstract type="html">     No advanced authentication is currently under way.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateNotStarted</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:willSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called before the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager willSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user being switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user to be switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:willSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="119"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateBrowserRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has initiated a request through the external browser (Safari).
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateBrowserRequestInitiated</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFUserAccountManagerDelegate/userAccountManager:didSwitchFromUser:toUser:</TokenIdentifier>
+			<Abstract type="html">Called after the user account manager switches from one user to another.</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>- (void)userAccountManager:(SFUserAccountManager *)userAccountManager didSwitchFromUser:(SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>userAccountManager</Name>
+					<Abstract type="html">The SFUserAccountManager instance making the switch.</Abstract>
+				</Parameter><Parameter>
+					<Name>fromUser</Name>
+					<Abstract type="html">The user that was switched away from.</Abstract>
+				</Parameter><Parameter>
+					<Name>toUser</Name>
+					<Abstract type="html">The user that was switched to.  nil if the user context is being switched back
+to no user.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/userAccountManager:didSwitchFromUser:toUser:</Anchor>
             <NodeRef refid="119"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthStateTokenRequestInitiated</TokenIdentifier>
-            <Abstract type="html">     The advanced authentication flow has received a response from the external browser, and has
-     initiated a token exchange request.
-     </Abstract>
-            <Declaration>SFOAuthAdvancedAuthStateTokenRequestInitiated</Declaration>
-            
-            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
-            
-            <NodeRef refid="119"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

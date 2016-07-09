@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFEncryptionKey.html">
+	<File path="Classes/SFDefaultUserManagementDetailViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptionKey</TokenIdentifier>
-			<Abstract type="html">Data object representing an symmetric encryption key, with a key value and initialization vector.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFDefaultUserManagementDetailViewController</TokenIdentifier>
+			<Abstract type="html">View controller for showing the user management details of a given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="17"/>
@@ -13,166 +13,19 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initWithData:initializationVector:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFDefaultUserManagementDetailViewController/initWithUser:</TokenIdentifier>
+			<Abstract type="html">Initialize to provide the details of the given user.</Abstract>
+			<DeclaredIn>SFDefaultUserManagementDetailViewController.h</DeclaredIn>
 			
-			<Declaration>- (id)initWithData:(NSData *)keyData initializationVector:(NSData *)iv</Declaration>
+			<Declaration>- (id)initWithUser:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>keyData</Name>
-					<Abstract type="html">The key component, represented as NSData.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">The initialization vector, represented as NSData.</Abstract>
+					<Name>user</Name>
+					<Abstract type="html">The user providing the details.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/initWithData:initializationVector:</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKey:</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
-			
-			
-			<Anchor>//api/name/key</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/key</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
-			
-			
-			<Anchor>//api/name/key</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/key</TokenIdentifier>
-			<Abstract type="html">The key component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *key</Declaration>
-			
-			
-			<Anchor>//api/name/key</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVector:</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVector</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVector</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVector</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVector</TokenIdentifier>
-			<Abstract type="html">The initialization vector component of the object.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSData *initializationVector</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVector</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setKeyAsString:</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the key data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
-			
-			
-			<Anchor>//api/name/keyAsString</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/keyAsString</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the key data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
-			
-			
-			<Anchor>//api/name/keyAsString</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/keyAsString</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the key data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *keyAsString</Declaration>
-			
-			
-			<Anchor>//api/name/keyAsString</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/setInitializationVectorAsString:</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVectorAsString</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVectorAsString</Anchor>
-            <NodeRef refid="17"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFEncryptionKey/initializationVectorAsString</TokenIdentifier>
-			<Abstract type="html">The base64 representation of the initialization vector data.</Abstract>
-			<DeclaredIn>SFEncryptionKey.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) NSString *initializationVectorAsString</Declaration>
-			
-			
-			<Anchor>//api/name/initializationVectorAsString</Anchor>
+			<Anchor>//api/name/initWithUser:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		

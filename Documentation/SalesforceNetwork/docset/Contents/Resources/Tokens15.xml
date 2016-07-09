@@ -101,7 +101,7 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *pathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/pathPrefix</Anchor>
@@ -113,7 +113,7 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *pathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/pathPrefix</Anchor>
@@ -125,7 +125,7 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *pathPrefix</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *pathPrefix</Declaration>
 			
 			
 			<Anchor>//api/name/pathPrefix</Anchor>
@@ -137,7 +137,7 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
 			
 			
 			<Anchor>//api/name/apiVersion</Anchor>
@@ -149,7 +149,7 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
 			
 			
 			<Anchor>//api/name/apiVersion</Anchor>
@@ -161,10 +161,22 @@ will return a binary data, such as for images and thumbnails.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, copy) NSString *apiVersion</Declaration>
+			<Declaration>@property (nullable, nonatomic, copy) NSString *apiVersion</Declaration>
 			
 			
 			<Anchor>//api/name/apiVersion</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFSalesforceAction/isNetworkError:</TokenIdentifier>
+			<Abstract type="html">Returns YES if error is a network error</Abstract>
+			<DeclaredIn>CSFSalesforceAction.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isNetworkError:(nullable NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/isNetworkError:</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		

@@ -135,9 +135,11 @@ Before calling this method, user should use [SFSmartSyncCacheManager readDataWit
 					<Name>cachePolicy</Name>
 					<Abstract type="html">See SFDataCachePolicy</Abstract>
 				</Parameter><Parameter>
-					<Name>encrypted</Name>
-					<Abstract type="html">Yes if cache to read is encrypted
-@cachedTime Return time the data was last updated in cache</Abstract>
+					<Name>objectClass</Name>
+					<Abstract type="html">Object class to expect</Abstract>
+				</Parameter><Parameter>
+					<Name>lastCachedTime</Name>
+					<Abstract type="html">Return time the data was last updated in cache</Abstract>
 				</Parameter>
 			</Parameters>
 			

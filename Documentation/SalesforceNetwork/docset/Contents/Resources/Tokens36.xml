@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForcePortalRoleType.html">
+	<File path="Constants/CSFForceNotificationFrequency.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForcePortalRoleType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceNotificationFrequency</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalRoleTypeUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalRoleTypeUnknown</Declaration>
+            <Declaration>CSFForceNotificationFrequencyUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalRoleTypeExecutive</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyEachPost</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalRoleTypeExecutive</Declaration>
+            <Declaration>CSFForceNotificationFrequencyEachPost</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalRoleTypeManager</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyDailyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalRoleTypeManager</Declaration>
+            <Declaration>CSFForceNotificationFrequencyDailyDigest</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,9 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalRoleTypeUser</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyWeeklyDigest</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalRoleTypeUser</Declaration>
+            <Declaration>CSFForceNotificationFrequencyWeeklyDigest</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -54,9 +54,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForcePortalRoleTypePersonAccount</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceNotificationFrequencyNever</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForcePortalRoleTypePersonAccount</Declaration>
+            <Declaration>CSFForceNotificationFrequencyNever</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

@@ -1,76 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFBase64.html">
+	<File path="Classes/SalesforceOAuthUnitTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFBase64)</TokenIdentifier>
-			<Abstract type="html">Extension to NSData class to provide common functions</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthUnitTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceOAuthUnitTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="83"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/randomDataOfLength:</TokenIdentifier>
-			<Abstract type="html">The specified number of random bytes or nil if an error occurs.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSData *)randomDataOfLength:(size_t)length</Declaration>
-			
-			<ReturnValue><Abstract type="html">The specified number of random bytes or nil if an error occurs.</Abstract></ReturnValue>
-			<Anchor>//api/name/randomDataOfLength:</Anchor>
-            <NodeRef refid="83"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newBase64Encoding</TokenIdentifier>
-			<Abstract type="html">Create a new base64 encoding of this NSData</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)newBase64Encoding</Declaration>
-			
-			
-			<Anchor>//api/name/newBase64Encoding</Anchor>
-            <NodeRef refid="83"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/base64Encode</TokenIdentifier>
-			<Abstract type="html">Return base64 encoded string for the currrent NSData</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)base64Encode</Declaration>
-			
-			
-			<Anchor>//api/name/base64Encode</Anchor>
-            <NodeRef refid="83"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/initWithBase64String:</TokenIdentifier>
-			<Abstract type="html">Create a new base64 encoding of this NSData.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (id)initWithBase64String:(NSString *)base64</Declaration>
-			
-			
-			<Anchor>//api/name/initWithBase64String:</Anchor>
-            <NodeRef refid="83"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/dataFromBase64String:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)dataFromBase64String:(NSString *)encoding</Declaration>
-			
-			
-			<Anchor>//api/name/dataFromBase64String:</Anchor>
-            <NodeRef refid="83"/>
-		</Token>
 		
         
         

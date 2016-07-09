@@ -43,8 +43,6 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
-	<option value="overview">Overview</option>
-	
 
 	
 	
@@ -59,8 +57,6 @@
 	<optgroup label="Class Methods">
 		
 		<option value="//api/name/reachabilityForInternetConnection">+ reachabilityForInternetConnection</option>
-		
-		<option value="//api/name/reachabilityForLocalWiFi">+ reachabilityForLocalWiFi</option>
 		
 		<option value="//api/name/reachabilityWithAddress:">+ reachabilityWithAddress:</option>
 		
@@ -110,14 +106,6 @@
 					
 
                     
-					
-					<div class="section section-overview">
-						<a title="Overview" name="overview"></a>
-						<h2 class="subtitle subtitle-overview">Overview</h2>
-						<p>@class SFSDKReachability</p>
-					</div>
-					
-					
 
 					
 					
@@ -150,24 +138,7 @@
 
 		    
 			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>hostName</code></th>
-						<td><p>The host name to check for reachability.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
 
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An instance of SFSDKReachability configured to reach the host name.</p>
-			</div>
 			
 
 			
@@ -204,28 +175,11 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)<em>hostAddress</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (instancetype)reachabilityWithAddress:(const struct sockaddr *)<em>hostAddress</em></code></div>
 
 		    
 			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>hostAddress</code></th>
-						<td><p>The IP address of the host to check for reachability.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
 
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An instance of SFSDKReachability configured to reach the IP address.</p>
-			</div>
 			
 
 			
@@ -257,7 +211,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Checks whether the default route is available.</p>
+				<p>Checks whether the default route is available. Should be used by applications that do not connect to a particular host.</p>
 			</div>
 			
 		    
@@ -267,62 +221,6 @@
 		    
 			
 
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An instance of SFSDKReachability configured to reach the network via the default route.</p>
-			</div>
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>Should be used by applications that do not connect to a particular host.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKReachability.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div><div class="section-method">
-	<a name="//api/name/reachabilityForLocalWiFi" title="reachabilityForLocalWiFi"></a>
-	<h3 class="method-title"><code><a href="#//api/name/reachabilityForLocalWiFi">+&nbsp;reachabilityForLocalWiFi</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Checks whether a local WiFi connection is available.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>+ (instancetype)reachabilityForLocalWiFi</code></div>
-
-		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>An instance of SFSDKReachability configured to reach the network via WiFi.</p>
-			</div>
 			
 
 			
@@ -365,11 +263,6 @@
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if starting the notifier was successful, NO otherwise.</p>
-			</div>
-			
 
 			
 
@@ -398,35 +291,10 @@
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>Stops listening for notifications.</p>
-			</div>
-			
-		    
 
 			<div class="method-subsection method-declaration"><code>- (void)stopNotifier</code></div>
 
 		    
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKReachability.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -439,40 +307,10 @@
 
 		<div class="method-info-container">
 			
-			
-			<div class="method-subsection brief-description">
-				<p>The current reachability status.</p>
-			</div>
-			
-		    
 
 			<div class="method-subsection method-declaration"><code>- (SFSDKReachabilityNetworkStatus)currentReachabilityStatus</code></div>
 
 		    
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p><a href="../Constants/SFSDKReachabilityNetworkStatus.html">SFSDKReachabilityNetworkStatus</a> representing the current reachability status.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">SFSDKReachability.h</code></p>
-			</div>
-			
-			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -487,7 +325,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Determines whether a connection is required for network access.</p>
+				<p>WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.</p>
 			</div>
 			
 		    
@@ -498,19 +336,9 @@
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>YES if further network connections are required, NO otherwise.</p>
-			</div>
-			
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>WWAN may be available, but not active until a connection has been established. WiFi may require a connection for VPN on Demand.</p>
-			</div>
 			
 
 			
@@ -541,7 +369,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

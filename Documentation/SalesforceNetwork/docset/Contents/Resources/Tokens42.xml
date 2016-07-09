@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/CSFForceTaskRecurrenceInstance.html">
+	<File path="Constants/CSFForceTaskPriority.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskRecurrenceInstance</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/CSFForceTaskPriority</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -14,9 +14,9 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceUnknown</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityUnknown</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstanceUnknown</Declaration>
+            <Declaration>CSFForceTaskPriorityUnknown</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -24,9 +24,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance1st</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityHigh</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance1st</Declaration>
+            <Declaration>CSFForceTaskPriorityHigh</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -34,9 +34,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance2nd</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityNormal</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance2nd</Declaration>
+            <Declaration>CSFForceTaskPriorityNormal</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             
@@ -44,29 +44,9 @@
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance3rd</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskPriorityLow</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance3rd</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstance4th</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstance4th</Declaration>
-            
-            <DeclaredIn>CSFForceDefines.h</DeclaredIn>
-            
-            <NodeRef refid="42"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/CSFForceTaskRecurrenceInstanceLast</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>CSFForceTaskRecurrenceInstanceLast</Declaration>
+            <Declaration>CSFForceTaskPriorityLow</Declaration>
             
             <DeclaredIn>CSFForceDefines.h</DeclaredIn>
             

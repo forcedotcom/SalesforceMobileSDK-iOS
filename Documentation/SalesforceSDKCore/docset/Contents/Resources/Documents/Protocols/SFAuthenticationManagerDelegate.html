@@ -68,6 +68,10 @@
 		
 		<option value="//api/name/authManagerDidBecomeActive:">- authManagerDidBecomeActive:</option>
 		
+		<option value="//api/name/authManagerDidCancelBrowserFlow:">- authManagerDidCancelBrowserFlow:</option>
+		
+		<option value="//api/name/authManagerDidCancelGenericFlow:">- authManagerDidCancelGenericFlow:</option>
+		
 		<option value="//api/name/authManagerDidEnterBackground:">- authManagerDidEnterBackground:</option>
 		
 		<option value="//api/name/authManagerDidFail:error:info:">- authManagerDidFail:error:info:</option>
@@ -77,6 +81,8 @@
 		<option value="//api/name/authManagerDidFinishAuthWebViewLoad:">- authManagerDidFinishAuthWebViewLoad:</option>
 		
 		<option value="//api/name/authManagerDidLogout:">- authManagerDidLogout:</option>
+		
+		<option value="//api/name/authManagerDidProceedWithBrowserFlow:">- authManagerDidProceedWithBrowserFlow:</option>
 		
 		<option value="//api/name/authManagerDidStartAuthWebViewLoad:">- authManagerDidStartAuthWebViewLoad:</option>
 		
@@ -979,6 +985,165 @@
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/authManagerDidProceedWithBrowserFlow:" title="authManagerDidProceedWithBrowserFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authManagerDidProceedWithBrowserFlow:">&ndash;&nbsp;authManagerDidProceedWithBrowserFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when a browser flow authentication is proceeded.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authManagerDidProceedWithBrowserFlow:(SFAuthenticationManager *)<em>manager</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>manager</code></th>
+						<td><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authManagerDidCancelBrowserFlow:" title="authManagerDidCancelBrowserFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authManagerDidCancelBrowserFlow:">&ndash;&nbsp;authManagerDidCancelBrowserFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when a browser flow authentication is cancelled.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authManagerDidCancelBrowserFlow:(SFAuthenticationManager *)<em>manager</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>manager</code></th>
+						<td><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/authManagerDidCancelGenericFlow:" title="authManagerDidCancelGenericFlow:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/authManagerDidCancelGenericFlow:">&ndash;&nbsp;authManagerDidCancelGenericFlow:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Called when a generic flow authentication is cancelled.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)authManagerDidCancelGenericFlow:(SFAuthenticationManager *)<em>manager</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>manager</code></th>
+						<td><p>The instance of <a href="../Classes/SFAuthenticationManager.html">SFAuthenticationManager</a> making the call.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -994,7 +1159,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

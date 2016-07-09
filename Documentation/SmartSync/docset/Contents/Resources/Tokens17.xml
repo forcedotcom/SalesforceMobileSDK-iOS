@@ -98,13 +98,25 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/startFetch:maxTimeStamp:errorBlock:completeBlock:</TokenIdentifier>
-			<Abstract type="html">Sart fetching records conforming to target</Abstract>
+			<Abstract type="html">Start fetching records conforming to target</Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			
 			<Declaration>- (void)startFetch:(SFSmartSyncSyncManager *)syncManager maxTimeStamp:(long long)maxTimeStamp errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
 			
 			
 			<Anchor>//api/name/startFetch:maxTimeStamp:errorBlock:completeBlock:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/startFetch:maxTimeStamp:queryRun:errorBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Start fetching records conforming to target with query</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)startFetch:(SFSmartSyncSyncManager *)syncManager maxTimeStamp:(long long)maxTimeStamp queryRun:(NSString *)queryRun errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/startFetch:maxTimeStamp:queryRun:errorBlock:completeBlock:</Anchor>
             <NodeRef refid="17"/>
 		</Token>
 		
@@ -121,9 +133,21 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getListOfRemoteIds:localIds:errorBlock:completeBlock:</TokenIdentifier>
+			<Abstract type="html">Fetch list of IDs still present on the server from the list of local IDs</Abstract>
+			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			
+			<Declaration>- (void)getListOfRemoteIds:(SFSmartSyncSyncManager *)syncManager localIds:(NSArray *)localIds errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/getListOfRemoteIds:localIds:errorBlock:completeBlock:</Anchor>
+            <NodeRef refid="17"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSyncDownTarget/getLatestModificationTimeStamp:</TokenIdentifier>
-			<Abstract type="html">Gets the latest modification timestamp from the array of records.  Note: inheriting classes can
-override this method to determine the timestamp in a customized way.  The default implementation
+			<Abstract type="html">Gets the latest modification timestamp from the array of records. Note: inheriting classes can
+override this method to determine the timestamp in a customized way. The default implementation
 looks at the LastModifiedDate field of each record.</Abstract>
 			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
 			

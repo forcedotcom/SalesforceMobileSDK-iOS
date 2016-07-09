@@ -212,6 +212,9 @@ queries toward the server.</Abstract>
 			<Declaration>- (void)loadMRUObjects:(NSString *)objectTypeName limit:(NSInteger)limit cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan networkFieldName:(NSString *)networkFieldName inRetry:(BOOL)inRetry completion:(void ( ^ ) ( NSArray *results , BOOL isDataFromCache , BOOL needToReloadCache ))completionBlock error:(void ( ^ ) ( NSError *error ))errorBlock</Declaration>
 			<Parameters>
 				<Parameter>
+					<Name>objectTypeName</Name>
+					<Abstract type="html">Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types</Abstract>
+				</Parameter><Parameter>
 					<Name>limit</Name>
 					<Abstract type="html">Fetch limit of objects. Set to &lt;=0 to specify no limit</Abstract>
 				</Parameter><Parameter>
@@ -224,14 +227,14 @@ queries toward the server.</Abstract>
 					<Name>networkFieldName</Name>
 					<Abstract type="html">Network field name</Abstract>
 				</Parameter><Parameter>
+					<Name>inRetry</Name>
+					<Abstract type="html">Is retrying</Abstract>
+				</Parameter><Parameter>
 					<Name>completionBlock</Name>
 					<Abstract type="html">Block to invoke after recently access objects are loaded</Abstract>
 				</Parameter><Parameter>
 					<Name>errorBlock</Name>
 					<Abstract type="html">Block to invoke if failed to load objects</Abstract>
-				</Parameter><Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -253,10 +256,10 @@ queries toward the server.</Abstract>
 					<Name>refreshCacheIfOlderThan</Name>
 					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
 				</Parameter><Parameter>
-					<Name>completion</Name>
+					<Name>completionBlock</Name>
 					<Abstract type="html">Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of SFMetadataModel objects</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
+					<Name>errorBlock</Name>
 					<Abstract type="html">Block to invoke if failed to load objects list</Abstract>
 				</Parameter>
 			</Parameters>
@@ -282,11 +285,11 @@ queries toward the server.</Abstract>
 					<Name>refreshCacheIfOlderThan</Name>
 					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
-					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
-				</Parameter><Parameter>
-					<Name>completion</Name>
+					<Name>completionBlock</Name>
 					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
+				</Parameter><Parameter>
+					<Name>errorBlock</Name>
+					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -311,10 +314,10 @@ queries toward the server.</Abstract>
 					<Name>refreshCacheIfOlderThan</Name>
 					<Abstract type="html">Number of secconds that has to pass in order to refresh cache. Pass -1 if you don&apos;t want cache to be refrefreshed. This value is used together with cachePolicy</Abstract>
 				</Parameter><Parameter>
-					<Name>completion</Name>
+					<Name>completionBlock</Name>
 					<Abstract type="html">Block to invoke after object type info is loaded</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
+					<Name>errorBlock</Name>
 					<Abstract type="html">Block to invoke if loading metadata failed</Abstract>
 				</Parameter>
 			</Parameters>
@@ -374,10 +377,10 @@ queries toward the server.</Abstract>
 					<Name>networkFieldName</Name>
 					<Abstract type="html">Network field name</Abstract>
 				</Parameter><Parameter>
-					<Name>completion</Name>
+					<Name>completionBlock</Name>
 					<Abstract type="html">Block to invoke after object is marked viewed</Abstract>
 				</Parameter><Parameter>
-					<Name>error</Name>
+					<Name>errorBlock</Name>
 					<Abstract type="html">Block to invoke if marking viewed failed</Abstract>
 				</Parameter>
 			</Parameters>

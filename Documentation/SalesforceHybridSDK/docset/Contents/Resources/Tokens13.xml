@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPlugin</TokenIdentifier>
-			<Abstract type="html">String used with Cordova to uniquely identify this plugin</Abstract>
+			<Abstract type="html">String used with Cordova to uniquely identify this plugin.</Abstract>
 			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
             
 			
@@ -89,6 +89,23 @@
 			</Parameters>
 			
 			<Anchor>//api/name/reSync:</Anchor>
+            <NodeRef refid="13"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPlugin/cleanResyncGhosts:</TokenIdentifier>
+			<Abstract type="html">Starts a ghost record clean operation. See [SFSmartSyncSyncManager cleanResyncGhosts].</Abstract>
+			<DeclaredIn>SFSmartSyncPlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)cleanResyncGhosts:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;syncId&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/cleanResyncGhosts:</Anchor>
             <NodeRef refid="13"/>
 		</Token>
 		

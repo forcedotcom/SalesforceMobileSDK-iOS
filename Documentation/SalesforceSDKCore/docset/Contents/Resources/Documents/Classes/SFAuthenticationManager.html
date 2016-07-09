@@ -56,6 +56,8 @@
 	
 	<optgroup label="Properties">
 		
+		<option value="//api/name/additionalOAuthParameterKeys">additionalOAuthParameterKeys</option>
+		
 		<option value="//api/name/advancedAuthConfiguration">advancedAuthConfiguration</option>
 		
 		<option value="//api/name/authErrorHandlerList">authErrorHandlerList</option>
@@ -115,6 +117,8 @@
 		<option value="//api/name/cancelAuthentication">- cancelAuthentication</option>
 		
 		<option value="//api/name/clearAccountState:">- clearAccountState:</option>
+		
+		<option value="//api/name/dismissAuthViewControllerIfPresent">- dismissAuthViewControllerIfPresent</option>
 		
 		<option value="//api/name/handleAdvancedAuthenticationResponse:">- handleAdvancedAuthenticationResponse:</option>
 		
@@ -205,7 +209,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIAlertController *statusAlert</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) UIAlertController *statusAlert</code></div>
 
 		    
 			
@@ -246,7 +250,7 @@
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFLoginViewController *authViewController</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) SFLoginViewController *authViewController</code></div>
 
 		    
 			
@@ -365,7 +369,7 @@ You may use KVO in your app to monitor session validity.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Returns YES if the <a href="#//api/name/logout">logout</a> is requested by the app settings</p>
+				<p>Returns YES if the <a href="#//api/name/logout">logout</a> is requested by the app settings.</p>
 			</div>
 			
 		    
@@ -414,6 +418,18 @@ You may use KVO in your app to monitor session validity.</p>
 			<div class="method-subsection method-declaration"><code>+ (void)setInstanceClass:(Class)<em>className</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>className</code></th>
+						<td><p>Name of the instance class.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -852,6 +868,47 @@ service to retrieve org authentication configuration.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/additionalOAuthParameterKeys" title="additionalOAuthParameterKeys"></a>
+	<h3 class="method-title"><code><a href="#//api/name/additionalOAuthParameterKeys">&nbsp;&nbsp;additionalOAuthParameterKeys</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>An array of additional keys (NSString) to parse during OAuth</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSArray *additionalOAuthParameterKeys</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/addDelegate:" title="addDelegate:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/addDelegate:">&ndash;&nbsp;addDelegate:</a></code>
 </h3>
@@ -924,6 +981,18 @@ service to retrieve org authentication configuration.</p>
 			<div class="method-subsection method-declaration"><code>- (void)removeDelegate:(id&lt;SFAuthenticationManagerDelegate&gt;)<em>delegate</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>delegate</code></th>
+						<td><p>The delegate to remove from the list.</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1028,7 +1097,7 @@ in succession.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> account:(SFUserAccount *)<em>account</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)<em>completionBlock</em> failure:(SFOAuthFlowFailureCallbackBlock)<em>failureBlock</em> account:(nullable SFUserAccount *)<em>account</em></code></div>
 
 		    
 			
@@ -1043,8 +1112,12 @@ in succession.</p>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>failureBlock</code></th>
-						<td><p>The block of code to execute when the authentication process has a fatal failure.
-@param</p></td>
+						<td><p>The block of code to execute when the authentication process has a fatal failure.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>account</code></th>
+						<td><p>User account to be logged in.</p></td>
 					</tr>
 				
 				</table>
@@ -1317,6 +1390,48 @@ be handled, NO otherwise.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/dismissAuthViewControllerIfPresent" title="dismissAuthViewControllerIfPresent"></a>
+	<h3 class="method-title"><code><a href="#//api/name/dismissAuthViewControllerIfPresent">&ndash;&nbsp;dismissAuthViewControllerIfPresent</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Dismisses the auth view controller, resetting the UI state back to its original
+presentation.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)dismissAuthViewControllerIfPresent</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAuthenticationManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/resetSessionCookie" title="resetSessionCookie"></a>
 	<h3 class="method-title"><code><a href="#//api/name/resetSessionCookie">+&nbsp;resetSessionCookie</a></code>
 </h3>
@@ -1433,7 +1548,7 @@ OAuth credentials.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (void)removeCookies:(NSArray *)<em>cookieNames</em> fromDomains:(NSArray *)<em>domainNames</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (void)removeCookies:(NSArray&lt;NSString*&gt; *)<em>cookieNames</em> fromDomains:(NSArray&lt;NSString*&gt; *)<em>domainNames</em></code></div>
 
 		    
 			
@@ -1692,7 +1807,7 @@ OAuth credentials.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

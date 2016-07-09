@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFHexSupport.html">
+	<File path="Classes/SalesforceOAuthUnitTestsCoordinatorDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFHexSupport)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthUnitTestsCoordinatorDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<DeclaredIn>SalesforceOAuthUnitTestsCoordinatorDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="84"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/newHexStringFromBytes</TokenIdentifier>
-			<Abstract type="html">Return a hex string representation of the data contained in receiver</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)newHexStringFromBytes</Declaration>
-			
-			
-			<Anchor>//api/name/newHexStringFromBytes</Anchor>
-            <NodeRef refid="84"/>
-		</Token>
 		
         
         

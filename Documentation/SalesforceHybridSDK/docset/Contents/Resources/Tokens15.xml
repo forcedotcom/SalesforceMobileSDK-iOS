@@ -17,7 +17,7 @@
 			<Abstract type="html">array of SFTestResult</Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, readonly, strong) NSMutableArray *testResults</Declaration>
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
 			
 			
 			<Anchor>//api/name/testResults</Anchor>
@@ -29,7 +29,7 @@
 			<Abstract type="html">array of SFTestResult</Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, readonly, strong) NSMutableArray *testResults</Declaration>
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
 			
 			
 			<Anchor>//api/name/testResults</Anchor>
@@ -41,46 +41,10 @@
 			<Abstract type="html">array of SFTestResult</Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (atomic, readonly, strong) NSMutableArray *testResults</Declaration>
+			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
 			
 			
 			<Anchor>//api/name/testResults</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/setTestResultAvailable:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly) BOOL testResultAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/testResultAvailable</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/testResultAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly) BOOL testResultAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/testResultAvailable</Anchor>
-            <NodeRef refid="15"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFTestRunnerPlugin/testResultAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
-			
-			<Declaration>@property (atomic, readonly) BOOL testResultAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/testResultAvailable</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		
@@ -141,6 +105,18 @@
 			
 			
 			<Anchor>//api/name/onTestComplete:</Anchor>
+            <NodeRef refid="15"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/testResultAvailable:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)testResultAvailable:(NSString *)testName</Declaration>
+			
+			
+			<Anchor>//api/name/testResultAvailable:</Anchor>
             <NodeRef refid="15"/>
 		</Token>
 		

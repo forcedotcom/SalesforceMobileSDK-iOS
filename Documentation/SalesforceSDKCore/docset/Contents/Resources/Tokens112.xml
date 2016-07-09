@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoOperation.html">
+	<File path="Protocols/SFOAuthCoordinatorFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoOperation</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/SFOAuthCoordinatorFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="112"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationEncrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationEncrypt</Declaration>
-            
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginUserAgentFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)beginUserAgentFlow</Declaration>
+			
+			
+			<Anchor>//api/name/beginUserAgentFlow</Anchor>
             <NodeRef refid="112"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoOperationDecrypt</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoOperationDecrypt</Declaration>
-            
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginTokenEndpointFlow:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType</Declaration>
+			
+			
+			<Anchor>//api/name/beginTokenEndpointFlow:</Anchor>
             <NodeRef refid="112"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/handleTokenEndpointResponse:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)handleTokenEndpointResponse:(NSMutableData *)data</Declaration>
+			
+			
+			<Anchor>//api/name/handleTokenEndpointResponse:</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/beginNativeBrowserFlow</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)beginNativeBrowserFlow</Declaration>
+			
+			
+			<Anchor>//api/name/beginNativeBrowserFlow</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFOAuthCoordinatorFlow/retrieveOrgAuthConfiguration:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFOAuthCoordinator+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)retrieveOrgAuthConfiguration:(void ( ^ ) ( SFOAuthOrgAuthConfiguration *, NSError *))retrievedAuthConfigBlock</Declaration>
+			
+			
+			<Anchor>//api/name/retrieveOrgAuthConfiguration:</Anchor>
+            <NodeRef refid="112"/>
+		</Token>
+		
         
         
 	</File>

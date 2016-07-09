@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSDKLoginHostListViewController.html">
+	<File path="Classes/SFPushNotificationManager.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostListViewController</TokenIdentifier>
-			<Abstract type="html">View controller that displays a list of hosts that can be used for login.
-The user can either add a new host or select an existing host to reload the login web page.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPushNotificationManager</TokenIdentifier>
+			<Abstract type="html">Handles push notification registration and unregistration, both for Salesforce notifications and remote notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
             
 			
 			<NodeRef refid="57"/>
@@ -14,74 +13,157 @@ The user can either add a new host or select an existing host to reload the logi
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/setDelegate:</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSDKLoginHostListViewController/delegate</TokenIdentifier>
-			<Abstract type="html">The object that acts as the delegate of the host list view controller.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceToken</TokenIdentifier>
+			<Abstract type="html">Device token returned when registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SFSDKLoginHostDelegate&gt; delegate</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceToken</Declaration>
 			
 			
-			<Anchor>//api/name/delegate</Anchor>
+			<Anchor>//api/name/deviceToken</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
-			<Abstract type="html">Adds a new login host.
-This method updates the underlying storage and refreshes the list of login hosts.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/setDeviceSalesforceId:</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-		
-	</RelatedTokens>
-	
-			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)host</Declaration>
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
 			
 			
-			<Anchor>//api/name/addLoginHost:</Anchor>
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/showAddLoginHost</TokenIdentifier>
-			<Abstract type="html">Use this method to display a view for adding a new login host.
-If you have used a navigation controller to present this view controller, an add button is automatically added to the right bar button item.</Abstract>
-			<DeclaredIn>SFSDKLoginHostListViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
 			
-	<RelatedTokens>
-		<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostListViewController/addLoginHost:</TokenIdentifier>
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
 		
-	</RelatedTokens>
-	
-			<Declaration>- (void)showAddLoginHost</Declaration>
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPushNotificationManager/deviceSalesforceId</TokenIdentifier>
+			<Abstract type="html">ID returned when registering for Salesforce push notifications.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong) NSString *deviceSalesforceId</Declaration>
 			
 			
-			<Anchor>//api/name/showAddLoginHost</Anchor>
+			<Anchor>//api/name/deviceSalesforceId</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPushNotificationManager/sharedInstance</TokenIdentifier>
+			<Abstract type="html">The share instance of this class.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>+ (SFPushNotificationManager *)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForRemoteNotifications</TokenIdentifier>
+			<Abstract type="html">Register with APNS</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (void)registerForRemoteNotifications</Declaration>
+			
+			
+			<Anchor>//api/name/registerForRemoteNotifications</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/didRegisterForRemoteNotificationsWithDeviceToken:</TokenIdentifier>
+			<Abstract type="html">Call this method from your app delegate&apos;s didRegisterForRemoteNotificationsWithDeviceToken</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceTokenData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>deviceTokenData</Name>
+					<Abstract type="html">The device token returned by APNS.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/didRegisterForRemoteNotificationsWithDeviceToken:</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/registerForSalesforceNotifications</TokenIdentifier>
+			<Abstract type="html">Register for notifications with Salesforce.
+Call this method after authenticating with Salesforce and registering with APNS.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)registerForSalesforceNotifications</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES for successful registration call made.</Abstract></ReturnValue>
+			<Anchor>//api/name/registerForSalesforceNotifications</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications</TokenIdentifier>
+			<Abstract type="html">Unregister from notifications with Salesforce for all users. This method is called at logout.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)unregisterSalesforceNotifications</Declaration>
+			
+			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/unregisterSalesforceNotifications</Anchor>
+            <NodeRef refid="57"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPushNotificationManager/unregisterSalesforceNotifications:</TokenIdentifier>
+			<Abstract type="html">Unregister from notifications with Salesforce for a specific user. This method is called at logout.</Abstract>
+			<DeclaredIn>SFPushNotificationManager.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)unregisterSalesforceNotifications:(SFUserAccount *)user</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>user</Name>
+					<Abstract type="html">User account.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES for successful unregistration call being made.</Abstract></ReturnValue>
+			<Anchor>//api/name/unregisterSalesforceNotifications:</Anchor>
             <NodeRef refid="57"/>
 		</Token>
 		

@@ -1,52 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreInspectorViewController.html">
+	<File path="Classes/SFSmartStoreFullTextSearchTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreInspectorViewController</TokenIdentifier>
-			<Abstract type="html">The view controller for managing the smartstore inspector screen.</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreFullTextSearchTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreFullTextSearchTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/initWithStore:</TokenIdentifier>
-			<Abstract type="html">Constructor</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithStore:(SFSmartStore *)store</Declaration>
-			
-			
-			<Anchor>//api/name/initWithStore:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/present:</TokenIdentifier>
-			<Abstract type="html">Show smart store inspector</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)present:(UIViewController *)currentViewController</Declaration>
-			
-			
-			<Anchor>//api/name/present:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/dismiss</TokenIdentifier>
-			<Abstract type="html">Hide smart store inspector</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)dismiss</Declaration>
-			
-			
-			<Anchor>//api/name/dismiss</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
 		
         
         

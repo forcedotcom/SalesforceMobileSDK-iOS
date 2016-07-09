@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Constants/SFOAuthAdvancedAuthConfiguration.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthAdvancedAuthConfiguration</TokenIdentifier>
+			<Abstract type="html">Enumeration of advanced auth configuration.</Abstract>
+			<DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
 			
 			<NodeRef refid="132"/>
@@ -14,78 +14,36 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationNone</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is not configured (default)
      </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationNone</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="132"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">A new user account has been created
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationAllow</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is allowed.  Coordinator will attempt to retrieve advanced auth
+     configuration from the org, to determine whether to initiate advanced authentication.
      </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationAllow</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="132"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCredentials</TokenIdentifier>
-            <Abstract type="html">The credentials changed
+            <TokenIdentifier>//apple_ref/c/econst/SFOAuthAdvancedAuthConfigurationRequire</TokenIdentifier>
+            <Abstract type="html">     Advanced authentication is required.  Coordinator will initiate advanced authentication
+     regardless of org settings.
      </Abstract>
-            <Declaration>SFUserAccountChangeCredentials</Declaration>
+            <Declaration>SFOAuthAdvancedAuthConfigurationRequire</Declaration>
             
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeOrgId</TokenIdentifier>
-            <Abstract type="html">The organization ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeOrgId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUserId</TokenIdentifier>
-            <Abstract type="html">The user ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeUserId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCommunityId</TokenIdentifier>
-            <Abstract type="html">The community ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeCommunityId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="132"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeIdData</TokenIdentifier>
-            <Abstract type="html">The ID data changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeIdData</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+            <DeclaredIn>SFOAuthCoordinator.h</DeclaredIn>
             
             <NodeRef refid="132"/>
         </Token>

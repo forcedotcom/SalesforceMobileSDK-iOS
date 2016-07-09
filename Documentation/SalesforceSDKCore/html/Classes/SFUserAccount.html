@@ -140,7 +140,7 @@
 	<td>NSObject</td>
 </tr><tr>
 	<th>Conforms to</th>
-	<td>NSCoding</td>
+	<td>NSSecureCoding</td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>SFUserAccount.h</td>
@@ -186,7 +186,7 @@ a user together with the current community it is logged in.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSSet *accessScopes</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSSet&lt;NSString*&gt; *accessScopes</code></div>
 
 		    
 			
@@ -393,7 +393,7 @@ current community if available (see <a href="#//api/name/communityId"><code>comm
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *email</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *email</code></div>
 
 		    
 			
@@ -560,7 +560,7 @@ only stores it locally on the disk.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) UIImage *photo</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) UIImage *photo</code></div>
 
 		    
 			
@@ -642,7 +642,7 @@ only stores it locally on the disk.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSString *communityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSString *communityId</code></div>
 
 		    
 			
@@ -683,7 +683,7 @@ only stores it locally on the disk.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) NSArray *communities</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) NSArray&lt;SFCommunityData*&gt; *communities</code></div>
 
 		    
 			
@@ -1104,25 +1104,32 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (NSURL *)communityUrlWithId:(NSString *)<em>communityId</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable NSURL *)communityUrlWithId:(NSString *)<em>communityId</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>communityId</code></th>
+						<td><p>The ID of the community</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
 			<div class="method-subsection return">
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The url of the API endpoint for that community</p>
+				<p>The URL of the API endpoint for that community</p>
 			</div>
 			
 
 			
 
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@<a href="#//api/name/communityId">communityId</a> The id of the community</p>
-			</div>
 			
 
 			
@@ -1155,11 +1162,28 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFCommunityData *)communityWithId:(NSString *)<em>communityId</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable SFCommunityData *)communityWithId:(NSString *)<em>communityId</em></code></div>
 
 		    
 			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>communityId</code></th>
+						<td><p>The ID of the community</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The dictionary for the given community</p>
+			</div>
 			
 
 			
@@ -1200,17 +1224,28 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 
 		    
 			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@property object The object to store, must be NSCoding enabled
-@property key An NSCopying key to store the object at</p>
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>object</code></th>
+						<td><p>The object to store, must be NSCoding enabled</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>An NSCopying key to store the object at</p></td>
+					</tr>
+				
+				</table>
 			</div>
+			
+
+			
+
+			
+
 			
 
 			
@@ -1247,16 +1282,23 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 
 		    
 			
-
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@property key The key for the object to remove</p>
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>The key for the object to remove</p></td>
+					</tr>
+				
+				</table>
 			</div>
+			
+
+			
+
+			
+
 			
 
 			
@@ -1289,9 +1331,21 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (id)customDataObjectForKey:(id)<em>key</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nullable id)customDataObjectForKey:(id)<em>key</em></code></div>
 
 		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>The key for the object to retrieve</p></td>
+					</tr>
+				
+				</table>
+			</div>
 			
 
 			
@@ -1333,7 +1387,7 @@ community ID if it exists in the <a href="#//api/name/communities">communities</
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-03-04</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

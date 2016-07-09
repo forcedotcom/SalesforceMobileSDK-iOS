@@ -68,6 +68,7 @@
                         <NodeRef refid="35"/>
                         <NodeRef refid="36"/>
                         <NodeRef refid="37"/>
+                        <NodeRef refid="38"/>
                         
                     </Subnodes>
                 </Node>
@@ -903,21 +904,26 @@
             
         </Node>
         <Node id="34" type="file" documentType="reference">
+            <Name>SFSyncSyncManagerCompletionStatusBlock</Name>
+            <Path>Blocks/SFSyncSyncManagerCompletionStatusBlock.html</Path>
+            
+        </Node>
+        <Node id="35" type="file" documentType="reference">
             <Name>SFSyncSyncManagerUpdateBlock</Name>
             <Path>Blocks/SFSyncSyncManagerUpdateBlock.html</Path>
             
         </Node>
-        <Node id="35" type="file" documentType="reference">
+        <Node id="36" type="file" documentType="reference">
             <Name>SFSyncUpRecordModificationResultBlock</Name>
             <Path>Blocks/SFSyncUpRecordModificationResultBlock.html</Path>
             
         </Node>
-        <Node id="36" type="file" documentType="reference">
+        <Node id="37" type="file" documentType="reference">
             <Name>SFSyncUpTargetCompleteBlock</Name>
             <Path>Blocks/SFSyncUpTargetCompleteBlock.html</Path>
             
         </Node>
-        <Node id="37" type="file" documentType="reference">
+        <Node id="38" type="file" documentType="reference">
             <Name>SFSyncUpTargetErrorBlock</Name>
             <Path>Blocks/SFSyncUpTargetErrorBlock.html</Path>
             

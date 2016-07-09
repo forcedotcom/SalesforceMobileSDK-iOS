@@ -101,7 +101,7 @@ Note that the path doesn&apos;t have to start with a &apos;/&apos;. For instance
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -114,7 +114,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -127,7 +127,7 @@ Note that URL encoding of the parameters will automatically happen when the requ
 Note that URL encoding of the parameters will automatically happen when the request is sent.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
-			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSString*&gt; *queryParams</Declaration>
+			<Declaration>@property (nullable, nonatomic, strong) NSDictionary&lt;NSString*NSObject*&gt; *queryParams</Declaration>
 			
 			
 			<Anchor>//api/name/queryParams</Anchor>
@@ -408,11 +408,25 @@ from the collection of headers.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFRestRequest/addPostFileData:paramName:fileName:mimeType:</TokenIdentifier>
-			<Abstract type="html">Add file to upload</Abstract>
+			<Abstract type="html">Add file to upload.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
 			<Declaration>- (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType</Declaration>
-			
+			<Parameters>
+				<Parameter>
+					<Name>fileData</Name>
+					<Abstract type="html">Value of this POST parameter</Abstract>
+				</Parameter><Parameter>
+					<Name>paramName</Name>
+					<Abstract type="html">Name of the POST parameter</Abstract>
+				</Parameter><Parameter>
+					<Name>fileName</Name>
+					<Abstract type="html">Name of the file</Abstract>
+				</Parameter><Parameter>
+					<Name>mimeType</Name>
+					<Abstract type="html">MIME type of the file</Abstract>
+				</Parameter>
+			</Parameters>
 			
 			<Anchor>//api/name/addPostFileData:paramName:fileName:mimeType:</Anchor>
             <NodeRef refid="5"/>
@@ -480,24 +494,34 @@ from the collection of headers.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/isNetworkError:</TokenIdentifier>
-			<Abstract type="html">Returns YES if error is a network error</Abstract>
+			<Abstract type="html">Indicates whether the error code of the given error specifies a network error.</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
 			<Declaration>+ (BOOL)isNetworkError:(NSError *)error</Declaration>
-			
-			
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">The error object to check</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error code of the given error specifies a network error</Abstract></ReturnValue>
 			<Anchor>//api/name/isNetworkError:</Anchor>
             <NodeRef refid="5"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestRequest/sfRestMethodFromHTTPMethod:</TokenIdentifier>
-			<Abstract type="html">Return SFRestMethod from string</Abstract>
+			<Abstract type="html">* Return SFRestMethod from string</Abstract>
 			<DeclaredIn>SFRestRequest.h</DeclaredIn>
 			
 			<Declaration>+ (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod</Declaration>
-			
-			
+			<Parameters>
+				<Parameter>
+					<Name>httpMethod</Name>
+					<Abstract type="html">An HTTP method; for example, &quot;get&quot; or &quot;post&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SFRestMethod enumerator for the given HTTP method</Abstract></ReturnValue>
 			<Anchor>//api/name/sfRestMethodFromHTTPMethod:</Anchor>
             <NodeRef refid="5"/>
 		</Token>
