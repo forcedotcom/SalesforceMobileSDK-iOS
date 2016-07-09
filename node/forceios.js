@@ -119,7 +119,7 @@ function createHybridApp(config) {
     shelljs.exec('cordova create "' + projectDir + '" ' + config.companyid + ' ' + config.appname);
     shelljs.pushd(projectDir);
     shelljs.exec('cordova platform add ios@' + cordovaPlatformVersion);
-    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#unstable');
+    shelljs.exec('cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#v' + version);
 
     // Remove the default Cordova app.
     shelljs.rm('-rf', path.join('www', '*'));
