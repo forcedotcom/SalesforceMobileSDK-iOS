@@ -48,11 +48,10 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     self = [super init];
     if (self) {
         #if defined(DEBUG)
-            [SFLogger setLogLevel:SFLogLevelDebug];
+            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         #else
-            [SFLogger setLogLevel:SFLogLevelInfo];
+            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
-        
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
