@@ -25,9 +25,8 @@
 #import "SFPasscodeManager.h"
 
 @interface SFPasscodeManager ()
-{
-    NSMutableOrderedSet *_delegates;
-}
+
+@property (nonatomic, strong, nonnull) NSHashTable<id<SFPasscodeManagerDelegate>> *delegates;
 
 /**
  Executes the given block against the set of delegates.
