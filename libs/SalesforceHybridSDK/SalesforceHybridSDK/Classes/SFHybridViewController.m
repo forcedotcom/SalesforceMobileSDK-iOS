@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -34,9 +34,8 @@
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 
-// Public constants
+// Public constants.
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
-
 NSString * const kAccessTokenCredentialsDictKey = @"accessToken";
 NSString * const kRefreshTokenCredentialsDictKey = @"refreshToken";
 NSString * const kClientIdCredentialsDictKey = @"clientId";
@@ -46,7 +45,7 @@ NSString * const kLoginUrlCredentialsDictKey = @"loginUrl";
 NSString * const kInstanceUrlCredentialsDictKey = @"instanceUrl";
 NSString * const kUserAgentCredentialsDictKey = @"userAgent";
 
-// Error page constants
+// Error page constants.
 static NSString * const kErrorCodeParameterName = @"errorCode";
 static NSString * const kErrorDescriptionParameterName = @"errorDescription";
 static NSString * const kErrorContextParameterName = @"errorContext";
@@ -63,81 +62,84 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 }
 
 /**
- Hidden UIWebView used to load the VF ping page.
+ * Hidden UIWebView used to load the VF ping page.
  */
 @property (nonatomic, strong) UIWebView *vfPingPageHiddenWebView;
 
 /**
- UIWebView for processing the error page, in the event of a fatal error during bootstrap.
+ * UIWebView for processing the error page, in the event of a fatal error during bootstrap.
  */
 @property (nonatomic, strong) UIWebView *errorPageWebView;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
  * in determining the app's ultimate home page.
+ *
  * @param url The URL to test.
- * @return YES if the value is one of the reserved URLs, NO otherwise.
+ * @return YES - if the value is one of the reserved URLs, NO - otherwise.
  */
 - (BOOL)isReservedUrlValue:(NSURL *)url;
 
 /**
- Reports whether the device is offline.
- @return YES if the device is offline, NO otherwise.
+ * Reports whether the device is offline.
+ *
+ * @return YES - if the device is offline, NO - otherwise.
  */
 - (BOOL)isOffline;
 
 /**
- Determines whether the error is due to invalid credentials, and if so, whether the
- app should be logged out as a result.
- @param error The error to check against an invalid credentials error.
- @return YES if the error is due to invalid credentials and logout should occur, NO
- otherwise.
+ * Determines whether the error is due to invalid credentials, and if so, whether the
+ * app should be logged out as a result.
+ *
+ * @param error The error to check against an invalid credentials error.
+ * @return YES - if the error is due to invalid credentials and logout should occur, NO - otherwise.
  */
 - (BOOL)logoutOnInvalidCredentials:(NSError *)error;
 
 /**
- Gets the file URL for the full path to the given page.
- @param page The relative page to create the path from.
- @return NSURL representing the file URL for the page path.
+ * Gets the file URL for the full path to the given page.
+ *
+ * @param page The relative page to create the path from.
+ * @return NSURL representing the file URL for the page path.
  */
 - (NSURL *)fullFileUrlForPage:(NSString *)page;
 
 /**
- Appends the error contents as querystring parameters to the input URL.
- @param rootUrl The base URL to use.
- @param errorCode The numeric error code associated with the error.
- @param errorDescription The error description associated with the error.
- @param errorContext The error context associated with the error.
- @return NSURL containing the base URL and the error parameter.
+ * Appends the error contents as querystring parameters to the input URL.
+ *
+ * @param rootUrl The base URL to use.
+ * @param errorCode The numeric error code associated with the error.
+ * @param errorDescription The error description associated with the error.
+ * @param errorContext The error context associated with the error.
+ * @return NSURL containing the base URL and the error parameter.
  */
 - (NSURL *)createErrorPageUrl:(NSURL *)rootUrl code:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
- Creates a default in-memory error page, in the event that a user-defined error page does not exist.
- @param errorCode The numeric error code associated with the error.
- @param errorDescription The error description associated with the error.
- @param errorContext The context associated with the error.
- @return An NSString containing the HTML content for the error page.
+ * Creates a default in-memory error page, in the event that a user-defined error page does not exist.
+ *
+ * @param errorCode The numeric error code associated with the error.
+ * @param errorDescription The error description associated with the error.
+ * @param errorContext The context associated with the error.
+ * @return An NSString containing the HTML content for the error page.
  */
 - (NSString *)createDefaultErrorPageContentWithCode:(NSInteger)errorCode description:(NSString *)errorDescription context:(NSString *)errorContext;
 
 /**
  * Method called after re-authentication completes (after session timeout).
+ *
  * @param originalUrl The original URL being called before the session timed out.
  */
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
 
 /**
- Loads the VF ping page in an invisible UIWebView and sets session cookies
- for the VF domain.
+ * Loads the VF ping page in an invisible UIWebView and sets session cookies for the VF domain.
  */
 - (void)loadVFPingPage;
 
 @end
 
 @implementation SFHybridViewController
-
-#pragma mark - Init / dealloc / etc.
 
 - (id)init
 {
@@ -149,7 +151,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     self = [super init];
     if (self) {
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
-        NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized.  See output log for errors.");
+        NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
     }
     return self;
@@ -168,7 +170,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     NSString *hybridViewUserAgentString = [self sfHybridViewUserAgentString];
     [SFSDKWebUtils configureUserAgent:hybridViewUserAgentString];
     self.baseUserAgent = hybridViewUserAgentString;
-    
+
     // If this app requires authentication at startup, and authentication hasn't happened, that's an error.
     NSString *accessToken = [SFUserAccountManager sharedInstance].currentUser.credentials.accessToken;
     if (_hybridViewConfig.shouldAuthenticate && [accessToken length] == 0) {
@@ -176,18 +178,20 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         [self loadErrorPageWithCode:kErrorCodeNoCredentials description:noCredentials context:kErrorContextAppLoading];
         return;
     }
-    
+
     // If the app is local, we should just be able to load it.
     if (_hybridViewConfig.isLocal) {
         [super viewDidLoad];
         return;
     }
-    
+
     // Remote app.  If the device is offline, we should attempt to load cached content.
     if ([self isOffline]) {
+
         // Device is offline, and we have to try to load cached content.
         NSString *urlString = [self.appHomeUrl absoluteString];
         if (_hybridViewConfig.attemptOfflineLoad && [urlString length] > 0) {
+
             // Try to load offline page.
             self.startPage = urlString;
             [super viewDidLoad];
@@ -197,14 +201,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         }
         return;
     }
-    
-    // Remote app.  Device is online.
+
+    // Remote app. Device is online.
     [SFAuthenticationManager resetSessionCookie];
     [self configureRemoteStartPage];
     [super viewDidLoad];
 }
-
-#pragma mark - Property implementations
 
 - (NSString *)remoteAccessConsumerKey
 {
@@ -237,12 +239,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return _hybridViewConfig;
 }
 
-#pragma mark - Public methods
-
 - (void)authenticateWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
-    // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-    // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+
+    /*
+     * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
+     * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+     */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
         [self authenticationCompletion:nil authInfo:authInfo];
@@ -265,6 +268,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)getAuthCredentialsWithCompletionBlock:(SFOAuthPluginAuthSuccessBlock)completionBlock failureBlock:(SFOAuthFlowFailureCallbackBlock)failureBlock
 {
+
     // If authDict does not contain an access token, authenticate first. Otherwise, send current credentials.
     NSDictionary *authDict = [self credentialsAsDictionary];
     if ([authDict[kAccessTokenCredentialsDictKey] length] == 0) {
@@ -289,7 +293,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSURLRequest *errorRequest = [NSURLRequest requestWithURL:errorPageUrlWithError];
         [self.errorPageWebView loadRequest:errorRequest];
     } else {
-        // Error page does not exist.  Generate a generic page with the error.
+
+        // Error page does not exist. Generate a generic page with the error.
         NSString *errorContent = [self createDefaultErrorPageContentWithCode:errorCode description:errorDescription context:errorContext];
         [self.errorPageWebView loadHTMLString:errorContent baseURL:nil];
     }
@@ -328,8 +333,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     return userAgentString;
 }
 
-#pragma mark - Private methods
-
 - (NSURL *)frontDoorUrlWithReturnUrl:(NSString *)returnUrl returnUrlIsEncoded:(BOOL)isEncoded createAbsUrl:(BOOL)createAbsUrl
 {
     SFOAuthCredentials *creds = [SFUserAccountManager sharedInstance].currentUser.credentials;
@@ -343,18 +346,15 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
         fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
     }
-    
     if([returnUrl containsString:@"frontdoor.jsp"]) {
         NSRange r1 = [returnUrl rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
         NSRange r2 = [returnUrl rangeOfString: isEncoded ? @"%26display" : @"&display"];
         NSRange range = NSMakeRange(r1.location + r1.length, r2.location - r1.location - r1.length);
         NSString *newReturnUrl = [returnUrl substringWithRange: range];
         if(isEncoded) newReturnUrl = [newReturnUrl stringByRemovingPercentEncoding];
-        
-        NSLog(@"%@", newReturnUrl);
+        [self log:SFLogLevelDebug format:@"%@", newReturnUrl];
         return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
     }
-    
     NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"]) {
@@ -440,51 +440,57 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)configureRemoteStartPage
 {
+
     // Note: You only want this to ever run once in the view controller's lifetime.
     static BOOL startPageConfigured = NO;
     self.startPage = [[self frontDoorUrlWithReturnUrl:self.startPage returnUrlIsEncoded:NO createAbsUrl:YES] absoluteString];
     startPageConfigured = YES;
 }
 
-#pragma mark - UIWebViewDelegate
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     [self log:SFLogLevelDebug format:@"webView:shouldStartLoadWithRequest: Loading URL '%@'",
      [request.URL redactedAbsoluteString:@[@"sid"]]];
-    
+
     // Hidden ping page load.
     if ([webView isEqual:self.vfPingPageHiddenWebView]) {
         [self log:SFLogLevelDebug msg:@"Setting up VF web state after plugin-based refresh."];
         return YES;
     }
-    
+
     // Local error page load.
     if ([webView isEqual:self.errorPageWebView]) {
         [self log:SFLogLevelDebug format:@"Local error page ('%@') is loading.", request.URL.absoluteString];
         return YES;
     }
-    
+
     // Cordova web view load.
     if ([webView isEqual:self.webView]) {
-        // If the request is attempting to refresh an invalid session, take over the refresh process via the
-        // OAuth refresh flow in the container.
+
+        /*
+         * If the request is attempting to refresh an invalid session, take over
+         * the refresh process via the OAuth refresh flow in the container.
+         */
         NSString *refreshUrl = [self isLoginRedirectUrl:request.URL];
         if (refreshUrl != nil) {
-            [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout.  Re-authenticating."];
-            // Re-configure user agent.  Basically this ensures that Cordova whitelisting won't apply to the
-            // UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+            [self log:SFLogLevelWarning msg:@"Caught login redirect from session timeout. Reauthenticating."];
+
+            /*
+             * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
+             * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+             */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
              loginWithCompletion:^(SFOAuthInfo *authInfo) {
+
                  // Reset the user agent back to Cordova.
                  [self authenticationCompletion:refreshUrl authInfo:authInfo];
-             }
-             failure:^(SFOAuthInfo *authInfo, NSError *error) {
+             } failure:^(SFOAuthInfo *authInfo, NSError *error) {
                  if ([self logoutOnInvalidCredentials:error]) {
                      [self log:SFLogLevelError msg:@"Could not refresh expired session.  Logging out."];
                      [[SFAuthenticationManager sharedManager] logout];
                  } else {
+
                      // Error is not invalid credentials, or developer otherwise wants to handle it.
                      [self loadErrorPageWithCode:error.code description:error.localizedDescription context:kErrorContextAuthExpiredSessionRefresh];
                  }
@@ -492,7 +498,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             return NO;
         }
     }
-    return [super webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    return [self.webViewEngine shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)theWebView
@@ -501,16 +507,17 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     NSArray *redactParams = @[@"sid"];
     NSString *redactedUrl = [requestUrl redactedAbsoluteString:redactParams];
     [self log:SFLogLevelDebug format:@"webViewDidFinishLoad: Loaded %@", redactedUrl];
-    
     if ([theWebView isEqual:self.vfPingPageHiddenWebView]) {
         [self log:SFLogLevelDebug format:@"Finished loading VF ping page '%@'.", redactedUrl];
         return;
     }
-    
     if ([theWebView isEqual:self.webView]) {
-        // The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
-        // this app's infrastructure is responsible for) will be considered the "app home URL", which can
-        // be loaded directly in the event that the app is offline.
+
+        /*
+         * The first URL that's loaded that's not considered a 'reserved' URL (i.e. one that Salesforce or
+         * this app's infrastructure is responsible for) will be considered the "app home URL", which can
+         * be loaded directly in the event that the app is offline.
+         */
         if (_foundHomeUrl == NO) {
             [self log:SFLogLevelInfo format:@"Checking %@ as a 'home page' URL candidate for this app.", redactedUrl];
             if (![self isReservedUrlValue:requestUrl]) {
@@ -520,14 +527,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
             }
         }
     }
-    
-    [super webViewDidFinishLoad:theWebView];
+    [self.webViewEngine webViewDidFinishLoad:theWebView];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     [self log:SFLogLevelDebug msg:@"Started loading web page."];
-    [super webViewDidStartLoad:webView];
+    [self.webViewEngine webViewDidStartLoad:webView];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
@@ -537,7 +543,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         if ([[self class] isFatalWebViewError:error]) {
             [self loadErrorPageWithCode:[error code] description:[error localizedDescription] context:kErrorContextAppLoading];
         }
-        [super webView:webView didFailLoadWithError:error];
+        [self.webViewEngine webView:webView didFailLoadWithError:error];
     }
 }
 
@@ -546,11 +552,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
         return NO;
     }
-    
     return YES;
 }
-
-#pragma mark - URL evaluation helpers
 
 - (BOOL)isReservedUrlValue:(NSURL *)url
 {
@@ -571,8 +574,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     }
     return NO;
 }
-
-#pragma mark - OAuth flow helpers
 
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo
 {
