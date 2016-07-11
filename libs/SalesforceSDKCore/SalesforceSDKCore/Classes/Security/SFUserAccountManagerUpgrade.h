@@ -26,6 +26,9 @@
 #import "SFUserAccount.h"
 
 @class SFUserAccountManager;
+/**
+ * Class for updating legacy accounts and active users to current standards.
+ */
 
 @interface SFUserAccountManagerUpgrade : NSObject
 

@@ -35,12 +35,6 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
 @implementation SFRestRequest
 
-@synthesize delegate=_delegate;
-@synthesize action=_action;
-@synthesize queryParams=_queryParams;
-@synthesize requestBodyStreamBlock=_requestBodyStreamBlock;
-@synthesize requestContentType=_requestContentType;
-
 - (id)initWithMethod:(SFRestMethod)method path:(NSString *)path queryParams:(NSDictionary *)queryParams {
     SFRestAPISalesforceAction *action = [self actionFromMethod:method path:path];
     return [self initWithSalesforceAction:action queryParams:queryParams];
@@ -299,22 +293,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 + (BOOL)isNetworkError:(NSError *)error {
-    if (nil == error) {
-        return NO;
-    }
-    switch (error.code) {
-        case kCFURLErrorNotConnectedToInternet:
-        case kCFURLErrorCannotFindHost:
-        case kCFURLErrorCannotConnectToHost:
-        case kCFURLErrorNetworkConnectionLost:
-        case kCFURLErrorDNSLookupFailed:
-        case kCFURLErrorResourceUnavailable:
-        case kCFURLErrorTimedOut:
-            return YES;
-            break;
-        default:
-            return NO;
-    }
+    return [CSFSalesforceAction isNetworkError:error];
 }
 
 + (NSString *)httpMethodFromSFRestMethod:(SFRestMethod)restMethod {

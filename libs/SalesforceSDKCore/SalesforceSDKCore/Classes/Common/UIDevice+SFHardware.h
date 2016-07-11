@@ -126,6 +126,9 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
  */
 - (UIDevicePlatform) platformType;
 
+/**Returns the system-dependent version number.
+ @return The system version number.
+ */
 - (double)systemVersionNumber;
 
 /**Platform string
@@ -182,17 +185,17 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
  */
 - (BOOL)isSimulator;
 
-/* Determine if the current device can place phone calls.
+/** Determines whether the current device can place phone calls.
  * @return Returns YES if the current device can make a phone call, NO otherwise.
  */
 - (BOOL)canDevicePlaceAPhoneCall;
 
-/* Determine if the current device has the screen size of an iPhone 6.
+/** Determine if the current device has the screen size of an iPhone 6.
  * @return Returns YES if so, NO otherwise.
  */
 - (BOOL)hasIphone6ScreenSize;
 
-/* Determine if the current device has the screen size of an iPhone 6 plus.
+/** Determine if the current device has the screen size of an iPhone 6 plus.
  * @return Returns YES if so, NO otherwise.
  */
 - (BOOL)hasIphone6PlusScreenSize;

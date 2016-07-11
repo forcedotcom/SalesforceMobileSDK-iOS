@@ -44,7 +44,7 @@
     
     for (NSUInteger i = 0; i < numDataStrings; i++) {
         for (NSUInteger j = i + 1; j < numDataStrings; j++) {
-            XCTAssertFalse([[dataStringArray objectAtIndex:i] isEqualToData:[dataStringArray objectAtIndex:j]], @"Random data strings at index %d and %d are equal.  Not enough entropy!", i, j);
+            XCTAssertFalse([[dataStringArray objectAtIndex:i] isEqualToData:[dataStringArray objectAtIndex:j]], @"Random data strings at index %lu and %luu are equal.  Not enough entropy!", (unsigned long)i, (unsigned long)j);
         }
     }
 }

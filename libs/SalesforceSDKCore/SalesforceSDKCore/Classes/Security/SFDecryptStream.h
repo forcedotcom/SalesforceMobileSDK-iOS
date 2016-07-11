@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,21 +22,24 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <XCTest/XCTest.h>
+#import <Foundation/Foundation.h>
+#import "SFCryptChunks.h"
 
-@import SalesforceKit;
+NS_ASSUME_NONNULL_BEGIN
 
-@interface SalesforceKit_iOSTests : XCTestCase
+/**
+ * SFDecryptStream is an input stream that decrypts data right after it is read.
+ * SFCryptChunks is used to perform the decryption.
+ */
+@interface SFDecryptStream : NSInputStream <SFCryptChunksDelegate>
+
+/**
+ *  Setup for decryption. You must call this method before using the stream.
+ *  @param key the cipher key.
+ *  @param iv  the initialization vector, must be size of `SFCryptChunksCipherBlockSize`.
+ */
+- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv;
+
 @end
 
-@implementation SalesforceKit_iOSTests
-
-- (void)testSymbols {
-    XCTAssertEqualObjects(NSStringFromClass([SFUserAccountManager class]), @"SFUserAccountManager");
-    XCTAssertEqualObjects(NSStringFromClass([SFOAuthCredentials class]), @"SFOAuthCredentials");
-    XCTAssertEqualObjects(NSStringFromClass([SFSmartStore class]), @"SFSmartStore");
-    XCTAssertEqualObjects(NSStringFromClass([CSFNetwork class]), @"CSFNetwork");
-}
-
-@end
+NS_ASSUME_NONNULL_END

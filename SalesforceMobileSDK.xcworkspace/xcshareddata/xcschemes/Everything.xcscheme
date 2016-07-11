@@ -426,13 +426,28 @@
                ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4F1DA68A1C84FD7E0014FAD3"
+               BuildableName = "SmartSyncExplorerUITests.xctest"
+               BlueprintName = "SmartSyncExplorerUITests"
+               ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -443,6 +458,11 @@
                BlueprintName = "SalesforceHybridSDKTests"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "SmartSyncTestSuite">
+               </Test>
+            </SkippedTests>
          </TestableReference>
          <TestableReference
             skipped = "NO">
@@ -498,10 +518,10 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4F7EB4051BFFC88200768720"
-               BuildableName = "SalesforceSDKCoreTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTests"
-               ReferencedContainer = "container:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
+               BlueprintIdentifier = "4F1DA68A1C84FD7E0014FAD3"
+               BuildableName = "SmartSyncExplorerUITests.xctest"
+               BlueprintName = "SmartSyncExplorerUITests"
+               ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

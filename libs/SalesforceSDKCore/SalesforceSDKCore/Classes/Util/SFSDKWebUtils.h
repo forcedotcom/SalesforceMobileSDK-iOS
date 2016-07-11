@@ -24,7 +24,6 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 /**
  * The property key used to designate the user agent, in the app's default properties.

@@ -23,10 +23,12 @@
  */
 
 #import <Foundation/Foundation.h>
-
+/** Salesforce Mobile SDK additions to the NSURL class
+ */
 @interface NSURL (SFAdditions)
 
 /** Get value for a parameter name from the URL
+ @param name Name of the parameter
  */
 - (NSString*)valueForParameterName:(NSString*)name;
 

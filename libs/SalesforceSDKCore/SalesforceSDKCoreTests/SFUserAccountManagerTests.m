@@ -89,10 +89,10 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 
     // Set the oauth client ID after deleting the content of the global library directory
     // to ensure the SFUserAccountManager sharedInstance loads from an empty directory
-    [SFUserAccountManager sharedInstance].oauthClientId = @"fakeClientIdForTesting";
+    self.uam = [SFUserAccountManager sharedInstance];
+    self.uam.oauthClientId = @"fakeClientIdForTesting";
 
     // Ensure the user account manager doesn't contain any account
-    self.uam = [SFUserAccountManager sharedInstance];
     [self.uam clearAllAccountState];
     [self.uam disableAnonymousAccount];
     self.uam.currentUser = nil;
@@ -368,10 +368,13 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
 - (void)FIXMEtestActiveIdentityUpgrade {
 
     // Ensure we start with a clean state
-    XCTAssertEqual([self.uam.allUserIdentities count], (NSUInteger)0, @"There should be no accounts");
+    NSUInteger allUserIdenties = [self.uam.allUserIdentities count];
+    XCTAssertEqual(allUserIdenties, 0, @"There should be no accounts");
+
     NSArray *accounts = [self createAndVerifyUserAccounts:1];
-    self.uam.currentUser = accounts[0];
-    SFUserAccountIdentity *accountIdentity = ((SFUserAccount *)accounts[0]).accountIdentity;
+    SFUserAccount *newAccount = ((SFUserAccount *)accounts[0]);
+    [self.uam switchToUser:newAccount];
+    SFUserAccountIdentity *accountIdentity = newAccount.accountIdentity;
     SFUserAccountIdentity *activeIdentity = self.uam.activeUserIdentity;
     XCTAssertEqualObjects(accountIdentity, activeIdentity, @"Active identity should be account identity.");
     NSError *error = nil;

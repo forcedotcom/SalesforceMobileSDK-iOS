@@ -45,6 +45,7 @@
 /**
  * Adds a new login host.
  * This method updates the underlying storage and refreshes the list of login hosts.
+ * @param host The login host to be added.
  * @see showAddLoginHost for presenting a UI for the user to enter a new login host.
  */
 - (void)addLoginHost:(SFSDKLoginHost *)host;

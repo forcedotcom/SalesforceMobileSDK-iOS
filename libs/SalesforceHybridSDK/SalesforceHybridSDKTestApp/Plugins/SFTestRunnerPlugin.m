@@ -71,7 +71,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     if (nil != self)  {
         _readyToStartTests = NO;
         [self log:SFLogLevelDebug msg:@"SFTestRunnerPlugin initWithWebView"];
-        _testResults = [[NSMutableArray alloc] init ];
+        _testResults = [[NSMutableDictionary alloc] init ];
     }
     return self;
 }
@@ -81,8 +81,10 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 }
 
 
-- (BOOL)testResultAvailable {
-    return ([self.testResults count] > 0);
+- (BOOL)testResultAvailable:(NSString *)testName {
+    if ([[self testResults] objectForKey:testName])
+        return YES;
+    return NO;
 }
 
 
@@ -112,7 +114,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         [self log:SFLogLevelDebug format:@"### TEST FAILED: %@",testName];
     }
     SFTestResult *testResult = [[SFTestResult alloc] initWithName:testName success:success message:message status:testStatus];
-    [self.testResults addObject:testResult];
+    [self.testResults setObject:testResult forKey:testName];
     [self writeCommandOKResultToJsRealm: callbackId];    
 }
 

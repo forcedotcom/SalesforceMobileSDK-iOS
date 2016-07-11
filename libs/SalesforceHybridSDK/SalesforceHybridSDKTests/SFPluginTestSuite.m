@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SmartStore/SmartStore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
+#import <SalesforceSDKCore/SFApplicationHelper.h>
 #import "SFPluginTestSuite.h"
 #import "AppDelegate.h"
 #import "SFTestRunnerPlugin.h"
@@ -39,7 +40,7 @@
 {
     [super setUp];
     
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
     _testRunnerPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
 
     
@@ -58,8 +59,8 @@
 }
 
 
-- (BOOL)isTestResultAvailable {
-    return [_testRunnerPlugin testResultAvailable];
+- (BOOL)isTestResultAvailable:(NSString *)testName {
+    return [_testRunnerPlugin testResultAvailable:testName];
 }
 
 - (BOOL)isTestRunnerReady {
@@ -87,11 +88,11 @@
 }
 
 
-- (BOOL)waitForOneCompletion {
+- (BOOL)waitForOneCompletion:(NSString *)testName {
     NSDate *startTime = [NSDate date] ;
     BOOL completionTimedOut = NO;
     
-    while (![self isTestResultAvailable]) {
+    while (![self isTestResultAvailable:testName]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
         if (elapsed > 30.0) {
             [self log:SFLogLevelDebug format:@"test took too long (%f) to complete",elapsed];
@@ -124,29 +125,22 @@
     NSString *testCmd = [NSString stringWithFormat:@"var testRunner = cordova.require(\"com.salesforce.plugin.testrunner\"); testRunner.setTestSuite('%@'); testRunner.startTest('%@');"
                          ,suiteName,testName];
     
-    AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    AppDelegate *app = (AppDelegate*)[SFApplicationHelper sharedApplication].delegate;
     NSString *cmdResult = [app evalJS:testCmd];
     [self log:SFLogLevelDebug format:@"cmdResult: '%@'",cmdResult];
     
-    BOOL timedOut = [self waitForOneCompletion];
+    BOOL timedOut = [self waitForOneCompletion:testName];
     XCTAssertFalse(timedOut, @"timed out waiting for %@ to complete",testName);
     
     if (!timedOut) {
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        AppDelegate *appDelegate = (AppDelegate *)[[SFApplicationHelper sharedApplication] delegate];
         SFTestRunnerPlugin *plugin = (SFTestRunnerPlugin*)[appDelegate.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
-        SFTestResult *testResult = [plugin testResults][0];
-        [[plugin testResults] removeObjectAtIndex:0];
+        SFTestResult *testResult = [[plugin testResults] objectForKey:testName];
         [self log:SFLogLevelDebug format:@"%@ completed in %f",testResult.testName, testResult.duration];
         XCTAssertEqualObjects(testResult.testName, testName, @"Wrong test completed");
         XCTAssertTrue(testResult.success, @"%@ failed: %@",testResult.testName,testResult.message);
+        [[plugin testResults] removeObjectForKey:testName];
     }
 }
-
-
-
-
-
-
-
 
 @end

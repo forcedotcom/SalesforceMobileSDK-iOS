@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "CSFMultipartInputStream.h"
 
@@ -106,8 +105,8 @@
     dateFormatter.dateStyle = NSDateFormatterFullStyle;
     dateFormatter.timeStyle = NSDateFormatterFullStyle;
     
-    [stream addObject:[dateFormatter dateFromString:@"Friday, July 24, 2015 at 7:21:02 AM Hawaii-Aleutian Standard Time"]
-               forKey:@"date"];
+    NSDate *someDate =[dateFormatter dateFromString:@"Friday, July 24, 2015 at 7:21:02 AM Hawaii-Aleutian Standard Time"];
+    [stream addObject:someDate forKey:@"date"];
     XCTAssertEqual(stream.numberOfParts, 2U);
     XCTAssertEqual(stream.length, 321U);
     
@@ -132,10 +131,11 @@
     XCTAssertEqual(readCount, 682U);
     [data appendBytes:buffer length:readCount];
     
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH::mm:ss'Z'"];
     NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *expectedString = [NSMutableString new];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nTest String\r\n", stream.boundary];
-    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n2015-07-24T10:21:02Z\r\n", stream.boundary];
+    [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"date\"\r\n\r\n%@\r\n", stream.boundary, [dateFormatter stringFromDate:someDate]];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"url\"\r\n\r\nhttp://example.org/path/to?something=else\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"file\"; filename=\"SimpleFile.json\"\r\nContent-Type: application/json\r\n\r\n{\"simple\":{\"json\":\"data\"},\"count\":15}\r\n", stream.boundary];
     [expectedString appendFormat:@"--%@--\r\n", stream.boundary];

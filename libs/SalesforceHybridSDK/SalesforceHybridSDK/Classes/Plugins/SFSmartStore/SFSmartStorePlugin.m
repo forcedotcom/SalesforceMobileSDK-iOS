@@ -229,9 +229,26 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSArray *entryIds = [argsDict nonNullObjectForKey:kEntryIdsArg];
+        NSDictionary *querySpecDict = [argsDict nonNullObjectForKey:kQuerySpecArg];
+
         [self log:SFLogLevelDebug format:@"pgRemoveFromSoup with soup name: %@", soupName];
-        [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName];
-        return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+        NSError *error = nil;
+        if (entryIds) {
+            [[self getStoreInst:argsDict] removeEntries:entryIds fromSoup:soupName error:&error];
+        }
+        else {
+            SFQuerySpec* querySpec = [[SFQuerySpec alloc] initWithDictionary:querySpecDict withSoupName:soupName];
+            [[self getStoreInst:argsDict] removeEntriesByQuery:querySpec fromSoup:soupName error:&error];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+        }
+
+        if (error == nil) {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
+        }
+        else {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[error localizedDescription]];
+        }
+        
     } command:command];
 }
 

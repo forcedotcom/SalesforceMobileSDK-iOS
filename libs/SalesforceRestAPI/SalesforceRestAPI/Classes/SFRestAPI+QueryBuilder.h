@@ -98,7 +98,7 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
  * @param sObject - object to query
- * @param where - nil OR where clause
+ * @param whereClause - nil OR where clause
  * @param limit - limit count, or 0 for no limit (for use with query locators)
  * @returns query or nil if a query could not be generated
  */
@@ -111,7 +111,7 @@ extern NSInteger const kMaxSOSLSearchLimit;
  * Generate a SOQL query.
  * @param fields - NSArray of fields to select
  * @param sObject - object to query
- * @param where - nil OR where clause
+ * @param whereClause - nil OR where clause
  * @param groupBy - nil OR NSArray of strings, each string is an individual group by clause
  * @param having - nil OR having clause
  * @param orderBy - nil OR NSArray of strings, each string is an individual order by clause

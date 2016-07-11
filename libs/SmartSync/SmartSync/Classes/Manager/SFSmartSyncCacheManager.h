@@ -76,8 +76,8 @@ typedef  enum {
  @param cacheType Cache type
  @param cacheKey Key to use to retrieve cached data
  @param cachePolicy See `SFDataCachePolicy`
- @param encrypted Yes if cache to read is encrypted
- @cachedTime Return time the data was last updated in cache
+ @param objectClass Object class to expect
+ @param lastCachedTime Return time the data was last updated in cache
  */
 - (NSArray *)readDataWithCacheType:(NSString *)cacheType
                           cacheKey:(NSString *)cacheKey

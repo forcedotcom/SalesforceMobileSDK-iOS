@@ -25,6 +25,8 @@
 #import <Foundation/Foundation.h>
 #import "SFKeyStoreKey.h"
 
+/** For internal use. 
+ */
 @interface SFKeyStore : NSObject
 
 /**

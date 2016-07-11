@@ -24,15 +24,23 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+#ifndef NS_EXTENSIBLE_STRING_ENUM
+#define NS_EXTENSIBLE_STRING_ENUM
+#endif
+
+typedef NSString * SFPasscodeProviderId NS_EXTENSIBLE_STRING_ENUM;
+
 /**
  * String representing the provider name for the SHA-256 passcode provider.
  */
-extern NSString * const kSFPasscodeProviderSHA256;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderSHA256;
 
 /**
  * String representing the provider name for the PBKDF2 passcode provider.
  */
-extern NSString * const kSFPasscodeProviderPBKDF2;
+FOUNDATION_EXTERN SFPasscodeProviderId const kSFPasscodeProviderPBKDF2;
 
 /**
  * Protocol that a passcode provider class must implement.
@@ -42,13 +50,13 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
 /**
  * The canonical name of this passcode provider.
  */
-@property (nonatomic, readonly) NSString *providerName;
+@property (nonatomic, readonly) SFPasscodeProviderId providerName;
 
 /**
  * Designated initializer for an SFPasscodeProvider.
  * @param providerName The canonical name of the provider.
  */
-- (id)initWithProviderName:(NSString *)providerName;
+- (instancetype)initWithProviderName:(SFPasscodeProviderId)providerName;
 
 /**
  * Reset (unset) the passcode and any persisted data associated with it.
@@ -65,7 +73,7 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
 /**
  * @return The hashed verification passcode, or nil if not configured.
  */
-- (NSString *)hashedVerificationPasscode;
+- (nullable NSString *)hashedVerificationPasscode;
 
 /**
  * Set/persist the verification passcode, based on the input passcode.
@@ -97,7 +105,7 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * with, usign the [SFPasscodeProviderManager passcodeProviderForProviderName:] method.
  * @return The name of the currently configured passcode provider.
  */
-+ (NSString *)currentPasscodeProviderName;
++ (SFPasscodeProviderId)currentPasscodeProviderName;
 
 /**
  * Sets the current passcode provider.  Note: the passcode provider implementation class itself
@@ -105,7 +113,7 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * method.  The default providers in the SDK will already be configured.
  * @param providerName The name of the passcode provider that will become the current provider.
  */
-+ (void)setCurrentPasscodeProviderByName:(NSString *)providerName;
++ (void)setCurrentPasscodeProviderByName:(SFPasscodeProviderId)providerName;
 
 /**
  * @return The provider implementation for the current passcode provider.
@@ -118,7 +126,7 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * @param providerName The name associated with the requested provider.
  * @return The passcode provider implementation.
  */
-+ (id<SFPasscodeProvider>)passcodeProviderForProviderName:(NSString *)providerName;
++ (nullable id<SFPasscodeProvider>)passcodeProviderForProviderName:(SFPasscodeProviderId)providerName;
 
 /**
  * Adds a custom passcode provider implementation to the global provider configuration.
@@ -133,7 +141,9 @@ extern NSString * const kSFPasscodeProviderPBKDF2;
  * the current provider will be reset to the default value.
  * @param providerName The name of the provider to remove.
  */
-+ (void)removePasscodeProviderWithName:(NSString *)providerName;
++ (void)removePasscodeProviderWithName:(SFPasscodeProviderId)providerName;
 
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
@@ -46,7 +45,7 @@ static NSUInteger const kNumThreadsInSafetyTest = 100;
 - (void)setUp {
     [super setUp];
     
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     
     // No passcode, to start.
     [[SFPasscodeManager sharedManager] changePasscode:nil];

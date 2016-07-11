@@ -41,10 +41,10 @@ NSString * const CSFNetworkErrorAuthenticationFailureKey = @"isAuthenticationFai
 
 NSTimeInterval const CSFActionDefaultTimeOut = 3 * 60; // 3 minutes
 
-NSString * const kCSFActionTimingTotalTimeKey = @"total";
-NSString * const kCSFActionTimingNetworkTimeKey = @"network";
-NSString * const kCSFActionTimingStartDelayKey = @"startDelay";
-NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
+CSFActionTiming kCSFActionTimingTotalTimeKey = @"total";
+CSFActionTiming kCSFActionTimingNetworkTimeKey = @"network";
+CSFActionTiming kCSFActionTimingStartDelayKey = @"startDelay";
+CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @interface CSFAction () {
     BOOL _ready;
@@ -72,10 +72,14 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 - (NSURL*)urlForActionWithError:(NSError**)error {
     NSURL *baseURL = self.baseURL;
     if (!baseURL) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
+        NetworkWarn(@"Network action must have a base URL defined.");
+
+        if (error) {
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a base URL defined",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
@@ -83,10 +87,13 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Make sure path is not empty
     if (!path || path.length == 0) {
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkURLCredentialsError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
+        NetworkWarn(@"Network action must have a valid path.");
+        if (error) {
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkURLCredentialsError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Network action must have a valid path",
                                              CSFNetworkErrorActionKey: self }];
+        }
         return nil;
     }
     
@@ -163,6 +170,11 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 #pragma mark -
 #pragma mark object lifecycle
 
+- (instancetype)init {
+    self = [super init];
+    return self;
+}
+
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock {
     self = [super init];
     if (self) {
@@ -187,7 +199,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
         if ([fm fileExistsAtPath:self.downloadLocation.path]) {
             NSError *error = nil;
             if (![fm removeItemAtURL:self.downloadLocation error:&error]) {
-                NSLog(@"Error removing temporary download file %@: %@", self.downloadLocation.path, error);
+                NetworkError(@"Error removing temporary download file: %@", error);
             }
         }
     }
@@ -216,7 +228,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     NSError *error = nil;
     NSURL *url = [self urlForActionWithError:&error];
     if (error) {
-        NSLog(@"Error composing URL: %@", error);
+        NetworkWarn(@"Error composing URL: %@", error);
     }
     return url;
 }
@@ -401,7 +413,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     NSError *error = nil;
     if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:temporaryUrl error:&error]) {
-        NSLog(@"Error moving temporary file %@ to %@: %@", location.path, temporaryUrl.path, error);
+        NetworkError(@"Error moving temporary file: %@", error);
         temporaryUrl = location;
     }
     
@@ -418,6 +430,20 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self updateProgress];
 
     if (error) {
+        NetworkDebug(@"Received an error while processing %@: %@", self, error);
+
+        if ([error.domain isEqualToString:NSURLErrorDomain] &&
+            error.code == kCFURLErrorSecureConnectionFailed)
+        {
+            // Note: It would be possible to further detect the stream error key to identify the exact reason
+            //       the handshake failed, but the userInfo key `_kCFStreamErrorCodeKey` isn't exposed as a
+            //       public API.  Therefore, we cannot directly compare it to the `errSSLPeerHandshakeFail`
+            //       or else we might get flagged as using a private API.  So we'll just use the
+            //       `kCFURLErrorSecureConnectionFailed` error code by itself, which may falsely print the
+            //       following error for non-ATS SSL errors.
+            NetworkError(@"An SSL error occurred while communicating with the server, you may need to review your application's App Transport Security settings");
+        }
+
         // Error from URLSession:task:didCompleteWithError: is generally an error with the request itself
         // (as opposed to an error returned from the service).
         if ([self shouldRetryWithError:error]) {
@@ -430,11 +456,13 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
                                                                          NSUnderlyingErrorKey: error }]];
         }
     } else if (![task.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NetworkWarn(@"Received a non-HTTP response");
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkURLResponseInvalidError
                                                          userInfo:@{ NSLocalizedDescriptionKey: @"Unexpected URL response type returned.",
                                                                      CSFNetworkErrorActionKey: self }]];
     } else {
+        NetworkVerbose(@"Successfully completed request");
         [self completeOperationWithResponse:(NSHTTPURLResponse *)task.response];
     }
 }
@@ -534,6 +562,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)cancel {
     [super cancel];
+    NetworkVerbose(@"In-flight action cancelled");
     [self.sessionTask cancel];
     [self.progress cancel];
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
@@ -719,6 +748,8 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     
     // Surface error back if we run into JSON parsing error on a successful HTTP response
     if (jsonParseError && error && requestSucceeded) {
+        NetworkWarn(@"Error while parsing response; it doesn't appear to be JSON");
+        
         *error = [NSError errorWithDomain:CSFNetworkErrorDomain
                                      code:CSFNetworkJSONInvalidError
                                  userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
@@ -790,9 +821,9 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
                     dispatch_async(dispatchQueue, ^{
                         [outputCache cacheOutputFromAction:self completionBlock:^(NSError *error) {
                             if (error) {
+                                NetworkInfo(@"Error caching response in %@: %@", NSStringFromClass(outputCache.class), error);
                                 [errors addObject:error];
                             }
-
                             dispatch_group_leave(dispatchGroup);
                         }];
                     });
@@ -828,14 +859,13 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     BOOL refreshLaunched = YES;
     if (self.requiresAuthentication) {
         if (self.authRefreshClass == nil) {
-            NSLog(@"[%@ %@] WARNING: authRefreshClass property not set.  Cannot refresh credentials", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            NetworkWarn(@"authRefreshClass property not set.  Cannot refresh credentials");
             refreshLaunched = NO;
         } else {
             [self triggerActionAfterTokenRefresh];
         }
     } else {
-        NSLog(@"[%@ %@] WARNING: Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.",
-              NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        NetworkWarn(@"Unauthorized response, but requiresAuthentication not set.  Cannot replay original request.");
         refreshLaunched = NO;
     }
     
@@ -850,7 +880,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
     NSMutableURLRequest *request = nil;
     if (url) {
         request = [NSMutableURLRequest requestWithURL:url
-                                          cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                          cachePolicy:NSURLRequestReloadIgnoringCacheData
                                       timeoutInterval:self.timeoutInterval];
         request.HTTPMethod = self.method;
         request.allHTTPHeaderFields = [self headersForAction];
@@ -867,7 +897,7 @@ NSString * const kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 @implementation CSFAction (Timing)
 
-- (NSTimeInterval)intervalForTimingKey:(NSString *)key {
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key {
     NSTimeInterval result = 0;
     
     NSDate *firstDate = nil, *secondDate = nil;

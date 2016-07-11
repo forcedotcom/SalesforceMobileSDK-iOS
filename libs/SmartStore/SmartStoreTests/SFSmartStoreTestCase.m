@@ -69,8 +69,10 @@
     XCTAssertEqual(expectedCount, actualCount, @"%@", message);
  
     // Compare values in array
-    for (int i=0; i<expectedCount; i++) {
-        [self assertSameJSONWithExpected:expected[i] actual:actual[i] message:message];
+    if (expectedCount == actualCount) {
+        for (int i=0; i<expectedCount; i++) {
+            [self assertSameJSONWithExpected:expected[i] actual:actual[i] message:message];
+        }
     }
 }
 
@@ -109,6 +111,11 @@
     return [self createSimpleIndexSpec:path withType:kSoupIndexTypeString];
 }
 
+- (NSDictionary*) createJSON1IndexSpec:(NSString*) path
+{
+    return [self createSimpleIndexSpec:path withType:kSoupIndexTypeJSON1];
+}
+
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType
 {
     return @{@"path": path, @"type": pathType};
@@ -140,6 +147,63 @@
     
 }
 
+- (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index covering:(BOOL) covering dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store
+{
+    NSString* soupTableName = [self getSoupTableName:soupName store:store];
+    NSString* indexName = [NSString stringWithFormat:@"%@_%lu_idx", soupTableName, (unsigned long)index];
+    NSString* expectedDetailPrefix = [NSString stringWithFormat:@"%@ TABLE %@ USING %@INDEX %@", dbOperation, soupTableName, (covering ? @"COVERING " : @""), indexName];
+    NSString* actualDetail = ((NSArray*)store.lastExplainQueryPlan[EXPLAIN_ROWS])[0][@"detail"];
+    XCTAssertTrue([actualDetail hasPrefix:expectedDetailPrefix], "Wrong explain plan actual: %@", actualDetail);
+}
+
+- (void) checkColumns:(NSString*)tableName expectedColumns:(NSArray*)expectedColumns store:(SFSmartStore*)store {
+    __block NSMutableArray* actualColumns = [NSMutableArray new];
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        NSString* sql = [NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName];
+        FMResultSet *frs = [db executeQuery:sql];
+        
+        while ([frs next]) {
+            [actualColumns addObject:[frs stringForColumnIndex:1]];
+        }
+        [frs close];
+    }];
+    NSString* message = [NSString stringWithFormat:@"Wrong columns actual: %@", [actualColumns componentsJoinedByString:@","]];
+    [self assertSameJSONArrayWithExpected:expectedColumns actual:actualColumns message:message];
+}
+
+- (void) checkDatabaseIndexes:(NSString*)tableName expectedSqlStatements:(NSArray*)expectedSqlStatements store:(SFSmartStore*)store {
+    __block NSMutableArray* actualSqlStatements = [NSMutableArray new];
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"SELECT sql FROM sqlite_master WHERE type='index' AND tbl_name=? ORDER BY name", tableName];
+        
+        while ([frs next]) {
+            [actualSqlStatements addObject:[frs stringForColumnIndex:0]];
+        }
+        [frs close];
+    }];
+    NSString* message = [NSString stringWithFormat:@"Wrong indexes actual:%@", [actualSqlStatements componentsJoinedByString:@","]];
+    [self assertSameJSONArrayWithExpected:expectedSqlStatements actual:actualSqlStatements message:message];
+}
+
+- (void) checkCreateTableStatment:(NSString*)tableName expectedSqlStatementPrefix:(NSString*)expectedSqlStatementPrefix store:(SFSmartStore*)store {
+    __block NSString* actualSqlStatement;
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        FMResultSet *frs = [db executeQuery:@"SELECT sql FROM sqlite_master WHERE type='table' AND tbl_name=?", tableName];
+        [frs next];
+        actualSqlStatement = [frs stringForColumnIndex:0];
+        [frs close];
+    }];
+    XCTAssert([actualSqlStatement containsString:expectedSqlStatementPrefix], @"Wrong statement actual:%@", actualSqlStatement);
+}
+
+
+- (void) checkSoupIndex:(SFSoupIndex*)indexSpec expectedPath:(NSString*)expectedPath expectedType:(NSString*)expectedType expectedColumnName:(NSString*)expectedColumnName {
+    XCTAssertEqualObjects(expectedPath, indexSpec.path, @"Wrong path");
+    XCTAssertEqualObjects(expectedType, indexSpec.indexType, @"Wrong type");
+    XCTAssertEqualObjects(expectedColumnName, indexSpec.columnName, @"Wrong column name");    
+}
+
+
 - (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
 {
     XCTAssertTrue([frs next], @"Expected rows to be returned");
@@ -154,9 +218,11 @@
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)
     {
-        NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
-        NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
-        XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        if (kValueExtractedToColumn(soupIndex)) {
+            NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
+            NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
+            XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);
+        }
     }
     
     // Check soup column
@@ -167,13 +233,13 @@
 {
     XCTAssertTrue([frs next], @"Expected rows to be returned");
     
-    // Check docid
-    XCTAssertEqualObjects(@([frs longForColumn:DOCID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
+    // Check rowid
+    XCTAssertEqualObjects(@([frs longForColumn:ROWID_COL]), expectedEntry[SOUP_ENTRY_ID], @"Wrong id");
 
     // Check indexed columns
     for (SFSoupIndex* soupIndex in arraySoupIndexes)
     {
-        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeFullText]) {
+        if (kValueExtractedToFtsColumn(soupIndex)) {
             NSString* actualValue = [frs stringForColumn:soupIndex.columnName];
             NSString* expectedValue = [SFJsonUtils projectIntoJson:expectedEntry path:soupIndex.path];
             XCTAssertEqualObjects(actualValue, expectedValue, @"Wrong value in index column for %@", soupIndex.path);

@@ -22,28 +22,86 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <CocoaLumberjack/DDLog.h>
+#include <pthread.h>
+
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "SFCocoaLumberJackCustomFormatter.h"
+#import "SFLogger.h"
+#import "SFLogger_Internal.h"
 
-@interface SFCocoaLumberJackCustomFormatter () <DDLogFormatter>
-@end
+@implementation SFCocoaLumberJackCustomFormatter {
+    int loggerCount;
+    NSDateFormatter *threadUnsafeDateFormatter;
+    NSString *_processName;
+    int _processId;
+}
 
-@implementation SFCocoaLumberJackCustomFormatter
+- (instancetype)init {
+    return [self initWithLogger:[SFLogger sharedLogger]];
+}
 
-- (id)init {
-    if((self = [super init])) {
+- (instancetype)initWithLogger:(SFLogger*)logger {
+    self = [super init];
+    if (self) {
+        _logger = logger;
+        
+        NSProcessInfo *process = [NSProcessInfo processInfo];
+        _processName = [process.processName copy];
+        _processId = process.processIdentifier;
+        
         threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
         [threadUnsafeDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss.SSS"];
     }
     return self;
 }
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
     NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage->_timestamp)];
-    NSString *logMsg = logMessage->_message;
-    NSString *myString = [NSString stringWithFormat:@"%@ %@\n", dateAndTime, logMsg];
-    return myString;
+
+    NSString *classString = nil;
+    NSString *selectorString = nil;
+    if ([logMessage->_tag isKindOfClass:[SFLogTag class]]) {
+        SFLogTag *tag = (SFLogTag*)logMessage->_tag;
+        if (tag.originClass) {
+            classString = NSStringFromClass(tag.originClass);
+        }
+
+        if (tag.selector) {
+            selectorString = NSStringFromSelector(tag.selector);
+        }
+    }
+    
+    SFLogIdentifier *identifier = nil;
+    if (logMessage->_context < _logger->_logIdentifiersByContext.count) {
+        identifier = _logger->_logIdentifiersByContext[logMessage->_context];
+    }
+    
+    NSString *thread = [NSThread currentThread].name;
+    if (thread.length == 0) {
+        thread = [NSString stringWithFormat:@"%x", pthread_mach_thread_np(pthread_self())];
+    }
+    NSMutableString *message = [NSMutableString stringWithFormat:@"%@ %@[%d:%@] %@ %@",
+                                dateAndTime,
+                                _processName,
+                                _processId,
+                                thread,
+                                SFLogNameForFlag((SFLogFlag)logMessage->_flag),
+                                identifier.identifier];
+    
+    NSString *file = ([logMessage->_file isEqualToString:@"(null)"]) ? nil : logMessage->_file;
+    NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? selectorString : logMessage->_function;
+    
+    if (file && function) {
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, function];
+    } else if (classString && file) {
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, classString];
+    } else if (classString) {
+        [message appendFormat:@" <%@>", classString];
+    }
+
+    [message appendFormat:@": %@", logMessage->_message];
+    return message;
 }
 
 - (void)didAddToLogger:(id <DDLogger>)logger {

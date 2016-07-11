@@ -24,23 +24,25 @@
 
 #import <Foundation/Foundation.h>
 
-// Constant for notifiying of app exit or abort
+// Constant for notifying of app exit or abort.
 static NSString * const SFApplicationWillAbortOrExitNotification = @"ApplicationWillAbortOrExit";
 
+/** Posts notifications either once with a run loop, or on the main thread.
+ */
 @interface NSNotificationCenter (SFAdditions)
 
 /**
  Posts a notification once within a runloop - coalescing on the name.
- @param notificationName The name of the notification
- @param object The object for the new notification
+ @param notificationName The name of the notification.
+ @param object The object for the new notification.
  @param userInfo The user information dictionary for the new notification. May be nil.
  */
 + (void)postNotificationOnceWithName:(NSString*)notificationName object:(id)object userInfo:(NSDictionary*)userInfo;
 
 /**
- Posts a notification on the main thread
- @param notificationName The name of the notification
- @param object The object for the new notificaiton
+ Posts a notification on the main thread.
+ @param notificationName The name of the notification.
+ @param object The object for the new notificaiton.
  @param userInfo The user information dictionary for the new notification. May be nil.
  */
 - (void)postNotificationOnMainThreadWithName:(NSString *)notificationName object:(id)object userInfo:(NSDictionary *)userInfo;

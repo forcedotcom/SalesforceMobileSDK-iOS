@@ -28,6 +28,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
+#import "SFApplicationHelper.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -140,8 +141,8 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     if (settingsForTypesRetVal)
         CFRetain(settingsForTypesRetVal);
     
-    [[UIApplication sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
-    [[UIApplication sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
+    [[SFApplicationHelper sharedApplication] performSelector:@selector(registerUserNotificationSettings:) withObject:(__bridge_transfer id)settingsForTypesRetVal];
+    [[SFApplicationHelper sharedApplication] performSelector:@selector(registerForRemoteNotifications)];
 }
 
 - (void)didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceTokenData
@@ -196,14 +197,14 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*) response;
             NSInteger statusCode = httpResponse.statusCode;
             if (statusCode < 200 || statusCode >= 300) {
-                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %d", statusCode];
+                [self log:SFLogLevelError format:@"Registration for notifications with Salesforce failed with status %ld", statusCode];
                 [self log:SFLogLevelError format:@"Response:%@", [SFJsonUtils objectFromJSONData:data]];
             }
             else {
                 [self log:SFLogLevelInfo msg:@"Registration for notifications with Salesforce succeeded"];
                 NSDictionary *responseAsJson = (NSDictionary*) [SFJsonUtils objectFromJSONData:data];
-                _deviceSalesforceId = (NSString*) responseAsJson[@"id"];
-                [[SFPreferences currentUserLevelPreferences] setObject:_deviceSalesforceId forKey:kSFDeviceSalesforceId];
+                self->_deviceSalesforceId = (NSString*) responseAsJson[@"id"];
+                [[SFPreferences currentUserLevelPreferences] setObject:self->_deviceSalesforceId forKey:kSFDeviceSalesforceId];
                 [self log:SFLogLevelInfo format:@"Response:%@", responseAsJson];
             }
         }
@@ -237,11 +238,12 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no user pref"];
         return NO;
     }
-    NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
-    if (!deviceSFID) {
+
+    if (![pref stringForKey:kSFDeviceSalesforceId]) {
         [self log:SFLogLevelError msg:@"Cannot unregister from notifications with Salesforce: no deviceSalesforceId"];
         return NO;
     }
+    NSString *deviceSFID = [[NSString alloc] initWithString:[pref stringForKey:kSFDeviceSalesforceId]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     // URL and method

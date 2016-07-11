@@ -27,15 +27,19 @@
 #import <Foundation/Foundation.h>
 #import "SFRestAPI.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface SFRestAPI (Blocks) <SFRestDelegate>
 
 // Block types
-typedef void (^SFRestFailBlock) (NSError *e);
-typedef void (^SFRestDictionaryResponseBlock) (NSDictionary *dict);
-typedef void (^SFRestArrayResponseBlock) (NSArray *arr);
-typedef void (^SFRestDataResponseBlock) (NSData* data);
-typedef void (^SFRestResponseBlock) (id response);
-
+typedef void (^SFRestFailBlock) (NSError * _Nullable e);
+typedef void (^SFRestDictionaryResponseBlock) (NSDictionary * _Nullable dict);
+typedef void (^SFRestArrayResponseBlock) (NSArray * _Nullable arr);
+typedef void (^SFRestDataResponseBlock) (NSData* _Nullable data);
+typedef void (^SFRestResponseBlock) (id _Nullable response);
+/** Creates an error object with the given description.
+ @param description Description
+ */
 + (NSError *)errorWithDescription:(NSString *)description;
 
 
@@ -124,7 +128,7 @@ typedef void (^SFRestResponseBlock) (id response);
  */
 - (SFRestRequest *) performRetrieveWithObjectType:(NSString *)objectType 
                                          objectId:(NSString *)objectId 
-                                        fieldList:(NSArray *)fieldList 
+                                        fieldList:(NSArray<NSString*> *)fieldList
                                         failBlock:(SFRestFailBlock)failBlock 
                                     completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
@@ -139,7 +143,7 @@ typedef void (^SFRestResponseBlock) (id response);
  */
 - (SFRestRequest *) performUpdateWithObjectType:(NSString *)objectType 
                                        objectId:(NSString *)objectId 
-                                         fields:(NSDictionary *)fields 
+                                         fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
                                   completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
@@ -156,7 +160,7 @@ typedef void (^SFRestResponseBlock) (id response);
 - (SFRestRequest *) performUpsertWithObjectType:(NSString *)objectType 
                                 externalIdField:(NSString *)externalIdField 
                                      externalId:(NSString *)externalId 
-                                         fields:(NSDictionary *)fields 
+                                         fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
                                   completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
@@ -182,7 +186,7 @@ typedef void (^SFRestResponseBlock) (id response);
  * @return the newly sent SFRestRequest
  */
 - (SFRestRequest *) performCreateWithObjectType:(NSString *)objectType 
-                                         fields:(NSDictionary *)fields 
+                                         fields:(NSDictionary<NSString*, id> *)fields
                                       failBlock:(SFRestFailBlock)failBlock 
                                   completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
@@ -234,7 +238,7 @@ typedef void (^SFRestResponseBlock) (id response);
 
 /**
  * Executes a request to get search result layout
- * @param fieldList comma-separated list of objects for which
+ * @param objectList comma-separated list of objects for which
  *               to return values; for example, "Account,Contact".
  * @param failBlock the block to be executed when the request fails (timeout, cancel, or error)
  * @param completeBlock the block to be executed when the request successfully completes
@@ -256,8 +260,10 @@ typedef void (^SFRestResponseBlock) (id response);
 
 - (SFRestRequest *) performRequestWithMethod:(SFRestMethod)method
                                         path:(NSString*)path
-                                 queryParams:(NSDictionary*)queryParams
+                                 queryParams:(NSDictionary<NSString*, id>*)queryParams
                                    failBlock:(SFRestFailBlock)failBlock
                                completeBlock:(SFRestDictionaryResponseBlock)completeBlock;
 
 @end
+
+NS_ASSUME_NONNULL_END

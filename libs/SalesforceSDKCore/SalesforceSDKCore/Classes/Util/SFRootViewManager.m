@@ -23,10 +23,12 @@
  */
 
 #import "SFRootViewManager.h"
+#import "SFApplicationHelper.h"
 
 @interface SFRootViewManager()
 
 @property (nonatomic, weak) UIWindow* previousKeyWindow;
+@property (nonatomic, strong) NSMutableOrderedSet *delegates;
 
 @end
 
@@ -48,7 +50,7 @@
 {
     self = [super init];
     if (self) {
-        
+        _delegates = [NSMutableOrderedSet orderedSet];
     }
     
     return self;
@@ -58,12 +60,38 @@
 {
     if (_mainWindow == nil) {
         // Try to set a sane value for mainWindow, if it hasn't been set already.
-        _mainWindow = [UIApplication sharedApplication].windows[0];
+        _mainWindow = [SFApplicationHelper sharedApplication].windows[0];
         if (_mainWindow == nil) {
             [self log:SFLogLevelError format:@"UIApplication has no defined windows."];
         }
     }
     return _mainWindow;
+}
+
+- (void)addDelegate:(id<SFRootViewManagerDelegate>)delegate
+{
+    @synchronized (self) {
+        [_delegates addObject:[NSValue valueWithNonretainedObject:delegate]];
+    }
+}
+
+- (void)removeDelegate:(id<SFRootViewManagerDelegate>)delegate
+{
+    @synchronized (self) {
+        [_delegates removeObject:[NSValue valueWithNonretainedObject:delegate]];        
+    }
+}
+
+- (void)enumerateDelegates:(void (^)(id<SFRootViewManagerDelegate> delegate))block
+{
+    @synchronized(self) {
+        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            id<SFRootViewManagerDelegate> delegate = [obj nonretainedObjectValue];
+            if (delegate) {
+                if (block) block(delegate);
+            }
+        }];
+    }
 }
 
 //
@@ -80,14 +108,20 @@
     __weak SFRootViewManager *weakSelf = self;
     void (^pushControllerBlock)(void) = ^{
         UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
-        while (currentViewController.presentedViewController != nil) {
+        while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             currentViewController = currentViewController.presentedViewController;
         }
-        
         
         if (currentViewController != nil) {
             if (currentViewController != viewController) {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
+                
+                [weakSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                    if ([delegate respondsToSelector:@selector(rootViewManager:willPushViewControler:)]) {
+                        [delegate rootViewManager:weakSelf willPushViewControler:viewController];
+                    }
+                }];
+                
                 [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
@@ -121,7 +155,13 @@
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             } else {
                 [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
-                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:NULL];
+                [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{
+                    [weakSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                        if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
+                            [delegate rootViewManager:weakSelf didPopViewControler:viewController];                            
+                        }
+                    }];
+                }];
             }
         }
     };
@@ -133,7 +173,7 @@
 
 - (void)saveCurrentKeyWindow
 {
-    for (UIWindow* w in [UIApplication sharedApplication].windows) {
+    for (UIWindow* w in [SFApplicationHelper sharedApplication].windows) {
         if ([w isKeyWindow]) {
             self.previousKeyWindow = w;
             break;
