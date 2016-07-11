@@ -954,7 +954,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     return result;
 }
 
-- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
++ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
     NSUserDefaults *standardDefaults;
     if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
         standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -972,6 +972,10 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
     }
     [standardDefaults synchronize];
+}
+
+- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    [SFUserAccountManager setActiveUserIdentity:activeUserIdentity];
 }
 
 - (NSString *)activeCommunityId {
@@ -1049,15 +1053,15 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (void)applyCredentials:(SFOAuthCredentials*)credentials {
     SFUserAccountChange change = SFUserAccountChangeCredentials;
-    
+    SFUserAccount * newAccount = self.currentUser;
     // If the user is nil, create a new one with the specified credentials
     // otherwise update the current user credentials.
-    if (nil == self.currentUser) {
-        self.currentUser = [self createUserAccountWithCredentials:credentials];
+    if (nil == newAccount) {
+        newAccount = [self createUserAccountWithCredentials:credentials];
         change |= SFUserAccountChangeNewUser;
     } else {
-        if ([self.currentUser.accountIdentity matchesCredentials:credentials]) {
-            self.currentUser.credentials = credentials;
+        if ([newAccount.accountIdentity matchesCredentials:credentials]) {
+            newAccount.credentials = credentials;
         } else {
             [self log:SFLogLevelWarning format:@"Attempted to apply credentials to incorrect user"];
             return;
@@ -1066,28 +1070,28 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     
     // If the user has logged using a community-base URL, then let's create the community data
     // related to this community using the information we have from oauth.
-    self.currentUser.communityId = credentials.communityId;
-    if (self.currentUser.communityId) {
+    newAccount.communityId = credentials.communityId;
+    if (newAccount.communityId) {
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
-        if (![self.currentUser communityWithId:credentials.communityId]) {
-            if (self.currentUser.communities) {
-                self.currentUser.communities = [self.currentUser.communities arrayByAddingObject:communityData];
+        if (![newAccount communityWithId:credentials.communityId]) {
+            if (newAccount.communities) {
+                newAccount.communities = [self.currentUser.communities arrayByAddingObject:communityData];
             } else {
-                self.currentUser.communities = @[communityData];
+                newAccount.communities = @[communityData];
             }
         }
-        [self setActiveCommunityId:self.currentUser.communityId];
+        [self setActiveCommunityId:newAccount.communityId];
     }
     
     // If our default user identity is currently the temporary user identity,
     // we need to update it with the latest known good user identity.
     if ([self.activeUserIdentity isEqual:self.temporaryUserIdentity]) {
-        [self log:SFLogLevelDebug format:@"Replacing temp user identity with %@", self.currentUser];
-        [self replaceOldUser:self.temporaryUserIdentity withUser:self.currentUser];
+        [self log:SFLogLevelDebug format:@"Replacing temp user identity with %@", newAccount];
+        [self replaceOldUser:self.temporaryUserIdentity withUser:newAccount];
     }
-    
+    self.currentUser = newAccount;
     [self userChanged:change];
 }
 
