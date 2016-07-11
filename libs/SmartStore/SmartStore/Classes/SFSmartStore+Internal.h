@@ -134,7 +134,7 @@ typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
 
 /**
  @param soupName the name of the soup
- @param db
+ @param db Database.
  @return SFSoupSpec for the given soup name
  */
 - (SFSoupSpec*)attributesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;

@@ -49,9 +49,9 @@
     self = [super init];
     if (self != nil) {
         #if defined(DEBUG)
-            [SFLogger setLogLevel:SFLogLevelDebug];
+            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         #else
-            [SFLogger setLogLevel:SFLogLevelInfo];
+            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
         [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];

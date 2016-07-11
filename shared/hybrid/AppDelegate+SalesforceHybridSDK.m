@@ -50,9 +50,9 @@
 - (AppDelegate *)sfsdk_swizzled_init
 {
 #if defined(DEBUG)
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
 #else
-    [SFLogger setLogLevel:SFLogLevelInfo];
+    [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
 #endif
     
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];

@@ -66,9 +66,9 @@
         _reIndexData = reIndexData;
         _afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            _soupTableName = [store tableNameForSoup:soupName withDb:db];
-            _oldSoupSpec = [store attributesForSoup:soupName withDb:db];
-            _rowId = [self createLongOperationDbRowWithDb:db];
+            self->_soupTableName = [store tableNameForSoup:soupName withDb:db];
+            self->_oldSoupSpec = [store attributesForSoup:soupName withDb:db];
+            self->_rowId = [self createLongOperationDbRowWithDb:db];
         }];
     }
     return self;
