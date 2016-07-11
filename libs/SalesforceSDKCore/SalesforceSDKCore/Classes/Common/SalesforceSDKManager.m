@@ -232,6 +232,11 @@ static Class InstanceClass = nil;
     return launchActionString;
 }
 
++ (void)setDesiredAccount:(SFUserAccount*)account
+{
+    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
+}
+
 #pragma mark - Private methods
 
 - (BOOL)validateLaunchState:(NSError **)launchStateError

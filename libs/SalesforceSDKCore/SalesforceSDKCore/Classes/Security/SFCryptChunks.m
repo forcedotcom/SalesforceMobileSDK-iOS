@@ -60,7 +60,7 @@ uint32_t const SFCryptChunksCipherOptions = kCCOptionPKCS7Padding;
         [key getBytes:keyPtr length:SFCryptChunksCipherKeySize];
         if (key.length != SFCryptChunksCipherKeySize) {
             // (in the future this should probably be an assertion instead).
-            NSLog(@"SFCryptChunks - (warning) Key size is %lu when it should be %zu.", key.length, SFCryptChunksCipherKeySize);
+            NSLog(@"SFCryptChunks - (warning) Key size is %lu when it should be %zu.", (unsigned long) key.length, SFCryptChunksCipherKeySize);
         }
         
         NSAssert(!iv || [iv length] == SFCryptChunksCipherBlockSize, @"SFCryptChunks - invalid initialization vector size.");
