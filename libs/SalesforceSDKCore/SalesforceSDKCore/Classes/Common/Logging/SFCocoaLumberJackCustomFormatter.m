@@ -93,9 +93,9 @@
     NSString *function = ([logMessage->_function isEqualToString:@"(null)"]) ? selectorString : logMessage->_function;
     
     if (file && function) {
-        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, function];
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], (unsigned long) logMessage->_line, function];
     } else if (classString && file) {
-        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], logMessage->_line, classString];
+        [message appendFormat:@" <%@:%ld %@>", [file lastPathComponent], (unsigned long) logMessage->_line, classString];
     } else if (classString) {
         [message appendFormat:@" <%@>", classString];
     }

@@ -47,6 +47,5 @@
 - (void)refreshRemoteData:(void (^)(void))completionBlock;
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
 - (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
-- (void)resetDataRows;
 
 @end

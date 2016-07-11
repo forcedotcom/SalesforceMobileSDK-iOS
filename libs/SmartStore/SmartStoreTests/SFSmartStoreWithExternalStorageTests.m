@@ -107,7 +107,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         // Insert entries
         for (NSUInteger i = 0; i < iterations; i++) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i]};
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
             [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
         }
         
@@ -148,7 +148,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         // Update
         for (NSUInteger i = 0; i < iterations; i++) {
-            savedEntry[@"name"] = [NSString stringWithFormat:@"somebody_%lu", i];
+            savedEntry[@"name"] = [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i];
             [store upsertEntries:@[savedEntry] toSoup:kSSExternalStorage_TestSoupName];
         }
         
@@ -182,7 +182,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         // Insert entries
         NSMutableArray *entriesToInsert = [[NSMutableArray alloc] initWithCapacity:numberOfEntries];
         for (NSUInteger i = 0; i < numberOfEntries; i++) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i]};
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
             [entriesToInsert addObject:entry];
         }
         NSArray *savedEntries = [store upsertEntries:entriesToInsert toSoup:kSSExternalStorage_TestSoupName];
@@ -209,7 +209,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         for (NSUInteger i = 0; i < iterations; i++) {
             // Insert
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i]};
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
             NSArray *savedEntries = [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
             XCTAssertEqual(savedEntries.count, 1, @"Upsert failed");
             NSDictionary *savedEntry = savedEntries[0];
@@ -241,7 +241,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         // Insert
         for (NSUInteger i = 0; i < entriesToInsert; ++i) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i]};
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i]};
             [store upsertEntries:@[entry] toSoup:kSSExternalStorage_TestSoupName];
         }
         
@@ -286,7 +286,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         // Insert a few entries
         NSMutableArray *entriesToInsert = [[NSMutableArray alloc] initWithCapacity:numberOfEntries];
         for (NSUInteger i = 0; i < numberOfEntries; ++i) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i],
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i],
                                     @"age": @(i)};
             [entriesToInsert addObject:entry];
         }
@@ -350,7 +350,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         // Insert a few entries
         NSMutableArray *entriesToInsert = [[NSMutableArray alloc] initWithCapacity:numberOfEntries];
         for (NSUInteger i = 0; i < numberOfEntries; ++i) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", i],
+            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i],
                                     @"age": @(i)};
             [entriesToInsert addObject:entry];
         }
