@@ -1361,7 +1361,7 @@ static NSException *authException = nil;
                  @"Invalid search did not result in nil output.");
     
     BOOL searchLimitEnforced = [[SFRestAPI SOSLSearchWithSearchTerm:@"Test Term" fieldScope:nil objectScope:nil limit:kMaxSOSLSearchLimit + 1] 
-                                hasSuffix:[NSString stringWithFormat:@"%li", kMaxSOSLSearchLimit]];
+                                hasSuffix:[NSString stringWithFormat:@"%li", (long) kMaxSOSLSearchLimit]];
     
     XCTAssertTrue( searchLimitEnforced,
                  @"SOSL search limit was not properly enforced.");

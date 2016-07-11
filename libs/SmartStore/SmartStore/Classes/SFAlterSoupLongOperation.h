@@ -90,20 +90,20 @@ static NSInteger  const kLastStep = SFAlterSoupStepCleanup;
 
 /**
  Called when first running the alter soup
- @param store
- @param soupName
- @param newIndexSpecs
- @param reIndexData
+ @param store Store.
+ @param soupName Soup name.
+ @param newIndexSpecs New index specs.
+ @param reIndexData YES - to reindex, NO - if not.
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /**
  Called when first running the alter soup
- @param store
- @param soupName
- @param newSoupSpec
- @param newIndexSpecs
- @param reIndexData
+ @param store Store.
+ @param soupName Soup name.
+ @param newSoupSpec New soup spec.
+ @param newIndexSpecs New index specs.
+ @param reIndexData YES - to reindex, NO - if not.
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
