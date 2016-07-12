@@ -72,7 +72,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     self = [super init];
     if (self) {
-        _delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
     }
     return self;
 }
@@ -83,8 +83,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -93,8 +92,7 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -102,12 +100,9 @@ NSString *const SFPasscodeResetNewPasscodeKey = @"SFPasscodeResetNewPasswordKey"
 - (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFPasscodeManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SFPasscodeManagerDelegate> delegate in self.delegates) {
+            if (block) block(delegate);
+        }
     }
 }
 
