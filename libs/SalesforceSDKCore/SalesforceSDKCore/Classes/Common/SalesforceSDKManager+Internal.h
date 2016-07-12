@@ -29,13 +29,13 @@
     BOOL _isLaunching;
     UIViewController* _defaultSnapshotViewController;
     UIViewController* _snapshotViewController;
-    NSMutableOrderedSet *_delegates;
 }
 
 @property (nonatomic, assign) SFAppType appType;
 @property (nonatomic, weak) id<SalesforceSDKManagerFlow> sdkManagerFlow;
 @property (nonatomic, assign) BOOL hasVerifiedPasscodeAtStartup;
 @property (nonatomic, assign) SFSDKLaunchAction launchActions;
+@property (nonatomic, strong, nonnull) NSHashTable<id<SalesforceSDKManagerDelegate>> *delegates;
 
 - (void)passcodeValidatedToAuthValidation;
 - (void)authValidatedToPostAuth:(SFSDKLaunchAction)launchAction;
