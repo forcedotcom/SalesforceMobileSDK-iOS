@@ -32,7 +32,7 @@
  Executes the given block against the set of delegates.
  @param block The block to execute against each delegate.
  */
-- (void)enumerateDelegates:(void (^)(id<SFPasscodeManagerDelegate>))block;
+- (void)enumerateDelegates:(nullable void (^)(id<SFPasscodeManagerDelegate> _Nonnull))block;
 
 /**
  Set a value for the encryption key.  Note: this is just the internal setter for
@@ -41,7 +41,7 @@
  and encryption based on a plain-text passcode value.
  @param newEncryptionKey The new value for the encryption key.
  */
-- (void)setEncryptionKey:(NSString *)newEncryptionKey;
+- (void)setEncryptionKey:(nullable NSString *)newEncryptionKey;
 
 /**
  Set the value of the encryption key, based on the input passcode.  Note: this method
@@ -49,6 +49,6 @@
  the interests of maintaining a consistent passcode state.
  @param passcode The passcode to convert into an encryption key.
  */
-- (void)setEncryptionKeyForPasscode:(NSString *)passcode;
+- (void)setEncryptionKeyForPasscode:(nonnull NSString *)passcode;
 
 @end
