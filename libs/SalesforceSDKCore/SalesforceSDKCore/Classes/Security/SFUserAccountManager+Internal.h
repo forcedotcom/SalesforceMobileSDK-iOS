@@ -26,10 +26,10 @@
 
 @interface SFUserAccountManager ()
 {
-    NSMutableOrderedSet *_delegates;
     dispatch_queue_t _syncQueue;
 }
 
+@property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
 @property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;
 @property (nonatomic, strong, readwrite) SFUserAccount *anonymousUser;
 
