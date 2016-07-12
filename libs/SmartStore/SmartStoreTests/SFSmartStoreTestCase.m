@@ -225,8 +225,10 @@
         }
     }
     
-    // Check soup column
-    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+    // Check soup column if there is one
+    if ([frs columnIndexForName:SOUP_COL] >= 0) {
+        XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+    }
 }
 
 - (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
