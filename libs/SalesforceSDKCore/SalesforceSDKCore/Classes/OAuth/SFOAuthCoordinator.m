@@ -598,7 +598,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                        timeoutInterval:self.timeout];
     NSString *grantType = @"urn:ietf:params:oauth:grant-type:jwt-bearer";
-    NSString *bodyStr = [[@"grand_type=" stringByAppendingString:[grantType stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
+    NSString *bodyStr = [[@"grant_type=" stringByAppendingString:[grantType stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
     NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
