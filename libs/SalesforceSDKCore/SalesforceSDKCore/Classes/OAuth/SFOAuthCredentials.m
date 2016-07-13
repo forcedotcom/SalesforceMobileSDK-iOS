@@ -32,7 +32,6 @@ static NSString * const kSFOAuthProtocolHttps          = @"https";
 NSString * const kSFOAuthServiceAccess          = @"com.salesforce.oauth.access";
 NSString * const kSFOAuthServiceRefresh         = @"com.salesforce.oauth.refresh";
 NSString * const kSFOAuthServiceActivation      = @"com.salesforce.oauth.activation";
-NSString * const kSFOAuthServiceJWT             = @"com.salesforce.oauth.jwt";
 
 static NSString * const kSFOAuthDefaultDomain          = @"login.salesforce.com";
 

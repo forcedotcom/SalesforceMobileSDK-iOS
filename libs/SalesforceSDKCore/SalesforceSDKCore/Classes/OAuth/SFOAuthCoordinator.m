@@ -29,6 +29,7 @@
 #import "SFOAuthOrgAuthConfiguration.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
+#import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
 
 // Public constants
@@ -569,7 +570,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *dict = (NSDictionary *)json;
                     if (dict[kSFOAuthAccessToken]) {
-                        NSString *escapedString = [self URLEncodeStringFromString:approvalUrl];
+                        NSString *escapedString = [approvalUrl stringByURLEncoding];
                         NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.instanceUrl, dict[kSFOAuthAccessToken],escapedString];
                         [self doLoadURL:approvalUrl withCookie:YES];
                         swapOK = YES;
@@ -596,7 +597,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
                                                        timeoutInterval:self.timeout];
-    NSString *bodyStr = [NSString stringWithFormat:@"grant_type=urn%%3Aietf%%3Aparams%%3Aoauth%%3Agrant-type%%3Ajwt-bearer&assertion=%@",self.credentials.jwt];
+    NSString *grantType = @"urn:ietf:params:oauth:grant-type:jwt-bearer";
+    NSString *bodyStr = [[@"grand_type=" stringByAppendingString:[grantType stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
     NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:body];
     [request setHTTPMethod:kHttpMethodPost];
@@ -605,15 +607,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
-- (NSString *)URLEncodeStringFromString:(NSString *)string
-{
-    static CFStringRef charset = CFSTR("!@#$%&*()+'\";:=,/?[] ");
-    CFStringRef str = (__bridge CFStringRef)string;
-    CFStringEncoding encoding = kCFStringEncodingUTF8;
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, str, NULL, charset, encoding));
-}
-
-- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(bool)enableCookie {
+- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(BOOL)enableCookie {
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
     }
