@@ -963,7 +963,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     BOOL result = YES;
     NSURL *requestUrl = [request URL];
     NSString *requestUrlString = [requestUrl absoluteString];
-    [self log:SFLogLevelDebug format:@"Start to load %@", requestUrlString];
     if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
         result = NO; // we're finished, don't load this request
         [self handleUserAgentResponse:requestUrl];
