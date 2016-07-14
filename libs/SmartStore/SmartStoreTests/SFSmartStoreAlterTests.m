@@ -410,23 +410,10 @@
 
 -(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist
 {
-    for (NSDictionary* expectedEntry in expectedEntries) {
-        NSNumber* soupEntryId = expectedEntry[SOUP_ENTRY_ID];
-        NSString *externalEntryFilePath = [self.store
-                                           externalStorageSoupFilePath:soupEntryId                                                               soupTableName:kTestSoupTableName];
-        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
-        if (shouldExist) {
-            XCTAssertTrue(fileExists, @"External file for %@ should exist", soupEntryId);
-            NSDictionary* actualEntry = [self.store loadExternalSoupEntry:soupEntryId soupTableName:kTestSoupTableName];
-            XCTAssertEqualObjects(actualEntry[SOUP_ENTRY_ID], soupEntryId, @"Wrong id");
-            XCTAssertEqualObjects(actualEntry[kCountry], expectedEntry[kCountry], @"Wrong country");
-            XCTAssertEqualObjects(actualEntry[kCity], expectedEntry[kCity], @"Wrong city");
-
-        }
-        else {
-            XCTAssertFalse(fileExists, @"External file for %@ should not exist", expectedEntry[SOUP_ENTRY_ID]);
-        }
-    }
+    [self checkFileSystem:expectedEntries
+              shouldExist:shouldExist
+                    store:self.store
+                 soupName:kTestSoupName];
 }
 
 -(void) checkDb:(NSArray*)expectedEntries cityColType:(NSString*)cityColType countryColType:(NSString*)countryColType

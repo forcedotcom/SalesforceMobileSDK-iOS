@@ -1975,16 +1975,30 @@ NSString *const EXPLAIN_ROWS = @"rows";
     NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     NSString* querySql = [self convertSmartSql: querySpec.idsSmartSql withDb:db];
     NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %lu", querySql, (unsigned long)querySpec.pageSize];
-    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     NSArray* args = [querySpec bindsForQuerySpec];
-    [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
-    // fts
-    if ([self hasFts:soupName withDb:db]) {
-        NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@ in (%@)", soupTableName, ROWID_COL, querySql];
-        [self executeUpdateThrows:deleteFtsSql withDb:db];
+    
+    // For soup using external storage, run query to get ids and call removeEntries
+    SFSoupSpec *soupSpec = [self attributesForSoup:soupName withDb:db];
+    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    if (soupUsesExternalStorage) {
+        FMResultSet* frs = [self executeQueryThrows:limitSql withArgumentsInArray:args withDb:db];
+        NSMutableArray* ids = [NSMutableArray new];
+        while ([frs next]) {
+            [ids addObject:@([frs longForColumnIndex:0])];
+        }
+        [self removeEntries:ids fromSoup:soupName withDb:db];
     }
-
-	// TODO Delete External Storage
+    
+    // Otherwise run a delete sql
+    else {
+        NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
+        [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
+        // fts
+        if ([self hasFts:soupName withDb:db]) {
+            NSString *deleteFtsSql = [NSString stringWithFormat:@"DELETE FROM %@_fts WHERE %@ in (%@)", soupTableName, ROWID_COL, querySql];
+            [self executeUpdateThrows:deleteFtsSql withDb:db];
+        }
+    }
 }
 
 - (void)clearSoup:(NSString*)soupName
