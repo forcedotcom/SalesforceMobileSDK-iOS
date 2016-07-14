@@ -1221,6 +1221,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if ([self soupExists:soupSpec.soupName withDb:db]) {
         return;
     }
+
+    // Can't have JSON1 index specs in externally stored soup
+    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    BOOL soupUsesJSON1 = [SFSoupIndex hasJSON1:indexSpecs];
+    if (soupUsesExternalStorage && soupUsesJSON1) {
+        @throw [NSException exceptionWithName:@"Can't have JSON1 index specs in externally stored soup" reason:nil userInfo:nil];
+    }
     
     if (nil == soupTableName) {
         soupTableName = [self registerNewSoupWithSpec:soupSpec withDb:db];
@@ -1237,7 +1244,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
             soupSpec.features?:@[]];
     }
     
-    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
     NSMutableArray *soupIndexMapInserts = [[NSMutableArray alloc] init ];
     NSMutableArray *createIndexStmts = [[NSMutableArray alloc] init ];
     NSMutableString *createTableStmt = [[NSMutableString alloc] init];

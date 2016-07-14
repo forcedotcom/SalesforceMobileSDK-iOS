@@ -93,6 +93,22 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
+- (void) testRegisterSoupWithExternalStorageAndJSON1 {
+    NSUInteger const iterations = 10;
+    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kSSExternalStorage_TestSoupName], @"Soup should not exist before registration.");
+        // Register
+        NSDictionary* soupIndex = @{@"path": @"name", @"type": @"json1"};
+        NSError* error = nil;
+        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
+        BOOL testSoupExists = [store soupExists:kSSExternalStorage_TestSoupName];
+        XCTAssertFalse(testSoupExists, @"Soup should exist after registration.");
+        XCTAssertEqualObjects(error.localizedDescription, @"Can't have JSON1 index specs in externally stored soup");
+    }
+}
+
 - (void)testInsertEntryWithExternalStorage {
     NSUInteger const iterations = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
