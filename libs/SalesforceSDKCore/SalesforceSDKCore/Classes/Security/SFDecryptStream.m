@@ -66,7 +66,7 @@
 }
 
 - (nullable instancetype)initWithFileAtPath:(NSString *)path {
-    self = [super initWithURL:[NSURL fileURLWithPath:path]];
+    self = [super init];
     if (self){
         _inStream = [[NSInputStream alloc] initWithFileAtPath:path];
     }
