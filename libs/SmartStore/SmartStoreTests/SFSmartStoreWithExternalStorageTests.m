@@ -23,9 +23,8 @@
  */
 
 #import <XCTest/XCTest.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFSmartStoreTests.h"
-#import <SalesforceSDKCore/SFJSONUtils.h>
-#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import "SFSoupSpec.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStore+Internal.h"
