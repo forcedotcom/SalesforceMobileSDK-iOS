@@ -182,8 +182,8 @@ function createNativeApp(config) {
             process.exit(3);
         }
     });
-    createAppProcess.stdout.on('data', function(data) { console.log(data); });
-    createAppProcess.stderr.on('data', function(data) { console.log(data); });
+    createAppProcess.stdout.on('data', function(data) { console.log(data.toString('utf8')); });
+    createAppProcess.stderr.on('data', function(data) { console.log(data.toString('utf8')); });
 }
 
 function buildArgsFromArgMap(config) {

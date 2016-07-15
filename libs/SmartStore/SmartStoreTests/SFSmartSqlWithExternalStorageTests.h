@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,7 +25,7 @@
 //  Logic unit tests contain unit test code that is designed to be linked into an independent test executable.
 //  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
-#import "SFSmartStoreTestCase.h"
+#import "SFSmartSqlTests.h"
 
-@interface SFSmartSqlWithExternalStorageTests : SFSmartStoreTestCase
+@interface SFSmartSqlWithExternalStorageTests : SFSmartSqlTests
 @end

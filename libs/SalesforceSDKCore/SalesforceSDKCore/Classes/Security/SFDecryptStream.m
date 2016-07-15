@@ -44,8 +44,13 @@
 
 #pragma mark - Lifecycle
 
+/**
+ Pre iOS9 will crash if you call the designated initializers, so here we call just init on NSObject and be happy since we don't ever use functionality on super anyways and just want to wrapper an NSInputStream
+ */
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
+
 - (instancetype)initWithData:(NSData *)data {
-    self = [super initWithData:data];
+    self = [super init];
     if (self) {
         _inStream = [[NSInputStream alloc] initWithData:data];
     }
@@ -53,7 +58,7 @@
 }
 
 - (nullable instancetype)initWithURL:(NSURL *)url {
-    self = [super initWithURL:url];
+    self = [super init];
     if (self) {
         _inStream = [[NSInputStream alloc] initWithURL:url];
     }
@@ -61,7 +66,7 @@
 }
 
 - (nullable instancetype)initWithFileAtPath:(NSString *)path {
-    self = [super initWithURL:[NSURL fileURLWithPath:path]];
+    self = [super init];
     if (self){
         _inStream = [[NSInputStream alloc] initWithFileAtPath:path];
     }
