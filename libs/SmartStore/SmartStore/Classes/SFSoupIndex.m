@@ -150,6 +150,16 @@ SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract = ^BOOL (SFSoupInd
     return NO;
 }
 
++ (BOOL) hasJSON1:(NSArray*)soupIndexes
+{
+    for (SFSoupIndex* soupIndex in soupIndexes) {
+        if ([soupIndex.indexType isEqualToString:kSoupIndexTypeJSON1]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (NSString*) getPathType
 {
     // XXX shouldn't create a new string every time
