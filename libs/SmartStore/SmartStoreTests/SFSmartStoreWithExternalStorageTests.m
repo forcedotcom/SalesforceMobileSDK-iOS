@@ -279,8 +279,8 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         
         
         // Check soup
-        [self checkSoup:@[soupEltsCreated[1], soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
-        [self checkSoup:@[soupEltsCreated[0], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoupTable:@[soupEltsCreated[1], soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoupTable:@[soupEltsCreated[0], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
         
         // Check filesystem
         [self checkFileSystem:@[soupEltsCreated[1], soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
@@ -293,8 +293,8 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         XCTAssertNil(error, @"There should be no errors.");
         
         // Check soup
-        [self checkSoup:@[soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
-        [self checkSoup:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoupTable:@[soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoupTable:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
         
         // Check filesystem
         [self checkFileSystem:@[soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
