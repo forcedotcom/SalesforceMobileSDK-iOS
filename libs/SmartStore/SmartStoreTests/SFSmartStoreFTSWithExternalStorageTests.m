@@ -30,33 +30,6 @@
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import "SFSoupSpec.h"
 
-@interface SFSmartStoreFullTextSearchTests ()
-- (void) testRegisterDropSoupFts4;
-- (void) testRegisterDropSoupFts5;
-- (void) testInsertWithFts4;
-- (void) testInsertWithFts5;
-- (void) testUpdateWithFts4;
-- (void) testUpdateWithFts5;
-- (void) testDeleteWithFts4;
-- (void) testDeleteWithFts5;
-- (void) testClearWithFts4;
-- (void) testClearWithFts5;
-- (void) testSearchSingleFielNoResultsWithFts4;
-- (void) testSearchSingleFielNoResultsWithFts5;
-- (void) testSearchSingleFieldSingleResultWithFts4;
-- (void) testSearchSingleFieldSingleResultWithFts5;
-- (void) testSearchSingleFieldMultipleResultsWithFts4;
-- (void) testSearchSingleFieldMultipleResultsWithFts5;
-- (void) testSearchAllFieldsNoResultsWithFts4;
-- (void) testSearchAllFieldsNoResultsWithFts5;
-- (void) testSearchAllFieldsSingleResultWithFts4;
-- (void) testSearchAllFieldsSingleResultWithFts5;
-- (void) testSearchAllFieldMultipleResultsWithFts4;
-- (void) testSearchAllFieldMultipleResultsWithFts5;
-- (void) testSearchWithFieldColonQueriesWithFts4;
-- (void) testSearchWithFieldColonQueriesWithFts5;
-@end
-
 @interface SFSmartStoreFTSWithExternalStorageTests ()
 
 @property (nonatomic, strong) SFSmartStore *store;

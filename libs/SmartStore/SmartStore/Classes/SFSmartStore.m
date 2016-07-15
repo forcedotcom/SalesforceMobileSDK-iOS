@@ -1975,8 +1975,20 @@ NSString *const EXPLAIN_ROWS = @"rows";
     NSString *soupTableName = [self tableNameForSoup:soupName withDb:db];
     NSString* querySql = [self convertSmartSql: querySpec.idsSmartSql withDb:db];
     NSString* limitSql = [NSString stringWithFormat:@"SELECT * FROM (%@) LIMIT %lu", querySql, (unsigned long)querySpec.pageSize];
-    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     NSArray* args = [querySpec bindsForQuerySpec];
+    
+    // For soup using external storage, run query to get ids
+    NSMutableArray* ids = [NSMutableArray new];
+    SFSoupSpec *soupSpec = [self attributesForSoup:soupName withDb:db];
+    BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    if (soupUsesExternalStorage) {
+        FMResultSet* frs = [self executeQueryThrows:limitSql withArgumentsInArray:args withDb:db];
+        while ([frs next]) {
+            [ids addObject:@([frs longForColumnIndex:0])];
+        }
+    }
+    
+    NSString *deleteSql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE %@ in (%@)", soupTableName, ID_COL, limitSql];
     [self executeUpdateThrows:deleteSql withArgumentsInArray:args withDb:db];
     // fts
     if ([self hasFts:soupName withDb:db]) {
@@ -1984,7 +1996,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [self executeUpdateThrows:deleteFtsSql withDb:db];
     }
 
-	// TODO Delete External Storage
+    // External storage
+    if (soupUsesExternalStorage) {
+        for (NSNumber *entryId in ids) {
+            [self deleteExternalSoupEntry:entryId
+                            soupTableName:soupTableName];
+        }
+    }
 }
 
 - (void)clearSoup:(NSString*)soupName
