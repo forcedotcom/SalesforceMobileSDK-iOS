@@ -335,7 +335,7 @@
 
 /**
  * Start with country and city as fromType
- * Alter soup to have contry as toType
+ * Alter soup to have country as toType
  * Alter soup a second time to have city as toType
  *
  * Only use internal storage
@@ -352,8 +352,8 @@
 
 /**
  * Start with soup with country and city as fromType and storage based on fromStorageInternal
- * Alter soup to have contry as toType and storage based on toStorageInteral
- * Alter soup a second time to have city as toType and storage based on toStorageInteral2
+ * Alter soup to have country as toType and storage based on toStorageInternal
+ * Alter soup a second time to have city as toType and storage based on toStorageInternal2
  */
 -(void) tryAlterSoupTypeChange:(NSString*)fromType
                         toType:(NSString*)toType
