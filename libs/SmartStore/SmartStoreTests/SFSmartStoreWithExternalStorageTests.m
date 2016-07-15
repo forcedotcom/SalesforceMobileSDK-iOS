@@ -24,13 +24,13 @@
 
 #import <XCTest/XCTest.h>
 #import "SFSmartStoreTests.h"
+#import <SalesforceSDKCore/SFJSONUtils.h>
+#import <SalesforceSDKCore/SFEncryptionKey.h>
 #import "SFSoupSpec.h"
 #import "SFSoupIndex.h"
 #import "SFSmartStore+Internal.h"
 #import "SFQuerySpec.h"
 #import "FMDatabaseQueue.h"
-#import <SalesforceSDKCore/SFEncryptionKey.h>
-#import <SalesforceSDKCore/SFJSONUtils.h>
 
 NSString * const kSSExternalStorage_TestSoupName = @"SSExternalStorage_TestSoupName";
 NSString * const kSSAlphabets = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
