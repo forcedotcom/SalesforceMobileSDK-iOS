@@ -4,7 +4,7 @@ branches:
      - unstable
 
 language: objective-c
-osx_image: xcode7.2
+osx_image: xcode7.3
 
 env:
   matrix:
