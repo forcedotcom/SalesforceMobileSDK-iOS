@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
   Redistribution and use of this software in source and binary forms, with or without modification,
   are permitted provided that the following conditions are met:
@@ -38,27 +38,13 @@
 
 @implementation SFSmartSqlWithExternalStorageTests
 
-#define kTestStore            @"testSmartSqlStore"
-#define kEmployeesSoup        @"employees"
-#define kDepartmentsSoup      @"departments"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kDeptCode             @"deptCode"
-#define kEmployeeId           @"employeeId"
-#define kManagerId            @"managerId"
-#define kSalary               @"salary"
-#define kBudget               @"budget"
-#define kName                 @"name"
-#define kEducation            @"education"
-#define kBuilding             @"building"
-
 - (void)setUp {
     NSArray *features = @[kSoupFeatureExternalStorage];
-    [SFUserAccountManager sharedInstance].currentUser = [self createUserAccount];
+    [SFUserAccountManager sharedInstance].currentUser = [super createUserAccount];
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup
-    [_store registerSoupWithSpec:[SFSoupSpec newSoupSpec:kEmployeesSoup withFeatures:features]  // should be TABLE_1
+    [self.store registerSoupWithSpec:[SFSoupSpec newSoupSpec:kEmployeesSoup withFeatures:features]  // should be TABLE_1
                   withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
                                   @[[self createStringIndexSpec:kFirstName],
                                     [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
@@ -69,27 +55,12 @@
                            error:nil];
     
     // Departments soup
-    [_store registerSoupWithSpec:[SFSoupSpec newSoupSpec:kDepartmentsSoup withFeatures:features] // should be TABLE_2
+    [self.store registerSoupWithSpec:[SFSoupSpec newSoupSpec:kDepartmentsSoup withFeatures:features] // should be TABLE_2
                   withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
                                   @[[self createStringIndexSpec:kDeptCode],     // should be TABLE_2_0
                                     [self createStringIndexSpec:kName],         // should be TABLE_2_1
                                     [self createIntegerIndexSpec:kBudget]]]
                            error:nil];
-}
-
-- (void)tearDown {
-    _store = nil;
-    [SFSmartStore removeSharedStoreWithName:kTestStore forUser:[SFUserAccountManager sharedInstance].currentUser];
-}
-
-- (SFUserAccount *)createUserAccount
-{
-    u_int32_t userIdentifier = arc4random();
-    SFUserAccount *user = [[SFUserAccount alloc] initWithIdentifier:[NSString stringWithFormat:@"identifier-%u", userIdentifier]];
-    NSString *userId = [NSString stringWithFormat:@"user_%u", userIdentifier];
-    NSString *orgId = [NSString stringWithFormat:@"org_%u", userIdentifier];
-    user.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://test.salesforce.com/id/%@/%@", orgId, userId]];
-    return user;
 }
 
 
@@ -98,52 +69,27 @@
 
 - (void) testSharedInstance
 {
-    SFSmartSqlHelper* instance1 = [SFSmartSqlHelper sharedInstance];
-    SFSmartSqlHelper* instance2 = [SFSmartSqlHelper sharedInstance];
-    XCTAssertEqualObjects(instance1, instance2, @"There should be only one instance");
+    [super testSharedInstance];
 }
 
 - (void) testConvertSmartSqlWithInsertUpdateDelete
 {
-    XCTAssertNil([_store convertSmartSql:@"insert into {employees}"], @"Should have returned nil for a insert query");
-    XCTAssertNil([_store convertSmartSql:@"update {employees}"], @"Should have returned nil for a update query");
-    XCTAssertNil([_store convertSmartSql:@"delete from {employees}"], @"Should have returned nil for a delete query");
-    XCTAssertNotNil([_store convertSmartSql:@"select * from {employees}"], @"Should not have returned nil for a proper query");
+    [super testConvertSmartSqlWithInsertUpdateDelete];
 }
 
 - (void) testSimpleConvertSmartSql
 {
-    XCTAssertEqualObjects(@"select TABLE_1_0, TABLE_1_1 from TABLE_1 order by TABLE_1_1",
-                          [_store convertSmartSql:@"select {employees:firstName}, {employees:lastName} from {employees} order by {employees:lastName}"],
-                          @"Bad conversion");
-    
-    XCTAssertEqualObjects(@"select TABLE_2_1 from TABLE_2 order by TABLE_2_0",
-                          [_store convertSmartSql:@"select {departments:name} from {departments} order by {departments:deptCode}"],
-                          @"Bad conversion");
+    [super testSimpleConvertSmartSql];
 }
 
 - (void) testConvertSmartSqlWithJoin
 {
-    XCTAssertEqualObjects(@"select TABLE_2_1, TABLE_1_0 || ' ' || TABLE_1_1 "
-                          "from TABLE_1, TABLE_2 "
-                          "where TABLE_2_0 = TABLE_1_2 "
-                          "order by TABLE_2_1, TABLE_1_1",
-                          [_store convertSmartSql:@"select {departments:name}, {employees:firstName} || ' ' || {employees:lastName} "
-                           "from {employees}, {departments} "
-                           "where {departments:deptCode} = {employees:deptCode} "
-                           "order by {departments:name}, {employees:lastName}"],
-                          @"Bad conversion");
+    [super testConvertSmartSqlWithJoin];
 }
 
 - (void) testConvertSmartSqlWithSelfJoin
 {
-    XCTAssertEqualObjects(@"select mgr.TABLE_1_1, e.TABLE_1_1 "
-                          "from TABLE_1 as mgr, TABLE_1 as e "
-                          "where mgr.TABLE_1_3 = e.TABLE_1_4",
-                          [_store convertSmartSql:@"select mgr.{employees:lastName}, e.{employees:lastName} "
-                           "from {employees} as mgr, {employees} as e "
-                           "where mgr.{employees:employeeId} = e.{employees:managerId}"],
-                          @"Bad conversion");
+    [super testConvertSmartSqlWithSelfJoin];
 }
 
 - (void) testConvertSmartSqlWithSpecialColumns
@@ -156,126 +102,51 @@
 	
 - (void) testConvertSmartSqlWithSpecialColumnsAndJoin
 {
-    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_2.id from TABLE_1, TABLE_2",
-                          [_store convertSmartSql:@"select {employees:_soupEntryId}, {departments:_soupEntryId} from {employees}, {departments}"], @"Bad conversion");
+    [super testConvertSmartSqlWithSpecialColumnsAndJoin];
 }
 
 - (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin
 {
-    XCTAssertEqualObjects(@"select mgr.id, e.id from TABLE_1 as mgr, TABLE_1 as e",
-                          [_store convertSmartSql:@"select mgr.{employees:_soupEntryId}, e.{employees:_soupEntryId} from {employees} as mgr, {employees} as e"], @"Bad conversion");
+    [super testConvertSmartSqlWithSpecialColumnsAndSelfJoin];
 }
 
 - (void) testSmartQueryDoingCount 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select count(*) from {employees}" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[7]]"] actual:result message:@"Wrong result"];
+    [super testSmartQueryDoingCount];
 }
 	
 - (void) testSmartQueryDoingSum 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select sum({departments:budget}) from {departments}" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[3000000]]"] actual:result message:@"Wrong result"];
+    [super testSmartQueryDoingSum];
 }
 
 - (void) testSmartQueryReturningOneRowWithOneInteger 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10]]"] actual:result message:@"Wrong result"];
+    [super testSmartQueryReturningOneRowWithOneInteger];
 }
 	
 - (void) testSmartQueryReturningOneRowWithTwoIntegers 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select mgr.{employees:salary}, e.{employees:salary} from {employees} as mgr, {employees} as e where e.{employees:lastName} = 'Thompson' and mgr.{employees:employeeId} = e.{employees:managerId}" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[200000.10,120000.10]]"] actual:result message:@"Wrong result"];
+    [super testSmartQueryReturningOneRowWithTwoIntegers];
 }
 
 - (void) testSmartQueryReturningTwoRowsWithOneIntegerEach 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:salary} from {employees} where {employees:managerId} = '00010' order by {employees:firstName}" withPageSize:2];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-    [self assertSameJSONArrayWithExpected:[SFJsonUtils objectFromJSONString:@"[[120000.10],[100000.10]]"] actual:result message:@"Wrong result"];
+    [super testSmartQueryReturningTwoRowsWithOneIntegerEach];
 }
 
 - (void) testSmartQueryReturningSoupStringAndInteger 
 {
-    [self loadData];
-    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrderPath:nil withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
-    XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:firstName}, {employees:salary} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    XCTAssertTrue(1 == [result count], @"Expected one row");
-    [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
-    XCTAssertEqualObjects(@"Christine", result[0][1], @"Wrong first name");
-    NSNumber* dubNum = result[0][2];
-    XCTAssertEqual(200000.10, [dubNum doubleValue], @"Wrong salary");
+    [super testSmartQueryReturningSoupStringAndInteger];
 }
 	
 - (void) testSmartQueryWithPaging 
 {
-    [self loadData];
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:firstName} from {employees} order by {employees:firstName}" withPageSize:1];
-    XCTAssertTrue(7 ==[_store countWithQuerySpec:querySpec  error:nil], @"Expected 7 employees");
-    NSArray* expectedResults = @[@"Christine", @"Eileen", @"Eva", @"Irving", @"John", @"Michael", @"Sally"];
-    for (int i=0; i<7; i++) {
-        NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:i  error:nil];
-        NSArray* expectedResult = @[@[expectedResults[i]]];
-        NSString* message = [NSString stringWithFormat:@"Wrong result at page %d", i];
-        [self assertSameJSONArrayWithExpected:expectedResult actual:result message:message];
-    }
+    [super testSmartQueryWithPaging];
 }
     
 - (void) testSmartQueryWithSpecialFields 
 {
-    [self loadData];
-    SFQuerySpec* exactQuerySpec = [SFQuerySpec newExactQuerySpec:kEmployeesSoup withPath:@"employeeId" withMatchKey:@"00010" withOrderPath:nil withOrder:kSFSoupQuerySortOrderAscending withPageSize:1];
-    NSDictionary* christineJson = [_store queryWithQuerySpec:exactQuerySpec pageIndex:0  error:nil][0];
-    XCTAssertEqualObjects(@"Christine", christineJson[kFirstName], @"Wrong elt");
-    SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:@"select {employees:_soup}, {employees:_soupEntryId}, {employees:_soupLastModifiedDate} from {employees} where {employees:lastName} = 'Haas'" withPageSize:1];
-    NSArray* result = [_store queryWithQuerySpec:querySpec pageIndex:0  error:nil];
-    XCTAssertTrue(1 == [result count], @"Expected one row");
-    [self assertSameJSONWithExpected:christineJson actual:result[0][0] message:@"Wrong soup"];
-    XCTAssertEqualObjects(christineJson[@"_soupEntryId"], result[0][1], @"Wrong soupEntryId");
-    XCTAssertEqualObjects(christineJson[@"_soupLastModifiedDate"], result[0][2], @"Wrong soupLastModifiedDate");
+    [super testSmartQueryWithSpecialFields];
 }
-
-#pragma mark - helper methods
-- (void) loadData
-{
-    // Employees
-    [self createEmployeeWithFirstName:@"Christine" withLastName:@"Haas" withDeptCode:@"A00" withEmployeeId:@"00010" withManagerId:@"" withSalary:200000.10];
-    [self createEmployeeWithFirstName:@"Michael" withLastName:@"Thompson" withDeptCode:@"A00" withEmployeeId:@"00020" withManagerId:@"00010" withSalary:120000.10];
-    [self createEmployeeWithFirstName:@"Sally" withLastName:@"Kwan" withDeptCode:@"A00" withEmployeeId:@"00310" withManagerId:@"00010" withSalary:100000.10];
-    [self createEmployeeWithFirstName:@"John" withLastName:@"Geyer" withDeptCode:@"B00" withEmployeeId:@"00040" withManagerId:@"" withSalary:102000.10];
-    [self createEmployeeWithFirstName:@"Irving" withLastName:@"Stern" withDeptCode:@"B00" withEmployeeId:@"00050" withManagerId:@"00040" withSalary:100000.10];
-    [self createEmployeeWithFirstName:@"Eva" withLastName:@"Pulaski" withDeptCode:@"B00" withEmployeeId:@"00060" withManagerId:@"00050" withSalary:80000.10];
-    [self createEmployeeWithFirstName:@"Eileen" withLastName:@"Henderson" withDeptCode:@"B00" withEmployeeId:@"00070" withManagerId:@"00050" withSalary:70000.10];
-		
-    // Departments
-    [self createDepartmentWithCode:@"A00" withName:@"Sales" withBudget:1000000];
-    [self createDepartmentWithCode:@"B00" withName:@"R&D" withBudget:2000000];
-}
-
-- (void) createEmployeeWithFirstName:(NSString*)firstName withLastName:(NSString*)lastName withDeptCode:(NSString*)deptCode withEmployeeId:(NSString*)employeeId withManagerId:(NSString*)managerId withSalary:(double)salary
-{
-    NSDictionary* employee = @{kFirstName: firstName, kLastName: lastName, kDeptCode: deptCode, kEmployeeId: employeeId, kManagerId: managerId, kSalary: @(salary)};
-    [self.store upsertEntries:@[employee] toSoup:kEmployeesSoup];
-}
-	
-- (void) createDepartmentWithCode:(NSString*) deptCode withName:(NSString*)name withBudget:(NSUInteger) budget
-{
-    NSDictionary* department = @{kDeptCode: deptCode, kName: name, kBudget: @(budget)};
-    [self.store upsertEntries:@[department] toSoup:kDepartmentsSoup];
-}
-
 @end

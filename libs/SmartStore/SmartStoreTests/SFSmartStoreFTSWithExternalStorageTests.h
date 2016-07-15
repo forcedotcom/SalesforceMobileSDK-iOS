@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -25,41 +25,7 @@
 //  Logic unit tests contain unit test code that is designed to be linked into an independent test executable.
 //  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
 
-#import "SFSmartStoreTestCase.h"
+#import "SFSmartStoreFullTextSearchTests.h"
 
-#define kTestStore            @"testSmartSqlStore"
-#define kEmployeesSoup        @"employees"
-#define kDepartmentsSoup      @"departments"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kDeptCode             @"deptCode"
-#define kEmployeeId           @"employeeId"
-#define kManagerId            @"managerId"
-#define kSalary               @"salary"
-#define kBudget               @"budget"
-#define kName                 @"name"
-#define kEducation            @"education"
-#define kBuilding             @"building"
-
-@interface SFSmartSqlTests : SFSmartStoreTestCase
-- (SFUserAccount*) createUserAccount;
-- (void) testSharedInstance;
-- (void) testConvertSmartSqlWithInsertUpdateDelete;
-- (void) testSimpleConvertSmartSql;
-- (void) testConvertSmartSqlWithJoin;
-- (void) testConvertSmartSqlWithSelfJoin;
-- (void) testConvertSmartSqlWithSpecialColumns;
-- (void) testConvertSmartSqlWithSpecialColumnsAndJoin;
-- (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin;
-- (void) testConvertSmartSqlWithJSON1;
-- (void) testConvertSmartSqlWithJSON1AndTableQualifiedColumn;
-- (void) testConvertSmartSqlWithJSON1AndTableAliases;
-- (void) testSmartQueryDoingCount;
-- (void) testSmartQueryDoingSum;
-- (void) testSmartQueryReturningOneRowWithOneInteger;
-- (void) testSmartQueryReturningOneRowWithTwoIntegers;
-- (void) testSmartQueryReturningTwoRowsWithOneIntegerEach;
-- (void) testSmartQueryReturningSoupStringAndInteger;
-- (void) testSmartQueryWithPaging;
-- (void) testSmartQueryWithSpecialFields;
+@interface SFSmartStoreFTSWithExternalStorageTests : SFSmartStoreFullTextSearchTests
 @end

@@ -93,6 +93,22 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
+- (void) testRegisterSoupWithExternalStorageAndJSON1 {
+    NSUInteger const iterations = 10;
+    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kSSExternalStorage_TestSoupName], @"Soup should not exist before registration.");
+        // Register
+        NSDictionary* soupIndex = @{@"path": @"name", @"type": @"json1"};
+        NSError* error = nil;
+        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
+        BOOL testSoupExists = [store soupExists:kSSExternalStorage_TestSoupName];
+        XCTAssertFalse(testSoupExists, @"Soup should exist after registration.");
+        XCTAssertEqualObjects(error.localizedDescription, @"Can't have JSON1 index specs in externally stored soup");
+    }
+}
+
 - (void)testInsertEntryWithExternalStorage {
     NSUInteger const iterations = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
@@ -227,6 +243,65 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
+/**
+ * Test remove entries by query when soup uses external storage
+ */
+-(void) testRemoveEntriesByQueryWithExternalStorage
+{
+    SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
+    NSDictionary* soupIndex = @{@"path": @"key", @"type": @"string"};
+    
+    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        // Before
+        XCTAssertFalse([store soupExists:kSSExternalStorage_TestSoupName], @"%@ should not exist before registration.", kSSExternalStorage_TestSoupName);
+        
+        // Register
+        NSError* error = nil;
+        [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:&error];
+        BOOL testSoupExists = [store soupExists:kSSExternalStorage_TestSoupName];
+        XCTAssertTrue(testSoupExists, @"Soup %@ should exist after registration.", kSSExternalStorage_TestSoupName);
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Populate soup
+        NSDictionary* soupElt0 = @{@"key": @"abcd", @"value":@"va1", @"otherValue":@"ova1"};
+        NSDictionary* soupElt1 = @{@"key": @"bbcd", @"value":@"va2", @"otherValue":@"ova2"};
+        NSDictionary* soupElt2 = @{@"key": @"abcc", @"value":@"va3", @"otherValue":@"ova3"};
+        NSDictionary* soupElt3 = @{@"key": @"defg", @"value":@"va1", @"otherValue":@"ova1"};
+        
+        
+        NSArray* soupEltsCreated = [store upsertEntries:@[soupElt0, soupElt1, soupElt2, soupElt3] toSoup:kSSExternalStorage_TestSoupName];
+        
+        // Remove two entries
+        [store removeEntriesByQuery:[SFQuerySpec newLikeQuerySpec:kSSExternalStorage_TestSoupName withPath:@"key" withLikeKey:@"abc%" withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10]
+                           fromSoup:kSSExternalStorage_TestSoupName
+                              error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        
+        // Check soup
+        [self checkSoup:@[soupEltsCreated[1], soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoup:@[soupEltsCreated[0], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+        
+        // Check filesystem
+        [self checkFileSystem:@[soupEltsCreated[1], soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkFileSystem:@[soupEltsCreated[0], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+        
+        // Remove one more entry using a query all with page size of 1
+        [store removeEntriesByQuery:[SFQuerySpec newAllQuerySpec:kSSExternalStorage_TestSoupName withOrderPath:@"key" withOrder:kSFSoupQuerySortOrderAscending withPageSize:1]
+                           fromSoup:kSSExternalStorage_TestSoupName
+                              error:&error];
+        XCTAssertNil(error, @"There should be no errors.");
+        
+        // Check soup
+        [self checkSoup:@[soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkSoup:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+        
+        // Check filesystem
+        [self checkFileSystem:@[soupEltsCreated[3]] shouldExist:YES store:store soupName:kSSExternalStorage_TestSoupName];
+        [self checkFileSystem:@[soupEltsCreated[0], soupEltsCreated[1], soupEltsCreated[2]] shouldExist:NO store:store soupName:kSSExternalStorage_TestSoupName];
+    }
+}
+
 - (void)testClearSoupWithExternalStorage {
     NSUInteger const entriesToInsert = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
@@ -268,134 +343,6 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
         NSString *externalSoupDir = [store externalStorageSoupDirectory:soupTableName];
         NSArray *contentsOfDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:externalSoupDir error:nil];
         XCTAssertEqual(contentsOfDir.count, 0, @"External soup dir did not delete all external soup files.");
-    }
-}
-
-- (void)testAlterSoupInternalExternalConversion {
-    NSUInteger const numberOfEntries = 10;
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-        // Internal storage first
-        SFSoupSpec *internalStorageSoupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:nil];
-        NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
-        [store registerSoupWithSpec:internalStorageSoupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
-        __block NSString *soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
-        }];
-        
-        // Insert a few entries
-        NSMutableArray *entriesToInsert = [[NSMutableArray alloc] initWithCapacity:numberOfEntries];
-        for (NSUInteger i = 0; i < numberOfEntries; ++i) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i],
-                                    @"age": @(i)};
-            [entriesToInsert addObject:entry];
-        }
-        NSArray *savedEntries = [store upsertEntries:entriesToInsert toSoup:kSSExternalStorage_TestSoupName];
-        
-        // Get current indices
-        NSArray *indicesBefore = [store indicesForSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqual(indicesBefore.count, 1, @"Number of indices initially is not correct.");
-        SFSoupIndex *firstIndex = indicesBefore[0];
-        XCTAssertEqualObjects(firstIndex.path, nameIndex[@"path"]);
-        XCTAssertEqualObjects(firstIndex.indexType, nameIndex[@"type"]);
-        
-        // Alter and Re-index
-        SFSoupSpec *externalStorageSoupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
-        NSDictionary *ageIndex = @{@"path": @"age", @"type": @"integer"};
-        [store alterSoup:kSSExternalStorage_TestSoupName
-            withSoupSpec:externalStorageSoupSpec
-          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex, ageIndex]]
-             reIndexData:YES];
-        
-        // Verify external files are there
-        NSString *externalSoupDir = [store externalStorageSoupDirectory:soupTableName];
-        NSArray *contentsOfDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:externalSoupDir error:nil];
-        XCTAssertEqual(contentsOfDir.count, numberOfEntries, @"Not all entries were saved externaly when converting from internal to external storage.");
-        
-        // Verify entries can be retrieved and are equal
-        NSArray *entriesAfterAlterSoup = [store retrieveEntries:[self entriesIdFromEntries:savedEntries]
-                                                       fromSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqualObjects(savedEntries, entriesAfterAlterSoup, @"Entries after alter soup are not the equal to prior alter soup.");
-        
-        // Get new indices and check
-        NSArray *indicesAfter = [store indicesForSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqual(indicesAfter.count, 2, @"Number of indices after alter soup is not correct.");
-        for (SFSoupIndex *index in indicesAfter) {
-            if ([index.path isEqualToString:nameIndex[@"path"]]) {
-                XCTAssertEqualObjects(index.path, nameIndex[@"path"]);
-                XCTAssertEqualObjects(index.indexType, nameIndex[@"type"]);
-            }
-            else if ([index.path isEqualToString:ageIndex[@"path"]]) {
-                XCTAssertEqualObjects(index.path, ageIndex[@"path"]);
-                XCTAssertEqualObjects(index.indexType, ageIndex[@"type"]);
-            }
-        }
-        
-        XCTAssertNotEqualObjects(indicesBefore, indicesAfter, @"Alter and/or re-index failed!");
-    }
-}
-
-- (void)testAlterSoupExternalInternalConversion {
-    NSUInteger const numberOfEntries = 10;
-    for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
-        // External storage first
-        SFSoupSpec *externalStorageSoupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
-        NSDictionary* nameIndex = @{@"path": @"name", @"type": @"string"};
-        [store registerSoupWithSpec:externalStorageSoupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex]] error:nil];
-        __block NSString *soupTableName;
-        [store.storeQueue inDatabase:^(FMDatabase *db) {
-            soupTableName = [store tableNameForSoup:kSSExternalStorage_TestSoupName withDb:db];
-        }];
-        
-        // Insert a few entries
-        NSMutableArray *entriesToInsert = [[NSMutableArray alloc] initWithCapacity:numberOfEntries];
-        for (NSUInteger i = 0; i < numberOfEntries; ++i) {
-            NSDictionary *entry = @{@"name": [NSString stringWithFormat:@"somebody_%lu", (unsigned long) i],
-                                    @"age": @(i)};
-            [entriesToInsert addObject:entry];
-        }
-        NSArray *savedEntries = [store upsertEntries:entriesToInsert toSoup:kSSExternalStorage_TestSoupName];
-        
-        // Get current indices
-        NSArray *indicesBefore = [store indicesForSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqual(indicesBefore.count, 1, @"Number of indices initially is not correct.");
-        SFSoupIndex *firstIndex = indicesBefore[0];
-        XCTAssertEqualObjects(firstIndex.path, nameIndex[@"path"]);
-        XCTAssertEqualObjects(firstIndex.indexType, nameIndex[@"type"]);
-        
-        // Alter and Re-index
-        SFSoupSpec *internalStorageSoupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:nil];
-        NSDictionary *ageIndex = @{@"path": @"age", @"type": @"integer"};
-        [store alterSoup:kSSExternalStorage_TestSoupName
-            withSoupSpec:internalStorageSoupSpec
-          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[nameIndex, ageIndex]]
-             reIndexData:YES];
-        
-        // Verify external files are not there anymore
-        NSString *externalSoupDir = [store externalStorageSoupDirectory:soupTableName];
-        NSArray *contentsOfDir = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:externalSoupDir error:nil];
-        XCTAssertEqual(contentsOfDir.count, 0, @"External files were not cleaned up on conversion from external to internal storage.");
-        
-        // Verify entries can be retrieved and are equal
-        NSArray *entriesAfterAlterSoup = [store retrieveEntries:[self entriesIdFromEntries:savedEntries]
-                                                       fromSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqualObjects(savedEntries, entriesAfterAlterSoup, @"Entries after alter soup are not the equal to prior alter soup.");
-        
-        // Get new indices and check
-        NSArray *indicesAfter = [store indicesForSoup:kSSExternalStorage_TestSoupName];
-        XCTAssertEqual(indicesAfter.count, 2, @"Number of indices after alter soup is not correct.");
-        for (SFSoupIndex *index in indicesAfter) {
-            if ([index.path isEqualToString:nameIndex[@"path"]]) {
-                XCTAssertEqualObjects(index.path, nameIndex[@"path"]);
-                XCTAssertEqualObjects(index.indexType, nameIndex[@"type"]);
-            }
-            else if ([index.path isEqualToString:ageIndex[@"path"]]) {
-                XCTAssertEqualObjects(index.path, ageIndex[@"path"]);
-                XCTAssertEqualObjects(index.indexType, ageIndex[@"type"]);
-            }
-        }
-        
-        XCTAssertNotEqualObjects(indicesBefore, indicesAfter, @"Alter and/or re-index failed!");
     }
 }
 

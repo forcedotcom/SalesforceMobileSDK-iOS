@@ -225,8 +225,10 @@
         }
     }
     
-    // Check soup column
-    XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+    // Check soup column if there is one
+    if ([frs columnIndexForName:SOUP_COL] >= 0) {
+        XCTAssertEqualObjects([frs stringForColumn:SOUP_COL], [SFJsonUtils JSONRepresentation:expectedEntry], @"Wrong value in soup column");
+    }
 }
 
 - (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes
@@ -246,6 +248,46 @@
         }
     }
 }
+
+-(void) checkSoup:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
+{
+    for (NSDictionary* expectedEntry in expectedEntries) {
+        NSNumber* soupEntryId = expectedEntry[SOUP_ENTRY_ID];
+        NSArray* actualEntries = [store retrieveEntries:@[soupEntryId] fromSoup:soupName];
+        if (shouldExist) {
+            XCTAssertEqual(1, actualEntries.count, @"Soup entry for %@ should exist", soupEntryId);
+            [self assertSameJSONWithExpected:expectedEntry actual:actualEntries[0] message:@"Wrong json"];
+        }
+        else {
+            XCTAssertEqual(0, actualEntries.count, @"Soup entry for %@ should not exist", soupEntryId);
+        }
+    }
+}
+
+
+-(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
+{
+    __block NSString *soupTableName;
+    [store.storeQueue inDatabase:^(FMDatabase *db) {
+        soupTableName = [store tableNameForSoup:soupName withDb:db];
+    }];
+    
+    for (NSDictionary* expectedEntry in expectedEntries) {
+        NSNumber* soupEntryId = expectedEntry[SOUP_ENTRY_ID];
+        NSString *externalEntryFilePath = [store
+                                           externalStorageSoupFilePath:soupEntryId                                                               soupTableName:soupTableName];
+        BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:externalEntryFilePath];
+        if (shouldExist) {
+            XCTAssertTrue(fileExists, @"External file for %@ should exist", soupEntryId);
+            NSDictionary* actualEntry = [store loadExternalSoupEntry:soupEntryId soupTableName:soupTableName];
+            [self assertSameJSONWithExpected:expectedEntry actual:actualEntry message:@"Wrong json"];
+        }
+        else {
+            XCTAssertFalse(fileExists, @"External file for %@ should not exist", soupEntryId);
+        }
+    }
+}
+
 
 - (SFUserAccount*)setUpSmartStoreUser
 {

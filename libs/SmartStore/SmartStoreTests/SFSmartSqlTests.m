@@ -37,20 +37,6 @@
 
 @implementation SFSmartSqlTests
 
-#define kTestStore            @"testSmartSqlStore"
-#define kEmployeesSoup        @"employees"
-#define kDepartmentsSoup      @"departments"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kDeptCode             @"deptCode"
-#define kEmployeeId           @"employeeId"
-#define kManagerId            @"managerId"
-#define kSalary               @"salary"
-#define kBudget               @"budget"
-#define kName                 @"name"
-#define kEducation            @"education"
-#define kBuilding             @"building"
-
 #pragma mark - setup and teardown
 
 - (void) setUp
