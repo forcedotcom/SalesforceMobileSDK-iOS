@@ -155,7 +155,7 @@
 
 - (void) updateWithInfo:(NSDictionary *) info {
     WKWebView *wkWebView = (WKWebView *) _engineWebView;
-    id <WKNavigationDelegate> wkWebViewDelegate = [info objectForKey:kCDVWebViewEngineUIWebViewDelegate];
+    id <WKNavigationDelegate> wkWebViewDelegate = [info objectForKey:kCDVWebViewEngineWKNavigationDelegate];
     NSDictionary *settings = [info objectForKey:kCDVWebViewEngineWebViewPreferences];
     if (wkWebViewDelegate &&
         [wkWebViewDelegate conformsToProtocol:@protocol(WKNavigationDelegate)]) {
