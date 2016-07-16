@@ -33,6 +33,8 @@
 #import <SalesforceSDKCore/SFAuthErrorHandlerList.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
+#import <Cordova/NSDictionary+CordovaPreferences.h>
+#import <WebKit/WebKit.h>
 
 // Public constants.
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
@@ -62,14 +64,14 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 }
 
 /**
- * Hidden UIWebView used to load the VF ping page.
+ * Hidden WKWebView used to load the VF ping page.
  */
-@property (nonatomic, strong) UIWebView *vfPingPageHiddenWebView;
+@property (nonatomic, strong) WKWebView *vfPingPageHiddenWebView;
 
 /**
- * UIWebView for processing the error page, in the event of a fatal error during bootstrap.
+ * WKWebView for processing the error page, in the event of a fatal error during bootstrap.
  */
-@property (nonatomic, strong) UIWebView *errorPageWebView;
+@property (nonatomic, strong) WKWebView *errorPageWebView;
 
 /**
  * Whether or not the input URL is one of the reserved URLs in the login flow, for consideration
@@ -133,7 +135,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 - (void)authenticationCompletion:(NSString *)originalUrl authInfo:(SFOAuthInfo *)authInfo;
 
 /**
- * Loads the VF ping page in an invisible UIWebView and sets session cookies for the VF domain.
+ * Loads the VF ping page in an invisible WKWebView and sets session cookies for the VF domain.
  */
 - (void)loadVFPingPage;
 
@@ -153,6 +155,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
+
+        // Setting our WKWebView based plugin as the engine to be used.
+        [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
     }
     return self;
 }
@@ -244,7 +249,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
     /*
      * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
-     * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+     * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
      */
     [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
     [[SFAuthenticationManager sharedManager] loginWithCompletion:^(SFOAuthInfo *authInfo) {
@@ -284,7 +289,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
     NSString *errorPage = _hybridViewConfig.errorPage;
     NSURL *errorPageUrl = [self fullFileUrlForPage:errorPage];
-    self.errorPageWebView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.errorPageWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
     self.errorPageWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.errorPageWebView.delegate = self;
     [self.view addSubview:self.errorPageWebView];
@@ -477,7 +482,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
             /*
              * Reconfigure user agent. Basically this ensures that Cordova whitelisting won't apply to the
-             * UIWebView that hosts the login screen (important for SSO outside of Salesforce domains).
+             * WKWebView that hosts the login screen (important for SSO outside of Salesforce domains).
              */
             [SFSDKWebUtils configureUserAgent:[self sfHybridViewUserAgentString]];
             [[SFAuthenticationManager sharedManager]
@@ -601,7 +606,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.apiUrl.absoluteString];
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
-        self.vfPingPageHiddenWebView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        self.vfPingPageHiddenWebView = [[WKWebView alloc] initWithFrame:CGRectZero];
         self.vfPingPageHiddenWebView.delegate = self;
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
