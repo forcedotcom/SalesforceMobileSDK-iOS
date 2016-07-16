@@ -164,9 +164,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (void)dealloc
 {
-    self.vfPingPageHiddenWebView.delegate = nil;
+    self.vfPingPageHiddenWebView.navigationDelegate = nil;
     SFRelease(_vfPingPageHiddenWebView);
-    self.errorPageWebView.delegate = nil;
+    self.errorPageWebView.navigationDelegate = nil;
     SFRelease(_errorPageWebView);
 }
 
@@ -291,7 +291,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     NSURL *errorPageUrl = [self fullFileUrlForPage:errorPage];
     self.errorPageWebView = [[WKWebView alloc] initWithFrame:self.view.frame];
     self.errorPageWebView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.errorPageWebView.delegate = self;
+    self.errorPageWebView.navigationDelegate = self;
     [self.view addSubview:self.errorPageWebView];
     if (errorPageUrl != nil) {
         NSURL *errorPageUrlWithError = [self createErrorPageUrl:errorPageUrl code:errorCode description:errorDescription context:errorContext];
@@ -535,12 +535,6 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     [self.webViewEngine webViewDidFinishLoad:theWebView];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [self log:SFLogLevelDebug msg:@"Started loading web page."];
-    [self.webViewEngine webViewDidStartLoad:webView];
-}
-
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self log:SFLogLevelError format:@"Error while attempting to load web page: %@", error];
@@ -587,7 +581,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
-        [self log:SFLogLevelDebug format:@"Authentication complete.  Redirecting to '%@' through frontdoor.",
+        [self log:SFLogLevelDebug format:@"Authentication complete. Redirecting to '%@' through frontdoor.",
                 [originalUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         BOOL createAbsUrl = YES;
         if (authInfo.authType == SFOAuthTypeRefresh) {
@@ -595,7 +589,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         }
         NSURL *returnUrlAfterAuth = [self frontDoorUrlWithReturnUrl:originalUrl returnUrlIsEncoded:YES createAbsUrl:createAbsUrl];
         NSURLRequest *newRequest = [NSURLRequest requestWithURL:returnUrlAfterAuth];
-        [self.webView loadRequest:newRequest];
+        [(WKWebView *)(self.webView) loadRequest:newRequest];
     }
 }
 
@@ -607,7 +601,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         self.vfPingPageHiddenWebView = [[WKWebView alloc] initWithFrame:CGRectZero];
-        self.vfPingPageHiddenWebView.delegate = self;
+        self.vfPingPageHiddenWebView.navigationDelegate = self;
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];
         [self.vfPingPageHiddenWebView loadRequest:pingRequest];

@@ -291,7 +291,7 @@ static NSString* stripFragment(NSString *url) {
     }
 }
 
-- (NSString *) stringByEvaluatingJavaScriptFromString:(NSString *)script webView:(WKWebView *)webView {
+- (NSString *) stringByEvaluatingJavaScriptFromString:(NSString *) script webView:(WKWebView *) webView {
     __block NSString *resultString = nil;
     __block BOOL finished = NO;
     [webView evaluateJavaScript:script completionHandler:^(id result, NSError *error) {
