@@ -94,14 +94,10 @@
 
 - (void) updateSettings:(NSDictionary *) settings {
     WKWebView *wkWebView = (WKWebView *) _engineWebView;
-    /*wkWebView.scalesPageToFit = [settings cordovaBoolSettingForKey:@"EnableViewportScale" defaultValue:NO];
-    wkWebView.allowsInlineMediaPlayback = [settings cordovaBoolSettingForKey:@"AllowInlineMediaPlayback" defaultValue:NO];
-    wkWebView.mediaPlaybackRequiresUserAction = [settings cordovaBoolSettingForKey:@"MediaPlaybackRequiresUserAction" defaultValue:YES];
-    wkWebView.mediaPlaybackAllowsAirPlay = [settings cordovaBoolSettingForKey:@"MediaPlaybackAllowsAirPlay" defaultValue:YES];
-    wkWebView.keyboardDisplayRequiresUserAction = [settings cordovaBoolSettingForKey:@"KeyboardDisplayRequiresUserAction" defaultValue:YES];
-    wkWebView.suppressesIncrementalRendering = [settings cordovaBoolSettingForKey:@"SuppressesIncrementalRendering" defaultValue:NO];
-    wkWebView.gapBetweenPages = [settings cordovaFloatSettingForKey:@"GapBetweenPages" defaultValue:0.0];
-    wkWebView.pageLength = [settings cordovaFloatSettingForKey:@"PageLength" defaultValue:0.0];*/
+    wkWebView.configuration.allowsInlineMediaPlayback = [settings cordovaBoolSettingForKey:@"AllowInlineMediaPlayback" defaultValue:NO];
+    wkWebView.configuration.mediaPlaybackRequiresUserAction = [settings cordovaBoolSettingForKey:@"MediaPlaybackRequiresUserAction" defaultValue:YES];
+    wkWebView.configuration.mediaPlaybackAllowsAirPlay = [settings cordovaBoolSettingForKey:@"MediaPlaybackAllowsAirPlay" defaultValue:YES];
+    wkWebView.configuration.suppressesIncrementalRendering = [settings cordovaBoolSettingForKey:@"SuppressesIncrementalRendering" defaultValue:NO];
     id prefObj = nil;
 
     // By default, 'DisallowOverscroll' is false (bounce is allowed).
@@ -136,21 +132,6 @@
             paginationBreakingMode = 0;
         }
     }
-    //wkWebView.paginationBreakingMode = paginationBreakingMode;
-    NSInteger paginationMode = 0;
-    prefObj = [settings cordovaSettingForKey:@"PaginationMode"];
-    if (prefObj != nil) {
-        NSArray *validValues = @[@"unpaginated", @"lefttoright", @"toptobottom", @"bottomtotop", @"righttoleft"];
-        NSString *prefValue = [validValues objectAtIndex:0];
-        if ([prefObj isKindOfClass:[NSString class]]) {
-            prefValue = prefObj;
-        }
-        paginationMode = [validValues indexOfObject:[prefValue lowercaseString]];
-        if (paginationMode == NSNotFound) {
-            paginationMode = 0;
-        }
-    }
-    //wkWebView.paginationMode = paginationMode;
 }
 
 - (void) updateWithInfo:(NSDictionary *) info {
