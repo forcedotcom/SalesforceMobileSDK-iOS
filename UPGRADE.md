@@ -11,6 +11,6 @@ Upgrading your hybrid app from 4.1.x to 4.2 should be a simple matter of upgradi
         $ cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin
         $ cordova prepare
 
-See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 4.2 SDK and Cordova 3.9.2.
+See the [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true) for more information about developing hybrid apps with the 4.3 SDK and Cordova 4.2.0.
 
 If you have questions, or encounter any issues, we'd love to hear from you. Post any feedback you have on our [Google+ Community](https://plus.google.com/communities/114225252149514546445).
