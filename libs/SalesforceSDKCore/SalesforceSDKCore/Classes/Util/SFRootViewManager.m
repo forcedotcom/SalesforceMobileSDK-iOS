@@ -113,7 +113,8 @@
         }
         
         if (currentViewController != nil) {
-            if (currentViewController != viewController) {
+            if (currentViewController != viewController
+                && viewController.presentedViewController != currentViewController) {
                 [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
                 
                 [weakSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
