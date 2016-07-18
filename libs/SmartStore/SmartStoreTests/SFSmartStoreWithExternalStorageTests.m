@@ -29,8 +29,7 @@
 #import "SFSmartStore+Internal.h"
 #import "SFQuerySpec.h"
 #import "FMDatabaseQueue.h"
-#import <SalesforceSDKCore/SFEncryptionKey.h>
-#import <SalesforceSDKCore/SFJSONUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 NSString * const kSSExternalStorage_TestSoupName = @"SSExternalStorage_TestSoupName";
 NSString * const kSSAlphabets = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
@@ -425,6 +424,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
     
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
+        NSLog(@"Upsert to store: %@", self.store.storeName);
         [store registerSoupWithSpec:soupSpec withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
         __block NSString *soupTableName;
         [store.storeQueue inDatabase:^(FMDatabase *db) {
