@@ -61,30 +61,20 @@ static NSString *gUserAgentForApp = nil;
 + (void)stageUserAgentForApp
 {
     if (gUserAgentForApp != nil) return;
-    
-    if ([NSThread isMainThread]) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  WKWebView
-        // really doesn't want you to know about its HTTP headers.
-        WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-       
-       // gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-       [webView evaluateJavaScript:@"navigator.userAgent"
-                 completionHandler:^(id _Nullable val, NSError * _Nullable error) {
-                     gUserAgentForApp = val;
-                 }];
-        
-    } else {
-        // Needs to run on the main thread.
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-            //gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-            [webView evaluateJavaScript:@"navigator.userAgent"
-                      completionHandler:^(id _Nullable val, NSError * _Nullable error) {
-                          gUserAgentForApp = val;
-                      }];
 
-        });
-    }
+    __block BOOL finished = NO;
+    
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+
+   [webView evaluateJavaScript:@"navigator.userAgent"
+             completionHandler:^(id _Nullable val, NSError * _Nullable error) {
+                 gUserAgentForApp = val;
+                 finished = true;
+             }];
+
+   while( !finished ) {
+       [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+   }
 }
 
 @end
