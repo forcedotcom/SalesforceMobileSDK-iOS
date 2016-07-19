@@ -48,6 +48,7 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import <WebKit/WKWebView.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
 
@@ -197,7 +198,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  Method to present the authorizing view controller with the given auth webView.
  @param webView The auth webView to present.
  */
-- (void)presentAuthViewController:(UIWebView *)webView;
+- (void)presentAuthViewController:(WKWebView *)webView;
 
 /**
  Called after initial authentication has completed.
@@ -311,7 +312,7 @@ static Class InstanceClass = nil;
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
-                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
+                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     if (weakSelf.authViewController == nil)
                                         weakSelf.authViewController = [SFLoginViewController sharedInstance];
                                     [weakSelf.authViewController setOauthView:authWebView];
@@ -840,7 +841,7 @@ static Class InstanceClass = nil;
    [self.statusAlert dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)presentAuthViewController:(UIWebView *)webView
+- (void)presentAuthViewController:(WKWebView *)webView
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1118,7 +1119,7 @@ static Class InstanceClass = nil;
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1128,7 +1129,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didStartLoad:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1138,7 +1139,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError *)errorOrNil
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didFinishLoad:error:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1148,7 +1149,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
     

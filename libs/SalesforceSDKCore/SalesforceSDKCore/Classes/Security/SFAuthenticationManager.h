@@ -28,7 +28,6 @@
 #import "SFOAuthInfo.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityCoordinator.h"
-
 @class SFAuthenticationManager;
 @class SFAuthenticationViewHandler;
 @class SFAuthErrorHandler;
@@ -76,7 +75,7 @@ typedef void (^SFOAuthFlowFailureCallbackBlock)(SFOAuthInfo *, NSError *);
  @param manager The instance of SFAuthenticationManager making the call.
  @param view The instance of the auth view to be displayed.
  */
-- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(UIWebView *)view;
+- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(WKWebView *)view;
 
 /**
  Called before the auth manager will perform an authentication, this includes token refresh.
