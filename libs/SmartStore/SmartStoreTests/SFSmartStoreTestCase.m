@@ -249,19 +249,68 @@
     }
 }
 
--(void) checkSoup:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
+-(void) checkSoupTable:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName
 {
+    // Getting ids of expected entries and building id to entry map
+    NSMutableArray* expectedEntriesIds = [NSMutableArray new];
+    NSMutableDictionary* idToExpectedEntries = [NSMutableDictionary new];
+    
     for (NSDictionary* expectedEntry in expectedEntries) {
         NSNumber* soupEntryId = expectedEntry[SOUP_ENTRY_ID];
-        NSArray* actualEntries = [store retrieveEntries:@[soupEntryId] fromSoup:soupName];
-        if (shouldExist) {
-            XCTAssertEqual(1, actualEntries.count, @"Soup entry for %@ should exist", soupEntryId);
-            [self assertSameJSONWithExpected:expectedEntry actual:actualEntries[0] message:@"Wrong json"];
-        }
-        else {
-            XCTAssertEqual(0, actualEntries.count, @"Soup entry for %@ should not exist", soupEntryId);
-        }
+        [expectedEntriesIds addObject:soupEntryId];
+        idToExpectedEntries[soupEntryId] = expectedEntry;
     }
+    
+    // Getting soup table name and storage type
+    __block NSString *soupTableName;
+    __block BOOL soupUsesExternalStorage;
+    [store.storeQueue inDatabase:^(FMDatabase *db) {
+        soupTableName = [store tableNameForSoup:soupName withDb:db];
+        SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
+        soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
+    }];
+    
+    // Getting soup indexes
+    NSArray* soupIndexes = [store indicesForSoup:soupName];
+    
+    // Getting data from soup table
+    [store.storeQueue inDatabase:^(FMDatabase* db) {
+        NSString *pred = [NSString stringWithFormat:@"%@ IN (%@) ", ID_COL, [expectedEntriesIds componentsJoinedByString:@","]];
+        
+        FMResultSet *frs = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@ WHERE %@", soupTableName, pred]];
+        
+        // If entries are supposed to exist, make sure we actually find them in the database
+        if (shouldExist) {
+            NSMutableArray* actualRows = [NSMutableArray new];
+            
+            while([frs next]) {
+                NSDictionary* actualRow = [frs resultDictionary];
+                [actualRows addObject:actualRow];
+            }
+            
+            XCTAssertEqual([actualRows count], [expectedEntries count], @"Wrong number of entries found");
+            
+            for (NSDictionary* actualRow in actualRows) {
+                NSNumber* soupEntryId = actualRow[ID_COL];
+                NSDictionary* expectedEntry = idToExpectedEntries[soupEntryId];
+                
+                for (SFSoupIndex* soupIndex in soupIndexes) {
+                    if (![soupIndex.indexType isEqualToString:kSoupIndexTypeJSON1]) {
+                        XCTAssertEqualObjects(actualRow[soupIndex.columnName], expectedEntry[soupIndex.path], @"Mismatching values for path %@ for entry %@", soupIndex.path, soupEntryId);
+                    }
+                    if (!soupUsesExternalStorage) {
+                        NSDictionary* actualEntry = [SFJsonUtils objectFromJSONString:actualRow[SOUP_COL]];
+                        [self assertSameJSONWithExpected:expectedEntry actual:actualEntry message:[NSString stringWithFormat:@"Mismatching json for entry %@", soupEntryId]];
+                    }
+                }
+                
+            }
+        }
+        // Otherwise, make sure we don't find them in the database
+        else {
+            XCTAssertFalse([frs next], @"None of the entries should have been found");
+        }
+    }];
 }
 
 
