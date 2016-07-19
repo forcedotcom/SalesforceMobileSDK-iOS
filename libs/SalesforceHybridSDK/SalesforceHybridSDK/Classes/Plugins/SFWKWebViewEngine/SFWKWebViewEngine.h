@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ SFWKWebViewEngine.h
+ SalesforceHybridSDK
+ 
+ Created by Bharath Hariharan on 7/15/16.
+ 
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,9 +27,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AppDelegate.h"
-#import <SalesforceHybridSDK/SFHybridViewController.h>
+#import <WebKit/WebKit.h>
+#import <Cordova/CDVPlugin.h>
+#import <Cordova/CDVWebViewEngineProtocol.h>
 
-@interface AppDelegate (SalesforceHybridSDK) <SFAuthenticationManagerDelegate, SFUserAccountManagerDelegate>
+@interface SFWKWebViewEngine : CDVPlugin <CDVWebViewEngineProtocol>
+
+@property (nonatomic, strong, readonly) id<WKNavigationDelegate> wkWebViewDelegate;
 
 @end
