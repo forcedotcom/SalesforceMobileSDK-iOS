@@ -27,7 +27,6 @@
  */
 
 @import UIKit;
-#import <WebKit/WebKit.h>
 #import "SFLoginViewController.h"
 #import "SFManagedPreferences.h"
 #import "SFSDKLoginHostListViewController.h"
@@ -176,7 +175,7 @@
 
 #pragma mark - Properties
 
-- (void)setOauthView:(WKWebView *)oauthView {
+- (void)setOauthView:(UIView *)oauthView {
     if (![oauthView isEqual:_oauthView]) {
         [_oauthView removeFromSuperview];
         _oauthView = oauthView;

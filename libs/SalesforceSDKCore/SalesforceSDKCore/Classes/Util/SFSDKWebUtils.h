@@ -46,5 +46,4 @@ extern NSString * const kUserAgentPropKey;
  */
 + (NSString *)currentUserAgentForApp;
 
-
 @end

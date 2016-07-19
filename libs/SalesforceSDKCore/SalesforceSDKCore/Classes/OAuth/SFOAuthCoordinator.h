@@ -27,12 +27,8 @@
 #import <WebKit/WebKit.h>
 #import "SFOAuthCredentials.h"
 
-
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
-
-
-
 
 /** SFOAuth default network timeout in seconds.
  */

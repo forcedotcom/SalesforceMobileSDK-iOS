@@ -25,7 +25,6 @@
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
 #import <WebKit/WebKit.h>
-//#import "WKWebView+SFWKWebView.h"
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
 

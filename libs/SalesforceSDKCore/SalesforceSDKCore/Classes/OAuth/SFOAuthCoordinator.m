@@ -164,7 +164,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     _scopes = nil;
     [self stopRefreshFlowConnectionTimer];
     [_view setNavigationDelegate:nil];
-    [_view setUIDelegate:nil];
     _view = nil;
 }
 
@@ -987,11 +986,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
         NSAssert((nil != [self.view superview]), @"No superview for oauth web view after didBeginAuthenticationWithView");
     }
-}
-
-- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
-{
-   //do nothing
 }
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
