@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS.svg?branch=unstable)](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS)
+
 # Salesforce.com Mobile SDK for iOS
 
 You have arrived at the source repository for the Salesforce Mobile SDK for iOS.  Welcome!  Starting with our 2.0 release, there are now three ways you can choose to work with the Mobile SDK:
@@ -32,18 +34,26 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 4.1
+### What's New in 4.2
 
 **SmartStore Enhancements**
-- SmartStore now allows internal (non-leaf) nodes in index paths. This feature is useful in LIKE and MATCH queries.
-- SmartStore now allows arrays in compound index paths.
+- FTS 5 is now supported.
+- We've added a new index type for JSON1.
+- We've added a new API to support deleting soup elements by specifying a query.
+- We've added a new optional parameter to our query APIs, called `selectPaths`.
+
+**SmartSync Enhancements**
+- SmartSync now provides a `cleanResyncGhosts` method for removing ghost records, that is, records that don't match sync criteria or have been deleted from the server.
+
+**SalesforceReact Enhancements**
+- SalesforceReact now supports deferred authentication.
 
 **Library Upgrades**
-- We've updated React Native to version 0.20.
+- We've updated React Native to version 0.27.2.
+- We've updated SQLCipher to version 3.4.
 
 **Other Technical Improvements**
-- We've removed the Settings bundle. If your users relied on Settings to log out, you can recover that functionality by implementing your own logout button.
-- You no longer use Settings to set custom login hosts. Instead, you can add custom login hosts at runtime from the login screen.
+- We're IPv6 compliant.
 - Improvements to sample apps.
 - Various bug fixes.
 

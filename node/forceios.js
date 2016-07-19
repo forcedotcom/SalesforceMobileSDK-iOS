@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = '4.2.0',
+var version = '4.3.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
@@ -10,7 +10,7 @@ var version = '4.2.0',
     cordovaHelper = require('../external/shared/node/cordovaHelper');
 
 var minimumCordovaCliVersion = '5.4.0';
-var cordovaPlatformVersion = '3.9.2';
+var cordovaPlatformVersion = '4.2.0';
 
 var outputColors = {
     'red': '\x1b[31;1m',
@@ -182,8 +182,8 @@ function createNativeApp(config) {
             process.exit(3);
         }
     });
-    createAppProcess.stdout.on('data', function(data) { console.log(data); });
-    createAppProcess.stderr.on('data', function(data) { console.log(data); });
+    createAppProcess.stdout.on('data', function(data) { console.log(data.toString('utf8')); });
+    createAppProcess.stderr.on('data', function(data) { console.log(data.toString('utf8')); });
 }
 
 function buildArgsFromArgMap(config) {

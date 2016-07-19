@@ -98,7 +98,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.sdkManagerFlow = self;
-        _delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -231,6 +231,11 @@ static Class InstanceClass = nil;
     }
     
     return launchActionString;
+}
+
++ (void)setDesiredAccount:(SFUserAccount*)account
+{
+    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
 }
 
 #pragma mark - Private methods
@@ -627,7 +632,7 @@ static Class InstanceClass = nil;
     // especially if the user is anonymous, to ensure the auth view controller
     // is dismissed otherwise it stays visible - because by default it is dismissed
     // only after a successfully authentication.
-    // A typical scenario when this happen is when the user switch to a new user
+    // A typical scenario when this happen is when the user switches to a new user
     // but decides to "go back" to the existing user and that existing user is
     // the anonymous user - the auth flow never happens and the auth view controller
     // stays on the screen, masking the main UI.
@@ -684,8 +689,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -694,8 +698,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -703,12 +706,9 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SalesforceSDKManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SalesforceSDKManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SalesforceSDKManagerDelegate> delegate in self.delegates) {
+            if (block) block(delegate);
+        }
     }
 }
 

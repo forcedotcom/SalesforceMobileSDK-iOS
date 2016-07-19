@@ -24,6 +24,7 @@
 
 @class FMDatabaseQueue;
 @class SFSmartStore;
+@class SFSoupSpec;
 
 // Enum for alter steps
 typedef NS_ENUM(NSUInteger, SFAlterSoupStep) {
@@ -33,17 +34,20 @@ typedef NS_ENUM(NSUInteger, SFAlterSoupStep) {
     SFAlterSoupStepRegisterSoupUsingTableName,
     SFAlterSoupStepCopyTable,
     SFAlterSoupStepReIndexSoup,
-    SFAlterSoupStepDropOldTable
+    SFAlterSoupStepDropOldTable,
+    SFAlterSoupStepCleanup
 };
 
 
 // Fields of details for alter soup long operation row in long_operations_status table
 static NSString * const SOUP_NAME       = @"soupName";
 static NSString * const SOUP_TABLE_NAME = @"soupTableName";
+static NSString * const NEW_SOUP_SPEC   = @"newSoupSpec";
+static NSString * const OLD_SOUP_SPEC   = @"oldSoupSpec";
 static NSString * const OLD_INDEX_SPECS = @"oldIndexSpecs";
 static NSString * const NEW_INDEX_SPECS = @"newIndexSpecs";
 static NSString * const RE_INDEX_DATA   = @"reIndexData";
-static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
+static NSInteger  const kLastStep = SFAlterSoupStepCleanup;
 
 
 @interface SFAlterSoupLongOperation : NSObject {
@@ -58,6 +62,12 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 	
 // Last step completed
 @property (nonatomic, readonly, assign) SFAlterSoupStep afterStep;
+
+// New soup spec (optional)
+@property (nonatomic, readonly, strong) SFSoupSpec *soupSpec;
+
+// Old soup spec
+@property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec;
 	
 // New index specs
 @property (nonatomic, readonly, strong) NSArray *indexSpecs;
@@ -80,12 +90,22 @@ static NSInteger  const kLastStep = SFAlterSoupStepDropOldTable;
 
 /**
  Called when first running the alter soup
- @param store Store
- @param soupName Soup name
- @param newIndexSpecs New index specs
- @param reIndexData Should re-index data
+ @param store Store.
+ @param soupName Soup name.
+ @param newIndexSpecs New index specs.
+ @param reIndexData YES - to reindex, NO - if not.
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
+
+/**
+ Called when first running the alter soup
+ @param store Store.
+ @param soupName Soup name.
+ @param newSoupSpec New soup spec.
+ @param newIndexSpecs New index specs.
+ @param reIndexData YES - to reindex, NO - if not.
+ */
+- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /** 
  Called when resuming an alter soup operation from the data stored in the long operations status table

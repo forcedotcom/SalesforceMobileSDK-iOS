@@ -30,8 +30,8 @@
 #import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
 #import <SalesforceHybridSDK/SFHybridViewConfig.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SalesforceSDKCore/SFLogger.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
@@ -181,4 +181,3 @@
 }
 
 @end
-

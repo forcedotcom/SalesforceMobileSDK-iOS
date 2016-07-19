@@ -28,4 +28,9 @@
 #import "SFSmartStoreTestCase.h"
 
 @interface SFSmartStoreTests : SFSmartStoreTestCase
+
+@property (nonatomic, strong) SFUserAccount *smartStoreUser;
+@property (nonatomic, strong) SFSmartStore *store;
+@property (nonatomic, strong) SFSmartStore *globalStore;
+
 @end

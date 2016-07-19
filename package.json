@@ -1,6 +1,6 @@
 {
 	"name": "forceios",
-	"version": "4.2.0",
+	"version": "4.3.0",
 	"description": "Utilities for creating mobile apps based on the Salesforce Mobile SDK for iOS",
 	"keywords": [ "mobilesdk", "ios", "salesforce", "mobile", "sdk" ],
 	"homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-iOS",

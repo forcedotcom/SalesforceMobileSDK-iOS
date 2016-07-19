@@ -177,7 +177,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 /**
  The list of delegates
  */
-@property (nonatomic, strong) NSMutableOrderedSet *delegates;
+@property (nonatomic, strong, nonnull) NSHashTable<id<SFAuthenticationManagerDelegate>> *delegates;
 
 
 /** 
@@ -307,7 +307,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        self.delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -949,8 +949,10 @@ static Class InstanceClass = nil;
                                                 if (weakSelf.authCoordinatorBrowserBlock) {
                                                     weakSelf.authCoordinatorBrowserBlock(NO);
                                                 }
+                                            } else if (tag == kOAuthGenericAlertViewTag){
+                                                // Let the delegate know about the cancellation
+                                                [weakSelf delegateDidCancelGenericFlow];
                                             }
-                                            [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
                                         }];
         
         [self.statusAlert addAction:cancelAction];
@@ -1054,8 +1056,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -1064,8 +1065,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -1073,12 +1073,9 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        [self.delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SFAuthenticationManagerDelegate> delegate in self.delegates) {
+            if (block) block(delegate);
+        }
     }
 }
 
@@ -1106,6 +1103,14 @@ static Class InstanceClass = nil;
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
+}
+
+- (void)delegateDidCancelGenericFlow {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidCancelGenericFlow:)]) {
+            [delegate authManagerDidCancelGenericFlow:self];
+        }
+    }];
 }
 
 #pragma mark - SFUserAccountManagerDelegate

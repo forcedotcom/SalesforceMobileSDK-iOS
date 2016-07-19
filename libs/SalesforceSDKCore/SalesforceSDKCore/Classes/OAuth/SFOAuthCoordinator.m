@@ -30,6 +30,7 @@
 #import "SFOAuthOrgAuthConfiguration.h"
 #import "SFSDKCryptoUtils.h"
 #import "NSData+SFSDKUtils.h"
+#import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
 
 // Public constants
@@ -539,7 +540,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
 
     NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                    self.credentials.protocol, (self.credentials.instanceUrl)?self.credentials.instanceUrl:self.credentials.domain, kSFOAuthEndPointAuthorize,
                                     kSFOAuthClientId, self.credentials.clientId,
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch];
@@ -556,15 +557,65 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [approvalUrl appendString:scopeString];
     }
     
+    // JWT Flow
+    if (self.credentials.jwt && self.credentials.instanceUrl) {
+        [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            bool swapOK = NO;
+            if (!error) {
+                NSError *jsonError = nil;
+                id json = nil;
+                
+                json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+                if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *dict = (NSDictionary *)json;
+                    if (dict[kSFOAuthAccessToken]) {
+                        NSString *escapedString = [approvalUrl stringByURLEncoding];
+                        NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.instanceUrl, dict[kSFOAuthAccessToken],escapedString];
+                        [self doLoadURL:approvalUrl withCookie:YES];
+                        swapOK = YES;
+                        self.credentials.jwt = nil;
+                    }
+                }
+            }
+            if (!swapOK) {
+                [self log:SFLogLevelInfo msg:@"Fail to swap JWT for access token"];
+                [self doLoadURL:approvalUrl withCookie:NO];
+            }
+        }];
+    }
+    else {
+        [self doLoadURL:approvalUrl withCookie:NO];
+    }
+}
+
+
+- (void)swapJWTWithcompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler  {
+    NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
+                     self.credentials.instanceUrl.absoluteString,
+                     kSFOAuthEndPointToken];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                       timeoutInterval:self.timeout];
+    NSString *grantType = @"urn:ietf:params:oauth:grant-type:jwt-bearer";
+    NSString *bodyStr = [[@"grant_type=" stringByAppendingString:[grantType stringByURLEncoding]] stringByAppendingString:[NSString stringWithFormat:@"&assertion=%@", self.credentials.jwt]];
+    NSData *body = [bodyStr dataUsingEncoding:NSUTF8StringEncoding];
+    [request setHTTPBody:body];
+    [request setHTTPMethod:kHttpMethodPost];
+    [request setValue:kHttpPostContentType forHTTPHeaderField:kHttpHeaderContentType];
+    
+    [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
+}
+
+- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(BOOL)enableCookie {
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
     }
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
-	[request setHTTPShouldHandleCookies:NO]; // don't use shared cookies
+    [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
-	
-	[self.view loadRequest:request];
+    
+    [self.view loadRequest:request];
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {

@@ -23,6 +23,7 @@
  */
 
 #import <Foundation/Foundation.h>
+@class SFEncryptionKey;
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -43,7 +44,7 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
 /**
  Block typedef for generating an encryption key.
  */
-typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
+typedef SFEncryptionKey* (^SFSmartStoreEncryptionKeyBlock)(void);
 
 /**
  The columns of a soup table
@@ -98,6 +99,7 @@ extern NSString *const EXPLAIN_ROWS;
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
+@class SFSoupSpec;
 @class SFUserAccount;
 
 
@@ -112,6 +114,7 @@ extern NSString *const EXPLAIN_ROWS;
     NSString *_storeName;
 
     NSMutableDictionary *_soupNameToTableName;
+    NSMutableDictionary *_attrSpecBySoup;
     NSMutableDictionary *_indexSpecsBySoup;
     NSMutableDictionary *_smartSqlToSql;
 }
@@ -214,13 +217,21 @@ extern NSString *const EXPLAIN_ROWS;
  If you choose to override the encryption key derivation, you must set
  this value before opening any stores.  Setting the value after stores have been opened
  will result in the corruption and loss of existing data.
- ** WARNING: **
+ also,
+ SmartStore does not make usage of IVs.
+ ** WARNING **
  
  @param newEncryptionKeyBlock The new encryption key derivation block to use with SmartStore.
  */
 + (void)setEncryptionKeyBlock:(SFSmartStoreEncryptionKeyBlock)newEncryptionKeyBlock;
 
 #pragma mark - Soup manipulation methods
+
+/**
+ *  @param soupName       the name of the soup
+ *  @return specs of the soup if it exists.
+ */
+- (SFSoupSpec*)attributesForSoup:(NSString*)soupName;
 
 /**
  @param soupName the name of the soup
@@ -256,6 +267,17 @@ extern NSString *const EXPLAIN_ROWS;
  @return YES if the soup registered OK
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs __attribute__((deprecated("Use -registerSoup:withIndexSpecs:error:")));
+
+/**
+ Ensure that a soup with given name exists.
+ Either creates a new soup or returns an existing soup.
+ 
+ @param soupSpec The soup specs of the soup to register
+ @param indexSpecs Array of one ore more SFSoupIndex objects
+ @param error Error description
+ @return YES if the soup registered OK
+ */
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error;
 
 /**
  Get the number of entries that would be returned with the given query spec
@@ -385,6 +407,20 @@ extern NSString *const EXPLAIN_ROWS;
 - (unsigned long long)getDatabaseSize;
 
 /**
+ Returns sum of all external file sizes for a given soup
+ 
+ @param soupName The name of the soup
+ */
+- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName;
+
+/**
+ Return external storage file count for a given soup
+ 
+ @param soupName The name of the soup
+ */
+- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName;
+
+/**
  Alter soup indexes
 
  @param soupName The name of the soup to alter
@@ -393,6 +429,18 @@ extern NSString *const EXPLAIN_ROWS;
  @return YES if the soup got altered OK
  */
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+
+/**
+ Alter soup indexes
+ 
+ @param soupName The name of the soup to alter
+ @param soupSpec The new soup spec to convert. (e.g. convert internal storage soup to external storage soup).
+ @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs
+ @param reIndexData pass true if you want existing records to be re-indexed for new index specs
+ @return YES if the soup got altered OK
+ */
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+
 
 /**
  Re-index soup
