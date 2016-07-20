@@ -650,7 +650,7 @@ static Class InstanceClass = nil;
 
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
+        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  WKWebView
         // really doesn't want you to know about its HTTP headers.
         NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
         

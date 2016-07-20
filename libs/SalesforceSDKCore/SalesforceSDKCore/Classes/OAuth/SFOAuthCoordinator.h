@@ -24,8 +24,8 @@
 
 #import <Security/Security.h>
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 #import "SFOAuthCredentials.h"
-
 
 @class SFOAuthCoordinator;
 @class SFOAuthInfo;
@@ -125,29 +125,30 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 
 /** Sent when authentication will begin.
  
- This method supplies the delegate with the UIWebView instance, which the user will use to input their OAuth credentials 
- during the login process. At the time this method is called the UIWebView may not yet have any content loaded, 
- therefore the UIWebView should not be displayed until willBeginAuthenticationWithView:
+ This method supplies the delegate with the WKWebView instance, which the user will use to input their OAuth credentials
+ during the login process. At the time this method is called the WKWebView may not yet have any content loaded,
+ therefore the WKWebView should not be displayed until willBeginAuthenticationWithView:
  
  @param coordinator The SFOAuthCoordinator instance processing this message
- @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ @param view        The WKWebView instance that will be used to conduct the authentication workflow
  
  @see SFOAuthCoordinator
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view;
 
 /** Sent when the web will starts to load its content.
  @param coordinator The SFOAuthCoordinator instance processing this message
- @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ @param view        The WKWebView instance that will be used to conduct the authentication workflow
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view;
+
 
 /** Sent when the web will completed to load its content.
  @param coordinator The SFOAuthCoordinator instance processing this message
- @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ @param view        The WKWebView instance that will be used to conduct the authentication workflow
  @param errorOrNil  Contains the error or `nil` if no error
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError*)errorOrNil;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError*)errorOrNil;
 
 /**
  Sent when authentication successfully completes. Note: This method is deprecated.  You should use
@@ -241,17 +242,17 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  @warning the view parameter must be added to a superview upon completion of this method or an assert will fail
  
  @param coordinator The SFOAuthCoordinator instance processing this message
- @param view        The UIWebView instance that will be used to conduct the authentication workflow
+ @param view        The WKWebView instance that will be used to conduct the authentication workflow
  
  @see SFOAuthCoordinator
  */
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view;
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view;
 
 @end
 
 /** The `SFOAuthCoordinator` class is the central class of the OAuth2 authentication process.
  
- This class manages a `UIWebView` instance and monitors it as it works its way
+ This class manages a `WKWebView` instance and monitors it as it works its way
  through the various stages of the OAuth2 workflow. When authentication is complete,
  the coordinator instance extracts the necessary session information from the response
  and updates the `SFOAuthCredentials` object as necessary.
@@ -260,7 +261,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <UIWebViewDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate> {
 }
 
 /** User credentials to use within the authentication process.
@@ -320,7 +321,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  This is only guaranteed to be non-`nil` after one of the delegate methods returning a web view has been called.
  @see SFOAuthCoordinatorDelegate
  */
-@property (nonatomic, readonly) UIWebView *view;
+@property (nonatomic, readonly) WKWebView *view;
 
 /**
  The user agent string that will be used for authentication.  While this property will persist throughout

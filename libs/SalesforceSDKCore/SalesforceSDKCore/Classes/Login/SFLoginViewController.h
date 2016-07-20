@@ -28,6 +28,7 @@
 
 #import "SalesforceSDKCore.h"
 
+
 /** The Salesforce login screen view.
  */
 @interface SFLoginViewController : UIViewController
@@ -39,7 +40,7 @@
 /**
  * Outlet to the OAuth web view.
  */
-@property (nonatomic, strong, nullable) IBOutlet UIView* oauthView;
+@property (nonatomic, strong, nullable) IBOutlet UIView *oauthView;
 
 /** Specify the font to use for navigation bar header text.*/
 @property (nonatomic, strong, nullable) UIFont * navBarFont;
