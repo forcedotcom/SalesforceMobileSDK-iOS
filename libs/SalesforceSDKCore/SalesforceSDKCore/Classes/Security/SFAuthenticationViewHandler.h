@@ -26,11 +26,12 @@
 #import <Foundation/Foundation.h>
 
 @class SFAuthenticationManager;
+@class WKWebView;
 
 /**
  Block definition for displaying the auth view.
  */
-typedef void (^SFAuthViewDisplayBlock)(SFAuthenticationManager *, UIWebView *);
+typedef void (^SFAuthViewDisplayBlock)(SFAuthenticationManager *, WKWebView *);
 
 /**
  Block definition for dismissing the auth view.

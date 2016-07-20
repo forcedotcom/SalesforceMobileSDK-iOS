@@ -27,13 +27,13 @@
 
 @implementation SalesforceOAuthUnitTestsCoordinatorDelegate
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view {
     // we should never be called here as the test sets a refresh token in the credentials, 
     // therefore we do the refresh flow instead of the user agent flow
     XCTFail(@"user agent authentication flow should not begin");
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     // we should never be called here as the test sets a refresh token in the credentials, 
     // therefore we do the refresh flow instead of the user agent flow
     XCTFail(@"user agent authentication flow should not begin");
