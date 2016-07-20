@@ -93,7 +93,6 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
 }
 
 - (void) testRegisterSoupWithExternalStorageAndJSON1 {
-    NSUInteger const iterations = 10;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         // Before
