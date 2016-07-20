@@ -23,6 +23,7 @@
  */
 
 #import <Security/Security.h>
+#import <WebKit/WebKit.h>
 #import "SFOAuthCredentials+Internal.h"
 #import "SFOAuthCoordinator+Internal.h"
 #import "SFOAuthInfo.h"
@@ -162,7 +163,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     _responseData = nil;
     _scopes = nil;
     [self stopRefreshFlowConnectionTimer];
-    _view.delegate = nil;
+    [_view setNavigationDelegate:nil];
     _view = nil;
 }
 
@@ -518,13 +519,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     
     if (nil == self.view) {
         // lazily create web view if needed
-        self.view = [[UIWebView  alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     }
-    self.view.delegate = self;
 
-    // Ensure that the webview options match how our app wants to handle detected links
-    self.view.dataDetectorTypes = UIDataDetectorTypeNone;
-
+    [self.view setNavigationDelegate:self];
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
@@ -945,39 +943,41 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     return _session;
 }
 
-#pragma mark - UIWebViewDelegate (User-Agent Token Flow)
+#pragma mark - WKNavigationDelegate (User-Agent Token Flow)
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    
-    if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
-        [self log:SFLogLevelDebug format:@"%@ (navType=%ld): host=%@ : path=%@",
-         NSStringFromSelector(_cmd), (long)navigationType, request.URL.host, request.URL.path];
+    NSURL *url = navigationAction.request.URL;
+    NSString *requestUrl = [url absoluteString];
+    if ([self isRedirectURL:requestUrl]) {
+        [self handleUserAgentResponse:url];
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
-    
-    BOOL result = YES;
-    NSURL *requestUrl = [request URL];
-    NSString *requestUrlString = [requestUrl absoluteString];
-    if ([[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]]) {
-        result = NO; // we're finished, don't load this request
-        [self handleUserAgentResponse:requestUrl];
-    }
-    
-    return result;
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    NSURL *url = webView.request.URL;
-    
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+    decisionHandler(WKNavigationResponsePolicyAllow);
+}
+
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+
+    NSURL *url = [webView URL];  //.request.URL;
+
     if (self.credentials.logLevel < kSFOAuthLogLevelWarning) {
         [self log:SFLogLevelDebug format:@"%@ host=%@ : path=%@", NSStringFromSelector(_cmd), url.host, url.path];
     }
-    
+
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didStartLoad:)]) {
         [self.delegate oauthCoordinator:self didStartLoad:webView];
     }
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [self sfwebView:webView didFailLoadWithError:error];
+}
+
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
+{
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:didFinishLoad:error:)]) {
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:nil];
     }
@@ -988,7 +988,17 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+    [self sfwebView:webView didFailLoadWithError:error];
+}
+
+- (BOOL) isRedirectURL:(NSString *) requestUrlString
+{
+    return [[requestUrlString lowercaseString] hasPrefix:[self.credentials.redirectUri lowercaseString]];
+}
+
+- (void)sfwebView:(WKWebView *)webView didFailLoadWithError:(NSError *)error
+{
     
     // Report all errors other than -999 (operation couldn't be completed), which is not catastrophic.
     // Typical errors encountered (many others are possible):
@@ -1002,7 +1012,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self.delegate oauthCoordinator:self didFinishLoad:webView error:error];
     }
     
-    NSURL *requestUrl = [webView.request URL];
+    NSURL *requestUrl = [webView URL];
     NSString *errorUrlString = [NSString stringWithFormat:@"%@://%@%@", [requestUrl scheme], [requestUrl host], [requestUrl relativePath]];
     [self.delegate oauthCoordinator:self didBeginAuthenticationWithView:self.view];
     if (-999 == error.code) {
@@ -1014,8 +1024,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:didFailLoadWithError: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
     }
-}
 
+}
 
 #pragma mark - Utilities
 
