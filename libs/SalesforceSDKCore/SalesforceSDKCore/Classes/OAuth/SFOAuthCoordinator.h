@@ -127,7 +127,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  
  This method supplies the delegate with the WKWebView instance, which the user will use to input their OAuth credentials
  during the login process. At the time this method is called the WKWebView may not yet have any content loaded,
- therefore the UIWebView should not be displayed until willBeginAuthenticationWithView:
+ therefore the WKWebView should not be displayed until willBeginAuthenticationWithView:
  
  @param coordinator The SFOAuthCoordinator instance processing this message
  @param view        The WKWebView instance that will be used to conduct the authentication workflow
