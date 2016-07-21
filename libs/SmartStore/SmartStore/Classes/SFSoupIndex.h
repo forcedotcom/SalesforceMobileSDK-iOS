@@ -125,6 +125,12 @@ extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
  */
 + (BOOL) hasFts:(NSArray*)soupIndexes;
 
+/** Returns YES if any of the indexes are JSON1
+ * @param soupIndexes array of SFSoupIndex objects
+ * @return YES if any of the indexes are JSON1
+ */
++ (BOOL) hasJSON1:(NSArray*)soupIndexes;
+
 /** Using the path and indexType property values, constructs a string in the format "path--indexType".
  @return String containing the path and indext type, separated by "--".
  */

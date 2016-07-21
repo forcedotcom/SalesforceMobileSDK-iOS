@@ -24,6 +24,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
 #import <Cordova/CDVViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFOAuthInfo.h>
@@ -55,7 +56,7 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 /**
  Base view controller for Salesforce hybrid app components.
  */
-@interface SFHybridViewController : CDVViewController
+@interface SFHybridViewController : CDVViewController <WKNavigationDelegate>
 {
     
 }

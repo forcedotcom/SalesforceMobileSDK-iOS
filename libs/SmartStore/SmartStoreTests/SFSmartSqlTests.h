@@ -27,5 +27,39 @@
 
 #import "SFSmartStoreTestCase.h"
 
+#define kTestStore            @"testSmartSqlStore"
+#define kEmployeesSoup        @"employees"
+#define kDepartmentsSoup      @"departments"
+#define kFirstName            @"firstName"
+#define kLastName             @"lastName"
+#define kDeptCode             @"deptCode"
+#define kEmployeeId           @"employeeId"
+#define kManagerId            @"managerId"
+#define kSalary               @"salary"
+#define kBudget               @"budget"
+#define kName                 @"name"
+#define kEducation            @"education"
+#define kBuilding             @"building"
+
 @interface SFSmartSqlTests : SFSmartStoreTestCase
+- (SFUserAccount*) createUserAccount;
+- (void) testSharedInstance;
+- (void) testConvertSmartSqlWithInsertUpdateDelete;
+- (void) testSimpleConvertSmartSql;
+- (void) testConvertSmartSqlWithJoin;
+- (void) testConvertSmartSqlWithSelfJoin;
+- (void) testConvertSmartSqlWithSpecialColumns;
+- (void) testConvertSmartSqlWithSpecialColumnsAndJoin;
+- (void) testConvertSmartSqlWithSpecialColumnsAndSelfJoin;
+- (void) testConvertSmartSqlWithJSON1;
+- (void) testConvertSmartSqlWithJSON1AndTableQualifiedColumn;
+- (void) testConvertSmartSqlWithJSON1AndTableAliases;
+- (void) testSmartQueryDoingCount;
+- (void) testSmartQueryDoingSum;
+- (void) testSmartQueryReturningOneRowWithOneInteger;
+- (void) testSmartQueryReturningOneRowWithTwoIntegers;
+- (void) testSmartQueryReturningTwoRowsWithOneIntegerEach;
+- (void) testSmartQueryReturningSoupStringAndInteger;
+- (void) testSmartQueryWithPaging;
+- (void) testSmartQueryWithSpecialFields;
 @end

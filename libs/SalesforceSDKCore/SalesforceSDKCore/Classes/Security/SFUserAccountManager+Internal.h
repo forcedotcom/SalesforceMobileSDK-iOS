@@ -26,39 +26,39 @@
 
 @interface SFUserAccountManager ()
 {
-    NSMutableOrderedSet *_delegates;
     dispatch_queue_t _syncQueue;
 }
 
-@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity;
-@property (nonatomic, strong, readwrite) SFUserAccount *anonymousUser;
+@property (nonatomic, strong, nonnull) NSHashTable<id<SFUserAccountManagerDelegate>> *delegates;
+@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity;
+@property (nonatomic, strong, readwrite, nullable) SFUserAccount *anonymousUser;
 
 /** A map of user accounts by user ID
  */
-@property (nonatomic, strong) NSMutableDictionary *userAccountMap;
+@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap;
 
-@property (nonatomic, strong) NSString *lastChangedOrgId;
-@property (nonatomic, strong) NSString *lastChangedUserId;
-@property (nonatomic, strong) NSString *lastChangedCommunityId;
+@property (nonatomic, strong, nullable) NSString *lastChangedOrgId;
+@property (nonatomic, strong, nullable) NSString *lastChangedUserId;
+@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId;
 
 /** Returns YES if the specified user is anonymous.
  Note: an anonymous user is a user that doesn't require
  credentials towards a server.
  */
-+ (BOOL)isUserAnonymous:(SFUserAccount*)user;
++ (BOOL)isUserAnonymous:(nullable SFUserAccount*)user;
 
 /**
  Executes the given block for each configured delegate.
  @param block The block to execute for each delegate.
  */
-- (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block;
+- (void)enumerateDelegates:(nullable void (^)(id<SFUserAccountManagerDelegate> _Nonnull))block;
 
 /**
  Creates a user account staged with the given auth credentials.
  @param credentials The OAuth credentials to apply to the user account.
  @return The new user account with the given credentials.
  */
-- (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)credentials;
+- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials;
 
 /** Setup the anonymous user according
  to the existing settings.

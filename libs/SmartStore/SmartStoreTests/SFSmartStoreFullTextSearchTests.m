@@ -45,12 +45,6 @@
 
 @implementation SFSmartStoreFullTextSearchTests
 
-#define kTestStore            @"testSmartStoreFullTextSearchStore"
-#define kEmployeesSoup        @"employees"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kEmployeeId           @"employeeId"
-
 #pragma mark - setup and teardown
 
 - (void) setUp
