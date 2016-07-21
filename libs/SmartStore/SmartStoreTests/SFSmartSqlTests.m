@@ -161,18 +161,30 @@
 
 - (void) testConvertSmartSqlWithJSON1
 {
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
     XCTAssertEqualObjects(@"select TABLE_1_1, json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') = 'MIT'",
                           [self.store convertSmartSql:@"select {employees:lastName}, {employees:education} from {employees} where {employees:education} = 'MIT'"], @"Bad conversion");
 }
 
 - (void) testConvertSmartSqlWithJSON1AndTableQualifiedColumn
 {
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
     XCTAssertEqualObjects(@"select json_extract(TABLE_1.soup, '$.education') from TABLE_1 order by json_extract(TABLE_1.soup, '$.education')",
                           [self.store convertSmartSql:@"select {employees}.{employees:education} from {employees} order by {employees}.{employees:education}"], @"Bad conversion");
 }
 
 - (void) testConvertSmartSqlWithJSON1AndTableAliases
 {
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
     XCTAssertEqualObjects(@"select json_extract(e.soup, '$.education'), json_extract(soup, '$.building') from TABLE_1 as e, TABLE_2",
                           [self.store convertSmartSql:@"select e.{employees:education}, {departments:building} from {employees} as e, {departments}"], @"Bad conversion");
     

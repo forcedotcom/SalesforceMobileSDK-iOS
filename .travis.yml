@@ -44,7 +44,7 @@ script:
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorerHybrid CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
 
    # run unit tests that don't need a host app
-   - set -o pipefail && xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme $SCHEME -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
+   - travis_wait 30 set -o pipefail && xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme $SCHEME -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
     
    # run UI tests that need a host app
    - set -o pipefail && xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
