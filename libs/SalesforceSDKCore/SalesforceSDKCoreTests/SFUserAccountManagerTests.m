@@ -429,6 +429,29 @@ static NSString * const kOrgIdFormatString = @"00D000000000062EA%lu";
     XCTAssertFalse([self.uam.currentUser.idData.customAttributes isEqualToDictionary:mutableCustomPermissions], @"Permissions dictionaries should not be equal.");
 }
 
+- (void)testGuestUserCreation {
+    NSString *guestUserId = @"005000000000000";
+    NSString *guestOrgId  = @"00D000000000000";
+    NSURL *communityURL = [NSURL URLWithString:@"https://somecommunity.salesforce.com"];
+    SFUserAccount *account = [[SFUserAccount alloc] initWithGuestUser];
+    account.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
+                                                                clientId:@"the-client"
+                                                               encrypted:YES
+                                                             storageType:SFOAuthCredentialsStorageTypeNone];
+    account.credentials.identityUrl = [NSURL URLWithString:[NSString stringWithFormat:@"https://does.not.matter.not-real/id/%@/%@", guestOrgId, guestUserId]];
+    account.credentials.instanceUrl = communityURL;
+    account.credentials.communityUrl = communityURL;
+    
+    // Set access token to make network happy
+    account.credentials.accessToken = [NSUUID UUID].UUIDString;
+    [self.uam addAccount:account];
+    
+    NSError *localError = nil;
+    if (![self.uam saveAccounts:&localError]) {
+        XCTAssertNil(localError);
+    }
+}
+
 #pragma mark - Helper methods
 
 - (NSArray *)createAndVerifyUserAccounts:(NSUInteger)numAccounts {
