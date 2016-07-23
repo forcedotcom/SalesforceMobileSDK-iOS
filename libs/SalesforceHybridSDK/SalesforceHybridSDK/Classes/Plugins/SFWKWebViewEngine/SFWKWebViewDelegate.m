@@ -84,10 +84,6 @@ static NSString* stripFragment(NSString *url) {
     [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.__cordovaLoadToken=%ld", (long) _curLoadToken] webView:webView];
 }
 
-- (NSString *) evalForCurrentURL:(WKWebView *) webView {
-    return [self stringByEvaluatingJavaScriptFromString:@"location.href" webView:webView];
-}
-
 - (void) pollForPageLoadStart:(WKWebView *) webView {
     if (_state != STATE_IOS5_POLLING_FOR_LOAD_START) {
         return;
@@ -96,6 +92,9 @@ static NSString* stripFragment(NSString *url) {
         [self log:SFLogLevelVerbose format:@"Polled for page load start. Result = YES!"];
         _state = STATE_IOS5_POLLING_FOR_LOAD_FINISH;
         [self setLoadToken:webView];
+        if ([_delegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
+            [_delegate webView:webView didStartProvisionalNavigation:nil];
+        }
         [self pollForPageLoadFinish:webView];
     } else {
         [self log:SFLogLevelVerbose format:@"Polled for page load start. Result = NO!"];
@@ -115,6 +114,9 @@ static NSString* stripFragment(NSString *url) {
     if ([self isPageLoaded:webView]) {
         [self log:SFLogLevelVerbose format:@"Polled for page load finish. Result = YES!"];
         _state = STATE_IDLE;
+        if ([_delegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
+            [_delegate webView:webView didFinishNavigation:nil];
+        }
     } else {
         [self log:SFLogLevelVerbose format:@"Polled for page load finish. Result = NO!"];
         [self performSelector:@selector(pollForPageLoadFinish:) withObject:webView afterDelay:.05];
@@ -146,19 +148,6 @@ static NSString* stripFragment(NSString *url) {
         NSURLRequest *request = navigationAction.request;
         BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
         if (isTopLevelNavigation) {
-            if ([self request:request isEqualToRequestAfterStrippingFragments:request]) {
-                NSString *prevURL = [self evalForCurrentURL:webView];
-                if ([prevURL isEqualToString:[request.URL absoluteString]]) {
-                    [self log:SFLogLevelVerbose format:@"Page reload detected."];
-                } else {
-                    [self log:SFLogLevelVerbose format:@"Detected hash change."];
-                    if (shouldLoad) {
-                        decisionHandler(WKNavigationActionPolicyAllow);
-                    } else {
-                        decisionHandler(WKNavigationActionPolicyCancel);
-                    }
-                }
-            }
             switch (_state) {
                 case STATE_WAITING_FOR_LOAD_FINISH:
                     if (_loadCount != 1) {
@@ -193,6 +182,10 @@ static NSString* stripFragment(NSString *url) {
     } else {
         decisionHandler(WKNavigationActionPolicyCancel);
     }
+}
+
+- (void) webView:(WKWebView *) webView didCommitNavigation:(WKNavigation *) navigation {
+    [self webView:webView didStartProvisionalNavigation:navigation];
 }
 
 - (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation {
