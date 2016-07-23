@@ -148,13 +148,6 @@ static NSString* stripFragment(NSString *url) {
         NSURLRequest *request = navigationAction.request;
         BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
         if (isTopLevelNavigation) {
-            if ([self request:request isEqualToRequestAfterStrippingFragments:request]) {
-                if (shouldLoad) {
-                    decisionHandler(WKNavigationActionPolicyAllow);
-                } else {
-                    decisionHandler(WKNavigationActionPolicyCancel);
-                }
-            }
             switch (_state) {
                 case STATE_WAITING_FOR_LOAD_FINISH:
                     if (_loadCount != 1) {
@@ -189,6 +182,10 @@ static NSString* stripFragment(NSString *url) {
     } else {
         decisionHandler(WKNavigationActionPolicyCancel);
     }
+}
+
+- (void) webView:(WKWebView *) webView didCommitNavigation:(WKNavigation *) navigation {
+    [self webView:webView didStartProvisionalNavigation:navigation];
 }
 
 - (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation {
