@@ -154,11 +154,16 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
-
-        // Setting our WKWebView based plugin as the engine to be used.
-        [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
     }
     return self;
+}
+
+- (UIView *)newCordovaViewWithFrame:(CGRect)bounds
+{
+
+    // Setting our WKWebView based plugin as the engine to be used.
+    [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
+    return [super newCordovaViewWithFrame:bounds];
 }
 
 - (void)dealloc
