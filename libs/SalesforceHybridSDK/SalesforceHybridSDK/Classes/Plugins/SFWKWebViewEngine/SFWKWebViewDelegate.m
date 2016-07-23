@@ -96,6 +96,9 @@ static NSString* stripFragment(NSString *url) {
         [self log:SFLogLevelVerbose format:@"Polled for page load start. Result = YES!"];
         _state = STATE_IOS5_POLLING_FOR_LOAD_FINISH;
         [self setLoadToken:webView];
+        if ([_delegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
+            [_delegate webView:webView didStartProvisionalNavigation:nil];
+        }
         [self pollForPageLoadFinish:webView];
     } else {
         [self log:SFLogLevelVerbose format:@"Polled for page load start. Result = NO!"];
@@ -115,6 +118,9 @@ static NSString* stripFragment(NSString *url) {
     if ([self isPageLoaded:webView]) {
         [self log:SFLogLevelVerbose format:@"Polled for page load finish. Result = YES!"];
         _state = STATE_IDLE;
+        if ([_delegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
+            [_delegate webView:webView didFinishNavigation:nil];
+        }
     } else {
         [self log:SFLogLevelVerbose format:@"Polled for page load finish. Result = NO!"];
         [self performSelector:@selector(pollForPageLoadFinish:) withObject:webView afterDelay:.05];
