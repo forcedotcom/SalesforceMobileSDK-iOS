@@ -84,10 +84,6 @@ static NSString* stripFragment(NSString *url) {
     [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"window.__cordovaLoadToken=%ld", (long) _curLoadToken] webView:webView];
 }
 
-- (NSString *) evalForCurrentURL:(WKWebView *) webView {
-    return [self stringByEvaluatingJavaScriptFromString:@"location.href" webView:webView];
-}
-
 - (void) pollForPageLoadStart:(WKWebView *) webView {
     if (_state != STATE_IOS5_POLLING_FOR_LOAD_START) {
         return;
@@ -153,16 +149,10 @@ static NSString* stripFragment(NSString *url) {
         BOOL isTopLevelNavigation = [request.URL isEqual:[request mainDocumentURL]];
         if (isTopLevelNavigation) {
             if ([self request:request isEqualToRequestAfterStrippingFragments:request]) {
-                NSString *prevURL = [self evalForCurrentURL:webView];
-                if ([prevURL isEqualToString:[request.URL absoluteString]]) {
-                    [self log:SFLogLevelVerbose format:@"Page reload detected."];
+                if (shouldLoad) {
+                    decisionHandler(WKNavigationActionPolicyAllow);
                 } else {
-                    [self log:SFLogLevelVerbose format:@"Detected hash change."];
-                    if (shouldLoad) {
-                        decisionHandler(WKNavigationActionPolicyAllow);
-                    } else {
-                        decisionHandler(WKNavigationActionPolicyCancel);
-                    }
+                    decisionHandler(WKNavigationActionPolicyCancel);
                 }
             }
             switch (_state) {
