@@ -417,7 +417,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithOneMBSizePayloadInRegression {
+- (void)FIXMEtestExternalStorageUpsertWithOneMBSizePayloadInRegression {
     NSInteger numberOfIterations = 500;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
@@ -450,7 +450,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithFiveMBSizePayloadInRegression {
+- (void)FIXMEtestExternalStorageUpsertWithFiveMBSizePayloadInRegression {
     NSInteger numberOfIterations = 100;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
@@ -483,7 +483,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithPayloadSizeIncreasedIncrementally {
+- (void)FIXMEtestExternalStorageUpsertWithPayloadSizeIncreasedIncrementally {
     NSInteger numberOfIterations = 25;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
