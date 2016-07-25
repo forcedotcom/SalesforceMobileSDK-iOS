@@ -53,21 +53,18 @@
 static SFAuthenticationManager *sharedInstance = nil;
 
 // Public notification name constants
-
 NSString * const kSFUserWillLogoutNotification = @"kSFUserWillLogoutNotification";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
 // Auth error handler name constants
-
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 
 // Private constants
-
 static NSInteger const kOAuthGenericAlertViewTag           = 444;
 static NSInteger const kIdentityAlertViewTag               = 555;
 static NSInteger const kConnectedAppVersionMismatchViewTag = 666;
@@ -79,6 +76,7 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 
 #pragma mark - SFAuthBlockPair
 
@@ -532,15 +530,13 @@ static Class InstanceClass = nil;
 {
     NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
     NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
         for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
                 for (NSString *domainToRemoveName in domainNames) {
-                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
-                    {
+                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
                         [cookieStorage deleteCookie:cookie];
                     }
                 }
@@ -554,7 +550,9 @@ static Class InstanceClass = nil;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
+        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
+            [cookieStorage deleteCookie:cookie];
+        }
     }
 }
 
