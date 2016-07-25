@@ -453,11 +453,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithFiveMBSizePayloadInRegression {
-    if ([[UIDevice currentDevice].systemVersion floatValue] < 9.3 ) {   //FIXME: remove it once migrate CI from travis to cloudbee. Now, it's causing timeout on travisCI.
-        [self log:SFLogLevelInfo msg:@"Test Skipped for OS version less than 9.3"];
-        return;
-    }
+- (void)FIXMEtestExternalStorageUpsertWithFiveMBSizePayloadInRegression {
     NSInteger numberOfIterations = 100;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
@@ -490,11 +486,7 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithPayloadSizeIncreasedIncrementally {
-    if ([[UIDevice currentDevice].systemVersion floatValue] < 9.3 ) {   //FIXME: remove it once migrate CI from travis to cloudbee. Now, it's causing timeout on travisCI.
-        [self log:SFLogLevelInfo msg:@"Test Skipped for OS version less than 9.3"];
-        return;
-    }
+- (void)FIXMEtestExternalStorageUpsertWithPayloadSizeIncreasedIncrementally {
     NSInteger numberOfIterations = 25;
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
