@@ -102,6 +102,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self = [super init];
     if (self) {
         self.guestUser = YES;
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;
 }

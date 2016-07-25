@@ -25,6 +25,7 @@
 
 #import "SFHybridViewController.h"
 #import "SFHybridConnectionMonitor.h"
+#import "SFWKWebViewNavigationDelegate.h"
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
@@ -61,6 +62,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     BOOL _foundHomeUrl;
     SFHybridViewConfig *_hybridViewConfig;
 }
+
+/**
+ * Navigation web view delegate.
+ */
+@property (nonatomic, strong, readwrite) SFWKWebViewNavigationDelegate *navWebViewDelegate;
 
 /**
  * Hidden WKWebView used to load the VF ping page.
@@ -154,11 +160,18 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;
-
-        // Setting our WKWebView based plugin as the engine to be used.
-        [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
     }
     return self;
+}
+
+- (UIView *)newCordovaViewWithFrame:(CGRect)bounds
+{
+
+    // Setting our WKWebView based plugin as the engine to be used.
+    [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
+    UIView *view = [super newCordovaViewWithFrame:bounds];
+    self.navWebViewDelegate = [[SFWKWebViewNavigationDelegate alloc] initWithEnginePlugin:self.webViewEngine];
+    return view;
 }
 
 - (void)dealloc
@@ -451,6 +464,13 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     startPageConfigured = YES;
 }
 
+- (void) webView:(WKWebView *) webView didStartProvisionalNavigation:(WKNavigation *) navigation
+{
+    if (self.navWebViewDelegate) {
+        [self.navWebViewDelegate webView:webView didStartProvisionalNavigation:navigation];
+    }
+}
+
 - (void) webView:(WKWebView *) webView decidePolicyForNavigationAction:(WKNavigationAction *) navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy)) decisionHandler
 {
     [self log:SFLogLevelDebug format:@"webView:decidePolicyForNavigationAction:decisionHandler: Loading URL '%@'",
@@ -501,6 +521,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
              }];
             decisionHandler(WKNavigationActionPolicyCancel);
         }
+        if (self.navWebViewDelegate) {
+            [self.navWebViewDelegate webView:webView decidePolicyForNavigationAction:navigationAction decisionHandler:decisionHandler];
+        }
     }
     decisionHandler(WKNavigationActionPolicyAllow);
 }
@@ -529,6 +552,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                 self.appHomeUrl = requestUrl;
                 _foundHomeUrl = YES;
             }
+        }
+        if (self.navWebViewDelegate) {
+            [self.navWebViewDelegate webView:webView didFinishNavigation:navigation];
         }
     }
 }
