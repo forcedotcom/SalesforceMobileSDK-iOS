@@ -651,24 +651,19 @@ static Class InstanceClass = nil;
 
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  WKWebView
-        // really doesn't want you to know about its HTTP headers.
-        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
-        
         UIDevice *curDevice = [UIDevice currentDevice];
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
         NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        
-        // App type
+
+        // App type.
         NSString* appTypeStr;
         switch (self.appType) {
             case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
             case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
         }
-        
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ %@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -677,10 +672,8 @@ static Class InstanceClass = nil;
                                  appVersion,
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid,
-                                 currentUserAgent
+                                 uid
                                  ];
-        
         return myUserAgent;
     };
 }
