@@ -417,11 +417,8 @@ static NSInteger const kSSMegaBytePayloadSize = 1024 * 1024;
     }
 }
 
-- (void)testExternalStorageUpsertWithOneMBSizePayloadInRegression {
+- (void)FIXMEtestExternalStorageUpsertWithOneMBSizePayloadInRegression {
     NSInteger numberOfIterations = 500;
-    if ([[UIDevice currentDevice].systemVersion floatValue] < 9.3 ) {
-        numberOfIterations = 100;
-    }
     SFSoupSpec *soupSpec = [SFSoupSpec newSoupSpec:kSSExternalStorage_TestSoupName withFeatures:@[kSoupFeatureExternalStorage]];
     NSDictionary* soupIndex = @{@"path": @"name", @"type": @"string"};
     
