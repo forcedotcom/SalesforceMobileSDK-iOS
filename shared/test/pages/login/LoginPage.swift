@@ -82,6 +82,7 @@ class LoginPage: PageObject, PageThatWaits {
     
     func setPassword(password: String) -> LoginPage {
         passwordField.tap()
+        sleep(1)
         passwordField.typeText(password)
         return self
     }
@@ -103,8 +104,9 @@ class LoginPage: PageObject, PageThatWaits {
         case .sandbox:
             app.tables.staticTexts["Sandbox"].tap()
             break
+        case .noPick:
+            break
         }
         return self;
     }
-  
 }

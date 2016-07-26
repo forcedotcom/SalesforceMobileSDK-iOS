@@ -68,6 +68,13 @@ class SearchScreen: PageObject {
         }
     }
     
+    private var switchUserButton : XCUIElement {
+        get {
+            // Only available after share button is tapped
+            return app.tables.staticTexts["Switch user"]
+        }
+    }
+    
     private var confirmLogoutButton : XCUIElement {
         get {
             // Only available after logout button is tapped
@@ -113,6 +120,16 @@ class SearchScreen: PageObject {
             logoutButton.tap()
             confirmLogoutButton.tap()
             return LoginPage()
+        }
+        return nil;
+    }
+    
+    
+    func swtichUser() -> UserListScreen? {
+        if (navigationBar.exists) {
+            shareButton.tap()
+            switchUserButton.tap()
+            return UserListScreen()
         }
         return nil;
     }

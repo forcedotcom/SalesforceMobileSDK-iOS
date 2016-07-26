@@ -1,7 +1,7 @@
 /*
-SalesforceNoSessionTestCase.swift
+HostURLTests.swift
+HostURLTests
 
-Created by Eric Engelking on 10/16/15.
 Copyright (c) 2016, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,32 +25,53 @@ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS
 WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-import Foundation
-import XCTest
-import SalesforceSDKCore
 
-class SalesforceNoSessionTestCase: XCTestCase {
+import XCTest
+
+class HostURLTest: SalesforceNoSessionTestCase {
     
-    var swiftDict : Dictionary<String, String!> = [:]
+    let hostPage = HostPage()
+    let loginPage = LoginPage()
     
+    // MARK: Setup
     override func setUp() {
         super.setUp()
-        
-        continueAfterFailure = true
-        XCUIApplication().launch()
-        let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
-        swiftDict = Dictionary<String, String!>()
-        for key : AnyObject in loginInfo.allKeys {
-            let stringKey = key as! String
-            if let keyValue = loginInfo.valueForKey(stringKey){
-                swiftDict[stringKey] = String(keyValue)
-            }
-        }
-        
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.noPick)
     }
     
     override func tearDown() {
-        super.tearDown()
+        loginPage.waitForPageLoaded()
     }
+    
+    // MARK: Tests
+    func testAddAndDeleteURL() {
+        hostPage.addAndChooseConnection("testAddURL", host: "cs1.salesforce.com")
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.noPick)
+        hostPage.deleteHost("testAddURL")
+    }
+    
+    func testSwitchURL() {
+        hostPage.addAndChooseConnection("testSwitchURL", host: "cs1.salesforce.com")
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.production)
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.sandbox)
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.noPick)
+        hostPage.chooseConnection("testSwitchURL")
+        //background
+        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+        XCUIApplication().launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.noPick)
+        hostPage.deleteHost("testSwitchURL")
+    }
+    
+    func testCancelAddURL() {
+        hostPage.addAndCancel(true)
+    }
+    
     
 }

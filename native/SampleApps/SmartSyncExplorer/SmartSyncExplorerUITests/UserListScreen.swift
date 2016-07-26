@@ -1,7 +1,6 @@
 /*
-LoginHelper.swift
+UserListScreen.swift
 
-Created by Eric Engelking on 10/16/15.
 Copyright (c) 2016, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
@@ -28,33 +27,6 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import Foundation
 import XCTest
 
-enum Host {
-    case production
-    case sandbox
-    case noPick
-}
-
-
-class LoginHelper {
+class UserListScreen: PageObject {
     
-    func loginToSalesforce(userName: String, password: String, host: Host) {
-        
-        let loginPage = LoginPage()
-        
-        // Set host
-        loginPage.chooseConnection(host)
-        
-        // Set user name
-        loginPage.setUserName(userName)
-        
-        // Set password
-        loginPage.setPassword(password)
-        
-        // Tap login
-        let allowDenyPage = loginPage.login()
-        
-        // Tap allow
-        allowDenyPage.tapAllowButton()
-        
     }
-}
