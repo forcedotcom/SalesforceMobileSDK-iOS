@@ -68,11 +68,28 @@ class SearchScreen: PageObject {
         }
     }
     
+    private var switchUserButton : XCUIElement {
+        get {
+            // Only available after share button is tapped
+            return app.tables.staticTexts["Switch user"]
+        }
+    }
+    
     private var confirmLogoutButton : XCUIElement {
         get {
             // Only available after logout button is tapped
             return app.sheets["Are you sure you want to log out?"].collectionViews.buttons["Confirm Logout"]
         }
+    }
+    
+    
+    func waitForPageInvalid() {
+        waitForElementDoesNotExist(navigationBar)
+        
+    }
+    
+    func waitForPageLoaded() {
+        waitForElementExists(navigationBar)
     }
 
     // MARK - Check screen
@@ -113,6 +130,16 @@ class SearchScreen: PageObject {
             logoutButton.tap()
             confirmLogoutButton.tap()
             return LoginPage()
+        }
+        return nil;
+    }
+    
+    
+    func switchUser() -> UserListScreen? {
+        if (navigationBar.exists) {
+            shareButton.tap()
+            switchUserButton.tap()
+            return UserListScreen()
         }
         return nil;
     }

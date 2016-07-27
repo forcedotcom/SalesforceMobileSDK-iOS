@@ -30,13 +30,13 @@ import XCTest
 
 class LoginPage: PageObject, PageThatWaits {
     
-    private var navigationBar : XCUIElement {
+    private var navigationBar: XCUIElement {
         get {
             return app.navigationBars["Log In"]
         }
     }
     
-    private var chooseConnectionButton : XCUIElement {
+    private var chooseConnectionButton: XCUIElement {
         get {
             return navigationBar.buttons["Choose Connection"]
         }
@@ -82,6 +82,7 @@ class LoginPage: PageObject, PageThatWaits {
     
     func setPassword(password: String) -> LoginPage {
         passwordField.tap()
+        sleep(1)
         passwordField.typeText(password)
         return self
     }
@@ -94,17 +95,23 @@ class LoginPage: PageObject, PageThatWaits {
         
     }
     
-    func chooseConnection(host : Host) -> LoginPage {
+    func chooseConnection(host: Host?=nil) -> LoginPage {
         chooseConnectionButton.tap()
-        switch(host) {
-        case .production:
-            app.tables.staticTexts["Sandbox"].tap()
-            break
-        case .sandbox:
-            app.tables.staticTexts["Sandbox"].tap()
-            break
+        if let wrappedHost = host {
+            switch(wrappedHost) {
+            case .production:
+                app.tables.staticTexts["Production"].tap()
+                break
+            case .sandbox:
+                app.tables.staticTexts["Sandbox"].tap()
+                break
+            }
         }
         return self;
     }
-  
+    
+    func scrollUp() {
+        app.otherElements["Login | Salesforce"].swipeUp()
+    }
+    
 }
