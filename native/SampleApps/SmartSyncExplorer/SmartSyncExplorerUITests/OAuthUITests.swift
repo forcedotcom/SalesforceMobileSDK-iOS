@@ -60,7 +60,6 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         //add 4th user of chatter external
         addAndSwitchToUser("ce@sf.mobilesdk.com", password:password, host:"Production")
         //Todo: add 5th user on mydomain community - user to be setup
-//        addAndSwitchToUser("uc1@sf.mobilesdk.community1.com", password:password, host:"mobilesdk-mhu-developer-edition.na30.force.com")
         
         switchToUser("su1@sf.mobilesdk.com")
         searchScreen.logout()
@@ -71,20 +70,6 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         searchScreen.logout()
         searchScreen.waitForPageLoaded()
         searchScreen.logout()
-    }
-    
-    
-    func testNativeBrowserFlow() {
-    }
-    
-    func testLoginOptions () {
-    }
-    
-    func testRevoke() {
-        
-    }
-    
-    func testRefreshToken() {
     }
     
     func switchToUser(username:String) {

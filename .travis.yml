@@ -20,6 +20,7 @@ before_install:
 #before the script is run for the build, inject data into test_credentials file
 before_script:
    - ./build/pre-build
+   - defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
 
 script:
    #run template app generation
