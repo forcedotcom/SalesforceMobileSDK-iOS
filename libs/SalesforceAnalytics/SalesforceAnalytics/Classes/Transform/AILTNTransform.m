@@ -110,7 +110,7 @@ static NSString* const kSFPerfEventType = @"defs";
         payload[kSFSequenceKey] = [NSNumber numberWithInteger:event.sequenceId];
     }
     NSDictionary *attributes = event.attributes;
-    if (attributes && schemaType != SchemaTypePageView) {
+    if (attributes) {
         payload[kSFAttributesKey] = attributes;
     }
     if (schemaType != SchemaTypePerf) {
