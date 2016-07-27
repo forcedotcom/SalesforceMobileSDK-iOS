@@ -30,25 +30,25 @@ import XCTest
 
 class HostPage: PageObject, PageThatWaits {
 
-    private var ChooseConnectionButton : XCUIElement {
+    private var ChooseConnectionButton: XCUIElement {
         get {
             return app.navigationBars["Log In"].buttons["Choose Connection"]
         }
     }
     
-    private var AddConnectionButton : XCUIElement {
+    private var AddConnectionButton: XCUIElement {
         get {
             return app.navigationBars["Choose Connection"].buttons["Add"]
         }
     }
     
-    private var CancelConnectionButton : XCUIElement {
+    private var CancelConnectionButton: XCUIElement {
         get {
             return app.navigationBars["Choose Connection"].buttons["Cancel"]
         }
     }
     
-    private var BackConnectionButton : XCUIElement {
+    private var BackConnectionButton: XCUIElement {
         get {
             return app.navigationBars["Add Connection"].buttons["Back"]
         }
@@ -83,13 +83,13 @@ class HostPage: PageObject, PageThatWaits {
 
     // MARK: Act on screen
     
-    func chooseConnection(host : String) -> LoginPage {
+    func chooseConnection(host: String) -> LoginPage {
         app.tables.staticTexts[host].tap()
         return LoginPage()
     }
     
     
-    func setLabel(label : String) {
+    func setLabel(label: String) {
         LabelField.tap()
         LabelField.typeText(label)
     }
@@ -100,7 +100,7 @@ class HostPage: PageObject, PageThatWaits {
     }
     
     
-    func addAndChooseConnection(label : String, host : String!) -> LoginPage {
+    func addAndChooseConnection(label: String, host: String!) -> LoginPage {
         AddConnectionButton.tap()
         setLabel(label)
         setHost(host)
@@ -109,7 +109,7 @@ class HostPage: PageObject, PageThatWaits {
     }
     
     
-    func addAndCancel(toLogin : Bool) {
+    func addAndCancel(toLogin: Bool) {
         AddConnectionButton.tap()
         setHost("dummy")
         BackConnectionButton.tap()
@@ -118,16 +118,17 @@ class HostPage: PageObject, PageThatWaits {
         }
     }
 
-    
-    func isHostSelected(label : String) -> Bool {
-//        if(app.tables.staticTexts(label).{
-//            return true
-//        }
-        return false
+    func selectHost(host: String) -> LoginPage {
+        if (!app.tables.staticTexts[host].exists) {
+            addAndChooseConnection("", host: host)
+        }
+        else {
+            app.tables.staticTexts[host].tap()
+        }
+        return LoginPage()
     }
-    
-    
-    func deleteHost(label : String!) {
+     
+    func deleteHost(label: String!) {
         app.tables.staticTexts[label].swipeLeft()
         app.tables.buttons["Delete"].tap()
     }

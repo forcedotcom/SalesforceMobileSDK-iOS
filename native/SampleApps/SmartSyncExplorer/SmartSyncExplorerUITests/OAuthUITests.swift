@@ -31,78 +31,76 @@ import XCTest
 class OAuthUITest: SalesforceNoSessionTestCase {
     
     let loginHelper = LoginHelper()
+    let loginPage = LoginPage()
+    let hostPage = HostPage()
+    let searchScreen = SearchScreen()
+    let userListScreen = UserListScreen()
     
     // MARK: Setup
     override func setUp() {
         super.setUp()
+        LoginPage().waitForPageLoaded()
     }
     
     override func tearDown() {
+        LoginPage().waitForPageLoaded()
         super.tearDown()
     }
     
     // MARK: Tests
-    func testLogin5Users() {
-        // add uit1 user
-        loginHelper.loginToSalesforce("uit1@cs1.mobilesdk.org", password:swiftDict["password"]!, host: Host.sandbox)
-        //add uit2 user
-        SearchScreen().logout()
-        loginHelper.loginToSalesforce("uit2@cs1.mobilesdk.org", password:swiftDict["password"]!, host: Host.sandbox)
+    func testLoginSwitchBetweenAndLogout5Users() {
+        let password = swiftDict["password"]!
+        loginPage.scrollUp() //sanity test scrolling is enabled
+        // add 1st user on cs1
+        loginHelper.loginToSalesforce("uit1@cs1.mobilesdk.org", password:password, host: Host.sandbox)
+        //add 2nd user on cs1
+        addAndSwitchToUser("uit2@cs1.mobilesdk.org", password:password, host:"Sandbox")
+        //add 3rd user on production
+        addAndSwitchToUser("su1@sf.mobilesdk.com", password:password, host: "Production")
+        //add 4th user of chatter external
+        addAndSwitchToUser("ce@sf.mobilesdk.com", password:password, host:"Production")
+        //Todo: add 5th user on mydomain community - user to be setup
+//        addAndSwitchToUser("uc1@sf.mobilesdk.community1.com", password:password, host:"mobilesdk-mhu-developer-edition.na30.force.com")
         
-        let app = XCUIApplication()
-        app.navigationBars["Log In"].buttons["Choose Connection"].tap()
-        
-        let tablesQuery = app.tables
-        tablesQuery.staticTexts["Sandbox"].tap()
-        
-        let loginSalesforceElement = app.webViews.otherElements["Login | Salesforce"]
-        loginSalesforceElement.childrenMatchingType(.TextField).element
-        loginSalesforceElement.childrenMatchingType(.SecureTextField).element
-        
-        let shareButton = app.navigationBars["Contacts"].buttons["Share"]
-        shareButton.tap()
-        tablesQuery.staticTexts["Switch user"].tap()
-        app.navigationBars["User List"].buttons["Cancel"].tap()
-        shareButton.tap()
-        
-        let app = XCUIApplication()
-        app.navigationBars["User List"].buttons["New User"].tap()
-        app.navigationBars["Log In"].buttons["Choose Connection"].tap()
-        app.navigationBars["Choose Connection"].buttons["Cancel"].tap()
-        
-        let loginSalesforceElement = app.webViews.otherElements["Login | Salesforce"]
-        loginSalesforceElement.childrenMatchingType(.TextField).element
-        loginSalesforceElement.childrenMatchingType(.SecureTextField).element
-        app.navigationBars["Contacts"].buttons["Share"].tap()
-        app.tables.staticTexts["Bring up user switching screen"].tap()
-        
-        let app = XCUIApplication()
-        app.buttons["Switch to User"].tap()
-        app.navigationBars["Contacts"].buttons["Share"].tap()
-        
-        
-    }
-    
-    func testSwitchBetween5Users() {
-        
-    }
-    
-    func testLogout5Users() {
+        switchToUser("su1@sf.mobilesdk.com")
+        searchScreen.logout()
+        userListScreen.switchToUser("ce@sf.mobilesdk.com")
+        switchToUser("uit2@cs1.mobilesdk.org")
+        searchScreen.logout()
+        userListScreen.switchToUser("ce@sf.mobilesdk.com")
+        searchScreen.logout()
+        searchScreen.waitForPageLoaded()
+        searchScreen.logout()
     }
     
     
-    func testCommunityUserLogin() {
-        
+    func testNativeBrowserFlow() {
     }
     
-    func testDifferentUserTypeLogin() {
-        
+    func testLoginOptions () {
     }
     
     func testRevoke() {
         
     }
     
+    func testRefreshToken() {
+    }
+    
+    func switchToUser(username:String) {
+        searchScreen.waitForPageLoaded()
+        searchScreen.switchUser()
+        userListScreen.switchToUser(username)
+    }
+    
+    func addAndSwitchToUser(username:String, password:String, host:String) {
+        searchScreen.waitForPageLoaded()
+        searchScreen.switchUser()
+        userListScreen.addUser()
+        loginPage.chooseConnection()
+        hostPage.selectHost(host)
+        loginHelper.loginToSalesforce(username, password: password)
+    }
     
     
 }

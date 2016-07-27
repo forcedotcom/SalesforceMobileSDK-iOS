@@ -81,6 +81,16 @@ class SearchScreen: PageObject {
             return app.sheets["Are you sure you want to log out?"].collectionViews.buttons["Confirm Logout"]
         }
     }
+    
+    
+    func waitForPageInvalid() {
+        waitForElementDoesNotExist(navigationBar)
+        
+    }
+    
+    func waitForPageLoaded() {
+        waitForElementExists(navigationBar)
+    }
 
     // MARK - Check screen
     
@@ -125,7 +135,7 @@ class SearchScreen: PageObject {
     }
     
     
-    func swtichUser() -> UserListScreen? {
+    func switchUser() -> UserListScreen? {
         if (navigationBar.exists) {
             shareButton.tap()
             switchUserButton.tap()
