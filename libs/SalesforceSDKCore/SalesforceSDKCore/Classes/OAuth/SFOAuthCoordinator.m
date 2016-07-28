@@ -576,8 +576,11 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                     }
                 }
             }
+            else {
+                [self log:SFLogLevelError msg:[NSString stringWithFormat:@"Fail to swap JWT for access token: %@", [error localizedDescription]]];
+            }
             if (!swapOK) {
-                [self log:SFLogLevelInfo msg:@"Fail to swap JWT for access token"];
+                [self log:SFLogLevelInfo msg:@"Fail to complete token flow, resort to normal flow."];
                 [self doLoadURL:approvalUrl withCookie:NO];
             }
         }];
