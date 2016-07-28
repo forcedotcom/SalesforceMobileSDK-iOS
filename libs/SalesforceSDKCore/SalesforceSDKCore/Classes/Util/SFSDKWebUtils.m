@@ -59,6 +59,13 @@ static NSString *gUserAgentForApp = nil;
 
 + (void)stageUserAgentForApp
 {
+    if (![NSThread isMainThread]) {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [SFSDKWebUtils stageUserAgentForApp];
+        });
+        return;
+    }
+    
     if (gUserAgentForApp != nil) return;
 
     __block BOOL finished = NO;
