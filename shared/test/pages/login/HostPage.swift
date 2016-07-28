@@ -105,7 +105,9 @@ class HostPage: PageObject, PageThatWaits {
         setLabel(label)
         setHost(host)
         DoneAdd.tap()
-        return LoginPage()
+        let loginPage = LoginPage()
+        loginPage.waitForPageLoaded()
+        return loginPage
     }
     
     

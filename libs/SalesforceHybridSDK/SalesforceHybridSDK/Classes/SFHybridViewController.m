@@ -168,7 +168,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 {
 
     // Setting our WKWebView based plugin as the engine to be used.
-    [self.settings setCordovaSetting:@"SFWKWebViewEngine" forKey:@"CordovaWebViewEngine"];
+    return [self newCordovaViewWithFrameAndEngine:bounds webViewEngine:@"SFWKWebViewEngine"];
+}
+
+- (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine
+{
+    [self.settings setCordovaSetting:webViewEngine forKey:@"CordovaWebViewEngine"];
     UIView *view = [super newCordovaViewWithFrame:bounds];
     self.navWebViewDelegate = [[SFWKWebViewNavigationDelegate alloc] initWithEnginePlugin:self.webViewEngine];
     return view;

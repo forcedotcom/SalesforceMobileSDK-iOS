@@ -20,7 +20,6 @@ before_install:
 #before the script is run for the build, inject data into test_credentials file
 before_script:
    - ./build/pre-build
-   - defaults write com.apple.iphonesimulator ConnectHardwareKeyboard 0
 
 script:
    #run template app generation
@@ -47,5 +46,5 @@ script:
    - travis_wait 30 set -o pipefail && xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme $SCHEME -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
     
    # run UI tests that need a host app
-   - set -o pipefail && xctool test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS"
+   - set -o pipefail && xcodebuild test -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSyncExplorer -sdk $SDK -destination "platform=iOS Simulator,name=$NAME,OS=$OS" | xcpretty --color --simple --test
 

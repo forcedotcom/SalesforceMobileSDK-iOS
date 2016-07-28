@@ -38,6 +38,7 @@ class HostURLTest: SalesforceNoSessionTestCase {
         super.setUp()
         loginPage.waitForPageLoaded()
         loginPage.chooseConnection()
+        hostPage.waitForPageLoaded()
     }
     
     override func tearDown() {
@@ -45,9 +46,8 @@ class HostURLTest: SalesforceNoSessionTestCase {
     }
     
     // MARK: Tests
-    func BUGtestAddAndDeleteURL() {
-        hostPage.addAndChooseConnection("testAddURL", host: "gppro.my.salesforce.com​")
-        loginPage.waitForPageLoaded()
+    func testAddAndDeleteURL() {
+        hostPage.addAndChooseConnection("testAddURL", host: "cs1.salesforce.com")
         loginPage.chooseConnection()
         hostPage.deleteHost("testAddURL")
     }
@@ -62,8 +62,8 @@ class HostURLTest: SalesforceNoSessionTestCase {
         loginPage.chooseConnection()
         hostPage.chooseConnection("testSwitchURL")
         //background
-        XCUIDevice().pressButton(XCUIDeviceButton.Home)
-        XCUIApplication().launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
+//        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+//        XCUIApplication().launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
         loginPage.waitForPageLoaded()
         loginPage.chooseConnection()
         hostPage.deleteHost("testSwitchURL")
