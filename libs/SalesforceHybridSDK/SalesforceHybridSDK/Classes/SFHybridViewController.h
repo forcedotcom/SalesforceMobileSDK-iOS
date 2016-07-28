@@ -94,6 +94,11 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 - (id)initWithConfig:(SFHybridViewConfig *)viewConfig;
 
 /**
+ * Initializes a new Cordova view with the specified bounds and engine.
+ */
+- (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine;
+
+/**
  Method used by the OAuth plugin to obtain the current login credentials, or authenticate if no
  credentials are configured.
  @param completionBlock The OAuth plugin completion block to call upon successful retrieval of
