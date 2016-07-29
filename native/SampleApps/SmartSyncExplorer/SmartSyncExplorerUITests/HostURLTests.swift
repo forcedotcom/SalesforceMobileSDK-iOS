@@ -30,8 +30,8 @@ import XCTest
 
 class HostURLTest: SalesforceNoSessionTestCase {
     
-    let hostPage = HostPage()
-    let loginPage = LoginPage()
+    var hostPage = HostPage()
+    var loginPage = LoginPage()
     
     // MARK: Setup
     override func setUp() {

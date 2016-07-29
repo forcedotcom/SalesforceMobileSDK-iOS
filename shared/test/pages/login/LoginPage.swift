@@ -70,6 +70,7 @@ class LoginPage: PageObject, PageThatWaits {
     
     func waitForPageLoaded() {
         waitForElementExists(userNameField)
+        waitForElementEnabled(chooseConnectionButton)
     }
 
     // MARK: Act on screen
@@ -108,6 +109,10 @@ class LoginPage: PageObject, PageThatWaits {
             }
         }
         return self;
+    }
+    
+    func isPresenting() -> Bool {
+        return navigationBar.exists
     }
     
     func scrollUp() {

@@ -82,6 +82,9 @@ class SearchScreen: PageObject {
         }
     }
     
+    func isPresenting() -> Bool {
+        return navigationBar.exists
+    }
     
     func waitForPageInvalid() {
         waitForElementDoesNotExist(navigationBar)

@@ -31,21 +31,15 @@ import SalesforceSDKCore
 
 class SalesforceNoSessionTestCase: XCTestCase {
     
-    var swiftDict : Dictionary<String, String!> = [:]
+    var loginAccounts : [NSDictionary] = []
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
         XCUIApplication().launch()
-        let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
-        swiftDict = Dictionary<String, String!>()
-        for key : AnyObject in loginInfo.allKeys {
-            let stringKey = key as! String
-            if let keyValue = loginInfo.valueForKey(stringKey){
-                swiftDict[stringKey] = String(keyValue)
-            }
-        }
+        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
+        loginAccounts = loginInfo as! [NSDictionary]
         
     }
     

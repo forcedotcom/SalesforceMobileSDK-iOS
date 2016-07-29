@@ -127,7 +127,9 @@ class HostPage: PageObject, PageThatWaits {
         else {
             app.tables.staticTexts[host].tap()
         }
-        return LoginPage()
+        let loginPage = LoginPage()
+        loginPage.waitForPageLoaded()
+        return loginPage
     }
      
     func deleteHost(label: String!) {

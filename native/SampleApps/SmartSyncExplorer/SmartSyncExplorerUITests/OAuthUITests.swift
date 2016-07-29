@@ -39,36 +39,36 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     // MARK: Setup
     override func setUp() {
         super.setUp()
-        LoginPage().waitForPageLoaded()
+        loginPage.waitForPageLoaded()
     }
     
     override func tearDown() {
-        LoginPage().waitForPageLoaded()
+        loginPage.waitForPageLoaded()
         super.tearDown()
     }
     
     // MARK: Tests
-    func FIXMEtestLoginSwitchBetweenAndLogout5Users() {
-        let password = swiftDict["password"]!
+    func FIXMEtestLoginSwitchBetweenAndLogoutUsers() {
         loginPage.scrollUp() //sanity test scrolling is enabled
-        // add 1st user on cs1
-        loginHelper.loginToSalesforce("iosuit1@cs1.mobilesdk.org", password:password, host: Host.sandbox)
-        //add 2nd user on cs1
-        addAndSwitchToUser("iosuit2@cs1.mobilesdk.org", password:password, host:"Sandbox")
-        //add 3rd user on production
-        addAndSwitchToUser("su1@sf.mobilesdk.com", password:password, host: "Production")
-        //add 4th user of chatter external
-        addAndSwitchToUser("ce@sf.mobilesdk.com", password:password, host:"Production")
-        //Todo: add 5th user on mydomain community - user to be setup
+        for login in loginAccounts {
+            let user = login.valueForKey("username") as! String
+            let password = login.valueForKey("password") as! String
+            let host = login.valueForKey("host") as! String
+            addAndSwitchToUser(user, password:password, host:host)
+        }
         
-        switchToUser("su1@sf.mobilesdk.com")
-        searchScreen.logout()
-        userListScreen.switchToUser("ce@sf.mobilesdk.com")
-        switchToUser("iosuit2@cs1.mobilesdk.org")
-        searchScreen.logout()
-        userListScreen.switchToUser("ce@sf.mobilesdk.com")
-        searchScreen.logout()
-        searchScreen.waitForPageLoaded()
+        let total = loginAccounts.count
+        for i in 1..<total {
+            let user = loginAccounts[i].valueForKey("username") as! String
+            switchToUser(user)
+        }
+        
+        for j in 1..<total-1 {
+            let user = loginAccounts[j].valueForKey("username") as! String
+            switchToUser(user)
+            searchScreen.logout()
+            searchScreen.waitForPageLoaded()
+        }
         searchScreen.logout()
         loginPage.waitForPageLoaded()
     }
@@ -80,10 +80,11 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     }
     
     func addAndSwitchToUser(username:String, password:String, host:String) {
-        searchScreen.waitForPageLoaded()
-        searchScreen.switchUser()
-        userListScreen.addUser()
-        loginPage.waitForPageLoaded()
+        if (!loginPage.isPresenting()) {
+            searchScreen.waitForPageLoaded()
+            searchScreen.switchUser()
+            userListScreen.addUser()
+        }
         loginPage.chooseConnection()
         hostPage.selectHost(host)
         loginHelper.loginToSalesforce(username, password: password)
