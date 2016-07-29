@@ -10,10 +10,6 @@ echo "{
   	\"access_token\" : \"${ACCESS_TOKEN}\"
 }" > ./shared/test/test_credentials.json
 cat ./shared/test/test_credentials.json
-echo "{
-	\"username\" : \"${USERNAME}\",
-  	\"password\" : \"${PASSWORD}\",
-  	\"url\" : \"${TEST_LOGIN_DOMAIN}\"
-}" > ./shared/test/ui_test_credentials.json
+echo ${LOGINUSERS} > ./shared/test/ui_test_credentials.json
 cat ./shared/test/ui_test_credentials.json
 
