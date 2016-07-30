@@ -43,6 +43,7 @@ class HostURLTest: SalesforceNoSessionTestCase {
     
     override func tearDown() {
         loginPage.waitForPageLoaded()
+        super.tearDown()
     }
     
     // MARK: Tests

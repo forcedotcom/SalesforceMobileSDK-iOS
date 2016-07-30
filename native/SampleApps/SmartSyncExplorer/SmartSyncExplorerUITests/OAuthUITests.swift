@@ -48,22 +48,23 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     }
     
     // MARK: Tests
-    func FIXMEtestLoginSwitchBetweenAndLogoutUsers() {
+    func testLoginSwitchBetweenAndLogoutUsers() {
         loginPage.scrollUp() //sanity test scrolling is enabled
         for login in loginAccounts {
             let user = login.valueForKey("username") as! String
             let password = login.valueForKey("password") as! String
             let host = login.valueForKey("host") as! String
             addAndSwitchToUser(user, password:password, host:host)
+            sleep(1)
         }
         
         let total = loginAccounts.count
-        for i in 1..<total {
+        for i in 0..<total {
             let user = loginAccounts[i].valueForKey("username") as! String
             switchToUser(user)
         }
         
-        for j in 1..<total-1 {
+        for j in 0..<total-1 {
             let user = loginAccounts[j].valueForKey("username") as! String
             switchToUser(user)
             searchScreen.logout()
