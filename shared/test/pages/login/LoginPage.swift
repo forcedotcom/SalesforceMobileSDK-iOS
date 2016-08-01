@@ -69,9 +69,7 @@ class LoginPage: PageObject, PageThatWaits {
     }
     
     func waitForPageLoaded() {
-        waitForElementExists(userNameField)
-        waitForElementEnabled(chooseConnectionButton)
-    }
+        waitForElementExists(userNameField)    }
 
     // MARK: Act on screen
     
@@ -97,6 +95,7 @@ class LoginPage: PageObject, PageThatWaits {
     }
     
     func chooseConnection(host: Host?=nil) -> LoginPage {
+        waitForElementEnabled(chooseConnectionButton)
         chooseConnectionButton.tap()
         if let wrappedHost = host {
             switch(wrappedHost) {
