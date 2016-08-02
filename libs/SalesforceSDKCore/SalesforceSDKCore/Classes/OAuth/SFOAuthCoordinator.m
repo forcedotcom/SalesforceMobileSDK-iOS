@@ -580,8 +580,13 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 [self log:SFLogLevelError msg:[NSString stringWithFormat:@"Fail to swap JWT for access token: %@", [error localizedDescription]]];
             }
             if (!swapOK) {
+                self.credentials.jwt = nil;
                 [self log:SFLogLevelInfo msg:@"Fail to complete token flow, resort to normal flow."];
-                [self doLoadURL:approvalUrl withCookie:NO];
+                NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
+                                                     code:kSFOAuthErrorInvalidGrant
+                                                 userInfo:@{ @"error": @"invalid_grant",
+                                                             NSLocalizedDescriptionKey: @"invalid assertion" }];
+                [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             }
         }];
     }
