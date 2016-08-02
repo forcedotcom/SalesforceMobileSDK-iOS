@@ -584,7 +584,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 [self log:SFLogLevelInfo msg:@"Fail to complete token flow, resort to normal flow."];
                 NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain
                                                      code:kSFOAuthErrorInvalidGrant
-                                                 userInfo:@{ @"error": @"invalid_grant",
+                                                 userInfo:@{ @"error": @"jwt_invalid_grant",
                                                              NSLocalizedDescriptionKey: @"invalid assertion" }];
                 [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             }
