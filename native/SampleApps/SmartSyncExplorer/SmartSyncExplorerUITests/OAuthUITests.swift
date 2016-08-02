@@ -1,6 +1,6 @@
 /*
-SmartSyncExplorerUITests.swift
-SmartSyncExplorerUITests
+OAuthUITests.swift
+OAuthUITests
 
 Copyright (c) 2016, salesforce.com, inc. All rights reserved.
 
@@ -28,68 +28,68 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import XCTest
 
-class SmartSyncExplorerTest: SalesforceTestCase {
-
+class OAuthUITest: SalesforceNoSessionTestCase {
+    
+    let loginHelper = LoginHelper()
+    let loginPage = LoginPage()
+    let hostPage = HostPage()
     let searchScreen = SearchScreen()
+    let userListScreen = UserListScreen()
     
     // MARK: Setup
-    
     override func setUp() {
         super.setUp()
+        loginPage.waitForPageLoaded()
     }
     
     override func tearDown() {
-        searchScreen.logout()
+        loginPage.waitForPageLoaded()
         super.tearDown()
     }
     
     // MARK: Tests
-    
-    func testCreateSaveSearchOpen() {
-        let uids = createLocally(3)
-        for uid in uids {
-            searchAndCheck(uid);
-        }
-    }
-
-    // MARK: Helper methods
-
-    // Create n records and return their uid's
-    func createLocally(n:Int) -> [Int] {
-        var uids : [Int] = []
-        
-        for _ in 0 ..< n {
-            let uid = generateUid()
-            uids.append(uid)
-            createRecord(uid)
+    func FIXMEtestLoginSwitchBetweenAndLogoutUsers() {
+        loginPage.scrollUp() //sanity test scrolling is enabled
+        for login in loginAccounts {
+            let user = login.valueForKey("username") as! String
+            let password = login.valueForKey("password") as! String
+            let host = login.valueForKey("host") as! String
+            addAndSwitchToUser(user, password:password, host:host)
+            sleep(1)
         }
         
-        return uids;
+        let total = loginAccounts.count
+        for i in 0..<total {
+            let user = loginAccounts[i].valueForKey("username") as! String
+            switchToUser(user)
+        }
+        
+        for j in 0..<total-1 {
+            let user = loginAccounts[j].valueForKey("username") as! String
+            switchToUser(user)
+            searchScreen.logout()
+            searchScreen.waitForPageLoaded()
+        }
+        searchScreen.logout()
+        loginPage.waitForPageLoaded()
     }
     
-    // Clicks add, fills some fields, clicks save
-    func createRecord(uid:Int) {
-        let detailScreen = searchScreen.addRecord()
-        detailScreen.typeFirstName("fn\(uid)").typeLastName("ln\(uid)").typeTitle("t\(uid)")
-        detailScreen.save()
+    func switchToUser(username:String) {
+        searchScreen.waitForPageLoaded()
+        searchScreen.switchUser()
+        userListScreen.switchToUser(username)
     }
     
-    // Search for record, check results, open detail screen for record, check fields, goes back to search screen
-    func searchAndCheck(uid:Int) {
-        searchScreen.clearSearch()
-        searchScreen.typeSearch("fn\(uid)")
-        XCTAssertEqual(searchScreen.countRecords(), 1)
-        XCTAssert(searchScreen.hasRecord("fn\(uid) ln\(uid)"))
-        let detailScreen = searchScreen.openRecord("fn\(uid) ln\(uid)")
-        detailScreen.edit()
-        XCTAssert(detailScreen.hasFirstName("fn\(uid)"))
-        XCTAssert(detailScreen.hasLastName("ln\(uid)"))
-        XCTAssert(detailScreen.hasTitle("t\(uid)"))
-        detailScreen.cancel()
-        detailScreen.backToSearch()
+    func addAndSwitchToUser(username:String, password:String, host:String) {
+        if (!loginPage.isPresenting()) {
+            searchScreen.waitForPageLoaded()
+            searchScreen.switchUser()
+            userListScreen.addUser()
+        }
+        loginPage.chooseConnection()
+        hostPage.selectHost(host)
+        loginHelper.loginToSalesforce(username, password: password)
     }
     
-    func generateUid() -> Int {
-        return Int(arc4random_uniform(9000) + 1000);
-    }
+    
 }

@@ -1,7 +1,6 @@
 /*
-LoginHelper.swift
+UserListScreen.swift
 
-Created by Eric Engelking on 10/16/15.
 Copyright (c) 2016, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
@@ -28,34 +27,38 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 import Foundation
 import XCTest
 
-enum Host {
-    case production
-    case sandbox
-}
-
-
-class LoginHelper {
-    
-    func loginToSalesforce(userName: String, password: String, host: Host?=nil) {
-        
-        let loginPage = LoginPage()
-        
-        // Set host if defined
-        if let wrappedHost = host {
-          loginPage.chooseConnection(wrappedHost)
+class UserListScreen: PageObject {
+    private var addUserButton: XCUIElement {
+        get {
+            return app.navigationBars["User List"].buttons["New User"]
         }
+    }
+    
+    func waitForPageInvalid() {
+        waitForElementDoesNotExist(addUserButton)
         
-        // Set user name
-        loginPage.setUserName(userName)
-        
-        // Set password
-        loginPage.setPassword(password)
-        
-        // Tap login
-        let allowDenyPage = loginPage.login()
-        
-        // Tap allow
-        allowDenyPage.tapAllowButton()
-        
+    }
+    
+    func waitForPageLoaded() {
+        waitForElementExists(addUserButton)
+    }
+    
+    func addUser() -> LoginPage {
+        waitForPageLoaded()
+        addUserButton.tap()
+        return LoginPage()
+    }
+    
+    func switchToUser(username : String) {
+        waitForPageLoaded()
+        app.tables.staticTexts[username].tap()
+        app.buttons["Switch to User"].tap()
+    }
+    
+    
+    func logout(username : String) {
+        waitForPageLoaded()
+        app.tables.staticTexts[username].tap()
+        app.buttons["Logout User"].tap()
     }
 }
