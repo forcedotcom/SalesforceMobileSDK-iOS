@@ -560,8 +560,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // JWT Flow
     if (self.credentials.jwt && self.credentials.instanceUrl) {
         [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            bool swapOK = NO;
             if (!error) {
+                bool swapOK = NO;
                 NSError *jsonError = nil;
                 id json = nil;
                 
