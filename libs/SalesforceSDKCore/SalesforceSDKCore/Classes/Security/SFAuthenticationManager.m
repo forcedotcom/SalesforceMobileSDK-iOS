@@ -975,6 +975,11 @@ static Class InstanceClass = nil;
                                                    [weakSelf execFailureBlocks];
                                                    return YES;
                                                }
+                                               if (error.code == kSFOAuthErrorJWTInvalidGrant) {
+                                                   [weakSelf log:SFLogLevelWarning format:@"JWT swap failed due to invalid grant.  Error code: %ld", (long)error.code];
+                                                   [weakSelf execFailureBlocks];
+                                                   return YES;
+                                               }
                                                return NO;
                                            }];
     [authHandlerList addAuthErrorHandler:self.invalidCredentialsAuthErrorHandler];
