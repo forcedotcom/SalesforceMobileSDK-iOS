@@ -56,9 +56,6 @@
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00E7891D4724E70057811E /* UserListScreen.swift */; };
 		BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D976F1D469B26002914C9 /* OAuthUITests.swift */; };
-		BC3598911D4FBA16008BC3AA /* PasscodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3598901D4FBA16008BC3AA /* PasscodeUITests.swift */; };
-		BC3599D51D50025D008BC3AA /* CreatePasscodePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3599D41D50025D008BC3AA /* CreatePasscodePage.swift */; };
-		BC3599D71D500294008BC3AA /* VerifyPasscodePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3599D61D500294008BC3AA /* VerifyPasscodePage.swift */; };
 		BCA35E1F1D513D6700BCA00F /* SmartSyncExplorer.app in Resources */ = {isa = PBXBuildFile; fileRef = 827C631119E6018C00027484 /* SmartSyncExplorer.app */; };
 		BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2031D46BF8700171499 /* HostURLTests.swift */; };
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
@@ -451,9 +448,6 @@
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		BC00E7891D4724E70057811E /* UserListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListScreen.swift; sourceTree = "<group>"; };
 		BC1D976F1D469B26002914C9 /* OAuthUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthUITests.swift; sourceTree = "<group>"; };
-		BC3598901D4FBA16008BC3AA /* PasscodeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeUITests.swift; sourceTree = "<group>"; };
-		BC3599D41D50025D008BC3AA /* CreatePasscodePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreatePasscodePage.swift; path = passcode/CreatePasscodePage.swift; sourceTree = "<group>"; };
-		BC3599D61D500294008BC3AA /* VerifyPasscodePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifyPasscodePage.swift; sourceTree = "<group>"; };
 		BCC8F2031D46BF8700171499 /* HostURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostURLTests.swift; sourceTree = "<group>"; };
 		BCC8F2261D46C01900171499 /* HostPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostPage.swift; sourceTree = "<group>"; };
 		BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
@@ -500,7 +494,6 @@
 				4F1DA6C11C84FF3D0014FAD3 /* pages */,
 				4F1DA6C91C84FF3D0014FAD3 /* test */,
 				4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */,
-				BC3598901D4FBA16008BC3AA /* PasscodeUITests.swift */,
 				BCC8F2031D46BF8700171499 /* HostURLTests.swift */,
 				BC1D976F1D469B26002914C9 /* OAuthUITests.swift */,
 				4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */,
@@ -531,7 +524,6 @@
 		4F1DA6C11C84FF3D0014FAD3 /* pages */ = {
 			isa = PBXGroup;
 			children = (
-				BC3599D31D50020C008BC3AA /* passcode */,
 				4F1DA6C21C84FF3D0014FAD3 /* login */,
 				4F1DA6C61C84FF3D0014FAD3 /* PageObject+WaitForElement.swift */,
 				4F1DA6C71C84FF3D0014FAD3 /* PageObject.swift */,
@@ -755,15 +747,6 @@
 				82D0AC001C49A7710081F833 /* iOSLibStaticTest.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		BC3599D31D50020C008BC3AA /* passcode */ = {
-			isa = PBXGroup;
-			children = (
-				BC3599D41D50025D008BC3AA /* CreatePasscodePage.swift */,
-				BC3599D61D500294008BC3AA /* VerifyPasscodePage.swift */,
-			);
-			name = passcode;
 			sourceTree = "<group>";
 		};
 		BCC965051CEAE9EB008D9E18 /* Supporting Files */ = {
@@ -1162,8 +1145,6 @@
 				BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */,
 				BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */,
 				4F1DA6D11C84FF3D0014FAD3 /* PageObject+WaitForElement.swift in Sources */,
-				BC3599D71D500294008BC3AA /* VerifyPasscodePage.swift in Sources */,
-				BC3599D51D50025D008BC3AA /* CreatePasscodePage.swift in Sources */,
 				4F1DA6CE1C84FF3D0014FAD3 /* AllowDenyPage.swift in Sources */,
 				4F1DA6D51C84FF3D0014FAD3 /* SalesforceTestCase.swift in Sources */,
 				BCC8F2271D46C01900171499 /* HostPage.swift in Sources */,
@@ -1171,7 +1152,6 @@
 				BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */,
 				4F1DA68E1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift in Sources */,
 				4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */,
-				BC3598911D4FBA16008BC3AA /* PasscodeUITests.swift in Sources */,
 				4F1DA6D21C84FF3D0014FAD3 /* PageObject.swift in Sources */,
 				4F1DA6CD1C84FF3D0014FAD3 /* LoginHelper.swift in Sources */,
 				4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */,
