@@ -56,7 +56,6 @@
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00E7891D4724E70057811E /* UserListScreen.swift */; };
 		BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D976F1D469B26002914C9 /* OAuthUITests.swift */; };
-		BCA35E1F1D513D6700BCA00F /* SmartSyncExplorer.app in Resources */ = {isa = PBXBuildFile; fileRef = 827C631119E6018C00027484 /* SmartSyncExplorer.app */; };
 		BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2031D46BF8700171499 /* HostURLTests.swift */; };
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */; };
@@ -1118,7 +1117,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */,
-				BCA35E1F1D513D6700BCA00F /* SmartSyncExplorer.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
