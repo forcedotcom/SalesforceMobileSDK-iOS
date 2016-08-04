@@ -108,12 +108,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     void (^completionBlock)(void) = ^{
         [weakSelf refreshList];
     };
-    
     [self.dataMgr refreshLocalData:completionBlock];
     if ([self.dataMgr.dataRows count] == 0) {
         [self.dataMgr refreshRemoteData:completionBlock];
     }
-
+    
+    [self syncUpDown];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(clearPopovers:)
                                                  name:kSFPasscodeFlowWillBegin
@@ -408,6 +408,10 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
+- (void) dropTable {
+    [self.dataMgr.store removeSoup:[ContactSObjectData dataSpec].soupName];
+}
+
 - (void)showOtherActions {
     if([self.popOverController isPopoverVisible]){
         [self.popOverController dismissPopoverAnimated:YES];
@@ -442,6 +446,8 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self presentViewController:umvc animated:YES completion:NULL];
     } else if ([text isEqualToString:kActionDbInspector]) {
         [[[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store] present:self];
+    } else if ([text isEqualToString:kActionDropTable]) {
+        [self dropTable];
     }
 }
 
