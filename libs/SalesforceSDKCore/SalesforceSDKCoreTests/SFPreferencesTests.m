@@ -80,6 +80,7 @@
     XCTAssertNotNil(prefs, @"Preferences must exist");
     
     NSString *expectedPath = [[SFDirectoryManager sharedManager] directoryForOrg:@"00D000000000062EA0" user:@"005R0000000Dsl0" community:nil type:NSLibraryDirectory components:nil];
+    expectedPath = [expectedPath stringByAppendingPathComponent:@"internal"];
     expectedPath = [expectedPath stringByAppendingPathComponent:@"Preferences.plist"];
     XCTAssertEqualObjects(prefs.path, expectedPath, @"Preferences path mismatch");
     
