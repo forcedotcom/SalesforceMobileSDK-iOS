@@ -28,18 +28,24 @@
 @class FMDatabase;
 @class SFSmartStore;
 
+/**
+ Utility helper functions for Smart SQL.
+ */
+
 @interface SFSmartSqlHelper : NSObject
 
 /**
- Gets the shared instance of the smart sql helper.
+ Gets the shared instance of the Smart SQL helper.
+ @return Pointer to the shared SFSmartSqlHelper instance.
  */
 + (SFSmartSqlHelper*) sharedInstance;
 
 /**
- Converts a smart sql query to sql.
- @param smartSql The smart sql query to convert.
- @param store The smart store.
- @param db Database.
+ Converts a Smart SQL query to SQL.
+ @param smartSql The Smart SQL query to convert.
+ @param store The SmartStore instance.
+ @param db The database.
+ @return The SQL version of the given Smart SQL query.
  */
 - (NSString*) convertSmartSql:(NSString*)smartSql withStore:(SFSmartStore*) store withDb:(FMDatabase*)db;
 
