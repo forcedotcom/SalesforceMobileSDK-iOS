@@ -132,7 +132,8 @@ static NSString * const kDefaultCommunityName = @"internal";
                 [self log:SFLogLevelWarning format:@"Credentials missing for user %@", user];
                 return nil;
             }
-            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId type:type components:components];
+            // Note: if the user communityId is nil, we use the default (internal) name for it.
+            return [self directoryForOrg:user.credentials.organizationId user:user.credentials.userId community:user.communityId?:kDefaultCommunityName type:type components:components];
     }
 }
 

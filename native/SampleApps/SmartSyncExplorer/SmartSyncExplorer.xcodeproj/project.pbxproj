@@ -55,7 +55,11 @@
 		82D0AC161C49A8120081F833 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; };
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
-		CE2B8F8B1CF102A700C6FC6A /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8F8A1CF102A700C6FC6A /* ui_test_credentials.json */; };
+		BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00E7891D4724E70057811E /* UserListScreen.swift */; };
+		BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D976F1D469B26002914C9 /* OAuthUITests.swift */; };
+		BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2031D46BF8700171499 /* HostURLTests.swift */; };
+		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
+		BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
 /* End PBXBuildFile section */
 
@@ -478,7 +482,11 @@
 		82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
-		CE2B8F8A1CF102A700C6FC6A /* ui_test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
+		BC00E7891D4724E70057811E /* UserListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListScreen.swift; sourceTree = "<group>"; };
+		BC1D976F1D469B26002914C9 /* OAuthUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthUITests.swift; sourceTree = "<group>"; };
+		BCC8F2031D46BF8700171499 /* HostURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostURLTests.swift; sourceTree = "<group>"; };
+		BCC8F2261D46C01900171499 /* HostPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostPage.swift; sourceTree = "<group>"; };
+		BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -523,7 +531,10 @@
 				4F1DA6C11C84FF3D0014FAD3 /* pages */,
 				4F1DA6C91C84FF3D0014FAD3 /* test */,
 				4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */,
+				BCC8F2031D46BF8700171499 /* HostURLTests.swift */,
+				BC1D976F1D469B26002914C9 /* OAuthUITests.swift */,
 				4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */,
+				BC00E7891D4724E70057811E /* UserListScreen.swift */,
 				4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */,
 				4F1DA68F1C84FD7E0014FAD3 /* Info.plist */,
 			);
@@ -562,6 +573,7 @@
 		4F1DA6C21C84FF3D0014FAD3 /* login */ = {
 			isa = PBXGroup;
 			children = (
+				BCC8F2261D46C01900171499 /* HostPage.swift */,
 				4F1DA6C31C84FF3D0014FAD3 /* AllowDenyPage.swift */,
 				4F1DA6C41C84FF3D0014FAD3 /* LoginPage.swift */,
 			);
@@ -1211,10 +1223,14 @@
 				4F1DA6D61C84FF3D0014FAD3 /* TestCaseManager.swift in Sources */,
 				4F1DA6D41C84FF3D0014FAD3 /* SalesforceNoSessionTestCase.swift in Sources */,
 				4F1DA6CF1C84FF3D0014FAD3 /* LoginPage.swift in Sources */,
+				BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */,
+				BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */,
 				4F1DA6D11C84FF3D0014FAD3 /* PageObject+WaitForElement.swift in Sources */,
 				4F1DA6CE1C84FF3D0014FAD3 /* AllowDenyPage.swift in Sources */,
 				4F1DA6D51C84FF3D0014FAD3 /* SalesforceTestCase.swift in Sources */,
+				BCC8F2271D46C01900171499 /* HostPage.swift in Sources */,
 				4F1DA6D31C84FF3D0014FAD3 /* PageThatWaits.swift in Sources */,
+				BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */,
 				4F1DA68E1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift in Sources */,
 				4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */,
 				4F1DA6D21C84FF3D0014FAD3 /* PageObject.swift in Sources */,

@@ -1,6 +1,6 @@
 /*
-SmartSyncExplorerUITests.swift
-SmartSyncExplorerUITests
+HostURLTests.swift
+HostURLTests
 
 Copyright (c) 2016, salesforce.com, inc. All rights reserved.
 
@@ -28,68 +28,51 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import XCTest
 
-class SmartSyncExplorerTest: SalesforceTestCase {
-
-    let searchScreen = SearchScreen()
+class HostURLTest: SalesforceNoSessionTestCase {
+    
+    var hostPage = HostPage()
+    var loginPage = LoginPage()
     
     // MARK: Setup
-    
     override func setUp() {
         super.setUp()
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection()
+        hostPage.waitForPageLoaded()
     }
     
     override func tearDown() {
-        searchScreen.logout()
+        loginPage.waitForPageLoaded()
         super.tearDown()
     }
     
     // MARK: Tests
-    
-    func testCreateSaveSearchOpen() {
-        let uids = createLocally(3)
-        for uid in uids {
-            searchAndCheck(uid);
-        }
-    }
-
-    // MARK: Helper methods
-
-    // Create n records and return their uid's
-    func createLocally(n:Int) -> [Int] {
-        var uids : [Int] = []
-        
-        for _ in 0 ..< n {
-            let uid = generateUid()
-            uids.append(uid)
-            createRecord(uid)
-        }
-        
-        return uids;
+    func testAddAndDeleteURL() {
+        hostPage.addAndChooseConnection("testAddURL", host: "cs1.salesforce.com")
+        loginPage.chooseConnection()
+        hostPage.deleteHost("testAddURL")
     }
     
-    // Clicks add, fills some fields, clicks save
-    func createRecord(uid:Int) {
-        let detailScreen = searchScreen.addRecord()
-        detailScreen.typeFirstName("fn\(uid)").typeLastName("ln\(uid)").typeTitle("t\(uid)")
-        detailScreen.save()
+    func testSwitchURL() {
+        hostPage.addAndChooseConnection("testSwitchURL", host: "cs1.salesforce.com")
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.production)
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection(Host.sandbox)
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection()
+        hostPage.chooseConnection("testSwitchURL")
+        //background
+//        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+//        XCUIApplication().launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
+        loginPage.waitForPageLoaded()
+        loginPage.chooseConnection()
+        hostPage.deleteHost("testSwitchURL")
     }
     
-    // Search for record, check results, open detail screen for record, check fields, goes back to search screen
-    func searchAndCheck(uid:Int) {
-        searchScreen.clearSearch()
-        searchScreen.typeSearch("fn\(uid)")
-        XCTAssertEqual(searchScreen.countRecords(), 1)
-        XCTAssert(searchScreen.hasRecord("fn\(uid) ln\(uid)"))
-        let detailScreen = searchScreen.openRecord("fn\(uid) ln\(uid)")
-        detailScreen.edit()
-        XCTAssert(detailScreen.hasFirstName("fn\(uid)"))
-        XCTAssert(detailScreen.hasLastName("ln\(uid)"))
-        XCTAssert(detailScreen.hasTitle("t\(uid)"))
-        detailScreen.cancel()
-        detailScreen.backToSearch()
+    func testCancelAddURL() {
+        hostPage.addAndCancel(true)
     }
     
-    func generateUid() -> Int {
-        return Int(arc4random_uniform(9000) + 1000);
-    }
+    
 }
