@@ -92,7 +92,7 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
         passcodePage.forgotPasscode(true)
         loginPage.waitForPageLoaded()
         XCTAssertTrue(loginPage.isPresenting())
-        
+ 
     }
     
     func getDifferentString() -> String {

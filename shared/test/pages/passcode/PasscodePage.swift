@@ -81,7 +81,7 @@ class PasscodePage: PageObject {
     
     private var forgotPasscodeButton: XCUIElement {
         get {
-            return app.childrenMatchingType(.Window).elementBoundByIndex(0).childrenMatchingType(.Other).elementBoundByIndex(1).buttons["Forgot Passcode?"]
+            return app.buttons["Forgot Passcode?"]
         }
     }
     
@@ -113,7 +113,7 @@ class PasscodePage: PageObject {
     func forgotPasscode(confirm:Bool) {
         forgotPasscodeButton.tap()
         let collectionViewsQuery = app.alerts["Forgot Passcode?"].collectionViews
-        if(confirm) {
+        if (confirm) {
             collectionViewsQuery.buttons["Yes"].tap()
         }
         else {
