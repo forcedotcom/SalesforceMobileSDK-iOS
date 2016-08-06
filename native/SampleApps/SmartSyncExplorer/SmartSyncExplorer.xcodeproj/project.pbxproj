@@ -56,6 +56,8 @@
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC00E7891D4724E70057811E /* UserListScreen.swift */; };
 		BC1D97701D469B26002914C9 /* OAuthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC1D976F1D469B26002914C9 /* OAuthUITests.swift */; };
+		BCBA9DE01D53EFD400D00A28 /* PasscodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA9DDF1D53EFD400D00A28 /* PasscodeUITests.swift */; };
+		BCBA9DE21D53F79500D00A28 /* PasscodePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBA9DE11D53F79500D00A28 /* PasscodePage.swift */; };
 		BCC8F2041D46BF8700171499 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2031D46BF8700171499 /* HostURLTests.swift */; };
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		BCC965281CEAEA19008D9E18 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */; };
@@ -447,7 +449,9 @@
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		BC00E7891D4724E70057811E /* UserListScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListScreen.swift; sourceTree = "<group>"; };
 		BC1D976F1D469B26002914C9 /* OAuthUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OAuthUITests.swift; sourceTree = "<group>"; };
-		BCC8F2031D46BF8700171499 /* HostURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostURLTests.swift; sourceTree = "<group>"; };
+		BCBA9DDF1D53EFD400D00A28 /* PasscodeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeUITests.swift; path = ../../../../shared/test/test/PasscodeUITests.swift; sourceTree = "<group>"; };
+		BCBA9DE11D53F79500D00A28 /* PasscodePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodePage.swift; sourceTree = "<group>"; };
+		BCC8F2031D46BF8700171499 /* HostURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HostURLTests.swift; path = ../../../../shared/test/test/HostURLTests.swift; sourceTree = "<group>"; };
 		BCC8F2261D46C01900171499 /* HostPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostPage.swift; sourceTree = "<group>"; };
 		BCC965271CEAEA19008D9E18 /* ui_test_credentials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -495,6 +499,7 @@
 				4F1DA68D1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift */,
 				BCC8F2031D46BF8700171499 /* HostURLTests.swift */,
 				BC1D976F1D469B26002914C9 /* OAuthUITests.swift */,
+				BCBA9DDF1D53EFD400D00A28 /* PasscodeUITests.swift */,
 				4F1DA6D91C8799810014FAD3 /* SearchScreen.swift */,
 				BC00E7891D4724E70057811E /* UserListScreen.swift */,
 				4F1DA6DB1C879D800014FAD3 /* DetailScreen.swift */,
@@ -523,6 +528,7 @@
 		4F1DA6C11C84FF3D0014FAD3 /* pages */ = {
 			isa = PBXGroup;
 			children = (
+				BCBA9DBD1D53EF9700D00A28 /* passcode */,
 				4F1DA6C21C84FF3D0014FAD3 /* login */,
 				4F1DA6C61C84FF3D0014FAD3 /* PageObject+WaitForElement.swift */,
 				4F1DA6C71C84FF3D0014FAD3 /* PageObject.swift */,
@@ -748,6 +754,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		BCBA9DBD1D53EF9700D00A28 /* passcode */ = {
+			isa = PBXGroup;
+			children = (
+				BCBA9DE11D53F79500D00A28 /* PasscodePage.swift */,
+			);
+			path = passcode;
+			sourceTree = "<group>";
+		};
 		BCC965051CEAE9EB008D9E18 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -808,7 +822,7 @@
 		827C630919E6018C00027484 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0710;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = salesforce.com;
 				TargetAttributes = {
@@ -1149,8 +1163,10 @@
 				4F1DA6D31C84FF3D0014FAD3 /* PageThatWaits.swift in Sources */,
 				BC00E78A1D4724E70057811E /* UserListScreen.swift in Sources */,
 				4F1DA68E1C84FD7E0014FAD3 /* SmartSyncExplorerUITests.swift in Sources */,
+				BCBA9DE21D53F79500D00A28 /* PasscodePage.swift in Sources */,
 				4F1DA6DC1C879D800014FAD3 /* DetailScreen.swift in Sources */,
 				4F1DA6D21C84FF3D0014FAD3 /* PageObject.swift in Sources */,
+				BCBA9DE01D53EFD400D00A28 /* PasscodeUITests.swift in Sources */,
 				4F1DA6CD1C84FF3D0014FAD3 /* LoginHelper.swift in Sources */,
 				4F1DA6DA1C8799810014FAD3 /* SearchScreen.swift in Sources */,
 			);
@@ -1236,6 +1252,7 @@
 		4F1DA6921C84FD7E0014FAD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1247,6 +1264,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SmartSyncExplorerUITests/SmartSyncExplorerUITests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_TARGET_NAME = SmartSyncExplorer;
 				USES_XCTRUNNER = YES;
@@ -1256,6 +1274,7 @@
 		4F1DA6931C84FD7E0014FAD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1268,6 +1287,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.salesforce.SmartSyncExplorerUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SmartSyncExplorerUITests/SmartSyncExplorerUITests-Bridging-Header.h";
 				TEST_TARGET_NAME = SmartSyncExplorer;
 				USES_XCTRUNNER = YES;
 			};

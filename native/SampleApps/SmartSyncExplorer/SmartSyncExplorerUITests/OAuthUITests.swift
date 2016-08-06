@@ -27,7 +27,7 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 
 import XCTest
-@testable import SalesforceSDKCore.SFAuthenticationManager
+@testable import SalesforceSDKCore
 
 class OAuthUITest: SalesforceNoSessionTestCase {
     
@@ -55,7 +55,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
             let user = login.valueForKey("username") as! String
             let password = login.valueForKey("password") as! String
             let host = login.valueForKey("host") as! String
-            addAndSwitchToUser(user, password:password, host:host)
+            addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
             sleep(1)
         }
         
@@ -86,7 +86,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         searchScreen.logout()
     }
     
-    func FIXMEtestRevokeRefreshToken(){
+    func TODOtestRevokeRefreshToken(){
         //login up to 3 users
         var i = 0
         for login in loginAccounts {
@@ -96,7 +96,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
             let user = login.valueForKey("username") as! String
             let password = login.valueForKey("password") as! String
             let host = login.valueForKey("host") as! String
-            addAndSwitchToUser(user, password:password, host:host)
+            addAndSwitchToUser(user, password:password, host:host, passcode: passcode)
             i = i + 1
             sleep(1)
         }
@@ -117,15 +117,13 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         searchScreen.waitForPageLoaded()
     }
     
-    func addAndSwitchToUser(username:String, password:String, host:String) {
+    func addAndSwitchToUser(username:String, password:String, host:String, passcode:String) {
         if (!loginPage.isPresenting()) {
             searchScreen.waitForPageLoaded()
             searchScreen.switchUser()
             userListScreen.addUser()
         }
-        loginPage.chooseConnection()
-        hostPage.selectHost(host)
-        loginHelper.loginToSalesforce(username, password: password)
+        loginHelper.loginToSalesforce(username, password: password, url:host, withPasscode: passcode)
     }
     
     
