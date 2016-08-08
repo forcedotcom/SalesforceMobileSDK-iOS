@@ -32,10 +32,10 @@ enum PasscodeStatus {
     case Creating
     case Confirming
     case Verifying
-    case Unknwon
+    case Unknown
 }
 
-class PasscodePage: PageObject {
+class PasscodePage: PageObject, PageThatWaits {
     
     private var createPasscodeNavigationBar: XCUIElement {
         get {
@@ -54,6 +54,13 @@ class PasscodePage: PageObject {
             return app.navigationBars["Confirm Passcode"]
         }
     }
+    
+    private var passcodeNavigationBar: XCUIElement {
+        get {
+            return app.navigationBars.elementMatchingPredicate(NSPredicate(format: "identifier CONTAINS(cd) 'Passcode'" ))
+        }
+    }
+    
     
     private var nextButton: XCUIElement {
         get {
@@ -122,7 +129,7 @@ class PasscodePage: PageObject {
     }
     
     func isPresented() -> Bool {
-        return (passcodeSecureTextField.hittable)
+        return (getStatus() != PasscodeStatus.Unknown)
     }
     
     func getStatus() -> PasscodeStatus {
@@ -135,7 +142,16 @@ class PasscodePage: PageObject {
         else if confirmPasscodeNavigationBar.exists && confirmPasscodeNavigationBar.hittable {
             return PasscodeStatus.Confirming
         }
-        return PasscodeStatus.Unknwon
+        return PasscodeStatus.Unknown
+    }
+    
+    func waitForPageLoaded() {
+        waitForElementEnabled(passcodeNavigationBar)
+    }
+    
+    
+    func waitForPageInvalid() {
+        waitForElementDoesNotExist(passcodeNavigationBar)
     }
     
 }

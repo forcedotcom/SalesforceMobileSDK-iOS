@@ -63,10 +63,10 @@ class LoginHelper {
         // Tap allow
         allowDenyPage.tapAllowButton()
         
+        loginPage.waitForPageInvalid()
+        
         if let wrappedPasscode = withPasscode {
-            if (PasscodePage().isPresented()) {
-                PasscodePage().createPasscode(wrappedPasscode)
-            }
+            PasscodePage().createPasscode(wrappedPasscode)
         }
     }
 }
