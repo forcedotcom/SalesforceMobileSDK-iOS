@@ -50,24 +50,24 @@
 
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
 {
-    return [self initWithStore:store soupName:soupName newSoupSpec:nil newIndexSpecs:newIndexSpecs reIndexData:reIndexData];
+    return [self initWithStore:store newSoupSpec:[SFSoupSpec newSoupSpec:soupName withFeatures:nil] newIndexSpecs:newIndexSpecs reIndexData:reIndexData];
 }
 
-- (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
+- (id) initWithStore:(SFSmartStore*)store newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData
 {
     self = [super init];
     if (nil != self) {
         _store = store;
         _queue = store.storeQueue;
-        _soupName = soupName;
+        _soupName = newSoupSpec.soupName;
         _soupSpec = newSoupSpec;
         _indexSpecs = [SFSoupIndex asArraySoupIndexes:newIndexSpecs];
-        _oldIndexSpecs = [store indicesForSoup:soupName];
+        _oldIndexSpecs = [store indicesForSoup:_soupName];
         _reIndexData = reIndexData;
         _afterStep = SFAlterSoupStepStarting;
         [store.storeQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-            self->_soupTableName = [store tableNameForSoup:soupName withDb:db];
-            self->_oldSoupSpec = [store attributesForSoup:soupName withDb:db];
+            self->_soupTableName = [store tableNameForSoup:self->_soupName withDb:db];
+            self->_oldSoupSpec = [store attributesForSoup:self->_soupName withDb:db];
             self->_rowId = [self createLongOperationDbRowWithDb:db];
         }];
     }

@@ -432,13 +432,12 @@ extern NSString *const EXPLAIN_ROWS;
 /**
  Alter soup indexes.
  
- @param soupName The name of the soup to alter.
  @param soupSpec The new soup spec to convert. (e.g. convert internal storage soup to external storage soup).
  @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs.
  @param reIndexData Pass YES if you want existing records to be re-indexed for new index specs.
  @return YES if the soup was altered successfully.
  */
-- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+- (BOOL) alterSoupWithSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
 
 
 /**
