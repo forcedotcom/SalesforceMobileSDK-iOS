@@ -127,9 +127,12 @@ static NSException *authException = nil;
 {
     SFAuthenticationManager *sharedManager = [SFAuthenticationManager sharedManager];
     sharedManager.coordinator.credentials.accessToken = @"BadToken";
-    sharedManager.coordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://cs2.salesforce.com"];
+    NSURL *instanceURL = sharedManager.coordinator.credentials.instanceUrl;
+    sharedManager.coordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
+    sharedManager.idCoordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
     [TestSetupUtils synchronousAuthRefresh];
-    XCTAssertEqualObjects(sharedManager.coordinator.credentials.instanceUrl, [NSURL URLWithString:@"https://cs1.salesforce.com"], @"Expect instance URL is also updated");
+    XCTAssertEqualObjects(sharedManager.coordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
+    XCTAssertEqualObjects(sharedManager.idCoordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
     [self validateIdentityData];
 }
 
