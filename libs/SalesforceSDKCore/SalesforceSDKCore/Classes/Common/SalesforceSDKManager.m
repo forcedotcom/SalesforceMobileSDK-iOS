@@ -652,7 +652,9 @@ static Class InstanceClass = nil;
     return ^NSString *(NSString *qualifier) {
         UIDevice *curDevice = [UIDevice currentDevice];
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
-        NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+        NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+        NSString *appVersion = [NSString stringWithFormat:@"%@ (%@)", prodAppVersion, buildNumber];
 
         // App type.
         NSString* appTypeStr;

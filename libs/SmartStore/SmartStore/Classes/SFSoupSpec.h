@@ -30,28 +30,28 @@ extern NSString * const kSoupSpecFeatures;
 // Soup Features
 /**
  *  Feature to store soup data blobs separately in the file system.
- *  Recommended when your soup may contain large payloads for optimal memory consumption.
+ *  Recommended for optimal memory consumption when your soup might contain large payloads.
  *  Database operations using soup payloads will not be available, since they aren't stored in the database.
  */
 extern NSString * const kSoupFeatureExternalStorage;
 
 /**
- * Object containing the soup specifications, such as soup name and features.
+ * Object containing soup specifications, such as soup name and features.
  */
 @interface SFSoupSpec : NSObject
 
 /**
- *  The soup name
+ *  The soup name.
  */
 @property (nonatomic, copy, readonly) NSString *soupName;
 
 /**
- *  The soup features
+ *  The soup features.
  */
 @property (nonatomic, copy, readonly) NSArray *features;
 
 /**
- * Factory method to build a soup spec
+ * Factory method to build a soup spec.
  * @param soupName The soup name.
  * @param features The soup features.
  * @return A soup spec object.
@@ -59,17 +59,17 @@ extern NSString * const kSoupFeatureExternalStorage;
 + (SFSoupSpec *)newSoupSpec:(NSString *)soupName withFeatures:(NSArray *)features;
 
 /**
- * Factory method to build a soup spec from a dictionary
- * @discussion at least `soupName` is necessary, otherwise thise method returns nil.
- * @param dictionary a dictionary with soup spec info (keys must match kSoupSpec...).
+ * Factory method to build a soup spec from a dictionary.
+ * @discussion At least "soupName" is required. Otherwise, this method returns nil.
+ * @param dictionary A dictionary with soup spec info. Keys must match <code>kSoupSpec<i>xxx</i></code> constants defined in this header file.
  * @return A soup spec object.
  */
 + (SFSoupSpec *)newSoupSpecWithDictionary:(NSDictionary *)dictionary;
 
 /**
  * A dictionary representation for this SFSoupSpec object. 
- * Use keys defined in this header (kSoupSpec...).
- * @return a NSDictionary representing this SFSoupSpec object.
+ * Use keys defined in the <code>kSoupSpec<i>xxx</i></code> constants in this header file.
+ * @return An NSDictionary object representing this SFSoupSpec object.
  */
 - (NSDictionary *)asDictionary;
 
