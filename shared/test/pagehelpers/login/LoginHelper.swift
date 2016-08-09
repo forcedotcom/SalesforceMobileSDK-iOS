@@ -66,6 +66,7 @@ class LoginHelper {
         loginPage.waitForPageInvalid()
         
         if let wrappedPasscode = withPasscode {
+            PasscodePage().waitForPageLoaded()
             PasscodePage().createPasscode(wrappedPasscode)
         }
     }

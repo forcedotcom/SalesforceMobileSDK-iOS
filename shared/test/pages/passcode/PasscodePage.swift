@@ -57,7 +57,7 @@ class PasscodePage: PageObject, PageThatWaits {
     
     private var passcodeNavigationBar: XCUIElement {
         get {
-            return app.navigationBars.elementMatchingPredicate(NSPredicate(format: "identifier CONTAINS(cd) 'Passcode'" ))
+            return app.navigationBars.elementMatchingPredicate(NSPredicate(format: "identifier CONTAINS[cd] 'Passcode'" ))
         }
     }
     
