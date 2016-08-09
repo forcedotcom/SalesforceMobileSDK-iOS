@@ -384,7 +384,7 @@
                                 newSoupSpec:kTestSoupName
                                 withFeatures:(toStorageInternal ? nil :@[kSoupFeatureExternalStorage])];
     NSArray* indexSpecsNew = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":fromType}, @{@"path":kCountry, @"type":toType}]];
-    [self.store alterSoupWithSoupSpec:soupSpecNew withIndexSpecs:indexSpecsNew reIndexData:YES];
+    [self.store alterSoup:kTestSoupName withSoupSpec:soupSpecNew withIndexSpecs:indexSpecsNew reIndexData:YES];
     
     // Check db
     [self checkDb:savedEntries cityColType:fromType countryColType:toType internalStorage:toStorageInternal];
@@ -399,7 +399,7 @@
                                withFeatures:(toStorageInternal2 ? nil :@[kSoupFeatureExternalStorage])];
 
     NSArray* indexSpecsNew2 = [SFSoupIndex asArraySoupIndexes:@[@{@"path":kCity, @"type":toType}, @{@"path":kCountry, @"type":toType}]];
-    [self.store alterSoupWithSoupSpec:soupSpecNew2 withIndexSpecs:indexSpecsNew2 reIndexData:YES];
+    [self.store alterSoup:kTestSoupName withSoupSpec:soupSpecNew2 withIndexSpecs:indexSpecsNew2 reIndexData:YES];
     
     // Check db
     [self checkDb:savedEntries cityColType:toType countryColType:toType internalStorage:toStorageInternal2];

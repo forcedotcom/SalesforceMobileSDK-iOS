@@ -2104,10 +2104,11 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }
 }
 
-- (BOOL) alterSoupWithSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData
 {
-    if ([self soupExists:soupSpec.soupName]) {
+    if ([self soupExists:soupName]) {
         SFAlterSoupLongOperation* operation = [[SFAlterSoupLongOperation alloc] initWithStore:self
+                                                                                     soupName:soupName
                                                                                   newSoupSpec:soupSpec
                                                                                 newIndexSpecs:indexSpecs
                                                                                   reIndexData:reIndexData];
