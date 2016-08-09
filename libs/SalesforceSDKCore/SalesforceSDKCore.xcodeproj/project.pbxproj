@@ -90,6 +90,8 @@
 		82D4642519C7C8170006BDFE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */; };
 		82D4642719C7C8170006BDFE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8280EBB516E14E9F00768DE8 /* UIKit.framework */; };
+		B7394AE91D334D7400248DBE /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7394AE81D334D7400248DBE /* WebKit.framework */; };
+		BC9BFF421D5A46B6009FFA1F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BC9BFF411D5A46B6009FFA1F /* test_credentials.json */; };
 		CE145A9C1D138386003BCC20 /* SalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */; };
 		CE145A9E1D13838B003BCC20 /* SalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -932,6 +934,8 @@
 		82D0AB191C497F410081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4642419C7C8170006BDFE /* SalesforceSDKCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SalesforceSDKCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		82D4644419C7C8180006BDFE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		B7394AE81D334D7400248DBE /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		BC9BFF411D5A46B6009FFA1F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE145A9A1D138386003BCC20 /* SalesforceAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SalesforceAnalyticsManager.h; path = Analytics/SalesforceAnalyticsManager.h; sourceTree = "<group>"; };
 		CE145A9B1D138386003BCC20 /* SalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SalesforceAnalyticsManager.m; path = Analytics/SalesforceAnalyticsManager.m; sourceTree = "<group>"; };
@@ -1058,6 +1062,7 @@
 		4F7EB4571BFFC9D900768720 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BC9BFF411D5A46B6009FFA1F /* test_credentials.json */,
 				4F7EB4591BFFCB3500768720 /* SalesforceSDKCoreTests-Info.plist */,
 			);
 			name = "Supporting Files";
@@ -2052,6 +2057,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC9BFF421D5A46B6009FFA1F /* test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
