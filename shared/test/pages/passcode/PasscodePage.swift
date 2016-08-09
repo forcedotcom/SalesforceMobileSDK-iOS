@@ -110,8 +110,9 @@ class PasscodePage: PageObject, PageThatWaits {
         if (createPasscodeNavigationBar.exists) {
             passcodeSecureTextField.typeText(passcode)
             nextButton.tap()
+            sleep(1) 
             passcodeSecureTextField.typeText(passcode)
-            doneButton.tap()
+            done()
             return true
         }
         return false

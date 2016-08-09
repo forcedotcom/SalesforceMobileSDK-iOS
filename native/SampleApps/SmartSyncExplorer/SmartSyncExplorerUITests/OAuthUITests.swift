@@ -41,6 +41,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     override func setUp() {
         super.setUp()
         loginPage.waitForPageLoaded()
+        sleep(3)
     }
     
     override func tearDown() {
@@ -80,9 +81,11 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         let password = loginAccounts[0].valueForKey("password") as! String
         loginHelper.loginToSalesforce(user, password: password, host: Host.sandbox)
         searchScreen.waitForPageLoaded()
+        let recordsNum = searchScreen.countRecords()
         searchScreen.logout()
         loginHelper.loginToSalesforce(user, password: password)
         searchScreen.waitForPageLoaded()
+        XCTAssertEqual(recordsNum, searchScreen.countRecords(), "Should have same number of records") //to test smart store is reset
         searchScreen.logout()
     }
     
