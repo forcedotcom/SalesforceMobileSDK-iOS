@@ -186,7 +186,9 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (DeviceAppAttributes *) buildDeviceAppAttributes {
     SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleVersionKey];
+    NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+    NSString *appVersion = [NSString stringWithFormat:@"%@ (%@)", prodAppVersion, buildNumber];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString *) kCFBundleNameKey];
     UIDevice *curDevice = [UIDevice currentDevice];
     NSString *osVersion = [curDevice systemVersion];
