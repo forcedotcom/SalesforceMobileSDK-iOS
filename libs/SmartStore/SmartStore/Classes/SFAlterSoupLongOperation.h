@@ -49,81 +49,98 @@ static NSString * const NEW_INDEX_SPECS = @"newIndexSpecs";
 static NSString * const RE_INDEX_DATA   = @"reIndexData";
 static NSInteger  const kLastStep = SFAlterSoupStepCleanup;
 
+/**
+ Use this class to configure and run alter soup "long" operations. Note that these operations can take a long time to complete.
+ */
 
 @interface SFAlterSoupLongOperation : NSObject {
 
 }
 
-// Soup being altered
+/** Soup being altered.
+ */
 @property (nonatomic, readonly, strong) NSString *soupName;
 
-// Backing table for soup being altered
+/** Backing table for soup being altered.
+ */
 @property (nonatomic, readonly, strong) NSString *soupTableName;
 	
-// Last step completed
+/** Last step completed.
+ */
 @property (nonatomic, readonly, assign) SFAlterSoupStep afterStep;
 
-// New soup spec (optional)
+/** New soup spec (optional).
+ */
 @property (nonatomic, readonly, strong) SFSoupSpec *soupSpec;
 
-// Old soup spec
+/** Old soup spec.
+ */
 @property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec;
 	
-// New index specs
+/** New index specs.
+ */
 @property (nonatomic, readonly, strong) NSArray *indexSpecs;
 
-// Old index specs
+/** Old index specs.
+ */
 @property (nonatomic, readonly, strong) NSArray *oldIndexSpecs;
 
-// True if soup elements should be brought to memory to be re-indexed
+/** YES if soup elements should be brought to memory to be re-indexed.
+ */
 @property (nonatomic, readonly, assign) BOOL  reIndexData;
 	
-// Instance of smartstore
+/** Instance of SmartStore.
+ */
 @property (nonatomic, readonly, strong) SFSmartStore *store;
 
-// Underlying database
+/** Underlying database.
+ */
 @property (nonatomic, readonly, strong) FMDatabaseQueue *queue;
 	
-// Row id for long_operations_status
+/** Row ID for long_operations_status table.
+ */
 @property (nonatomic, readonly, assign) long long rowId;
 
 
 /**
- Called when first running the alter soup
- @param store Store.
+ Initializer for starting the alter soup operation.
+ @param store SmartStore instance.
  @param soupName Soup name.
  @param newIndexSpecs New index specs.
- @param reIndexData YES - to reindex, NO - if not.
+ @param reIndexData YES to reindex.
+ @return The initialized self.
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /**
- Called when first running the alter soup
- @param store Store.
+ Initializer for starting the alter soup operation with a new soup spec.
+ @param store SmartStore instance.
  @param soupName Soup name.
  @param newSoupSpec New soup spec.
  @param newIndexSpecs New index specs.
- @param reIndexData YES - to reindex, NO - if not.
+ @param reIndexData YES to reindex.
+ @return The initialized self.
  */
 - (id) initWithStore:(SFSmartStore*)store soupName:(NSString*)soupName newSoupSpec:(SFSoupSpec*)newSoupSpec newIndexSpecs:(NSArray*)newIndexSpecs reIndexData:(BOOL)reIndexData;
 
 /** 
- Called when resuming an alter soup operation from the data stored in the long operations status table
- @param store Store
- @param rowId Row ID
- @param details Details
- @param status Soup status
+ Initializer for resuming an alter soup operation from the data stored in the long operations status table.
+ @param store SmartStore instance.
+ @param rowId Row ID.
+ @param details Details.
+ @param status Soup status.
+ @return The initialized self.
 */
 - (id) initWithStore:(SFSmartStore*) store rowId:(long) rowId details:(NSDictionary*)details status:(SFAlterSoupStep)status;
 
 /**
- Run this operation
+ Run this operation.
  */
 - (void) run;
 
 /**
- Run this operation up to a given step (used by tests)
- @param toStep Step
+ Run this operation up to a given step (used by tests).
+ @param toStep Target step.
  */
 - (void) runToStep:(SFAlterSoupStep) toStep;
 

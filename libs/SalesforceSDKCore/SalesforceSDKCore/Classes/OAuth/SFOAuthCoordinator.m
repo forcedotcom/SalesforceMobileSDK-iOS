@@ -101,6 +101,7 @@ static NSString * const kSFOAuthErrorTypeTimeout                    = @"auth_tim
 static NSString * const kSFOAuthErrorTypeWrongVersion               = @"wrong_version";     // credentials do not match current Connected App version in the org
 static NSString * const kSFOAuthErrorTypeBrowserLaunchFailed        = @"browser_launch_failed";
 static NSString * const kSFOAuthErrorTypeUnknownAdvancedAuthConfig  = @"unknown_advanced_auth_config";
+static NSString * const kSFOAuthErrorTypeJWTLaunchFailed            = @"jwt_launch_failed";
 
 static NSUInteger kSFOAuthReponseBufferLength                   = 512; // bytes
 
@@ -559,8 +560,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     // JWT Flow
     if (self.credentials.jwt && self.credentials.instanceUrl) {
         [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            bool swapOK = NO;
             if (!error) {
+                bool swapOK = NO;
                 NSError *jsonError = nil;
                 id json = nil;
                 
@@ -575,13 +576,15 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                         self.credentials.jwt = nil;
                     }
                 }
+                if (!swapOK) {
+                    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed description:@"The breeze link failed to launch."];
+                    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+                    self.credentials.jwt = nil;
+                }
             }
             else {
                 [self log:SFLogLevelError msg:[NSString stringWithFormat:@"Fail to swap JWT for access token: %@", [error localizedDescription]]];
-            }
-            if (!swapOK) {
-                [self log:SFLogLevelInfo msg:@"Fail to complete token flow, resort to normal flow."];
-                [self doLoadURL:approvalUrl withCookie:NO];
+                [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             }
         }];
     }
@@ -1089,6 +1092,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         code = kSFOAuthErrorBrowserLaunchFailed;
     } else if ([type isEqualToString:kSFOAuthErrorTypeUnknownAdvancedAuthConfig]) {
         code = kSFOAuthErrorUnknownAdvancedAuthConfig;
+    } else if ([type isEqualToString:kSFOAuthErrorTypeJWTLaunchFailed]) {
+        code = kSFOAuthErrorJWTInvalidGrant;
     }
 
     NSDictionary *dict = @{kSFOAuthError: type,

@@ -25,6 +25,9 @@
 #import <Foundation/Foundation.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 
+/**
+ Used internally for upgrading SmartStore.
+ */
 @interface SFSmartStoreUpgrade : NSObject
 
 /**
