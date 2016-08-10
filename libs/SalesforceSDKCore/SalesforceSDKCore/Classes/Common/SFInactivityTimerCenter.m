@@ -24,6 +24,7 @@
 
 #import "SFInactivityTimerCenter.h"
 #import "SFLogger.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 @implementation SFInactivityTimerCenter
 
@@ -34,7 +35,7 @@ static NSDate *lastActivityTimestamp = nil;
 
 + (void)initialize {
     if (self == [SFInactivityTimerCenter class]) {
-        lastActivityTimestamp = [[NSUserDefaults standardUserDefaults] objectForKey:kDefaultKeyLastActivity];
+        lastActivityTimestamp = [[NSUserDefaults msdkUserDefaults] objectForKey:kDefaultKeyLastActivity];
         if(!lastActivityTimestamp) {
             lastActivityTimestamp = [[NSDate alloc] init];
         }
@@ -93,8 +94,8 @@ static NSDate *lastActivityTimestamp = nil;
 }
 
 + (void)saveActivityTimestamp {
-	[[NSUserDefaults standardUserDefaults] setObject:lastActivityTimestamp forKey:kDefaultKeyLastActivity];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+	[[NSUserDefaults msdkUserDefaults] setObject:lastActivityTimestamp forKey:kDefaultKeyLastActivity];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 + (NSDate *)lastActivityTimestamp {

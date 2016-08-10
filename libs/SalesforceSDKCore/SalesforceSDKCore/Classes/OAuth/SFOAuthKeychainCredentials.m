@@ -32,6 +32,7 @@
 #import "SFCrypto.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
 
@@ -66,7 +67,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 - (void)setAccessToken:(NSString *)token {
     [self setAccessToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
     [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
     [standardUserDefaults synchronize];
 }
@@ -78,7 +79,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 - (void)setRefreshToken:(NSString *)token {
     [self setRefreshToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceRefresh]];
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
     [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
     [standardUserDefaults synchronize];
 }
@@ -332,7 +333,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     // MAC address-based keys if the user is on iOS 7 or above, and we'll reset the tokens to nil;
     
     if (!self.isEncrypted) return;
-    SFOAuthCredsEncryptionType encType = (SFOAuthCredsEncryptionType)[[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    SFOAuthCredsEncryptionType encType = (SFOAuthCredsEncryptionType)[[NSUserDefaults msdkUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
     if (encType == kSFOAuthCredsEncryptionTypeKeyStore) return;
     
     // Try to convert the old tokens to the new format.
