@@ -312,20 +312,20 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 - (void)pgAlterSoup:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
+        NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         NSDictionary *soupSpecDict = [argsDict nonNullObjectForKey:kSoupSpecArg];
         SFSoupSpec *soupSpec = nil;
         if (soupSpecDict) {
             soupSpec = [SFSoupSpec newSoupSpecWithDictionary:soupSpecDict];
         } else {
-            NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
             soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
         }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
-        [self log:SFLogLevelDebug format:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupSpec.soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
-        BOOL alterOk = [[self getStoreInst:argsDict] alterSoupWithSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
+        [self log:SFLogLevelDebug format:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
+        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
         if (alterOk) {
-            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupSpec.soupName];
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
         }

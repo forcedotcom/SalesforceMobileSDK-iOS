@@ -208,20 +208,20 @@ RCT_EXPORT_METHOD(getDatabaseSize:(NSDictionary *)argsDict callback:(RCTResponse
 
 RCT_EXPORT_METHOD(alterSoup:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
+    NSString* soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
     NSDictionary *soupSpecDict = [argsDict nonNullObjectForKey:kSoupSpecArg];
     SFSoupSpec *soupSpec = nil;
     if (soupSpecDict) {
         soupSpec = [SFSoupSpec newSoupSpecWithDictionary:soupSpecDict];
     } else {
-        NSString* soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
         soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
     }
     NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
     BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
-    [self log:SFLogLevelDebug format:@"alterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupSpec.soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
-    BOOL alterOk = [[self getStoreInst:argsDict] alterSoupWithSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
+    [self log:SFLogLevelDebug format:@"alterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
+    BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
     if (alterOk) {
-        callback(@[[NSNull null], soupSpec.soupName]);
+        callback(@[[NSNull null], soupName]);
     } else {
         callback(@[RCTMakeError(@"alterSoup failed", nil, nil)]);
     }
