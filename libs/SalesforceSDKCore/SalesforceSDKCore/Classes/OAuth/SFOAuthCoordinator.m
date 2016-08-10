@@ -32,6 +32,7 @@
 #import "NSData+SFSDKUtils.h"
 #import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Public constants
 
@@ -861,13 +862,13 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 - (void)configureWebUserAgent
 {
     if (self.userAgentForAuth != nil) {
-        NSString *origWebUserAgent = [[NSUserDefaults standardUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
+        NSString *origWebUserAgent = [[NSUserDefaults msdkUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
         if (origWebUserAgent != nil) {
             self.origWebUserAgent = origWebUserAgent;
         }
         
         NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.userAgentForAuth };
-        [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
+        [[NSUserDefaults msdkUserDefaults] registerDefaults:userAgentDict];
     }
 }
 
@@ -876,10 +877,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     if (self.userAgentForAuth != nil) {
         // If the current web user agent has not changed from the one we set, reset it.  Otherwise, assume it's
         // already been altered out of band, and we shouldn't touch it.
-        NSString *currentWebUserAgent = [[NSUserDefaults standardUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
+        NSString *currentWebUserAgent = [[NSUserDefaults msdkUserDefaults] objectForKey:kOAuthUserAgentUserDefaultsKey];
         if ([currentWebUserAgent isEqualToString:self.userAgentForAuth] && self.origWebUserAgent != nil) {
             NSDictionary *userAgentDict = @{ kOAuthUserAgentUserDefaultsKey: self.origWebUserAgent };
-            [[NSUserDefaults standardUserDefaults] registerDefaults:userAgentDict];
+            [[NSUserDefaults msdkUserDefaults] registerDefaults:userAgentDict];
         }
     }
 }
