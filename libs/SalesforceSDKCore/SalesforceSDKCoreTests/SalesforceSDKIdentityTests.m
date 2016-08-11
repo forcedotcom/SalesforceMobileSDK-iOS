@@ -95,7 +95,7 @@ static NSException *authException = nil;
 /**
  * Tests that identity data can be successfully retrieved with valid credentials.
  */
-- (void)FIXMEtestRetrieveIdentitySuccess
+- (void)testRetrieveIdentitySuccess
 {
     [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
     [self sendSyncIdentityRequest];
@@ -106,7 +106,7 @@ static NSException *authException = nil;
 /**
  * Test that an error state is returned if the identity data is requested with invalid credentials.
  */
-- (void)FIXMEtestRetrieveIdentityFailure
+- (void)testRetrieveIdentityFailure
 {
     SFAuthenticationManager *authMgr = [SFAuthenticationManager sharedManager];
     SFIdentityCoordinator *idCoord = authMgr.idCoordinator;
@@ -123,16 +123,20 @@ static NSException *authException = nil;
     idCoord.credentials.identityUrl = origIdentityUrl;
 }
 
-- (void)FIXMEtestIdentityAuthRefreshSuccess
+- (void)testIdentityAuthRefreshSuccess
 {
-    [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
-    [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken = @"BadToken";
-    [self sendSyncIdentityRequest];
-    XCTAssertEqualObjects(_requestListener.returnStatus, kTestRequestStatusDidLoad, @"Identity request failed.");
+    SFAuthenticationManager *sharedManager = [SFAuthenticationManager sharedManager];
+    sharedManager.coordinator.credentials.accessToken = @"BadToken";
+    NSURL *instanceURL = sharedManager.coordinator.credentials.instanceUrl;
+    sharedManager.coordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
+    sharedManager.idCoordinator.credentials.instanceUrl = [NSURL URLWithString:@"https://www.example.com"]; //set to an invalid url
+    [TestSetupUtils synchronousAuthRefresh];
+    XCTAssertEqualObjects(sharedManager.coordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
+    XCTAssertEqualObjects(sharedManager.idCoordinator.credentials.instanceUrl, instanceURL, @"Expect instance URL is also updated");
     [self validateIdentityData];
 }
 
-- (void)FIXMEtestIdentityAuthRefreshFailure
+- (void)testIdentityAuthRefreshFailure
 {
     [SFAuthenticationManager sharedManager].idCoordinator.idData = nil;
     NSString *origAccessToken = [SFAuthenticationManager sharedManager].idCoordinator.credentials.accessToken;

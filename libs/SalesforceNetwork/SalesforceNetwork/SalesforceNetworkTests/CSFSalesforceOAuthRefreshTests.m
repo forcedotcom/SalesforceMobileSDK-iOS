@@ -57,7 +57,7 @@
 
 @implementation CSFSalesforceOAuthRefreshTests
 
-- (void)FIXMEtestRevokedToken {
+- (void)testRevokedToken {
     SFUserAccount *user = [SFUserAccount new];
     user.credentials = [[SFOAuthCredentials alloc] initWithIdentifier:@"the-identifier"
                                                              clientId:@"the-client"

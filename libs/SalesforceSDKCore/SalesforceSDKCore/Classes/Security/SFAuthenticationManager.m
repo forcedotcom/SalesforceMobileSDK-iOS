@@ -1076,7 +1076,8 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        for (id<SFAuthenticationManagerDelegate> delegate in self.delegates) {
+        NSHashTable<id<SFAuthenticationManagerDelegate>> *safeCopy = [self.delegates copy];
+        for (id<SFAuthenticationManagerDelegate> delegate in safeCopy) {
             if (block) block(delegate);
         }
     }
