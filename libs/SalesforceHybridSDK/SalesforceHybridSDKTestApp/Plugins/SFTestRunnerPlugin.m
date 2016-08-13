@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,8 +34,7 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 @synthesize success = _success;
 @synthesize duration = _duration;
 
-- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message status:(NSDictionary*)testStatus
-{
+- (id)initWithName:(NSString*)testName success:(BOOL)success message:(NSString*)message status:(NSDictionary*)testStatus {
     self = [super init];
     if (nil != self) {
         _testName = [testName copy];
@@ -44,7 +43,6 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
         NSNumber *durationMs = testStatus[@"testDuration"];
         _duration = [durationMs doubleValue] / 1000;
     }
-    
     return self;
 }
 
@@ -55,31 +53,20 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
 
 @end
 
-
 @implementation SFTestRunnerPlugin
-
 
 @synthesize testResults = _testResults;
 @synthesize readyToStartTests = _readyToStartTests;
 
-
-///designated init
-- (CDVPlugin*) initWithWebView:(UIWebView*)theWebView 
-{
-    self = [super initWithWebView:theWebView];
-    
-    if (nil != self)  {
-        _readyToStartTests = NO;
-        [self log:SFLogLevelDebug msg:@"SFTestRunnerPlugin initWithWebView"];
-        _testResults = [[NSMutableDictionary alloc] init ];
-    }
-    return self;
+- (void) pluginInitialize {
+    _readyToStartTests = NO;
+    [self log:SFLogLevelDebug msg:@"SFTestRunnerPlugin pluginInitialize"];
+    _testResults = [[NSMutableDictionary alloc] init];
 }
 
 - (void)dealloc {
     SFRelease(_testResults);
 }
-
 
 - (BOOL)testResultAvailable:(NSString *)testName {
     if ([[self testResults] objectForKey:testName])
@@ -87,28 +74,21 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     return NO;
 }
 
-
-#pragma mark - Plugin methods called from js
-
-- (void)onReadyForTests:(CDVInvokedUrlCommand *)command
-{
+- (void)onReadyForTests:(CDVInvokedUrlCommand *)command {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"onReadyForTests" withArguments:command.arguments];
+    [self getVersion:@"onReadyForTests" withArguments:command.arguments];
     [self writeCommandOKResultToJsRealm:callbackId];
-
     self.readyToStartTests = YES;
 }
 
-- (void)onTestComplete:(CDVInvokedUrlCommand *)command
-{
+- (void)onTestComplete:(CDVInvokedUrlCommand *)command {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"onTestComplete" withArguments:command.arguments];
+    [self getVersion:@"onTestComplete" withArguments:command.arguments];
     NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
     NSString *testName = argsDict[@"testName"];
     BOOL success = [[argsDict valueForKey:@"success"] boolValue];
     NSString *message = [self stringByStrippingHTML:[argsDict valueForKey:@"message"]];
     NSDictionary *testStatus = [argsDict valueForKey:@"testStatus"];
-    
     [self log:SFLogLevelDebug format:@"testName: %@ success: %d message: %@",testName,success,message];
     if (!success) {
         [self log:SFLogLevelDebug format:@"### TEST FAILED: %@",testName];
@@ -118,18 +98,12 @@ NSString * const kSFTestRunnerPluginName = @"com.salesforce.testrunner";
     [self writeCommandOKResultToJsRealm: callbackId];    
 }
 
-// Remove html tags to make output more readable
-- (NSString*)stringByStrippingHTML:(NSString*)str
-{
+- (NSString*)stringByStrippingHTML:(NSString*)str {
     NSRange r;
-    // Replacing html tags by |
-    while ((r = [str rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
-    {
+    while ((r = [str rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound) {
         str = [str stringByReplacingCharactersInRange:r withString:@"|"];
     }
-    // Replacing multiple | by a single space
-    while ((r = [str rangeOfString:@"[|]+" options:NSRegularExpressionSearch]).location != NSNotFound)
-    {
+    while ((r = [str rangeOfString:@"[|]+" options:NSRegularExpressionSearch]).location != NSNotFound) {
         str = [str stringByReplacingCharactersInRange:r withString:@" "];
     }
     return str;

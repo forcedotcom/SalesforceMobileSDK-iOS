@@ -98,7 +98,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.sdkManagerFlow = self;
-        _delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
         [[SFUserAccountManager sharedInstance] addDelegate:self];
         [[SFAuthenticationManager sharedManager] addDelegate:self];
         [[NSNotificationCenter defaultCenter] addObserver:self.sdkManagerFlow selector:@selector(handleAppForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -231,6 +231,11 @@ static Class InstanceClass = nil;
     }
     
     return launchActionString;
+}
+
++ (void)setDesiredAccount:(SFUserAccount*)account
+{
+    [SFUserAccountManager setActiveUserIdentity:account.accountIdentity];
 }
 
 #pragma mark - Private methods
@@ -646,24 +651,21 @@ static Class InstanceClass = nil;
 
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-        // really doesn't want you to know about its HTTP headers.
-        NSString *currentUserAgent = [SFSDKWebUtils currentUserAgentForApp];
-        
         UIDevice *curDevice = [UIDevice currentDevice];
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
-        NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        
-        // App type
+        NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+        NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+        NSString *appVersion = [NSString stringWithFormat:@"%@ (%@)", prodAppVersion, buildNumber];
+
+        // App type.
         NSString* appTypeStr;
         switch (self.appType) {
             case kSFAppTypeNative: appTypeStr = kSFMobileSDKNativeDesignator; break;
             case kSFAppTypeHybrid: appTypeStr = kSFMobileSDKHybridDesignator; break;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
         }
-        
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ %@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -672,10 +674,8 @@ static Class InstanceClass = nil;
                                  appVersion,
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid,
-                                 currentUserAgent
+                                 uid
                                  ];
-        
         return myUserAgent;
     };
 }
@@ -684,8 +684,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -694,8 +693,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -703,12 +701,9 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SalesforceSDKManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SalesforceSDKManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SalesforceSDKManagerDelegate> delegate in self.delegates) {
+            if (block) block(delegate);
+        }
     }
 }
 

@@ -27,12 +27,12 @@
  */
 
 @import UIKit;
-
 #import "SFLoginViewController.h"
 #import "SFManagedPreferences.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
 #import "UIColor+SFColors.h"
+
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 
@@ -92,6 +92,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self styleNavigationBar:self.navBar];
     [self setupBackButton];
 }
 

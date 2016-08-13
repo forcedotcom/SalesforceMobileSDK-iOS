@@ -234,6 +234,11 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
 
+/**
+ @param account The account you would like loaded upon initialization.
+ */
++ (void)setDesiredAccount:(SFUserAccount*)account;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -25,6 +25,7 @@
 #import "SFSmartStorePlugin.h"
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
+#import <SmartStore/SFSoupSpec.h>
 #import <SmartStore/SFStoreCursor.h>
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
@@ -39,6 +40,7 @@ NSString * const kSmartStorePluginIdentifier = @"com.salesforce.smartstore";
 
 // Private constants
 NSString * const kSoupNameArg         = @"soupName";
+NSString * const kSoupSpecArg         = @"soupSpec";
 NSString * const kEntryIdsArg         = @"entryIds";
 NSString * const kCursorIdArg         = @"cursorId";
 NSString * const kIndexArg            = @"index";
@@ -121,22 +123,32 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 - (void)pgRegisterSoup:(CDVInvokedUrlCommand *)command
 {
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    SFSmartStore *smartStore = [self getStoreInst:argsDict];
+
     [self runCommand:^(NSDictionary* argsDict) {
-        NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+        NSDictionary *soupSpecDict = [argsDict nonNullObjectForKey:kSoupSpecArg];
+        SFSoupSpec *soupSpec = nil;
+        if (soupSpecDict) {
+            soupSpec = [SFSoupSpec newSoupSpecWithDictionary:soupSpecDict];
+        } else {
+            NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+            soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
+        }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
-        [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, indexSpecs: %@", soupName, indexSpecs];
-        SFSmartStore *smartStore = [self getStoreInst:argsDict];
+        
+        [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, soup features: %@, indexSpecs: %@", soupSpec.soupName, soupSpec.features, indexSpecs];
         if (smartStore) {
             NSError *error = nil;
-            BOOL result = [smartStore registerSoup:soupName withIndexSpecs:indexSpecs error:&error];
+            BOOL result = [smartStore registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:&error];
             if (result) {
-                return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
+                return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupSpec.soupName];
             } else {
-                NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, error: %@, `argsDict`: %@.", soupName, error, argsDict];
+                NSString *errorMessage = [NSString stringWithFormat:@"Register soup with spec '%@' failed, error: %@, `argsDict`: %@.", soupSpec, error, argsDict];
                 return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
             }
         } else {
-            NSString *errorMessage = [NSString stringWithFormat:@"Register soup with name '%@' failed, the smart store instance is nil, `argsDict`: %@.", soupName, argsDict];
+            NSString *errorMessage = [NSString stringWithFormat:@"Register soup with spec '%@' failed, the smart store instance is nil, `argsDict`: %@.", soupSpec, argsDict];
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
         }
     } command:command];
@@ -301,10 +313,17 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+        NSDictionary *soupSpecDict = [argsDict nonNullObjectForKey:kSoupSpecArg];
+        SFSoupSpec *soupSpec = nil;
+        if (soupSpecDict) {
+            soupSpec = [SFSoupSpec newSoupSpecWithDictionary:soupSpecDict];
+        } else {
+            soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
+        }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
-        [self log:SFLogLevelDebug format:@"pgAlterSoup with soup name: %@, indexSpecs: %@, reIndexData: %@", soupName, indexSpecs, reIndexData ? @"true" : @"false"];
-        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+        [self log:SFLogLevelDebug format:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
+        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
         if (alterOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
@@ -348,6 +367,21 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:indexSpecsAsDicts];
         } else {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR];
+        }
+    } command:command];
+}
+
+- (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command {
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    SFSmartStore *store = [self getStoreInst:argsDict];
+    [self runCommand:^(NSDictionary* argsDict) {
+        NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+        [self log:SFLogLevelDebug format:@"pgGetSoupSpec with soup name: %@", soupName];
+        SFSoupSpec *soupSpec = [store attributesForSoup:soupName];
+        if (soupSpec) {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[soupSpec asDictionary]];
+        } else {
+            return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Couldn't fetch SoupSpec for the given soup"];
         }
     } command:command];
 }

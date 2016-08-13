@@ -24,6 +24,10 @@
 
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 
+/**
+ * Version of SalesforceSDKManager to be used with all SmartStore-enabled apps. 
+ * By default, forceios apps use an instance of this class instead of SalesforceSDKManager.
+ */
 
 @interface SalesforceSDKManagerWithSmartStore : SalesforceSDKManager
 

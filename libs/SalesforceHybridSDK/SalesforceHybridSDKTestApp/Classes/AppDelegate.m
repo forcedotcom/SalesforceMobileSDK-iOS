@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -49,9 +49,9 @@
     self = [super init];
     if (self != nil) {
         #if defined(DEBUG)
-            [SFLogger setLogLevel:SFLogLevelDebug];
+            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         #else
-            [SFLogger setLogLevel:SFLogLevelInfo];
+            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
         [self log:SFLogLevelDebug msg:@"Setting up auth credentials."];
         self.testAppHybridViewConfig = [self stageTestCredentials];
@@ -89,10 +89,23 @@
     [self log:SFLogLevelDebug format:@"octest running: %d",runningOctest];
 }
 
-
-- (NSString *)evalJS:(NSString*)js {
-    NSString *jsResult = [self.viewController.webView stringByEvaluatingJavaScriptFromString:js];
-    return jsResult;
+- (NSString *) evalJS:(NSString *) js {
+    __block NSString *resultString = nil;
+    __block BOOL finished = NO;
+    [(WKWebView *)(self.viewController.webView) evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
+        if (error == nil) {
+            if (result != nil) {
+                resultString = [NSString stringWithFormat:@"%@", result];
+            }
+        } else {
+            [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+        }
+        finished = YES;
+    }];
+    while (!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    return resultString;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

@@ -38,7 +38,7 @@
  @param testClass The class associated with the bundle where the test credentials file lives.
  @return a dictionary of login username, password, url
  */
-+ (NSDictionary *)populateUILoginInfoFromConfigFileForClass:(Class)testClass;
++ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass;
 
 /**
  Loads a set of auth credentials from the 'test_credentials.json' file located in the bundle associated

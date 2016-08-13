@@ -27,14 +27,19 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import Foundation
 import XCTest
+import SalesforceSDKCore
 
 class SalesforceNoSessionTestCase: XCTestCase {
+    
+    var loginAccounts : [NSDictionary] = []
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
         XCUIApplication().launch()
+        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
+        loginAccounts = loginInfo as! [NSDictionary]
         
     }
     
