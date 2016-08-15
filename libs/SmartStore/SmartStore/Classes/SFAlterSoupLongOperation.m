@@ -187,7 +187,7 @@
 
 
 /**
- Step 2: drop old indexes / remove entries in soup_index_map / cleaanup cache
+ Step 2: drop old indexes / remove entries in soup_index_map / cleanup cache
  */
 - (void) dropOldIndexes
 {

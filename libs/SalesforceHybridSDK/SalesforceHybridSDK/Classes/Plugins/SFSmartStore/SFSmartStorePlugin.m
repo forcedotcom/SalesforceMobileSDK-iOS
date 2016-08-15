@@ -137,7 +137,7 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
         }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         
-        [self log:SFLogLevelDebug format:@"pgRegisterSoup with soup name: %@, soup features: %@, indexSpecs: %@", soupSpec.soupName, soupSpec.features, indexSpecs];
+        [self log:SFLogLevelDebug format:@"pgRegisterSoup with name: %@, soup features: %@, indexSpecs: %@", soupSpec.soupName, soupSpec.features, indexSpecs];
         if (smartStore) {
             NSError *error = nil;
             BOOL result = [smartStore registerSoupWithSpec:soupSpec withIndexSpecs:indexSpecs error:&error];
@@ -313,10 +313,17 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         NSString *soupName = [argsDict nonNullObjectForKey:kSoupNameArg];
+        NSDictionary *soupSpecDict = [argsDict nonNullObjectForKey:kSoupSpecArg];
+        SFSoupSpec *soupSpec = nil;
+        if (soupSpecDict) {
+            soupSpec = [SFSoupSpec newSoupSpecWithDictionary:soupSpecDict];
+        } else {
+            soupSpec = [SFSoupSpec newSoupSpec:soupName withFeatures:nil];
+        }
         NSArray *indexSpecs = [SFSoupIndex asArraySoupIndexes:[argsDict nonNullObjectForKey:kIndexesArg]];
         BOOL reIndexData = [[argsDict nonNullObjectForKey:kReIndexDataArg] boolValue];
-        [self log:SFLogLevelDebug format:@"pgAlterSoup with soup name: %@, indexSpecs: %@, reIndexData: %@", soupName, indexSpecs, reIndexData ? @"true" : @"false"];
-        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withIndexSpecs:indexSpecs reIndexData:reIndexData];
+        [self log:SFLogLevelDebug format:@"pgAlterSoup with name: %@, soup features: %@, indexSpecs: %@, reIndexData: %@", soupName, soupSpec.features, indexSpecs, reIndexData ? @"true" : @"false"];
+        BOOL alterOk = [[self getStoreInst:argsDict] alterSoup:soupName withSoupSpec:soupSpec withIndexSpecs:indexSpecs reIndexData:reIndexData];
         if (alterOk) {
             return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:soupName];
         } else {
