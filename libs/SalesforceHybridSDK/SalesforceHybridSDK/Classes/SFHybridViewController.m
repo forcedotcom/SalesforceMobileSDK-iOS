@@ -36,6 +36,7 @@
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
 #import <Cordova/NSDictionary+CordovaPreferences.h>
 #import <Cordova/CDVUserAgentUtil.h>
+#import <objc/message.h>
 
 // Public constants.
 NSString * const kAppHomeUrlPropKey = @"AppHomeUrl";
