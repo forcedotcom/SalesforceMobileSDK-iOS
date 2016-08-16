@@ -596,7 +596,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)swapJWTWithcompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler  {
     NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
-                     self.credentials.instanceUrl.absoluteString,
+                     self.credentials.domain,
                      kSFOAuthEndPointToken];
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData
