@@ -41,7 +41,6 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     override func setUp() {
         super.setUp()
         loginPage.waitForPageLoaded()
-        sleep(3)
     }
     
     override func tearDown() {
