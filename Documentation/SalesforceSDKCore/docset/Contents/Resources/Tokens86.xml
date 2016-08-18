@@ -806,11 +806,28 @@ actions.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SalesforceSDKManager/setDesiredAccount:</TokenIdentifier>
+			<Abstract type="html">The account you would like loaded upon initialization.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)setDesiredAccount:(SFUserAccount *)account</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>account</Name>
+					<Abstract type="html">The account you would like loaded upon initialization.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setDesiredAccount:</Anchor>
+            <NodeRef refid="86"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setSdkManagerFlow:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
 			
 			
 			<Anchor>//api/name/sdkManagerFlow</Anchor>
@@ -822,7 +839,7 @@ actions.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
 			
 			
 			<Anchor>//api/name/sdkManagerFlow</Anchor>
@@ -834,7 +851,7 @@ actions.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
+			<Declaration>@property (nonatomic, weak, nullable) id&lt;SalesforceSDKManagerFlow&gt; sdkManagerFlow</Declaration>
 			
 			
 			<Anchor>//api/name/sdkManagerFlow</Anchor>
@@ -910,6 +927,42 @@ actions.</Abstract>
 			
 			
 			<Anchor>//api/name/launchActions</Anchor>
+            <NodeRef refid="86"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/setDelegates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SalesforceSDKManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="86"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SalesforceSDKManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SalesforceSDKManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="86"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SalesforceSDKManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SalesforceSDKManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
             <NodeRef refid="86"/>
 		</Token>
 		

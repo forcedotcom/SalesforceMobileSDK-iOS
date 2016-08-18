@@ -78,6 +78,8 @@
 		
 		<option value="//api/name/currentUserIdentity">currentUserIdentity</option>
 		
+		<option value="//api/name/delegates">delegates</option>
+		
 		<option value="//api/name/lastChangedCommunityId">lastChangedCommunityId</option>
 		
 		<option value="//api/name/lastChangedOrgId">lastChangedOrgId</option>
@@ -113,6 +115,8 @@
 		<option value="//api/name/applyCurrentLogLevel:">+ applyCurrentLogLevel:</option>
 		
 		<option value="//api/name/isUserAnonymous:">+ isUserAnonymous:</option>
+		
+		<option value="//api/name/setActiveUserIdentity:">+ setActiveUserIdentity:</option>
 		
 		<option value="//api/name/sharedInstance">+ sharedInstance</option>
 		
@@ -1154,6 +1158,59 @@ control the OAuth library log level.</p>
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>the path to the user account plist of the specified user</p>
 			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFUserAccountManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/setActiveUserIdentity:" title="setActiveUserIdentity:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/setActiveUserIdentity:">+&nbsp;setActiveUserIdentity:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Sets the active user identity without instantiating the class</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)<em>activeUserIdentity</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>activeUserIdentity</code></th>
+						<td><p>The desired active user</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
 			
 
 			
@@ -2249,6 +2306,22 @@ will try to determine that.</p></td>
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/delegates" title="delegates"></a>
+	<h3 class="method-title"><code><a href="#//api/name/delegates">&nbsp;&nbsp;delegates</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</code></div>
+
+		    
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/anonymousUserIdentity" title="anonymousUserIdentity"></a>
 	<h3 class="method-title"><code><a href="#//api/name/anonymousUserIdentity">&nbsp;&nbsp;anonymousUserIdentity</a></code>
 </h3>
@@ -2259,7 +2332,7 @@ will try to determine that.</p></td>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</code></div>
 
 		    
 		</div>
@@ -2281,7 +2354,7 @@ will try to determine that.</p></td>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableDictionary *userAccountMap</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</code></div>
 
 		    
 			
@@ -2316,7 +2389,7 @@ will try to determine that.</p></td>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedOrgId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</code></div>
 
 		    
 		</div>
@@ -2332,7 +2405,7 @@ will try to determine that.</p></td>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedUserId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</code></div>
 
 		    
 		</div>
@@ -2348,7 +2421,7 @@ will try to determine that.</p></td>
 		<div class="method-info-container">
 			
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSString *lastChangedCommunityId</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</code></div>
 
 		    
 		</div>
@@ -2372,7 +2445,7 @@ credentials towards a server.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>+ (BOOL)isUserAnonymous:(SFUserAccount *)<em>user</em></code></div>
+			<div class="method-subsection method-declaration"><code>+ (BOOL)isUserAnonymous:(nullable SFUserAccount *)<em>user</em></code></div>
 
 		    
 			
@@ -2413,7 +2486,7 @@ credentials towards a server.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; ))<em>block</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; _Nonnull ))<em>block</em></code></div>
 
 		    
 			
@@ -2466,7 +2539,7 @@ credentials towards a server.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)<em>credentials</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)<em>credentials</em></code></div>
 
 		    
 			
@@ -2607,7 +2680,7 @@ Note: method exposed only to unit tests</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

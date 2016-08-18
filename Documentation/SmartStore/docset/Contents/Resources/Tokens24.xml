@@ -1,57 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSmartStoreLegacyDefaultEncryptionType.html">
+	<File path="Classes/ViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreLegacyDefaultEncryptionType</TokenIdentifier>
-			<Abstract type="html">Enumeration of types of encryption used for the default encryption of stores.</Abstract>
-			<DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>ViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreDefaultEncryptionTypeNone</Declaration>
-            
-            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="24"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeMac</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreDefaultEncryptionTypeMac</Declaration>
-            
-            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="24"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeIdForVendor</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreDefaultEncryptionTypeIdForVendor</Declaration>
-            
-            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="24"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreDefaultEncryptionTypeBaseAppId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSmartStoreDefaultEncryptionTypeBaseAppId</Declaration>
-            
-            <DeclaredIn>SFSmartStoreUpgrade+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="24"/>
-        </Token>
         
         
 	</File>

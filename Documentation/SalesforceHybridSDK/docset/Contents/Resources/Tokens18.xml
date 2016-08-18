@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SmartStoreTestSuite.html">
+	<File path="Classes/SFWKWebViewNavigationDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SmartStoreTestSuite</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewNavigationDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SmartStoreTestSuite.h</DeclaredIn>
+			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/setEnginePlugin:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
+			
+			
+			<Anchor>//api/name/enginePlugin</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/enginePlugin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
+			
+			
+			<Anchor>//api/name/enginePlugin</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFWKWebViewNavigationDelegate/enginePlugin</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
+			
+			
+			<Anchor>//api/name/enginePlugin</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/initWithEnginePlugin:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithEnginePlugin:(CDVPlugin *)enginePlugin</Declaration>
+			
+			
+			<Anchor>//api/name/initWithEnginePlugin:</Anchor>
+            <NodeRef refid="18"/>
+		</Token>
 		
         
         

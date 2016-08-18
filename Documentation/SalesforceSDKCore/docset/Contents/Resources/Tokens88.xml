@@ -18,7 +18,7 @@
 with the given class, and return a dictionary of login info</Abstract>
 			<DeclaredIn>TestSetupUtils.h</DeclaredIn>
 			
-			<Declaration>+ (NSDictionary *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
+			<Declaration>+ (NSArray *)populateUILoginInfoFromConfigFileForClass:(Class)testClass</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>testClass</Name>

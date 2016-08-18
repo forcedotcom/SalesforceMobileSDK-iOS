@@ -280,7 +280,7 @@ additional round trip to the service to get authentication configuration data.</
 		
 	</RelatedTokens>
 	
-			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
+			<Declaration>@property (nonatomic, readonly) WKWebView *view</Declaration>
 			
 			
 			<Anchor>//api/name/view</Anchor>
@@ -297,7 +297,7 @@ additional round trip to the service to get authentication configuration data.</
 		
 	</RelatedTokens>
 	
-			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
+			<Declaration>@property (nonatomic, readonly) WKWebView *view</Declaration>
 			
 			
 			<Anchor>//api/name/view</Anchor>
@@ -314,7 +314,7 @@ additional round trip to the service to get authentication configuration data.</
 		
 	</RelatedTokens>
 	
-			<Declaration>@property (nonatomic, readonly) UIWebView *view</Declaration>
+			<Declaration>@property (nonatomic, readonly) WKWebView *view</Declaration>
 			
 			
 			<Anchor>//api/name/view</Anchor>

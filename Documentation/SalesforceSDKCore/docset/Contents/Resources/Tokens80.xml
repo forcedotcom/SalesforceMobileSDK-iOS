@@ -793,6 +793,23 @@ control the OAuth library log level.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFUserAccountManager/setActiveUserIdentity:</TokenIdentifier>
+			<Abstract type="html">Sets the active user identity without instantiating the class</Abstract>
+			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
+			
+			<Declaration>+ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>activeUserIdentity</Name>
+					<Abstract type="html">The desired active user</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setActiveUserIdentity:</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/addDelegate:</TokenIdentifier>
 			<Abstract type="html">Adds a delegate to this user account manager.</Abstract>
 			<DeclaredIn>SFUserAccountManager.h</DeclaredIn>
@@ -1134,11 +1151,47 @@ will try to determine that.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setDelegates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFUserAccountManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFUserAccountManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="80"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFUserAccountManager/setAnonymousUserIdentity:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
 			
 			
 			<Anchor>//api/name/anonymousUserIdentity</Anchor>
@@ -1150,7 +1203,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
 			
 			
 			<Anchor>//api/name/anonymousUserIdentity</Anchor>
@@ -1162,7 +1215,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) SFUserAccountIdentity *anonymousUserIdentity</Declaration>
 			
 			
 			<Anchor>//api/name/anonymousUserIdentity</Anchor>
@@ -1174,7 +1227,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html">A map of user accounts by user ID</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *userAccountMap</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
 			
 			
 			<Anchor>//api/name/userAccountMap</Anchor>
@@ -1186,7 +1239,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html">A map of user accounts by user ID</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *userAccountMap</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
 			
 			
 			<Anchor>//api/name/userAccountMap</Anchor>
@@ -1198,7 +1251,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html">A map of user accounts by user ID</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSMutableDictionary *userAccountMap</Declaration>
+			<Declaration>@property (nonatomic, strong, nonnull) NSMutableDictionary *userAccountMap</Declaration>
 			
 			
 			<Anchor>//api/name/userAccountMap</Anchor>
@@ -1210,7 +1263,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedOrgId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedOrgId</Anchor>
@@ -1222,7 +1275,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedOrgId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedOrgId</Anchor>
@@ -1234,7 +1287,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedOrgId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedOrgId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedOrgId</Anchor>
@@ -1246,7 +1299,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedUserId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedUserId</Anchor>
@@ -1258,7 +1311,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedUserId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedUserId</Anchor>
@@ -1270,7 +1323,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedUserId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedUserId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedUserId</Anchor>
@@ -1282,7 +1335,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedCommunityId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedCommunityId</Anchor>
@@ -1294,7 +1347,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedCommunityId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedCommunityId</Anchor>
@@ -1306,7 +1359,7 @@ will try to determine that.</Abstract>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *lastChangedCommunityId</Declaration>
+			<Declaration>@property (nonatomic, strong, nullable) NSString *lastChangedCommunityId</Declaration>
 			
 			
 			<Anchor>//api/name/lastChangedCommunityId</Anchor>
@@ -1320,7 +1373,7 @@ Note: an anonymous user is a user that doesn&apos;t require
 credentials towards a server.</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isUserAnonymous:(SFUserAccount *)user</Declaration>
+			<Declaration>+ (BOOL)isUserAnonymous:(nullable SFUserAccount *)user</Declaration>
 			
 			
 			<Anchor>//api/name/isUserAnonymous:</Anchor>
@@ -1332,7 +1385,7 @@ credentials towards a server.</Abstract>
 			<Abstract type="html">Executes the given block for each configured delegate.</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; ))block</Declaration>
+			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFUserAccountManagerDelegate&gt; _Nonnull ))block</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>block</Name>
@@ -1349,7 +1402,7 @@ credentials towards a server.</Abstract>
 			<Abstract type="html">Creates a user account staged with the given auth credentials.</Abstract>
 			<DeclaredIn>SFUserAccountManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFUserAccount *)createUserAccountWithCredentials:(SFOAuthCredentials *)credentials</Declaration>
+			<Declaration>- (nonnull SFUserAccount *)createUserAccountWithCredentials:(nonnull SFOAuthCredentials *)credentials</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>credentials</Name>

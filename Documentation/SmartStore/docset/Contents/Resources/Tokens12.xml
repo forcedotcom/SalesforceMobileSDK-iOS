@@ -1,62 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartStoreInspectorViewController.html">
+	<File path="Classes/SFSmartStoreFullTextSearchSpeedTests.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreInspectorViewController</TokenIdentifier>
-			<Abstract type="html">The view controller for managing the SmartStore inspector screen.</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartStoreFullTextSearchSpeedTests</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartStoreFullTextSearchSpeedTests.h</DeclaredIn>
             
 			
 			<NodeRef refid="12"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/initWithStore:</TokenIdentifier>
-			<Abstract type="html">Constructor.</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithStore:(SFSmartStore *)store</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">The SmartStore database to be inspected</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/initWithStore:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/present:</TokenIdentifier>
-			<Abstract type="html">Show SmartStore inspector.</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)present:(UIViewController *)currentViewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>currentViewController</Name>
-					<Abstract type="html">View controller that&apos;s currently controlling the display</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/present:</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStoreInspectorViewController/dismiss</TokenIdentifier>
-			<Abstract type="html">Hide SmartStore inspector.</Abstract>
-			<DeclaredIn>SFSmartStoreInspectorViewController.h</DeclaredIn>
-			
-			<Declaration>- (void)dismiss</Declaration>
-			
-			
-			<Anchor>//api/name/dismiss</Anchor>
-            <NodeRef refid="12"/>
-		</Token>
 		
         
         
