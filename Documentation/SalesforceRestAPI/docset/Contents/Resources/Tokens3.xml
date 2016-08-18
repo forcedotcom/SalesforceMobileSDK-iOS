@@ -864,107 +864,6 @@ create a new file at version 1.</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setCurrentNetwork:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
-			
-			
-			<Anchor>//api/name/currentNetwork</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/currentNetwork</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
-			
-			
-			<Anchor>//api/name/currentNetwork</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/currentNetwork</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
-			
-			
-			<Anchor>//api/name/currentNetwork</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
-			<Abstract type="html">Active requests property</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
-			<Abstract type="html">Active requests property</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
-			
-			
-			<Anchor>//api/name/activeRequests</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (void)removeActiveRequestObject:(SFRestRequest *)request</Declaration>
-			
-			
-			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
-			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
-			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)forceTimeoutRequest:(SFRestRequest *)req</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>req</Name>
-					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
-			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
-            <NodeRef refid="3"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/clm/SFRestAPI/errorWithDescription:</TokenIdentifier>
 			<Abstract type="html">Creates an error object with the given description.</Abstract>
 			<DeclaredIn>SFRestAPI+Blocks.h</DeclaredIn>
@@ -1423,6 +1322,107 @@ to return values; for example, &quot;Account,Contact&quot;.</Abstract>
 			</Parameters>
 			<ReturnValue><Abstract type="html">the newly sent SFRestRequest</Abstract></ReturnValue>
 			<Anchor>//api/name/performRequestWithMethod:path:queryParams:failBlock:completeBlock:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setCurrentNetwork:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/currentNetwork</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/currentNetwork</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/currentNetwork</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/currentNetwork</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) CSFNetwork *currentNetwork</Declaration>
+			
+			
+			<Anchor>//api/name/currentNetwork</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/setActiveRequests:</TokenIdentifier>
+			<Abstract type="html">Active requests property</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFRestAPI/activeRequests</TokenIdentifier>
+			<Abstract type="html">Active requests property</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSMutableSet *activeRequests</Declaration>
+			
+			
+			<Anchor>//api/name/activeRequests</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/removeActiveRequestObject:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)removeActiveRequestObject:(SFRestRequest *)request</Declaration>
+			
+			
+			<Anchor>//api/name/removeActiveRequestObject:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFRestAPI/forceTimeoutRequest:</TokenIdentifier>
+			<Abstract type="html">Force a request to timeout: for testing only!</Abstract>
+			<DeclaredIn>SFRestAPI+Internal.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)forceTimeoutRequest:(SFRestRequest *)req</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>req</Name>
+					<Abstract type="html">The request to force a timeout on, or nil to grab any active request and force it to timeout</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if we were able to find and timeout the request, NO if the request could not be found</Abstract></ReturnValue>
+			<Anchor>//api/name/forceTimeoutRequest:</Anchor>
             <NodeRef refid="3"/>
 		</Token>
 		

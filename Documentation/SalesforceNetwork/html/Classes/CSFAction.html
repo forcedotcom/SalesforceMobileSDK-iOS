@@ -2004,6 +2004,84 @@ This can be used by subclasses to mock network responses for the purposes of tes
 						</div>
 						
 
+						<a title="Timing Methods" name="task_Timing Methods"></a>
+						<h2 class="task-title">Timing Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/intervalForTimingKey:" title="intervalForTimingKey:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/intervalForTimingKey:">&ndash;&nbsp;intervalForTimingKey:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns timing information for this request based on the supplied option.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)<em>key</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>key</code></th>
+						<td><p>Key for the timing option to return, or <code>nil</code> to return the total action time.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The time interval for the requested key, or <code>0</code> if the key is invalid or if the request hasn&rsquo;t gathered enough information to supply that value yet.</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>@discussion
+Different keys supplied can permit the caller to choose what time-range within the request to use.
+* kCSFActionTimingTotalTimeKey &ndash; Returns the total end-to-end time for the request from when it was initially enqueued, and when it returned.
+* kCSFActionTimingNetworkTimeKey &ndash; Returns the time the network request itself took.
+* kCSFActionTimingStartDelayKey &ndash; Returns the time delay until the action was able to begin communicating on the network.
+* kCSFActionTimingPostProcessingKey &ndash; Returns the time any post-processing actions took, including response processing and any caching operations that occurred.</p>
+
+<p>If not enough information has been gathered, for example if the request has not yet completed, then the timing result will include the timing up until now.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">CSFAction.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
 						<a title="Extension Methods" name="task_Extension Methods"></a>
 						<h2 class="task-title">Extension Methods</h2>
 
@@ -2228,84 +2306,6 @@ This can be used by subclasses to mock network responses for the purposes of tes
 </div>
 						</div>
 						
-
-						<a title="Timing Methods" name="task_Timing Methods"></a>
-						<h2 class="task-title">Timing Methods</h2>
-
-						<div class="task-list">
-							<div class="section-method">
-	<a name="//api/name/intervalForTimingKey:" title="intervalForTimingKey:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/intervalForTimingKey:">&ndash;&nbsp;intervalForTimingKey:</a></code>
-</h3>
-
-	<div class="method-info">
-		<div class="pointy-thing"></div>
-
-		<div class="method-info-container">
-			
-			
-			<div class="method-subsection brief-description">
-				<p>Returns timing information for this request based on the supplied option.</p>
-			</div>
-			
-		    
-
-			<div class="method-subsection method-declaration"><code>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)<em>key</em></code></div>
-
-		    
-			
-			<div class="method-subsection arguments-section parameters">
-				<h4 class="method-subtitle parameter-title">Parameters</h4>
-				<table class="argument-def parameter-def">
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>key</code></th>
-						<td><p>Key for the timing option to return, or <code>nil</code> to return the total action time.</p></td>
-					</tr>
-				
-				</table>
-			</div>
-			
-
-			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The time interval for the requested key, or <code>0</code> if the key is invalid or if the request hasn&rsquo;t gathered enough information to supply that value yet.</p>
-			</div>
-			
-
-			
-
-			
-			<div class="method-subsection discussion-section">
-				<h4 class="method-subtitle">Discussion</h4>
-				<p>@discussion
-Different keys supplied can permit the caller to choose what time-range within the request to use.
-* kCSFActionTimingTotalTimeKey &ndash; Returns the total end-to-end time for the request from when it was initially enqueued, and when it returned.
-* kCSFActionTimingNetworkTimeKey &ndash; Returns the time the network request itself took.
-* kCSFActionTimingStartDelayKey &ndash; Returns the time delay until the action was able to begin communicating on the network.
-* kCSFActionTimingPostProcessingKey &ndash; Returns the time any post-processing actions took, including response processing and any caching operations that occurred.</p>
-
-<p>If not enough information has been gathered, for example if the request has not yet completed, then the timing result will include the timing up until now.</p>
-			</div>
-			
-
-			
-
-			
-
-			
-			<div class="method-subsection declared-in-section">
-				<h4 class="method-subtitle">Declared In</h4>
-				<p><code class="declared-in-ref">CSFAction.h</code></p>
-			</div>
-			
-			
-		</div>
-	</div>
-</div>
-						</div>
-						
 					</div>
 					
 					
@@ -2318,7 +2318,7 @@ Different keys supplied can permit the caller to choose what time-range within t
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -68,7 +68,7 @@
 			<Abstract type="html">Called when the auth manager is going to display the auth view.</Abstract>
 			<DeclaredIn>SFAuthenticationManager.h</DeclaredIn>
 			
-			<Declaration>- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(UIWebView *)view</Declaration>
+			<Declaration>- (void)authManager:(SFAuthenticationManager *)manager willDisplayAuthWebView:(WKWebView *)view</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>manager</Name>

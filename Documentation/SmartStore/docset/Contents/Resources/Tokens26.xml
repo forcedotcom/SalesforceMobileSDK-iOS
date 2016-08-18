@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSoupQueryType.html">
+	<File path="Constants/SFSmartStoreFtsExtension.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSoupQueryType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/c/tdef/SFSmartStoreFtsExtension</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFQuerySpec.h</DeclaredIn>
+			<DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="26"/>
@@ -14,51 +14,21 @@
 		
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeExact</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS4</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeExact</Declaration>
+            <Declaration>SFSmartStoreFTS4</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
             <NodeRef refid="26"/>
         </Token>
         
         <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeRange</TokenIdentifier>
+            <TokenIdentifier>//apple_ref/c/econst/SFSmartStoreFTS5</TokenIdentifier>
             <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeRange</Declaration>
+            <Declaration>SFSmartStoreFTS5</Declaration>
             
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeLike</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeLike</Declaration>
-            
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeSmart</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeSmart</Declaration>
-            
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
-            
-            <NodeRef refid="26"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFSoupQueryTypeMatch</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFSoupQueryTypeMatch</Declaration>
-            
-            <DeclaredIn>SFQuerySpec.h</DeclaredIn>
+            <DeclaredIn>SFSmartStore+Internal.h</DeclaredIn>
             
             <NodeRef refid="26"/>
         </Token>

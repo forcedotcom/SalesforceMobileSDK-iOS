@@ -14,7 +14,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/setTestResults:</TokenIdentifier>
-			<Abstract type="html">array of SFTestResult</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
@@ -26,7 +26,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFTestRunnerPlugin/testResults</TokenIdentifier>
-			<Abstract type="html">array of SFTestResult</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>
@@ -38,7 +38,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFTestRunnerPlugin/testResults</TokenIdentifier>
-			<Abstract type="html">array of SFTestResult</Abstract>
+			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFTestRunnerPlugin.h</DeclaredIn>
 			
 			<Declaration>@property (atomic, readonly, strong) NSMutableDictionary *testResults</Declaration>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceOAuthPlugin.html">
+	<File path="Classes/SFWKWebViewDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceOAuthPlugin</TokenIdentifier>
-			<Abstract type="html">Cordova plugin for managing authentication with the Salesforce service, via OAuth.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
             
 			
 			<NodeRef refid="16"/>
@@ -13,70 +13,26 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAuthCredentials:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to obtain the current login credentials, authenticating if needed.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewDelegate/initWithDelegate:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)getAuthCredentials:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing input parameters.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (id)initWithDelegate:(NSObject&lt;WKNavigationDelegate&gt; *)delegate</Declaration>
 			
-			<Anchor>//api/name/getAuthCredentials:</Anchor>
+			
+			<Anchor>//api/name/initWithDelegate:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/authenticate:</TokenIdentifier>
-			<Abstract type="html">Cordova plug-in method to authenticate a user to the application.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewDelegate/request:isEqualToRequestAfterStrippingFragments:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFWKWebViewDelegate.h</DeclaredIn>
 			
-			<Declaration>- (void)authenticate:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Cordova plugin command object, containing the OAuth configuration properties.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (BOOL)request:(NSURLRequest *)newRequest isEqualToRequestAfterStrippingFragments:(NSURLRequest *)originalRequest</Declaration>
 			
-			<Anchor>//api/name/authenticate:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/logoutCurrentUser:</TokenIdentifier>
-			<Abstract type="html">Clear the current user&apos;s authentication credentials.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
 			
-			<Declaration>- (void)logoutCurrentUser:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, not used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/logoutCurrentUser:</Anchor>
-            <NodeRef refid="16"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SalesforceOAuthPlugin/getAppHomeUrl:</TokenIdentifier>
-			<Abstract type="html">Get the app&apos;s homepage URL, which can be used for loading the app in scenarios where it&apos;s offline.</Abstract>
-			<DeclaredIn>SalesforceOAuthPlugin.h</DeclaredIn>
-			
-			<Declaration>- (void)getAppHomeUrl:(CDVInvokedUrlCommand *)command</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>command</Name>
-					<Abstract type="html">Standard Cordova plugin arguments, nominally used in this method.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getAppHomeUrl:</Anchor>
+			<Anchor>//api/name/request:isEqualToRequestAfterStrippingFragments:</Anchor>
             <NodeRef refid="16"/>
 		</Token>
 		

@@ -53,7 +53,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppForeground:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAppForeground:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAppForeground:</Anchor>
@@ -65,7 +65,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppBackground:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAppBackground:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAppBackground:</Anchor>
@@ -77,7 +77,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppTerminate:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAppTerminate:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAppTerminate:</Anchor>
@@ -89,7 +89,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppDidBecomeActive:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAppDidBecomeActive:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAppDidBecomeActive:</Anchor>
@@ -101,7 +101,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAppWillResignActive:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAppWillResignActive:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAppWillResignActive:</Anchor>
@@ -125,7 +125,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleAuthCompleted:(NSNotification *)notification</Declaration>
+			<Declaration>- (void)handleAuthCompleted:(nonnull NSNotification *)notification</Declaration>
 			
 			
 			<Anchor>//api/name/handleAuthCompleted:</Anchor>
@@ -137,7 +137,7 @@
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SalesforceSDKManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)handleUserSwitch:(SFUserAccount *)fromUser toUser:(SFUserAccount *)toUser</Declaration>
+			<Declaration>- (void)handleUserSwitch:(nullable SFUserAccount *)fromUser toUser:(nullable SFUserAccount *)toUser</Declaration>
 			
 			
 			<Anchor>//api/name/handleUserSwitch:toUser:</Anchor>

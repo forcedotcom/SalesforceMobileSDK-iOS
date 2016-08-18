@@ -450,54 +450,6 @@ requests that change state (i.e. POST).</Abstract>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setupSalesforceObserver</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>CSFNetwork+Salesforce.h</DeclaredIn>
-			
-			<Declaration>- (void)setupSalesforceObserver</Declaration>
-			
-			
-			<Anchor>//api/name/setupSalesforceObserver</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setDefaultConnectCommunityId:</TokenIdentifier>
-			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/defaultConnectCommunityId</TokenIdentifier>
-			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/defaultConnectCommunityId</TokenIdentifier>
-			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
-			<DeclaredIn>CSFNetwork.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
-			
-			
-			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
-            <NodeRef refid="9"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setCancelling:</TokenIdentifier>
 			<Abstract type="html">Property set to YES when the executer is cancelling execution of actions.
 This prevents new actions from be scheduled.</Abstract>
@@ -877,6 +829,42 @@ This can happen if the device is unchecked from Chatter settings in the org setu
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setDefaultConnectCommunityId:</TokenIdentifier>
+			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
+			
+			
+			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/defaultConnectCommunityId</TokenIdentifier>
+			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
+			
+			
+			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFNetwork/defaultConnectCommunityId</TokenIdentifier>
+			<Abstract type="html">The ID for the Chatter Community that all Connect actions should use.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *defaultConnectCommunityId</Declaration>
+			
+			
+			<Anchor>//api/name/defaultConnectCommunityId</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setOfflineCacheEnabled:</TokenIdentifier>
 			<Abstract type="html">Indicates if caching the results of network requests through a local cache is enabled.</Abstract>
 			<DeclaredIn>CSFNetwork.h</DeclaredIn>
@@ -1015,6 +1003,18 @@ This can happen if the device is unchecked from Chatter settings in the org setu
 			</Parameters>
 			
 			<Anchor>//api/name/removeOutputCache:</Anchor>
+            <NodeRef refid="9"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFNetwork/setupSalesforceObserver</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork+Salesforce.h</DeclaredIn>
+			
+			<Declaration>- (void)setupSalesforceObserver</Declaration>
+			
+			
+			<Anchor>//api/name/setupSalesforceObserver</Anchor>
             <NodeRef refid="9"/>
 		</Token>
 		

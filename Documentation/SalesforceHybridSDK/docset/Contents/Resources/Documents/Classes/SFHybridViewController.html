@@ -66,6 +66,8 @@
 		
 		<option value="//api/name/remoteAccessConsumerKey">remoteAccessConsumerKey</option>
 		
+		<option value="//api/name/useWKWebView">useWKWebView</option>
+		
 	</optgroup>
 	
 
@@ -88,7 +90,11 @@
 		
 		<option value="//api/name/initWithConfig:">- initWithConfig:</option>
 		
+		<option value="//api/name/initWithConfig:useWKWebView:">- initWithConfig:useWKWebView:</option>
+		
 		<option value="//api/name/loadErrorPageWithCode:description:context:">- loadErrorPageWithCode:description:context:</option>
+		
+		<option value="//api/name/newCordovaViewWithFrameAndEngine:webViewEngine:">- newCordovaViewWithFrameAndEngine:webViewEngine:</option>
 		
 		<option value="//api/name/sfHybridViewUserAgentString">- sfHybridViewUserAgentString</option>
 		
@@ -114,6 +120,9 @@
 						<tr>
 	<th>Inherits from</th>
 	<td>CDVViewController</td>
+</tr><tr>
+	<th>Conforms to</th>
+	<td>UIWebViewDelegate<br />WKNavigationDelegate</td>
 </tr><tr>
 	<th>Declared in</th>
 	<td>SFHybridViewController.h</td>
@@ -142,6 +151,47 @@
 
 						<div class="task-list">
 							<div class="section-method">
+	<a name="//api/name/useWKWebView" title="useWKWebView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useWKWebView">&nbsp;&nbsp;useWKWebView</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Indicates if WKWebView is being used instead of UIWebView.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) BOOL useWKWebView</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFHybridViewController.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/remoteAccessConsumerKey" title="remoteAccessConsumerKey"></a>
 	<h3 class="method-title"><code><a href="#//api/name/remoteAccessConsumerKey">&nbsp;&nbsp;remoteAccessConsumerKey</a></code>
 </h3>
@@ -194,7 +244,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The Remote Access object redirect URI</p>
+				<p>The Remote Access object redirect URI.</p>
 			</div>
 			
 		    
@@ -276,7 +326,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>The full config</p>
+				<p>The full config.</p>
 			</div>
 			
 		    
@@ -359,7 +409,7 @@ found.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Designated initializer.  Initializes the view controller with its hybrid view configuration.</p>
+				<p>Designated initializer. Initializes the view controller with its hybrid view configuration.</p>
 			</div>
 			
 		    
@@ -379,6 +429,105 @@ found.</p>
 				
 				</table>
 			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFHybridViewController.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithConfig:useWKWebView:" title="initWithConfig:useWKWebView:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithConfig:useWKWebView:">&ndash;&nbsp;initWithConfig:useWKWebView:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(SFHybridViewConfig *)<em>viewConfig</em> useWKWebView:(BOOL)<em>useWKWebView</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>viewConfig</code></th>
+						<td><p>The hybrid view configuration associated with this component.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>useWKWebView</code></th>
+						<td><p>YES - to use WKWebView, NO - to use UIWebView.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFHybridViewController.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/newCordovaViewWithFrameAndEngine:webViewEngine:" title="newCordovaViewWithFrameAndEngine:webViewEngine:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/newCordovaViewWithFrameAndEngine:webViewEngine:">&ndash;&nbsp;newCordovaViewWithFrameAndEngine:webViewEngine:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializes a new Cordova view with the specified bounds and engine.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)<em>bounds</em> webViewEngine:(NSString *)<em>webViewEngine</em></code></div>
+
+		    
 			
 
 			
@@ -755,7 +904,7 @@ loaded with the details of the error.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

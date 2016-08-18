@@ -280,6 +280,23 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/pgGetSoupSpec:</TokenIdentifier>
+			<Abstract type="html">Get soup spec details for the given soup name.</Abstract>
+			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>
+			
+			<Declaration>- (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>command</Name>
+					<Abstract type="html">Cordova arguments object containing &quot;soupName&quot;.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/pgGetSoupSpec:</Anchor>
+            <NodeRef refid="12"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFSmartStorePlugin/cursorByCursorId:isGlobal:</TokenIdentifier>
 			<Abstract type="html">Gets a handle to a cursor, from its ID.</Abstract>
 			<DeclaredIn>SFSmartStorePlugin.h</DeclaredIn>

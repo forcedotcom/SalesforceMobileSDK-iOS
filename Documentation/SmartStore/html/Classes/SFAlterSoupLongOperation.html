@@ -43,6 +43,8 @@
 							<select id="jump-to">
 	<option value="top">Jump To&#133;</option>
 	
+	<option value="overview">Overview</option>
+	
 
 	
 	
@@ -60,6 +62,8 @@
 		
 		<option value="//api/name/oldIndexSpecs">oldIndexSpecs</option>
 		
+		<option value="//api/name/oldSoupSpec">oldSoupSpec</option>
+		
 		<option value="//api/name/queue">queue</option>
 		
 		<option value="//api/name/reIndexData">reIndexData</option>
@@ -67,6 +71,8 @@
 		<option value="//api/name/rowId">rowId</option>
 		
 		<option value="//api/name/soupName">soupName</option>
+		
+		<option value="//api/name/soupSpec">soupSpec</option>
 		
 		<option value="//api/name/soupTableName">soupTableName</option>
 		
@@ -83,6 +89,8 @@
 		<option value="//api/name/initWithStore:rowId:details:status:">- initWithStore:rowId:details:status:</option>
 		
 		<option value="//api/name/initWithStore:soupName:newIndexSpecs:reIndexData:">- initWithStore:soupName:newIndexSpecs:reIndexData:</option>
+		
+		<option value="//api/name/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:">- initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</option>
 		
 		<option value="//api/name/run">- run</option>
 		
@@ -118,6 +126,14 @@
 					
 
                     
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Use this class to configure and <a href="#//api/name/run">run</a> alter soup &ldquo;long&rdquo; operations. Note that these operations can take a long time to complete.</p>
+					</div>
+					
+					
 
 					
 					
@@ -139,10 +155,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Soup being altered.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *soupName</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -155,10 +196,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Backing table for soup being altered.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSString *soupTableName</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -171,10 +237,117 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Last step completed.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/soupSpec" title="soupSpec"></a>
+	<h3 class="method-title"><code><a href="#//api/name/soupSpec">&nbsp;&nbsp;soupSpec</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>New soup spec (optional).</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) SFSoupSpec *soupSpec</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oldSoupSpec" title="oldSoupSpec"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oldSoupSpec">&nbsp;&nbsp;oldSoupSpec</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Old soup spec.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -187,10 +360,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>New index specs.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSArray *indexSpecs</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -203,10 +401,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Old index specs.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -219,10 +442,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>YES if soup elements should be brought to memory to be re-indexed.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) BOOL reIndexData</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -235,10 +483,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Instance of SmartStore.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) SFSmartStore *store</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -251,10 +524,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Underlying database.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -267,10 +565,35 @@
 
 		<div class="method-info-container">
 			
+			
+			<div class="method-subsection brief-description">
+				<p>Row ID for long_operations_status table.</p>
+			</div>
+			
+		    
 
 			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) long long rowId</code></div>
 
 		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
 		</div>
 	</div>
 </div><div class="section-method">
@@ -285,7 +608,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Called when first running the alter soup</p>
+				<p>Initializer for starting the alter soup operation.</p>
 			</div>
 			
 		    
@@ -300,28 +623,111 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>Store</p></td>
+						<td><p>SmartStore instance.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>soupName</code></th>
-						<td><p>Soup name</p></td>
+						<td><p>Soup name.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>newIndexSpecs</code></th>
-						<td><p>New index specs</p></td>
+						<td><p>New index specs.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>reIndexData</code></th>
-						<td><p>Should re-index data</p></td>
+						<td><p>YES to reindex.</p></td>
 					</tr>
 				
 				</table>
 			</div>
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The initialized self.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFAlterSoupLongOperation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:" title="initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:">&ndash;&nbsp;initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Initializer for starting the alter soup operation with a new soup spec.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (id)initWithStore:(SFSmartStore *)<em>store</em> soupName:(NSString *)<em>soupName</em> newSoupSpec:(SFSoupSpec *)<em>newSoupSpec</em> newIndexSpecs:(NSArray *)<em>newIndexSpecs</em> reIndexData:(BOOL)<em>reIndexData</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>store</code></th>
+						<td><p>SmartStore instance.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soupName</code></th>
+						<td><p>Soup name.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newSoupSpec</code></th>
+						<td><p>New soup spec.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>newIndexSpecs</code></th>
+						<td><p>New index specs.</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>reIndexData</code></th>
+						<td><p>YES to reindex.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The initialized self.</p>
+			</div>
 			
 
 			
@@ -353,7 +759,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Called when resuming an alter soup operation from the data stored in the long operations status table</p>
+				<p>Initializer for resuming an alter soup operation from the data stored in the long operations status table.</p>
 			</div>
 			
 		    
@@ -368,28 +774,33 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>store</code></th>
-						<td><p>Store</p></td>
+						<td><p>SmartStore instance.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>rowId</code></th>
-						<td><p>Row ID</p></td>
+						<td><p>Row ID.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>details</code></th>
-						<td><p>Details</p></td>
+						<td><p>Details.</p></td>
 					</tr>
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>status</code></th>
-						<td><p>Soup status</p></td>
+						<td><p>Soup status.</p></td>
 					</tr>
 				
 				</table>
 			</div>
 			
 
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The initialized self.</p>
+			</div>
 			
 
 			
@@ -421,7 +832,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Run this operation</p>
+				<p>Run this operation.</p>
 			</div>
 			
 		    
@@ -462,7 +873,7 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Run this operation up to a given step (used by tests)</p>
+				<p>Run this operation up to a given step (used by tests).</p>
 			</div>
 			
 		    
@@ -477,7 +888,7 @@
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>toStep</code></th>
-						<td><p>Step</p></td>
+						<td><p>Target step.</p></td>
 					</tr>
 				
 				</table>
@@ -518,7 +929,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

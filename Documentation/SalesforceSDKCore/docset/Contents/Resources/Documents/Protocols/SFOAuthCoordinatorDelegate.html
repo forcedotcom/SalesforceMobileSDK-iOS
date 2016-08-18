@@ -153,7 +153,7 @@ Use these methods to update your interface and refresh your application once a s
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> willBeginAuthenticationWithView:(UIWebView *)<em>view</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> willBeginAuthenticationWithView:(WKWebView *)<em>view</em></code></div>
 
 		    
 			
@@ -168,7 +168,7 @@ Use these methods to update your interface and refresh your application once a s
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>view</code></th>
-						<td><p>The UIWebView instance that will be used to conduct the authentication workflow</p></td>
+						<td><p>The WKWebView instance that will be used to conduct the authentication workflow</p></td>
 					</tr>
 				
 				</table>
@@ -182,9 +182,9 @@ Use these methods to update your interface and refresh your application once a s
 			
 			<div class="method-subsection discussion-section">
 				<h4 class="method-subtitle">Discussion</h4>
-				<p>This method supplies the delegate with the UIWebView instance, which the user will use to input their OAuth credentials
-during the login process. At the time this method is called the UIWebView may not yet have any content loaded,
-therefore the UIWebView should not be displayed until willBeginAuthenticationWithView:</p>
+				<p>This method supplies the delegate with the WKWebView instance, which the user will use to input their OAuth credentials
+during the login process. At the time this method is called the WKWebView may not yet have any content loaded,
+therefore the WKWebView should not be displayed until willBeginAuthenticationWithView:</p>
 			</div>
 			
 
@@ -227,7 +227,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didStartLoad:(UIWebView *)<em>view</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didStartLoad:(WKWebView *)<em>view</em></code></div>
 
 		    
 			
@@ -242,7 +242,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>view</code></th>
-						<td><p>The UIWebView instance that will be used to conduct the authentication workflow</p></td>
+						<td><p>The WKWebView instance that will be used to conduct the authentication workflow</p></td>
 					</tr>
 				
 				</table>
@@ -285,7 +285,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFinishLoad:(UIWebView *)<em>view</em> error:(NSError *)<em>errorOrNil</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didFinishLoad:(WKWebView *)<em>view</em> error:(NSError *)<em>errorOrNil</em></code></div>
 
 		    
 			
@@ -300,7 +300,7 @@ therefore the UIWebView should not be displayed until willBeginAuthenticationWit
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>view</code></th>
-						<td><p>The UIWebView instance that will be used to conduct the authentication workflow</p></td>
+						<td><p>The WKWebView instance that will be used to conduct the authentication workflow</p></td>
 					</tr>
 				
 					<tr>
@@ -847,7 +847,7 @@ this method should be implemented and return NO to disable the browser authentic
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didBeginAuthenticationWithView:(UIWebView *)<em>view</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> didBeginAuthenticationWithView:(WKWebView *)<em>view</em></code></div>
 
 		    
 			
@@ -862,7 +862,7 @@ this method should be implemented and return NO to disable the browser authentic
 				
 					<tr>
 						<th scope="row" class="argument-name"><code>view</code></th>
-						<td><p>The UIWebView instance that will be used to conduct the authentication workflow</p></td>
+						<td><p>The WKWebView instance that will be used to conduct the authentication workflow</p></td>
 					</tr>
 				
 				</table>
@@ -918,7 +918,7 @@ The receiver should display the view in the implementation of this method.</p><d
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-07-08</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

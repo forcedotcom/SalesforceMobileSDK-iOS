@@ -13,6 +13,42 @@
 		
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setUseWKWebView:</TokenIdentifier>
+			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			
+			
+			<Anchor>//api/name/useWKWebView</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/useWKWebView</TokenIdentifier>
+			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			
+			
+			<Anchor>//api/name/useWKWebView</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/useWKWebView</TokenIdentifier>
+			<Abstract type="html">Indicates if WKWebView is being used instead of UIWebView.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, assign) BOOL useWKWebView</Declaration>
+			
+			
+			<Anchor>//api/name/useWKWebView</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setRemoteAccessConsumerKey:</TokenIdentifier>
 			<Abstract type="html">The Remote Access object consumer key.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
@@ -50,7 +86,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setOauthRedirectURI:</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
+			<Abstract type="html">The Remote Access object redirect URI.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
@@ -62,7 +98,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
+			<Abstract type="html">The Remote Access object redirect URI.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
@@ -74,7 +110,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/oauthRedirectURI</TokenIdentifier>
-			<Abstract type="html">The Remote Access object redirect URI</Abstract>
+			<Abstract type="html">The Remote Access object redirect URI.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) NSString *oauthRedirectURI</Declaration>
@@ -122,7 +158,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/setHybridViewConfig:</TokenIdentifier>
-			<Abstract type="html">The full config</Abstract>
+			<Abstract type="html">The full config.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) SFHybridViewConfig *hybridViewConfig</Declaration>
@@ -134,7 +170,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/hybridViewConfig</TokenIdentifier>
-			<Abstract type="html">The full config</Abstract>
+			<Abstract type="html">The full config.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) SFHybridViewConfig *hybridViewConfig</Declaration>
@@ -146,7 +182,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFHybridViewController/hybridViewConfig</TokenIdentifier>
-			<Abstract type="html">The full config</Abstract>
+			<Abstract type="html">The full config.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly) SFHybridViewConfig *hybridViewConfig</Declaration>
@@ -197,7 +233,7 @@ found.</Abstract>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:</TokenIdentifier>
-			<Abstract type="html">Designated initializer.  Initializes the view controller with its hybrid view configuration.</Abstract>
+			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration.</Abstract>
 			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig</Declaration>
@@ -209,6 +245,38 @@ found.</Abstract>
 			</Parameters>
 			
 			<Anchor>//api/name/initWithConfig:</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/initWithConfig:useWKWebView:</TokenIdentifier>
+			<Abstract type="html">Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithConfig:(SFHybridViewConfig *)viewConfig useWKWebView:(BOOL)useWKWebView</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>viewConfig</Name>
+					<Abstract type="html">The hybrid view configuration associated with this component.</Abstract>
+				</Parameter><Parameter>
+					<Name>useWKWebView</Name>
+					<Abstract type="html">YES - to use WKWebView, NO - to use UIWebView.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithConfig:useWKWebView:</Anchor>
+            <NodeRef refid="8"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFHybridViewController/newCordovaViewWithFrameAndEngine:webViewEngine:</TokenIdentifier>
+			<Abstract type="html">Initializes a new Cordova view with the specified bounds and engine.</Abstract>
+			<DeclaredIn>SFHybridViewController.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)newCordovaViewWithFrameAndEngine:(CGRect)bounds webViewEngine:(NSString *)webViewEngine</Declaration>
+			
+			
+			<Anchor>//api/name/newCordovaViewWithFrameAndEngine:webViewEngine:</Anchor>
             <NodeRef refid="8"/>
 		</Token>
 		

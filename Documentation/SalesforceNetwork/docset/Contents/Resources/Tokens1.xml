@@ -1391,6 +1391,23 @@ fields. For example, all the parameters will be added using addParameterWithName
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/intervalForTimingKey:</TokenIdentifier>
+			<Abstract type="html">Returns timing information for this request based on the supplied option.</Abstract>
+			<DeclaredIn>CSFAction.h</DeclaredIn>
+			
+			<Declaration>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">Key for the timing option to return, or nil to return the total action time.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The time interval for the requested key, or 0 if the key is invalid or if the request hasn&apos;t gathered enough information to supply that value yet.</Abstract></ReturnValue>
+			<Anchor>//api/name/intervalForTimingKey:</Anchor>
+            <NodeRef refid="1"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/setBasePath:</TokenIdentifier>
 			<Abstract type="html">URL path prefix used as the basis for action requests.</Abstract>
 			<DeclaredIn>CSFAction+Internal.h</DeclaredIn>
@@ -1675,23 +1692,6 @@ fields. For example, all the parameters will be added using addParameterWithName
 			
 			
 			<Anchor>//api/name/sessionDownloadTask:didFinishDownloadingToURL:</Anchor>
-            <NodeRef refid="1"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/CSFAction/intervalForTimingKey:</TokenIdentifier>
-			<Abstract type="html">Returns timing information for this request based on the supplied option.</Abstract>
-			<DeclaredIn>CSFAction.h</DeclaredIn>
-			
-			<Declaration>- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">Key for the timing option to return, or nil to return the total action time.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The time interval for the requested key, or 0 if the key is invalid or if the request hasn&apos;t gathered enough information to supply that value yet.</Abstract></ReturnValue>
-			<Anchor>//api/name/intervalForTimingKey:</Anchor>
             <NodeRef refid="1"/>
 		</Token>
 		

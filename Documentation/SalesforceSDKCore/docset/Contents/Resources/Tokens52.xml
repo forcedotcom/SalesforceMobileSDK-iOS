@@ -215,11 +215,47 @@ existing passcode.</Abstract>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/setDelegates:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPasscodeManager/delegates</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, nonnull) NSHashTable&lt;id&lt;SFPasscodeManagerDelegate&gt; &gt; *delegates</Declaration>
+			
+			
+			<Anchor>//api/name/delegates</Anchor>
+            <NodeRef refid="52"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeManager/enumerateDelegates:</TokenIdentifier>
 			<Abstract type="html">Executes the given block against the set of delegates.</Abstract>
 			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)enumerateDelegates:(void ( ^ ) ( id&lt;SFPasscodeManagerDelegate&gt; ))block</Declaration>
+			<Declaration>- (void)enumerateDelegates:(nullable void ( ^ ) ( id&lt;SFPasscodeManagerDelegate&gt; _Nonnull ))block</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>block</Name>
@@ -239,7 +275,7 @@ encryption key value.  Call setEncryptionKeyForPasscode if you want validation
 and encryption based on a plain-text passcode value.</Abstract>
 			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setEncryptionKey:(NSString *)newEncryptionKey</Declaration>
+			<Declaration>- (void)setEncryptionKey:(nullable NSString *)newEncryptionKey</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>newEncryptionKey</Name>
@@ -258,7 +294,7 @@ will not set the encryption key if a verification passcode is not set and valid,
 the interests of maintaining a consistent passcode state.</Abstract>
 			<DeclaredIn>SFPasscodeManager+Internal.h</DeclaredIn>
 			
-			<Declaration>- (void)setEncryptionKeyForPasscode:(NSString *)passcode</Declaration>
+			<Declaration>- (void)setEncryptionKeyForPasscode:(nonnull NSString *)passcode</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>passcode</Name>

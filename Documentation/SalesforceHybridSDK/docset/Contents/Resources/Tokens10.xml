@@ -121,18 +121,6 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestResultAvailable</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isTestResultAvailable</Declaration>
-			
-			
-			<Anchor>//api/name/isTestResultAvailable</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestRunnerReady</TokenIdentifier>
 			<Abstract type="html"></Abstract>
 			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>

@@ -4,7 +4,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/cl/SFAlterSoupLongOperation</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Use this class to configure and run alter soup &quot;long&quot; operations. Note that these operations can take a long time to complete.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
             
 			
@@ -14,7 +14,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setSoupName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
@@ -26,7 +26,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
@@ -38,7 +38,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/soupName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupName</Declaration>
@@ -50,7 +50,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setSoupTableName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Backing table for soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
@@ -62,7 +62,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/soupTableName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Backing table for soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
@@ -74,7 +74,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/soupTableName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Backing table for soup being altered.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSString *soupTableName</Declaration>
@@ -86,7 +86,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setAfterStep:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Last step completed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
@@ -98,7 +98,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/afterStep</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Last step completed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
@@ -110,7 +110,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/afterStep</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Last step completed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) SFAlterSoupStep afterStep</Declaration>
@@ -121,8 +121,80 @@
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setSoupSpec:</TokenIdentifier>
+			<Abstract type="html">New soup spec (optional).</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *soupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/soupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/soupSpec</TokenIdentifier>
+			<Abstract type="html">New soup spec (optional).</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *soupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/soupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/soupSpec</TokenIdentifier>
+			<Abstract type="html">New soup spec (optional).</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *soupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/soupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setOldSoupSpec:</TokenIdentifier>
+			<Abstract type="html">Old soup spec.</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/oldSoupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/oldSoupSpec</TokenIdentifier>
+			<Abstract type="html">Old soup spec.</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/oldSoupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/oldSoupSpec</TokenIdentifier>
+			<Abstract type="html">Old soup spec.</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFSoupSpec *oldSoupSpec</Declaration>
+			
+			
+			<Anchor>//api/name/oldSoupSpec</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setIndexSpecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">New index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
@@ -134,7 +206,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/indexSpecs</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">New index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
@@ -146,7 +218,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/indexSpecs</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">New index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *indexSpecs</Declaration>
@@ -158,7 +230,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setOldIndexSpecs:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Old index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
@@ -170,7 +242,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/oldIndexSpecs</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Old index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
@@ -182,7 +254,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/oldIndexSpecs</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Old index specs.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) NSArray *oldIndexSpecs</Declaration>
@@ -194,7 +266,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setReIndexData:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">YES if soup elements should be brought to memory to be re-indexed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
@@ -206,7 +278,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/reIndexData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">YES if soup elements should be brought to memory to be re-indexed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
@@ -218,7 +290,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/reIndexData</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">YES if soup elements should be brought to memory to be re-indexed.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) BOOL reIndexData</Declaration>
@@ -230,7 +302,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setStore:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Instance of SmartStore.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
@@ -242,7 +314,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/store</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Instance of SmartStore.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
@@ -254,7 +326,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/store</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Instance of SmartStore.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) SFSmartStore *store</Declaration>
@@ -266,7 +338,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setQueue:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Underlying database.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
@@ -278,7 +350,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/queue</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Underlying database.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
@@ -290,7 +362,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/queue</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Underlying database.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, strong) FMDatabaseQueue *queue</Declaration>
@@ -302,7 +374,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/setRowId:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Row ID for longoperationsstatus table.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
@@ -314,7 +386,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/rowId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Row ID for longoperationsstatus table.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
@@ -326,7 +398,7 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instp/SFAlterSoupLongOperation/rowId</TokenIdentifier>
-			<Abstract type="html"></Abstract>
+			<Abstract type="html">Row ID for longoperationsstatus table.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>@property (nonatomic, readonly, assign) long long rowId</Declaration>
@@ -338,59 +410,88 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:soupName:newIndexSpecs:reIndexData:</TokenIdentifier>
-			<Abstract type="html">Called when first running the alter soup</Abstract>
+			<Abstract type="html">Initializer for starting the alter soup operation.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>store</Name>
-					<Abstract type="html">Store</Abstract>
+					<Abstract type="html">SmartStore instance.</Abstract>
 				</Parameter><Parameter>
 					<Name>soupName</Name>
-					<Abstract type="html">Soup name</Abstract>
+					<Abstract type="html">Soup name.</Abstract>
 				</Parameter><Parameter>
 					<Name>newIndexSpecs</Name>
-					<Abstract type="html">New index specs</Abstract>
+					<Abstract type="html">New index specs.</Abstract>
 				</Parameter><Parameter>
 					<Name>reIndexData</Name>
-					<Abstract type="html">Should re-index data</Abstract>
+					<Abstract type="html">YES to reindex.</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">The initialized self.</Abstract></ReturnValue>
 			<Anchor>//api/name/initWithStore:soupName:newIndexSpecs:reIndexData:</Anchor>
             <NodeRef refid="2"/>
 		</Token>
 		
 		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</TokenIdentifier>
+			<Abstract type="html">Initializer for starting the alter soup operation with a new soup spec.</Abstract>
+			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store soupName:(NSString *)soupName newSoupSpec:(SFSoupSpec *)newSoupSpec newIndexSpecs:(NSArray *)newIndexSpecs reIndexData:(BOOL)reIndexData</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">SmartStore instance.</Abstract>
+				</Parameter><Parameter>
+					<Name>soupName</Name>
+					<Abstract type="html">Soup name.</Abstract>
+				</Parameter><Parameter>
+					<Name>newSoupSpec</Name>
+					<Abstract type="html">New soup spec.</Abstract>
+				</Parameter><Parameter>
+					<Name>newIndexSpecs</Name>
+					<Abstract type="html">New index specs.</Abstract>
+				</Parameter><Parameter>
+					<Name>reIndexData</Name>
+					<Abstract type="html">YES to reindex.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The initialized self.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithStore:soupName:newSoupSpec:newIndexSpecs:reIndexData:</Anchor>
+            <NodeRef refid="2"/>
+		</Token>
+		
+		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/initWithStore:rowId:details:status:</TokenIdentifier>
-			<Abstract type="html">Called when resuming an alter soup operation from the data stored in the long operations status table</Abstract>
+			<Abstract type="html">Initializer for resuming an alter soup operation from the data stored in the long operations status table.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (id)initWithStore:(SFSmartStore *)store rowId:(long)rowId details:(NSDictionary *)details status:(SFAlterSoupStep)status</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>store</Name>
-					<Abstract type="html">Store</Abstract>
+					<Abstract type="html">SmartStore instance.</Abstract>
 				</Parameter><Parameter>
 					<Name>rowId</Name>
-					<Abstract type="html">Row ID</Abstract>
+					<Abstract type="html">Row ID.</Abstract>
 				</Parameter><Parameter>
 					<Name>details</Name>
-					<Abstract type="html">Details</Abstract>
+					<Abstract type="html">Details.</Abstract>
 				</Parameter><Parameter>
 					<Name>status</Name>
-					<Abstract type="html">Soup status</Abstract>
+					<Abstract type="html">Soup status.</Abstract>
 				</Parameter>
 			</Parameters>
-			
+			<ReturnValue><Abstract type="html">The initialized self.</Abstract></ReturnValue>
 			<Anchor>//api/name/initWithStore:rowId:details:status:</Anchor>
             <NodeRef refid="2"/>
 		</Token>
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/run</TokenIdentifier>
-			<Abstract type="html">Run this operation</Abstract>
+			<Abstract type="html">Run this operation.</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)run</Declaration>
@@ -402,14 +503,14 @@
 		
 		<Token>
 			<TokenIdentifier>//apple_ref/occ/instm/SFAlterSoupLongOperation/runToStep:</TokenIdentifier>
-			<Abstract type="html">Run this operation up to a given step (used by tests)</Abstract>
+			<Abstract type="html">Run this operation up to a given step (used by tests).</Abstract>
 			<DeclaredIn>SFAlterSoupLongOperation.h</DeclaredIn>
 			
 			<Declaration>- (void)runToStep:(SFAlterSoupStep)toStep</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>toStep</Name>
-					<Abstract type="html">Step</Abstract>
+					<Abstract type="html">Target step.</Abstract>
 				</Parameter>
 			</Parameters>
 			
