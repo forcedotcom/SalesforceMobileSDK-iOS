@@ -100,15 +100,16 @@ static NSString * const SFSDKNewLoginHostCellIdentifier = @"SFSDKNewLoginHostCel
 
     // Create the text field for each specific row.
     if (0 == indexPath.row) {
-        cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_NAME"];
-        cell.textField.keyboardType = UIKeyboardTypeDefault;
-        [cell.textField becomeFirstResponder];
-        self.name = cell.textField;
-    } else {
         cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_URL"];
         cell.textField.keyboardType = UIKeyboardTypeURL;
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.server = cell.textField;
+        
+        [cell.textField becomeFirstResponder];
+    } else {
+        cell.textField.placeholder = [SFSDKResourceUtils localizedString:@"LOGIN_SERVER_NAME"];
+        cell.textField.keyboardType = UIKeyboardTypeDefault;
+        self.name = cell.textField;
     }
     return cell;
 }

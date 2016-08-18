@@ -22,10 +22,9 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
-
+#import <WebKit/WebKit.h>
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
 
@@ -60,20 +59,28 @@ static NSString *gUserAgentForApp = nil;
 
 + (void)stageUserAgentForApp
 {
-    if (gUserAgentForApp != nil) return;
-    
-    if ([NSThread isMainThread]) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-        // really doesn't want you to know about its HTTP headers.
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    } else {
-        // Needs to run on the main thread.
+    if (![NSThread isMainThread]) {
         dispatch_sync(dispatch_get_main_queue(), ^{
-            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-            gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+            [SFSDKWebUtils stageUserAgentForApp];
         });
+        return;
     }
+    
+    if (gUserAgentForApp != nil) return;
+
+    __block BOOL finished = NO;
+    
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
+
+   [webView evaluateJavaScript:@"navigator.userAgent"
+             completionHandler:^(id _Nullable val, NSError * _Nullable error) {
+                 gUserAgentForApp = val;
+                 finished = true;
+             }];
+
+   while( !finished ) {
+       [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+   }
 }
 
 @end

@@ -66,6 +66,7 @@ NSException * SFOAuthInvalidIdentifierException() {
 @synthesize encrypted                 = _encrypted;
 @synthesize legacyIdentityInformation = _legacyIdentityInformation;
 @synthesize additionalOAuthFields     = _additionalOAuthFields;
+@synthesize jwt                       = _jwt;
 
 + (BOOL)supportsSecureCoding {
     return YES;

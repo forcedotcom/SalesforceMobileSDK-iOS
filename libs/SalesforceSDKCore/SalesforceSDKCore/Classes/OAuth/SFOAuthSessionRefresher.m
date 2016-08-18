@@ -109,7 +109,7 @@
     [self completeWithError:error];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     // Shouldn't happen (refreshSessionWithCompletion:error: is guarded by the presence of a refresh token), but....
     NSString *errorString = [NSString stringWithFormat:@"%@: User Agent flow not supported for token refresh.", NSStringFromClass([self class])];
     NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain

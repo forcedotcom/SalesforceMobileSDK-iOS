@@ -327,16 +327,16 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 - (void)createStandardPostLaunchBlock
 {
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActions) {
-        _postLaunchBlockCalled = YES;
-        _postLaunchActions = launchActions;
+        self->_postLaunchBlockCalled = YES;
+        self->_postLaunchActions = launchActions;
     };
 }
 
 - (void)createStandardLaunchErrorBlock
 {
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchAction) {
-        _launchError = error;
-        _launchErrorBlockCalled = YES;
+        self->_launchError = error;
+        self->_launchErrorBlockCalled = YES;
     };
 }
 
