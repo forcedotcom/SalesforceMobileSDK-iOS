@@ -170,8 +170,9 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)authenticate {
     NSAssert(nil != self.credentials, @"credentials cannot be nil");
-    NSAssert([self.credentials.clientId length] > 0, @"credentials.clientId cannot be nil or empty");
-    NSAssert([self.credentials.identifier length] > 0, @"credentials.identifier cannot be nil or empty");
+    NSAssert(self.credentials.clientId.length > 0, @"credentials.clientId cannot be nil or empty");
+    NSAssert(self.credentials.identifier.length > 0, @"credentials.identifier cannot be nil or empty");
+    NSAssert(self.credentials.domain.length > 0, @"credentials.domain cannot be nil or empty.");
     NSAssert(nil != self.delegate, @"cannot authenticate with nil delegate");
 
     if (self.authenticating) {
@@ -540,7 +541,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
 
     NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                    self.credentials.protocol, (self.credentials.instanceUrl)?self.credentials.instanceUrl:self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
                                     kSFOAuthClientId, self.credentials.clientId,
                                     kSFOAuthRedirectUri, self.credentials.redirectUri,
                                     kSFOAuthDisplay, kSFOAuthDisplayTouch];
@@ -558,7 +559,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
     
     // JWT Flow
-    if (self.credentials.jwt && self.credentials.instanceUrl) {
+    if (self.credentials.jwt) {
         [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if (!error) {
                 bool swapOK = NO;
@@ -570,7 +571,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                     NSDictionary *dict = (NSDictionary *)json;
                     if (dict[kSFOAuthAccessToken]) {
                         NSString *escapedString = [approvalUrl stringByURLEncoding];
-                        NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.instanceUrl, dict[kSFOAuthAccessToken],escapedString];
+                        NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.domain, dict[kSFOAuthAccessToken],escapedString];
                         [self doLoadURL:approvalUrl withCookie:YES];
                         swapOK = YES;
                         self.credentials.jwt = nil;
