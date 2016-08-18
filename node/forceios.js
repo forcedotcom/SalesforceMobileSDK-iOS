@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = '4.3.0',
+var version = '5.0.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
