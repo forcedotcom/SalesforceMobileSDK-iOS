@@ -92,7 +92,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self styleNavigationBar:self.navBar];
+    if (self.showNavbar) {
+        [self styleNavigationBar:self.navBar];
+    }
     [self setupBackButton];
 }
 

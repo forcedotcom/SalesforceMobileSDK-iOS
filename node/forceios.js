@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var version = '4.3.0',
+var version = '5.0.0',
     shelljs = require('shelljs'),
     exec = require('child_process').exec,
     fs = require('fs'),
@@ -31,9 +31,9 @@ var dependencyType = {
 // Calling main
 main(process.argv);
 
-// 
+//
 // Main function
-// 
+//
 function main(args) {
     var commandLineArgs = process.argv.slice(2, args.length);
     var command = commandLineArgs.shift();
@@ -47,7 +47,7 @@ function main(args) {
         process.exit(0);
         break;
     case 'create':
-        processorList = createArgProcessorList(); 
+        processorList = createArgProcessorList();
         commandHandler = createApp;
         break;
     default:
@@ -96,9 +96,12 @@ function createApp(config) {
 //
 function createHybridApp(config) {
     var outputDir = config.outputdir;
-    if (!outputDir) outputDir = process.cwd();
-    outputDir = path.resolve(outputDir);
-    var projectDir = path.join(outputDir, config.appname);
+
+    var projectDir;
+    if(!outputDir)
+        projectDir = path.join(process.cwd(),config.appname);
+    else
+        projectDir = path.resolve(outputDir);
 
     // Make sure the Cordova CLI client exists.
     var cordovaCliVersion = cordovaHelper.getCordovaCliVersion();
@@ -208,11 +211,11 @@ function buildArgsFromArgMap(config) {
 // -----
 
 function createArgProcessorList() {
-    
+
     var argProcessorList = new commandLineUtils.ArgProcessorList();
 
     // App type
-    addProcessorFor(argProcessorList, 'apptype', 'Enter your application type (native, native_swift, react_native, hybrid_remote, or hybrid_local):', 'App type must be native, native_swift, react_native, hybrid_remote, or hybrid_local.', 
+    addProcessorFor(argProcessorList, 'apptype', 'Enter your application type (native, native_swift, react_native, hybrid_remote, or hybrid_local):', 'App type must be native, native_swift, react_native, hybrid_remote, or hybrid_local.',
                     function(val) { return ['native', 'native_swift', 'react_native', 'hybrid_remote', 'hybrid_local'].indexOf(val) >= 0; });
 
     // App name
@@ -228,7 +231,7 @@ function createArgProcessorList() {
     addProcessorFor(argProcessorList, 'organization', 'Enter your organization name (Acme, Inc.):', 'Invalid value for organization: \'$val\'.',  /\S+/);
 
     // Start page
-    addProcessorFor(argProcessorList, 'startpage', 'Enter the start page for your app (only applicable for hybrid_remote apps):', 'Invalid value for start page: \'$val\'.', /\S+/, 
+    addProcessorFor(argProcessorList, 'startpage', 'Enter the start page for your app (only applicable for hybrid_remote apps):', 'Invalid value for start page: \'$val\'.', /\S+/,
                     function(argsMap) { return (argsMap['apptype'] === 'hybrid_remote'); });
 
     // Connected App ID
@@ -249,7 +252,7 @@ function createArgProcessorList() {
 // * validation: function or regexp or null (no validation)
 // * preprocessor: function or null
 // * postprocessor: function or null
-// 
+//
 function addProcessorFor(argProcessorList, argName, prompt, error, validation, preprocessor, postprocessor) {
    argProcessorList.addArgProcessor(argName, prompt, function(val) {
        val = val.trim();
