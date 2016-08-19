@@ -31,6 +31,7 @@
 @class CSFNetwork;
 @class CSFAction;
 
+NS_ASSUME_NONNULL_BEGIN
 /**
  This is a class that represents an chatter action that the action executer executes
  */
@@ -137,6 +138,8 @@
 @property (nonatomic, readonly) NSUInteger retryCount;
 @property (nonatomic) NSUInteger maxRetryCount;
 
+@property (nullable, nonatomic, strong) NSMutableData *responseData;
+
 /**
  @brief Indicates if this request should be run on a NSURLSession capable of performing background uploads or downloads.
  @discussion Most actions transfer JSON or other informational data and therefore run on the default NSURLSession.  However, if a request is capable of running on a background session (e.g. the request is performing a download that can be performed when the app is not running), settings this value to `YES` will utilize a background session when creating a task for this request.
@@ -158,10 +161,13 @@
  */
 @property (nonatomic, getter=shouldCacheResponse) BOOL cacheResponse;
 
-@property (nonatomic, strong, readonly) NSError *error;
+@property (nonatomic, copy) CSFActionResponseBlock responseBlock;
+
+@property (nonatomic, strong) NSError *error;
 
 + (instancetype)actionWithHTTPMethod:(NSString*)method onURL:(NSURL*)url withResponseBlock:(CSFActionResponseBlock)responseBlock;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock NS_DESIGNATED_INITIALIZER;
 
 /** Takes an URL and assign it to this action by decomposing its components in the proper
@@ -210,7 +216,7 @@
  extra logic so responseBlock is properly invoked with response data.
  @param error Action error if avaiable.
  */
-- (void)completeOperationWithError:(NSError*)error;
+- (void)completeOperationWithError:(nullable NSError*)error;
 
 /** Returns an instance of NSURLSessionTask to process the specified request 
 
@@ -253,7 +259,7 @@
  
  @return `YES` if the network request should be overridden, otherwise `NO`.
  */
-- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData**)data andHTTPResponse:(NSHTTPURLResponse**)response;
+- (BOOL)overrideRequest:(NSURLRequest*)request withResponseData:(NSData* _Nullable * _Nonnull)data andHTTPResponse:(NSHTTPURLResponse* _Nullable * _Nonnull)response;
 
 /**
  @brief Overridable method that permits subclasses to opt-out of contributing its progress to the parent CSFNetwork instance.
@@ -261,12 +267,17 @@
  */
 - (BOOL)shouldReportProgressToParent;
 
+- (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
+- (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error;
+
 @end
 
-CSF_EXTERN NSString * const kCSFActionTimingTotalTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingNetworkTimeKey;
-CSF_EXTERN NSString * const kCSFActionTimingStartDelayKey;
-CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
+typedef NSString*const CSFActionTiming NS_STRING_ENUM;
+
+CSF_EXTERN CSFActionTiming kCSFActionTimingTotalTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingNetworkTimeKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingStartDelayKey;
+CSF_EXTERN CSFActionTiming kCSFActionTimingPostProcessingKey;
 
 @interface CSFAction (Timing)
 
@@ -286,6 +297,8 @@ CSF_EXTERN NSString * const kCSFActionTimingPostProcessingKey;
  
  @return The time interval for the requested key, or `0` if the key is invalid or if the request hasn't gathered enough information to supply that value yet.
  */
-- (NSTimeInterval)intervalForTimingKey:(NSString*)key;
+- (NSTimeInterval)intervalForTimingKey:(CSFActionTiming)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

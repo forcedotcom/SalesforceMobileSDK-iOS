@@ -103,6 +103,11 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 - (void)showAddLoginHost:(id)sender {
     SFSDKNewLoginHostViewController *detailViewController = [[SFSDKNewLoginHostViewController alloc] initWithStyle:UITableViewStyleGrouped];
     detailViewController.loginHostListViewController = self;
+    
+    if ([self.delegate respondsToSelector:@selector(hostListViewController:willPresentLoginHostViewController:)]) {
+        [self.delegate hostListViewController:self willPresentLoginHostViewController:self];
+    }
+    
     if (self.navigationController) {
         self.navigationController.delegate = self;
         [self.navigationController pushViewController:detailViewController animated:YES];
@@ -124,36 +129,37 @@ static NSString * const SFDCLoginHostListCellIdentifier = @"SFDCLoginHostListCel
 }
 
 - (void)viewDidLoad {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
+
+    // Displays the 'Add Server' button only if the MDM policy allows us to.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (!(managedPreferences.hasManagedPreferences && managedPreferences.onlyShowAuthorizedHosts)) {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showAddLoginHost:)];
+        [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
+    }
     self.title = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
-    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]
                                              initWithTitle:@""
                                              style:UIBarButtonItemStylePlain
                                              target:nil
                                              action:nil];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelLoginPicker:)];
-    
+
     // Make sure the current login host exists.
     NSUInteger index = [self indexOfCurrentLoginHost];
     if (NSNotFound == index) {
         index = 0; // revert to standard in case there is no current login host
         [self applyLoginHostAtIndex:index];
     }
-    
-    // Refresh the UI and make sure the size is correct
+
+    // Refresh the UI and make sure the size is correct.
     [self.tableView reloadData];
     [self makeLoginHostVisibleAtIndex:index];
     [self resizeContentForPopover];
-    
     [super viewDidLoad];
-    
-    [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
-    //TODO: Remove the check once we move to iOS 9 as minimum.
-    if([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)])
-    {
+    // TODO: Remove the check once we move to iOS 9 as minimum.
+    if ([self.tableView respondsToSelector:@selector(setCellLayoutMarginsFollowReadableWidth:)]) {
         self.tableView.cellLayoutMarginsFollowReadableWidth = NO;
     }
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:SFDCLoginHostListCellIdentifier];

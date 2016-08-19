@@ -30,12 +30,32 @@
 
 @class SFUserAccount, SFSDKAppConfig;
 
+/**
+ Block typedef for creating a custom snapshot view controller.
+ */
+typedef UIViewController * __nullable (^SFSnapshotViewControllerCreationBlock)(void);
+
 typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeNative,
     kSFAppTypeHybrid,
     kSFAppTypeReactNative
 };
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ Block typedef for presenting the snapshot view controller.
+ */
+typedef void (^SFSnapshotViewControllerPresentationBlock)(UIViewController* snapshotViewController);
+
+/**
+ Block typedef for dismissing the snapshot view controller.
+ */
+typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapshotViewController);
+
+
+/** Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.
+ */
 
 @protocol SalesforceSDKManagerDelegate <NSObject>
 
@@ -71,16 +91,19 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 @interface SalesforceSDKManager : NSObject <SFAuthenticationManagerDelegate>
 
 /**
- The class instance to be used to instantiate the singleton.
+ Class instance to be used to instantiate the singleton.
+ @param className Name of instantiator class.
  */
 + (void)setInstanceClass:(Class)className;
 
 /**
  @return The singleton instance of the SDK Manager.
  */
-+ (instancetype)sharedManager;
++ (nonnull instancetype)sharedManager;
 
-@property (nonatomic, strong) SFSDKAppConfig *appConfig;
+/** The OAuth configuration parameters defined in the developer's Salesforce connected app.
+ */
+@property (nonatomic, strong, nullable) SFSDKAppConfig *appConfig;
 
 /**
  Whether or not the SDK is currently in the middle of a launch process.
@@ -96,17 +119,17 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 /**
  The Connected App ID configured for this application.
  */
-@property (nonatomic, copy) NSString *connectedAppId;
+@property (nonatomic, copy, nullable) NSString *connectedAppId;
 
 /**
  The Connected App Callback URI configured for this application.
  */
-@property (nonatomic, copy) NSString *connectedAppCallbackUri;
+@property (nonatomic, copy, nullable) NSString *connectedAppCallbackUri;
 
 /**
  The OAuth scopes configured for this application.
  */
-@property (nonatomic, strong) NSArray *authScopes;
+@property (nonatomic, strong, nullable) NSArray<NSString*> *authScopes;
 
 /**
  Whether or not to attempt authentication as part of the launch process.  Default
@@ -117,27 +140,27 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 /**
  The configured post launch action block to execute when launch completes.
  */
-@property (nonatomic, copy) SFSDKPostLaunchCallbackBlock postLaunchAction;
+@property (nonatomic, copy, nullable) SFSDKPostLaunchCallbackBlock postLaunchAction;
 
 /**
  The configured launch error action block to execute in the event of an error during launch.
  */
-@property (nonatomic, copy) SFSDKLaunchErrorCallbackBlock launchErrorAction;
+@property (nonatomic, copy, nullable) SFSDKLaunchErrorCallbackBlock launchErrorAction;
 
 /**
  The post logout action block to execute after the current user has been logged out.
  */
-@property (nonatomic, copy) SFSDKLogoutCallbackBlock postLogoutAction;
+@property (nonatomic, copy, nullable) SFSDKLogoutCallbackBlock postLogoutAction;
 
 /**
  The switch user action block to execute when switching from one user to another.
  */
-@property (nonatomic, copy) SFSDKSwitchUserCallbackBlock switchUserAction;
+@property (nonatomic, copy, nullable) SFSDKSwitchUserCallbackBlock switchUserAction;
 
 /**
  The block to execute after the app has entered the foreground.
  */
-@property (nonatomic, copy) SFSDKAppForegroundCallbackBlock postAppForegroundAction;
+@property (nonatomic, copy, nullable) SFSDKAppForegroundCallbackBlock postAppForegroundAction;
 
 /**
  Whether or not to use a security snapshot view when the app is backgrounded, to prevent
@@ -146,10 +169,27 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 @property (nonatomic, assign) BOOL useSnapshotView;
 
 /**
- A custom view to use as the "image" that represents the app display when it is backgrounded.
- Default will be an opaque white view.
+ The block to provide custom view to use as the "image" that represents the app display when it is backgrounded.
+ @discussion
+ This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
+ a default opaque white view will be used.
  */
-@property (nonatomic, strong) UIView *snapshotView;
+@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
+
+/**
+ The block to execute to present the snapshot viewcontroller.
+ If this property is not set, SFRootViewManager will be used to present the snapshot.
+ @discussion
+ This block is only invoked if the dismissal action is also set.
+ */
+@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
+
+/**
+ The block to execute to dismiss the snapshot viewcontroller.
+ @discussion
+ This block is only invoked if the presentation action is also set.
+ */
+@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
 
 /**
  The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.
@@ -158,7 +198,7 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
          [SFPasscodeProviderManager addPasscodeProvider:myProvider];
          [SalesforceSDKManager setPreferredPasscodeProvider:myProviderName];
  */
-@property (nonatomic, copy) NSString *preferredPasscodeProvider;
+@property (nonatomic, nullable, copy) NSString *preferredPasscodeProvider;
 
 /**
  Gets or sets a block that will return a user agent string, created with an optional qualifier.
@@ -189,8 +229,16 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
 - (void)removeDelegate:(id<SalesforceSDKManagerDelegate>)delegate;
 
 /**
+ @param launchActions Bit-coded descriptor of actions taken during launch.
  @return A log-friendly string of the launch actions that were taken, given in postLaunchAction.
  */
 + (NSString *)launchActionsStringRepresentation:(SFSDKLaunchAction)launchActions;
 
+/**
+ @param account The account you would like loaded upon initialization.
+ */
++ (void)setDesiredAccount:(SFUserAccount*)account;
+
 @end
+
+NS_ASSUME_NONNULL_END

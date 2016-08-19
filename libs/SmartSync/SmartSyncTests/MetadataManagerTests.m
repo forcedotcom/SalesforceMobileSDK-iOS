@@ -26,10 +26,11 @@
 #import "SFSmartSyncMetadataManager.h"
 #import "SFSmartSyncCacheManager.h"
 #import "SFObject.h"
+#import "SFSmartSyncSoqlBuilder.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceRestAPI/SFRestAPI.h>
+#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface MetadataManagerTests : XCTestCase
@@ -44,17 +45,17 @@ static NSException *authException = nil;
 @implementation MetadataManagerTests
 
 static NSInteger const kRefreshInterval = 24 * 60 * 60 * 1000;
-static NSString* const kAccountOneId = @"001S000000cZ1VVIA0";
+static NSString* kAccountOneId = @"001S000000cZ1VVIA0";
 static NSString* const kAccountOneName = @"Acme";
-static NSString* const kOpportunityOneId = @"006S0000006luq4IAA";
+static NSString* kOpportunityOneId = @"006S0000006luq4IAA";
 static NSString* const kOpportunityOneName = @"Acme - 1,200 Widgets";
-static NSString* const kCaseOneId = @"500S00000031VPwIAM";
+static NSString* kCaseOneId = @"500S00000031VPwIAM";
 static NSString* const kCaseOneName = @"00001001";
 
 + (void)setUp
 {
     @try {
-        [SFLogger setLogLevel:SFLogLevelDebug];
+        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     } @catch (NSException *exception) {
@@ -90,8 +91,37 @@ static NSString* const kCaseOneName = @"00001001";
     [super tearDown];
 }
 
+
+- (void)sendQuery:(NSString *)query withCompeletionBlock:(void(^)(NSArray *result))completionBlock {
+    XCTestExpectation *expect = [self expectationWithDescription:@"get query result"];
+    SFRestDictionaryResponseBlock completeBlock = ^(NSDictionary* responseAsJson) {
+        NSArray *records = responseAsJson[@"records"];
+        if (records && [records isKindOfClass:[NSArray class]]) {
+            NSAssert(records.count>0, @"no entity found");
+            completionBlock(records);
+            [expect fulfill];
+        }
+    };
+    
+    SFRestFailBlock failBlock = ^(NSError *error) {
+        [self log:SFLogLevelError format:@"Failed to get query result, error %@", [error localizedDescription]];
+    };
+    
+    // Send request.
+    [[SFRestAPI sharedInstance] performSOQLQuery:query failBlock:failBlock completeBlock:completeBlock];
+    [self waitForExpectationsWithTimeout:20 handler:nil];
+}
+
 - (void)testGlobalMRUObjectsFromServer
 {
+    SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Case"];
+    [queryBuilder whereClause:[NSString stringWithFormat:@"CaseNumber = '%@'", kCaseOneName]];
+    NSString *queryString = [queryBuilder build];
+    [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){
+        kCaseOneId = [result[0] valueForKey:@"Id"];
+    }];
+    
+    [NSThread sleepForTimeInterval:1]; //give server side a second to settle
     XCTestExpectation *objectMarkedAsViewed = [self expectationWithDescription:@"objectMarkedAsViewed"];
     [self.metadataManager markObjectAsViewed:kCaseOneId objectType:@"Case" networkFieldName:nil completionBlock:^() {
         [objectMarkedAsViewed fulfill];
@@ -116,6 +146,21 @@ static NSString* const kCaseOneName = @"00001001";
 
 - (void)testCommonMRUObjectsFromServer
 {
+    //fetch test data
+    SFSmartSyncSoqlBuilder *queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Account"];
+    [queryBuilder whereClause:[NSString stringWithFormat:@"Name = '%@'", kAccountOneName]];
+    NSString *queryString = [queryBuilder build];
+    [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){
+        kAccountOneId = [result[0] valueForKey:@"Id"];
+    }];
+    
+    queryBuilder = [[SFSmartSyncSoqlBuilder withFields:@"Id"] from:@"Opportunity"];
+    [queryBuilder whereClause:[NSString stringWithFormat:@"Name = '%@'", kOpportunityOneName]];
+    queryString = [queryBuilder build];
+    [self sendQuery:queryString withCompeletionBlock:^(NSArray *result){
+        kOpportunityOneId = [result[0] valueForKey:@"Id"];
+    }];
+    
     NSArray *objectTypesIdsNames = @[ @[ @"Account", kAccountOneId, kAccountOneName ], @[ @"Opportunity", kOpportunityOneId, kOpportunityOneName ]];
     for (NSArray *objectTypeIdName in objectTypesIdsNames) {
         NSString *objectType = objectTypeIdName[0];
@@ -125,7 +170,7 @@ static NSString* const kCaseOneName = @"00001001";
         [self.metadataManager markObjectAsViewed:objectId objectType:objectType networkFieldName:nil completionBlock:^() {
             [objectMarkedAsViewed fulfill];
         } error:^(NSError *error) {
-            XCTFail(@"Error while marking object as viewed %@", error);
+            XCTFail(@"Error while marking object %@:%@ as viewed %@", objectName,objectId, error);
             [objectMarkedAsViewed fulfill];
         }];
         [self waitForExpectationsWithTimeout:30.0 handler:nil];
@@ -275,7 +320,7 @@ static NSString* const kCaseOneName = @"00001001";
     XCTAssertEqualObjects(cachedObjects, nil, @"MRU list should be nil");
 }
 
-- (void)FIXMEtestCleanCache
+- (void)testCleanCache
 {
     XCTestExpectation *objectsLoaded = [self expectationWithDescription:@"objectsLoaded"];
     [self.metadataManager loadMRUObjects:nil limit:1 cachePolicy:SFDataCachePolicyReloadAndReturnCacheOnFailure refreshCacheIfOlderThan:kRefreshInterval networkFieldName:nil inRetry:NO

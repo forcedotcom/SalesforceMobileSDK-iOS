@@ -1,61 +1,26 @@
 /*
-     File: Reachability.m
- Abstract: Basic demonstration of how to use the SystemConfiguration Reachablity APIs.
-  Version: 3.5
+ Copyright (C) 2016 Apple Inc. All Rights Reserved.
+ See LICENSE.txt for this sample’s licensing information
  
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2014 Apple Inc. All Rights Reserved.
- 
+ Abstract:
+ Basic demonstration of how to use the SystemConfiguration Reachablity APIs.
  */
 
 #import <arpa/inet.h>
 #import <ifaddrs.h>
 #import <netdb.h>
 #import <sys/socket.h>
+#import <netinet/in.h>
 
 #import <CoreFoundation/CoreFoundation.h>
 
 #import "SFSDKReachability.h"
 
+#pragma mark IPv6 Support
+//Reachability fully support IPv6.  For full details, see ReadMe.md.
 
-NSString *kSFSDKReachabilityChangedNotification = @"kSFSDKNetworkReachabilityChangedNotification";
+
+NSString * kSFSDKReachabilityChangedNotification = @"kSFSDKNetworkReachabilityChangedNotification";
 
 
 #pragma mark - Supporting functions
@@ -99,7 +64,6 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 
 @implementation SFSDKReachability
 {
-	BOOL _alwaysReturnLocalWiFiStatus; //default is NO
 	SCNetworkReachabilityRef _reachabilityRef;
 }
 
@@ -113,16 +77,18 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 		if (returnValue != NULL)
 		{
 			returnValue->_reachabilityRef = reachability;
-			returnValue->_alwaysReturnLocalWiFiStatus = NO;
 		}
+        else {
+            CFRelease(reachability);
+        }
 	}
 	return returnValue;
 }
 
 
-+ (instancetype)reachabilityWithAddress:(const struct sockaddr_in *)hostAddress
++ (instancetype)reachabilityWithAddress:(const struct sockaddr *)hostAddress
 {
-	SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, (const struct sockaddr *)hostAddress);
+	SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithAddress(kCFAllocatorDefault, hostAddress);
 
 	SFSDKReachability* returnValue = NULL;
 
@@ -132,12 +98,13 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 		if (returnValue != NULL)
 		{
 			returnValue->_reachabilityRef = reachability;
-			returnValue->_alwaysReturnLocalWiFiStatus = NO;
 		}
+        else {
+            CFRelease(reachability);
+        }
 	}
 	return returnValue;
 }
-
 
 
 + (instancetype)reachabilityForInternetConnection
@@ -147,28 +114,13 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 	zeroAddress.sin_len = sizeof(zeroAddress);
 	zeroAddress.sin_family = AF_INET;
     
-	return [self reachabilityWithAddress:&zeroAddress];
+    return [self reachabilityWithAddress: (const struct sockaddr *) &zeroAddress];
 }
 
+#pragma mark reachabilityForLocalWiFi
+//reachabilityForLocalWiFi has been removed from the sample.  See ReadMe.md for more information.
+//+ (instancetype)reachabilityForLocalWiFi
 
-+ (instancetype)reachabilityForLocalWiFi
-{
-	struct sockaddr_in localWifiAddress;
-	bzero(&localWifiAddress, sizeof(localWifiAddress));
-	localWifiAddress.sin_len = sizeof(localWifiAddress);
-	localWifiAddress.sin_family = AF_INET;
-
-	// IN_LINKLOCALNETNUM is defined in <netinet/in.h> as 169.254.0.0.
-	localWifiAddress.sin_addr.s_addr = htonl(IN_LINKLOCALNETNUM);
-
-	SFSDKReachability* returnValue = [self reachabilityWithAddress: &localWifiAddress];
-	if (returnValue != NULL)
-	{
-		returnValue->_alwaysReturnLocalWiFiStatus = YES;
-	}
-    
-	return returnValue;
-}
 
 
 #pragma mark - Start and stop notifier
@@ -210,20 +162,6 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
 
 
 #pragma mark - Network Flag Handling
-
-- (SFSDKReachabilityNetworkStatus)localWiFiStatusForFlags:(SCNetworkReachabilityFlags)flags
-{
-	SFSDKPrintReachabilityFlags(flags, "localWiFiStatusForFlags");
-	SFSDKReachabilityNetworkStatus returnValue = SFSDKReachabilityNotReachable;
-
-	if ((flags & kSCNetworkReachabilityFlagsReachable) && (flags & kSCNetworkReachabilityFlagsIsDirect))
-	{
-		returnValue = SFSDKReachabilityReachableViaWiFi;
-	}
-    
-	return returnValue;
-}
-
 
 - (SFSDKReachabilityNetworkStatus)networkStatusForFlags:(SCNetworkReachabilityFlags)flags
 {
@@ -294,14 +232,7 @@ static void SFSDKReachabilityCallback(SCNetworkReachabilityRef target, SCNetwork
     
 	if (SCNetworkReachabilityGetFlags(_reachabilityRef, &flags))
 	{
-		if (_alwaysReturnLocalWiFiStatus)
-		{
-			returnValue = [self localWiFiStatusForFlags:flags];
-		}
-		else
-		{
-			returnValue = [self networkStatusForFlags:flags];
-		}
+        returnValue = [self networkStatusForFlags:flags];
 	}
     
 	return returnValue;

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,9 +22,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Foundation/Foundation.h>
-
+@class SFEncryptionKey;
 
 /**
  The default store name used by the SFSmartStorePlugin: native code may choose
@@ -45,7 +44,7 @@ extern NSString * const kSFSmartStoreEncryptionKeyLabel;
 /**
  Block typedef for generating an encryption key.
  */
-typedef NSString* (^SFSmartStoreEncryptionKeyBlock)(void);
+typedef SFEncryptionKey* (^SFSmartStoreEncryptionKeyBlock)(void);
 
 /**
  The columns of a soup table
@@ -58,7 +57,7 @@ extern NSString *const SOUP_COL;
 /**
  The columns of a soup fts table
  */
-extern NSString *const DOCID_COL;
+extern NSString *const ROWID_COL;
 
 /**
  Soup index map table
@@ -91,9 +90,16 @@ extern NSString *const STATUS_COL;
 extern NSString *const SOUP_ENTRY_ID;
 extern NSString *const SOUP_LAST_MODIFIED_DATE;
 
+/*
+ Support for explain query plan
+ */
+extern NSString *const EXPLAIN_SQL;
+extern NSString *const EXPLAIN_ARGS;
+extern NSString *const EXPLAIN_ROWS;
 
 @class FMDatabaseQueue;
 @class SFQuerySpec;
+@class SFSoupSpec;
 @class SFUserAccount;
 
 
@@ -108,6 +114,7 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
     NSString *_storeName;
 
     NSMutableDictionary *_soupNameToTableName;
+    NSMutableDictionary *_attrSpecBySoup;
     NSMutableDictionary *_indexSpecsBySoup;
     NSMutableDictionary *_smartSqlToSql;
 }
@@ -126,6 +133,16 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  User for this store - nil for global stores
  */
 @property (nonatomic, strong) SFUserAccount *user;
+
+/**
+ Flag to cause explain plan to be captured for every query
+ */
+@property (nonatomic, assign) BOOL captureExplainQueryPlan;
+
+/**
+ Dictionary with results of last explain query plan
+ */
+@property (nonatomic, strong) NSDictionary *lastExplainQueryPlan;
 
 /**
  Use this method to obtain a shared store instance with a particular name for the current user.
@@ -200,7 +217,8 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
  If you choose to override the encryption key derivation, you must set
  this value before opening any stores.  Setting the value after stores have been opened
  will result in the corruption and loss of existing data.
- ** WARNING: **
+ Also, SmartStore does not use initialization vectors.
+ ** WARNING **
  
  @param newEncryptionKeyBlock The new encryption key derivation block to use with SmartStore.
  */
@@ -209,53 +227,77 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 #pragma mark - Soup manipulation methods
 
 /**
- @param soupName the name of the soup
- @return NSArray of SFSoupIndex for the given soup
+ *  @param soupName Name of the soup.
+ *  @return Specs of the soup if it exists.
+ */
+- (SFSoupSpec*)attributesForSoup:(NSString*)soupName;
+
+/**
+ @param soupName Name of the soup.
+ @return NSArray of SFSoupIndex for the given soup.
  */
 - (NSArray*)indicesForSoup:(NSString*)soupName;
 
 /**
- @param soupName the name of the soup
- @return Does a soup with the given name already exist?
+ @param soupName Name of the soup.
+ @return YES if a soup with the given name already exists.
  */
 - (BOOL)soupExists:(NSString*)soupName;
 
 /**
- Ensure that a soup with the given name exists.
- Either creates a new soup or returns an existing soup.
- 
- @param soupName The name of the soup to register
- @param indexSpecs Array of one ore more SFSoupIndex objects
- @param error Error description
- @return YES if the soup registered OK
+ Creates a new soup or confirms the existence of an existing soup.
+ @param soupName Name of the soup to register.
+ @param indexSpecs Array of one or more SFSoupIndex objects.
+ @param error Sets/returns any error generated as part of the process.
+ @return YES if the soup is registered or already exists.
+ */
+- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error;
+
+/**
+ Creates a new soup or confirms the existence of an existing soup.
+ @warning Deprecated. Use registerSoup:withIndexSpecs:error: instead.
+
+ @param soupName The name of the soup to register.
+ @param indexSpecs Array of one or more SFSoupIndex objects.
+ @return YES if the soup is registered or already exists.
  */
 - (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs __attribute__((deprecated("Use -registerSoup:withIndexSpecs:error:")));
-- (BOOL)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error;
+
+/**
+ Creates a new soup or confirms the existence of an existing soup.
+ 
+ @param soupSpec Soup specs of the soup to register.
+ @param indexSpecs Array of one or more SFSoupIndex objects.
+ @param error Sets/returns any error generated as part of the process.
+ @return YES if the soup is registered or already exists.
+
+ */
+- (BOOL)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs error:(NSError**)error;
 
 /**
  Get the number of entries that would be returned with the given query spec
  
- @param querySpec a native query spec
+ @param querySpec A native query spec.
  @param error Sets/returns any error generated as part of the process.
  */
 - (NSUInteger)countWithQuerySpec:(SFQuerySpec*)querySpec error:(NSError **)error;
 
 /**
- Search for entries matching the querySpec
+ Search for entries matching the given query spec.
  
- @param querySpec A native SFSoupQuerySpec
- @param pageIndex The page index to start the entries at (this supports paging)
+ @param querySpec A native query spec.
+ @param pageIndex The page index to start the entries at (this supports paging).
  @param error Sets/returns any error generated as part of the process.
  
- @return A set of entries given the pageSize provided in the querySpec
+ @return A set of entries given the pageSize provided in the querySpec.
  */
 - (NSArray *)queryWithQuerySpec:(SFQuerySpec *)querySpec pageIndex:(NSUInteger)pageIndex error:(NSError **)error;
 
 /**
- Search soup for entries exactly matching the soup entry IDs
+ Search soup for entries exactly matching the soup entry IDs.
  
- @param soupName The name of the soup to query
- @param soupEntryIds An array of opaque soup entry IDs
+ @param soupName The name of the soup to query.
+ @param soupEntryIds An array of opaque soup entry IDs.
  
  @return An array with zero or more entries matching the input IDs. Order is not guaranteed.
  */
@@ -287,13 +329,54 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 - (NSArray *)upsertEntries:(NSArray *)entries toSoup:(NSString *)soupName withExternalIdPath:(NSString *)externalIdPath error:(NSError **)error;
 
 /**
- Remove soup entries exactly matching the soup entry IDs
+ Look up the ID for an entry in a soup.
  
- @param entryIds An array of opaque soup entry IDs from _soupEntryId
- @param soupName The name of the soup from which to remove the soup entries
+ @param soupName Soup name.
+ @param fieldPath Field path.
+ @param fieldValue Field value.
+ @param error Sets/returns any error generated as part of the process.
+ @return The ID of the specified soup entry.
+ */
+- (NSNumber *)lookupSoupEntryIdForSoupName:(NSString *)soupName
+                              forFieldPath:(NSString *)fieldPath
+                                fieldValue:(NSString *)fieldValue
+                                     error:(NSError **)error;
+
+/**
+ Remove soup entries exactly matching the soup entry IDs.
  
+ @param entryIds An array of opaque soup entry IDs from _soupEntryId.
+ @param soupName The name of the soup from which to remove the soup entries.
+ @param error Sets/returns any error generated as part of the process.
+ */
+- (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName error:(NSError **)error;
+
+/**
+ Remove soup entries exactly matching the soup entry IDs.
+
+ @param entryIds An array of opaque soup entry IDs from _soupEntryId.
+ @param soupName The name of the soup from which to remove the soup entries.
  */
 - (void)removeEntries:(NSArray*)entryIds fromSoup:(NSString*)soupName;
+
+/**
+ Remove soup entries returned by the given query spec.
+ NB: A single SQL call is executed to improve performance.
+
+ @param querySpec Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).
+ @param soupName The name of the soup from which to remove the soup entries.
+ @param error Sets/returns any error generated as part of the process.
+ */
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName  error:(NSError **)error;
+
+/**
+ Remove soup entries returned by the given query spec.
+ NB: A single SQL call is executed to improve performance.
+
+ @param querySpec Query returning entries to delete (if querySpec uses smartSQL, it must select soup entry ids).
+ @param soupName The name of the soup from which to remove the soup entries.
+ */
+- (void)removeEntriesByQuery:(SFQuerySpec*)querySpec fromSoup:(NSString*)soupName;
 
 /**
  Remove all elements from soup.
@@ -315,35 +398,62 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 - (void)removeAllSoups;
 
 /**
- Return database file size
+ Return database file size.
+ @return Database size, in bytes.
  */
 - (unsigned long long)getDatabaseSize;
 
 /**
- Alter soup indexes
+ Returns sum of all external file sizes for a given soup.
+ 
+ @param soupName Name of the soup.
+ @return External file storage size, in bytes.
+ */
+- (unsigned long long)getExternalFileStorageSizeForSoup:(NSString*)soupName;
 
- @param soupName The name of the soup to alter
- @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs
- @param reIndexData pass true if you want existing records to be re-indexed for new index specs
- @return YES if the soup got altered OK
+/**
+ Return the number of external storage files for a given soup.
+ 
+ @param soupName The name of the soup.
+ @return Number of external files.
+ */
+- (NSUInteger)getExternalFilesCountForSoup:(NSString*)soupName;
+
+/**
+ Alter soup indexes.
+
+ @param soupName The name of the soup to alter.
+ @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs.
+ @param reIndexData pass true if you want existing records to be re-indexed for new index specs.
+ @return YES if the soup was altered successfully.
  */
 - (BOOL) alterSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
 
+/**
+ Alter soup indexes.
+ 
+ @param soupName The name of the soup to alter.
+ @param soupSpec The new soup spec to convert. (e.g. convert internal storage soup to external storage soup).
+ @param indexSpecs Array of one ore more SFSoupIndex objects to replace existing index specs.
+ @param reIndexData Pass YES if you want existing records to be re-indexed for new index specs.
+ @return YES if the soup was altered successfully.
+ */
+- (BOOL) alterSoup:(NSString*)soupName withSoupSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs reIndexData:(BOOL)reIndexData;
+
 
 /**
- Re-index soup
+ Reindex a soup.
  
- @param soupName The name of the soup to alter
- @param indexPaths Array of one ore more paths that should be re-indexed
- @param handleTx TRUE if you want re-index to be done within a transaction, FALSE if you caller wants to manage transaction
- @return YES if the soup got re-indexed OK
+ @param soupName The name of the soup to alter.
+ @param indexPaths Array of on ore more paths to be reindexed.
+ @return YES if soup reindexing succeeded.
  */
 - (BOOL) reIndexSoup:(NSString*)soupName withIndexPaths:(NSArray*)indexPaths;
 
 #pragma mark - Long operations recovery methods
 
 /**
- Complete long operations that were interrupted
+ Complete long operations that were interrupted.
  */
 - (void) resumeLongOperations;
 
@@ -351,17 +461,18 @@ extern NSString *const SOUP_LAST_MODIFIED_DATE;
 #pragma mark - Utility methods
 
 /**
- This is updated based on receiving notifications for
- UIApplicationProtectedDataDidBecomeAvailable / UIApplicationProtectedDataWillBecomeUnavailable.
+ This property is updated when notifications are received for
+ UIApplicationProtectedDataDidBecomeAvailable and UIApplicationProtectedDataWillBecomeUnavailable events.
  Note that on the simulator currently, data protection is NEVER active.
  
- @return Are we sure that file data protection (full passcode-based encryption) is available?
+ @return YES if file data protection (full passcode-based encryption) is available.
  */
 - (BOOL)isFileDataProtectionActive;
 
 
 /**
- Return all soup names
+ Return all soup names.
+ @return Array containing all soup names.
  */
 - (NSArray*) allSoupNames;
 

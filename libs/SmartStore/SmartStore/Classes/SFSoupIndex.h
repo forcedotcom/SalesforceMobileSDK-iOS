@@ -30,6 +30,17 @@ extern NSString * const kSoupIndexTypeString;
 extern NSString * const kSoupIndexTypeInteger;
 extern NSString * const kSoupIndexTypeFloating;
 extern NSString * const kSoupIndexTypeFullText;
+extern NSString * const kSoupIndexTypeJSON1;
+
+
+/**
+ * Index types filter
+ */
+@class SFSoupIndex;
+typedef BOOL (^SFIndexSpecTypeFilterBlock)(SFSoupIndex*);
+extern SFIndexSpecTypeFilterBlock const kValueExtractedToColumn;
+extern SFIndexSpecTypeFilterBlock const kValueExtractedToFtsColumn;
+extern SFIndexSpecTypeFilterBlock const kValueIndexedWithJSONExtract;
 
 /**
  * Definition of an index on a given soup.
@@ -82,41 +93,49 @@ extern NSString * const kSoupIndexTypeFullText;
 - (NSDictionary*)asDictionary;
 
 /**
-  * Return dictionary for this SFSoupIndex object with or without column name
-  * @param withColumnName if YES, column name is included in returned dictionary
+  * Returns a dictionary For this SFSoupIndex object with or without column name
+  * @param withColumnName If YES, column name is included in returned dictionary
   */
 - (NSDictionary*)asDictionary:(BOOL)withColumnName;
 
 /**
-  * Return array of dictionaries given an array of SFSoupIndex or NSDictionary
-  * @param arrayOfSoupIndexes
-  * @param withColumnName
-  * @return array of dictionaries.
+  * Returns an array of NSDictionary objects for a given array of soup indexes, using the given column name as the index.
+  * @param arrayOfSoupIndexes Array of soup indexes 
+  * @param withColumnName If YES, column name is included in returned dictionary
+  * @return Array of NSDictionary objects
   */
 + (NSArray*) asArrayOfDictionaries:(NSArray*) arrayOfSoupIndexes withColumnName:(BOOL)withColumnName;
 
 /**
- * Return array of SFSoupIndex given an array of SFSoupIndex or NSDictionary
- * @param arrayOfDictionaries
- * @return array of SFSoupIndex.
+ * Returns an array of SFSoupIndex objects for a given array of soup indexes.
+ * @param arrayOfDictionaries Array of dictionaries
+ * @return Array of SFSoupIndex objects
  */
 + (NSArray*) asArraySoupIndexes:(NSArray*) arrayOfDictionaries;
 
-/*
- * Return map path to SFSoupIndex
+/** Returns a map path to SFSoupIndex
  * @param soupIndexes array of SFSoupIndex objects
+ * @return Dictionary that maps paths to soup indexes
  */
 + (NSDictionary*) mapForSoupIndexes:(NSArray*)soupIndexes;
 
-/*
- * Return YES if any of the indices are full text
+/** Returns YES if any of the indexes are full text
  * @param soupIndexes array of SFSoupIndex objects
+ * @return YES if any of the indexes are full text
  */
 + (BOOL) hasFts:(NSArray*)soupIndexes;
 
-/*
- * Return path -- type
+/** Returns YES if any of the indexes are JSON1
+ * @param soupIndexes array of SFSoupIndex objects
+ * @return YES if any of the indexes are JSON1
+ */
++ (BOOL) hasJSON1:(NSArray*)soupIndexes;
+
+/** Using the path and indexType property values, constructs a string in the format "path--indexType".
+ @return String containing the path and indext type, separated by "--".
  */
 - (NSString*) getPathType;
 
 @end
+
+

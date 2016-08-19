@@ -37,18 +37,6 @@
 
 @implementation SFSmartSqlTests
 
-#define kTestStore            @"testSmartSqlStore"
-#define kEmployeesSoup        @"employees"
-#define kDepartmentsSoup      @"departments"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kDeptCode             @"deptCode"
-#define kEmployeeId           @"employeeId"
-#define kManagerId            @"managerId"
-#define kSalary               @"salary"
-#define kBudget               @"budget"
-#define kName                 @"name"
-
 #pragma mark - setup and teardown
 
 - (void) setUp
@@ -58,23 +46,27 @@
     self.store = [SFSmartStore sharedStoreWithName:kTestStore user:[SFUserAccountManager sharedInstance].currentUser];
     
     // Employees soup
-    [self.store registerSoup:kEmployeesSoup                              // should be TABLE_1
-          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          @[[self createStringIndexSpec:kFirstName],
-                           [self createStringIndexSpec:kLastName],    // should be TABLE_1_0
-                           [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_1
-                           [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_2
-                           [self createStringIndexSpec:kManagerId],   // should be TABLE_1_3
-                           [self createFloatingIndexSpec:kSalary]]]
-                   error:nil];
+    [self.store registerSoup:kEmployeesSoup                               // should be TABLE_1
+              withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
+                              @[[self createStringIndexSpec:kFirstName],   // should be TABLE_1_0
+                                [self createStringIndexSpec:kLastName],    // should be TABLE_1_1
+                                [self createStringIndexSpec:kDeptCode],    // should be TABLE_1_2
+                                [self createStringIndexSpec:kEmployeeId],  // should be TABLE_1_3
+                                [self createStringIndexSpec:kManagerId],   // should be TABLE_1_4
+                                [self createFloatingIndexSpec:kSalary],    // should be TABLE_1_5
+                                [self createJSON1IndexSpec:kEducation]     // should be json_extract(soup, '$.education')
+                                ]]
+                       error:nil];
 
     // Departments soup
-    [self.store registerSoup:kDepartmentsSoup                            // should be TABLE_2
-          withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
-                          @[[self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
-                           [self createStringIndexSpec:kName],        // should be TABLE_2_1
-                           [self createIntegerIndexSpec:kBudget]]]
-                   error:nil];
+    [self.store registerSoup:kDepartmentsSoup                              // should be TABLE_2
+              withIndexSpecs:[SFSoupIndex asArraySoupIndexes:
+                              @[[self createStringIndexSpec:kDeptCode],    // should be TABLE_2_0
+                                [self createStringIndexSpec:kName],        // should be TABLE_2_1
+                                [self createIntegerIndexSpec:kBudget],     // should be TABLE_2_2
+                                [self createJSON1IndexSpec:kBuilding]      // should be json_extract(soup, '$.building')
+                                ]]
+                       error:nil];
 }
 
 - (void) tearDown
@@ -151,8 +143,8 @@
 
 - (void) testConvertSmartSqlWithSpecialColumns
 {
-    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.lastModified, TABLE_1.soup from TABLE_1", 
-                         [self.store convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}"], @"Bad conversion");
+    XCTAssertEqualObjects(@"select TABLE_1.id, TABLE_1.created, TABLE_1.lastModified, TABLE_1.soup from TABLE_1",
+                         [self.store convertSmartSql:@"select {employees:_soupEntryId}, {employees:_soupCreatedDate}, {employees:_soupLastModifiedDate}, {employees:_soup} from {employees}"], @"Bad conversion");
 }
 	
 - (void) testConvertSmartSqlWithSpecialColumnsAndJoin
@@ -166,6 +158,39 @@
     XCTAssertEqualObjects(@"select mgr.id, e.id from TABLE_1 as mgr, TABLE_1 as e", 
                          [self.store convertSmartSql:@"select mgr.{employees:_soupEntryId}, e.{employees:_soupEntryId} from {employees} as mgr, {employees} as e"], @"Bad conversion");
 }
+
+- (void) testConvertSmartSqlWithJSON1
+{
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
+    XCTAssertEqualObjects(@"select TABLE_1_1, json_extract(soup, '$.education') from TABLE_1 where json_extract(soup, '$.education') = 'MIT'",
+                          [self.store convertSmartSql:@"select {employees:lastName}, {employees:education} from {employees} where {employees:education} = 'MIT'"], @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithJSON1AndTableQualifiedColumn
+{
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
+    XCTAssertEqualObjects(@"select json_extract(TABLE_1.soup, '$.education') from TABLE_1 order by json_extract(TABLE_1.soup, '$.education')",
+                          [self.store convertSmartSql:@"select {employees}.{employees:education} from {employees} order by {employees}.{employees:education}"], @"Bad conversion");
+}
+
+- (void) testConvertSmartSqlWithJSON1AndTableAliases
+{
+    if ([[self.store attributesForSoup:kEmployeesSoup].features containsObject:kSoupFeatureExternalStorage]) {
+        [self log:SFLogLevelInfo msg:@"Test Skipped for soup with external storage feature."];
+        return;
+    }
+    XCTAssertEqualObjects(@"select json_extract(e.soup, '$.education'), json_extract(soup, '$.building') from TABLE_1 as e, TABLE_2",
+                          [self.store convertSmartSql:@"select e.{employees:education}, {departments:building} from {employees} as e, {departments}"], @"Bad conversion");
+    
+    // XXX join query with json1 will only run if all the json1 columns are qualified by table or alias
+}
+
 
 - (void) testSmartQueryDoingCount 
 {

@@ -39,6 +39,7 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector);
 @property (nonatomic) BOOL enabled;
 
 /** Returns an instrumentation instance for the specified class
+ @param clazz The class to be instrumented
  */
 + (instancetype)instrumentationForClass:(Class)clazz;
 
@@ -52,6 +53,8 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector);
 /** Use this method to intercept the instance method specified by `selector`
  and provide a block that will be invoked instead of the method.
  Note: the block contains a single argument which is the NSInvocation of the message.
+ @param selector The instance method to be intercepted
+ @param before The block to be invoked 
  */
 - (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)before;
 

@@ -37,12 +37,24 @@
 - (NSDictionary*) createIntegerIndexSpec:(NSString*) path;
 - (NSDictionary*) createFloatingIndexSpec:(NSString*) path;
 - (NSDictionary*) createFullTextIndexSpec:(NSString*) path;
+- (NSDictionary*) createJSON1IndexSpec:(NSString*) path;
 - (NSDictionary*) createSimpleIndexSpec:(NSString*) path withType:(NSString*) pathType;
 
 - (BOOL) hasTable:(NSString*)tableName store:(SFSmartStore*)store;
 - (NSString*) getSoupTableName:(NSString*)soupName store:(SFSmartStore*)store;
+
+- (void) checkExplainQueryPlan:(NSString*) soupName index:(NSUInteger)index covering:(BOOL) covering dbOperation:(NSString*)dbOperation store:(SFSmartStore*)store;
+- (void) checkColumns:(NSString*)tableName expectedColumns:(NSArray*)expectedColumns store:(SFSmartStore*)store;
+- (void) checkDatabaseIndexes:(NSString*)tableName expectedSqlStatements:(NSArray*)expectedSqlStatements store:(SFSmartStore*)store;
+- (void) checkCreateTableStatment:(NSString*)tableName expectedSqlStatementPrefix:(NSString*)expectedSqlStatementPrefix store:(SFSmartStore*)store;
+- (void) checkSoupIndex:(SFSoupIndex*)indexSpec expectedPath:(NSString*)expectedPath expectedType:(NSString*)expectedType expectedColumnName:(NSString*)expectedColumnName ;
+
 - (void) checkSoupRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
 - (void) checkFtsRow:(FMResultSet*) frs withExpectedEntry:(NSDictionary*)expectedEntry withSoupIndexes:(NSArray*)arraySoupIndexes;
+
+- (void) checkSoupTable:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName;
+
+-(void) checkFileSystem:(NSArray*)expectedEntries shouldExist:(BOOL)shouldExist store:(SFSmartStore*)store soupName:(NSString*)soupName;
 
 - (SFUserAccount*) setUpSmartStoreUser;
 - (void) tearDownSmartStoreUser:(SFUserAccount*)user;

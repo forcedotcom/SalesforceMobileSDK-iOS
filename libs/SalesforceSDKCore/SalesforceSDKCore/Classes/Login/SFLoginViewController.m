@@ -27,10 +27,12 @@
  */
 
 @import UIKit;
-
 #import "SFLoginViewController.h"
+#import "SFManagedPreferences.h"
 #import "SFSDKLoginHostListViewController.h"
 #import "SFSDKLoginHostDelegate.h"
+#import "UIColor+SFColors.h"
+
 
 @interface SFLoginViewController () <SFSDKLoginHostDelegate, SFUserAccountManagerDelegate, SFAuthenticationManagerDelegate>
 
@@ -42,12 +44,16 @@
 // Reference to previous user account
 @property (nonatomic, strong) SFUserAccount *previousUserAccount;
 
+
 @end
 
 @implementation SFLoginViewController
+
+
 @synthesize oauthView = _oauthView;
 
-+(instancetype)sharedInstance {
+
++ (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     static SFLoginViewController *loginViewController = nil;
     dispatch_once(&onceToken, ^{
@@ -59,9 +65,11 @@
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        _navBarColor = [UIColor colorWithRed:22.0/255.0 green:87.0/255.0 blue:205/255.0 alpha:1.0];
+        _navBarColor = [UIColor salesforceBlueColor];
         _navBarFont = nil;
         _navBarTextColor = [UIColor whiteColor];
+        _showNavbar = YES;
+        _showSettingsIcon = YES;
         [[SFUserAccountManager sharedInstance] addDelegate:self];
     }
     return self;
@@ -72,7 +80,9 @@
     // as this view is not part of navigation controller stack, needs to set the proper view background so that status bar has the
     // right background color
     self.view.backgroundColor = self.navBarColor;
-    [self setupNavigationBar];
+    if(self.showNavbar){
+        [self setupNavigationBar];
+    };
 }
 
 - (void)viewDidLayoutSubviews {
@@ -80,9 +90,11 @@
     [self layoutViews];
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if (self.showNavbar) {
+        [self styleNavigationBar:self.navBar];
+    }
     [self setupBackButton];
 }
 
@@ -94,16 +106,25 @@
 
 - (void)setupNavigationBar {
     self.navBar = [[UINavigationBar alloc] initWithFrame:CGRectZero];
-    
     NSString *title = [SFSDKResourceUtils localizedString:@"TITLE_LOGIN"];
-    // setup top item
+
+    // Setup top item.
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:title];
     self.navBar.items = @[item];
-    
-    // setup right bar button
-    UIImage *image = [SFSDKResourceUtils imageNamed:@"login-window-gear"];
-    self.navBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
-    self.navBar.tintColor = [UIColor whiteColor];
+
+    // Hides the gear icon if there are no hosts to switch to.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        self.showSettingsIcon = NO;
+    }
+    if(self.showSettingsIcon) {
+
+        // Setup right bar button.
+        UIImage *image = [[SFSDKResourceUtils imageNamed:@"login-window-gear"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(showLoginHost:)];
+        rightButton.accessibilityLabel = [SFSDKResourceUtils localizedString:@"LOGIN_CHOOSE_SERVER"];
+        self.navBar.topItem.rightBarButtonItem = rightButton;
+    }
     [self styleNavigationBar:self.navBar];
     [self.view addSubview:self.navBar];
     [self setNeedsStatusBarAppearanceUpdate];
@@ -112,7 +133,7 @@
 - (void)setupBackButton {
     // setup left bar button
     if ([self shouldShowBackButton]) {
-        UIImage *image = [SFSDKResourceUtils imageNamed:@"globalheader-back-arrow"];
+        UIImage *image = [[SFSDKResourceUtils imageNamed:@"globalheader-back-arrow"]  imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         self.navBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:@selector(backToPreviousHost:)];
     } else {
         self.navBar.topItem.leftBarButtonItem = nil;
@@ -152,7 +173,6 @@
         _loginHostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         _loginHostListViewController.delegate = self;
     }
-    
     return _loginHostListViewController;
 }
 
@@ -162,7 +182,6 @@
     if (![oauthView isEqual:_oauthView]) {
         [_oauthView removeFromSuperview];
         _oauthView = oauthView;
-        
         if (nil != _oauthView) {
             [self.view addSubview:_oauthView];
             [self layoutViews];
@@ -173,13 +192,13 @@
 #pragma mark - Layout Methods
 
 - (void)layoutViews {
+
     // Let navBar tell us what height it would prefer at the current orientation
     CGFloat navBarHeight = [self.navBar sizeThatFits:self.view.bounds.size].height;
-    
+
     // Resize navBar
     self.navBar.frame = CGRectMake(0, self.topLayoutGuide.length, self.view.bounds.size.width, navBarHeight);
-    
-    
+
     // resize oAuth view
     if (_oauthView) {
         _oauthView.frame = CGRectMake(0, CGRectGetMaxY(self.navBar.frame), self.view.bounds.size.width, self.view.bounds.size.height - CGRectGetMaxY(self.navBar.frame));
@@ -197,7 +216,11 @@
         [navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
     }
     if (self.navBarTextColor) {
+        navigationBar.tintColor = self.navBarTextColor;
         [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: self.navBarTextColor}];
+    } else {
+        // default color
+        navigationBar.tintColor = [UIColor whiteColor];
     }
     
     if (self.navBarFont && self.navBarTextColor) {

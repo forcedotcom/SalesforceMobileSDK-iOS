@@ -83,11 +83,12 @@ extern NSString * const kSFAllObjectsCacheKey;
 
 /** Get a list of recently accessed objects by object type
  
- @param objectType Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types
+ @param objectTypeName Object type name to get recently accessed objects. If nil, this method will return a list of recently accessed objecs across all object types
  @param limit Fetch limit of objects. Set to <=0 to specify no limit
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
  @param networkFieldName Network field name
+ @param inRetry Is retrying
  @param completionBlock Block to invoke after recently access objects are loaded
  @param errorBlock Block to invoke if failed to load objects
  
@@ -101,8 +102,8 @@ extern NSString * const kSFAllObjectsCacheKey;
  
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
- @param completion Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of `SFMetadataModel` objects
- @param error Block to invoke if failed to load objects list
+ @param completionBlock Block to invoke after all objects are returned. Input parameter for this completionBlock will include a list of `SFMetadataModel` objects
+ @param errorBlock Block to invoke if failed to load objects list
  
  */
 - (void)loadAllObjectTypes:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
@@ -115,8 +116,8 @@ extern NSString * const kSFAllObjectsCacheKey;
  @param objectTypeName Object type name
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
- @param completion Block to invoke after object type info is loaded
- @param error Block to invoke if loading metadata failed
+ @param completionBlock Block to invoke after object type info is loaded
+ @param errorBlock Block to invoke if loading metadata failed
  
  */
 - (void)loadObjectType:(NSString *)objectTypeName cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
@@ -127,8 +128,8 @@ extern NSString * const kSFAllObjectsCacheKey;
  @param objectTypesToLoad Array of `SFObjectTypeModel` objects to load layout for
  @param cachePolicy `SFDataCachePolicy` used to decide whether to read data from cache first and if data reload from server is needed when data is found in cache
  @param refreshCacheIfOlderThan Number of secconds that has to pass in order to refresh cache. Pass -1 if you don't want cache to be refrefreshed. This value is used together with `cachePolicy`
- @param completion Block to invoke after object type info is loaded
- @param error Block to invoke if loading metadata failed
+ @param completionBlock Block to invoke after object type info is loaded
+ @param errorBlock Block to invoke if loading metadata failed
  
  */
 - (void)loadObjectTypesLayout:(NSArray *)objectTypesToLoad cachePolicy:(SFDataCachePolicy)cachePolicy refreshCacheIfOlderThan:(NSTimeInterval)refreshCacheIfOlderThan
@@ -151,8 +152,8 @@ extern NSString * const kSFAllObjectsCacheKey;
  @param objectId Object ID
  @param objectType Object type
  @param networkFieldName Network field name
- @param completion Block to invoke after object is marked viewed
- @param error Block to invoke if marking viewed failed
+ @param completionBlock Block to invoke after object is marked viewed
+ @param errorBlock Block to invoke if marking viewed failed
  
  */
 - (void)markObjectAsViewed:(NSString *)objectId objectType:(NSString *)objectType networkFieldName:(NSString *)networkFieldName

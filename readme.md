@@ -34,18 +34,16 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 4.1
+### What's New in 4.3
 
 **SmartStore Enhancements**
-- SmartStore now allows internal (non-leaf) nodes in index paths. This feature is useful in LIKE and MATCH queries.
-- SmartStore now allows arrays in compound index paths.
+- To enhance performance in certain edge cases, SmartStore adds an option for serializing unusually large soup elements in external storage.
 
 **Library Upgrades**
-- We've updated React Native to version 0.20.
+- We've updated React Native to version 0.30.0.
+- We've updated Cordova to version 4.2.0.
 
 **Other Technical Improvements**
-- We've removed the Settings bundle. If your users relied on Settings to log out, you can recover that functionality by implementing your own logout button.
-- You no longer use Settings to set custom login hosts. Instead, you can add custom login hosts at runtime from the login screen.
 - Improvements to sample apps.
 - Various bug fixes.
 
@@ -70,9 +68,13 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
-* [Salesforce Mobile SDK for iOS Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/masterTOC.html)
-
-
+* [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
+* [SalesforceRestAPI Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceRestAPI/html/index.html)
+* [SalesforceNetwork Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetwork/html/index.html)
+* [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/html/index.html)
+* [SmartSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartSync/html/index.html)
+* [SalesforceHybridSDK Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
+* [SalesforceReact Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceReact/html/index.html)
 
 Discussion
 ==

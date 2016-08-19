@@ -1,4 +1,4 @@
-/*
+ /*
  Copyright (c) 2015, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -189,6 +189,7 @@
     }
     
     if (resultError) {
+        NetworkDebug(@"Error binding parameters to request %@: %@", request.HTTPMethod, error);
         result = NO;
     }
     

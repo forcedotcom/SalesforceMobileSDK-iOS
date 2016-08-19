@@ -40,7 +40,7 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
 
 + (void)setUp
 {
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
 }
 
 - (void)setUp
@@ -180,21 +180,163 @@ static NSTimeInterval const kTimeDelaySecsBetweenLaunchSteps = 0.5;
     XCTAssertTrue(authBypassed, @"Launch should have generated an auth-bypassed status.");
 }
 
+#pragma mark - Snapshot Tests
+
+- (void)testUsesSnapshot
+{
+    __block BOOL creationViewControllerCalled = NO;
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    [SalesforceSDKManager sharedManager].snapshotViewControllerCreationAction = ^UIViewController*() {
+        creationViewControllerCalled = YES;
+        return nil;
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    
+    XCTAssertTrue(creationViewControllerCalled, @"Did not call the snapshot view controller creation block upon application resigning active, when use snapshot is set to YES.");
+}
+
+- (void)testDoNotUseSnapshot
+{
+    __block BOOL creationViewControllerCalled = NO;
+    [SalesforceSDKManager sharedManager].useSnapshotView = NO;
+    [SalesforceSDKManager sharedManager].snapshotViewControllerCreationAction = ^UIViewController*() {
+        creationViewControllerCalled = YES;
+        return nil;
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    
+    XCTAssertFalse(creationViewControllerCalled, @"Did call the snapshot view controller creation block upon application resigning active, when use snapshot is set to NO.");
+}
+
+- (void)testSnapshotRespondsToStateEvents
+{
+    __block BOOL presentOnResignActive = NO;
+    __block BOOL dismissOnDidBecomeActive = NO;
+    UIView* fakeView = [UIView new];
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
+        presentOnResignActive = YES;
+        //This will simulate that the snapshot view is being presented
+        [fakeView addSubview:snapshotViewController.view];
+    };
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
+        dismissOnDidBecomeActive = YES;
+    };
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertTrue(presentOnResignActive, @"Did not respond to app resign active.");
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    XCTAssertTrue(dismissOnDidBecomeActive, @"Did not respond to app did become active.");
+}
+
+// Can only call presentation block if the dismissal block is also set, and vice-versa.
+- (void)testSnapshotPresentationDismissalBlocksAtomicRule
+{
+    __block BOOL presentationBlockCalled = NO;
+    __block BOOL dismissalBlockCalled = NO;
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
+        presentationBlockCalled = YES;
+    };
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = NULL;
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertFalse(presentationBlockCalled || dismissalBlockCalled, @"Called a presentation/dismissal block without both blocks being set.");
+    
+    //Test inverse
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = NULL;
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
+        dismissalBlockCalled = YES;
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertFalse(presentationBlockCalled || dismissalBlockCalled, @"Called a presentation/dismissal block without both blocks being set.");
+}
+
+- (void)testDefaultSnapshotViewControllerIsProvided
+{
+    __block UIViewController* defaultViewControllerOnPresentation = nil;
+    __block UIViewController* defaultViewControllerOnDismissal = nil;
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    [SalesforceSDKManager sharedManager].snapshotViewControllerCreationAction = NULL;
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
+        defaultViewControllerOnPresentation = snapshotViewController;
+    };
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
+        defaultViewControllerOnDismissal = snapshotViewController;
+    };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertTrue([defaultViewControllerOnPresentation isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
+    
+    //This will simulate that the snapshot view is being presented
+    UIView* fakeView = [UIView new];
+    [fakeView addSubview:defaultViewControllerOnPresentation.view];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    XCTAssertEqual(defaultViewControllerOnPresentation, defaultViewControllerOnDismissal, @"Default snapshot view controller on dismissal is different than the one provided on presentation!");
+}
+
+- (void)testDefaultSnapshotViewControllerIsProvidedWhenCustomViewControllerReturnsNil
+{
+    __block UIViewController* defaultViewController = nil;
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    [SalesforceSDKManager sharedManager].snapshotViewControllerCreationAction = ^UIViewController*() {
+        return nil;
+    };
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
+        defaultViewController = snapshotViewController;
+    };
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
+        //Need to set the dismissal block in order to get the presentation block called.
+    };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertTrue([defaultViewController isKindOfClass:UIViewController.class], @"Did not provide a valid default snapshot view controller.");
+}
+
+- (void)testCustomSnapshotViewControllerIsUsed
+{
+    UIViewController* customSnapshot = [UIViewController new];
+    __block UIViewController* snapshotOnPresentation = nil;
+    __block UIViewController* snapshotOnDismissal = nil;
+    [SalesforceSDKManager sharedManager].useSnapshotView = YES;
+    [SalesforceSDKManager sharedManager].snapshotViewControllerCreationAction = ^UIViewController*() {
+        return customSnapshot;
+    };
+    [SalesforceSDKManager sharedManager].snapshotPresentationAction = ^(UIViewController* snapshotViewController) {
+        snapshotOnPresentation = snapshotViewController;
+    };
+    [SalesforceSDKManager sharedManager].snapshotDismissalAction = ^(UIViewController* snapshotViewController) {
+        snapshotOnDismissal = snapshotViewController;
+    };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationWillResignActiveNotification object:nil];
+    XCTAssertEqual(customSnapshot, snapshotOnPresentation, @"Custom snapshot view controller was not used on presentation!");
+    
+    //This will simulate that the snapshot view is being presented
+    UIView* fakeView = [UIView new];
+    [fakeView addSubview:customSnapshot.view];
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidBecomeActiveNotification object:nil];
+    XCTAssertEqual(customSnapshot, snapshotOnDismissal, @"Custom snapshot view controller was not used on dismissal!");
+}
+
 #pragma mark - Private helpers
 
 - (void)createStandardPostLaunchBlock
 {
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActions) {
-        _postLaunchBlockCalled = YES;
-        _postLaunchActions = launchActions;
+        self->_postLaunchBlockCalled = YES;
+        self->_postLaunchActions = launchActions;
     };
 }
 
 - (void)createStandardLaunchErrorBlock
 {
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchAction) {
-        _launchError = error;
-        _launchErrorBlockCalled = YES;
+        self->_launchError = error;
+        self->_launchErrorBlockCalled = YES;
     };
 }
 

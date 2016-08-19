@@ -113,7 +113,7 @@ extern NSString * const kSFDefaultRestEndpoint;
  * The query parameters of the request (could be nil).
  * Note that URL encoding of the parameters will automatically happen when the request is sent.
  */
-@property (nullable, nonatomic, strong) NSDictionary<NSString*, NSString*> *queryParams;
+@property (nullable, nonatomic, strong) NSDictionary<NSString*, NSObject*> *queryParams;
 
 /**
  * Dictionary of any custom HTTP headers you wish to add to your request.  You can also use
@@ -170,7 +170,11 @@ extern NSString * const kSFDefaultRestEndpoint;
 - (void) cancel;
 
 /**
- * Add file to upload
+ * Add file to upload.
+ * @param fileData Value of this POST parameter
+ * @param paramName Name of the POST parameter
+ * @param fileName Name of the file
+ * @param mimeType MIME type of the file
  */
 - (void)addPostFileData:(NSData *)fileData paramName:(NSString *)paramName fileName:(NSString *)fileName mimeType:(NSString *)mimeType;
 
@@ -195,13 +199,16 @@ extern NSString * const kSFDefaultRestEndpoint;
  */
 - (void)setCustomRequestBodyStream:(NSInputStream* (^)(void))bodyStreamBlock contentType:(NSString *)contentType;
 
-/**
- * Returns YES if error is a network error
+/** Indicates whether the error code of the given error specifies a network error.
+ * @param error The error object to check
+ * @return YES if the error code of the given error specifies a network error
  */
 + (BOOL)isNetworkError:(NSError *)error;
 
 /**
  * Return SFRestMethod from string
+ @param httpMethod An HTTP method; for example, "get" or "post"
+ @return The SFRestMethod enumerator for the given HTTP method
  */
 + (SFRestMethod)sfRestMethodFromHTTPMethod:(NSString *)httpMethod;
 

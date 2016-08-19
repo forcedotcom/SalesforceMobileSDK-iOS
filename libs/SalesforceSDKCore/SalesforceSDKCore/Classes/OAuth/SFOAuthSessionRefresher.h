@@ -33,6 +33,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthSessionRefreshErrorCode) {
     SFOAuthSessionRefreshErrorCodeInvalidCredentials = 766,
 };
 
+/** This class refreshes stale OAuth sessions, if possible.
+ */
 @interface SFOAuthSessionRefresher : NSObject
 
 /**

@@ -41,35 +41,34 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeProviderManager.h"
 #import "SFPushNotificationManager.h"
-
+#import "SFManagedPreferences.h"
 #import "SFOAuthCredentials.h"
 #import "SFOAuthInfo.h"
 #import "NSURL+SFAdditions.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import <WebKit/WKWebView.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
 
 // Public notification name constants
-
 NSString * const kSFUserWillLogoutNotification = @"kSFUserWillLogoutNotification";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
 // Auth error handler name constants
-
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 
 // Private constants
-
-static NSInteger  const kOAuthGenericAlertViewTag    = 444;
-static NSInteger  const kIdentityAlertViewTag = 555;
-static NSInteger  const kConnectedAppVersionMismatchViewTag = 666;
+static NSInteger const kOAuthGenericAlertViewTag           = 444;
+static NSInteger const kIdentityAlertViewTag               = 555;
+static NSInteger const kConnectedAppVersionMismatchViewTag = 666;
+static NSInteger const kAdvancedAuthDialogTag              = 777;
 
 static NSString * const kAlertErrorTitleKey = @"authAlertErrorTitle";
 static NSString * const kAlertOkButtonKey = @"authAlertOkButton";
@@ -77,6 +76,7 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 
 #pragma mark - SFAuthBlockPair
 
@@ -167,9 +167,15 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 @property (atomic, strong) NSMutableArray *authBlockList;
 
 /**
+ The callback block used to notify the OAuth coordinator whether it should proceed with
+ the browser authentication flow.
+ */
+@property (nonatomic, copy) SFOAuthBrowserFlowCallbackBlock authCoordinatorBrowserBlock;
+
+/**
  The list of delegates
  */
-@property (nonatomic, strong) NSMutableOrderedSet *delegates;
+@property (nonatomic, strong, nonnull) NSHashTable<id<SFAuthenticationManagerDelegate>> *delegates;
 
 
 /** 
@@ -190,13 +196,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  Method to present the authorizing view controller with the given auth webView.
  @param webView The auth webView to present.
  */
-- (void)presentAuthViewController:(UIWebView *)webView;
-
-/**
- Dismisses the auth view controller, resetting the UI state back to its original
- presentation.
- */
-- (void)dismissAuthViewControllerIfPresent;
+- (void)presentAuthViewController:(WKWebView *)webView;
 
 /**
  Called after initial authentication has completed.
@@ -305,12 +305,12 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        self.delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
-                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
+                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     if (weakSelf.authViewController == nil)
                                         weakSelf.authViewController = [SFLoginViewController sharedInstance];
                                     [weakSelf.authViewController setOauthView:authWebView];
@@ -505,16 +505,12 @@ static Class InstanceClass = nil;
     
     // Check that the current user itself has a valid session
     SFUserAccount *userAcct = [[SFUserAccountManager sharedInstance] currentUser];
-    if ([userAcct isSessionValid]) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return [userAcct isSessionValid];
 }
 
 - (void)setAdvancedAuthConfiguration:(SFOAuthAdvancedAuthConfiguration)advancedAuthConfiguration
 {
-    self.advancedAuthConfiguration = advancedAuthConfiguration;
+    _advancedAuthConfiguration = advancedAuthConfiguration;
     self.coordinator.advancedAuthConfiguration = advancedAuthConfiguration;
 }
 
@@ -534,15 +530,13 @@ static Class InstanceClass = nil;
 {
     NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
     NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
         for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
                 for (NSString *domainToRemoveName in domainNames) {
-                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
-                    {
+                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
                         [cookieStorage deleteCookie:cookie];
                     }
                 }
@@ -556,7 +550,9 @@ static Class InstanceClass = nil;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
+        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
+            [cookieStorage deleteCookie:cookie];
+        }
     }
 }
 
@@ -619,6 +615,7 @@ static Class InstanceClass = nil;
             case NSURLErrorCannotConnectToHost:
             case NSURLErrorNetworkConnectionLost:
             case NSURLErrorNotConnectedToInternet:
+            case NSURLErrorInternationalRoamingOff:
                 isNetworkFailure = YES;
                 break;
             default:
@@ -762,16 +759,30 @@ static Class InstanceClass = nil;
 - (void)loginWithUser:(SFUserAccount*)account {
     NSAssert(account != nil, @"Account should be set at this point.");
     [SFUserAccountManager sharedInstance].currentUser = account;
-    
-    // Setup the internal logic for the specified user
+
+    // Setup the internal logic for the specified user.
     [self setupWithUser:account];
-    
-    // Trigger the login flow
+
+    // Trigger the login flow.
     if (self.coordinator.isAuthenticating) {
         [self.coordinator stopAuthentication];        
     }
+
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
+    }
+
+    // Don't try to authenticate if MDM OnlyShowAuthorizedHosts is configured and there are no hosts.
+    SFManagedPreferences *managedPreferences = [SFManagedPreferences sharedPreferences];
+    if (managedPreferences.onlyShowAuthorizedHosts && managedPreferences.loginHosts.count == 0) {
+        [self log:SFLogLevelDebug msg:@"Invalid MDM Configuration, OnlyShowAuthorizedHosts is enabled, but no hosts are provided"];
+        NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
+        NSDictionary *dict = @{NSLocalizedDescriptionKey: [NSString stringWithFormat:@"%@ doesn't have a login page set up yet. Ask your Salesforce admin for help.", appName]};
+        NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:kSFOAuthErrorInvalidMDMConfiguration userInfo:dict];
+        [self oauthCoordinator:self.coordinator didFailWithError:error authInfo:nil];
+        return;
     }
     [self.coordinator authenticate];
 }
@@ -828,7 +839,7 @@ static Class InstanceClass = nil;
    [self.statusAlert dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)presentAuthViewController:(UIWebView *)webView
+- (void)presentAuthViewController:(WKWebView *)webView
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -915,14 +926,33 @@ static Class InstanceClass = nil;
 
                                            // The OAuth failure block should be followed, after acknowledging the version mismatch.
                                            [weakSelf execFailureBlocks];
+                                       } else if (tag == kAdvancedAuthDialogTag) {
+                                           [weakSelf delegateDidProceedWithBrowserFlow];
+                                           
+                                           // Let the OAuth coordinator know whether to proceed or not.
+                                           if (weakSelf.authCoordinatorBrowserBlock) {
+                                               weakSelf.authCoordinatorBrowserBlock(YES);
+                                           }
                                        }
                                    }];
         [self.statusAlert addAction:okAction];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
-                                            [weakSelf.statusAlert dismissViewControllerAnimated:YES completion:nil];
+                                            if(tag == kAdvancedAuthDialogTag) {
+                                                [weakSelf cancelAuthentication];
+                                                [weakSelf delegateDidCancelBrowserFlow];
+                                           
+                                                // Let the OAuth coordinator know whether to proceed or not.
+                                                if (weakSelf.authCoordinatorBrowserBlock) {
+                                                    weakSelf.authCoordinatorBrowserBlock(NO);
+                                                }
+                                            } else if (tag == kOAuthGenericAlertViewTag){
+                                                // Let the delegate know about the cancellation
+                                                [weakSelf delegateDidCancelGenericFlow];
+                                            }
                                         }];
+        
         [self.statusAlert addAction:cancelAction];
         [[SFRootViewManager sharedManager] pushViewController:self.statusAlert];
     }
@@ -941,7 +971,12 @@ static Class InstanceClass = nil;
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
-                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %d", error.code];
+                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
+                                                   [weakSelf execFailureBlocks];
+                                                   return YES;
+                                               }
+                                               if (error.code == kSFOAuthErrorJWTInvalidGrant) {
+                                                   [weakSelf log:SFLogLevelWarning format:@"JWT swap failed due to invalid grant.  Error code: %ld", (long)error.code];
                                                    [weakSelf execFailureBlocks];
                                                    return YES;
                                                }
@@ -955,7 +990,7 @@ static Class InstanceClass = nil;
                                             initWithName:kSFConnectedAppVersionAuthErrorHandler
                                             evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                 if (error.code == kSFOAuthErrorWrongVersion) {
-                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %d", error.code];
+                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
                                                     [weakSelf showAlertForConnectedAppVersionMismatchError];
                                                     return YES;
                                                 }
@@ -1024,8 +1059,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -1034,8 +1068,7 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -1043,13 +1076,45 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        [self.delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        NSHashTable<id<SFAuthenticationManagerDelegate>> *safeCopy = [self.delegates copy];
+        for (id<SFAuthenticationManagerDelegate> delegate in safeCopy) {
+            if (block) block(delegate);
+        }
     }
+}
+
+#pragma mark - Delegate Wrapper Methods
+
+- (void)delegateDidProceedWithBrowserFlow {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidProceedWithBrowserFlow:)]) {
+            [delegate authManagerDidProceedWithBrowserFlow:self];
+        }
+    }];
+}
+
+- (void)delegateDidCancelBrowserFlow {
+    __block BOOL handledByDelegate = NO;
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
+            handledByDelegate = YES;
+            [delegate authManagerDidCancelBrowserFlow:self];
+        }
+    }];
+    
+    // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
+    if (!handledByDelegate) {
+        SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
+    }
+}
+
+- (void)delegateDidCancelGenericFlow {
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidCancelGenericFlow:)]) {
+            [delegate authManagerDidCancelGenericFlow:self];
+        }
+    }];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -1063,7 +1128,7 @@ static Class InstanceClass = nil;
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1073,7 +1138,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didStartLoad:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1083,7 +1148,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError *)errorOrNil
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didFinishLoad:error:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1093,7 +1158,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
     
@@ -1158,6 +1223,45 @@ static Class InstanceClass = nil;
     }];
     
     return result;
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginBrowserAuthentication:(SFOAuthBrowserFlowCallbackBlock)callbackBlock {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self oauthCoordinator:coordinator willBeginBrowserAuthentication:callbackBlock];
+        });
+        return;
+    }
+    
+    self.authCoordinatorBrowserBlock = callbackBlock;
+    NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];;
+    NSString *alertMessage = [NSString stringWithFormat:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowMessage"], coordinator.credentials.domain, appName];
+    
+    if (self.statusAlert) {
+        self.statusAlert = nil;
+    }
+    [self showAlertWithTitle:[SFSDKResourceUtils localizedString:@"authAlertBrowserFlowTitle"]
+                     message:alertMessage
+            firstButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"]
+           secondButtonTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"]
+                         tag:kAdvancedAuthDialogTag];
+}
+
+- (void)oauthCoordinatorDidCancelBrowserFlow:(SFOAuthCoordinator *)coordinator {
+    __block BOOL handledByDelegate = NO;
+    
+    [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(authManagerDidCancelBrowserFlow:)]) {
+            [delegate authManagerDidCancelBrowserFlow:self];
+            handledByDelegate = YES;
+        }
+    }];
+    
+    // TODO: Determine if this is the correct approach. If so, then SFAuthenticationManager probably needs to conform to SFSDKLoginHostDelegate.
+    if (!handledByDelegate) {
+        SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
+    }
 }
 
 #pragma mark - SFIdentityCoordinatorDelegate

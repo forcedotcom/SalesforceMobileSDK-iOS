@@ -24,8 +24,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
 #import "SFUserAccountConstants.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class SFCommunityData;
 @class SFUserAccountIdentity;
@@ -35,11 +36,11 @@
 /** Class that represents an `account`. An `account` represents
  a user together with the current community it is logged in.
  */
-@interface SFUserAccount : NSObject<NSCoding>
+@interface SFUserAccount : NSObject <NSSecureCoding>
 
 /** The access scopes for this user
  */
-@property (nonatomic, copy) NSSet *accessScopes;
+@property (nonatomic, copy, nullable) NSSet<NSString*> *accessScopes;
 
 /**
  The unique identifier for this account.
@@ -62,7 +63,7 @@
 
 /** The user's email
  */
-@property (nonatomic, copy) NSString *email;
+@property (nonatomic, copy, nullable) NSString *email;
 
 /** The user's organization name
  */
@@ -81,7 +82,7 @@
  because this class doesn't fetch it from the server but
  only stores it locally on the disk.
  */
-@property (nonatomic, strong) UIImage *photo;
+@property (nonatomic, strong, nullable) UIImage *photo;
 
 /** The access restriction associated with this user
  */
@@ -89,11 +90,11 @@
 
 /** The current community id the user is logged in
  */
-@property (nonatomic, copy) NSString *communityId;
+@property (nonatomic, copy, nullable) NSString *communityId;
 
 /** The list of communities (as SFCommunityData item)
  */
-@property (nonatomic, copy) NSArray *communities;
+@property (nonatomic, copy, nullable) NSArray<SFCommunityData *> *communities;
 
 /** Indicates whether or not the receiver represents a guest user account.
  */
@@ -143,41 +144,46 @@
 /** Returns the community API url for a particular
  community ID if it exists in the communities array
  
- @communityId The id of the community
- @return The url of the API endpoint for that community
+ @param communityId The ID of the community
+ @return The URL of the API endpoint for that community
  */
-- (NSURL*)communityUrlWithId:(NSString *)communityId;
+- (nullable NSURL*)communityUrlWithId:(NSString *)communityId;
 
 /** Returns the community dictionary for the specified ID
+ @param communityId The ID of the community
+ @return The dictionary for the given community
  */
-- (SFCommunityData*)communityWithId:(NSString*)communityId;
+- (nullable SFCommunityData*)communityWithId:(NSString*)communityId;
 
 /** Set object in customData dictionary
  
- @property object The object to store, must be NSCoding enabled
- @property key An NSCopying key to store the object at
+ @param object The object to store, must be NSCoding enabled
+ @param key An NSCopying key to store the object at
  */
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key;
 
 /** Remove a custom data object for a key
  
- @property key The key for the object to remove
+ @param key The key for the object to remove
  */
 - (void)removeCustomDataObjectForKey:(id)key;
 
 /** Retrieve the object stored in the custom data dictionary
+ @param key The key for the object to retrieve
  @return The object for a particular key
  */
-- (id)customDataObjectForKey:(id)key;
+- (nullable id)customDataObjectForKey:(id)key;
 
 /** Function that returns a key that uniquely identifies this user account for the
  given scope. Note that if you use SFUserAccountScopeGlobal,
  the same key will be returned regardless of the user account.
  
- @user The user
- @scope The scope
+ @param user The user
+ @param scope The scope
  @return a key identifying this user account for the specified scope
  */
-NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope);
+NSString *_Nullable SFKeyForUserAndScope(SFUserAccount * _Nullable user, SFUserAccountScope scope);
 
 @end
+
+NS_ASSUME_NONNULL_END

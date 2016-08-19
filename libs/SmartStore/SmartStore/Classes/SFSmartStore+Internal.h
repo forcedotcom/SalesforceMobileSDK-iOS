@@ -31,11 +31,18 @@
 @class FMDatabase;
 @class FMResultSet;
 
+typedef NS_ENUM(NSUInteger, SFSmartStoreFtsExtension) {
+    SFSmartStoreFTS4 = 4,
+    SFSmartStoreFTS5 = 5
+};
+
+
 @interface SFSmartStore () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, strong) FMDatabaseQueue *storeQueue;
 @property (nonatomic, strong) SFSmartStoreDatabaseManager *dbMgr;
 @property (nonatomic, assign) BOOL isGlobal;
+@property (nonatomic, assign) SFSmartStoreFtsExtension ftsExtension;
 
 /**
  Simply open the db file.
@@ -45,10 +52,19 @@
 
 /**
  Create soup index map table to keep track of soups' index specs (SOUP_INDEX_MAP_TABLE)
- Create soup names table to map arbitrary soup names to soup table names (SOUP_NAMES_TABLE)
+ Create soup attributes table to keep track of soups' attributes specs (e.g. external blobs storage)
+ and maps arbitrary soup names to soup table names (SOUP_ATTRS_TABLE)
  @return YES if we were able to create the meta tables, NO otherwise.
  */
 - (BOOL)createMetaTables;
+
+/**
+ Returns the features currently registered.
+ @see SFSoupSpec for a list of features.
+ @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
+ @return array with registered soup features, if none, an empty array.
+ */
+- (NSArray *)registeredSoupFeaturesWithDb:(FMDatabase*)db;
 
 /**
  Create long operations status table (LONG_OPERATIONS_STATUS_TABLE)
@@ -57,19 +73,71 @@
 - (BOOL) createLongOperationsStatusTable;
 
 /**
- Register the soup 
- @param soupName The name of the soup to register
+ Register the soup
+ @param soupSpec The soup specs of the soup to register
  @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
  @param soupTableName The name of the table to use for the soup
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  */
-- (void)registerSoup:(NSString*)soupName withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
+- (void)registerSoupWithSpec:(SFSoupSpec*)soupSpec withIndexSpecs:(NSArray*)indexSpecs withSoupTableName:(NSString*) soupTableName withDb:(FMDatabase*) db;
+
+/**
+ @return the root directory where external blobs are stored.
+ */
+- (NSString *)externalStorageRootDirectory;
+
+/**
+ @param soupTableName the soup table name
+ @return the directory in which external blobs are stored for a soup (based on table name).
+ */
+
+- (NSString *)externalStorageSoupDirectory:(NSString *)soupTableName;
+
+/**
+ @param soupEntryId the soup entry id
+ @param soupTableName the soup table name
+ @return the file path where external blobs of a soup entry is stored.
+ */
+- (NSString *)externalStorageSoupFilePath:(NSNumber *)soupEntryId
+                            soupTableName:(NSString *)soupTableName;
+
+/**
+ @param soupEntry     the soup entry to save to a external file
+ @param soupEntryId   the soup entry id
+ @param soupTableName the soup table name
+ @return YES if file was saved successfully.
+ */
+- (BOOL)saveSoupEntryExternally:(NSDictionary *)soupEntry
+                    soupEntryId:(NSNumber *)soupEntryId
+                  soupTableName:(NSString *)soupTableName;
+
+/**
+ @param soupEntryId   the soup entry id
+ @param soupTableName the soup table name
+ @return a soup entry if file was loaded successfully.
+ */
+- (id)loadExternalSoupEntry:(NSNumber *)soupEntryId
+              soupTableName:(NSString *)soupTableName;
+
+/**
+ @param soupTableName the soup table name
+ @param deleteDir whether or not should delete directory as well
+ */
+- (void)deleteAllExternalEntries:(NSString *)soupTableName
+                       deleteDir:(BOOL)deleteDir;
 
 /**
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
- @return The soup table name from SOUP_NAMES_TABLE, based on soup name.
+ @return The soup table name from SOUP_ATTRS_TABLE, based on soup name.
  */
 - (NSString *)tableNameForSoup:(NSString*)soupName withDb:(FMDatabase*) db;
+
+/**
+ @param soupName the name of the soup
+ @param db Database.
+ @return SFSoupSpec for the given soup name
+ */
+- (SFSoupSpec*)attributesForSoup:(NSString*)soupName withDb:(FMDatabase *)db;
 
 /**
  @param soupName the name of the soup
@@ -81,7 +149,7 @@
 /**
  Helper method re-index a soup.
  @param soupName The soup to re-index
- @param indexSpecs Array of one ore more IndexSpec objects as dictionaries
+ @param indexPaths Array of one ore more IndexSpec objects as dictionaries
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return YES if the insert was successful, NO otherwise.
  */
@@ -98,7 +166,7 @@
 /**
  Helper method to update existing values in a table.
  @param tableName The name of the table to update.
- @param values The column name/value mapping to update.
+ @param map The column name/value mapping to update.
  @param entryId The ID value used to determine what to update.
  @param idCol The name of the ID column
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
@@ -108,11 +176,12 @@
 
 /**
  Helper to query table
- @param table
- @param columns
- @param limit
- @param whereClause
- @param whereArgs
+ @param table Table
+ @param columns Column names
+ @param orderBy Order by column
+ @param limit Limit
+ @param whereClause Where clause
+ @param whereArgs  Arguments to where clause
  @param db This method is expected to be called from [fmdbqueue inDatabase:^(){ ... }]
  @return FMResultSet
  */

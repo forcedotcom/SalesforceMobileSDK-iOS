@@ -36,6 +36,8 @@
  */
 @interface CSFOutput : NSObject <NSSecureCoding, NSCopying, CSFActionModel>
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+
 /** Designated initializer to construct a model object from its JSON representation.
 
  @param json    Dictionary of structured data from the network.
@@ -91,6 +93,21 @@
  @return The storage key to use when serializing JSON.
  */
 + (NSString*)storageKeyPathForPropertyName:(NSString*)propertyName;
+
+/** Returns a BOOL value indicating if the propertyName specified will store the contents of Array.
+ 
+ @discussion
+ This class method lets developers specify the default property to be used when the object is instantiated with
+ a JSON Array. You can continue to use the "actionModelForPropertyName:propertyClass:contents:" method to speciify the types of objects that will be stored in the
+ array.
+ 
+ @note in order to use this class method your object must be instantiated with an NSArray in the designater initializer "json" parameter. you must also ensure you return yes for only one of the properties of type NSArray.
+ 
+ @param propertyName The name of the Objective-C property whose type will be NSArray.
+ @return a BOOL value indicatind if the passed in property name is default.
+ */
+
++ (BOOL)isDefaultPropertyForArray:(NSString *)propertyName;
 
 /** Returns the underlying class type for a dynamic property, if it isn't clear from the property description.
  

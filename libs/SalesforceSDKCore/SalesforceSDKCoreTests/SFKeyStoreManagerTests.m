@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
 #import "SFKeyStoreManager+Internal.h"
@@ -37,7 +36,7 @@
 
 - (void)setUp {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     
     // initialize passcode mgr
     [[SFPasscodeManager sharedManager] changePasscode: nil];

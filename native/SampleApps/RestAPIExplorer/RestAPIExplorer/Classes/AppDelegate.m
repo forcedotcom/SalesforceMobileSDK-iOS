@@ -47,8 +47,11 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 {
     self = [super init];
     if (self) {
-        [SFLogger setLogLevel:SFLogLevelDebug];
-        
+        #if defined(DEBUG)
+            [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
+        #else
+            [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
+        #endif
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
@@ -90,6 +93,10 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     //Uncomment the code below to see how you can customize the color, textcolor, font and fontsize of the navigation bar
     //
     //SFLoginViewController *loginViewController = [SFLoginViewController sharedInstance];
+    //Set showNavBar to NO if you want to hide the top bar
+    //loginViewController.showNavbar = YES;
+    //Set showSettingsIcon to NO if you want to hide the settings icon on the nav bar
+    //loginViewController.showSettingsIcon = YES;
     // Set primary color to different color to style the navigation header
     //loginViewController.navBarColor = [UIColor colorWithRed:0.051 green:0.765 blue:0.733 alpha:1.0];
     //loginViewController.navBarFont = [UIFont fontWithName:@"Helvetica" size:16.0];

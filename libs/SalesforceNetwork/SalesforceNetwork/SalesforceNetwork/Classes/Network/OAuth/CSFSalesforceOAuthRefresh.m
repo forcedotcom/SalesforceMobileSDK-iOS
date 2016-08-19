@@ -27,6 +27,7 @@
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFOAuthTokenRefreshOutput.h"
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "CSFInternalDefines.h"
 
 @interface CSFSalesforceOAuthRefresh () <SFOAuthCoordinatorDelegate>
 
@@ -71,7 +72,7 @@
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
     if ([error.domain isEqualToString:kSFOAuthErrorDomain] && error.code == kSFOAuthErrorInvalidGrant) {
-        NSLog(@"[%@ %@] INFO: invalid grant error received, triggering logout.", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+        NetworkInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
@@ -93,7 +94,7 @@
     [self finishWithOutput:nil error:error];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view {
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view {
     // Shouldn't happen (refreshAuth is guarded by the presence of a refresh token), but....
     NSString *errorString = [NSString stringWithFormat:@"%@: User Agent flow not supported for token refresh.", NSStringFromClass([self class])];
     NSError *error = [NSError errorWithDomain:CSFNetworkErrorDomain

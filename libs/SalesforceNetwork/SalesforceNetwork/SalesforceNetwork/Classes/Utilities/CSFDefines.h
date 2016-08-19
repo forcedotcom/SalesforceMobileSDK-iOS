@@ -32,9 +32,15 @@
 #endif
 #endif
 
+#ifndef NS_STRING_ENUM
+#define NS_STRING_ENUM
+#endif
+
 @class CSFAction;
 
 CSF_EXTERN NSString * const kCSFConnectVersion;
+
+CSF_EXTERN NSString * const CSFNetworkLogIdentifier;
 
 /**
  This block is invoked after the action has completed with or without error.

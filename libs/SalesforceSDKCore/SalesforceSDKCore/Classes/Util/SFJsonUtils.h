@@ -82,7 +82,7 @@
 
 
 /**
- * Pull a value from the json-derived object by path ("." delimited)
+ * Pull a value from the json-derived object by path ("." delimited).
  *
  * Examples (in pseudo code):
  *
@@ -92,6 +92,8 @@
  * projectIntoJson(json, "a.b.c") = ["xx", "xy"]                                     // new in 4.1
  * projectIntoJson(json, "a.b.d") = [[{"e":1}, {"e":2}], [{"e":3}, {"e":4}]]         // new in 4.1
  * projectIntoJson(json, "a.b.d.e") = [[1, 2], [3, 4]]                               // new in 4.1
+ * @param jsonObj The JSON object that contains the requested JSON path.
+ * @param path Requested JSON path.
  */
 + (id)projectIntoJson:(NSDictionary *)jsonObj path:(NSString *)path;
 

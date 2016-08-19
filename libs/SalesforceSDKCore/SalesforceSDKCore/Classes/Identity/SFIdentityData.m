@@ -72,7 +72,11 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 
 #pragma mark - init / dealloc / standard overrides
 
-- (id)initWithJsonDict:(NSDictionary *)jsonDict
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (instancetype)initWithJsonDict:(NSDictionary *)jsonDict
 {
     self = [super init];
     if (self) {
@@ -81,11 +85,6 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    self.dictRepresentation = nil;
 }
 
 - (NSString *)description
@@ -353,7 +352,7 @@ NSString * const kIdJsonDictKey                           = @"dictRepresentation
 {
     self = [super init];
     if (self) {
-        self.dictRepresentation = [aDecoder decodeObjectForKey:kIdJsonDictKey];
+        self.dictRepresentation = [aDecoder decodeObjectOfClass:[NSDictionary class] forKey:kIdJsonDictKey];
     }
     
     return self;

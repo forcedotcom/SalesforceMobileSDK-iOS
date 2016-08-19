@@ -24,10 +24,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class SFOAuthCredentials;
+
 /**
  Represents the unique identity of a given user account.
  */
-@interface SFUserAccountIdentity : NSObject <NSCoding, NSCopying>
+@interface SFUserAccountIdentity : NSObject <NSSecureCoding, NSCopying>
 
 /**
  The user ID associated with the account.
@@ -61,5 +63,12 @@
  NSOrderedSame if they're equal.
  */
 - (NSComparisonResult)compare:(SFUserAccountIdentity *)otherIdentity;
+
+/**
+ Compares the user identifying information of the account identity with that in the credentials.
+ @param credentials The OAuthCredentials to compare against
+ @return BOOL Whether or not the user contained is the same
+ */
+- (BOOL)matchesCredentials:(SFOAuthCredentials *)credentials;
 
 @end

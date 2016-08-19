@@ -1,4 +1,8 @@
 /*
+ 
+ Title: Salesforce MobileSDK Localized Strings
+ Description: List of string constants that are used by Salesforce MobileSDK.
+ 
  Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -43,12 +47,16 @@
 "logoutYes" = "Yes";
 
 // OAuth flow
+"authAlertContinueButton"="Continue";
 "authAlertErrorTitle" = "Salesforce Error";
 "authAlertOkButton" = "OK";
+"authAlertCancelButton"="Cancel";
 "authAlertRetryButton" = "Retry";
 "authAlertDismissButton" = "Dismiss";
 "authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
+"authAlertBrowserFlowTitle"="Log In";
+"authAlertBrowserFlowMessage"="To log you in to %1$@, Safari will open briefly. You'll switch back to %2$@ after authentication.";
 
 // LoginViewController
 "TITLE_LOGIN" = "Log In";

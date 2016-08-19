@@ -23,6 +23,7 @@
  */
 
 #import "CSFAuthRefresh+Internal.h"
+#import "CSFInternalDefines.h"
 
 static NSMutableDictionary *CompletionBlocks = nil;
 static NSMutableDictionary *RefreshingClasses = nil;
@@ -47,6 +48,10 @@ static NSObject *AuthRefreshLock = nil;
 }
 
 - (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error {
+    if (error) {
+        NetworkDebug(@"Refresh failed: %@", error);
+    }
+
     @synchronized (AuthRefreshLock) {
 		// update refreshing flag to NO up front so any request come into the network queue that requires access token does not get blocked 
         RefreshingClasses[(id<NSCopying>)[self class]] = @NO;
@@ -74,7 +79,7 @@ static NSObject *AuthRefreshLock = nil;
         if (classCompletionBlocks.count == 1) {
             // First refresh request will fire off the actual refresh.  All subsequent
             // requests have their completion blocks queued for the refresh completion.
-            NSLog(@"[%@ %@] INFO: initiating auth refresh.", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
+            NetworkInfo(@"Initiating auth refresh.");
             RefreshingClasses[(id<NSCopying>)[self class]] = @YES;
             [self refreshAuth];
         }

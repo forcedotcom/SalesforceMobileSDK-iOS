@@ -28,8 +28,8 @@
 #import "SFPBKDF2PasscodeProvider.h"
 
 // Public constants
-NSString * const kSFPasscodeProviderSHA256 = @"sha256";
-NSString * const kSFPasscodeProviderPBKDF2 = @"pbkdf2";
+SFPasscodeProviderId const kSFPasscodeProviderSHA256 = @"sha256";
+SFPasscodeProviderId const kSFPasscodeProviderPBKDF2 = @"pbkdf2";
 
 // Private constants
 static NSString * const kSFCurrentPasscodeProviderUserDefaultsKey = @"com.salesforce.mobilesdk.currentPasscodeProvider";
@@ -49,7 +49,7 @@ static NSMutableDictionary *PasscodeProviderMap;
                            nil];
 }
 
-+ (NSString *)currentPasscodeProviderName
++ (SFPasscodeProviderId)currentPasscodeProviderName
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
     NSString *currentProviderName = [defs objectForKey:kSFCurrentPasscodeProviderUserDefaultsKey];
@@ -64,7 +64,7 @@ static NSMutableDictionary *PasscodeProviderMap;
     return currentProviderName;
 }
 
-+ (void)setCurrentPasscodeProviderByName:(NSString *)providerName
++ (void)setCurrentPasscodeProviderByName:(SFPasscodeProviderId)providerName
 {
     id<SFPasscodeProvider> provider = [SFPasscodeProviderManager passcodeProviderForProviderName:providerName];
     if (provider == nil) {
@@ -90,7 +90,7 @@ static NSMutableDictionary *PasscodeProviderMap;
     return [SFPasscodeProviderManager passcodeProviderForProviderName:[SFPasscodeProviderManager currentPasscodeProviderName]];
 }
 
-+ (id<SFPasscodeProvider>)passcodeProviderForProviderName:(NSString *)providerName
++ (id<SFPasscodeProvider>)passcodeProviderForProviderName:(SFPasscodeProviderId)providerName
 {
     return (id<SFPasscodeProvider>)PasscodeProviderMap[providerName];
 }

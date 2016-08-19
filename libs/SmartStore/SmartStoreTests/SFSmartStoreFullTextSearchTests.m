@@ -45,26 +45,12 @@
 
 @implementation SFSmartStoreFullTextSearchTests
 
-#define kTestStore            @"testSmartStoreFullTextSearchStore"
-#define kEmployeesSoup        @"employees"
-#define kFirstName            @"firstName"
-#define kLastName             @"lastName"
-#define kEmployeeId           @"employeeId"
-
 #pragma mark - setup and teardown
 
 - (void) setUp
 {
     [super setUp];
     self.store = [SFSmartStore sharedGlobalStoreWithName:kTestStore];
-    NSArray* soupIndices = [SFSoupIndex asArraySoupIndexes:
-                            @[[self createFullTextIndexSpec:kFirstName],    // should be TABLE_1_0
-                              [self createFullTextIndexSpec:kLastName],     // should be TABLE_1_1
-                              [self createStringIndexSpec:kEmployeeId]]];   // should be TABLE_1_2
-    // Employees soup
-    [self.store registerSoup:kEmployeesSoup                             // should be TABLE_1
-              withIndexSpecs:soupIndices
-                       error:nil];
 }
 
 - (void) tearDown
@@ -75,18 +61,49 @@
     self.store = nil;
 }
 
+- (void) setupSoup:(SFSmartStoreFtsExtension) ftsExtension
+{
+    self.store.ftsExtension = ftsExtension;
+    NSArray* soupIndices = [SFSoupIndex asArraySoupIndexes:
+                            @[[self createFullTextIndexSpec:kFirstName],    // should be TABLE_1_0
+                              [self createFullTextIndexSpec:kLastName],     // should be TABLE_1_1
+                              [self createStringIndexSpec:kEmployeeId]]];   // should be TABLE_1_2
+    // Employees soup
+    [self.store registerSoup:kEmployeesSoup                             // should be TABLE_1
+              withIndexSpecs:soupIndices
+                       error:nil];
+}
+
 #pragma mark - Tests
 
 /**
- * Test register/drop soup that uses full-text search indices
+ * Test register/drop soup that uses full-text search indices - with fts4
  */
-- (void) testRegisterDropSoup
+- (void) testRegisterDropSoupFts4
 {
+    [self tryRegisterDropSoup:SFSmartStoreFTS4];
+}
+
+/**
+ * Test register/drop soup that uses full-text search indices - with fts5
+ */
+- (void) testRegisterDropSoupFts5
+{
+    [self tryRegisterDropSoup:SFSmartStoreFTS5];
+}
+
+- (void) tryRegisterDropSoup:(SFSmartStoreFtsExtension)ftsExtension
+{
+    [self setupSoup:ftsExtension];
+    
     NSString* soupTableName = [self getSoupTableName:kEmployeesSoup store:self.store];
     XCTAssertEqualObjects(@"TABLE_1", soupTableName, @"getSoupTableName should have returned TABLE_1");
     XCTAssertTrue([self hasTable:@"TABLE_1" store:self.store], @"Table for soup employees does exit");
     XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
     XCTAssertTrue([self.store soupExists:kEmployeesSoup], @"Register soup failed");
+    
+    NSString* expectedCreateSql = [NSString stringWithFormat:@"CREATE VIRTUAL TABLE TABLE_1_fts USING fts%u", ftsExtension];
+    [self checkCreateTableStatment:@"TABLE_1_fts" expectedSqlStatementPrefix:expectedCreateSql store:self.store];
 
     // Drop
     [self.store removeSoup:kEmployeesSoup];
@@ -99,10 +116,25 @@
 }
 
 /**
- * Test inserting rows
+ * Test inserting rows with fts4
  */
-- (void) testInsert
+- (void) testInsertWithFts4
 {
+    [self tryInsert:SFSmartStoreFTS4];
+}
+
+/**
+ * Test inserting rows with fts5
+ */
+- (void) testInsertWithFts5
+{
+    [self tryInsert:SFSmartStoreFTS5];
+}
+
+- (void) tryInsert:(SFSmartStoreFtsExtension)ftsExtension
+{
+    [self setupSoup:ftsExtension];
+
     // Insert a couple of rows
     NSDictionary* firstEmployee = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
     NSDictionary* secondEmployee = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
@@ -128,7 +160,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
         [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
@@ -137,10 +169,25 @@
 }
 
 /**
- * Test updating rows
+ * Test updating rows with fts4
  */
-- (void) testUpdate
+- (void) testUpdateWithFts4
 {
+    [self tryUpdate:SFSmartStoreFTS4];
+}
+
+/**
+ * Test updating rows with fts5
+ */
+- (void) testUpdateWithFts5
+{
+    [self tryUpdate:SFSmartStoreFTS5];
+}
+
+- (void) tryUpdate:(SFSmartStoreFtsExtension)ftsExtension
+{
+    [self setupSoup:SFSmartStoreFTS5];
+
     // Insert a couple of rows
     NSDictionary* firstEmployee = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
     NSDictionary* secondEmployee = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
@@ -162,7 +209,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:firstEmployee withSoupIndexes:actualIndexSpecs];
         [self checkFtsRow:frs withExpectedEntry:secondEmployeeUpdated withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only two rows should have been returned");
@@ -171,10 +218,25 @@
 }
 
 /**
- * Test deleting rows
+ * Test deleting rows with fts4
  */
-- (void) testDelete
+- (void) testDeleteWithFts4
 {
+    [self tryDelete:SFSmartStoreFTS4];
+}
+
+/**
+ * Test deleting rows with fts5
+ */
+- (void) testDeleteWithFts5
+{
+    [self tryDelete:SFSmartStoreFTS5];
+}
+
+- (void) tryDelete:(SFSmartStoreFtsExtension)ftsExtension
+{
+    [self setupSoup:ftsExtension];
+    
     // Insert a couple of rows
     NSDictionary* firstEmployee = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
     NSDictionary* secondEmployee = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
@@ -195,7 +257,7 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         [self checkFtsRow:frs withExpectedEntry:secondEmployee withSoupIndexes:actualIndexSpecs];
         XCTAssertFalse([frs next], @"Only one should have been returned");
         [frs close];
@@ -213,17 +275,32 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         XCTAssertFalse([frs next], @"No rows should have been returned");
         [frs close];
     }];
 }
 
 /**
- * Test clearing soup
+ * Test clearing rows with fts4
  */
-- (void) testClear
+- (void) testClearWithFts4
 {
+    [self tryClear:SFSmartStoreFTS4];
+}
+
+/**
+ * Test clearing rows with fts5
+ */
+- (void) testClearWithFts5
+{
+    [self tryClear:SFSmartStoreFTS5];
+}
+
+- (void) tryClear:(SFSmartStoreFtsExtension)ftsExtension
+{
+    [self setupSoup:ftsExtension];
+
     // Insert a couple of rows
     [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"];
     [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"];
@@ -240,18 +317,31 @@
     
     // Check fts table
     [self.store.storeQueue inDatabase:^(FMDatabase *db) {
-        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[DOCID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"docid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
+        FMResultSet* frs = [self.store queryTable:@"TABLE_1_fts" forColumns:@[ROWID_COL, @"TABLE_1_0", @"TABLE_1_1"] orderBy:@"rowid ASC" limit:nil whereClause:nil whereArgs:nil withDb:db];
         XCTAssertFalse([frs next], @"No rows should have been returned");
         [frs close];
     }];
 }
 
 /**
- * Test search on single field returning no results
+ * Test search on single field returning no results with fts4
  */
-- (void) testSearchSingleFielNoResults
+- (void) testSearchSingleFielNoResultsWithFts4
 {
-    [self loadData];
+    [self trySearchSingleFielNoResults:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on single field returning no results with fts5
+ */
+- (void) testSearchSingleFielNoResultsWithFts5
+{
+    [self trySearchSingleFielNoResults:SFSmartStoreFTS5];
+}
+
+- (void) trySearchSingleFielNoResults:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
     
     // One field - full word - no results
     [self trySearch:@[] path:kFirstName matchKey:@"Christina" orderPath:nil];
@@ -266,11 +356,24 @@
 }
 
 /**
- * Test search on single field returning a single result
+ * Test search on single field returning a single result with fts4
  */
-- (void) testSearchSingleFieldSingleResult
+- (void) testSearchSingleFieldSingleResultWithFts4
 {
-    [self loadData];
+    [self trySearchSingleFieldSingleResult:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on single field returning a single result with fts5
+ */
+- (void) testSearchSingleFieldSingleResultWithFts5
+{
+    [self trySearchSingleFieldSingleResult:SFSmartStoreFTS5];
+}
+
+- (void) trySearchSingleFieldSingleResult:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
     
     // One field - full word - one result
     [self trySearch:@[self.christineHaasId] path:kFirstName matchKey:@"Christine" orderPath:nil];
@@ -285,11 +388,24 @@
 }
 
 /**
- * Test search on single field returning multiple results - testing ordering
+ * Test search on single field returning multiple results - testing ordering with fts4
  */
-- (void) testSearchSingleFieldMultipleResults
+- (void) testSearchSingleFieldMultipleResultsWithFts4
 {
-    [self loadData];
+    [self trySearchSingleFieldMultipleResults:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on single field returning multiple results - testing ordering with fts5
+ */
+- (void) testSearchSingleFieldMultipleResultsWithFts5
+{
+    [self trySearchSingleFieldMultipleResults:SFSmartStoreFTS5];
+}
+
+- (void) trySearchSingleFieldMultipleResults:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
 
     // One field - full word - more than one results
     [self trySearch:@[self.christineHaasId, self.aliHaasId] path:kLastName matchKey:@"Haas" orderPath:kEmployeeId];
@@ -305,11 +421,24 @@
 }
 
 /**
- * Test search on all fields returning no results
+ * Test search on all fields returning no results with fts4
  */
-- (void) testSearchAllFieldsNoResults
+- (void) testSearchAllFieldsNoResultsWithFts4
 {
-    [self loadData];
+    [self trySearchAllFieldsNoResults:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on all fields returning no results with fts5
+ */
+- (void) testSearchAllFieldsNoResultsWithFts5
+{
+    [self trySearchAllFieldsNoResults:SFSmartStoreFTS5];
+}
+
+- (void) trySearchAllFieldsNoResults:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
 
     // All fields - full word - no results
     [self trySearch:@[] path:nil matchKey:@"Sternn" orderPath:nil];
@@ -325,11 +454,24 @@
 }
 
 /**
- * Test search on all fields returning a single result
+ * Test search on all fields returning a single result with fts4
  */
-- (void) testSearchAllFieldsSingleResult
+- (void) testSearchAllFieldsSingleResultWithFts4
 {
-    [self loadData];
+    [self trySearchAllFieldsSingleResult:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on all fields returning a single result with fts5
+ */
+- (void) testSearchAllFieldsSingleResultWithFts5
+{
+    [self trySearchAllFieldsSingleResult:SFSmartStoreFTS5];
+}
+
+- (void) trySearchAllFieldsSingleResult:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
 
     // All fields - full word - one result
     [self trySearch:@[self.irvingSternId] path:nil matchKey:@"Stern" orderPath:nil];
@@ -345,11 +487,24 @@
 }
 
 /**
- * Test search on all fields returning multiple results - testing ordering
+ * Test search on all fields returning multiple results - testing ordering with fts4
  */
-- (void) testSearchAllFieldMultipleResults
+- (void) testSearchAllFieldMultipleResultsWithFts4
 {
-    [self loadData];
+    [self trySearchAllFieldMultipleResults:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search on all fields returning multiple results - testing ordering with fts5
+ */
+- (void) testSearchAllFieldMultipleResultsWithFts5
+{
+    [self trySearchAllFieldMultipleResults:SFSmartStoreFTS5];
+}
+
+- (void) trySearchAllFieldMultipleResults:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
 
     // All fields - full word - more than one results
     [self trySearch:@[self.evaPulaskiId, self.eileenEvaId] path:nil matchKey:@"Eva" orderPath:kEmployeeId];
@@ -367,11 +522,24 @@
 }
 
 /**
- * Test search with queries that have field:value predicates
+ * Test search with queries that have field:value predicates with fts4
  */
-- (void) testSearchWithFieldColonQueries
+- (void) testSearchWithFieldColonQueriesWithFts4
 {
-    [self loadData];
+    [self trySearchWithFieldColonQueries:SFSmartStoreFTS4];
+}
+
+/**
+ * Test search with queries that have field:value predicates with fts5
+ */
+- (void) testSearchWithFieldColonQueriesWithFts5
+{
+    [self trySearchWithFieldColonQueries:SFSmartStoreFTS5];
+}
+
+- (void) trySearchWithFieldColonQueries:(SFSmartStoreFtsExtension) ftsExtension
+{
+    [self loadData:ftsExtension];
 
     // All fields - full word - no results
     [self trySearch:@[] path:nil matchKey:@"{employees:firstName}:Haas" orderPath:nil];
@@ -399,17 +567,29 @@
 
 - (void) trySearch:(NSArray*)expectedIds path:(NSString*)path matchKey:(NSString*)matchKey orderPath:(NSString*)orderPath
 {
+    // Returning soup elements
     SFQuerySpec* querySpec = [SFQuerySpec newMatchQuerySpec:kEmployeesSoup withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:25];
     NSArray* results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
     XCTAssertEqual(expectedIds.count, results.count, @"Wrong number of results");
     for (int i=0; i<results.count; i++) {
-        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][SOUP_ENTRY_ID]).longValue, @"Wrong results");
+        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][SOUP_ENTRY_ID]).longValue, @"Wrong results for match query returning soup elements");
     }
+    
+    // Returning just id
+    querySpec = [SFQuerySpec newMatchQuerySpec:kEmployeesSoup withSelectPaths:@[SOUP_ENTRY_ID] withPath:path withMatchKey:matchKey withOrderPath:orderPath withOrder:kSFSoupQuerySortOrderAscending withPageSize:25];
+    results = [self.store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
+    XCTAssertEqual(expectedIds.count, results.count, @"Wrong number of results");
+    for (int i=0; i<results.count; i++) {
+        XCTAssertEqual(((NSNumber*)expectedIds[i]).longValue, ((NSNumber*)results[i][0]).longValue, @"Wrong results for match query with selectPaths");
+    }
+    
 }
 
 
-- (void) loadData
+- (void) loadData:(SFSmartStoreFtsExtension) ftsExtension
 {
+    [self setupSoup:ftsExtension];
+    
     self.christineHaasId = [self createEmployeeWithFirstName:@"Christine" lastName:@"Haas" employeeId:@"00010"][SOUP_ENTRY_ID];
     self.michaelThompsonId = [self createEmployeeWithFirstName:@"Michael" lastName:@"Thompson" employeeId:@"00020"][SOUP_ENTRY_ID];
     self.aliHaasId = [self createEmployeeWithFirstName:@"Ali" lastName:@"Haas" employeeId:@"00030"][SOUP_ENTRY_ID];

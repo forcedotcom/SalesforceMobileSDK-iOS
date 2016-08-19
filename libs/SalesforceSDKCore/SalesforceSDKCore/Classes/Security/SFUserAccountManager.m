@@ -47,10 +47,6 @@ NSString * const kSFLoginHostChangedNotification = @"kSFLoginHostChanged";
 NSString * const kSFLoginHostChangedNotificationOriginalHostKey = @"originalLoginHost";
 NSString * const kSFLoginHostChangedNotificationUpdatedHostKey = @"updatedLoginHost";
 
-// The temporary user identity
-static NSString * const SFUserAccountManagerTemporaryUserAccountUserId = @"TEMP_USER_ID";
-static NSString * const SFUserAccountManagerTemporaryUserAccountOrgId = @"TEMP_ORG_ID";
-
 // The anonymous user support the application should add to its Info.plist file
 static NSString * const kSFUserAccountSupportAnonymousUsage = @"SFDCSupportAnonymousUsage";
 static NSString * const kSFUserAccountAutocreateAnonymousUser = @"SFDCAutocreateAnonymousUser";
@@ -100,6 +96,8 @@ static const NSUInteger SFUserAccountManagerCannotReadDecryptedArchive = 10001;
 static const NSUInteger SFUserAccountManagerCannotReadPlainTextArchive = 10002;
 static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
+static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.syncqueue";
+
 @implementation SFUserAccountManager
 
 + (instancetype)sharedInstance {
@@ -112,7 +110,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 + (void)applyCurrentLogLevel:(SFOAuthCredentials*)credentials {
-    switch ([SFLogger logLevel]) {
+    switch ([SFLogger sharedLogger].logLevel) {
         case SFLogLevelDebug:
             credentials.logLevel = kSFOAuthLogLevelDebug;
             break;
@@ -132,13 +130,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         case SFLogLevelVerbose:
             credentials.logLevel = kSFOAuthLogLevelVerbose;
             break;
+            
+        default:
+            break;
     }
 }
 
 - (id)init {
 	self = [super init];
 	if (self) {
-        _delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSHashTable weakObjectsHashTable];
         NSString *bundleOAuthCompletionUrl = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthRedirectUri];
         if (bundleOAuthCompletionUrl != nil) {
             self.oauthCompletionUrl = bundleOAuthCompletionUrl;
@@ -146,6 +147,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         _userAccountMap = [[NSMutableDictionary alloc] init];
         _temporaryUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerTemporaryUserAccountUserId orgId:SFUserAccountManagerTemporaryUserAccountOrgId];
         _anonymousUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerAnonymousUserAccountUserId orgId:SFUserAccountManagerAnonymousUserAccountOrgId];
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
         [self loadAccounts:nil];
         [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];
 	}
@@ -161,12 +163,22 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 - (void)setLoginHost:(NSString*)host {
     NSString *oldLoginHost = [self loginHost];
     
-    [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    if (nil == host) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+    }
+    
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     // Only post the login host change notification if the host actually changed.
     if (![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        NSDictionary *userInfoDict;
+        if (host) {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
+        } else {
+            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost};
+        }
         NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
         [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
     }
@@ -174,8 +186,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 - (NSString *)loginHost {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    // First let's import any previously stored settings, if available
+
+    // First let's import any previously stored settings, if available.
     NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
     if (host) {
         [defaults setObject:host forKey:kSFUserAccountOAuthLoginHost];
@@ -183,27 +195,33 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         [defaults synchronize];
         return host;
     }
-    
-    // Fetch from the standard defaults or bundle
+
+    // Fetch from the standard defaults or bundle.
     NSString *loginHost = [defaults stringForKey:kSFUserAccountOAuthLoginHost];
-    if ([loginHost length] > 0) return loginHost;
-    
-    // Login host not initialized.  Set it up.
+    if ([loginHost length] > 0) {
+        return loginHost;
+    }
+
+    // Login host not initialized. Set it up.
     NSString *managedLoginHost = ([SFManagedPreferences sharedPreferences].loginHosts)[0];
     if (managedLoginHost.length > 0) {
         loginHost = managedLoginHost;
     } else {
-        NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
-        if (bundleLoginHost.length > 0) {
-            loginHost = bundleLoginHost;
-        } else {
-            loginHost = kSFUserAccountOAuthLoginHostDefault;
+
+        /*
+         * Do not fall back to default login host if MDM only permits authorized hosts, even if there are no other hosts.
+         */
+        if (![SFManagedPreferences sharedPreferences].onlyShowAuthorizedHosts) {
+            NSString *bundleLoginHost = [[NSBundle mainBundle] objectForInfoDictionaryKey:kSFUserAccountOAuthLoginHost];
+            if (bundleLoginHost.length > 0) {
+                loginHost = bundleLoginHost;
+            } else {
+                loginHost = kSFUserAccountOAuthLoginHostDefault;
+            }
         }
     }
-    
     [defaults setObject:loginHost forKey:kSFUserAccountOAuthLoginHost];
     [defaults synchronize];
-    
     return loginHost;
 }
 
@@ -212,7 +230,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 - (NSSet *)scopes
 {
     NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
-    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey];
+    NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
     return [NSSet setWithArray:scopesArray];
 }
 
@@ -258,8 +276,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates addObject:nonretainedDelegate];
+            [self.delegates addObject:delegate];
         }
     }
 }
@@ -268,8 +285,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [_delegates removeObject:nonretainedDelegate];
+            [self.delegates removeObject:delegate];
         }
     }
 }
@@ -277,24 +293,13 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 - (void)enumerateDelegates:(void (^)(id<SFUserAccountManagerDelegate>))block
 {
     @synchronized(self) {
-        [_delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFUserAccountManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SFUserAccountManagerDelegate> delegate in self.delegates) {
+            if (block) block(delegate);
+        }
     }
 }
 
 #pragma mark - Temporary User
-
-+ (BOOL)isUserTemporary:(SFUserAccount*)user {
-    if (nil == user.accountIdentity) {
-        return NO;
-    }
-    return [user.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
-        [user.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId];
-}
 
 - (SFUserAccount *)temporaryUser {
     SFUserAccount *tempAccount = (self.userAccountMap)[self.temporaryUserIdentity];
@@ -624,10 +629,14 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     }
     
     self.previousCommunityId = self.activeCommunityId;
-    
-    SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
-    account.communityId = self.previousCommunityId;
-    self.currentUser = account;
+
+    if (curUserIdentity){
+        SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
+        account.communityId = self.previousCommunityId;
+        self.currentUser = account;
+    }else{
+        self.currentUser = nil;
+    }
     
     // update the client ID in case it's changed (via settings, etc)
     self.currentUser.credentials.clientId = self.oauthClientId;
@@ -764,37 +773,43 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
-    NSDictionary *userAccountMap = [self.userAccountMap copy];
-    
-    for (SFUserAccountIdentity *userIdentity in userAccountMap) {
-        // Don't save the temporary user id
-        if ([userIdentity isEqual:self.temporaryUserIdentity]) {
-            continue;
-        }
+    __weak __typeof(self) weakSelf = self;
+    __block BOOL accountsSaved = YES;
+    dispatch_sync(_syncQueue, ^{
+        NSDictionary *userAccountMap = [weakSelf.userAccountMap copy];
         
-        // Grab the user account...
-        SFUserAccount *user = userAccountMap[userIdentity];
-        
-        // And it's persistent file path
-        NSString *userAccountPath = [[self class] userAccountPlistFileForUser:user];
-        
-        // Make sure to remove any existing file
-        NSFileManager *fm = [[NSFileManager alloc] init];
-        if ([fm fileExistsAtPath:userAccountPath]) {
-            if (![fm removeItemAtPath:userAccountPath error:error]) {
-                [self log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, *error];
-                return NO;
+        for (SFUserAccountIdentity *userIdentity in userAccountMap) {
+            // Don't save the temporary user id
+            if ([userIdentity isEqual:weakSelf.temporaryUserIdentity]) {
+                continue;
+            }
+            
+            // Grab the user account...
+            SFUserAccount *user = userAccountMap[userIdentity];
+            
+            // And it's persistent file path
+            NSString *userAccountPath = [[weakSelf class] userAccountPlistFileForUser:user];
+            
+            // Make sure to remove any existing file
+            NSFileManager *fm = [[NSFileManager alloc] init];
+            if ([fm fileExistsAtPath:userAccountPath]) {
+                if (![fm removeItemAtPath:userAccountPath error:error]) {
+                    NSError*const err = error ? *error : nil;
+                    [weakSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
+                    accountsSaved = NO;
+                    return;
+                }
+            }
+            
+            // And now save its content
+            if (![weakSelf saveUserAccount:user toFile:userAccountPath]) {
+                [weakSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
+                accountsSaved = NO;
+                return ;
             }
         }
-        
-        // And now save its content
-        if (![self saveUserAccount:user toFile:userAccountPath]) {
-            [self log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
-            return NO;
-        }
-    }
-    
-    return YES;
+    });
+    return accountsSaved;
 }
 
 - (BOOL)saveUserAccount:(SFUserAccount *)userAccount toFile:(NSString *)filePath {
@@ -852,19 +867,19 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
         NSString *accountOrg = account.credentials.organizationId;
-        if ([accountOrg isEqualToString:orgId]) {
+        if ([accountOrg isEqualToEntityId:orgId]) {
             [array addObject:account];
         }
     }
     return array;
 }
 
-- (NSArray *)accountsForInstanceURL:(NSString *)instanceURL {
+- (NSArray *)accountsForInstanceURL:(NSURL *)instanceURL {
     NSMutableArray *responseArray = [NSMutableArray array];
     
     for (SFUserAccountIdentity *key in self.userAccountMap) {
         SFUserAccount *account = (self.userAccountMap)[key];
-        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL]) {
+        if ([account.credentials.instanceUrl.host isEqualToString:instanceURL.host]) {
             [responseArray addObject:account];
         }
     }
@@ -934,7 +949,7 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
     return result;
 }
 
-- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
++ (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
     NSUserDefaults *standardDefaults;
     if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
         standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -952,6 +967,10 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         [standardDefaults setObject:auiData forKey:kUserDefaultsLastUserIdentityKey];
     }
     [standardDefaults synchronize];
+}
+
+- (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
+    [SFUserAccountManager setActiveUserIdentity:activeUserIdentity];
 }
 
 - (NSString *)activeCommunityId {
@@ -1029,40 +1048,45 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 - (void)applyCredentials:(SFOAuthCredentials*)credentials {
     SFUserAccountChange change = SFUserAccountChangeCredentials;
-    
+    SFUserAccount * newAccount = self.currentUser;
     // If the user is nil, create a new one with the specified credentials
     // otherwise update the current user credentials.
-    if (nil == self.currentUser) {
-        self.currentUser = [self createUserAccountWithCredentials:credentials];
+    if (nil == newAccount) {
+        newAccount = [self createUserAccountWithCredentials:credentials];
         change |= SFUserAccountChangeNewUser;
     } else {
-        self.currentUser.credentials = credentials;
+        if ([newAccount.accountIdentity matchesCredentials:credentials]) {
+            newAccount.credentials = credentials;
+        } else {
+            [self log:SFLogLevelWarning format:@"Attempted to apply credentials to incorrect user"];
+            return;
+        }
     }
     
     // If the user has logged using a community-base URL, then let's create the community data
     // related to this community using the information we have from oauth.
-    self.currentUser.communityId = credentials.communityId;
-    if (self.currentUser.communityId) {
+    newAccount.communityId = credentials.communityId;
+    if (newAccount.communityId) {
         SFCommunityData *communityData = [[SFCommunityData alloc] init];
         communityData.entityId = credentials.communityId;
         communityData.siteUrl = credentials.communityUrl;
-        if (![self.currentUser communityWithId:credentials.communityId]) {
-            if (self.currentUser.communities) {
-                self.currentUser.communities = [self.currentUser.communities arrayByAddingObject:communityData];
+        if (![newAccount communityWithId:credentials.communityId]) {
+            if (newAccount.communities) {
+                newAccount.communities = [self.currentUser.communities arrayByAddingObject:communityData];
             } else {
-                self.currentUser.communities = @[communityData];
+                newAccount.communities = @[communityData];
             }
         }
-        [self setActiveCommunityId:self.currentUser.communityId];
+        [self setActiveCommunityId:newAccount.communityId];
     }
     
     // If our default user identity is currently the temporary user identity,
     // we need to update it with the latest known good user identity.
     if ([self.activeUserIdentity isEqual:self.temporaryUserIdentity]) {
-        [self log:SFLogLevelDebug format:@"Replacing temp user identity with %@", self.currentUser];
-        [self replaceOldUser:self.temporaryUserIdentity withUser:self.currentUser];
+        [self log:SFLogLevelDebug format:@"Replacing temp user identity with %@", newAccount];
+        [self replaceOldUser:self.temporaryUserIdentity withUser:newAccount];
     }
-    
+    self.currentUser = newAccount;
     [self userChanged:change];
 }
 
@@ -1120,6 +1144,16 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 #pragma mark -
 #pragma mark User Change Notifications
+- (BOOL)hasCommunityChanged {
+    // If the last changed communityID exists and is inequal or
+    // if there was no previous communityID and now there is
+    if ((self.lastChangedCommunityId && ![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId])
+        || (!self.lastChangedCommunityId && self.currentUser.communityId)) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 
 - (void)userChanged:(SFUserAccountChange)change {
     if (![self.lastChangedOrgId isEqualToString:self.currentUser.credentials.organizationId]) {
@@ -1134,7 +1168,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit
     }
 
-    if (![self.lastChangedCommunityId isEqualToString:self.currentUser.communityId]) {
+    if ([self hasCommunityChanged])
+    {
         self.lastChangedCommunityId = self.currentUser.communityId;
         change |= SFUserAccountChangeCommunityId;
         change &= ~SFUserAccountChangeUnknown; // clear the unknown bit

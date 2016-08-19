@@ -29,20 +29,23 @@
 #import "SFCommunityData.h"
 #import "SFIdentityData.h"
 
-static NSString * const kUser_ACCESS_SCOPES     = @"accessScopes";
-static NSString * const kUser_CREDENTIALS       = @"credentials";
-static NSString * const kUser_EMAIL             = @"email";
-static NSString * const kUser_FULL_NAME         = @"fullName";
-static NSString * const kUser_ORGANIZATION_NAME = @"organizationName";
-static NSString * const kUser_USER_NAME         = @"userName";
-static NSString * const kUser_COMMUNITY_ID      = @"communityId";
-static NSString * const kUser_COMMUNITIES       = @"communities";
-static NSString * const kUser_ID_DATA           = @"idData";
-static NSString * const kUser_CUSTOM_DATA       = @"customData";
+static NSString * const kUser_ACCESS_SCOPES       = @"accessScopes";
+static NSString * const kUser_CREDENTIALS         = @"credentials";
+static NSString * const kUser_EMAIL               = @"email";
+static NSString * const kUser_FULL_NAME           = @"fullName";
+static NSString * const kUser_ORGANIZATION_NAME   = @"organizationName";
+static NSString * const kUser_USER_NAME           = @"userName";
+static NSString * const kUser_COMMUNITY_ID        = @"communityId";
+static NSString * const kUser_COMMUNITIES         = @"communities";
+static NSString * const kUser_ID_DATA             = @"idData";
+static NSString * const kUser_CUSTOM_DATA         = @"customData";
+static NSString * const kUser_IS_GUEST_USER       = @"guestUser";
+static NSString * const kUser_ACCESS_RESTRICTIONS = @"accessRestrictions";
 
 static NSString * const kCredentialsUserIdPropName = @"userId";
 static NSString * const kCredentialsOrgIdPropName = @"organizationId";
 
+static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccount.syncqueue";
 /** Key that identifies the global scope
  */
 static NSString * const kGlobalScopingKey = @"-global-";
@@ -50,6 +53,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 @interface SFUserAccount ()
 {
     BOOL _observingCredentials;
+    dispatch_queue_t _syncQueue;
+
 }
 
 @property (nonatomic, strong) NSMutableDictionary *customData;
@@ -69,6 +74,10 @@ static NSString * const kGlobalScopingKey = @"-global-";
     return [NSSet setWithObjects:@"communityId", @"credentials", nil];
 }
 
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
 - (instancetype)init {
     return [self initWithIdentifier:[SFUserAccountManager sharedInstance].oauthClientId];
 }
@@ -84,6 +93,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
         SFOAuthCredentials *creds = [[SFOAuthCredentials alloc] initWithIdentifier:identifier clientId:clientId encrypted:YES];
         [SFUserAccountManager applyCurrentLogLevel:creds];
         self.credentials = creds;
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;
 }
@@ -92,6 +102,7 @@ static NSString * const kGlobalScopingKey = @"-global-";
     self = [super init];
     if (self) {
         self.guestUser = YES;
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
     }
     return self;
 }
@@ -114,22 +125,32 @@ static NSString * const kGlobalScopingKey = @"-global-";
     [encoder encodeObject:_idData forKey:kUser_ID_DATA];
     [encoder encodeObject:_communityId forKey:kUser_COMMUNITY_ID];
     [encoder encodeObject:_communities forKey:kUser_COMMUNITIES];
-    [encoder encodeObject:_customData forKey:kUser_CUSTOM_DATA];
+    
+    __weak __typeof(self) weakSelf = self;
+    dispatch_sync(_syncQueue, ^{
+        [encoder encodeObject:weakSelf.customData forKey:kUser_CUSTOM_DATA];
+    });
+    
+    [encoder encodeBool:_guestUser forKey:kUser_IS_GUEST_USER];
+    [encoder encodeInteger:_accessRestrictions forKey:kUser_ACCESS_RESTRICTIONS];
 }
 
 - (id)initWithCoder:(NSCoder*)decoder {
 	self = [super init];
 	if (self) {
-        _accessScopes = [decoder decodeObjectForKey:kUser_ACCESS_SCOPES];
-        _email = [decoder decodeObjectForKey:kUser_EMAIL];
-        _fullName = [decoder decodeObjectForKey:kUser_FULL_NAME];
-        _credentials = [decoder decodeObjectForKey:kUser_CREDENTIALS];
-        _idData = [decoder decodeObjectForKey:kUser_ID_DATA];
-        _organizationName = [decoder decodeObjectForKey:kUser_ORGANIZATION_NAME];
-        _userName = [decoder decodeObjectForKey:kUser_USER_NAME];
-        _communityId = [decoder decodeObjectForKey:kUser_COMMUNITY_ID];
-        _communities = [decoder decodeObjectForKey:kUser_COMMUNITIES];
-        _customData = [decoder decodeObjectForKey:kUser_CUSTOM_DATA];
+        _accessScopes     = [decoder decodeObjectOfClass:[NSSet class] forKey:kUser_ACCESS_SCOPES];
+        _email            = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_EMAIL];
+        _fullName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_FULL_NAME];
+        _credentials      = [decoder decodeObjectOfClass:[SFOAuthCredentials class] forKey:kUser_CREDENTIALS];
+        _idData           = [decoder decodeObjectOfClass:[SFIdentityData class] forKey:kUser_ID_DATA];
+        _organizationName = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_ORGANIZATION_NAME];
+        _userName         = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_USER_NAME];
+        _communityId      = [decoder decodeObjectOfClass:[NSString class] forKey:kUser_COMMUNITY_ID];
+        _communities      = [decoder decodeObjectOfClass:[NSArray class] forKey:kUser_COMMUNITIES];
+        _customData       = [[decoder decodeObjectOfClass:[NSDictionary class] forKey:kUser_CUSTOM_DATA] mutableCopy];
+        _guestUser        = [decoder decodeBoolForKey:kUser_IS_GUEST_USER];
+        _accessRestrictions = [decoder decodeIntegerForKey:kUser_ACCESS_RESTRICTIONS];
+        _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
 	}
 	return self;
 }
@@ -193,21 +214,22 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setPhoto:(UIImage *)photo {
     NSError *error = nil;
     NSString *photoPath = [self photoPath];
-    NSFileManager *fm = [[NSFileManager alloc] init];
-    if ([fm fileExistsAtPath:photoPath]) {
-        if (![fm removeItemAtPath:photoPath error:&error]) {
-            [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+    if (photoPath) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:photoPath]) {
+            if (![fm removeItemAtPath:photoPath error:&error]) {
+                [self log:SFLogLevelError format:@"Unable to remove previous photo from disk: %@", error];
+            }
         }
+        NSData *data = UIImagePNGRepresentation(photo);
+        if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
+            [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
+        }
+        
+        [self willChangeValueForKey:@"photo"];
+        _photo = photo;
+        [self didChangeValueForKey:@"photo"];
     }
-    
-    NSData *data = UIImagePNGRepresentation(photo);
-    if (![data writeToFile:photoPath options:NSDataWritingAtomic error:&error]) {
-        [self log:SFLogLevelError format:@"Unable to write photo to disk: %@", error];
-    }
-    
-    [self willChangeValueForKey:@"photo"];
-    _photo = photo;
-    [self didChangeValueForKey:@"photo"];
 }
 
 - (void)setIdData:(SFIdentityData *)idData {
@@ -242,27 +264,35 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
-    if (!self.customData) {
-        self.customData = [NSMutableDictionary dictionary];
-    }
-    
-    [self.customData setObject:object forKey:key];
+    __weak __typeof(self) weakSelf = self;
+    dispatch_sync(_syncQueue, ^{
+        if(!weakSelf.customData) {
+            weakSelf.customData = [NSMutableDictionary dictionary];
+        }
+        [weakSelf.customData setObject:object forKey:key];
+    });
 }
 
 - (void)removeCustomDataObjectForKey:(id)key {
-    if (!self.customData) {
-        self.customData = [NSMutableDictionary dictionary];
-    }
-    
-    [self.customData removeObjectForKey:key];
+    __weak __typeof(self) weakSelf = self;
+    dispatch_sync(_syncQueue, ^{
+        if(!weakSelf.customData) {
+            weakSelf.customData = [NSMutableDictionary dictionary];
+        }
+        [weakSelf.customData removeObjectForKey:key];
+    });
 }
 
 - (id)customDataObjectForKey:(id)key {
-    if (!self.customData) {
-        self.customData = [NSMutableDictionary dictionary];
-    }
-    
-    return [self.customData objectForKey:key];
+    __weak __typeof(self) weakSelf = self;
+    __block id object;
+    dispatch_sync(_syncQueue, ^{
+        if(!weakSelf.customData) {
+            weakSelf.customData = [NSMutableDictionary dictionary];
+        }
+        object = [weakSelf.customData objectForKey:key];
+    });
+    return object;
 }
 
 - (BOOL)isSessionValid {
@@ -273,7 +303,8 @@ static NSString * const kGlobalScopingKey = @"-global-";
 }
 
 - (BOOL)isTemporaryUser {
-    return [SFUserAccountManager isUserTemporary:self];
+    return ([self.accountIdentity.userId isEqualToString:SFUserAccountManagerTemporaryUserAccountUserId] &&
+           [self.accountIdentity.orgId isEqualToString:SFUserAccountManagerTemporaryUserAccountOrgId]);
 }
 
 - (BOOL)isAnonymousUser {
@@ -324,6 +355,13 @@ NSString *SFKeyForUserAndScope(SFUserAccount *user, SFUserAccountScope scope) {
 }
 
 #pragma mark - Credentials property changes
+// Disable automatic KVO notificaiton for the photo property, as we implement manual KVO in setPhoto
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key {
+    if ([key isEqualToString:@"photo"]) {
+        return NO;
+    }
+    return YES;
+}
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

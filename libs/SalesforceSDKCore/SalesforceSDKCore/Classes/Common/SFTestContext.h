@@ -26,7 +26,7 @@
 // live context. It could be used by application to implement mock logic under 
 // testing context so that application can be run without live connection
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 /**Helps determine whether we're currently running tests or not.
  */

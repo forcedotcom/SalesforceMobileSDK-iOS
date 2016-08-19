@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Todd Stellanova
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -26,6 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SmartStore/SmartStore.h>
 #import <SalesforceHybridSDK/SalesforceHybridSDK.h>
+#import <SalesforceSDKCore/SFApplicationHelper.h>
 
 #import "SmartStoreTestSuite.h"
 #import "AppDelegate.h"
@@ -40,8 +41,9 @@
     self.jsSuiteName = @"SmartStoreTestSuite";
 
     if ([self isTestRunnerReady]) {
-        [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
-        AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [SFSmartStore removeAllStores];
+        [SFSmartStore removeAllGlobalStores];
+        AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
         [pluginInstance resetSharedStore];
     }
@@ -65,6 +67,10 @@
 
 - (void) testRegisterRemoveSoup {
     [self runTest:@"testRegisterRemoveSoup"];
+}
+
+- (void) testRegisterWithSpec {
+    [self runTest:@"testRegisterWithSpec"];
 }
 
 - (void) testRegisterBogusSoup {
@@ -93,6 +99,10 @@
 
 - (void) testRemoveFromSoup {
     [self runTest:@"testRemoveFromSoup"];
+}
+
+- (void) testRemoveFromSoupByQuery {
+    [self runTest:@"testRemoveFromSoupByQuery"];
 }
 
 - (void) testQuerySoupWithExactQuery {
@@ -209,6 +219,14 @@
 
 - (void) testAlterSoupWithReIndexing {
     [self runTest:@"testAlterSoupWithReIndexing"];
+}
+
+- (void) testAlterSoupWithSpecNoReIndexing {
+    [self runTest:@"testAlterSoupWithSpecNoReIndexing"];
+}
+
+- (void) testAlterSoupWithSpecWithReIndexing {
+    [self runTest:@"testAlterSoupWithSpecWithReIndexing"];
 }
 
 - (void) testAlterSoupWithBogusSoupName {

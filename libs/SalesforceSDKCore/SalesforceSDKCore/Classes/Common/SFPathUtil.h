@@ -22,31 +22,32 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-/**This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup
+/** This is a utility class that helps to create sub folder under either Documents directory or cache directory. Any folder or file created by SFPathUtil will be marked with NSFileProtectionComplete attribute and also excluded from iCloud backup
  */
 @interface SFPathUtil : NSObject {
     
 }
 
-/** Creates the file at the specified if it doesn't exist
+/** Creates the file at the specified path if it doesn't exist
+ @param path The path where the file should be created
  @param skipBackup YES if the file should be marked to not be backed up with iCloud
  */
 + (void)createFileItemIfNotExist:(NSString *)path skipBackup:(BOOL)skipBackup;
 
-/*Returns application's dcoument directory*/
+/** Returns application's dcoument directory*/
 + (NSString *)applicationDocumentDirectory;
 
 
-/*Returns application's cache directory*/
+/** Returns application's cache directory*/
 + (NSString *)applicationCacheDirectory;
 
 
 /** Returns the absolute path for libray folder */
 + (NSString *)applicationLibraryDirectory;
 
-/*Returns the absolute path for a directory/folder located in the apps document directory.
+/** Returns the absolute path for a directory/folder located in the apps document directory.
  
  It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes 
  and also mark file to be not backup by iCloud
@@ -57,7 +58,7 @@
 + (NSString *)absolutePathForDocumentFolder:(NSString *)folder;
 
 
-/*Returns the absolute path for a directory/folder located in the apps document directory
+/** Returns the absolute path for a directory/folder located in the apps document directory
  
  It also ensures this sub-directory exists, applies file protection attributes 
  and also mark file to be not backup by iCloud 
@@ -78,7 +79,7 @@
  */
 + (NSString *)absolutePathForLibraryFolder:(NSString *)folder;
 
-/**Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+/** Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
  The file or path that is passed in must already exist
  
  @param filePath Path to file or folder
@@ -86,7 +87,7 @@
  */
 + (void)secureFilePath:(NSString *)filePath markAsNotBackup:(BOOL)notbackupFlag;
 
-/*Returns the absolute path for a directory/folder located in the apps document directory
+/** Returns the absolute path for a directory/folder located in the apps document directory
  
  It also ensures this sub-directory exists, applies NSFileProtectionComplete protection attributes
  and also mark file to be not backup by iCloud
@@ -97,7 +98,7 @@
 + (NSString *)absolutePathForDocumentFolder:(NSString *)folder fileProtection:(NSString *)fileProtection;
 
 
-/*Returns the absolute path for a directory/folder located in the apps document directory
+/** Returns the absolute path for a directory/folder located in the apps document directory
  
  It also ensures this sub-directory exists, applies file protection attributes
  and also mark file to be not backup by iCloud
@@ -107,7 +108,7 @@
 + (NSString *)absolutePathForCacheFolder:(NSString *)folder fileProtection:(NSString *)fileProtection;
 
 
-/** Returns the absolute path for libray folder
+/** Returns the absolute path for library folder
  
  It also ensures this sub-directory exists, applies file protection attributes
  and also mark file to be not backup by iCloud
@@ -116,7 +117,7 @@
  */
 + (NSString *)absolutePathForLibraryFolder:(NSString *)folder fileProtection:(NSString *)fileProtection;
 
-/**Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
+/** Add iOS file protection to the specified file path and also mark DO NOT back up by iCloud if notbackupFlag is true
  The file or path that is passed in must already exist
  
  @param filePath Path to file or folder
