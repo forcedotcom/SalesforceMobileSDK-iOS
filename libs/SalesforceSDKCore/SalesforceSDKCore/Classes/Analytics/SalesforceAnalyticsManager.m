@@ -52,7 +52,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @implementation SalesforceAnalyticsManager
 
-+ (id) sharedInstanceWithUser:(SFUserAccount *) userAccount {
++ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         analyticsManagerList = [[NSMutableDictionary alloc] init];
@@ -64,11 +64,11 @@ static NSMutableDictionary *analyticsManagerList = nil;
         if (!userAccount) {
             return nil;
         }
-        id analyticsMgr = [analyticsManagerList objectForKey:userAccount];
+        id analyticsMgr = analyticsManagerList[userAccount];
         if (!analyticsMgr) {
-            analyticsMgr = [[SalesforceAnalyticsManager alloc] init:userAccount];
+            analyticsMgr = [[SalesforceAnalyticsManager alloc] initWithUser:userAccount];
             NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
-            [analyticsManagerList setObject:analyticsMgr forKey:key];
+            analyticsManagerList[key] = analyticsMgr;
         }
         return analyticsMgr;
     }
@@ -87,7 +87,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (id) init:(SFUserAccount *) userAccount {
+- (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
         DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
@@ -99,10 +99,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
-        self.analyticsManager = [[AnalyticsManager alloc] init:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
-        [self.remotes setObject:[AILTNPublisher class] forKey:(id<NSCopying>) [AILTNTransform class]];
+        self.remotes[(id<NSCopying>) [AILTNTransform class]] = [AILTNPublisher class];
     }
     return self;
 }
@@ -140,7 +140,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                         [eventsJSONArray addObject:eventJSON];
                     }
                 }
-                Class<AnalyticsPublisher> networkPublisher = [self.remotes objectForKey:transformClass];
+                Class<AnalyticsPublisher> networkPublisher = self.remotes[transformClass];
                 if (networkPublisher) {
                     BOOL networkSuccess = [networkPublisher publish:eventsJSONArray];
                     
@@ -181,7 +181,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
         return;
     }
-    [self.remotes setObject:publisher forKey:(id<NSCopying>) transformer];
+    self.remotes[(id<NSCopying>) transformer] = publisher;
 }
 
 - (DeviceAppAttributes *) buildDeviceAppAttributes {
@@ -209,7 +209,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.connectedAppId;
-    return [[DeviceAppAttributes alloc] init:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
+    return [[DeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

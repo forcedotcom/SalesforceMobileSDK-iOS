@@ -39,13 +39,13 @@
 
 @implementation AnalyticsManager
 
-- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
         self.storeDirectory = storeDirectory;
         self.deviceAttributes = deviceAttributes;
         self.globalSequenceId = 0;
-        self.storeManager = [[EventStoreManager alloc] init:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
+        self.storeManager = [[EventStoreManager alloc] initWithStoreDirectory:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
     }
     return self;
 }

@@ -55,7 +55,7 @@
  * @param clientId Client ID.
  * @return Instance of this class.
  */
-- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
+- (instancetype) initWithAppVersion:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
     mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
    deviceId:(NSString *) deviceId clientId:(NSString *) clientId;
 
@@ -65,7 +65,7 @@
  * @param jsonRepresentation JSON representation.
  * @return Instance of this class.
  */
-- (id) initWithJson:(NSDictionary *) jsonRepresentation;
+- (instancetype) initWithJson:(NSDictionary *) jsonRepresentation;
 
 /**
  * Returns a JSON representation of device app attributes.

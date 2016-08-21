@@ -40,7 +40,7 @@
 
 @implementation EventStoreManager
 
-- (id) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
         self.isLoggingEnabled = YES;
@@ -70,7 +70,6 @@
 
 - (void) storeEvent:(InstrumentationEvent *) event {
     if (!event || ![event jsonRepresentation]) {
-        NSLog(@"Invalid event");
         return;
     }
     if (![self shouldStoreEvent]) {
@@ -81,7 +80,7 @@
     if (encryptedData) {
         NSString *filename = [self filenameForEvent:event.eventId];
         NSString *parentDir = [filename stringByDeletingLastPathComponent];
-        [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes:[NSDictionary dictionaryWithObjectsAndKeys:NSFileProtectionCompleteUntilFirstUserAuthentication, NSFileProtectionKey, nil] error:&error];
+        [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
         if (error) {
             NSLog(@"Error occurred while writing to file: %@", error.localizedDescription);
@@ -91,7 +90,6 @@
 
 - (void) storeEvents:(NSArray<InstrumentationEvent *> *) events {
     if (!events || [events count] == 0) {
-        NSLog(@"No events to store");
         return;
     }
     if (![self shouldStoreEvent]) {
@@ -104,7 +102,6 @@
 
 - (InstrumentationEvent *) fetchEvent:(NSString *) eventId {
     if (!eventId) {
-        NSLog(@"Invalid event ID supplied: %@", eventId);
         return nil;
     }
     NSString *filePath = [self filenameForEvent:eventId];
@@ -125,7 +122,6 @@
 
 - (BOOL) deleteEvent:(NSString *) eventId {
     if (!eventId) {
-        NSLog(@"Invalid event ID supplied: %@", eventId);
         return NO;
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -138,7 +134,6 @@
 
 - (void) deleteEvents:(NSArray<NSString *> *) eventIds {
     if (!eventIds || [eventIds count] == 0) {
-        NSLog(@"No events to delete");
         return;
     }
     for (NSString* eventId in eventIds) {
@@ -174,12 +169,10 @@
 
 - (InstrumentationEvent *) fetchEventFromFile:(NSString *) file {
     if (!file) {
-        NSLog(@"Filename must be specified");
         return nil;
     }
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:file]) {
-        NSLog(@"File does not exist");
         return nil;
     }
     NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
