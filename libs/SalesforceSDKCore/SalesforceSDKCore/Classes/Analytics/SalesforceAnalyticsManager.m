@@ -52,7 +52,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @implementation SalesforceAnalyticsManager
 
-+ (id) sharedInstanceWithUser:(SFUserAccount *) userAccount {
++ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         analyticsManagerList = [[NSMutableDictionary alloc] init];
@@ -87,7 +87,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (id) init:(SFUserAccount *) userAccount {
+- (instancetype) init:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
         DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];

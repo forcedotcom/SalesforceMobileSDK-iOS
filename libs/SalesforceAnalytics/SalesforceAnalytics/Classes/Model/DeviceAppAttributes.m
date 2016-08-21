@@ -55,7 +55,7 @@ static NSString* const kSFClientIdKey = @"clientId";
 
 @implementation DeviceAppAttributes
 
-- (id) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
+- (instancetype) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
         osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
         mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
         deviceId:(NSString *) deviceId clientId:(NSString *) clientId {
@@ -74,7 +74,7 @@ static NSString* const kSFClientIdKey = @"clientId";
     return self;
 }
 
-- (id) initWithJson:(NSDictionary *) jsonRepresentation {
+- (instancetype) initWithJson:(NSDictionary *) jsonRepresentation {
     self = [super init];
     if (self && jsonRepresentation) {
         self.appVersion = jsonRepresentation[kSFAppVersionKey];

@@ -43,7 +43,7 @@
  * @param userAccount User account.
  * @return Instance of this class.
  */
-+ (id) sharedInstanceWithUser:(SFUserAccount *) userAccount;
++ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount;
 
 /**
  * Resets and removes the instance associated with the specified user account.

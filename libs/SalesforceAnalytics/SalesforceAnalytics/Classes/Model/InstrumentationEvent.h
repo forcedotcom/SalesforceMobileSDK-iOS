@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
  * @param jsonRepresentation JSON representation.
  * @return Instance of this class.
  */
-- (id) initWithJson:(NSData *) jsonRepresentation;
+- (instancetype) initWithJson:(NSData *) jsonRepresentation;
 
 /**
  * Returns a JSON representation of this event.
