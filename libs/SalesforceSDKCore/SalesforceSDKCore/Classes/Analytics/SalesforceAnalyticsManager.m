@@ -99,7 +99,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
-        self.analyticsManager = [[AnalyticsManager alloc] init:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         [self.remotes setObject:[AILTNPublisher class] forKey:(id<NSCopying>) [AILTNTransform class]];

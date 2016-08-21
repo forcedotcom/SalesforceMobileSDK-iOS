@@ -39,7 +39,7 @@
 
 @implementation AnalyticsManager
 
-- (instancetype) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
         self.storeDirectory = storeDirectory;

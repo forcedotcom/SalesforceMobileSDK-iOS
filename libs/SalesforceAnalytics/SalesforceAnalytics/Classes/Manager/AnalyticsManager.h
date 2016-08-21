@@ -45,7 +45,7 @@
  * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-- (instancetype) init:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
 
 /**
  * Resets this instance.
