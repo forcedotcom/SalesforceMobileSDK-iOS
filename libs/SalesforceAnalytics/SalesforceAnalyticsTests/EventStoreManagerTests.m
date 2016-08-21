@@ -50,7 +50,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] init:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
     self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
     self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
-    self.storeManager = [[EventStoreManager alloc] init:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
+    self.storeManager = [[EventStoreManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
 }
 
 - (void)tearDown {
