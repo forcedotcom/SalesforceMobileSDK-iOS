@@ -66,7 +66,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         }
         id analyticsMgr = [analyticsManagerList objectForKey:userAccount];
         if (!analyticsMgr) {
-            analyticsMgr = [[SalesforceAnalyticsManager alloc] init:userAccount];
+            analyticsMgr = [[SalesforceAnalyticsManager alloc] initWithUser:userAccount];
             NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
             [analyticsManagerList setObject:analyticsMgr forKey:key];
         }
@@ -87,7 +87,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (instancetype) init:(SFUserAccount *) userAccount {
+- (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
         DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];

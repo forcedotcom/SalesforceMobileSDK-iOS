@@ -55,7 +55,7 @@
 
 @implementation InstrumentationEventBuilder
 
-+ (InstrumentationEventBuilder *) getInstance:(AnalyticsManager *) analyticsManager {
++ (InstrumentationEventBuilder *) sharedInstanceWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
     return [[InstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
 }
 

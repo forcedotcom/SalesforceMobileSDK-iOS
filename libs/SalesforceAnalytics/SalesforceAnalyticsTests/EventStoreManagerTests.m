@@ -255,7 +255,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 }
 
 - (InstrumentationEvent *) createTestEvent {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder getInstance:self.analyticsManager];
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder sharedInstanceWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder startTime:curTime];
