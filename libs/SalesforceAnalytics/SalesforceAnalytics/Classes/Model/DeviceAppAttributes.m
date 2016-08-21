@@ -55,7 +55,7 @@ static NSString* const kSFClientIdKey = @"clientId";
 
 @implementation DeviceAppAttributes
 
-- (instancetype) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
+- (instancetype) initWithAppVersion:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
         osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
         mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
         deviceId:(NSString *) deviceId clientId:(NSString *) clientId {

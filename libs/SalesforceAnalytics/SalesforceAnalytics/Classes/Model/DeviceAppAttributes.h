@@ -55,7 +55,7 @@
  * @param clientId Client ID.
  * @return Instance of this class.
  */
-- (instancetype) init:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
+- (instancetype) initWithAppVersion:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
     mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
    deviceId:(NSString *) deviceId clientId:(NSString *) clientId;
 

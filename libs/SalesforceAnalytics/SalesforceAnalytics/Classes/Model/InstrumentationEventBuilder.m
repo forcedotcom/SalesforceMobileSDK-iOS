@@ -56,10 +56,10 @@
 @implementation InstrumentationEventBuilder
 
 + (InstrumentationEventBuilder *) getInstance:(AnalyticsManager *) analyticsManager {
-    return [[InstrumentationEventBuilder alloc] init:analyticsManager];
+    return [[InstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
 }
 
-- (InstrumentationEventBuilder *) init:(AnalyticsManager *) analyticsManager {
+- (InstrumentationEventBuilder *) initWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
     self = [super init];
     if (self) {
         self.analyticsManager = analyticsManager;
@@ -165,7 +165,7 @@
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
-    return [[InstrumentationEvent alloc] init:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
+    return [[InstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
 }
 
 - (NSString *) getConnectionType {
