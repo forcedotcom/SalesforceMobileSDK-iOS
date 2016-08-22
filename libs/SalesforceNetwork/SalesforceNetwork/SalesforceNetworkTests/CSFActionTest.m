@@ -95,6 +95,7 @@
 - (void)testBaseURL {
     CSFAction *action = [[CSFAction alloc] initWithResponseBlock:nil];
     XCTAssertNotNil(action);
+    XCTAssertTrue([action.headersForAction[@"Accept-Encoding"] isEqualToString:@"gzip"]);
     
     action.baseURL = [NSURL URLWithString:@"http://example.com"];
     XCTAssertEqualObjects(action.baseURL.absoluteString, @"http://example.com/");
