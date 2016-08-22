@@ -676,6 +676,16 @@ static NSException *authException = nil;
     XCTAssertEqualObjects(listener.returnStatus, kTestRequestStatusDidLoad, @"request failed");
 }
 
+- (void)testGzip {
+    NSString *soql = [NSString stringWithFormat:@"SELECT Id FROM User WHERE Id != '%@'", _currentUser.credentials.userId];
+    // query
+    SFRestRequest *request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    [request setHeaderValue:@"gzip" forHeaderName:@"Accept-Encoding"];
+    SFNativeRestRequestListener *listener = [self sendSyncRequest:request];
+    [listener waitForCompletion];
+    XCTAssertTrue([request.action.httpResponse.allHeaderFields[@"Content-Encoding"] isEqualToString:@"gzip"]);
+}
+
 
 #pragma mark - files tests helpers
 // Return id of another user in org
