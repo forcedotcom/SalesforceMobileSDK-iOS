@@ -569,9 +569,11 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
                 if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *dict = (NSDictionary *)json;
-                    if (dict[kSFOAuthAccessToken]) {
+                    [self updateCredentials:dict];
+                    if (self.credentials.accessToken && self.credentials.apiUrl) {
+                        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
                         NSString *escapedString = [approvalUrl stringByURLEncoding];
-                        NSString* approvalUrl = [NSString stringWithFormat:@"%@://%@/secur/frontdoor.jsp?sid=%@&retURL=%@", self.credentials.protocol, self.credentials.domain, dict[kSFOAuthAccessToken],escapedString];
+                        NSString* approvalUrl = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedString];
                         [self doLoadURL:approvalUrl withCookie:YES];
                         swapOK = YES;
                         self.credentials.jwt = nil;
@@ -830,28 +832,20 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
  */
 
 - (void)updateCredentials:(NSDictionary*)params {
-    self.credentials.accessToken    = [params objectForKey:kSFOAuthAccessToken];
-    self.credentials.issuedAt       = [[self class] timestampStringToDate:[params objectForKey:kSFOAuthIssuedAt]];
-    self.credentials.instanceUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthInstanceUrl]];
-    self.credentials.identityUrl    = [NSURL URLWithString:[params objectForKey:kSFOAuthId]];
-
-    NSString *communityId = [params objectForKey:kSFOAuthCommunityId];
-    if (nil != communityId) {
-        self.credentials.communityId = communityId;
-    }
-    
-    NSString *communityUrl = [params objectForKey:kSFOAuthCommunityUrl];
-    if (nil != communityUrl) {
-        self.credentials.communityUrl = [NSURL URLWithString:communityUrl];
-    }
+    if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
+    if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
+    if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
+    if (params[kSFOAuthId]) self.credentials.identityUrl = [NSURL URLWithString:params[kSFOAuthId]];
+    if (params[kSFOAuthCommunityId]) self.credentials.communityId = params[kSFOAuthCommunityId];
+    if (params[kSFOAuthCommunityUrl]) self.credentials.communityUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
     
     // Parse additional flags
     if(self.additionalOAuthParameterKeys.count > 0) {
         NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
         for(NSString * key in self.additionalOAuthParameterKeys) {
-            id obj = [params objectForKey:key];
+            id obj = params[key];
             if(obj) {
-                [parsedValues setObject:obj forKey:key];
+                parsedValues[key] = obj;
             }
         }
         
