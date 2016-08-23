@@ -93,7 +93,7 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         // Subsequent times.
         [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
     }
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder sharedInstanceWithAnalyticsManager:self.sfAnalyticsManager.analyticsManager];
+    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.sfAnalyticsManager.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = @"Contact List Refresh";
     [builder startTime:curTime];
