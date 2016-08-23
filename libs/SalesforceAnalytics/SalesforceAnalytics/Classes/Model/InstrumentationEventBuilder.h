@@ -36,7 +36,7 @@
  *
  * @return Instance of this class.
  */
-+ (InstrumentationEventBuilder *) sharedInstanceWithAnalyticsManager:(AnalyticsManager *) analyticsManager;
++ (InstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(AnalyticsManager *) analyticsManager;
 
 /**
  * Sets start time.
