@@ -26,8 +26,6 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SalesforceAnalyticsManager.h>
-#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
 
 // Will go away once we are done refactoring SFSyncTarget
 #import <SmartSync/SFSoqlSyncDownTarget.h>
@@ -42,7 +40,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
 }
 
 @property (nonatomic, strong) SFSmartSyncSyncManager *syncMgr;
-@property (nonatomic, strong) SalesforceAnalyticsManager *sfAnalyticsManager;
 @property (nonatomic, strong) SObjectDataSpec *dataSpec;
 @property (nonatomic, strong) NSArray *fullDataRowList;
 @property (nonatomic, copy) SFSyncSyncManagerUpdateBlock syncCompletionBlock;
@@ -56,7 +53,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     self = [super init];
     if (self) {
         self.syncMgr = [SFSmartSyncSyncManager sharedInstance:[SFUserAccountManager sharedInstance].currentUser];
-        self.sfAnalyticsManager = [SalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
         self.dataSpec = dataSpec;
         _searchFilterQueue = dispatch_queue_create(kSearchFilterQueueName, NULL);
     }
@@ -93,27 +89,6 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
         // Subsequent times.
         [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
     }
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.sfAnalyticsManager.analyticsManager];
-    double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-    NSString *eventName = @"Contact List Refresh";
-    [builder startTime:curTime];
-    [builder name:eventName];
-    [builder sessionId:[[NSUUID UUID] UUIDString]];
-    [builder senderId:@"SmartSyncExplorer"];
-    [builder schemaType:SchemaTypeInteraction];
-    [builder eventType:EventTypeUser];
-    NSMutableDictionary *page = [[NSMutableDictionary alloc] init];
-    page[@"context"] = @"SObjectDataManager";
-    [builder page:page];
-    [builder endTime:1000 * [[NSDate date] timeIntervalSince1970]];
-    InstrumentationEvent *event = nil;
-    @try {
-        event = [builder buildEvent];
-    } @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while attempting to build event"];
-    }
-    [self.sfAnalyticsManager.eventStoreManager storeEvent:event];
-    [self.sfAnalyticsManager publishAllEvents];
 }
 
 - (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock {
