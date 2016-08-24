@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "DeviceAppAttributes.h"
+#import "SFSDKDeviceAppAttributes.h"
 
 static NSString* const kEventIdKey = @"eventId";
 static NSString* const kStartTimeKey = @"startTime";
@@ -78,7 +78,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
     ErrorTypeError
 };
 
-@interface InstrumentationEvent : NSObject
+@interface SFSDKInstrumentationEvent : NSObject
 
 @property (nonatomic, strong, readonly) NSString *eventId;
 @property (nonatomic, assign, readonly) NSInteger startTime;
@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 @property (nonatomic, assign, readonly) SFASchemaType schemaType;
 @property (nonatomic, assign, readonly) SFAEventType eventType;
 @property (nonatomic, assign, readonly) SFAErrorType errorType;
-@property (nonatomic, strong, readonly) DeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readonly) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly) NSString *connectionType;
 @property (nonatomic, strong, readonly) NSString *senderParentId;
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;

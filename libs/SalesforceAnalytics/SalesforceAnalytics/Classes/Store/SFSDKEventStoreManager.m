@@ -27,10 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
-#import "InstrumentationEvent+Internal.h"
+#import "SFSDKEventStoreManager.h"
+#import "SFSDKInstrumentationEvent+Internal.h"
 
-@interface EventStoreManager ()
+@interface SFSDKEventStoreManager ()
 
 @property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
@@ -38,7 +38,7 @@
 
 @end
 
-@implementation EventStoreManager
+@implementation SFSDKEventStoreManager
 
 - (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
@@ -68,7 +68,7 @@
     return self;
 }
 
-- (void) storeEvent:(InstrumentationEvent *) event {
+- (void) storeEvent:(SFSDKInstrumentationEvent *) event {
     if (!event || ![event jsonRepresentation]) {
         return;
     }
@@ -88,19 +88,19 @@
     }
 }
 
-- (void) storeEvents:(NSArray<InstrumentationEvent *> *) events {
+- (void) storeEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
     if (!events || [events count] == 0) {
         return;
     }
     if (![self shouldStoreEvent]) {
         return;
     }
-    for (InstrumentationEvent* event in events) {
+    for (SFSDKInstrumentationEvent* event in events) {
         [self storeEvent:event];
     }
 }
 
-- (InstrumentationEvent *) fetchEvent:(NSString *) eventId {
+- (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId {
     if (!eventId) {
         return nil;
     }
@@ -108,11 +108,11 @@
     return [self fetchEventFromFile:filePath];
 }
 
-- (NSArray<InstrumentationEvent *> *) fetchAllEvents {
+- (NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents {
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     NSMutableArray *events = [[NSMutableArray alloc] init];
     for (NSString *file in files) {
-        InstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];
+        SFSDKInstrumentationEvent *event = [self fetchEventFromFile:[self filenameForEvent:file]];
         if (event) {
             [events addObject:event];
         }
@@ -167,7 +167,7 @@
     return (self.isLoggingEnabled && (fileCount < self.maxEvents));
 }
 
-- (InstrumentationEvent *) fetchEventFromFile:(NSString *) file {
+- (SFSDKInstrumentationEvent *) fetchEventFromFile:(NSString *) file {
     if (!file) {
         return nil;
     }
@@ -176,7 +176,7 @@
         return nil;
     }
     NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
-    return [[InstrumentationEvent alloc] initWithJson:data];
+    return [[SFSDKInstrumentationEvent alloc] initWithJson:data];
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {

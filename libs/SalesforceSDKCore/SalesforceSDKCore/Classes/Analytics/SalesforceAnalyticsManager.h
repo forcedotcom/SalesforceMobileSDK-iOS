@@ -29,13 +29,13 @@
 
 #import "SFUserAccount.h"
 #import "AnalyticsPublisher.h"
-#import <SalesforceAnalytics/AnalyticsManager.h>
-#import <SalesforceAnalytics/Transform.h>
+#import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
+#import <SalesforceAnalytics/SFSDKTransform.h>
 
 @interface SalesforceAnalyticsManager : NSObject
 
-@property (nonatomic, readonly, strong) EventStoreManager *eventStoreManager;
-@property (nonatomic, readonly, strong) AnalyticsManager *analyticsManager;
+@property (nonatomic, readonly, strong) SFSDKEventStoreManager *eventStoreManager;
+@property (nonatomic, readonly, strong) SFSDKAnalyticsManager *analyticsManager;
 
 /**
  * Returns an instance of this class associated with the specified user account.
@@ -68,7 +68,7 @@
  *
  * @param events List of events.
  */
-- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events;
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
  * Publishes an event to all registered network endpoints after
@@ -78,7 +78,7 @@
  *
  * @param event Event.
  */
-- (void) publishEvent:(InstrumentationEvent *) event;
+- (void) publishEvent:(SFSDKInstrumentationEvent *) event;
 
 /**
  * Adds a remote publisher to publish events to.
@@ -86,7 +86,7 @@
  * @param transformer Transformer class.
  * @param publisher Publisher class.
  */
-- (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher;
+- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<AnalyticsPublisher>) publisher;
 
 /**
  * Disables or enables logging of events. If logging is disabled, no events

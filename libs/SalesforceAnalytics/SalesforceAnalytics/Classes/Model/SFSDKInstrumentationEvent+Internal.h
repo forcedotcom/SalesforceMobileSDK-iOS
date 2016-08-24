@@ -1,8 +1,8 @@
 /*
- Transform.h
+ InstrumentationEvent+Internal.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/16/16.
+ Created by Bharath Hariharan on 5/25/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,17 +27,34 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "InstrumentationEvent.h"
+#import "SFSDKInstrumentationEvent.h"
 
-@protocol Transform <NSObject>
+@interface SFSDKInstrumentationEvent ()
 
 /**
- * Transforms an event into the required format.
+ * Parameterized initializer.
  *
- * @param event Event to be transformed.
- * @return JSON representation after transformation.
+ * @param eventId Event ID.
+ * @param startTime Start time.
+ * @param endTime End time.
+ * @param name Name.
+ * @param attributes Attributes.
+ * @param sessionId Session ID.
+ * @param sequenceId Sequence ID.
+ * @param senderId Sender ID.
+ * @param senderContext Sender context.
+ * @param schemaType Schema type.
+ * @param eventType Event type.
+ * @param errorType Error type.
+ * @param deviceAppAttributes Device app attributes.
+ * @param connectionType Connection type.
+ * @param senderParentId Sender parent ID.
+ * @param sessionStartTime Session start time.
+ * @param page Page.
+ * @param previousPage Previous page.
+ * @param marks Marks.
+ * @return Instance of this class.
  */
-+ (NSDictionary *) transform:(InstrumentationEvent *) event;
+- (instancetype) initWithEventId:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SFASchemaType) schemaType eventType:(SFAEventType) eventType errorType:(SFAErrorType) errorType deviceAppAttributes:(SFSDKDeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks;
 
 @end

@@ -27,16 +27,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AnalyticsManager.h"
+#import "SFSDKAnalyticsManager.h"
 
-@interface InstrumentationEventBuilder : NSObject
+@interface SFSDKInstrumentationEventBuilder : NSObject
 
 /**
  * Returns an instance of this class.
  *
  * @return Instance of this class.
  */
-+ (InstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(AnalyticsManager *) analyticsManager;
++ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager;
 
 /**
  * Sets start time.
@@ -44,7 +44,7 @@
  * @param startTime Start time.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) startTime:(NSInteger) startTime;
+- (SFSDKInstrumentationEventBuilder *) startTime:(NSInteger) startTime;
 
 /**
  * Sets end time.
@@ -52,7 +52,7 @@
  * @param endTime End time.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) endTime:(NSInteger) endTime;
+- (SFSDKInstrumentationEventBuilder *) endTime:(NSInteger) endTime;
 
 /**
  * Sets name.
@@ -60,7 +60,7 @@
  * @param name Name.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) name:(NSString *) name;
+- (SFSDKInstrumentationEventBuilder *) name:(NSString *) name;
 
 /**
  * Sets attributes.
@@ -68,7 +68,7 @@
  * @param attributes Attributes.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) attributes:(NSDictionary *) attributes;
+- (SFSDKInstrumentationEventBuilder *) attributes:(NSDictionary *) attributes;
 
 /**
  * Sets session ID.
@@ -76,7 +76,7 @@
  * @param sessionId Session ID.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) sessionId:(NSString *) sessionId;
+- (SFSDKInstrumentationEventBuilder *) sessionId:(NSString *) sessionId;
 
 /**
  * Sets sender ID.
@@ -84,7 +84,7 @@
  * @param senderId Sender ID.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) senderId:(NSString *) senderId;
+- (SFSDKInstrumentationEventBuilder *) senderId:(NSString *) senderId;
 
 /**
  * Sets sender conetxt.
@@ -92,7 +92,7 @@
  * @param senderContext Sender context.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext;
+- (SFSDKInstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext;
 
 /**
  * Sets schema type.
@@ -100,7 +100,7 @@
  * @param schemaType Schema type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType;
+- (SFSDKInstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType;
 
 /**
  * Sets event type.
@@ -108,7 +108,7 @@
  * @param eventType Event type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) eventType:(SFAEventType) eventType;
+- (SFSDKInstrumentationEventBuilder *) eventType:(SFAEventType) eventType;
 
 /**
  * Sets error type.
@@ -116,7 +116,7 @@
  * @param errorType Error type.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) errorType:(SFAErrorType) errorType;
+- (SFSDKInstrumentationEventBuilder *) errorType:(SFAErrorType) errorType;
 
 /**
  * Sets sender parent ID.
@@ -124,7 +124,7 @@
  * @param senderParentId Sender parent ID.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId;
+- (SFSDKInstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId;
 
 /**
  * Sets session start time.
@@ -132,7 +132,7 @@
  * @param sessionStartTime Session start time.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
+- (SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
 
 /**
  * Sets page.
@@ -140,7 +140,7 @@
  * @param page Page.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) page:(NSDictionary *) page;
+- (SFSDKInstrumentationEventBuilder *) page:(NSDictionary *) page;
 
 /**
  * Sets previous page.
@@ -148,7 +148,7 @@
  * @param previousPage Previous page.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage;
+- (SFSDKInstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage;
 
 /**
  * Sets marks.
@@ -156,13 +156,13 @@
  * @param marks Marks.
  * @return Instance of this class.
  */
-- (InstrumentationEventBuilder *) marks:(NSDictionary *) marks;
+- (SFSDKInstrumentationEventBuilder *) marks:(NSDictionary *) marks;
 
 /**
  * Builds the event.
  *
  * @return Event instance.
  */
-- (InstrumentationEvent *) buildEvent;
+- (SFSDKInstrumentationEvent *) buildEvent;
 
 @end

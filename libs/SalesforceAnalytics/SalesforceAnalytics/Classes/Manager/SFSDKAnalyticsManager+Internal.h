@@ -1,8 +1,8 @@
 /*
- AnalyticsManager.h
+ AnalyticsManager+Internal.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/5/16.
+ Created by Bharath Hariharan on 6/6/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,29 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
+#import "SFSDKAnalyticsManager.h"
 
-@interface AnalyticsManager : NSObject
+@interface SFSDKAnalyticsManager ()
 
-@property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) EventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
-@property (nonatomic, readonly, assign) NSInteger globalSequenceId;
-
-/**
- * Parameterized initializer.
- *
- * @param storeDirectory Store directory that is used to determine where the events are stored.
- * @param dataEncryptorBlock Block that performs encryption.
- * @param dataDecryptorBlock Block that performs decryption.
- * @param deviceAttributes Device app attributes.
- * @return Instance of this class.
- */
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
-
-/**
- * Resets this instance.
- */
-- (void) reset;
+@property (nonatomic, readwrite, assign) NSInteger globalSequenceId;
 
 @end

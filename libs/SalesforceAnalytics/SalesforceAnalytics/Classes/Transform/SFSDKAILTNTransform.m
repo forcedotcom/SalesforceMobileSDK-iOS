@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AILTNTransform.h"
+#import "SFSDKAILTNTransform.h"
 
 static NSString* const kSFConnectionTypeKey = @"connectionType";
 static NSString* const kSFVersionKey = @"version";
@@ -54,9 +54,9 @@ static NSString* const kSFPreviousPageKey = @"previousPage";
 static NSString* const kSFMarksKey = @"marks";
 static NSString* const kSFPerfEventType = @"defs";
 
-@implementation AILTNTransform
+@implementation SFSDKAILTNTransform
 
-+ (NSDictionary *) transform:(InstrumentationEvent *) event {
++ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return nil;
     }
@@ -71,9 +71,9 @@ static NSString* const kSFPerfEventType = @"defs";
     return logLine;
 }
 
-+ (NSDictionary *) buildDeviceAttributes:(InstrumentationEvent *) event {
++ (NSDictionary *) buildDeviceAttributes:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *deviceAttributes = [[NSMutableDictionary alloc] init];
-    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
+    SFSDKDeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
     if (deviceAppAttributes) {
         deviceAttributes = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
         if (deviceAttributes) {
@@ -83,7 +83,7 @@ static NSString* const kSFPerfEventType = @"defs";
     return deviceAttributes;
 }
 
-+ (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
++ (NSDictionary *) buildPayload:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
     payload[kSFVersionKey] = kSFVersionValue;
     SFASchemaType schemaType = event.schemaType;
@@ -147,7 +147,7 @@ static NSString* const kSFPerfEventType = @"defs";
     return payload;
 }
 
-+ (NSDictionary *) buildLocator:(InstrumentationEvent *) event {
++ (NSDictionary *) buildLocator:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *locator = [[NSMutableDictionary alloc] init];
     NSString *senderId = event.senderId;
     NSString *senderParentId = event.senderParentId;

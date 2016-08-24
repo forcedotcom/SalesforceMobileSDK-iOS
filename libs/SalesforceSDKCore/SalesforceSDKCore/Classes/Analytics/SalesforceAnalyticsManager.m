@@ -34,8 +34,8 @@
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "AILTNPublisher.h"
-#import <SalesforceAnalytics/AILTNTransform.h>
-#import <SalesforceAnalytics/DeviceAppAttributes.h>
+#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
+#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -44,8 +44,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
-@property (nonatomic, readwrite, strong) EventStoreManager *eventStoreManager;
+@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
+@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -90,7 +90,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
+        SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
@@ -99,10 +99,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
-        self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
-        self.remotes[(id<NSCopying>) [AILTNTransform class]] = [AILTNPublisher class];
+        self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [AILTNPublisher class];
     }
     return self;
 }
@@ -117,23 +117,23 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) publishAllEvents {
     @synchronized (self) {
-        NSArray<InstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
+        NSArray<SFSDKInstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
         [self publishEvents:events];
     }
 }
 
-- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events {
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
     if (!events || events.count == 0) {
         return;
     }
     @synchronized (self) {
         NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
         BOOL success = YES;
-        NSArray<Class<Transform>> *remoteKeySet = [self.remotes allKeys];
-        for (Class<Transform> transformClass in remoteKeySet) {
+        NSArray<Class<SFSDKTransform>> *remoteKeySet = [self.remotes allKeys];
+        for (Class<SFSDKTransform> transformClass in remoteKeySet) {
             if (transformClass) {
                 NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
-                for (InstrumentationEvent *event in events) {
+                for (SFSDKInstrumentationEvent *event in events) {
                     [eventIds addObject:event.eventId];
                     NSDictionary *eventJSON = [transformClass transform:event];
                     if (eventJSON) {
@@ -165,18 +165,18 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (void) publishEvent:(InstrumentationEvent *) event {
+- (void) publishEvent:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return;
     }
     @synchronized (self) {
-        NSMutableArray<InstrumentationEvent *> *events = [[NSMutableArray alloc] init];
+        NSMutableArray<SFSDKInstrumentationEvent *> *events = [[NSMutableArray alloc] init];
         [events addObject:event];
         [self publishEvents:events];
     }
 }
 
-- (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
+- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
         [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
         return;
@@ -184,7 +184,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     self.remotes[(id<NSCopying>) transformer] = publisher;
 }
 
-- (DeviceAppAttributes *) buildDeviceAppAttributes {
+- (SFSDKDeviceAppAttributes *) buildDeviceAppAttributes {
     SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
@@ -209,7 +209,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.connectedAppId;
-    return [[DeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
+    return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

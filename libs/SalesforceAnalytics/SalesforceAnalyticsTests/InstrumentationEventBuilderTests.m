@@ -28,7 +28,7 @@
  */
 
 #import <XCTest/XCTest.h>
-#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 #import "AnalyticsTestUtil.h"
 
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
@@ -38,7 +38,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 @interface InstrumentationEventBuilderTests : XCTestCase
 
 @property (nonatomic, readwrite, strong) NSString *storeDirectory;
-@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
+@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 
 @end
 
@@ -46,9 +46,9 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 
 - (void) setUp {
     [super setUp];
-    DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] initWithAppVersion:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
+    SFSDKDeviceAppAttributes *deviceAppAttributes = [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
     self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
-    self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
+    self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
 }
 
 - (void) tearDown {
@@ -60,7 +60,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for missing mandatory field 'name'.
  */
 - (void) testMissingName {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     [builder startTime:curTime];
     [builder page:[[NSDictionary alloc] init]];
@@ -82,7 +82,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for missing mandatory field 'page'.
  */
 - (void) testMissingPage {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
@@ -106,8 +106,8 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  */
 - (void) testMissingDeviceAppAttributes {
     [self.analyticsManager reset];
-    self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:nil];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder startTime:curTime];
@@ -133,7 +133,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for auto population of mandatory field 'start time'.
  */
 - (void) testAutoPopulateStartTime {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
@@ -143,7 +143,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     XCTAssertTrue(event.startTime > 0, @"Start time should have been auto populated");
 }
 
@@ -151,7 +151,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for auto population of mandatory field 'event ID'.
  */
 - (void) testAutoPopulateEventId {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
@@ -162,7 +162,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     XCTAssertTrue(event.eventId != nil, @"Event ID should have been auto populated");
 }
 
@@ -170,7 +170,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for auto population of mandatory field 'sequence ID'.
  */
 - (void) testAutoPopulateSequenceId {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder name:eventName];
@@ -181,7 +181,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     NSInteger sequenceId = event.sequenceId;
     XCTAssertTrue(sequenceId > 0, @"Sequence ID should have been auto populated");
     NSInteger globalSequenceId = self.analyticsManager.globalSequenceId;

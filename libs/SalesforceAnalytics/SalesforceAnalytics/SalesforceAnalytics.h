@@ -2,7 +2,7 @@
  SalesforceAnalytics.h
  SalesforceAnalytics
 
- Created by Bharath Hariharan on Thu Jun 16 11:28:19 PDT 2016.
+ Created by Bharath Hariharan on Wed Aug 24 14:58:46 PDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,11 +27,11 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceAnalytics/AILTNTransform.h>
-#import <SalesforceAnalytics/AnalyticsManager.h>
-#import <SalesforceAnalytics/DeviceAppAttributes.h>
-#import <SalesforceAnalytics/EventStoreManager.h>
-#import <SalesforceAnalytics/InstrumentationEvent.h>
-#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
+#import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
+#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
+#import <SalesforceAnalytics/SFSDKEventStoreManager.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEvent.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 #import <SalesforceAnalytics/SFSDKReachability.h>
-#import <SalesforceAnalytics/Transform.h>
+#import <SalesforceAnalytics/SFSDKTransform.h>

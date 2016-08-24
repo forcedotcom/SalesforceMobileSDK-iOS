@@ -27,14 +27,14 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InstrumentationEventBuilder.h"
+#import "SFSDKInstrumentationEventBuilder.h"
 #import "SFSDKReachability.h"
-#import "AnalyticsManager+Internal.h"
-#import "InstrumentationEvent+Internal.h"
+#import "SFSDKAnalyticsManager+Internal.h"
+#import "SFSDKInstrumentationEvent+Internal.h"
 
-@interface InstrumentationEventBuilder ()
+@interface SFSDKInstrumentationEventBuilder ()
 
-@property (nonatomic, strong, readwrite) AnalyticsManager *analyticsManager;
+@property (nonatomic, strong, readwrite) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
@@ -53,13 +53,13 @@
 
 @end
 
-@implementation InstrumentationEventBuilder
+@implementation SFSDKInstrumentationEventBuilder
 
-+ (InstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
-    return [[InstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
++ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
+    return [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
 }
 
-- (InstrumentationEventBuilder *) initWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
+- (SFSDKInstrumentationEventBuilder *) initWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
     self = [super init];
     if (self) {
         self.analyticsManager = analyticsManager;
@@ -67,88 +67,88 @@
     return self;
 }
 
-- (InstrumentationEventBuilder *) startTime:(NSInteger) startTime {
+- (SFSDKInstrumentationEventBuilder *) startTime:(NSInteger) startTime {
     self.startTime = startTime;
     return self;
 }
 
-- (InstrumentationEventBuilder *) endTime:(NSInteger) endTime {
+- (SFSDKInstrumentationEventBuilder *) endTime:(NSInteger) endTime {
     self.endTime = endTime;
     return self;
 }
 
-- (InstrumentationEventBuilder *) name:(NSString *) name {
+- (SFSDKInstrumentationEventBuilder *) name:(NSString *) name {
     self.name = name;
     return self;
 }
 
-- (InstrumentationEventBuilder *) attributes:(NSDictionary *) attributes {
+- (SFSDKInstrumentationEventBuilder *) attributes:(NSDictionary *) attributes {
     self.attributes = attributes;
     return self;
 }
 
-- (InstrumentationEventBuilder *) sessionId:(NSString *) sessionId {
+- (SFSDKInstrumentationEventBuilder *) sessionId:(NSString *) sessionId {
     self.sessionId = sessionId;
     return self;
 }
 
-- (InstrumentationEventBuilder *) senderId:(NSString *) senderId {
+- (SFSDKInstrumentationEventBuilder *) senderId:(NSString *) senderId {
     self.senderId = senderId;
     return self;
 }
 
-- (InstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext {
+- (SFSDKInstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext {
     self.senderContext = senderContext;
     return self;
 }
 
-- (InstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType {
+- (SFSDKInstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType {
     self.schemaType = schemaType;
     return self;
 }
 
-- (InstrumentationEventBuilder *) eventType:(SFAEventType) eventType {
+- (SFSDKInstrumentationEventBuilder *) eventType:(SFAEventType) eventType {
     self.eventType = eventType;
     return self;
 }
 
-- (InstrumentationEventBuilder *) errorType:(SFAErrorType) errorType {
+- (SFSDKInstrumentationEventBuilder *) errorType:(SFAErrorType) errorType {
     self.errorType = errorType;
     return self;
 }
 
-- (InstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId {
+- (SFSDKInstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId {
     self.senderParentId = senderParentId;
     return self;
 }
 
-- (InstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime {
+- (SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime {
     self.sessionStartTime = sessionStartTime;
     return self;
 }
 
-- (InstrumentationEventBuilder *) page:(NSDictionary *) page {
+- (SFSDKInstrumentationEventBuilder *) page:(NSDictionary *) page {
     self.page = page;
     return self;
 }
 
-- (InstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage {
+- (SFSDKInstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage {
     self.previousPage = previousPage;
     return self;
 }
 
-- (InstrumentationEventBuilder *) marks:(NSDictionary *) marks {
+- (SFSDKInstrumentationEventBuilder *) marks:(NSDictionary *) marks {
     self.marks = marks;
     return self;
 }
 
-- (InstrumentationEvent *) buildEvent {
+- (SFSDKInstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
     NSString *errorMessage = nil;
     if (!self.name) {
         errorMessage = @"Mandatory field 'name' not set!";
     }
-    DeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
+    SFSDKDeviceAppAttributes *deviceAppAttributes = self.analyticsManager.deviceAttributes;
     if (!deviceAppAttributes) {
         errorMessage = @"Mandatory field 'device app attributes' not set!";
     }
@@ -165,7 +165,7 @@
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
-    return [[InstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
+    return [[SFSDKInstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
 }
 
 - (NSString *) getConnectionType {
