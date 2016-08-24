@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "InstrumentationEvent.h"
+#import "SFSDKInstrumentationEvent.h"
 
 @interface EventStoreManager : NSObject
 
@@ -56,14 +56,14 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  *
  * @param event Event to be persisted.
  */
-- (void) storeEvent:(InstrumentationEvent *) event;
+- (void) storeEvent:(SFSDKInstrumentationEvent *) event;
 
 /**
  * Stores a list of events to the filesystem.
  *
  * @param events List of events.
  */
-- (void) storeEvents:(NSArray<InstrumentationEvent *> *) events;
+- (void) storeEvents:(NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
  * Returns a specific event stored on the filesystem.
@@ -71,14 +71,14 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * @param eventId Unique identifier for the event.
  * @return Event.
  */
-- (InstrumentationEvent *) fetchEvent:(NSString *) eventId;
+- (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId;
 
 /**
  * Returns all the events stored on the filesystem for that unique identifier.
  *
  * @return List of events.
  */
-- (NSArray<InstrumentationEvent *> *) fetchAllEvents;
+- (NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents;
 
 /**
  * Deletes a specific event stored on the filesystem.

@@ -28,7 +28,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "InstrumentationEvent.h"
+#import "SFSDKInstrumentationEvent.h"
 
 @protocol Transform <NSObject>
 
@@ -38,6 +38,6 @@
  * @param event Event to be transformed.
  * @return JSON representation after transformation.
  */
-+ (NSDictionary *) transform:(InstrumentationEvent *) event;
++ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event;
 
 @end

@@ -117,12 +117,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) publishAllEvents {
     @synchronized (self) {
-        NSArray<InstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
+        NSArray<SFSDKInstrumentationEvent *> *events = [self.eventStoreManager fetchAllEvents];
         [self publishEvents:events];
     }
 }
 
-- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events {
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events {
     if (!events || events.count == 0) {
         return;
     }
@@ -133,7 +133,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         for (Class<Transform> transformClass in remoteKeySet) {
             if (transformClass) {
                 NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
-                for (InstrumentationEvent *event in events) {
+                for (SFSDKInstrumentationEvent *event in events) {
                     [eventIds addObject:event.eventId];
                     NSDictionary *eventJSON = [transformClass transform:event];
                     if (eventJSON) {
@@ -165,12 +165,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (void) publishEvent:(InstrumentationEvent *) event {
+- (void) publishEvent:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return;
     }
     @synchronized (self) {
-        NSMutableArray<InstrumentationEvent *> *events = [[NSMutableArray alloc] init];
+        NSMutableArray<SFSDKInstrumentationEvent *> *events = [[NSMutableArray alloc] init];
         [events addObject:event];
         [self publishEvents:events];
     }

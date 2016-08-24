@@ -143,7 +143,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     XCTAssertTrue(event.startTime > 0, @"Start time should have been auto populated");
 }
 
@@ -162,7 +162,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     XCTAssertTrue(event.eventId != nil, @"Event ID should have been auto populated");
 }
 
@@ -181,7 +181,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [builder schemaType:SchemaTypeError];
     [builder eventType:EventTypeSystem];
     [builder errorType:ErrorTypeWarn];
-    InstrumentationEvent *event = [builder buildEvent];
+    SFSDKInstrumentationEvent *event = [builder buildEvent];
     NSInteger sequenceId = event.sequenceId;
     XCTAssertTrue(sequenceId > 0, @"Sequence ID should have been auto populated");
     NSInteger globalSequenceId = self.analyticsManager.globalSequenceId;

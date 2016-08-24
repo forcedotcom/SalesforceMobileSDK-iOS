@@ -68,7 +68,7 @@
  *
  * @param events List of events.
  */
-- (void) publishEvents:(NSArray<InstrumentationEvent *> *) events;
+- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
  * Publishes an event to all registered network endpoints after
@@ -78,7 +78,7 @@
  *
  * @param event Event.
  */
-- (void) publishEvent:(InstrumentationEvent *) event;
+- (void) publishEvent:(SFSDKInstrumentationEvent *) event;
 
 /**
  * Adds a remote publisher to publish events to.

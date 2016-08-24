@@ -30,7 +30,7 @@
 #import "InstrumentationEventBuilder.h"
 #import "SFSDKReachability.h"
 #import "AnalyticsManager+Internal.h"
-#import "InstrumentationEvent+Internal.h"
+#import "SFSDKInstrumentationEvent+Internal.h"
 
 @interface InstrumentationEventBuilder ()
 
@@ -142,7 +142,7 @@
     return self;
 }
 
-- (InstrumentationEvent *) buildEvent {
+- (SFSDKInstrumentationEvent *) buildEvent {
     NSString *eventId = [[NSUUID UUID] UUIDString];
     NSString *errorMessage = nil;
     if (!self.name) {
@@ -165,7 +165,7 @@
     NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
-    return [[InstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
+    return [[SFSDKInstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
 }
 
 - (NSString *) getConnectionType {

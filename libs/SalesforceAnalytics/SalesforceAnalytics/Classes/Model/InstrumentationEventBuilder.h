@@ -163,6 +163,6 @@
  *
  * @return Event instance.
  */
-- (InstrumentationEvent *) buildEvent;
+- (SFSDKInstrumentationEvent *) buildEvent;
 
 @end

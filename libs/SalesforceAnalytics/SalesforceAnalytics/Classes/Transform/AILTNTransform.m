@@ -56,7 +56,7 @@ static NSString* const kSFPerfEventType = @"defs";
 
 @implementation AILTNTransform
 
-+ (NSDictionary *) transform:(InstrumentationEvent *) event {
++ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return nil;
     }
@@ -71,7 +71,7 @@ static NSString* const kSFPerfEventType = @"defs";
     return logLine;
 }
 
-+ (NSDictionary *) buildDeviceAttributes:(InstrumentationEvent *) event {
++ (NSDictionary *) buildDeviceAttributes:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *deviceAttributes = [[NSMutableDictionary alloc] init];
     DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
     if (deviceAppAttributes) {
@@ -83,7 +83,7 @@ static NSString* const kSFPerfEventType = @"defs";
     return deviceAttributes;
 }
 
-+ (NSDictionary *) buildPayload:(InstrumentationEvent *) event {
++ (NSDictionary *) buildPayload:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *payload = [[NSMutableDictionary alloc] init];
     payload[kSFVersionKey] = kSFVersionValue;
     SFASchemaType schemaType = event.schemaType;
@@ -147,7 +147,7 @@ static NSString* const kSFPerfEventType = @"defs";
     return payload;
 }
 
-+ (NSDictionary *) buildLocator:(InstrumentationEvent *) event {
++ (NSDictionary *) buildLocator:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *locator = [[NSMutableDictionary alloc] init];
     NSString *senderId = event.senderId;
     NSString *senderParentId = event.senderParentId;
