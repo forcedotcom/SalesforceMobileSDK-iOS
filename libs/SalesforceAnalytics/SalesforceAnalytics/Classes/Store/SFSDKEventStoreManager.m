@@ -27,10 +27,10 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
+#import "SFSDKEventStoreManager.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
 
-@interface EventStoreManager ()
+@interface SFSDKEventStoreManager ()
 
 @property (nonatomic, strong, readwrite) NSString *storeDirectory;
 @property (nonatomic, strong, readwrite) DataEncryptorBlock dataEncryptorBlock;
@@ -38,7 +38,7 @@
 
 @end
 
-@implementation EventStoreManager
+@implementation SFSDKEventStoreManager
 
 - (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];

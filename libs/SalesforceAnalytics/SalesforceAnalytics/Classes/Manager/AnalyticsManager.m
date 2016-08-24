@@ -32,7 +32,7 @@
 @interface AnalyticsManager ()
 
 @property (nonatomic, readwrite, strong) NSString *storeDirectory;
-@property (nonatomic, readwrite, strong) EventStoreManager *storeManager;
+@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *storeManager;
 @property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
 
 @end
@@ -45,7 +45,7 @@
         self.storeDirectory = storeDirectory;
         self.deviceAttributes = deviceAttributes;
         self.globalSequenceId = 0;
-        self.storeManager = [[EventStoreManager alloc] initWithStoreDirectory:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
+        self.storeManager = [[SFSDKEventStoreManager alloc] initWithStoreDirectory:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
     }
     return self;
 }

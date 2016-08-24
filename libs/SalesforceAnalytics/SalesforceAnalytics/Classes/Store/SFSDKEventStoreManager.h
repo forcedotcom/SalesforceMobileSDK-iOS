@@ -29,7 +29,7 @@
 
 #import "SFSDKInstrumentationEvent.h"
 
-@interface EventStoreManager : NSObject
+@interface SFSDKEventStoreManager : NSObject
 
 typedef NSData* (^DataEncryptorBlock)(NSData *data);
 typedef NSData* (^DataDecryptorBlock)(NSData *data);

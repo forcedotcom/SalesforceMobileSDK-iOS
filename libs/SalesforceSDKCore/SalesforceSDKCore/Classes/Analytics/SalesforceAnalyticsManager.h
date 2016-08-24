@@ -34,7 +34,7 @@
 
 @interface SalesforceAnalyticsManager : NSObject
 
-@property (nonatomic, readonly, strong) EventStoreManager *eventStoreManager;
+@property (nonatomic, readonly, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readonly, strong) AnalyticsManager *analyticsManager;
 
 /**

@@ -45,7 +45,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
-@property (nonatomic, readwrite, strong) EventStoreManager *eventStoreManager;
+@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end

@@ -27,12 +27,12 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EventStoreManager.h"
+#import "SFSDKEventStoreManager.h"
 
 @interface AnalyticsManager : NSObject
 
 @property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) EventStoreManager *storeManager;
+@property (nonatomic, readonly, strong) SFSDKEventStoreManager *storeManager;
 @property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
 @property (nonatomic, readonly, assign) NSInteger globalSequenceId;
 
