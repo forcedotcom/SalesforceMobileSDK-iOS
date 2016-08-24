@@ -1,5 +1,5 @@
 /*
- AILTNPublisher.h
+ AnalyticsPublisher.h
  SalesforceSDKCore
  
  Created by Bharath Hariharan on 6/19/16.
@@ -27,8 +27,16 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AnalyticsPublisher.h"
+#import <Foundation/Foundation.h>
 
-@interface AILTNPublisher : NSObject <AnalyticsPublisher>
+@protocol SFSDKAnalyticsPublisher <NSObject>
+
+/**
+ * Publishes events to a network endpoint.
+ *
+ * @param events Events to be published.
+ * @return True - if successful, False - otherwise.
+ */
++ (BOOL) publish:(NSArray *) events;
 
 @end

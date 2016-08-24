@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AILTNPublisher.h"
+#import "SFSDKAILTNPublisher.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFLogger.h"
@@ -44,7 +44,7 @@ static NSString* const kApiVersion = @"v36.0";
 static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 static NSString* const kBearer = @"Bearer %@";
 
-@implementation AILTNPublisher
+@implementation SFSDKAILTNPublisher
 
 + (BOOL) publish:(NSArray *) events {
     if (!events || [events count] == 0) {

@@ -27,13 +27,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SalesforceAnalyticsManager.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFDirectoryManager.h"
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
-#import "AILTNPublisher.h"
+#import "SFSDKAILTNPublisher.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -42,7 +42,7 @@ static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventSt
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
-@interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
+@interface SFSDKSalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
@@ -50,14 +50,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @end
 
-@implementation SalesforceAnalyticsManager
+@implementation SFSDKSalesforceAnalyticsManager
 
 + (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         analyticsManagerList = [[NSMutableDictionary alloc] init];
     });
-    @synchronized ([SalesforceAnalyticsManager class]) {
+    @synchronized ([SFSDKSalesforceAnalyticsManager class]) {
         if (!userAccount) {
             userAccount = [SFUserAccountManager sharedInstance].currentUser;
         }
@@ -66,7 +66,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         }
         id analyticsMgr = analyticsManagerList[userAccount];
         if (!analyticsMgr) {
-            analyticsMgr = [[SalesforceAnalyticsManager alloc] initWithUser:userAccount];
+            analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
             NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
             analyticsManagerList[key] = analyticsMgr;
         }
@@ -75,7 +75,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 + (void) removeSharedInstanceWithUser:(SFUserAccount *) userAccount {
-    @synchronized ([SalesforceAnalyticsManager class]) {
+    @synchronized ([SFSDKSalesforceAnalyticsManager class]) {
         if (!userAccount) {
             userAccount = [SFUserAccountManager sharedInstance].currentUser;
         }
@@ -102,7 +102,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
-        self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [AILTNPublisher class];
+        self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
     }
     return self;
 }
@@ -140,7 +140,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                         [eventsJSONArray addObject:eventJSON];
                     }
                 }
-                Class<AnalyticsPublisher> networkPublisher = self.remotes[transformClass];
+                Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[transformClass];
                 if (networkPublisher) {
                     BOOL networkSuccess = [networkPublisher publish:eventsJSONArray];
                     
@@ -176,7 +176,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
+- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<SFSDKAnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
         [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
         return;

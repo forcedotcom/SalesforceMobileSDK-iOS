@@ -28,11 +28,11 @@
  */
 
 #import "SFUserAccount.h"
-#import "AnalyticsPublisher.h"
+#import "SFSDKAnalyticsPublisher.h"
 #import <SalesforceAnalytics/SFSDKAnalyticsManager.h>
 #import <SalesforceAnalytics/SFSDKTransform.h>
 
-@interface SalesforceAnalyticsManager : NSObject
+@interface SFSDKSalesforceAnalyticsManager : NSObject
 
 @property (nonatomic, readonly, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readonly, strong) SFSDKAnalyticsManager *analyticsManager;
@@ -86,7 +86,7 @@
  * @param transformer Transformer class.
  * @param publisher Publisher class.
  */
-- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<AnalyticsPublisher>) publisher;
+- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<SFSDKAnalyticsPublisher>) publisher;
 
 /**
  * Disables or enables logging of events. If logging is disabled, no events
