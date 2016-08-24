@@ -30,10 +30,10 @@
 		CE2B8E111CE9352B00C6FC6A /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C501CE9245B00C6FC6A /* en.lproj */; };
 		CE2B8E131CE9352B00C6FC6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE2B8C3B1CE9218900C6FC6A /* Assets.xcassets */; };
 		CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */; };
-		CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */; };
-		CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */; };
+		CE2B8FED1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE2B8FEE1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE2B8FF01CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */; };
+		CE2B8FF21CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */; };
 		CE2B8FF81CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8FF91CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE2B8FFE1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */; };
@@ -64,10 +64,10 @@
 		CEF372CF1D1324100004A237 /* Transform.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF372CA1D1324040004A237 /* Transform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEF372D01D1324190004A237 /* AILTNTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372C91D1324040004A237 /* AILTNTransform.m */; };
 		CEF372D21D1326E90004A237 /* AILTNTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF372D11D1326E90004A237 /* AILTNTransformTests.m */; };
-		CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
-		CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */; };
+		CEFEB5531D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5541D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */; };
+		CEFEB5551D048AB3007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CEFEB5571D048ABD007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */; };
 		CEFEB55A1D05063F007D5EAE /* InstrumentationEventBuilderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */; };
 		CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */; };
@@ -137,8 +137,8 @@
 		CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceAnalytics-Test.xcconfig"; path = "Configuration/SalesforceAnalytics-Test.xcconfig"; sourceTree = "<group>"; };
 		CE2B8FE71CF550F900C6FC6A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Supporting Files/Info.plist"; sourceTree = "<group>"; };
 		CE2B8FEA1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SalesforceAnalytics-Prefix.pch"; path = "Supporting Files/SalesforceAnalytics-Prefix.pch"; sourceTree = "<group>"; };
-		CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DeviceAppAttributes.h; path = Classes/Model/DeviceAppAttributes.h; sourceTree = "<group>"; };
-		CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DeviceAppAttributes.m; path = Classes/Model/DeviceAppAttributes.m; sourceTree = "<group>"; };
+		CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKDeviceAppAttributes.h; path = Classes/Model/SFSDKDeviceAppAttributes.h; sourceTree = "<group>"; };
+		CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKDeviceAppAttributes.m; path = Classes/Model/SFSDKDeviceAppAttributes.m; sourceTree = "<group>"; };
 		CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKInstrumentationEvent.h; path = Classes/Model/SFSDKInstrumentationEvent.h; sourceTree = "<group>"; };
 		CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKInstrumentationEvent.m; path = Classes/Model/SFSDKInstrumentationEvent.m; sourceTree = "<group>"; };
 		CE2B91AE1D03A61000C6FC6A /* SFSDKEventStoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKEventStoreManager.h; path = Classes/Store/SFSDKEventStoreManager.h; sourceTree = "<group>"; };
@@ -155,8 +155,8 @@
 		CEF372C91D1324040004A237 /* AILTNTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILTNTransform.m; path = Classes/Transform/AILTNTransform.m; sourceTree = "<group>"; };
 		CEF372CA1D1324040004A237 /* Transform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Transform.h; path = Classes/Transform/Transform.h; sourceTree = "<group>"; };
 		CEF372D11D1326E90004A237 /* AILTNTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AILTNTransformTests.m; sourceTree = "<group>"; };
-		CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InstrumentationEventBuilder.h; path = Classes/Model/InstrumentationEventBuilder.h; sourceTree = "<group>"; };
-		CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InstrumentationEventBuilder.m; path = Classes/Model/InstrumentationEventBuilder.m; sourceTree = "<group>"; };
+		CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKInstrumentationEventBuilder.h; path = Classes/Model/SFSDKInstrumentationEventBuilder.h; sourceTree = "<group>"; };
+		CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKInstrumentationEventBuilder.m; path = Classes/Model/SFSDKInstrumentationEventBuilder.m; sourceTree = "<group>"; };
 		CEFEB5591D05063F007D5EAE /* InstrumentationEventBuilderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstrumentationEventBuilderTests.m; sourceTree = "<group>"; };
 		CEFEB55D1D050E4C007D5EAE /* AnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnalyticsManager.h; path = Classes/Manager/AnalyticsManager.h; sourceTree = "<group>"; };
 		CEFEB55E1D050E4C007D5EAE /* AnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnalyticsManager.m; path = Classes/Manager/AnalyticsManager.m; sourceTree = "<group>"; };
@@ -316,10 +316,10 @@
 		CE2B8FE91CF5510B00C6FC6A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				CE2B8FEC1CF551CC00C6FC6A /* DeviceAppAttributes.h */,
-				CE2B8FEF1CF555EF00C6FC6A /* DeviceAppAttributes.m */,
-				CEFEB5511D048A7B007D5EAE /* InstrumentationEventBuilder.h */,
-				CEFEB5521D048A7B007D5EAE /* InstrumentationEventBuilder.m */,
+				CE2B8FEC1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h */,
+				CE2B8FEF1CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m */,
+				CEFEB5511D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h */,
+				CEFEB5521D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m */,
 				CE2B8FF71CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h */,
 				CEF371B31D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h */,
 				CE2B8FFD1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m */,
@@ -385,14 +385,14 @@
 				CEFEB84B1D0E5206007D5EAE /* SFSDKReachability.h in Headers */,
 				CE2B91B01D03A61000C6FC6A /* SFSDKEventStoreManager.h in Headers */,
 				CEFEB55F1D050E4C007D5EAE /* AnalyticsManager.h in Headers */,
-				CEFEB5531D048A7B007D5EAE /* InstrumentationEventBuilder.h in Headers */,
+				CEFEB5531D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */,
 				CEFEB5621D05DFFA007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FEB1CF5515E00C6FC6A /* SalesforceAnalytics-Prefix.pch in Headers */,
 				CEF372CB1D1324040004A237 /* AILTNTransform.h in Headers */,
 				CEF371B41D0F6E6D0004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */,
 				CEF372CD1D1324040004A237 /* Transform.h in Headers */,
 				CE2B8FF81CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */,
-				CE2B8FED1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
+				CE2B8FED1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,12 +401,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B61D03A6A900C6FC6A /* SFSDKEventStoreManager.h in Headers */,
-				CE2B8FEE1CF551CC00C6FC6A /* DeviceAppAttributes.h in Headers */,
+				CE2B8FEE1CF551CC00C6FC6A /* SFSDKDeviceAppAttributes.h in Headers */,
 				CEFEB5631D05E3ED007D5EAE /* AnalyticsManager+Internal.h in Headers */,
 				CE2B8FF91CF5FF8A00C6FC6A /* SFSDKInstrumentationEvent.h in Headers */,
 				CEF372CE1D1324080004A237 /* AILTNTransform.h in Headers */,
 				CEF371B51D0F6E710004A237 /* SFSDKInstrumentationEvent+Internal.h in Headers */,
-				CEFEB5551D048AB3007D5EAE /* InstrumentationEventBuilder.h in Headers */,
+				CEFEB5551D048AB3007D5EAE /* SFSDKInstrumentationEventBuilder.h in Headers */,
 				CEFEB84D1D0E520B007D5EAE /* SFSDKReachability.h in Headers */,
 				CEF372CF1D1324100004A237 /* Transform.h in Headers */,
 				CEFEB5641D05E3F3007D5EAE /* AnalyticsManager.h in Headers */,
@@ -608,10 +608,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B11D03A61000C6FC6A /* SFSDKEventStoreManager.m in Sources */,
-				CEFEB5541D048A7B007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB5541D048A7B007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */,
 				CEFEB5601D050E4C007D5EAE /* AnalyticsManager.m in Sources */,
 				CEF372CC1D1324040004A237 /* AILTNTransform.m in Sources */,
-				CE2B8FF01CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CE2B8FF01CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */,
 				CEFEB84C1D0E5206007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B8FFE1CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */,
 			);
@@ -633,10 +633,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE2B91B41D03A69D00C6FC6A /* SFSDKEventStoreManager.m in Sources */,
-				CEFEB5571D048ABD007D5EAE /* InstrumentationEventBuilder.m in Sources */,
+				CEFEB5571D048ABD007D5EAE /* SFSDKInstrumentationEventBuilder.m in Sources */,
 				CEFEB5651D05E3FD007D5EAE /* AnalyticsManager.m in Sources */,
 				CEF372D01D1324190004A237 /* AILTNTransform.m in Sources */,
-				CE2B8FF21CF555EF00C6FC6A /* DeviceAppAttributes.m in Sources */,
+				CE2B8FF21CF555EF00C6FC6A /* SFSDKDeviceAppAttributes.m in Sources */,
 				CEFEB84E1D0E5215007D5EAE /* SFSDKReachability.m in Sources */,
 				CE2B90001CF6032C00C6FC6A /* SFSDKInstrumentationEvent.m in Sources */,
 			);

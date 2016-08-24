@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "DeviceAppAttributes.h"
+#import "SFSDKDeviceAppAttributes.h"
 
 static NSString* const kSFAppVersionKey = @"appVersion";
 static NSString* const kSFAppNameKey = @"appName";
@@ -39,7 +39,7 @@ static NSString* const kSFDeviceModelKey = @"deviceModel";
 static NSString* const kSFDeviceIdKey = @"deviceId";
 static NSString* const kSFClientIdKey = @"clientId";
 
-@interface DeviceAppAttributes ()
+@interface SFSDKDeviceAppAttributes ()
 
 @property (nonatomic, strong, readwrite) NSString *appVersion;
 @property (nonatomic, strong, readwrite) NSString *appName;
@@ -53,7 +53,7 @@ static NSString* const kSFClientIdKey = @"clientId";
 
 @end
 
-@implementation DeviceAppAttributes
+@implementation SFSDKDeviceAppAttributes
 
 - (instancetype) initWithAppVersion:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion
         osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType

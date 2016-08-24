@@ -35,7 +35,7 @@
 #import "SFSDKCryptoUtils.h"
 #import "AILTNPublisher.h"
 #import <SalesforceAnalytics/AILTNTransform.h>
-#import <SalesforceAnalytics/DeviceAppAttributes.h>
+#import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
@@ -90,7 +90,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
-        DeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
+        SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
         DataEncryptorBlock dataEncryptorBlock = ^NSData*(NSData *data) {
@@ -184,7 +184,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     self.remotes[(id<NSCopying>) transformer] = publisher;
 }
 
-- (DeviceAppAttributes *) buildDeviceAppAttributes {
+- (SFSDKDeviceAppAttributes *) buildDeviceAppAttributes {
     SalesforceSDKManager *sdkManager = [SalesforceSDKManager sharedManager];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
@@ -209,7 +209,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSString *deviceModel = [curDevice model];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.connectedAppId;
-    return [[DeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
+    return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

@@ -33,13 +33,13 @@
 
 @property (nonatomic, readwrite, strong) NSString *storeDirectory;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *storeManager;
-@property (nonatomic, readwrite, strong) DeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readwrite, strong) SFSDKDeviceAppAttributes *deviceAttributes;
 
 @end
 
 @implementation AnalyticsManager
 
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes {
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(SFSDKDeviceAppAttributes *) deviceAttributes {
     self = [super init];
     if (self) {
         self.storeDirectory = storeDirectory;

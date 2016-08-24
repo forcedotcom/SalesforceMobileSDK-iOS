@@ -33,7 +33,7 @@
 
 @property (nonatomic, readonly, strong) NSString *storeDirectory;
 @property (nonatomic, readonly, strong) SFSDKEventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) DeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readonly, strong) SFSDKDeviceAppAttributes *deviceAttributes;
 @property (nonatomic, readonly, assign) NSInteger globalSequenceId;
 
 /**
@@ -45,7 +45,7 @@
  * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(DeviceAppAttributes *) deviceAttributes;
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(SFSDKDeviceAppAttributes *) deviceAttributes;
 
 /**
  * Resets this instance.

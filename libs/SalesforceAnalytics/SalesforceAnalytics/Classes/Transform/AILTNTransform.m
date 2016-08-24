@@ -73,7 +73,7 @@ static NSString* const kSFPerfEventType = @"defs";
 
 + (NSDictionary *) buildDeviceAttributes:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *deviceAttributes = [[NSMutableDictionary alloc] init];
-    DeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
+    SFSDKDeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;
     if (deviceAppAttributes) {
         deviceAttributes = [NSMutableDictionary dictionaryWithDictionary:[deviceAppAttributes jsonRepresentation]];
         if (deviceAttributes) {

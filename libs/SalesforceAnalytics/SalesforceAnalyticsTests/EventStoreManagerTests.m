@@ -28,7 +28,7 @@
  */
 
 #import <XCTest/XCTest.h>
-#import <SalesforceAnalytics/InstrumentationEventBuilder.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 #import "AnalyticsTestUtil.h"
 
 static NSString * const kTestEventName = @"TEST_EVENT_NAME_%lf";
@@ -47,7 +47,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 
 - (void)setUp {
     [super setUp];
-    DeviceAppAttributes *deviceAppAttributes = [[DeviceAppAttributes alloc] initWithAppVersion:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
+    SFSDKDeviceAppAttributes *deviceAppAttributes = [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
     self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
     self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
     self.storeManager = [[SFSDKEventStoreManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
@@ -255,7 +255,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 }
 
 - (SFSDKInstrumentationEvent *) createTestEvent {
-    InstrumentationEventBuilder *builder = [InstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:self.analyticsManager];
     double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
     NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
     [builder startTime:curTime];

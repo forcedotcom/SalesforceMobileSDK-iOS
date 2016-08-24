@@ -29,7 +29,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DeviceAppAttributes : NSObject
+@interface SFSDKDeviceAppAttributes : NSObject
 
 @property (nonatomic, strong, readonly) NSString *appVersion;
 @property (nonatomic, strong, readonly) NSString *appName;

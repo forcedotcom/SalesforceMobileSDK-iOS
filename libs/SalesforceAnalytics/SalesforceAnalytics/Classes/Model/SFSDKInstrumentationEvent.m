@@ -43,7 +43,7 @@
 @property (nonatomic, assign, readwrite) SFASchemaType schemaType;
 @property (nonatomic, assign, readwrite) SFAEventType eventType;
 @property (nonatomic, assign, readwrite) SFAErrorType errorType;
-@property (nonatomic, strong, readwrite) DeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readwrite) NSString *connectionType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
@@ -55,7 +55,7 @@
 
 @implementation SFSDKInstrumentationEvent
 
-- (instancetype) initWithEventId:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SFASchemaType) schemaType eventType:(SFAEventType) eventType errorType:(SFAErrorType) errorType deviceAppAttributes:(DeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
+- (instancetype) initWithEventId:(NSString *) eventId startTime:(NSInteger) startTime endTime:(NSInteger) endTime name:(NSString *) name attributes:(NSDictionary *) attributes sessionId:(NSString *) sessionId sequenceId:(NSInteger) sequenceId senderId:(NSString *) senderId senderContext:(NSDictionary *) senderContext schemaType:(SFASchemaType) schemaType eventType:(SFAEventType) eventType errorType:(SFAErrorType) errorType deviceAppAttributes:(SFSDKDeviceAppAttributes *) deviceAppAttributes connectionType:(NSString *) connectionType senderParentId:(NSString *) senderParentId sessionStartTime:(NSInteger) sessionStartTime page:(NSDictionary *) page previousPage:(NSDictionary *) previousPage marks:(NSDictionary *) marks {
     self = [super init];
     if (self) {
         self.eventId = eventId;
@@ -118,7 +118,7 @@
             }
             NSDictionary *deviceAttrDict = dict[kDeviceAppAttributesKey];
             if (deviceAttrDict) {
-                self.deviceAppAttributes = [[DeviceAppAttributes alloc] initWithJson:deviceAttrDict];
+                self.deviceAppAttributes = [[SFSDKDeviceAppAttributes alloc] initWithJson:deviceAttrDict];
             }
             self.connectionType = dict[kConnectionTypeKey];
             self.senderParentId = dict[kSenderParentIdKey];
