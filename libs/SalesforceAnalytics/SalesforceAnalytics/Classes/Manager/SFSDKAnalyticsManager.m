@@ -1,8 +1,8 @@
 /*
- Transform.h
+ AnalyticsManager.m
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/16/16.
+ Created by Bharath Hariharan on 6/5/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,17 +27,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
-#import "SFSDKInstrumentationEvent.h"
+#import "SFSDKAnalyticsManager+Internal.h"
 
-@protocol Transform <NSObject>
+@interface SFSDKAnalyticsManager ()
 
-/**
- * Transforms an event into the required format.
- *
- * @param event Event to be transformed.
- * @return JSON representation after transformation.
- */
-+ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event;
+@property (nonatomic, readwrite, strong) NSString *storeDirectory;
+@property (nonatomic, readwrite, strong) SFSDKEventStoreManager *storeManager;
+@property (nonatomic, readwrite, strong) SFSDKDeviceAppAttributes *deviceAttributes;
+
+@end
+
+@implementation SFSDKAnalyticsManager
+
+- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(SFSDKDeviceAppAttributes *) deviceAttributes {
+    self = [super init];
+    if (self) {
+        self.storeDirectory = storeDirectory;
+        self.deviceAttributes = deviceAttributes;
+        self.globalSequenceId = 0;
+        self.storeManager = [[SFSDKEventStoreManager alloc] initWithStoreDirectory:storeDirectory dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock];
+    }
+    return self;
+}
+
+- (void) reset {
+    [self.storeManager deleteAllEvents];
+}
 
 @end

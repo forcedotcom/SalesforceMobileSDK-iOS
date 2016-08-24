@@ -27,8 +27,8 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "Transform.h"
+#import "SFSDKTransform.h"
 
-@interface AILTNTransform : NSObject <Transform>
+@interface SFSDKAILTNTransform : NSObject <SFSDKTransform>
 
 @end

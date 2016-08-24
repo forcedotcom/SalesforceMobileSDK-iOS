@@ -34,7 +34,7 @@
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "AILTNPublisher.h"
-#import <SalesforceAnalytics/AILTNTransform.h>
+#import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
@@ -44,7 +44,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @interface SalesforceAnalyticsManager () <SFAuthenticationManagerDelegate>
 
-@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
+@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
@@ -99,10 +99,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         DataDecryptorBlock dataDecryptorBlock = ^NSData*(NSData *data) {
             return [SFSDKCryptoUtils aes256DecryptData:data withKey:encKey.key iv:encKey.initializationVector];
         };
-        self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
+        self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
-        self.remotes[(id<NSCopying>) [AILTNTransform class]] = [AILTNPublisher class];
+        self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [AILTNPublisher class];
     }
     return self;
 }
@@ -129,8 +129,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
     @synchronized (self) {
         NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
         BOOL success = YES;
-        NSArray<Class<Transform>> *remoteKeySet = [self.remotes allKeys];
-        for (Class<Transform> transformClass in remoteKeySet) {
+        NSArray<Class<SFSDKTransform>> *remoteKeySet = [self.remotes allKeys];
+        for (Class<SFSDKTransform> transformClass in remoteKeySet) {
             if (transformClass) {
                 NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
                 for (SFSDKInstrumentationEvent *event in events) {
@@ -176,7 +176,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (void) addRemotePublisher:(Class<Transform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
+- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<AnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
         [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
         return;

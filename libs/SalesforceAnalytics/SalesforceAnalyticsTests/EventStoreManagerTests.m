@@ -38,7 +38,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 @interface EventStoreManagerTests : XCTestCase
 
 @property (nonatomic, readwrite, strong) NSString *storeDirectory;
-@property (nonatomic, readwrite, strong) AnalyticsManager *analyticsManager;
+@property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *storeManager;
 
 @end
@@ -49,7 +49,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [super setUp];
     SFSDKDeviceAppAttributes *deviceAppAttributes = [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:@"TEST_APP_VERSION" appName:@"TEST_APP_NAME" osVersion:@"TEST_OS_VERSION" osName:@"TEST_OS_NAME" nativeAppType:@"TEST_NATIVE_APP_TYPE" mobileSdkVersion:@"TEST_MOBILE_SDK_VERSION" deviceModel:@"TEST_DEVICE_MODEL" deviceId:@"TEST_DEVICE_ID" clientId:@"TEST_CLIENT_ID"];
     self.storeDirectory = [AnalyticsTestUtil buildTestStoreDirectory];
-    self.analyticsManager = [[AnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
+    self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil deviceAttributes:deviceAppAttributes];
     self.storeManager = [[SFSDKEventStoreManager alloc] initWithStoreDirectory:self.storeDirectory dataEncryptorBlock:nil dataDecryptorBlock:nil];
 }
 

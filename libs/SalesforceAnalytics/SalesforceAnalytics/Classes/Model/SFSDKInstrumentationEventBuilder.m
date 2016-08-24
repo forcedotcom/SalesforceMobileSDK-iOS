@@ -29,12 +29,12 @@
 
 #import "SFSDKInstrumentationEventBuilder.h"
 #import "SFSDKReachability.h"
-#import "AnalyticsManager+Internal.h"
+#import "SFSDKAnalyticsManager+Internal.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
 
 @interface SFSDKInstrumentationEventBuilder ()
 
-@property (nonatomic, strong, readwrite) AnalyticsManager *analyticsManager;
+@property (nonatomic, strong, readwrite) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
@@ -55,11 +55,11 @@
 
 @implementation SFSDKInstrumentationEventBuilder
 
-+ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
++ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
     return [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
 }
 
-- (SFSDKInstrumentationEventBuilder *) initWithAnalyticsManager:(AnalyticsManager *) analyticsManager {
+- (SFSDKInstrumentationEventBuilder *) initWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
     self = [super init];
     if (self) {
         self.analyticsManager = analyticsManager;

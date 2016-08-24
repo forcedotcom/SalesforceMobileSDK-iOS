@@ -1,8 +1,8 @@
 /*
- AnalyticsManager.h
+ Transform.h
  SalesforceAnalytics
  
- Created by Bharath Hariharan on 6/5/16.
+ Created by Bharath Hariharan on 6/16/16.
  
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,29 +27,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SFSDKEventStoreManager.h"
+#import <Foundation/Foundation.h>
+#import "SFSDKInstrumentationEvent.h"
 
-@interface AnalyticsManager : NSObject
-
-@property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) SFSDKEventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) SFSDKDeviceAppAttributes *deviceAttributes;
-@property (nonatomic, readonly, assign) NSInteger globalSequenceId;
+@protocol SFSDKTransform <NSObject>
 
 /**
- * Parameterized initializer.
+ * Transforms an event into the required format.
  *
- * @param storeDirectory Store directory that is used to determine where the events are stored.
- * @param dataEncryptorBlock Block that performs encryption.
- * @param dataDecryptorBlock Block that performs decryption.
- * @param deviceAttributes Device app attributes.
- * @return Instance of this class.
+ * @param event Event to be transformed.
+ * @return JSON representation after transformation.
  */
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(SFSDKDeviceAppAttributes *) deviceAttributes;
-
-/**
- * Resets this instance.
- */
-- (void) reset;
++ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event;
 
 @end

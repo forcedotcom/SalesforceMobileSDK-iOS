@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AnalyticsManager.h"
+#import "SFSDKAnalyticsManager.h"
 
 @interface SFSDKInstrumentationEventBuilder : NSObject
 
@@ -36,7 +36,7 @@
  *
  * @return Instance of this class.
  */
-+ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(AnalyticsManager *) analyticsManager;
++ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager;
 
 /**
  * Sets start time.

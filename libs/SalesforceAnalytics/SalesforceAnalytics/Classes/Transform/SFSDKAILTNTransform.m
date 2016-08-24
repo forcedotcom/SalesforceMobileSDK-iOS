@@ -27,7 +27,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "AILTNTransform.h"
+#import "SFSDKAILTNTransform.h"
 
 static NSString* const kSFConnectionTypeKey = @"connectionType";
 static NSString* const kSFVersionKey = @"version";
@@ -54,7 +54,7 @@ static NSString* const kSFPreviousPageKey = @"previousPage";
 static NSString* const kSFMarksKey = @"marks";
 static NSString* const kSFPerfEventType = @"defs";
 
-@implementation AILTNTransform
+@implementation SFSDKAILTNTransform
 
 + (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event {
     if (!event) {
