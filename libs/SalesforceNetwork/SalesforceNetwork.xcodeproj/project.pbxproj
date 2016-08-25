@@ -25,6 +25,8 @@
 		CE0AB01F1C10D0C500BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2141C0FD29F00319E68 /* libz.tbd */; };
 		CE0AB02F1C10D1AE00BFAEED /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAB031B6299BA00F4C242 /* libOCMock.a */; };
 		CE0AB04B1C10D27600BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F7EAA9C1B61917700F4C242 /* SalesforceSDKCore.framework */; };
+		CE2B8CE11CE930C200C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CE01CE930C200C6FC6A /* SalesforceAnalytics.framework */; };
+		CE2B8CE81CE930CD00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CE01CE930C200C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4CE3B31C0E5512009F6029 /* NSDate+ActionValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 820053F61ACDBE7200C96578 /* NSDate+ActionValue.h */; };
 		CE4CE3B41C0E5512009F6029 /* NSDate+ActionValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 820053F71ACDBE7200C96578 /* NSDate+ActionValue.m */; };
 		CE4CE3B51C0E5512009F6029 /* NSMutableURLRequest+SalesforceNetwork.h in Headers */ = {isa = PBXBuildFile; fileRef = 82A0C3A71A990F0000243931 /* NSMutableURLRequest+SalesforceNetwork.h */; };
@@ -363,6 +365,7 @@
 		82D0AB291C497F890081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SalesforceNetwork/Info.plist; sourceTree = "<group>"; };
 		82E8022C1A8FF22900648529 /* CSFAuthRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSFAuthRefresh.h; sourceTree = "<group>"; };
 		82E8022D1A8FF22900648529 /* CSFAuthRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSFAuthRefresh.m; sourceTree = "<group>"; };
+		CE2B8CE01CE930C200C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE4CE28C1C0E454F009F6029 /* SalesforceNetwork.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceNetwork.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE4CE4831C0E5EB9009F6029 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2141C0FD29F00319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
@@ -376,6 +379,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B8CE81CE930CD00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE0AB04B1C10D27600BFAEED /* SalesforceSDKCore.framework in Frameworks */,
 				CE0AB02F1C10D1AE00BFAEED /* libOCMock.a in Frameworks */,
 				CE4CE47E1C0E5E72009F6029 /* SalesforceNetwork.framework in Frameworks */,
@@ -389,6 +393,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE2B8CE11CE930C200C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C2151C0FD29F00319E68 /* libz.tbd in Frameworks */,
 				CE65C20F1C0FD28800319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE4CE4841C0E5EB9009F6029 /* Foundation.framework in Frameworks */,
@@ -671,6 +676,7 @@
 		827DD5091A7C090000519F03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE2B8CE01CE930C200C6FC6A /* SalesforceAnalytics.framework */,
 				CE65C2141C0FD29F00319E68 /* libz.tbd */,
 				CE4CE4831C0E5EB9009F6029 /* Foundation.framework */,
 				6F7EAA941B61917700F4C242 /* SalesforceSDKCore.xcodeproj */,

@@ -1,0 +1,12 @@
+//
+//  SalesforceAnalytics-Dynamic-iOS-Release.xcconfig
+//  SalesforceAnalytics
+//
+//  Created by Bharath Hariharan on 05/14/16.
+//  Copyright © 2016 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Dynamic.xcconfig"
+#include "../../../configuration/Configuration-Release.xcconfig"
+#include "SalesforceAnalytics-Common-Dynamic.xcconfig"
