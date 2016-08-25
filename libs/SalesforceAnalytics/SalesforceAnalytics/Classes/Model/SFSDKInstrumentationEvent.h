@@ -29,25 +29,25 @@
 
 #import "SFSDKDeviceAppAttributes.h"
 
-static NSString* const kEventIdKey = @"eventId";
-static NSString* const kStartTimeKey = @"startTime";
-static NSString* const kEndTimeKey = @"endTime";
-static NSString* const kNameKey = @"name";
-static NSString* const kAttributesKey = @"attributes";
-static NSString* const kSessionIdKey = @"sessionId";
-static NSString* const kSequenceIdKey = @"sequenceId";
-static NSString* const kSenderIdKey = @"senderId";
-static NSString* const kSenderContextKey = @"senderContext";
-static NSString* const kSchemaTypeKey = @"schemaType";
-static NSString* const kEventTypeKey = @"eventType";
-static NSString* const kErrorTypeKey = @"errorType";
-static NSString* const kConnectionTypeKey = @"connectionType";
-static NSString* const kDeviceAppAttributesKey = @"deviceAppAttributes";
-static NSString* const kSenderParentIdKey = @"senderParentId";
-static NSString* const kSessionStartTimeKey = @"sessionStartTime";
-static NSString* const kPageKey = @"page";
-static NSString* const kPreviousPageKey = @"previousPage";
-static NSString* const kMarksKey = @"marks";
+static NSString * _Nonnull const kEventIdKey = @"eventId";
+static NSString * _Nonnull const kStartTimeKey = @"startTime";
+static NSString * _Nonnull const kEndTimeKey = @"endTime";
+static NSString * _Nonnull const kNameKey = @"name";
+static NSString * _Nonnull const kAttributesKey = @"attributes";
+static NSString * _Nonnull const kSessionIdKey = @"sessionId";
+static NSString * _Nonnull const kSequenceIdKey = @"sequenceId";
+static NSString * _Nonnull const kSenderIdKey = @"senderId";
+static NSString * _Nonnull const kSenderContextKey = @"senderContext";
+static NSString * _Nonnull const kSchemaTypeKey = @"schemaType";
+static NSString * _Nonnull const kEventTypeKey = @"eventType";
+static NSString * _Nonnull const kErrorTypeKey = @"errorType";
+static NSString * _Nonnull const kConnectionTypeKey = @"connectionType";
+static NSString * _Nonnull const kDeviceAppAttributesKey = @"deviceAppAttributes";
+static NSString * _Nonnull const kSenderParentIdKey = @"senderParentId";
+static NSString * _Nonnull const kSessionStartTimeKey = @"sessionStartTime";
+static NSString * _Nonnull const kPageKey = @"page";
+static NSString * _Nonnull const kPreviousPageKey = @"previousPage";
+static NSString * _Nonnull const kMarksKey = @"marks";
 
 /**
  * Represents the type of schema being logged.
