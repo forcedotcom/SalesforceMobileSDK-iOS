@@ -80,25 +80,25 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 
 @interface SFSDKInstrumentationEvent : NSObject
 
-@property (nonatomic, strong, readonly) NSString *eventId;
+@property (nonatomic, strong, readonly, nonnull) NSString *eventId;
 @property (nonatomic, assign, readonly) NSInteger startTime;
 @property (nonatomic, assign, readonly) NSInteger endTime;
-@property (nonatomic, strong, readonly) NSString *name;
-@property (nonatomic, strong, readonly) NSDictionary *attributes;
-@property (nonatomic, assign, readonly) NSString *sessionId;
+@property (nonatomic, strong, readonly, nonnull) NSString *name;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *attributes;
+@property (nonatomic, assign, readonly, nullable) NSString *sessionId;
 @property (nonatomic, assign, readonly) NSInteger sequenceId;
-@property (nonatomic, strong, readonly) NSString *senderId;
-@property (nonatomic, strong, readonly) NSDictionary *senderContext;
+@property (nonatomic, strong, readonly, nullable) NSString *senderId;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *senderContext;
 @property (nonatomic, assign, readonly) SFASchemaType schemaType;
 @property (nonatomic, assign, readonly) SFAEventType eventType;
 @property (nonatomic, assign, readonly) SFAErrorType errorType;
-@property (nonatomic, strong, readonly) SFSDKDeviceAppAttributes *deviceAppAttributes;
-@property (nonatomic, strong, readonly) NSString *connectionType;
-@property (nonatomic, strong, readonly) NSString *senderParentId;
+@property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readonly, nonnull) NSString *connectionType;
+@property (nonatomic, strong, readonly, nullable) NSString *senderParentId;
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;
-@property (nonatomic, strong, readonly) NSDictionary *page;
-@property (nonatomic, strong, readonly) NSDictionary *previousPage;
-@property (nonatomic, strong, readonly) NSDictionary *marks;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *page;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *previousPage;
+@property (nonatomic, strong, readonly, nullable) NSDictionary *marks;
 
 /**
  * Parameterized initializer.
@@ -106,14 +106,14 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
  * @param jsonRepresentation JSON representation.
  * @return Instance of this class.
  */
-- (instancetype) initWithJson:(NSData *) jsonRepresentation;
+- (nonnull instancetype) initWithJson:(nonnull NSData *) jsonRepresentation;
 
 /**
  * Returns a JSON representation of this event.
  *
  * @return JSON representation.
  */
-- (NSData *) jsonRepresentation;
+- (nonnull NSData *) jsonRepresentation;
 
 /**
  * Returns a string representation of schema type.
@@ -121,7 +121,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
  * @param schemaType Schema type.
  * @return String representation of schema type.
  */
-- (NSString *) stringValueOfSchemaType:(SFASchemaType) schemaType;
+- (nonnull NSString *) stringValueOfSchemaType:(SFASchemaType) schemaType;
 
 /**
  * Returns a string representation of event type.
@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
  * @param eventType Event type.
  * @return String representation of event type.
  */
-- (NSString *) stringValueOfEventType:(SFAEventType) eventType;
+- (nonnull NSString *) stringValueOfEventType:(SFAEventType) eventType;
 
 /**
  * Returns a string representation of error type.
@@ -137,6 +137,6 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
  * @param errorType Error type.
  * @return String representation of error type.
  */
-- (NSString *) stringValueOfErrorType:(SFAErrorType) errorType;
+- (nonnull NSString *) stringValueOfErrorType:(SFAErrorType) errorType;
 
 @end

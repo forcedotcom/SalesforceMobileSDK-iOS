@@ -38,6 +38,6 @@
  * @param event Event to be transformed.
  * @return JSON representation after transformation.
  */
-+ (NSDictionary *) transform:(SFSDKInstrumentationEvent *) event;
++ (nullable NSDictionary *) transform:(nonnull SFSDKInstrumentationEvent *) event;
 
 @end

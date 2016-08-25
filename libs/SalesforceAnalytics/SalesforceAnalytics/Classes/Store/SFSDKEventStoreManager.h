@@ -31,12 +31,12 @@
 
 @interface SFSDKEventStoreManager : NSObject
 
-typedef NSData* (^DataEncryptorBlock)(NSData *data);
-typedef NSData* (^DataDecryptorBlock)(NSData *data);
+typedef NSData * _Nullable (^ _Nullable DataEncryptorBlock)(NSData * _Nullable data);
+typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable data);
 
-@property (nonatomic, strong, readonly) NSString *storeDirectory;
-@property (nonatomic, strong, readonly) DataEncryptorBlock dataEncryptorBlock;
-@property (nonatomic, strong, readonly) DataDecryptorBlock dataDecryptorBlock;
+@property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory;
+@property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock;
+@property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock;
 @property (nonatomic, assign, readwrite) BOOL isLoggingEnabled;
 @property (nonatomic, assign, readwrite) NSInteger maxEvents;
 
@@ -48,7 +48,7 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * @param dataDecryptorBlock Block that performs decryption.
  * @return Instance of this class.
  */
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock;
+- (nonnull instancetype) initWithStoreDirectory:(nonnull NSString *) storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock) dataDecryptorBlock;
 
 /**
  * Stores an event to the filesystem. A combination of event's unique ID and
@@ -56,14 +56,14 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  *
  * @param event Event to be persisted.
  */
-- (void) storeEvent:(SFSDKInstrumentationEvent *) event;
+- (void) storeEvent:(nullable SFSDKInstrumentationEvent *) event;
 
 /**
  * Stores a list of events to the filesystem.
  *
  * @param events List of events.
  */
-- (void) storeEvents:(NSArray<SFSDKInstrumentationEvent *> *) events;
+- (void) storeEvents:(nullable NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
  * Returns a specific event stored on the filesystem.
@@ -71,14 +71,14 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * @param eventId Unique identifier for the event.
  * @return Event.
  */
-- (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId;
+- (nullable SFSDKInstrumentationEvent *) fetchEvent:(nullable NSString *) eventId;
 
 /**
  * Returns all the events stored on the filesystem for that unique identifier.
  *
  * @return List of events.
  */
-- (NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents;
+- (nullable NSArray<SFSDKInstrumentationEvent *> *) fetchAllEvents;
 
 /**
  * Deletes a specific event stored on the filesystem.
@@ -86,12 +86,12 @@ typedef NSData* (^DataDecryptorBlock)(NSData *data);
  * @param eventId Unique identifier for the event.
  * @return True - if successful, False - otherwise.
  */
-- (BOOL) deleteEvent:(NSString *) eventId;
+- (BOOL) deleteEvent:(nullable NSString *) eventId;
 
 /**
  * Deletes the events stored on the filesystem for that unique identifier.
  */
-- (void) deleteEvents:(NSArray<NSString *> *) eventIds;
+- (void) deleteEvents:(nullable NSArray<NSString *> *) eventIds;
 
 /**
  * Deletes all the events stored on the filesystem for that unique identifier.

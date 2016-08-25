@@ -31,15 +31,15 @@
 
 @interface SFSDKDeviceAppAttributes : NSObject
 
-@property (nonatomic, strong, readonly) NSString *appVersion;
-@property (nonatomic, strong, readonly) NSString *appName;
-@property (nonatomic, strong, readonly) NSString *osVersion;
-@property (nonatomic, strong, readonly) NSString *osName;
-@property (nonatomic, strong, readonly) NSString *nativeAppType;
-@property (nonatomic, strong, readonly) NSString *mobileSdkVersion;
-@property (nonatomic, strong, readonly) NSString *deviceModel;
-@property (nonatomic, strong, readonly) NSString *deviceId;
-@property (nonatomic, strong, readonly) NSString *clientId;
+@property (nonatomic, strong, readonly, nonnull) NSString *appVersion;
+@property (nonatomic, strong, readonly, nonnull) NSString *appName;
+@property (nonatomic, strong, readonly, nonnull) NSString *osVersion;
+@property (nonatomic, strong, readonly, nonnull) NSString *osName;
+@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType;
+@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion;
+@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel;
+@property (nonatomic, strong, readonly, nonnull) NSString *deviceId;
+@property (nonatomic, strong, readonly, nonnull) NSString *clientId;
 
 /**
  * Parameterized initializer.
@@ -55,9 +55,8 @@
  * @param clientId Client ID.
  * @return Instance of this class.
  */
-- (instancetype) initWithAppVersion:(NSString *) appVersion appName:(NSString *) appName osVersion:(NSString *) osVersion osName:(NSString *) osName nativeAppType:(NSString *) nativeAppType
-    mobileSdkVersion:(NSString *) mobileSdkVersion deviceModel:(NSString *) deviceModel
-   deviceId:(NSString *) deviceId clientId:(NSString *) clientId;
+- (nonnull instancetype) initWithAppVersion:(nonnull NSString *) appVersion appName:(nonnull NSString *) appName osVersion:(nonnull NSString *) osVersion osName:(nonnull NSString *) osName nativeAppType:(nonnull NSString *) nativeAppType
+    mobileSdkVersion:(nonnull NSString *) mobileSdkVersion deviceModel:(nonnull NSString *) deviceModel deviceId:(nonnull NSString *) deviceId clientId:(nonnull NSString *) clientId;
 
 /**
  * Parameterized initializer.
@@ -65,13 +64,13 @@
  * @param jsonRepresentation JSON representation.
  * @return Instance of this class.
  */
-- (instancetype) initWithJson:(NSDictionary *) jsonRepresentation;
+- (nonnull instancetype) initWithJson:(nonnull NSDictionary *) jsonRepresentation;
 
 /**
  * Returns a JSON representation of device app attributes.
  *
  * @return JSON representation.
  */
-- (NSDictionary *) jsonRepresentation;
+- (nonnull NSDictionary *) jsonRepresentation;
 
 @end

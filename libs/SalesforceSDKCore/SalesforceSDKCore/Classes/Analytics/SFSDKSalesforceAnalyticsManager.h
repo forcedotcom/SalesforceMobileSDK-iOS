@@ -34,8 +34,8 @@
 
 @interface SFSDKSalesforceAnalyticsManager : NSObject
 
-@property (nonatomic, readonly, strong) SFSDKEventStoreManager *eventStoreManager;
-@property (nonatomic, readonly, strong) SFSDKAnalyticsManager *analyticsManager;
+@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager;
+@property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager;
 
 /**
  * Returns an instance of this class associated with the specified user account.
@@ -43,14 +43,14 @@
  * @param userAccount User account.
  * @return Instance of this class.
  */
-+ (instancetype) sharedInstanceWithUser:(SFUserAccount *) userAccount;
++ (nonnull instancetype) sharedInstanceWithUser:(nonnull SFUserAccount *) userAccount;
 
 /**
  * Resets and removes the instance associated with the specified user account.
  *
  * @param userAccount User account.
  */
-+ (void) removeSharedInstanceWithUser:(SFUserAccount *) userAccount;
++ (void) removeSharedInstanceWithUser:(nonnull SFUserAccount *) userAccount;
 
 /**
  * Publishes all stored events to all registered network endpoints after
@@ -68,7 +68,7 @@
  *
  * @param events List of events.
  */
-- (void) publishEvents:(NSArray<SFSDKInstrumentationEvent *> *) events;
+- (void) publishEvents:(nonnull NSArray<SFSDKInstrumentationEvent *> *) events;
 
 /**
  * Publishes an event to all registered network endpoints after
@@ -78,7 +78,7 @@
  *
  * @param event Event.
  */
-- (void) publishEvent:(SFSDKInstrumentationEvent *) event;
+- (void) publishEvent:(nonnull SFSDKInstrumentationEvent *) event;
 
 /**
  * Adds a remote publisher to publish events to.
@@ -86,7 +86,7 @@
  * @param transformer Transformer class.
  * @param publisher Publisher class.
  */
-- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<SFSDKAnalyticsPublisher>) publisher;
+- (void) addRemotePublisher:(nonnull Class<SFSDKTransform>) transformer publisher:(nonnull Class<SFSDKAnalyticsPublisher>) publisher;
 
 /**
  * Disables or enables logging of events. If logging is disabled, no events
