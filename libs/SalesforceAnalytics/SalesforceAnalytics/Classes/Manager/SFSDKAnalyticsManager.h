@@ -31,9 +31,9 @@
 
 @interface SFSDKAnalyticsManager : NSObject
 
-@property (nonatomic, readonly, strong) NSString *storeDirectory;
-@property (nonatomic, readonly, strong) SFSDKEventStoreManager *storeManager;
-@property (nonatomic, readonly, strong) SFSDKDeviceAppAttributes *deviceAttributes;
+@property (nonatomic, readonly, strong, nonnull) NSString *storeDirectory;
+@property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *storeManager;
+@property (nonatomic, readonly, strong, nonnull) SFSDKDeviceAppAttributes *deviceAttributes;
 @property (nonatomic, readonly, assign) NSInteger globalSequenceId;
 
 /**
@@ -45,7 +45,7 @@
  * @param deviceAttributes Device app attributes.
  * @return Instance of this class.
  */
-- (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(SFSDKDeviceAppAttributes *) deviceAttributes;
+- (nonnull instancetype) initWithStoreDirectory:(nonnull NSString *) storeDirectory dataEncryptorBlock:(nullable DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(nullable DataDecryptorBlock) dataDecryptorBlock deviceAttributes:(nonnull SFSDKDeviceAppAttributes *) deviceAttributes;
 
 /**
  * Resets this instance.

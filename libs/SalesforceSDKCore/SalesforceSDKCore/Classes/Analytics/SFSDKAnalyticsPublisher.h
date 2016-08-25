@@ -37,6 +37,6 @@
  * @param events Events to be published.
  * @return True - if successful, False - otherwise.
  */
-+ (BOOL) publish:(NSArray *) events;
++ (BOOL) publish:(nonnull NSArray *) events;
 
 @end
