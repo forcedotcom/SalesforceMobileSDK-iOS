@@ -44,7 +44,7 @@
  * @param startTime Start time.
  * @return Instance of this class.
  */
-- (nonnull SFSDKInstrumentationEventBuilder *) startTime:(NSInteger) startTime;
+- (nonnull SFSDKInstrumentationEventBuilder *) startTime:(NSTimeInterval) startTime;
 
 /**
  * Sets end time.
@@ -52,7 +52,7 @@
  * @param endTime End time.
  * @return Instance of this class.
  */
-- (nonnull SFSDKInstrumentationEventBuilder *) endTime:(NSInteger) endTime;
+- (nonnull SFSDKInstrumentationEventBuilder *) endTime:(NSTimeInterval) endTime;
 
 /**
  * Sets name.
@@ -132,7 +132,7 @@
  * @param sessionStartTime Session start time.
  * @return Instance of this class.
  */
-- (nonnull SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
+- (nonnull SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSTimeInterval) sessionStartTime;
 
 /**
  * Sets page.

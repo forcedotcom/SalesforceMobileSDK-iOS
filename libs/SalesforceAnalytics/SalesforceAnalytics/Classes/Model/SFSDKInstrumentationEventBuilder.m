@@ -35,8 +35,8 @@
 @interface SFSDKInstrumentationEventBuilder ()
 
 @property (nonatomic, strong, readwrite) SFSDKAnalyticsManager *analyticsManager;
-@property (nonatomic, assign, readwrite) NSInteger startTime;
-@property (nonatomic, assign, readwrite) NSInteger endTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval startTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSDictionary *attributes;
 @property (nonatomic, strong, readwrite) NSString *sessionId;
@@ -46,7 +46,7 @@
 @property (nonatomic, assign, readwrite) SFAEventType eventType;
 @property (nonatomic, assign, readwrite) SFAErrorType errorType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
-@property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval sessionStartTime;
 @property (nonatomic, strong, readwrite) NSDictionary *page;
 @property (nonatomic, strong, readwrite) NSDictionary *previousPage;
 @property (nonatomic, strong, readwrite) NSDictionary *marks;
@@ -162,7 +162,7 @@
     self.analyticsManager.globalSequenceId = sequenceId;
 
     // Defaults to current time if not explicitly set.
-    NSInteger curTime = [[NSDate date] timeIntervalSince1970] * 1000;
+    NSTimeInterval curTime = [[NSDate date] timeIntervalSince1970] * 1000;
     self.startTime = (self.startTime == 0) ? curTime : self.startTime;
     self.sessionStartTime = (self.sessionStartTime == 0) ? curTime : self.sessionStartTime;
     return [[SFSDKInstrumentationEvent alloc] initWithEventId:eventId startTime:self.startTime endTime:self.endTime name:self.name attributes:self.attributes sessionId:self.sessionId sequenceId:sequenceId senderId:self.senderId senderContext:self.senderContext schemaType:self.schemaType eventType:self.eventType errorType:self.errorType deviceAppAttributes:deviceAppAttributes connectionType:[self getConnectionType] senderParentId:self.senderParentId sessionStartTime:self.sessionStartTime page:self.page previousPage:self.previousPage marks:self.marks];
