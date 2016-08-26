@@ -867,9 +867,6 @@
 						CreatedOnToolsVersion = 7.1.1;
 						TestTargetID = 827C631019E6018C00027484;
 					};
-					827C631019E6018C00027484 = {
-						DevelopmentTeam = 4PZ44KB26X;
-					};
 				};
 			};
 			buildConfigurationList = 827C630C19E6018C00027484 /* Build configuration list for PBXProject "SmartSyncExplorer" */;
@@ -1456,7 +1453,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
@@ -1473,7 +1469,6 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
