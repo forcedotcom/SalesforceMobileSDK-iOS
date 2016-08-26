@@ -38,17 +38,11 @@ extern NSString* const kSFRestErrorDomain;
  */
 extern NSInteger const kSFRestErrorCode;
 
-
 /*
  * Default API version (currently "v36.0")
  * You can override this by using setApiVersion:
  */
 extern NSString* const kSFRestDefaultAPIVersion;
-
-/*
- * The designator used to signify that the app is a native app.
- */
-extern NSString * const kSFMobileSDKNativeDesignator;
 
 @class SFOAuthCoordinator;
 

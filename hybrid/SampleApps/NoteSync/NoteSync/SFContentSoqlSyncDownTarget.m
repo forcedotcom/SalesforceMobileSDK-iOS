@@ -276,10 +276,14 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
-            weakSelf.queryLocator = response.queryLocator;
-            weakSelf.totalSize = response.totalSize;
-            completeBlock(response.records);
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {
+            __strong SFContentSoqlSyncDownTarget *strongSelf = weakSelf;
+            [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
+                strongSelf.queryLocator = soapSoqlResponse.queryLocator;
+                strongSelf.totalSize = soapSoqlResponse.totalSize;
+                completeBlock(soapSoqlResponse.records);
+            }];
+            
         }];
     }];
 }

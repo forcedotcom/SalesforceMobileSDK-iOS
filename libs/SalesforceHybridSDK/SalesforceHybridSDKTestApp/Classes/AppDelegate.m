@@ -84,28 +84,32 @@
 {
     SFTestRunnerPlugin *runner =  (SFTestRunnerPlugin*)[self.viewController.commandDelegate getCommandInstance:kSFTestRunnerPluginName];
     [self log:SFLogLevelDebug format:@"runner: %@",runner];
-    
     BOOL runningOctest = [self isRunningOctest];
     [self log:SFLogLevelDebug format:@"octest running: %d",runningOctest];
 }
 
 - (NSString *) evalJS:(NSString *) js {
-    __block NSString *resultString = nil;
-    __block BOOL finished = NO;
-    [(WKWebView *)(self.viewController.webView) evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
-        if (error == nil) {
-            if (result != nil) {
-                resultString = [NSString stringWithFormat:@"%@", result];
+    if (self.viewController.useWKWebView) {
+        __block NSString *resultString = nil;
+        __block BOOL finished = NO;
+        [(WKWebView *)(self.viewController.webView) evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
+            if (error == nil) {
+                if (result != nil) {
+                    resultString = [NSString stringWithFormat:@"%@", result];
+                }
+            } else {
+                [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
             }
-        } else {
-            [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+            finished = YES;
+        }];
+        while (!finished) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         }
-        finished = YES;
-    }];
-    while (!finished) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        return resultString;
+    } else {
+        NSString *jsResult = [(UIWebView *)(self.viewController.webView) stringByEvaluatingJavaScriptFromString:js];
+        return jsResult;
     }
-    return resultString;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
@@ -189,7 +193,6 @@
         });
         return;
     }
-    
     self.viewController = [[SFHybridViewController alloc] initWithConfig:self.testAppHybridViewConfig];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];

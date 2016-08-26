@@ -1,0 +1,12 @@
+//
+//  SalesforceAnalytics-Static-iOS-Debug.xcconfig
+//  SalesforceAnalytics
+//
+//  Created by Bharath Hariharan on 05/14/16.
+//  Copyright © 2016 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-iOS.xcconfig"
+#include "../../../configuration/Packaging-Static.xcconfig"
+#include "../../../configuration/Configuration-Debug.xcconfig"
+#include "SalesforceAnalytics-Common-Static.xcconfig"

@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceReact"
-  s.version      = "4.3.0"
+  s.version      = "5.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SalesforceReact"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -31,6 +31,5 @@ Pod::Spec.new do |s|
       salesforcereact.requires_arc = true
 
   end
-
 
 end
