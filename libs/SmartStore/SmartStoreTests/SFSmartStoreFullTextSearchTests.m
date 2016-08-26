@@ -102,7 +102,7 @@
     XCTAssertTrue([self hasTable:@"TABLE_1_fts" store:self.store], @"FTS Table for soup employees does exit");
     XCTAssertTrue([self.store soupExists:kEmployeesSoup], @"Register soup failed");
     
-    NSString* expectedCreateSql = [NSString stringWithFormat:@"CREATE VIRTUAL TABLE TABLE_1_fts USING fts%u", ftsExtension];
+    NSString* expectedCreateSql = [NSString stringWithFormat:@"CREATE VIRTUAL TABLE TABLE_1_fts USING fts%lu", ftsExtension];
     [self checkCreateTableStatment:@"TABLE_1_fts" expectedSqlStatementPrefix:expectedCreateSql store:self.store];
 
     // Drop
