@@ -32,8 +32,8 @@
 @interface SFSDKInstrumentationEvent ()
 
 @property (nonatomic, strong, readwrite) NSString *eventId;
-@property (nonatomic, assign, readwrite) NSInteger startTime;
-@property (nonatomic, assign, readwrite) NSInteger endTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval startTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval endTime;
 @property (nonatomic, strong, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSDictionary *attributes;
 @property (nonatomic, assign, readwrite) NSString *sessionId;
@@ -46,7 +46,7 @@
 @property (nonatomic, strong, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readwrite) NSString *connectionType;
 @property (nonatomic, strong, readwrite) NSString *senderParentId;
-@property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
+@property (nonatomic, assign, readwrite) NSTimeInterval sessionStartTime;
 @property (nonatomic, strong, readwrite) NSDictionary *page;
 @property (nonatomic, strong, readwrite) NSDictionary *previousPage;
 @property (nonatomic, strong, readwrite) NSDictionary *marks;

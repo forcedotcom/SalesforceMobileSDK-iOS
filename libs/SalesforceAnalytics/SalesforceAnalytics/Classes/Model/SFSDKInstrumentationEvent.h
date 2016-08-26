@@ -81,8 +81,8 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 @interface SFSDKInstrumentationEvent : NSObject
 
 @property (nonatomic, strong, readonly, nonnull) NSString *eventId;
-@property (nonatomic, assign, readonly) NSInteger startTime;
-@property (nonatomic, assign, readonly) NSInteger endTime;
+@property (nonatomic, assign, readonly) NSTimeInterval startTime;
+@property (nonatomic, assign, readonly) NSTimeInterval endTime;
 @property (nonatomic, strong, readonly, nonnull) NSString *name;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *attributes;
 @property (nonatomic, assign, readonly, nullable) NSString *sessionId;
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 @property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, strong, readonly, nonnull) NSString *connectionType;
 @property (nonatomic, strong, readonly, nullable) NSString *senderParentId;
-@property (nonatomic, assign, readonly) NSInteger sessionStartTime;
+@property (nonatomic, assign, readonly) NSTimeInterval sessionStartTime;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *page;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *previousPage;
 @property (nonatomic, strong, readonly, nullable) NSDictionary *marks;
