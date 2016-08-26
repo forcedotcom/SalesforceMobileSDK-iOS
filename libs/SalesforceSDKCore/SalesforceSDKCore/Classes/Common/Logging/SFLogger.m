@@ -31,6 +31,7 @@
 #import "NSString+SFAdditions.h"
 #import <execinfo.h> // backtrace_symbols
 #import "SFCocoaLumberJackCustomFormatter.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 static inline SFLogFlag SFLogFlagForLogLevel(SFLogLevel level) {
     switch (level) {
@@ -583,7 +584,7 @@ static BOOL assertionRecorded = NO;
 }
 
 + (void)applyLogLevelFromPreferences {
-    NSUInteger logLevel = [[NSUserDefaults standardUserDefaults] integerForKey:@"PrefLogLevel"];
+    NSUInteger logLevel = [[NSUserDefaults msdkUserDefaults] integerForKey:@"PrefLogLevel"];
     switch (logLevel) {
         case 1:
             [[self sharedLogger] setLogLevel:SFLogLevelDebug forIdentifier:nil];

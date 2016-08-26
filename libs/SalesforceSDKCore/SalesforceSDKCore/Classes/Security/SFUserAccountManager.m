@@ -37,6 +37,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -164,12 +165,12 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     NSString *oldLoginHost = [self loginHost];
     
     if (nil == host) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+        [[NSUserDefaults msdkUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
     }
     
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
     
     // Only post the login host change notification if the host actually changed.
     if (![host isEqualToString:oldLoginHost]) {
@@ -185,7 +186,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 }
 
 - (NSString *)loginHost {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults msdkUserDefaults];
 
     // First let's import any previously stored settings, if available.
     NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
@@ -229,7 +230,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (NSSet *)scopes
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
     return [NSSet setWithArray:scopesArray];
 }
@@ -237,35 +238,35 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 - (void)setScopes:(NSSet *)newScopes
 {
     NSArray *scopesArray = [newScopes allObjects];
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:scopesArray forKey:kOAuthScopesKey];
     [defs synchronize];
 }
 
 - (NSString *)oauthCompletionUrl
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
     return redirectUri;
 }
 
 - (void)setOauthCompletionUrl:(NSString *)newRedirectUri
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
     [defs synchronize];
 }
 
 - (NSString *)oauthClientId
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
     return clientId;
 }
 
 - (void)setOauthClientId:(NSString *)newClientId
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
     [defs synchronize];
 }
@@ -925,13 +926,8 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (SFUserAccountIdentity *)activeUserIdentity {
     NSData *resultData = nil;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-        resultData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
-    } else {
-        resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
-    }
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
+    resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
     if (resultData == nil)
         return nil;
     
@@ -950,13 +946,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 }
 
 + (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
-    NSUserDefaults *standardDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        standardDefaults = [NSUserDefaults standardUserDefaults];
-    }
-    
+    NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
     if (activeUserIdentity == nil) {
         [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     } else {
@@ -974,23 +964,12 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 }
 
 - (NSString *)activeCommunityId {
-    NSUserDefaults *userDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        userDefaults =  [NSUserDefaults standardUserDefaults];
-    }
+     NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
 - (void)setActiveCommunityId:(NSString *)activeCommunityId {
-    NSUserDefaults *userDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        userDefaults =  [NSUserDefaults standardUserDefaults];
-    }
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     if (activeCommunityId == nil) {
         [userDefaults removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
     } else {
