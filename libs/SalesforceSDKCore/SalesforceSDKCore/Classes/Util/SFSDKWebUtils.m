@@ -24,6 +24,7 @@
  */
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import <WebKit/WebKit.h>
 // Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
@@ -46,7 +47,7 @@ static NSString *gUserAgentForApp = nil;
 {
     if (userAgentString != nil) {
         NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+        [[NSUserDefaults msdkUserDefaults] registerDefaults:dictionary];
     }
 }
 

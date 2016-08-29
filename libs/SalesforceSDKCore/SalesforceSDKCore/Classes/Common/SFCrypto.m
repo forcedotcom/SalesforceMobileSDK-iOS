@@ -27,6 +27,7 @@
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
 #import "SFKeychainItemWrapper.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import "SFLogger.h"
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
@@ -135,12 +136,12 @@ static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce
 }
 
 + (BOOL)baseAppIdentifierIsConfigured {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kKeychainIdentifierBaseAppId];
+    return [[NSUserDefaults msdkUserDefaults] boolForKey:kKeychainIdentifierBaseAppId];
 }
 
 + (void)setBaseAppIdentifierIsConfigured:(BOOL)isConfigured {
-    [[NSUserDefaults standardUserDefaults] setBool:isConfigured forKey:kKeychainIdentifierBaseAppId];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] setBool:isConfigured forKey:kKeychainIdentifierBaseAppId];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 static BOOL sBaseAppIdConfiguredThisLaunch = NO;
