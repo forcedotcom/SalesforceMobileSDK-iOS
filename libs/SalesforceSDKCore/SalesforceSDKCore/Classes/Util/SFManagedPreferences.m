@@ -41,7 +41,7 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
 @interface SFManagedPreferences ()
 
 @property (nonatomic, strong, readwrite) NSDictionary *rawPreferences;
-
+@property (nonatomic, strong) NSOperationQueue * syncQueue;
 @end
 
 @implementation SFManagedPreferences
@@ -60,10 +60,13 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
 - (id)init {
     self = [super init];
     if (self) {
+        self.syncQueue = [[NSOperationQueue alloc] init];
+        self.syncQueue.name = @"NSUserDefaults Sync Queue";
+        
         __weak SFManagedPreferences *weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
                                                           object:nil
-                                                           queue:[NSOperationQueue mainQueue]
+                                                           queue:self.syncQueue
                                                       usingBlock:^(NSNotification *note) {
                                                           weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
                                                       }];
