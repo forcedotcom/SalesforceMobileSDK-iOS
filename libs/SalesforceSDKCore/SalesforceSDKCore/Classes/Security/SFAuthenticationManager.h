@@ -290,6 +290,11 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 
 /**
+ An array of additional headers (NSString) to send during token refresh
+ */
+@property (nonatomic, strong) NSArray * additionalTokenRefreshHeaders;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
