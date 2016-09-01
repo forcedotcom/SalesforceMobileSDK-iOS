@@ -676,12 +676,14 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         self.approvalCode = nil;
     } else {
         // Assume Refresh token flow.
+        NSMutableString *logParams = [[NSMutableString alloc] initWithFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken];
         [self log:SFLogLevelInfo format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, self.credentials.refreshToken];
         for(NSString * key in self.additionalTokenRefreshParams) {
-            [params appendFormat:@"%@=%@", key, [self.additionalTokenRefreshParams objectForKey:key]];
+            [params appendFormat:@"&%@=%@", [key stringByURLEncoding], [[self.additionalTokenRefreshParams objectForKey:key] stringByURLEncoding]];
+            [logParams appendFormat:@"&%@=%@", [key stringByURLEncoding], [[self.additionalTokenRefreshParams objectForKey:key] stringByURLEncoding]];
         }
-        [logString appendFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken];
+        [logString appendString:logParams];
     }
     
     if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
