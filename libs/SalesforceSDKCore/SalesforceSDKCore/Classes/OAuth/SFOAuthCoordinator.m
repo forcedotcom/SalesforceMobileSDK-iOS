@@ -678,10 +678,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         // Assume Refresh token flow.
         [self log:SFLogLevelInfo format:@"%@: Initiating refresh token flow.", NSStringFromSelector(_cmd)];
         [params appendFormat:@"&%@=%@&%@=%@", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken, self.credentials.refreshToken];
-        if(self.additionalTokenRefreshHeaders.count > 0) {
-            for(NSString * key in self.additionalTokenRefreshHeaders) {
-                [params appendFormat:@"&%@", key];
-            }
+        for(NSString * key in self.additionalTokenRefreshParams) {
+            [params appendFormat:@"%@=%@", key, [self.additionalTokenRefreshParams objectForKey:key]];
         }
         [logString appendFormat:@"&%@=%@&%@=REDACTED", kSFOAuthGrantType, kSFOAuthGrantTypeRefreshToken, kSFOAuthRefreshToken];
     }

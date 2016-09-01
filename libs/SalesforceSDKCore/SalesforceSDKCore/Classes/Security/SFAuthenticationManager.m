@@ -769,7 +769,7 @@ static Class InstanceClass = nil;
     }
 
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
-    self.coordinator.additionalTokenRefreshHeaders = self.additionalTokenRefreshHeaders;
+    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
 
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
