@@ -337,7 +337,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 
 /**
- An array of additional parameters (key value pairs) to send during token refresh
+ A dictionary of additional parameters (key value pairs) to send during token refresh
  */
 @property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
 
