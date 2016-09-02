@@ -30,6 +30,7 @@
 #import "SFSDKLoginHost.h"
 #import "SFManagedPreferences.h"
 #import "SFSDKResourceUtils.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 @interface SFSDKLoginHostStorage ()
 
@@ -101,7 +102,7 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
         }
 
         // Load from the user defaults.
-        NSArray *persistedList = [[NSUserDefaults standardUserDefaults] objectForKey:SFSDKLoginHostList];
+        NSArray *persistedList = [[NSUserDefaults msdkUserDefaults] objectForKey:SFSDKLoginHostList];
         if (persistedList) {
             for (NSDictionary *dic in persistedList) {
                 [self.loginHostList addObject:[SFSDKLoginHost hostWithName:[dic objectForKey:SFSDKLoginHostNameKey]
@@ -125,8 +126,8 @@ static NSString * const SFSDKLoginHostNameKey = @"SalesforceLoginHostNameKey";
             [persistedList addObject:dic];
         }
     }
-    [[NSUserDefaults standardUserDefaults] setObject:persistedList forKey:SFSDKLoginHostList];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] setObject:persistedList forKey:SFSDKLoginHostList];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 - (void)addLoginHost:(SFSDKLoginHost *)loginHost {

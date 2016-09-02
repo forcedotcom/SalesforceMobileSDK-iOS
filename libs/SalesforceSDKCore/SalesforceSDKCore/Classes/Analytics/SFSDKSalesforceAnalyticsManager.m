@@ -34,6 +34,7 @@
 #import "SFKeyStoreManager.h"
 #import "SFSDKCryptoUtils.h"
 #import "SFSDKAILTNPublisher.h"
+#import "UIDevice+SFHardware.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -206,7 +207,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
             break;
     }
     NSString *mobileSdkVersion = SALESFORCE_SDK_VERSION;
-    NSString *deviceModel = [curDevice model];
+    NSString *deviceModel = [curDevice platform];
     NSString *deviceId = [sdkManager deviceId];
     NSString *clientId = sdkManager.connectedAppId;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];

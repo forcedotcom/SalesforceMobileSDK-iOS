@@ -335,6 +335,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  An array of additional keys (NSString) to parse during OAuth
  */
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
+
+/**
+ A dictionary of additional parameters (key value pairs) to send during token refresh
+ */
+@property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------
