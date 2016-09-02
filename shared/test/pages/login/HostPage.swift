@@ -112,6 +112,7 @@ class HostPage: PageObject, PageThatWaits {
     
     
     func addAndCancel(toLogin: Bool) {
+        waitForElementEnabled(app.navigationBars["Choose Connection"].buttons["Add"])
         AddConnectionButton.tap()
         setHost("dummy")
         BackConnectionButton.tap()
