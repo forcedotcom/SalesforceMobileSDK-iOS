@@ -209,7 +209,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         // clear any access token we may have and begin refresh flow
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowRefresh];
-    } else if (self.credentials.jwt.length > 0) {
+    } else if (self.credentials.jwt) {
         // JWT token existence means we're doing JWT token exchange.
         self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeJwtTokenExchange];
         [self notifyDelegateOfBeginAuthentication];
