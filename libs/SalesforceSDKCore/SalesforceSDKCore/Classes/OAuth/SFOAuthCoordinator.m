@@ -33,6 +33,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "NSURL+SFStringUtils.h"
 
 // Public constants
 
@@ -336,6 +337,16 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     return YES;
 }
 
+#pragma mark - Properties
+
+- (WKWebView *)view {
+    if (_view == nil) {
+        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        _view.navigationDelegate = self;
+    }
+    return _view;
+}
+
 #pragma mark - Private Methods
 
 - (void)notifyDelegateOfFailure:(NSError*)error authInfo:(SFOAuthInfo *)info
@@ -524,13 +535,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
     
     [self configureWebUserAgent];
-    
-    if (nil == self.view) {
-        // lazily create web view if needed
-        self.view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    }
 
-    [self.view setNavigationDelegate:self];
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
@@ -539,10 +544,18 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
     
     NSString *approvalUrlString = [self generateApprovalUrlString];
-    [self doLoadURL:approvalUrlString withCookie:NO];
+    [self loadWebViewWithUrlString:approvalUrlString cookie:NO];
 }
 
 - (void)beginJwtTokenExchangeFlow {
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginJwtTokenExchangeFlow];
+        });
+        return;
+    }
+    
     NSAssert(self.credentials.jwt.length > 0, @"JWT token should be present at this point.");
     
     [self swapJWTWithCompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
@@ -585,8 +598,8 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
             NSString *approvalUrlString = [self generateApprovalUrlString];
             NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
-            NSString *frontDoorUrl = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
-            [self doLoadURL:frontDoorUrl withCookie:YES];
+            NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
+            [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
         }
     }];
 }
@@ -608,16 +621,19 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
-- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(BOOL)enableCookie {
-    if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
-        [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
-    }
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
+- (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
+    NSURL *urlToLoad = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
     [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     
-    [self.view loadRequest:request];
+    if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
+        [self log:SFLogLevelDebug format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad redactedAbsoluteString:@[ @"sid" ]]];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view loadRequest:request];
+    });
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
