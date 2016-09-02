@@ -59,6 +59,7 @@
 		BCAEFFA51D7A137F00944153 /* PasscodePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFFA41D7A137F00944153 /* PasscodePage.swift */; };
 		BCAEFFCD1D7A139A00944153 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFFCB1D7A139A00944153 /* HostURLTests.swift */; };
 		BCAEFFCE1D7A139A00944153 /* PasscodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAEFFCC1D7A139A00944153 /* PasscodeUITests.swift */; };
+		BCAEFFD01D7A162400944153 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCAEFFCF1D7A162400944153 /* ui_test_credentials.json */; };
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
@@ -487,6 +488,7 @@
 		BCAEFFA41D7A137F00944153 /* PasscodePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodePage.swift; sourceTree = "<group>"; };
 		BCAEFFCB1D7A139A00944153 /* HostURLTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HostURLTests.swift; path = ../../../../shared/test/test/HostURLTests.swift; sourceTree = "<group>"; };
 		BCAEFFCC1D7A139A00944153 /* PasscodeUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PasscodeUITests.swift; path = ../../../../shared/test/test/PasscodeUITests.swift; sourceTree = "<group>"; };
+		BCAEFFCF1D7A162400944153 /* ui_test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
 		BCC8F2261D46C01900171499 /* HostPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostPage.swift; sourceTree = "<group>"; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -813,6 +815,7 @@
 		CE2B8F891CF1026000C6FC6A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BCAEFFCF1D7A162400944153 /* ui_test_credentials.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1210,6 +1213,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCAEFFD01D7A162400944153 /* ui_test_credentials.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
