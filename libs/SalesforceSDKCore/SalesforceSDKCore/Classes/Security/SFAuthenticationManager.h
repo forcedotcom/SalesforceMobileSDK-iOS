@@ -331,6 +331,10 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
                     failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
                     account:(nullable SFUserAccount *)account;
 
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
 /**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
