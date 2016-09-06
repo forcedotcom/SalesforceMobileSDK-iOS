@@ -58,6 +58,7 @@
 		BCAE01041D7F339700944153 /* HostURLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE01021D7F339700944153 /* HostURLTests.swift */; };
 		BCAE01051D7F339700944153 /* PasscodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAE01031D7F339700944153 /* PasscodeUITests.swift */; };
 		BCAE01071D7F365000944153 /* ui_test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BCAE01061D7F365000944153 /* ui_test_credentials.json */; };
+		BCAE02051D7F7A9A00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
@@ -381,6 +382,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BCAE02051D7F7A9A00944153 /* SalesforceAnalytics.framework in Embed Frameworks */,
 				82D0AC131C49A7F60081F833 /* SmartStore.framework in Embed Frameworks */,
 				82D0AC021C49A7A10081F833 /* CocoaLumberjack.framework in Embed Frameworks */,
 				82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */,

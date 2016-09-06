@@ -37,6 +37,7 @@
 		8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8242E0C915AB823400E9E6AF /* QuartzCore.framework */; };
 		82E7F5AF17147BC400AC4E27 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E7F5AD17147BC400AC4E27 /* InitialViewController.m */; };
 		82E7F5B017147BC400AC4E27 /* InitialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E7F5AE17147BC400AC4E27 /* InitialViewController.xib */; };
+		BCAE01A21D7F77CE00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8D331CE932A600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D201CE9329300C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB38C1C10C4880012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38B1C10C4880012125E /* libz.tbd */; };
 		CE6AB38E1C10C4940012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB38D1C10C4940012125E /* libxml2.tbd */; };
@@ -283,6 +284,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BCAE01A21D7F77CE00944153 /* SalesforceAnalytics.framework in Embed Frameworks */,
 				8236AC1D1C4D9B68004B69B8 /* CocoaLumberjack.framework in Embed Frameworks */,
 				8236AC251C4D9B84004B69B8 /* SalesforceRestAPI.framework in Embed Frameworks */,
 				8236AC181C4D9B55004B69B8 /* SalesforceSDKCore.framework in Embed Frameworks */,
