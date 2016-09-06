@@ -95,9 +95,7 @@
 		B76ACC531D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC541D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */; };
 		BC9BFF421D5A46B6009FFA1F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BC9BFF411D5A46B6009FFA1F /* test_credentials.json */; };
-		CE0CDEF31D7F759A005AAFAB /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEE71D7F753D005AAFAB /* OCMock.framework */; };
 		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
-		CE0CDEF61D7F76FC005AAFAB /* OCMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEE71D7F753D005AAFAB /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
 		CE145A9E1D13838B003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -613,6 +611,7 @@
 		CEA883291C18FC40008D871B /* SFSDKWebUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CEA8832A1C18FC40008D871B /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
 		CEA8832B1C18FC66008D871B /* SalesforceSDKCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2941C1266340040F5F1 /* SalesforceSDKCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CED452211D7F8495009266EB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		E1C80CDF1C5AEBFA001B3A21 /* SFLoginViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CDD1C5AEBFA001B3A21 /* SFLoginViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C80CE01C5AEBFA001B3A21 /* SFLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C80CDE1C5AEBFA001B3A21 /* SFLoginViewController.m */; };
 		E1C80CEC1C5AEE31001B3A21 /* SFSDKLoginHost.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C80CE11C5AEE31001B3A21 /* SFSDKLoginHost.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -803,13 +802,6 @@
 			remoteGlobalIDString = D31108AD1828DB8700737925;
 			remoteInfo = OCMockLibTests;
 		};
-		CE0CDEF11D7F7546005AAFAB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 030EF0A714632FD000B04273;
-			remoteInfo = OCMock;
-		};
 		CE2B8CD31CE92F8100C6FC6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */;
@@ -866,6 +858,13 @@
 			remoteGlobalIDString = 18F3BFD61A81E06E00692297;
 			remoteInfo = "CocoaLumberjack-iOS-Static";
 		};
+		CED4521F1D7F834D009266EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0DB14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -875,7 +874,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CE0CDEF61D7F76FC005AAFAB /* OCMock.framework in Embed Frameworks */,
 				CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1261,6 +1259,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CED452211D7F8495009266EB /* libOCMock.a in Frameworks */,
 				4F7EB40D1BFFC88200768720 /* MessageUI.framework in Frameworks */,
 				4F7EB40E1BFFC88200768720 /* XCTest.framework in Frameworks */,
 				4F7EB40F1BFFC88200768720 /* UIKit.framework in Frameworks */,
@@ -1273,7 +1272,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */,
-				CE0CDEF31D7F759A005AAFAB /* OCMock.framework in Frameworks */,
 				4F230BC21BFEABA00030EEFA /* libz.tbd in Frameworks */,
 				82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */,
 				CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */,
@@ -2414,7 +2412,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				CE0CDEF21D7F7546005AAFAB /* PBXTargetDependency */,
+				CED452201D7F834D009266EB /* PBXTargetDependency */,
 				CE4CE2711C0E449C009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreTestApp;
@@ -3076,11 +3074,6 @@
 			target = 82D4642319C7C8170006BDFE /* SalesforceSDKCoreTestApp */;
 			targetProxy = 4F06AF961C49A1BA00F70798 /* PBXContainerItemProxy */;
 		};
-		CE0CDEF21D7F7546005AAFAB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = OCMock;
-			targetProxy = CE0CDEF11D7F7546005AAFAB /* PBXContainerItemProxy */;
-		};
 		CE2B8CDC1CE92FB300C6FC6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SalesforceAnalytics;
@@ -3105,6 +3098,11 @@
 			isa = PBXTargetDependency;
 			name = "CocoaLumberjack-iOS-Static";
 			targetProxy = CEA884CB1C1A25D4008D871B /* PBXContainerItemProxy */;
+		};
+		CED452201D7F834D009266EB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMockLib;
+			targetProxy = CED4521F1D7F834D009266EB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3166,6 +3164,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ocmock/Source";
 				INFOPLIST_FILE = "SalesforceSDKCoreTests/SalesforceSDKCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3196,6 +3195,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ocmock/Source";
 				INFOPLIST_FILE = "SalesforceSDKCoreTests/SalesforceSDKCoreTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3254,6 +3254,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ocmock/Source";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3290,6 +3291,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../external/ocmock/Source";
 				INFOPLIST_FILE = "$(SRCROOT)/SalesforceSDKCoreTestApp/SalesforceSDKCoreTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
