@@ -95,6 +95,9 @@
 		B76ACC531D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC541D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */; };
 		BC9BFF421D5A46B6009FFA1F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BC9BFF411D5A46B6009FFA1F /* test_credentials.json */; };
+		CE0CDEF31D7F759A005AAFAB /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEE71D7F753D005AAFAB /* OCMock.framework */; };
+		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
+		CE0CDEF61D7F76FC005AAFAB /* OCMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEE71D7F753D005AAFAB /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
 		CE145A9E1D13838B003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -772,6 +775,41 @@
 			remoteGlobalIDString = 18F3BFF21A81E0C700692297;
 			remoteInfo = iOSLibStaticTest;
 		};
+		CE0CDEE61D7F753D005AAFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0A814632FD000B04273;
+			remoteInfo = OCMock;
+		};
+		CE0CDEE81D7F753D005AAFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03565A3118F0566E003AE91E;
+			remoteInfo = OCMockTests;
+		};
+		CE0CDEEA1D7F753D005AAFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 030EF0DC14632FF700B04273;
+			remoteInfo = OCMockLib;
+		};
+		CE0CDEEC1D7F753D005AAFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D31108AD1828DB8700737925;
+			remoteInfo = OCMockLibTests;
+		};
+		CE0CDEF11D7F7546005AAFAB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 030EF0A714632FD000B04273;
+			remoteInfo = OCMock;
+		};
 		CE2B8CD31CE92F8100C6FC6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */;
@@ -837,6 +875,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CE0CDEF61D7F76FC005AAFAB /* OCMock.framework in Embed Frameworks */,
 				CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -1031,7 +1070,6 @@
 		4F96FD471BFD32140022F021 /* SFSDKResourceUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKResourceUtils.m; sourceTree = "<group>"; };
 		4F96FD481BFD32140022F021 /* SFSDKWebUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSDKWebUtils.h; sourceTree = "<group>"; };
 		4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSDKWebUtils.m; sourceTree = "<group>"; };
-		4FEE43681BFD469D00F09C43 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "../../external/ocmock/Source/build/Debug-iphoneos/libOCMock.a"; sourceTree = "<group>"; };
 		4FEE438A1BFD488900F09C43 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4FF945BB1BFFF47D005368C5 /* NSArray+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+SFAdditions.h"; sourceTree = "<group>"; };
 		4FF945BC1BFFF47D005368C5 /* NSArray+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+SFAdditions.m"; sourceTree = "<group>"; };
@@ -1099,6 +1137,7 @@
 		B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+SFAdditions.m"; sourceTree = "<group>"; };
 		BC9BFF411D5A46B6009FFA1F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../external/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKSalesforceAnalyticsManager.h; path = Analytics/SFSDKSalesforceAnalyticsManager.h; sourceTree = "<group>"; };
 		CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKSalesforceAnalyticsManager.m; path = Analytics/SFSDKSalesforceAnalyticsManager.m; sourceTree = "<group>"; };
 		CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
@@ -1233,6 +1272,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */,
+				CE0CDEF31D7F759A005AAFAB /* OCMock.framework in Frameworks */,
 				4F230BC21BFEABA00030EEFA /* libz.tbd in Frameworks */,
 				82D4642619C7C8170006BDFE /* CoreGraphics.framework in Frameworks */,
 				CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */,
@@ -1631,7 +1672,7 @@
 				CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */,
 				4FFE4A001BFE522F00F15E01 /* libz.tbd */,
 				4FEE438A1BFD488900F09C43 /* UIKit.framework */,
-				4FEE43681BFD469D00F09C43 /* libOCMock.a */,
+				CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */,
 				8280EC1E16E1605A00768DE8 /* CFNetwork.framework */,
 				8280EC1C16E1604900768DE8 /* CoreData.framework */,
 				8280EBCC16E14F7000768DE8 /* CoreGraphics.framework */,
@@ -1731,6 +1772,17 @@
 				CE0021831C03DBB70079DCA4 /* watchOSSwiftTest Extension.appex */,
 				CE0021851C03DBB70079DCA4 /* tvOSSwiftTest.app */,
 				CE0021871C03DBB70079DCA4 /* iOSLibStaticTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE0CDED21D7F753D005AAFAB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE0CDEE71D7F753D005AAFAB /* OCMock.framework */,
+				CE0CDEE91D7F753D005AAFAB /* OCMockTests.xctest */,
+				CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */,
+				CE0CDEED1D7F753D005AAFAB /* OCMockLibTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2362,6 +2414,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CE0CDEF21D7F7546005AAFAB /* PBXTargetDependency */,
 				CE4CE2711C0E449C009F6029 /* PBXTargetDependency */,
 			);
 			name = SalesforceSDKCoreTestApp;
@@ -2445,6 +2498,10 @@
 				{
 					ProductGroup = CE0021561C03DBB70079DCA4 /* Products */;
 					ProjectRef = CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */;
+				},
+				{
+					ProductGroup = CE0CDED21D7F753D005AAFAB /* Products */;
+					ProjectRef = CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */;
 				},
 				{
 					ProductGroup = CE2B8CCC1CE92F8100C6FC6A /* Products */;
@@ -2573,6 +2630,34 @@
 			fileType = wrapper.application;
 			path = iOSLibStaticTest.app;
 			remoteRef = CE0021861C03DBB70079DCA4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0CDEE71D7F753D005AAFAB /* OCMock.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OCMock.framework;
+			remoteRef = CE0CDEE61D7F753D005AAFAB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0CDEE91D7F753D005AAFAB /* OCMockTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockTests.xctest;
+			remoteRef = CE0CDEE81D7F753D005AAFAB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOCMock.a;
+			remoteRef = CE0CDEEA1D7F753D005AAFAB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CE0CDEED1D7F753D005AAFAB /* OCMockLibTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OCMockLibTests.xctest;
+			remoteRef = CE0CDEEC1D7F753D005AAFAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CE2B8CD41CE92F8100C6FC6A /* SalesforceAnalytics.framework */ = {
@@ -2990,6 +3075,11 @@
 			isa = PBXTargetDependency;
 			target = 82D4642319C7C8170006BDFE /* SalesforceSDKCoreTestApp */;
 			targetProxy = 4F06AF961C49A1BA00F70798 /* PBXContainerItemProxy */;
+		};
+		CE0CDEF21D7F7546005AAFAB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OCMock;
+			targetProxy = CE0CDEF11D7F7546005AAFAB /* PBXContainerItemProxy */;
 		};
 		CE2B8CDC1CE92FB300C6FC6A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Raj Rao on Wed Aug 10 15:34:11 PDT 2016.
+ Created by Bharath Hariharan on Tue Sep  6 15:02:20 PDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,6 +27,21 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/CSFAction.h>
+#import <SalesforceSDKCore/CSFActionInput.h>
+#import <SalesforceSDKCore/CSFActionModel.h>
+#import <SalesforceSDKCore/CSFActionValue.h>
+#import <SalesforceSDKCore/CSFAuthRefresh.h>
+#import <SalesforceSDKCore/CSFAvailability.h>
+#import <SalesforceSDKCore/CSFDefines.h>
+#import <SalesforceSDKCore/CSFForceDefines.h>
+#import <SalesforceSDKCore/CSFIndexedEntity.h>
+#import <SalesforceSDKCore/CSFInput.h>
+#import <SalesforceSDKCore/CSFNetwork.h>
+#import <SalesforceSDKCore/CSFNetworkOutputCache.h>
+#import <SalesforceSDKCore/CSFOutput.h>
+#import <SalesforceSDKCore/CSFParameterStorage.h>
+#import <SalesforceSDKCore/CSFSalesforceAction.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
@@ -111,6 +126,7 @@
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
 #import <SalesforceSDKCore/SFTestContext.h>
+#import <SalesforceSDKCore/SFUserAccount+SalesforceNetwork.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>
