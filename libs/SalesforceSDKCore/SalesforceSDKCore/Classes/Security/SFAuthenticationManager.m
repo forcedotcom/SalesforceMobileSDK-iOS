@@ -388,6 +388,21 @@ static Class InstanceClass = nil;
     }
 }
 
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+{
+    
+    NSAssert(jwtToken.length > 0, @"JWT token value required.");
+    
+    SFUserAccount *jwtUserAccount = [[SFUserAccountManager sharedInstance] createUserAccount];
+    jwtUserAccount.credentials.jwt = jwtToken;
+    return [self loginWithCompletion:completionBlock
+                             failure:failureBlock
+                             account:jwtUserAccount];
+}
+
+
 - (void)loggedIn:(BOOL)fromOffline
 {
     if (!fromOffline) {
@@ -973,11 +988,6 @@ static Class InstanceClass = nil;
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
                                                if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
-                                                   [weakSelf execFailureBlocks];
-                                                   return YES;
-                                               }
-                                               if (error.code == kSFOAuthErrorJWTInvalidGrant) {
-                                                   [weakSelf log:SFLogLevelWarning format:@"JWT swap failed due to invalid grant.  Error code: %ld", (long)error.code];
                                                    [weakSelf execFailureBlocks];
                                                    return YES;
                                                }

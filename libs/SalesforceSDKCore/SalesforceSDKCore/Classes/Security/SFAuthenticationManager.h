@@ -332,6 +332,19 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
                     account:(nullable SFUserAccount *)account;
 
 /**
+ Login using the given JWT token to exchange with the service for credentials.
+ @param jwtToken The JWT token (received out of band) to exchange for credentials.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+
+/**
  Forces a logout from the current account, redirecting the user to the login process.
  This throws out the OAuth refresh token.
  */

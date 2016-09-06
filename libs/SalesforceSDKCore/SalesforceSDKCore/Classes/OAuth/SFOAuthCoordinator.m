@@ -33,6 +33,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFApplicationHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "NSURL+SFStringUtils.h"
 
 // Public constants
 
@@ -208,6 +209,11 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         // clear any access token we may have and begin refresh flow
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowRefresh];
+    } else if (self.credentials.jwt) {
+        // JWT token existence means we're doing JWT token exchange.
+        self.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeJwtTokenExchange];
+        [self notifyDelegateOfBeginAuthentication];
+        [self.oauthCoordinatorFlow beginJwtTokenExchangeFlow];
     } else {
         __weak SFOAuthCoordinator *weakSelf = self;
         switch (self.advancedAuthConfiguration) {
@@ -329,6 +335,16 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self.oauthCoordinatorFlow beginTokenEndpointFlow:SFOAuthTokenEndpointFlowAdvancedBrowser];
     });
     return YES;
+}
+
+#pragma mark - Properties
+
+- (WKWebView *)view {
+    if (_view == nil) {
+        _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        _view.navigationDelegate = self;
+    }
+    return _view;
 }
 
 #pragma mark - Private Methods
@@ -519,13 +535,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
     
     [self configureWebUserAgent];
-    
-    if (nil == self.view) {
-        // lazily create web view if needed
-        self.view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    }
 
-    [self.view setNavigationDelegate:self];
     self.initialRequestLoaded = NO;
     
     // notify delegate will be begin authentication in our (web) vew
@@ -533,72 +543,68 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self.delegate oauthCoordinator:self willBeginAuthenticationWithView:self.view];
     }
     
-    // optional query params: 
-    //     state - opaque state value to be passed back
-    //     immediate - determines whether the user should be prompted for login and approval (default false)
-    
-    NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
-    NSAssert(nil != self.credentials.clientId, @"credentials.clientId is required");
-    NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
-
-    NSMutableString *approvalUrl = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
-                                    self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
-                                    kSFOAuthClientId, self.credentials.clientId,
-                                    kSFOAuthRedirectUri, self.credentials.redirectUri,
-                                    kSFOAuthDisplay, kSFOAuthDisplayTouch];
-
-    // If an activation code is available (IP bypass flow), then use the "activated client" response type.
-    if (self.credentials.activationCode) {
-        [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeActivatedClientCode];
-    } else {
-        [approvalUrl appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];        
-    }
-        
-    NSString *scopeString = [self scopeQueryParamString];
-    if (scopeString != nil) {
-        [approvalUrl appendString:scopeString];
-    }
-    
-    // JWT Flow
-    if (self.credentials.jwt) {
-        [self swapJWTWithcompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-            if (!error) {
-                bool swapOK = NO;
-                NSError *jsonError = nil;
-                id json = nil;
-                
-                json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-                if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *dict = (NSDictionary *)json;
-                    [self updateCredentials:dict];
-                    if (self.credentials.accessToken && self.credentials.apiUrl) {
-                        NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
-                        NSString *escapedString = [approvalUrl stringByURLEncoding];
-                        NSString* approvalUrl = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedString];
-                        [self doLoadURL:approvalUrl withCookie:YES];
-                        swapOK = YES;
-                        self.credentials.jwt = nil;
-                    }
-                }
-                if (!swapOK) {
-                    NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed description:@"The breeze link failed to launch."];
-                    [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-                    self.credentials.jwt = nil;
-                }
-            }
-            else {
-                [self log:SFLogLevelError msg:[NSString stringWithFormat:@"Fail to swap JWT for access token: %@", [error localizedDescription]]];
-                [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-            }
-        }];
-    }
-    else {
-        [self doLoadURL:approvalUrl withCookie:NO];
-    }
+    NSString *approvalUrlString = [self generateApprovalUrlString];
+    [self loadWebViewWithUrlString:approvalUrlString cookie:NO];
 }
 
+- (void)beginJwtTokenExchangeFlow {
+    
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self beginJwtTokenExchangeFlow];
+        });
+        return;
+    }
+    
+    NSAssert(self.credentials.jwt.length > 0, @"JWT token should be present at this point.");
+    
+    [self swapJWTWithCompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (error != nil) {
+            [self log:SFLogLevelError format:@"Fail to swap JWT for access token: %@", error.localizedDescription];
+            [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+            return;
+        }
+        
+        self.credentials.jwt = nil;
+        NSError *jsonError = nil;
+        id json = nil;
+        
+        json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+        if (jsonError != nil) {
+            NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+                                                 description:@"Error parsing JWT token exchange response."
+                                             underlyingError:jsonError];
+                [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+            return;
+        }
+        
+        if (![json isKindOfClass:[NSDictionary class]]) {
+            NSString *errorDesc = [NSString stringWithFormat:@"Expected NSDictionary for JWT token response, received %@ instance.", NSStringFromClass([json class])];
+                NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
+                                                 description:errorDesc];
+            [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+            return;
+        }
+        
+        NSDictionary *dict = (NSDictionary *)json;
+        if (nil != dict[kSFOAuthError]) {
+            NSError *error = [[self class] errorWithType:dict[kSFOAuthError] description:dict[kSFOAuthErrorDescription]];
+            [self notifyDelegateOfFailure:error authInfo:self.authInfo];
+            return;
+        }
+        
+        [self updateCredentials:dict];
+        if (self.credentials.accessToken && self.credentials.apiUrl) {
+            NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
+            NSString *approvalUrlString = [self generateApprovalUrlString];
+            NSString *escapedApprovalUrlString = [approvalUrlString stringByURLEncoding];
+            NSString *frontDoorUrlString = [NSString stringWithFormat:@"%@/secur/frontdoor.jsp?sid=%@&retURL=%@", baseUrlString, self.credentials.accessToken, escapedApprovalUrlString];
+            [self loadWebViewWithUrlString:frontDoorUrlString cookie:YES];
+        }
+    }];
+}
 
-- (void)swapJWTWithcompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler  {
+- (void)swapJWTWithCompletionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler  {
     NSString *url = [[NSString alloc] initWithFormat:@"%@://%@%@", self.credentials.protocol,
                      self.credentials.domain,
                      kSFOAuthEndPointToken];
@@ -615,16 +621,19 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     [[self.session dataTaskWithRequest:request completionHandler:completionHandler] resume];
 }
 
-- (void)doLoadURL:(NSString*)approvalUrl  withCookie:(BOOL)enableCookie {
-    if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
-        [self log:SFLogLevelDebug format:@"SFOAuthCoordinator:beginUserAgentFlow with %@", approvalUrl];
-    }
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:approvalUrl]];
+- (void)loadWebViewWithUrlString:(NSString *)urlString cookie:(BOOL)enableCookie {
+    NSURL *urlToLoad = [NSURL URLWithString:urlString];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToLoad];
     [request setHTTPShouldHandleCookies:enableCookie];
     [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData]; // don't use cache
     
-    [self.view loadRequest:request];
+    if (self.credentials.logLevel < kSFOAuthLogLevelInfo) {
+        [self log:SFLogLevelDebug format:@"%@ Loading web view for '%@' auth flow, with URL: %@", NSStringFromSelector(_cmd), self.authInfo.authTypeDescription, [urlToLoad redactedAbsoluteString:@[ @"sid" ]]];
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.view loadRequest:request];
+    });
 }
 
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType {
@@ -817,8 +826,33 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     }
 }
 
-- (NSString *)scopeQueryParamString
-{
+- (NSString *)generateApprovalUrlString {
+    NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
+    NSAssert(nil != self.credentials.clientId, @"credentials.clientId is required");
+    NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
+    
+    NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
+                                          self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
+                                          kSFOAuthClientId, self.credentials.clientId,
+                                          kSFOAuthRedirectUri, self.credentials.redirectUri,
+                                          kSFOAuthDisplay, kSFOAuthDisplayTouch];
+    
+    // If an activation code is available (IP bypass flow), then use the "activated client" response type.
+    if (self.credentials.activationCode) {
+        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeActivatedClientCode];
+    } else {
+        [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
+    }
+    
+    NSString *scopeString = [self scopeQueryParamString];
+    if (scopeString != nil) {
+        [approvalUrlString appendString:scopeString];
+    }
+    
+    return approvalUrlString;
+}
+
+- (NSString *)scopeQueryParamString {
     NSMutableSet *scopes = (self.scopes.count > 0 ? [NSMutableSet setWithSet:self.scopes] : [NSMutableSet set]);
     [scopes addObject:kSFOAuthRefreshToken];
     NSString *scopeStr = [[[scopes allObjects] componentsJoinedByString:@" "] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
@@ -1058,6 +1092,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description {
+    return [self errorWithType:type description:description underlyingError:nil];
+}
+
++ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError {
     NSAssert(type, @"error type can't be nil");
     
     NSInteger code = kSFOAuthErrorUnknown;
@@ -1095,9 +1133,12 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         code = kSFOAuthErrorJWTInvalidGrant;
     }
 
-    NSDictionary *dict = @{kSFOAuthError: type,
-                                                                    NSLocalizedDescriptionKey: description};
-    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:dict];
+    NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{kSFOAuthError: type,
+                                                                                        NSLocalizedDescriptionKey: description}];
+    if (underlyingError != nil) {
+        userInfoDict[NSUnderlyingErrorKey] = underlyingError;
+    }
+    NSError *error = [NSError errorWithDomain:kSFOAuthErrorDomain code:code userInfo:userInfoDict];
     return error;
 }
 
