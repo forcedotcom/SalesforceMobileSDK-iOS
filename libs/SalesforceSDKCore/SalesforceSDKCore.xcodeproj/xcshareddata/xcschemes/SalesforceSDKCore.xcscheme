@@ -20,20 +20,6 @@
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "NO"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D4644219C7C8180006BDFE"
-               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTestAppTests"
-               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -49,16 +35,6 @@
                BlueprintIdentifier = "4F7EB4051BFFC88200768720"
                BuildableName = "SalesforceSDKCoreTests.xctest"
                BlueprintName = "SalesforceSDKCoreTests"
-               ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "82D4644219C7C8180006BDFE"
-               BuildableName = "SalesforceSDKCoreTestAppTests.xctest"
-               BlueprintName = "SalesforceSDKCoreTestAppTests"
                ReferencedContainer = "container:SalesforceSDKCore.xcodeproj">
             </BuildableReference>
          </TestableReference>

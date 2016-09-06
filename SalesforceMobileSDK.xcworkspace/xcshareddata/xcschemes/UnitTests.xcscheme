@@ -42,20 +42,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CE4CE28B1C0E454F009F6029"
-               BuildableName = "SalesforceNetwork.framework"
-               BlueprintName = "SalesforceNetwork"
-               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CE4CE2A21C0E4569009F6029"
                BuildableName = "SalesforceRestAPI.framework"
                BlueprintName = "SalesforceRestAPI"
@@ -224,20 +210,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "825347F41A8ADD050019FE0B"
-               BuildableName = "SalesforceNetworkTests.xctest"
-               BlueprintName = "SalesforceNetworkTests"
-               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82C0C75C16E07DEB0006B3C0"
                BuildableName = "SalesforceRestAPITestApp.app"
                BlueprintName = "SalesforceRestAPITestApp"
@@ -340,20 +312,6 @@
                BuildableName = "libSalesforceHybridSDK.a"
                BlueprintName = "SalesforceHybridSDKStatic"
                ReferencedContainer = "container:libs/SalesforceHybridSDK/SalesforceHybridSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CEA8832F1C1910F6008D871B"
-               BuildableName = "libSalesforceNetwork.a"
-               BlueprintName = "SalesforceNetworkStatic"
-               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -542,16 +500,6 @@
                BuildableName = "SmartSyncTests.xctest"
                BlueprintName = "SmartSyncTests"
                ReferencedContainer = "container:libs/SmartSync/SmartSync.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "825347F41A8ADD050019FE0B"
-               BuildableName = "SalesforceNetworkTests.xctest"
-               BlueprintName = "SalesforceNetworkTests"
-               ReferencedContainer = "container:libs/SalesforceNetwork/SalesforceNetwork.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
