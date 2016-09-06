@@ -78,10 +78,10 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
         XCTAssertFalse(passcodePage.isPresented()) //should not present passcode
         
         //TODO: verify background/foreground after timeout
-//        XCUIDevice().pressButton(XCUIDeviceButton.Home)
-//        sleep(passcodeTimeout! + 5)
-//        XCUIApplication().resolve()
-//        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying)
+        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+        sleep(passcodeTimeout! + 5)
+        app.resolve()
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying)
         
         //verify app resume after timeout
         sleep(passcodeTimeout! + 5)
