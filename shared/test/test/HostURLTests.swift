@@ -63,8 +63,8 @@ class HostURLTest: SalesforceNoSessionTestCase {
         loginPage.chooseConnection()
         hostPage.chooseConnection("testSwitchURL")
         //background
-//        XCUIDevice().pressButton(XCUIDeviceButton.Home)
-//        XCUIApplication().launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
+        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+        app.launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
         loginPage.waitForPageLoaded()
         loginPage.chooseConnection()
         hostPage.deleteHost("testSwitchURL")

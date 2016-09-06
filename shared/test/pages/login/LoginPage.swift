@@ -42,15 +42,21 @@ class LoginPage: PageObject, PageThatWaits {
         }
     }
     
+    private var webView: XCUIElement {
+        get {
+            return app.otherElements.elementMatchingPredicate(NSPredicate(format: "label BEGINSWITH[cd] 'Login |'"))
+        }
+    }
+    
     private var userNameField: XCUIElement {
         get {
-            return app.otherElements["Login | Salesforce"].childrenMatchingType(.TextField).element
+            return webView.childrenMatchingType(.TextField).element
         }
     }
     
     private var passwordField: XCUIElement {
         get {
-            return app.otherElements["Login | Salesforce"].childrenMatchingType(.SecureTextField).element
+            return webView.childrenMatchingType(.SecureTextField).element
         }
     }
     
@@ -69,7 +75,8 @@ class LoginPage: PageObject, PageThatWaits {
     }
     
     func waitForPageLoaded() {
-        waitForElementExists(userNameField)    }
+        waitForElementExists(userNameField)
+    }
 
     // MARK: Act on screen
     
