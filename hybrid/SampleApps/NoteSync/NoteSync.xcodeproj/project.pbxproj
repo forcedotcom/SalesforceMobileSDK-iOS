@@ -76,6 +76,7 @@
 		82AF5AE61A0DADA4006C7A4B /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AF5AE01A0DADA4006C7A4B /* CDVLogger.m */; };
 		82AF5AEA1A0DAE72006C7A4B /* console-via-logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE41A0DADA4006C7A4B /* console-via-logger.js */; };
 		82AF5AEB1A0DAE72006C7A4B /* logger.js in Copy cordova-plugin-console plugin */ = {isa = PBXBuildFile; fileRef = 82AF5AE51A0DADA4006C7A4B /* logger.js */; };
+		BCAE02551D7F7D5E00944153 /* SalesforceAnalytics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DB81CE9331500C6FC6A /* SalesforceAnalytics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CE2B8DD71CE9332C00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DB81CE9331500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3C01C10CBB90012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3BF1C10CBB90012125E /* libz.tbd */; };
 		CE6AB3C21C10CBC50012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3C11C10CBC50012125E /* libxml2.tbd */; };
@@ -458,6 +459,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BCAE02551D7F7D5E00944153 /* SalesforceAnalytics.framework in Embed Frameworks */,
 				8236ADDB1C4DB3D5004B69B8 /* SmartStore.framework in Embed Frameworks */,
 				8236ADD31C4DB3B8004B69B8 /* SalesforceNetwork.framework in Embed Frameworks */,
 				8236ADCF1C4DB3B0004B69B8 /* CocoaLumberjack.framework in Embed Frameworks */,
