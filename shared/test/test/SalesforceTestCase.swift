@@ -32,12 +32,13 @@ import SalesforceSDKCore
 class SalesforceTestCase: XCTestCase {
     
     var loginDelegate = LoginHelper()
+    var app = XCUIApplication()
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
-        XCUIApplication().launch()
+        app.launch()
         loginThroughUI()
     }
     

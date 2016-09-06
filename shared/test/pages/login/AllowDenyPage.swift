@@ -43,12 +43,13 @@ class AllowDenyPage: PageObject, PageThatWaits {
     }
     
     func waitForPageLoaded() {
-        waitForElementExists(allowButton)
+        waitForElementEnabled(allowButton)
         
     }
     
     func tapAllowButton() {
         allowButton.tap()
+        waitForPageInvalid()
     }
     
 }
