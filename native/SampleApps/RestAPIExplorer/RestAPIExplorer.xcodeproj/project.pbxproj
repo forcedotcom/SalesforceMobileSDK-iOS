@@ -31,8 +31,6 @@
 		8236AC181C4D9B55004B69B8 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABDD1C4D9AD5004B69B8 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8236AC1C1C4D9B68004B69B8 /* CocoaLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABFC1C4D9AF4004B69B8 /* CocoaLumberjack.framework */; };
 		8236AC1D1C4D9B68004B69B8 /* CocoaLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABFC1C4D9AF4004B69B8 /* CocoaLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8236AC201C4D9B71004B69B8 /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABCF1C4D9ABE004B69B8 /* SalesforceNetwork.framework */; };
-		8236AC211C4D9B71004B69B8 /* SalesforceNetwork.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8236ABCF1C4D9ABE004B69B8 /* SalesforceNetwork.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8236AC241C4D9B84004B69B8 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */; };
 		8236AC251C4D9B84004B69B8 /* SalesforceRestAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA2441C125E870040F5F1 /* SalesforceRestAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8236AC5B1C4D9C66004B69B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8236AC591C4D9C66004B69B8 /* LaunchScreen.storyboard */; };
@@ -45,27 +43,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8236ABCE1C4D9ABE004B69B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CE4CE28C1C0E454F009F6029;
-			remoteInfo = SalesforceNetwork;
-		};
-		8236ABD01C4D9ABE004B69B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 825347F51A8ADD050019FE0B;
-			remoteInfo = SalesforceNetworkTests;
-		};
-		8236ABD21C4D9ABE004B69B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CEA883301C1910F6008D871B;
-			remoteInfo = SalesforceNetworkStatic;
-		};
 		8236ABDC1C4D9AD5004B69B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8236ABD41C4D9AD5004B69B8 /* SalesforceSDKCore.xcodeproj */;
@@ -220,13 +197,6 @@
 			remoteGlobalIDString = 19FF46011B8B4CF400B43179;
 			remoteInfo = "CocoaLumberjack-iOS";
 		};
-		8236AC221C4D9B71004B69B8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CE4CE28B1C0E454F009F6029;
-			remoteInfo = SalesforceNetwork;
-		};
 		8236AC261C4D9B84004B69B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
@@ -313,7 +283,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8236AC211C4D9B71004B69B8 /* SalesforceNetwork.framework in Embed Frameworks */,
 				8236AC1D1C4D9B68004B69B8 /* CocoaLumberjack.framework in Embed Frameworks */,
 				8236AC251C4D9B84004B69B8 /* SalesforceRestAPI.framework in Embed Frameworks */,
 				8236AC181C4D9B55004B69B8 /* SalesforceSDKCore.framework in Embed Frameworks */,
@@ -349,7 +318,6 @@
 		7DF4D3CA1472E3E0005CE144 /* QueryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QueryListViewController.m; path = Classes/QueryListViewController.m; sourceTree = "<group>"; };
 		7DF4D3CB1472E3E0005CE144 /* QueryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryListViewController.h; path = Classes/QueryListViewController.h; sourceTree = "<group>"; };
 		820275F11651787D00DB814C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceNetwork.xcodeproj; path = ../../../libs/SalesforceNetwork/SalesforceNetwork.xcodeproj; sourceTree = "<group>"; };
 		8236ABD41C4D9AD5004B69B8 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		8236ABE41C4D9AF4004B69B8 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		8236AC5A1C4D9C66004B69B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -378,7 +346,6 @@
 				7DF4D2E91472E238005CE144 /* CoreGraphics.framework in Frameworks */,
 				7DF4D2E71472E238005CE144 /* Foundation.framework in Frameworks */,
 				8236AC1C1C4D9B68004B69B8 /* CocoaLumberjack.framework in Frameworks */,
-				8236AC201C4D9B71004B69B8 /* SalesforceNetwork.framework in Frameworks */,
 				820275F21651787D00DB814C /* MessageUI.framework in Frameworks */,
 				7DF4D2ED1472E238005CE144 /* MobileCoreServices.framework in Frameworks */,
 				8242E0CA15AB823400E9E6AF /* QuartzCore.framework in Frameworks */,
@@ -415,7 +382,6 @@
 				CE2B8D081CE9329300C6FC6A /* SalesforceAnalytics.xcodeproj */,
 				8236ABE41C4D9AF4004B69B8 /* Lumberjack.xcodeproj */,
 				8236ABD41C4D9AD5004B69B8 /* SalesforceSDKCore.xcodeproj */,
-				8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */,
 				829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */,
 				CE6AB38D1C10C4940012125E /* libxml2.tbd */,
 				CE6AB38B1C10C4880012125E /* libz.tbd */,
@@ -489,16 +455,6 @@
 				7DF4D3B41472E23A005CE144 /* SFAuthorizingViewController.xib */,
 			);
 			name = NativeRestApp;
-			sourceTree = "<group>";
-		};
-		8236ABC91C4D9ABE004B69B8 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8236ABCF1C4D9ABE004B69B8 /* SalesforceNetwork.framework */,
-				8236ABD11C4D9ABE004B69B8 /* SalesforceNetworkTests.xctest */,
-				8236ABD31C4D9ABE004B69B8 /* libSalesforceNetwork.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		8236ABD51C4D9AD5004B69B8 /* Products */ = {
@@ -576,7 +532,6 @@
 				829DA24B1C125EBA0040F5F1 /* PBXTargetDependency */,
 				8236AC1A1C4D9B55004B69B8 /* PBXTargetDependency */,
 				8236AC1F1C4D9B68004B69B8 /* PBXTargetDependency */,
-				8236AC231C4D9B71004B69B8 /* PBXTargetDependency */,
 				8236AC271C4D9B84004B69B8 /* PBXTargetDependency */,
 			);
 			name = RestAPIExplorer;
@@ -613,10 +568,6 @@
 					ProjectRef = CE2B8D081CE9329300C6FC6A /* SalesforceAnalytics.xcodeproj */;
 				},
 				{
-					ProductGroup = 8236ABC91C4D9ABE004B69B8 /* Products */;
-					ProjectRef = 8236ABC81C4D9ABE004B69B8 /* SalesforceNetwork.xcodeproj */;
-				},
-				{
 					ProductGroup = 829DA23D1C125E870040F5F1 /* Products */;
 					ProjectRef = 829DA23C1C125E870040F5F1 /* SalesforceRestAPI.xcodeproj */;
 				},
@@ -633,27 +584,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8236ABCF1C4D9ABE004B69B8 /* SalesforceNetwork.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SalesforceNetwork.framework;
-			remoteRef = 8236ABCE1C4D9ABE004B69B8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8236ABD11C4D9ABE004B69B8 /* SalesforceNetworkTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SalesforceNetworkTests.xctest;
-			remoteRef = 8236ABD01C4D9ABE004B69B8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8236ABD31C4D9ABE004B69B8 /* libSalesforceNetwork.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSalesforceNetwork.a;
-			remoteRef = 8236ABD21C4D9ABE004B69B8 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		8236ABDD1C4D9AD5004B69B8 /* SalesforceSDKCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -895,11 +825,6 @@
 			isa = PBXTargetDependency;
 			name = "CocoaLumberjack-iOS";
 			targetProxy = 8236AC1E1C4D9B68004B69B8 /* PBXContainerItemProxy */;
-		};
-		8236AC231C4D9B71004B69B8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SalesforceNetwork;
-			targetProxy = 8236AC221C4D9B71004B69B8 /* PBXContainerItemProxy */;
 		};
 		8236AC271C4D9B84004B69B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

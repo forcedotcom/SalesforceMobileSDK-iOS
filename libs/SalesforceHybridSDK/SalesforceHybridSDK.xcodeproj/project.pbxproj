@@ -91,12 +91,10 @@
 		82EFF33C16E805E300A63CDF /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 82EFF33B16E805E300A63CDF /* config.xml */; };
 		82EFF34416E80B6300A63CDF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF34316E80B6300A63CDF /* AppDelegate.m */; };
 		82EFF39F16E816CB00A63CDF /* SFTestRunnerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */; };
-		CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0431C10D22300BFAEED /* SalesforceNetwork.framework */; };
 		CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
 		CE0AB0951C10D52E00BFAEED /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2391C0FD52F00319E68 /* libz.tbd */; };
 		CE0AB0961C10D53400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
 		CE0AB0981C10D5E400BFAEED /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0901C10D50500BFAEED /* SmartStore.framework */; };
-		CE0AB0991C10D5E400BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08E1C10D4FE00BFAEED /* SalesforceNetwork.framework */; };
 		CE0AB09A1C10D5E400BFAEED /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08C1C10D4F800BFAEED /* SalesforceRestAPI.framework */; };
 		CE0AB09B1C10D5E400BFAEED /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB08A1C10D4F300BFAEED /* SalesforceSDKCore.framework */; };
 		CE0AB09C1C10D5E400BFAEED /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0881C10D4D400BFAEED /* libxml2.tbd */; };
@@ -527,11 +525,9 @@
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
-		CE0AB0431C10D22300BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
 		CE0AB0881C10D4D400BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE0AB08A1C10D4F300BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE0AB08C1C10D4F800BFAEED /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
-		CE0AB08E1C10D4FE00BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
 		CE0AB0901C10D50500BFAEED /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE2B8CFB1CE9322D00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE405C811D3DB39E00E6F889 /* SFWKWebViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFWKWebViewDelegate.h; path = SFWKWebViewEngine/SFWKWebViewDelegate.h; sourceTree = "<group>"; };
@@ -550,7 +546,6 @@
 		CE8F13081AD4A87200233F2F /* SalesforceHybridSDK-Static-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Static-iOS-Release.xcconfig"; path = "Configuration/SalesforceHybridSDK-Static-iOS-Release.xcconfig"; sourceTree = "<group>"; };
 		CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceHybridSDK-Test.xcconfig"; path = "Configuration/SalesforceHybridSDK-Test.xcconfig"; sourceTree = "<group>"; };
 		CEA884431C191795008D871B /* libSalesforceHybridSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSalesforceHybridSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CEA8845B1C191850008D871B /* libSalesforceNetwork.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceNetwork.a; path = "../SalesforceNetwork/build/Debug-iphoneos/libSalesforceNetwork.a"; sourceTree = "<group>"; };
 		CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceRestAPI.a; path = "../SalesforceRestAPI/build/Debug-iphoneos/libSalesforceRestAPI.a"; sourceTree = "<group>"; };
 		CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSalesforceSDKCore.a; path = "../SalesforceSDKCore/build/Debug-iphoneos/libSalesforceSDKCore.a"; sourceTree = "<group>"; };
 		CEA884611C19186C008D871B /* libSmartStore.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSmartStore.a; path = "../SmartStore/build/Debug-iphoneos/libSmartStore.a"; sourceTree = "<group>"; };
@@ -570,7 +565,6 @@
 				CE0AB0B91C10D68400BFAEED /* libCordova.a in Frameworks */,
 				CE0AB0A51C10D60400BFAEED /* SalesforceHybridSDK.framework in Frameworks */,
 				CE0AB0981C10D5E400BFAEED /* SmartStore.framework in Frameworks */,
-				CE0AB0991C10D5E400BFAEED /* SalesforceNetwork.framework in Frameworks */,
 				CE0AB09A1C10D5E400BFAEED /* SalesforceRestAPI.framework in Frameworks */,
 				CE0AB09B1C10D5E400BFAEED /* SalesforceSDKCore.framework in Frameworks */,
 				CE0AB09C1C10D5E400BFAEED /* libxml2.tbd in Frameworks */,
@@ -627,7 +621,6 @@
 			files = (
 				CE2B8CFC1CE9322D00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE0AB0891C10D4D400BFAEED /* libxml2.tbd in Frameworks */,
-				CE0AB0441C10D22300BFAEED /* SalesforceNetwork.framework in Frameworks */,
 				CE65C23B1C0FD53800319E68 /* libCordova.a in Frameworks */,
 				CE65C23A1C0FD52F00319E68 /* libz.tbd in Frameworks */,
 				CE65C2381C0FD52500319E68 /* SalesforceRestAPI.framework in Frameworks */,
@@ -903,13 +896,10 @@
 				CEA884611C19186C008D871B /* libSmartStore.a */,
 				CEA8845F1C19185F008D871B /* libSalesforceSDKCore.a */,
 				CEA8845D1C191859008D871B /* libSalesforceRestAPI.a */,
-				CEA8845B1C191850008D871B /* libSalesforceNetwork.a */,
 				CE0AB0901C10D50500BFAEED /* SmartStore.framework */,
-				CE0AB08E1C10D4FE00BFAEED /* SalesforceNetwork.framework */,
 				CE0AB08C1C10D4F800BFAEED /* SalesforceRestAPI.framework */,
 				CE0AB08A1C10D4F300BFAEED /* SalesforceSDKCore.framework */,
 				CE0AB0881C10D4D400BFAEED /* libxml2.tbd */,
-				CE0AB0431C10D22300BFAEED /* SalesforceNetwork.framework */,
 				CE65C2391C0FD52F00319E68 /* libz.tbd */,
 				CE65C2371C0FD52500319E68 /* SalesforceRestAPI.framework */,
 				CE65C2331C0FD51A00319E68 /* SalesforceSDKCore.framework */,

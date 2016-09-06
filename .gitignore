@@ -9,7 +9,6 @@ node_modules
 /hybrid/SampleApps/ContactExplorer/build/
 /hybrid/SampleApps/VFConnector/build/
 /libs/SalesforceHybridSDK/build/
-/libs/SalesforceNetwork/build/
 /libs/SalesforceReact/build/
 /libs/SalesforceRestAPI/build/
 /libs/SalesforceSDKCore/build/

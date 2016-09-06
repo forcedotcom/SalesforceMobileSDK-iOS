@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,28 +22,17 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceNetwork/SalesforceNetwork.h>
-#import "CSFAction+Internal.h"
-#import "CSFNetwork+Internal.h"
+#import "NSDate+ActionValue.h"
+#import "CSFInternalDefines.h"
 
-@interface TestDataAction : CSFAction {
-    BOOL _overriddenCancel;
+@implementation NSDate (ActionValue)
+
+- (id)actionValue {
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] transformedValue:self];
 }
 
-@property (nonatomic, strong) NSData *testResponseData;
-@property (nonatomic, strong) NSURLRequest *composedRequest;
-@property (nonatomic, strong) NSHTTPURLResponse *testResponseObject;
-@property (nonatomic) NSInteger statusCode;
-@property (nonatomic) BOOL wasResumed;
-@property (nonatomic) BOOL wasCancelled;
-@property (readwrite, getter=isCancelled) BOOL cancelled;
-
-+ (SFUserAccount*)testUserAccount;
-+ (CSFNetwork*)mockNetworkWithAccount:(SFUserAccount*)account;
-+ (NSURLSession*)mockURLSession;
-
-- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testFilename:(NSString*)filename withExtension:(NSString*)extension;
-- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testString:(NSString*)testString;
++ (id<CSFActionValue>)decodedObjectForActionValue:(id)actionValue {
+    return [[NSValueTransformer valueTransformerForName:CSFDateValueTransformerName] reverseTransformedValue:actionValue];
+}
 
 @end
-

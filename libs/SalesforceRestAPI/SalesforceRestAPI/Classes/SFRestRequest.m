@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011-2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,9 +27,9 @@
 #import "SFRestAPISalesforceAction.h"
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceNetwork/CSFSalesforceAction.h>
-#import <SalesforceNetwork/CSFDefines.h>
-#import <SalesforceNetwork/CSFParameterStorage.h>
+#import <SalesforceSDKCore/CSFSalesforceAction.h>
+#import <SalesforceSDKCore/CSFDefines.h>
+#import <SalesforceSDKCore/CSFParameterStorage.h>
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 

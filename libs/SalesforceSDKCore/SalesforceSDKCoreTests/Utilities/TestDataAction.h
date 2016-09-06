@@ -1,10 +1,5 @@
 /*
- SalesforceNetwork.h
- SalesforceNetwork
-
- Created by Bharath Hariharan on Wed Apr  1 20:13:33 PDT 2015.
-
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -27,19 +22,28 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceNetwork/CSFAction.h>
-#import <SalesforceNetwork/CSFActionInput.h>
-#import <SalesforceNetwork/CSFActionModel.h>
-#import <SalesforceNetwork/CSFActionValue.h>
-#import <SalesforceNetwork/CSFAuthRefresh.h>
-#import <SalesforceNetwork/CSFAvailability.h>
-#import <SalesforceNetwork/CSFDefines.h>
-#import <SalesforceNetwork/CSFForceDefines.h>
-#import <SalesforceNetwork/CSFIndexedEntity.h>
-#import <SalesforceNetwork/CSFInput.h>
-#import <SalesforceNetwork/CSFNetwork.h>
-#import <SalesforceNetwork/CSFNetworkOutputCache.h>
-#import <SalesforceNetwork/CSFOutput.h>
-#import <SalesforceNetwork/CSFParameterStorage.h>
-#import <SalesforceNetwork/CSFSalesforceAction.h>
-#import <SalesforceNetwork/SFUserAccount+SalesforceNetwork.h>
+#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "CSFAction+Internal.h"
+#import "CSFNetwork+Internal.h"
+
+@interface TestDataAction : CSFAction {
+    BOOL _overriddenCancel;
+}
+
+@property (nonatomic, strong) NSData *testResponseData;
+@property (nonatomic, strong) NSURLRequest *composedRequest;
+@property (nonatomic, strong) NSHTTPURLResponse *testResponseObject;
+@property (nonatomic) NSInteger statusCode;
+@property (nonatomic) BOOL wasResumed;
+@property (nonatomic) BOOL wasCancelled;
+@property (readwrite, getter=isCancelled) BOOL cancelled;
+
++ (SFUserAccount*)testUserAccount;
++ (CSFNetwork*)mockNetworkWithAccount:(SFUserAccount*)account;
++ (NSURLSession*)mockURLSession;
+
+- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testFilename:(NSString*)filename withExtension:(NSString*)extension;
+- (instancetype)initWithResponseBlock:(CSFActionResponseBlock)responseBlock testString:(NSString*)testString;
+
+@end
+
