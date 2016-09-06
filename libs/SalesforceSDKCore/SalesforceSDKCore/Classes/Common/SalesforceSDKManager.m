@@ -654,7 +654,7 @@ static Class InstanceClass = nil;
         NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-        NSString *appVersion = [NSString stringWithFormat:@"%@ (%@)", prodAppVersion, buildNumber];
+        NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
 
         // App type.
         NSString* appTypeStr;
