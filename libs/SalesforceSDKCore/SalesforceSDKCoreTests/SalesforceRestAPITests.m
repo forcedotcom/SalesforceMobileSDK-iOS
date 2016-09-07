@@ -25,7 +25,6 @@
 #import "SalesforceRestAPITests.h"
 
 #import <SalesforceSDKCore/SalesforceSDKCore.h>
-#import <SalesforceSDKCore/SalesforceRestAPI.h>
 #import "SFRestAPI+Internal.h"
 #import "SFNativeRestRequestListener.h"
 
