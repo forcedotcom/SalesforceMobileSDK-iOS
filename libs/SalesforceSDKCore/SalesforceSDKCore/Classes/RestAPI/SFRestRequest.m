@@ -25,11 +25,11 @@
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPI+Internal.h"
 #import "SFRestAPISalesforceAction.h"
-#import <SalesforceSDKCore/SalesforceSDKConstants.h>
-#import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/CSFSalesforceAction.h>
-#import <SalesforceSDKCore/CSFDefines.h>
-#import <SalesforceSDKCore/CSFParameterStorage.h>
+#import "SalesforceSDKConstants.h"
+#import "SFJsonUtils.h"
+#import "CSFSalesforceAction.h"
+#import "CSFDefines.h"
+#import "CSFParameterStorage.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 

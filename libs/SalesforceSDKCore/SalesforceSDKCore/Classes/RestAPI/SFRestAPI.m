@@ -25,12 +25,12 @@
 #import "SFRestAPI+Internal.h"
 #import "SFRestRequest+Internal.h"
 #import "SFRestAPISalesforceAction.h"
-#import <SalesforceSDKCore/CSFSalesforceAction.h>
-#import <SalesforceSDKCore/SFOAuthCoordinator.h>
-#import <SalesforceSDKCore/SFUserAccount.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/SFSDKWebUtils.h>
-#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import "CSFSalesforceAction.h"
+#import "SFOAuthCoordinator.h"
+#import "SFUserAccount.h"
+#import "SFAuthenticationManager.h"
+#import "SFSDKWebUtils.h"
+#import "SalesforceSDKManager.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v36.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";

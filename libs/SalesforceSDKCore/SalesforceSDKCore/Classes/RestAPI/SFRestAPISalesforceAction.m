@@ -23,7 +23,7 @@
  */
 
 #import "SFRestAPISalesforceAction.h"
-#import <SalesforceSDKCore/CSFDefines.h>
+#import "CSFDefines.h"
 
 @implementation SFRestAPISalesforceAction
 
