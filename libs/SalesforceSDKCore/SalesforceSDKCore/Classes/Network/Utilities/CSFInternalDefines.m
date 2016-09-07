@@ -24,8 +24,6 @@
 
 #import "CSFInternalDefines.h"
 
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
 #ifdef CSFPlatformiOS
 @import MobileCoreServices;
 #else

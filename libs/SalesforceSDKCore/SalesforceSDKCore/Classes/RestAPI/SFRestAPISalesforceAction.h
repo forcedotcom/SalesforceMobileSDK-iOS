@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
+#import "CSFSalesforceAction.h"
 
 /**
  Implementation of CSFSalesforceAction, specific to the SFRestAPI library.

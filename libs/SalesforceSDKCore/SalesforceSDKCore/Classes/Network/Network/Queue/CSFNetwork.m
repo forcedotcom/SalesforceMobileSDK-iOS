@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,13 +23,13 @@
  */
 
 #import <objc/runtime.h>
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
 
 #import "CSFNetwork+Internal.h"
 #import "CSFNetwork+Salesforce.h"
 #import "CSFAction+Internal.h"
-
+#import "SFAuthenticationManager.h"
 #import "CSFInternalDefines.h"
+#import "SalesforceSDKManager.h"
 
 // Value transformers used by model objects
 #import "CSFDateValueTransformer.h"

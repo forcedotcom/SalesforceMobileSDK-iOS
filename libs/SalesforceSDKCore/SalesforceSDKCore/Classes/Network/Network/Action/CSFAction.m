@@ -24,14 +24,14 @@
 
 #import <objc/runtime.h>
 
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
 #import "CSFAction+Internal.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFActionModel.h"
 #import "CSFTokenRefresh.h"
 #import "CSFParameterStorage_Internal.h"
 #import "NSMutableURLRequest+SalesforceNetwork.h"
+#import "SFOAuthCredentials.h"
+#import "SFUserAccount.h"
 
 NSString * const CSFActionSecurityTokenKey = @"securityToken"; // CSRF security token key
 

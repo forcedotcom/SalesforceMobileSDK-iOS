@@ -23,9 +23,9 @@
  */
 
 #import "SFRestAPI.h"
-#import <SalesforceSDKCore/SFUserAccountManager.h>
-#import <SalesforceSDKCore/SFAuthenticationManager.h>
-#import <SalesforceSDKCore/CSFNetwork.h>
+#import "SFUserAccountManager.h"
+#import "SFAuthenticationManager.h"
+#import "CSFNetwork.h"
 
 /**
  We declare here a set of interfaces that are meant to be used by code running internally

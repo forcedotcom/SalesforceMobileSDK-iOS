@@ -27,7 +27,6 @@
 
 @class SFRestAPISalesforceAction;
 
-
 /**
  * HTTP methods for requests
  */

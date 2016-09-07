@@ -35,8 +35,6 @@
 #define NSUIImage NSImage
 #endif
 
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
 @class SFUserAccount;
 
 CSF_PRIVATE_EXTERN NSInteger kCSFNetworkLogContext;

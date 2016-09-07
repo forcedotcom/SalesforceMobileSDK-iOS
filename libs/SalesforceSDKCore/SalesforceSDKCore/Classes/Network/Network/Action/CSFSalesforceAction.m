@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,12 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceSDKCore/SalesforceSDKCore.h>
-
 #import "CSFSalesforceAction_Internal.h"
 #import "CSFNetwork+Internal.h"
 #import "CSFInternalDefines.h"
 #import "CSFSalesforceOAuthRefresh.h"
+#import "SFUserAccount.h"
+#import "SFOAuthCredentials.h"
+#import "SFUserAccountManager.h"
 
 NSString * const CSFAuthorizationHeaderValueFormat = @"OAuth %@";
 NSString * const CSFAuthorizationHeaderName = @"Authorization";

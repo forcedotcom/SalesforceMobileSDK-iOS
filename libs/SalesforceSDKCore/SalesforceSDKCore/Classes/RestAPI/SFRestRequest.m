@@ -30,6 +30,7 @@
 #import "CSFSalesforceAction.h"
 #import "CSFDefines.h"
 #import "CSFParameterStorage.h"
+#import "SFRestAPISalesforceAction.h"
 
 NSString * const kSFDefaultRestEndpoint = @"/services/data";
 
