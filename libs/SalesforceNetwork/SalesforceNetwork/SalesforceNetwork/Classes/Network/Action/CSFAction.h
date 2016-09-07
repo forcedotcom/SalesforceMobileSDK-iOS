@@ -270,6 +270,12 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)sessionDataTask:(NSURLSessionDataTask*)task didReceiveData:(NSData*)data;
 - (void)sessionTask:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error;
 
+/**
+ @brief Overridable method that permits subclasses to intercept HTTP request, which will be redirecting to a different URL.
+ @discussion The default behavior is to follow redirections.
+ */
+- (void)sessionTask:(NSURLSessionTask*)task willPerformHTTPRedirection:(NSHTTPURLResponse*)response newRequest:(NSURLRequest*)request completionHandler:(void (^)(NSURLRequest*))completionHandler;
+
 @end
 
 typedef NSString*const CSFActionTiming NS_STRING_ENUM;
