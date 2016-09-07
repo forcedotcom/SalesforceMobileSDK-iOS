@@ -480,6 +480,12 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     [self updateProgress];
 }
 
+- (void)sessionTask:(NSURLSessionTask*)task willPerformHTTPRedirection:(NSHTTPURLResponse*)response newRequest:(NSURLRequest*)request completionHandler:(void (^)(NSURLRequest*))completionHandler {
+    if (completionHandler) {
+        completionHandler(request);
+    }
+}
+
 - (void)updateProgress {
     NSURLSessionTask *task = self.downloadTask ?: self.sessionTask;
     NSProgress *progress = self.progress;
