@@ -36,9 +36,6 @@
          location = "group:libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj">
       </FileRef>
       <FileRef
-         location = "group:libs/SalesforceRestAPI/SalesforceRestAPI.xcodeproj">
-      </FileRef>
-      <FileRef
          location = "group:libs/SmartStore/SmartStore.xcodeproj">
       </FileRef>
       <FileRef
