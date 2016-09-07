@@ -1,0 +1,90 @@
+/*
+ 
+ Title: Salesforce MobileSDK Localized Strings
+ Description: List of string constants that are used by Salesforce MobileSDK.
+ 
+ Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
+ 
+ Redistribution and use of this software in source and binary forms, with or without modification,
+ are permitted provided that the following conditions are met:
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright notice, this list of
+ conditions and the following disclaimer in the documentation and/or other materials provided
+ with the distribution.
+ * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
+ endorse or promote products derived from this software without specific prior written
+ permission of salesforce.com, inc.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
+ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+// Passcode view controller
+"nextScreenNavButtonTitle" = "Next";
+"prevScreenNavButtonTitle" = "Back";
+"createPasscodeNavTitle" = "Create Passcode";
+"confirmPasscodeNavTitle" = "Confirm Passcode";
+"verifyPasscodeNavTitle" = "Verify Passcode";
+"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
+"passcodeChangeInstructions" = "For increased security, your admininstrator requires you to change your passcode.";
+"passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
+"passcodeVerifyInstructions" = "Please enter your security passcode.";
+"minPasscodeLengthError" = "Your passcode must be at least %d characters long.";
+"passcodesDoNotMatchError" = "Passcodes do not match!";
+"passcodeInvalidError" = "The passcode you entered was invalid.";
+"forgotPasscodeTitle" = "Forgot Passcode?";
+"useTouchIdTitle" = "Use TouchId";
+"touchIdReason" = "Please authenticate to proceed.";
+"logoutAlertViewTitle" = "Are you sure you want to logout?";
+"logoutNo" = "No";
+"logoutYes" = "Yes";
+
+// OAuth flow
+"authAlertContinueButton"="Continue";
+"authAlertErrorTitle" = "Salesforce Error";
+"authAlertOkButton" = "OK";
+"authAlertCancelButton"="Cancel";
+"authAlertRetryButton" = "Retry";
+"authAlertDismissButton" = "Dismiss";
+"authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
+"authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
+"authAlertBrowserFlowTitle"="Log In";
+"authAlertBrowserFlowMessage"="To log you in to %1$@, Safari will open briefly. You'll switch back to %2$@ after authentication.";
+
+// LoginViewController
+"TITLE_LOGIN" = "Log In";
+"LOGIN_SERVER_PRODUCTION" = "Production";
+"LOGIN_SERVER_SANDBOX" = "Sandbox";
+"LOGIN_CHOOSE_SERVER" = "Choose Connection";
+"LOGIN_ADD_SERVER" = "Add Connection";
+"LOGIN_SERVER_URL" = "Host (Example: login.salesforce.com)";
+"LOGIN_SERVER_NAME" = "Label (Optional)";
+
+//Account Switcher
+"ACCOUNT_SWITCHER_TITLE" = "Manage Accounts";
+"LOG_OUT" = "Log Out";
+"ADD_NEW_ACCOUNT" = "Add New Account";
+
+// Hybrid bootstrap
+"hybridBootstrapDeviceOffline" = "Your device is offline. Can't continue.";
+"hybridBootstrapNoCredentialsAtStartup" = "Your app specifies authentication at startup, but there are no credentials.  Did you run [[SalesforceSDKManager sharedManager] launch]?";
+
+// SmartStore Inspector
+"inspectorTitle" = "Inspector";
+"inspectorBackButtonTitle" = "Back";
+"inspectorRunButtonTitle" = "Run";
+"inspectorPageSizeHint" = "Page size (default: 10)";
+"inspectorPageIndexHint" = "Page index (default: 0)";
+"inspectorClearButtonTitle" = "Clear";
+"inspectorSoupsButtonTitle" = "Soups";
+"inspectorIndicesButtonTitle" = "Indices";
+"inspectorQueryFailed" = "Query failed";
+"inspectorOK" = "OK";
+"inspectorNoRowsReturned" = "No rows returned";
