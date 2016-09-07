@@ -21,7 +21,6 @@ Pod::Spec.new do |s|
 
       salesforcereact.dependency 'React'
       salesforcereact.dependency 'SmartSync'
-      salesforcereact.dependency 'SalesforceRestAPI'
       salesforcereact.dependency 'SmartStore'
       salesforcereact.dependency 'SalesforceSDKCore'
 

@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'SmartSync' do |smartsync|
 
-      smartsync.dependency 'SalesforceRestAPI'
       smartsync.dependency 'SmartStore'
       smartsync.dependency 'SalesforceSDKCore'
       smartsync.source_files = 'libs/SmartSync/SmartSync/Classes/**/*.{h,m}', 'libs/SmartSync/SmartSync/SmartSync.h'
