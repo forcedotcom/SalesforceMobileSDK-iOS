@@ -29,7 +29,6 @@ script:
    # build libs
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceAnalytics CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceSDKCore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
-   - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceRestAPI CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartStore CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SmartSync CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'
    - set -o pipefail && xcodebuild -workspace SalesforceMobileSDK.xcworkspace -scheme SalesforceHybridSDK CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty --simple --color | grep -v 'Compiling'

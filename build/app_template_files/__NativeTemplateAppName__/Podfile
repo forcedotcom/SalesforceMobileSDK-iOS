@@ -10,7 +10,6 @@ use_frameworks!
 
 pod 'SalesforceAnalytics'
 pod 'SalesforceSDKCore'
-pod 'SalesforceRestAPI'
 pod 'SmartStore'
 pod 'SmartSync'
 

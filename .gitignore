@@ -10,7 +10,6 @@ node_modules
 /hybrid/SampleApps/VFConnector/build/
 /libs/SalesforceHybridSDK/build/
 /libs/SalesforceReact/build/
-/libs/SalesforceRestAPI/build/
 /libs/SalesforceSDKCore/build/
 /libs/SalesforceAnalytics/build/
 /libs/SmartStore/build/

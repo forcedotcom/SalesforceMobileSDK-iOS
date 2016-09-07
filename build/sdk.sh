@@ -32,7 +32,6 @@ require 'optparse'
 SCHEMES_TO_BUILD = [
   "SalesforceAnalyticsStatic",
   "SalesforceSDKCoreStatic",
-  "SalesforceRestAPIStatic",
   "SmartStoreStatic",
   "SmartSyncStatic",
   "SalesforceHybridSDKStatic",
@@ -50,7 +49,6 @@ SCHEMES_TO_TEST = [
 #  "SmartStore",
 #  "SmartSync",
 #  "SalesforceSDKCoreTestApp",
-#  "SalesforceRestAPITestApp",
 #  "SalesforceHybridSDKTestApp"
 ];
 

@@ -34,7 +34,6 @@
 		CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2401C0FD57200319E68 /* Foundation.framework */; };
 		CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2421C0FD58000319E68 /* SmartStore.framework */; };
 		CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */; };
-		CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */; };
 		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
 		CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6301BFE932100B7AA8A /* libReact.a */; };
 /* End PBXBuildFile section */
@@ -107,7 +106,6 @@
 		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2421C0FD58000319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
-		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -120,7 +118,6 @@
 			files = (
 				CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */,
-				CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */,
 				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */,
 				CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */,
@@ -204,7 +201,6 @@
 				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
 				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
 				CE65C24A1C0FD59800319E68 /* libz.tbd */,
-				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
 				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
 				CE65C2421C0FD58000319E68 /* SmartStore.framework */,
 				CE65C2401C0FD57200319E68 /* Foundation.framework */,
