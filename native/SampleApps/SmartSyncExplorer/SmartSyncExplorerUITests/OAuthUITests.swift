@@ -54,7 +54,12 @@ class OAuthUITest: SalesforceNoSessionTestCase {
             let user = login.valueForKey("username") as! String
             let password = login.valueForKey("password") as! String
             let host = login.valueForKey("host") as! String
-            addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
+            if let passLength = login.valueForKey("passcodeLength") {
+                addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
+            }
+            else {
+                addAndSwitchToUser(user, password:password, host:host)
+            }
             sleep(1)
         }
         
@@ -78,7 +83,13 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     func testLogoutRelogin() {
         let user = loginAccounts[0].valueForKey("username") as! String
         let password = loginAccounts[0].valueForKey("password") as! String
-        loginHelper.loginToSalesforce(user, password: password, host: Host.sandbox)
+        let host = loginAccounts[0].valueForKey("host") as! String
+        if let passLength = loginAccounts[0].valueForKey("passcodeLength") {
+            loginHelper.loginToSalesforce(user, password: password, url:host, withPasscode:passcode)
+        }
+        else {
+            loginHelper.loginToSalesforce(user, password: password, url:host)
+        }
         searchScreen.waitForPageLoaded()
         let recordsNum = searchScreen.countRecords()
         searchScreen.logout()
@@ -119,7 +130,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         searchScreen.waitForPageLoaded()
     }
     
-    func addAndSwitchToUser(username:String, password:String, host:String, passcode:String) {
+    func addAndSwitchToUser(username:String, password:String, host:String, passcode:String?=nil) {
         if (!loginPage.isPresenting()) {
             searchScreen.waitForPageLoaded()
             searchScreen.switchUser()

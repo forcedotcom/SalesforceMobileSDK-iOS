@@ -94,7 +94,7 @@
     
     while (![self isTestResultAvailable:testName]) {
         NSTimeInterval elapsed = [[NSDate date] timeIntervalSinceDate:startTime];
-        if (elapsed > 30.0) {
+        if (elapsed > 40.0) {
             [self log:SFLogLevelDebug format:@"test took too long (%f) to complete",elapsed];
             completionTimedOut = YES;
             break;
