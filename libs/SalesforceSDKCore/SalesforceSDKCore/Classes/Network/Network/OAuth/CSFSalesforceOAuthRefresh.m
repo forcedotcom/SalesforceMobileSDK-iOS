@@ -26,6 +26,8 @@
 #import "CSFDefines.h"
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFOAuthTokenRefreshOutput.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 #import "CSFInternalDefines.h"
 #import "SFOAuthCoordinator.h"
 #import "SFAuthenticationManager.h"
@@ -76,6 +78,12 @@
         NetworkInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
+            // Mark logout
+            SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+            SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:manager.analyticsManager];
+            [[[[[builder name:[NSString stringWithFormat:@"Server Error %ld", (long)error.code]] page:@{ @"context" : @"Authentication Refresh"}] schemaType:SchemaTypeInteraction] eventType:EventTypeUser] errorType:ErrorTypeInfo];
+            [manager.analyticsManager.storeManager storeEvent:[builder buildEvent]];
+            
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
         });
     }
