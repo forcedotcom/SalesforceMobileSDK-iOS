@@ -145,7 +145,7 @@ static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 
 #pragma mark - SFAuthenticationManager
 
-@interface SFAuthenticationManager ()
+@interface SFAuthenticationManager () <SFSDKLoginHostDelegate>
 {
 }
 
@@ -1116,6 +1116,7 @@ static Class InstanceClass = nil;
     // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }
@@ -1126,6 +1127,12 @@ static Class InstanceClass = nil;
             [delegate authManagerDidCancelGenericFlow:self];
         }
     }];
+}
+
+#pragma mark - SFSDKLoginHostDelegate
+
+- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -1268,9 +1275,9 @@ static Class InstanceClass = nil;
         }
     }];
     
-    // TODO: Determine if this is the correct approach. If so, then SFAuthenticationManager probably needs to conform to SFSDKLoginHostDelegate.
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }
