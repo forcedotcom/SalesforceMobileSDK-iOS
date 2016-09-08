@@ -28,8 +28,7 @@
  */
 
 #import "SFSDKAnalyticsPublisher.h"
-#import "SFRestAPI.h"
 
-@interface SFSDKAILTNPublisher : NSObject <SFSDKAnalyticsPublisher, SFRestDelegate>
+@interface SFSDKAILTNPublisher : NSObject <SFSDKAnalyticsPublisher>
 
 @end

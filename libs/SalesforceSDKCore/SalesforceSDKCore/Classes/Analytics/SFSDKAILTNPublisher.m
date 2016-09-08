@@ -32,6 +32,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFLogger.h"
 #import "NSData+SFAdditions.h"
+#import "SFRestAPI+Blocks.h"
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
@@ -60,8 +61,22 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setCustomRequestBodyData:postData contentType:@"application/json"];
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
-    [[SFRestAPI sharedInstance] send:request delegate:self];
-    return YES;
+    __block BOOL finished = NO;
+    __block BOOL success = NO;
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
+        finished = YES;
+            if (e) {
+                [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
+            }
+        } completeBlock:^(id response) {
+            finished = YES;
+            success = YES;
+        }
+    ];
+    while(!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    return success;
 }
 
 + (NSDictionary *) buildRequestBody:(NSArray *) events {
@@ -98,27 +113,6 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
         [self log:SFLogLevelError format:@"%@ - invalid object passed to JSONDataRepresentation", [self class]];
         return nil;
     }
-}
-
-#pragma mark - SFRestDelegate
-
-- (void) request:(SFRestRequest *) request didLoadResponse:(id) dataResponse {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"Upload was successful"];
-    NSDictionary *response = (NSDictionary *) dataResponse;
-}
-
-- (void) request:(SFRestRequest *) request didFailLoadWithError:(NSError *) error {
-    if (error) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[error code], [error localizedDescription]];
-    }
-}
-
-- (void) requestDidCancelLoad:(SFRestRequest *) request {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"Upload was canceled"];
-}
-
-- (void) requestDidTimeout:(SFRestRequest *) request {
-    [SFLogger log:[self class] level:SFLogLevelDebug format:@"Upload timed out"];
 }
 
 @end
