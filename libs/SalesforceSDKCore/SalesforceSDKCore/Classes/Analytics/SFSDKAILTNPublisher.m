@@ -31,7 +31,7 @@
 #import "SFUserAccountManager.h"
 #import "SalesforceSDKManager.h"
 #import "SFLogger.h"
-#import <zlib.h>
+#import "NSData+SFAdditions.h"
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
@@ -71,7 +71,7 @@ static NSString* const kBearer = @"Bearer %@";
         // Adds GZIP compression.
         NSString *bodyString = [[self class] dictionaryAsJSONString:bodyDictionary];
         NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-        NSData *postData = [[self class] gzipCompressedData:bodyData];
+        NSData *postData = [bodyData gzipDeflate];
         [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
         [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
         [request setHTTPBody:postData];
@@ -124,34 +124,6 @@ static NSString* const kBearer = @"Bearer %@";
         [self log:SFLogLevelError format:@"%@ - invalid object passed to JSONDataRepresentation", [self class]];
         return nil;
     }
-}
-
-+ (NSData *) gzipCompressedData:(NSData *) data {
-    if ([data length] == 0) {
-        return data;
-    }
-    z_stream stream;
-    stream.zalloc = Z_NULL;
-    stream.zfree = Z_NULL;
-    stream.opaque = Z_NULL;
-    stream.total_out = 0;
-    stream.next_in = (Bytef *)[data bytes];
-    stream.avail_in = (uInt)[data length];
-    if (deflateInit2(&stream, Z_DEFAULT_COMPRESSION, Z_DEFLATED, (15 + 16), 8, Z_DEFAULT_STRATEGY) != Z_OK) {
-        return nil;
-    }
-    NSMutableData *compressed = [NSMutableData dataWithLength:16384];
-    do {
-        if (stream.total_out >= [compressed length]) {
-            [compressed increaseLengthBy:16384];
-        }
-        stream.next_out = [compressed mutableBytes] + stream.total_out;
-        stream.avail_out = (uInt)([compressed length] - stream.total_out);
-        deflate(&stream, Z_FINISH);
-    } while (stream.avail_out == 0);
-    deflateEnd(&stream);
-    [compressed setLength: stream.total_out];
-    return [NSData dataWithData:compressed];
 }
 
 @end
