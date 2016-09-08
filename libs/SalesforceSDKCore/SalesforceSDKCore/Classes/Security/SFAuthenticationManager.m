@@ -1264,7 +1264,6 @@ static Class InstanceClass = nil;
         }
     }];
     
-    // TODO: Determine if this is the correct approach. If so, then SFAuthenticationManager probably needs to conform to SFSDKLoginHostDelegate.
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
         hostListViewController.delegate = self;
