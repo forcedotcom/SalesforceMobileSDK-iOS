@@ -34,6 +34,15 @@
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
 @class SFLoginViewController;
+
+typedef NS_ENUM(NSUInteger, SFAuthenticationManagerDelegatePriority) {
+    SFAuthenticationManagerDelegatePriorityMax = 0,
+    SFAuthenticationManagerDelegatePriorityHigh,
+    SFAuthenticationManagerDelegatePriorityMedium,
+    SFAuthenticationManagerDelegatePriorityLow,
+    SFAuthenticationManagerDelegatePriorityDefault,
+};
+
 NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
@@ -299,6 +308,13 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  @param delegate The delegate to add to the list.
  */
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
+
+/**
+ Adds a delegate to the list of authentication manager delegates.
+ @param delegate The delegate to add to the list.
+ @param priority The priority for this delegate. Delegates get called in order of priority.
+ */
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate withPriority:(SFAuthenticationManagerDelegatePriority)priority;
 
 /**
  Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.

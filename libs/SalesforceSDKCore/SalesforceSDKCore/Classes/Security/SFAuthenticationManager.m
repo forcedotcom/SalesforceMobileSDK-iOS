@@ -175,7 +175,7 @@ static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 /**
  The list of delegates
  */
-@property (nonatomic, strong, nonnull) NSHashTable<id<SFAuthenticationManagerDelegate>> *delegates;
+@property (nonatomic, strong, nonnull) NSMutableDictionary<NSNumber *, NSHashTable<id<SFAuthenticationManagerDelegate>> *> *delegates;
 
 
 /** 
@@ -305,7 +305,7 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        self.delegates = [NSHashTable weakObjectsHashTable];
+        self.delegates = [NSMutableDictionary new];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
@@ -1068,9 +1068,21 @@ static Class InstanceClass = nil;
 
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate
 {
+    [self addDelegate:delegate withPriority:SFAuthenticationManagerDelegatePriorityDefault];
+}
+
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate withPriority:(SFAuthenticationManagerDelegatePriority)priority
+{
     @synchronized(self) {
         if (delegate) {
-            [self.delegates addObject:delegate];
+            if (!_delegates[@(priority)]) {
+                NSHashTable *delegateList = [NSHashTable weakObjectsHashTable];
+                [delegateList addObject:delegate];
+                _delegates[@(priority)] = delegateList;
+            } else {
+                NSHashTable *delegateList = _delegates[@(priority)];
+                [delegateList addObject:delegate];
+            }
         }
     }
 }
@@ -1079,7 +1091,11 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            [self.delegates removeObject:delegate];
+            for (NSUInteger priority = SFAuthenticationManagerDelegatePriorityMax; priority <= SFAuthenticationManagerDelegatePriorityDefault; priority++) {
+                if (_delegates[@(priority)]) {
+                    [_delegates[@(priority)] removeObject:delegate];
+                }
+            }
         }
     }
 }
@@ -1087,9 +1103,11 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        NSHashTable<id<SFAuthenticationManagerDelegate>> *safeCopy = [self.delegates copy];
-        for (id<SFAuthenticationManagerDelegate> delegate in safeCopy) {
-            if (block) block(delegate);
+        for (NSUInteger priority = SFAuthenticationManagerDelegatePriorityMax; priority <= SFAuthenticationManagerDelegatePriorityDefault; priority++) {
+            NSHashTable<id<SFAuthenticationManagerDelegate>> *safeCopy = [self.delegates[@(priority)] copy];
+            for (id<SFAuthenticationManagerDelegate> delegate in safeCopy) {
+                if (block) block(delegate);
+            }
         }
     }
 }
