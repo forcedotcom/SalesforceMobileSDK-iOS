@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -22,24 +22,13 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
 #import "NSUserDefaults+SFAdditions.h"
 #import <WebKit/WebKit.h>
-// Public constants
+
 NSString * const kUserAgentPropKey = @"UserAgent";
-
-static NSString *gUserAgentForApp = nil;
-
-@interface SFSDKWebUtils ()
-
-/**
- Stages the value of the user agent as defined by the iOS framework, in the static variable
- gUserAgentForApp.  This value will not change in the lifetime of the app process.
- */
-+ (void)stageUserAgentForApp;
-
-@end
 
 @implementation SFSDKWebUtils
 
@@ -49,39 +38,6 @@ static NSString *gUserAgentForApp = nil;
         NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
         [[NSUserDefaults msdkUserDefaults] registerDefaults:dictionary];
     }
-}
-
-+ (NSString *)currentUserAgentForApp
-{
-    [self stageUserAgentForApp];
-    
-    return gUserAgentForApp;
-}
-
-+ (void)stageUserAgentForApp
-{
-    if (![NSThread isMainThread]) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [SFSDKWebUtils stageUserAgentForApp];
-        });
-        return;
-    }
-    
-    if (gUserAgentForApp != nil) return;
-
-    __block BOOL finished = NO;
-    
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectZero];
-
-   [webView evaluateJavaScript:@"navigator.userAgent"
-             completionHandler:^(id _Nullable val, NSError * _Nullable error) {
-                 gUserAgentForApp = val;
-                 finished = true;
-             }];
-
-   while( !finished ) {
-       [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-   }
 }
 
 @end
