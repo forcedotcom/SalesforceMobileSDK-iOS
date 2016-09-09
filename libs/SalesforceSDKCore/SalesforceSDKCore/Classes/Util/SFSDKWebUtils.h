@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -40,10 +40,5 @@ extern NSString * const kUserAgentPropKey;
  * @param userAgentString The string to configure as the user agent.
  */
 + (void)configureUserAgent:(NSString *)userAgentString;
-
-/**
- * @return The current user agent that's configured for the application.
- */
-+ (NSString *)currentUserAgentForApp;
 
 @end
