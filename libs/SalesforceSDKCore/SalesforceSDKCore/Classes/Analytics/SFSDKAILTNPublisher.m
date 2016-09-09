@@ -32,6 +32,7 @@
 #import "SalesforceSDKManager.h"
 #import "SFLogger.h"
 #import "NSData+SFAdditions.h"
+#import "SFRestAPI+Blocks.h"
 
 static NSString* const kCode = @"code";
 static NSString* const kAiltn = @"ailtn";
@@ -39,10 +40,7 @@ static NSString* const kSchemaTypeKey = @"schemaType";
 static NSString* const kData = @"data";
 static NSString* const kLogLines = @"logLines";
 static NSString* const kPayload = @"payload";
-static NSString* const kRestApiPrefix = @"services/data";
-static NSString* const kApiVersion = @"v36.0";
 static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
-static NSString* const kBearer = @"Bearer %@";
 
 @implementation SFSDKAILTNPublisher
 
@@ -53,41 +51,32 @@ static NSString* const kBearer = @"Bearer %@";
 
     // Builds the POST body of the request.
     NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
-    SFOAuthCredentials *credentials = [SFUserAccountManager sharedInstance].currentUser.credentials;
-    NSURL *loggingEndpointUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@/%@/%@", credentials.apiUrl, kRestApiPrefix, kApiVersion, kRestApiSuffix]];
-    NSString *token = [NSString stringWithFormat:kBearer, credentials.accessToken];
-    NSString *userAgent = [SalesforceSDKManager sharedManager].userAgentString(@"");
-    __block NSError *error = nil;
-    NSHTTPURLResponse* (^makeSynchronousRequest)(NSError**) = ^NSHTTPURLResponse* (NSError** error) {
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:loggingEndpointUrl
-                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                           timeoutInterval:60.0];
-        [request setHTTPMethod:@"POST"];
-        [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
-        [request setValue:@"false" forHTTPHeaderField:@"X-Chatter-Entity-Encoding"];
-        [request setValue:token forHTTPHeaderField:@"Authorization"];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    NSString *path = [NSString stringWithFormat:@"/%@/%@", kSFRestDefaultAPIVersion, kRestApiSuffix];
+    SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
 
-        // Adds GZIP compression.
-        NSString *bodyString = [[self class] dictionaryAsJSONString:bodyDictionary];
-        NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
-        NSData *postData = [bodyData gzipDeflate];
-        [request setValue:@"gzip" forHTTPHeaderField:@"Content-Encoding"];
-        [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHTTPHeaderField:@"Content-Length"];
-        [request setHTTPBody:postData];
-        NSHTTPURLResponse* response = nil;
-        [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:error];
-        return response;
-    };
-    NSHTTPURLResponse *response = makeSynchronousRequest(&error);
-    NSInteger code = [response statusCode];
-    if (error) {
-        [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[error code], [error localizedDescription]];
-        return NO;
-    } else if (code >= 200 && code < 300) {
-        return YES;
+    // Adds GZIP compression.
+    NSString *bodyString = [[self class] dictionaryAsJSONString:bodyDictionary];
+    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *postData = [bodyData gzipDeflate];
+    [request setCustomRequestBodyData:postData contentType:@"application/json"];
+    [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
+    [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
+    __block BOOL finished = NO;
+    __block BOOL success = NO;
+    [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
+        finished = YES;
+            if (e) {
+                [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
+            }
+        } completeBlock:^(id response) {
+            finished = YES;
+            success = YES;
+        }
+    ];
+    while(!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
-    return NO;
+    return success;
 }
 
 + (NSDictionary *) buildRequestBody:(NSArray *) events {
