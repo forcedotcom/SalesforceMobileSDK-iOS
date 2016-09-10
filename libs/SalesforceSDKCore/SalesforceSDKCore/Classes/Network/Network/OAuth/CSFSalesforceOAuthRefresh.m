@@ -78,12 +78,15 @@
         NetworkInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            // Mark logout
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-            SFSDKInstrumentationEventBuilder *builder = [SFSDKInstrumentationEventBuilder eventBuilderWithAnalyticsManager:manager.analyticsManager];
-            [[[[[builder name:[NSString stringWithFormat:@"Server Error %ld", (long)error.code]] page:@{ @"context" : @"Authentication Refresh"}] schemaType:SchemaTypeInteraction] eventType:EventTypeUser] errorType:ErrorTypeInfo];
-            [manager.analyticsManager.storeManager storeEvent:[builder buildEvent]];
-            
+            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+                builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
+                builder.page = @{ @"context" : @"Authentication Refresh"};
+                builder.schemaType = SchemaTypeInteraction;
+                builder.eventType = EventTypeUser;
+                return builder;
+            } analyticsManager:manager.analyticsManager];
+            [manager.analyticsManager.storeManager storeEvent:event];
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
         });
     }
