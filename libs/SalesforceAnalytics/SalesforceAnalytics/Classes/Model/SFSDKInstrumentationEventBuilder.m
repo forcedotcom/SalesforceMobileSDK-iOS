@@ -35,28 +35,15 @@
 @interface SFSDKInstrumentationEventBuilder ()
 
 @property (nonatomic, strong, readwrite) SFSDKAnalyticsManager *analyticsManager;
-@property (nonatomic, assign, readwrite) NSInteger startTime;
-@property (nonatomic, assign, readwrite) NSInteger endTime;
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, strong, readwrite) NSString *sessionId;
-@property (nonatomic, strong, readwrite) NSString *senderId;
-@property (nonatomic, strong, readwrite) NSDictionary *senderContext;
-@property (nonatomic, assign, readwrite) SFASchemaType schemaType;
-@property (nonatomic, assign, readwrite) SFAEventType eventType;
-@property (nonatomic, assign, readwrite) SFAErrorType errorType;
-@property (nonatomic, strong, readwrite) NSString *senderParentId;
-@property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
-@property (nonatomic, strong, readwrite) NSDictionary *page;
-@property (nonatomic, strong, readwrite) NSDictionary *previousPage;
-@property (nonatomic, strong, readwrite) NSDictionary *marks;
 
 @end
 
 @implementation SFSDKInstrumentationEventBuilder
 
-+ (SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
-    return [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
++ (nonnull SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager {
+    SFSDKInstrumentationEventBuilder *builder = [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
+    builderBlock(builder);
+    return [builder buildEvent];
 }
 
 - (SFSDKInstrumentationEventBuilder *) initWithAnalyticsManager:(SFSDKAnalyticsManager *) analyticsManager {
@@ -64,81 +51,6 @@
     if (self) {
         self.analyticsManager = analyticsManager;
     }
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) startTime:(NSInteger) startTime {
-    self.startTime = startTime;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) endTime:(NSInteger) endTime {
-    self.endTime = endTime;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) name:(NSString *) name {
-    self.name = name;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) attributes:(NSDictionary *) attributes {
-    self.attributes = attributes;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) sessionId:(NSString *) sessionId {
-    self.sessionId = sessionId;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) senderId:(NSString *) senderId {
-    self.senderId = senderId;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) senderContext:(NSDictionary *) senderContext {
-    self.senderContext = senderContext;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType {
-    self.schemaType = schemaType;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) eventType:(SFAEventType) eventType {
-    self.eventType = eventType;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) errorType:(SFAErrorType) errorType {
-    self.errorType = errorType;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) senderParentId:(NSString *) senderParentId {
-    self.senderParentId = senderParentId;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime {
-    self.sessionStartTime = sessionStartTime;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) page:(NSDictionary *) page {
-    self.page = page;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) previousPage:(NSDictionary *) previousPage {
-    self.previousPage = previousPage;
-    return self;
-}
-
-- (SFSDKInstrumentationEventBuilder *) marks:(NSDictionary *) marks {
-    self.marks = marks;
     return self;
 }
 

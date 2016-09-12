@@ -31,138 +31,29 @@
 
 @interface SFSDKInstrumentationEventBuilder : NSObject
 
-/**
- * Returns an instance of this class.
- *
- * @return Instance of this class.
- */
-+ (nonnull SFSDKInstrumentationEventBuilder *) eventBuilderWithAnalyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager;
+@property (nonatomic, assign, readwrite) NSInteger startTime;
+@property (nonatomic, assign, readwrite) NSInteger endTime;
+@property (nonatomic, strong, readwrite, nonnull) NSString *name;
+@property (nonatomic, strong, readwrite, nullable) NSDictionary *attributes;
+@property (nonatomic, strong, readwrite, nullable) NSString *sessionId;
+@property (nonatomic, strong, readwrite, nullable) NSString *senderId;
+@property (nonatomic, strong, readwrite, nullable) NSDictionary *senderContext;
+@property (nonatomic, assign, readwrite) SFASchemaType schemaType;
+@property (nonatomic, assign, readwrite) SFAEventType eventType;
+@property (nonatomic, assign, readwrite) SFAErrorType errorType;
+@property (nonatomic, strong, readwrite, nullable) NSString *senderParentId;
+@property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
+@property (nonatomic, strong, readwrite, nullable) NSDictionary *page;
+@property (nonatomic, strong, readwrite, nullable) NSDictionary *previousPage;
+@property (nonatomic, strong, readwrite, nullable) NSDictionary *marks;
 
-/**
- * Sets start time.
- *
- * @param startTime Start time.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) startTime:(NSInteger) startTime;
-
-/**
- * Sets end time.
- *
- * @param endTime End time.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) endTime:(NSInteger) endTime;
-
-/**
- * Sets name.
- *
- * @param name Name.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) name:(nonnull NSString *) name;
-
-/**
- * Sets attributes.
- *
- * @param attributes Attributes.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) attributes:(nonnull NSDictionary *) attributes;
-
-/**
- * Sets session ID.
- *
- * @param sessionId Session ID.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) sessionId:(nonnull NSString *) sessionId;
-
-/**
- * Sets sender ID.
- *
- * @param senderId Sender ID.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) senderId:(nonnull NSString *) senderId;
-
-/**
- * Sets sender conetxt.
- *
- * @param senderContext Sender context.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) senderContext:(nonnull NSDictionary *) senderContext;
-
-/**
- * Sets schema type.
- *
- * @param schemaType Schema type.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) schemaType:(SFASchemaType) schemaType;
-
-/**
- * Sets event type.
- *
- * @param eventType Event type.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) eventType:(SFAEventType) eventType;
-
-/**
- * Sets error type.
- *
- * @param errorType Error type.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) errorType:(SFAErrorType) errorType;
-
-/**
- * Sets sender parent ID.
- *
- * @param senderParentId Sender parent ID.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) senderParentId:(nonnull NSString *) senderParentId;
-
-/**
- * Sets session start time.
- *
- * @param sessionStartTime Session start time.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) sessionStartTime:(NSInteger) sessionStartTime;
-
-/**
- * Sets page.
- *
- * @param page Page.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) page:(nonnull NSDictionary *) page;
-
-/**
- * Sets previous page.
- *
- * @param previousPage Previous page.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) previousPage:(nonnull NSDictionary *) previousPage;
-
-/**
- * Sets marks.
- *
- * @param marks Marks.
- * @return Instance of this class.
- */
-- (nonnull SFSDKInstrumentationEventBuilder *) marks:(nonnull NSDictionary *) marks;
+typedef void (^ _Nonnull SFSDKInstrumentationEventBuilderBlock)(SFSDKInstrumentationEventBuilder * _Nonnull eventBuilder);
 
 /**
  * Builds the event.
  *
  * @return Event instance.
  */
-- (nonnull SFSDKInstrumentationEvent *) buildEvent;
++ (nonnull SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager;
 
 @end
