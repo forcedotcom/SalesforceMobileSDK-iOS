@@ -191,12 +191,11 @@ static BOOL kIsTestRun;
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
                 builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
                 builder.page = @{ @"context" : @"REST Authentication Failed"};
                 builder.schemaType = SchemaTypeInteraction;
                 builder.eventType = EventTypeUser;
-                return builder;
             } analyticsManager:manager.analyticsManager];
             [manager.analyticsManager.storeManager storeEvent:event];
             [[SFAuthenticationManager sharedManager] logout];

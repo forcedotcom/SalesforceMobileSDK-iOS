@@ -79,12 +79,11 @@
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
                 builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
                 builder.page = @{ @"context" : @"Authentication Refresh"};
                 builder.schemaType = SchemaTypeInteraction;
                 builder.eventType = EventTypeUser;
-                return builder;
             } analyticsManager:manager.analyticsManager];
             [manager.analyticsManager.storeManager storeEvent:event];
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];

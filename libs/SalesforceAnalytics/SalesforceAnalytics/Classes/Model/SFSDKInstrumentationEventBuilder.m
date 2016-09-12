@@ -32,11 +32,17 @@
 #import "SFSDKAnalyticsManager+Internal.h"
 #import "SFSDKInstrumentationEvent+Internal.h"
 
+@interface SFSDKInstrumentationEventBuilder ()
+
+@property (nonatomic, strong, readwrite) SFSDKAnalyticsManager *analyticsManager;
+
+@end
+
 @implementation SFSDKInstrumentationEventBuilder
 
 + (nonnull SFSDKInstrumentationEvent *) buildEventWithBuilderBlock:(nonnull SFSDKInstrumentationEventBuilderBlock) builderBlock analyticsManager:(nonnull SFSDKAnalyticsManager *) analyticsManager {
     SFSDKInstrumentationEventBuilder *builder = [[SFSDKInstrumentationEventBuilder alloc] initWithAnalyticsManager:analyticsManager];
-    builder = builderBlock(builder);
+    builderBlock(builder);
     return [builder buildEvent];
 }
 

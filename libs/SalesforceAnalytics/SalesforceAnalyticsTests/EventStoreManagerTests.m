@@ -255,7 +255,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 }
 
 - (SFSDKInstrumentationEvent *) createTestEvent {
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
         NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
         builder.startTime = curTime;
@@ -266,7 +266,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
         builder.schemaType = SchemaTypeError;
         builder.eventType = EventTypeSystem;
         builder.errorType = ErrorTypeWarn;
-        return builder;
     } analyticsManager:self.analyticsManager];
     return event;
 }

@@ -312,12 +312,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         if ([self logoutOnInvalidCredentials:error]) {
             [self log:SFLogLevelError msg:@"OAuth plugin authentication request failed. Logging out."];
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
                 builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
                 builder.page = @{ @"context" : @"Login Authentication"};
                 builder.schemaType = SchemaTypeInteraction;
                 builder.eventType = EventTypeUser;
-                return builder;
             } analyticsManager:manager.analyticsManager];
             [manager.analyticsManager.storeManager storeEvent:event];
             [[SFAuthenticationManager sharedManager] logout];
@@ -578,12 +577,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                  if ([self logoutOnInvalidCredentials:error]) {
                      [self log:SFLogLevelError msg:@"Could not refresh expired session.  Logging out."];
                      SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-                     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+                     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
                          builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
                          builder.page = @{ @"context" : @"Expired Session Refresh"};
                          builder.schemaType = SchemaTypeInteraction;
                          builder.eventType = EventTypeUser;
-                         return builder;
                      } analyticsManager:manager.analyticsManager];
                      [manager.analyticsManager.storeManager storeEvent:event];
                      [[SFAuthenticationManager sharedManager] logout];
@@ -644,12 +642,11 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
                  if ([self logoutOnInvalidCredentials:error]) {
                      [self log:SFLogLevelError msg:@"Could not refresh expired session. Logging out."];
                      SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-                     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^SFSDKInstrumentationEventBuilder *(SFSDKInstrumentationEventBuilder *builder) {
+                     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
                          builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
                          builder.page = @{ @"context" : @"Expired Session Refresh"};
                          builder.schemaType = SchemaTypeInteraction;
                          builder.eventType = EventTypeUser;
-                         return builder;
                      } analyticsManager:manager.analyticsManager];
                      [manager.analyticsManager.storeManager storeEvent:event];
                      [[SFAuthenticationManager sharedManager] logout];

@@ -31,7 +31,6 @@
 
 @interface SFSDKInstrumentationEventBuilder : NSObject
 
-@property (nonatomic, strong, readwrite, nonnull) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
 @property (nonatomic, strong, readwrite, nonnull) NSString *name;
@@ -48,7 +47,7 @@
 @property (nonatomic, strong, readwrite, nullable) NSDictionary *previousPage;
 @property (nonatomic, strong, readwrite, nullable) NSDictionary *marks;
 
-typedef SFSDKInstrumentationEventBuilder * _Nonnull (^ _Nonnull SFSDKInstrumentationEventBuilderBlock)(SFSDKInstrumentationEventBuilder * _Nonnull eventBuilder);
+typedef void (^ _Nonnull SFSDKInstrumentationEventBuilderBlock)(SFSDKInstrumentationEventBuilder * _Nonnull eventBuilder);
 
 /**
  * Builds the event.
