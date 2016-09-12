@@ -20,6 +20,7 @@
 #define IPHONE_6P_NAMESTRING            @"iPhone 6+"
 #define IPHONE_6s_NAMESTRING             @"iPhone 6s"
 #define IPHONE_6sP_NAMESTRING            @"iPhone 6s+"
+#define IPHONE_SE_NAMESTRING            @"iPhone SE"
 #define IPHONE_UNKNOWN_NAMESTRING       @"Unknown iPhone"
 
 #define IPOD_1G_NAMESTRING              @"iPod touch 1G"
@@ -75,6 +76,7 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDevice6PlusiPhone,
     UIDevice6siPhone,
     UIDevice6sPlusiPhone,
+    UIDeviceSEiPhone,
     
     UIDevice1GiPod,
     UIDevice2GiPod,
