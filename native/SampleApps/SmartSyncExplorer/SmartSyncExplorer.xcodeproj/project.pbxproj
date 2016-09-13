@@ -411,6 +411,7 @@
 		8284055519EA09E40079AB60 /* ContactDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactDetailViewController.m; sourceTree = "<group>"; };
 		8284055919EAFD9C0079AB60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../shared/resources/Images.xcassets; sourceTree = "<group>"; };
 		829DA2561C1260960040F5F1 /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../../../libs/SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
+		82A171DD1D8377BB00688320 /* SmartSyncExplorer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartSyncExplorer.entitlements; sourceTree = "<group>"; };
 		82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../../../libs/SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
@@ -626,6 +627,7 @@
 		827C631A19E6018C00027484 /* SmartSyncExplorer */ = {
 			isa = PBXGroup;
 			children = (
+				82A171DD1D8377BB00688320 /* SmartSyncExplorer.entitlements */,
 				820C8B0B19E6054E00E9BE5C /* Classes */,
 				820C8B3319E639D500E9BE5C /* Resources */,
 				827C631B19E6018C00027484 /* Supporting Files */,
@@ -784,6 +786,13 @@
 					4F1DA68A1C84FD7E0014FAD3 = {
 						CreatedOnToolsVersion = 7.1.1;
 						TestTargetID = 827C631019E6018C00027484;
+					};
+					827C631019E6018C00027484 = {
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1308,6 +1317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorer/SmartSyncExplorer.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
@@ -1324,6 +1334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorer/SmartSyncExplorer.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";

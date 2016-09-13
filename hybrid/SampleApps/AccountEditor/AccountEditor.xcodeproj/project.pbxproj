@@ -545,6 +545,7 @@
 		82AF5AB11A0DAA8D006C7A4B /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDVLogger.m; sourceTree = "<group>"; };
 		82AF5AB51A0DAA8D006C7A4B /* console-via-logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "console-via-logger.js"; sourceTree = "<group>"; };
 		82AF5AB61A0DAA8D006C7A4B /* logger.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = logger.js; sourceTree = "<group>"; };
+		82E855E01D88AA6B0000EECB /* AccountEditor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AccountEditor.entitlements; sourceTree = "<group>"; };
 		CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3AD1C10C5B60012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB3AF1C10C5BD0012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
@@ -766,6 +767,7 @@
 		824A9BD71721FCA400C9BD79 /* AccountEditor */ = {
 			isa = PBXGroup;
 			children = (
+				82E855E01D88AA6B0000EECB /* AccountEditor.entitlements */,
 				824A9BF91721FE1100C9BD79 /* readme.md */,
 				824A9BFB1721FE7E00C9BD79 /* shared-www */,
 				824A9C5E1722021D00C9BD79 /* Classes */,
@@ -925,6 +927,15 @@
 			attributes = {
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = salesforce.com;
+				TargetAttributes = {
+					824A9BCD1721FCA400C9BD79 = {
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 824A9BC91721FCA400C9BD79 /* Build configuration list for PBXProject "AccountEditor" */;
 			compatibilityVersion = "Xcode 6.3";
@@ -1385,6 +1396,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_ENTITLEMENTS = AccountEditor/AccountEditor.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
@@ -1404,6 +1416,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
+				CODE_SIGN_ENTITLEMENTS = AccountEditor/AccountEditor.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccountEditor/AccountEditor-Prefix.pch";
 				INFOPLIST_FILE = "AccountEditor/AccountEditor-Info.plist";
