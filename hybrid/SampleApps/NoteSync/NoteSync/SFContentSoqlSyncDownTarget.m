@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,7 +26,7 @@
 #import <SmartSync/SFSmartSyncSyncManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncNetworkUtils.h>
-#import <SalesforceNetwork/CSFNetwork.h>
+#import <SalesforceSDKCore/CSFNetwork.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 // SOAP request
@@ -276,10 +276,14 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
-        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(SFSoapSoqlResponse* response) {
-            weakSelf.queryLocator = response.queryLocator;
-            weakSelf.totalSize = response.totalSize;
-            completeBlock(response.records);
+        [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {
+            __strong SFContentSoqlSyncDownTarget *strongSelf = weakSelf;
+            [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
+                strongSelf.queryLocator = soapSoqlResponse.queryLocator;
+                strongSelf.totalSize = soapSoqlResponse.totalSize;
+                completeBlock(soapSoqlResponse.records);
+            }];
+            
         }];
     }];
 }

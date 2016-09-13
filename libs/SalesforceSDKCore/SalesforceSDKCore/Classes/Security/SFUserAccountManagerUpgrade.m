@@ -25,6 +25,7 @@
 #import "SFUserAccountManagerUpgrade.h"
 #import "SFUserAccountManager+Internal.h"
 #import "SFUserAccountIdentity.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 static NSString * const kOAuthCredentialsDataKeyPrefix  = @"oauth_credentials_data";
 static NSString * const kLegacyDefaultAccountIdentifier = @"Default";
@@ -35,7 +36,7 @@ static NSString * const kLegacyUserDefaultsLastUserIdKey = @"LastUserId";
 + (SFUserAccount *)createUserFromLegacyAccountData
 {
     NSString *legacyCredentialsDataKey = [SFUserAccountManagerUpgrade legacyCredentialsDataKey];
-    NSData *encodedCredentialsData = [[NSUserDefaults standardUserDefaults] objectForKey:legacyCredentialsDataKey];
+    NSData *encodedCredentialsData = [[NSUserDefaults msdkUserDefaults] objectForKey:legacyCredentialsDataKey];
     if (encodedCredentialsData == nil) {
         // No legacy data.
         return nil;
@@ -45,14 +46,14 @@ static NSString * const kLegacyUserDefaultsLastUserIdKey = @"LastUserId";
     SFOAuthCredentials *legacyCredentials = [NSKeyedUnarchiver unarchiveObjectWithData:encodedCredentialsData];
     SFUserAccount *accountFromLegacy = [[SFUserAccountManager sharedInstance] createUserAccountWithCredentials:legacyCredentials];
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:legacyCredentialsDataKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:legacyCredentialsDataKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
     return accountFromLegacy;
 }
 
 + (void)updateToActiveUserIdentity:(SFUserAccountManager *)accountManager
 {
-    NSString *legacyActiveUserId = [[NSUserDefaults standardUserDefaults] stringForKey:kLegacyUserDefaultsLastUserIdKey];
+    NSString *legacyActiveUserId = [[NSUserDefaults msdkUserDefaults] stringForKey:kLegacyUserDefaultsLastUserIdKey];
     if (legacyActiveUserId == nil)
         return;
     
@@ -71,8 +72,8 @@ static NSString * const kLegacyUserDefaultsLastUserIdKey = @"LastUserId";
         }
     }
     
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyUserDefaultsLastUserIdKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyUserDefaultsLastUserIdKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 #pragma mark - Private methods

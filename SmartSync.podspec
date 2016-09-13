@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SmartSync"
-  s.version      = "4.2.0"
+  s.version      = "5.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SmartSync"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
 
   s.subspec 'SmartSync' do |smartsync|
 
-      smartsync.dependency 'SalesforceRestAPI'
       smartsync.dependency 'SmartStore'
       smartsync.dependency 'SalesforceSDKCore'
       smartsync.source_files = 'libs/SmartSync/SmartSync/Classes/**/*.{h,m}', 'libs/SmartSync/SmartSync/SmartSync.h'

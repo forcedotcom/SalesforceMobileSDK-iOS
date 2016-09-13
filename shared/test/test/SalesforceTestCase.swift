@@ -32,12 +32,13 @@ import SalesforceSDKCore
 class SalesforceTestCase: XCTestCase {
     
     var loginDelegate = LoginHelper()
+    var app = XCUIApplication()
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
-        XCUIApplication().launch()
+        app.launch()
         loginThroughUI()
     }
     
@@ -46,11 +47,11 @@ class SalesforceTestCase: XCTestCase {
     }
     
     func loginThroughUI() {
-        let loginInfo: NSDictionary = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
+        let loginInfo = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType) as! [NSDictionary!]
         var swiftDict : Dictionary<String, String!> = Dictionary<String, String!>()
-        for key : AnyObject in loginInfo.allKeys {
+        for key : AnyObject in loginInfo[0].allKeys {
             let stringKey = key as! String
-            if let keyValue = loginInfo.valueForKey(stringKey){
+            if let keyValue = loginInfo[0].valueForKey(stringKey){
                 swiftDict[stringKey] = String(keyValue)
             }
         }

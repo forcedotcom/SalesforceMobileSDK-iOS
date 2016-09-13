@@ -49,10 +49,6 @@
 
 @interface SFSmartStoreTests ()
 
-@property (nonatomic, strong) SFUserAccount *smartStoreUser;
-@property (nonatomic, strong) SFSmartStore *store;
-@property (nonatomic, strong) SFSmartStore *globalStore;
-
 @end
 
 @implementation SFSmartStoreTests
@@ -63,7 +59,7 @@
 - (void) setUp
 {
     [super setUp];
-    [SFLogger setLogLevel:SFLogLevelDebug];
+    [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
     self.smartStoreUser = [self setUpSmartStoreUser];
     self.store = [SFSmartStore sharedStoreWithName:kTestSmartStoreName];
     self.globalStore = [SFSmartStore sharedGlobalStoreWithName:kTestSmartStoreName];
@@ -195,8 +191,8 @@
     for (SFSmartStore *store in @[ self.store, self.globalStore ]) {
         BOOL hasSoupIndexMapTable = [self hasTable:@"soup_index_map" store:store];
         XCTAssertTrue(hasSoupIndexMapTable, @"Soup index map table not found");
-        BOOL hasTableSoupNames = [self hasTable:@"soup_names" store:store];
-        XCTAssertTrue(hasTableSoupNames, @"Soup names table not found");
+        BOOL hasTableSoupAttrs = [self hasTable:@"soup_attrs" store:store];
+        XCTAssertTrue(hasTableSoupAttrs, @"Soup attrs table not found");
     }
 }
 
@@ -787,7 +783,7 @@
         [store registerSoup:kTestSoupName withIndexSpecs:[SFSoupIndex asArraySoupIndexes:@[soupIndex]] error:nil];
         __block int rowCount;
         [store.storeQueue inDatabase:^(FMDatabase* db) {
-            rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_names WHERE soupName = ?", kTestSoupName];
+            rowCount = [db intForQuery:@"SELECT COUNT(*) FROM soup_attrs WHERE soupName = ?", kTestSoupName];
         }];
         XCTAssertEqual(rowCount, 1, @"Soup names should be unique within a store.");
         

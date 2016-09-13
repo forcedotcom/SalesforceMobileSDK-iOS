@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "SalesforceReact"
-  s.version      = "4.2.0"
+  s.version      = "5.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SalesforceReact"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
@@ -21,7 +21,6 @@ Pod::Spec.new do |s|
 
       salesforcereact.dependency 'React'
       salesforcereact.dependency 'SmartSync'
-      salesforcereact.dependency 'SalesforceRestAPI'
       salesforcereact.dependency 'SmartStore'
       salesforcereact.dependency 'SalesforceSDKCore'
 
@@ -31,6 +30,5 @@ Pod::Spec.new do |s|
       salesforcereact.requires_arc = true
 
   end
-
 
 end

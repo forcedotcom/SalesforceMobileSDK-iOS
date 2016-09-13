@@ -48,25 +48,23 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import <WebKit/WKWebView.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
 
 // Public notification name constants
-
 NSString * const kSFUserWillLogoutNotification = @"kSFUserWillLogoutNotification";
 NSString * const kSFUserLogoutNotification = @"kSFUserLogoutOccurred";
 NSString * const kSFUserLoggedInNotification = @"kSFUserLoggedIn";
 NSString * const kSFAuthenticationManagerFinishedNotification = @"kSFAuthenticationManagerFinishedNotification";
 
 // Auth error handler name constants
-
 static NSString * const kSFInvalidCredentialsAuthErrorHandler = @"InvalidCredentialsErrorHandler";
 static NSString * const kSFConnectedAppVersionAuthErrorHandler = @"ConnectedAppVersionErrorHandler";
 static NSString * const kSFNetworkFailureAuthErrorHandler = @"NetworkFailureErrorHandler";
 static NSString * const kSFGenericFailureAuthErrorHandler = @"GenericFailureErrorHandler";
 
 // Private constants
-
 static NSInteger const kOAuthGenericAlertViewTag           = 444;
 static NSInteger const kIdentityAlertViewTag               = 555;
 static NSInteger const kConnectedAppVersionMismatchViewTag = 666;
@@ -78,6 +76,7 @@ static NSString * const kAlertRetryButtonKey = @"authAlertRetryButton";
 static NSString * const kAlertDismissButtonKey = @"authAlertDismissButton";
 static NSString * const kAlertConnectionErrorFormatStringKey = @"authAlertConnectionErrorFormatString";
 static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismatchError";
+static NSString * const kUserNameCookieKey = @"sfdc_lv2";
 
 #pragma mark - SFAuthBlockPair
 
@@ -146,7 +145,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 
 #pragma mark - SFAuthenticationManager
 
-@interface SFAuthenticationManager ()
+@interface SFAuthenticationManager () <SFSDKLoginHostDelegate>
 {
 }
 
@@ -176,7 +175,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
 /**
  The list of delegates
  */
-@property (nonatomic, strong) NSMutableOrderedSet *delegates;
+@property (nonatomic, strong, nonnull) NSMutableDictionary<NSNumber *, NSHashTable<id<SFAuthenticationManagerDelegate>> *> *delegates;
 
 
 /** 
@@ -197,7 +196,7 @@ static NSString * const kAlertVersionMismatchErrorKey = @"authAlertVersionMismat
  Method to present the authorizing view controller with the given auth webView.
  @param webView The auth webView to present.
  */
-- (void)presentAuthViewController:(UIWebView *)webView;
+- (void)presentAuthViewController:(WKWebView *)webView;
 
 /**
  Called after initial authentication has completed.
@@ -306,12 +305,12 @@ static Class InstanceClass = nil;
     self = [super init];
     if (self) {
         self.authBlockList = [NSMutableArray array];
-        self.delegates = [[NSMutableOrderedSet alloc] init];
+        self.delegates = [NSMutableDictionary new];
         
         // Default auth web view handler
         __weak SFAuthenticationManager *weakSelf = self;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
-                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, UIWebView *authWebView) {
+                                initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
                                     if (weakSelf.authViewController == nil)
                                         weakSelf.authViewController = [SFLoginViewController sharedInstance];
                                     [weakSelf.authViewController setOauthView:authWebView];
@@ -388,6 +387,21 @@ static Class InstanceClass = nil;
         }
     }
 }
+
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+{
+    
+    NSAssert(jwtToken.length > 0, @"JWT token value required.");
+    
+    SFUserAccount *jwtUserAccount = [[SFUserAccountManager sharedInstance] createUserAccount];
+    jwtUserAccount.credentials.jwt = jwtToken;
+    return [self loginWithCompletion:completionBlock
+                             failure:failureBlock
+                             account:jwtUserAccount];
+}
+
 
 - (void)loggedIn:(BOOL)fromOffline
 {
@@ -531,15 +545,13 @@ static Class InstanceClass = nil;
 {
     NSAssert(cookieNames != nil && [cookieNames count] > 0, @"No cookie names given to delete.");
     NSAssert(domainNames != nil && [domainNames count] > 0, @"No domain names given for deleting cookies.");
-    
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
         for (NSString *cookieToRemoveName in cookieNames) {
-            if ([[[cookie name] lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
+            if ([[cookie.name lowercaseString] isEqualToString:[cookieToRemoveName lowercaseString]]) {
                 for (NSString *domainToRemoveName in domainNames) {
-                    if ([[[cookie domain] lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]])
-                    {
+                    if ([[cookie.domain lowercaseString] hasSuffix:[domainToRemoveName lowercaseString]]) {
                         [cookieStorage deleteCookie:cookie];
                     }
                 }
@@ -553,7 +565,9 @@ static Class InstanceClass = nil;
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     NSArray *fullCookieList = [NSArray arrayWithArray:[cookieStorage cookies]];
     for (NSHTTPCookie *cookie in fullCookieList) {
-        [cookieStorage deleteCookie:cookie];
+        if (![[cookie.name lowercaseString] isEqualToString:kUserNameCookieKey]) {
+            [cookieStorage deleteCookie:cookie];
+        }
     }
 }
 
@@ -770,6 +784,7 @@ static Class InstanceClass = nil;
     }
 
     self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
 
     if ([SalesforceSDKManager sharedManager].userAgentString != NULL) {
         self.coordinator.userAgentForAuth = [SalesforceSDKManager sharedManager].userAgentString(@"");
@@ -840,7 +855,7 @@ static Class InstanceClass = nil;
    [self.statusAlert dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)presentAuthViewController:(UIWebView *)webView
+- (void)presentAuthViewController:(WKWebView *)webView
 {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -1053,10 +1068,21 @@ static Class InstanceClass = nil;
 
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate
 {
+    [self addDelegate:delegate withPriority:SFAuthenticationManagerDelegatePriorityDefault];
+}
+
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate withPriority:(SFAuthenticationManagerDelegatePriority)priority
+{
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates addObject:nonretainedDelegate];
+            if (!_delegates[@(priority)]) {
+                NSHashTable *delegateList = [NSHashTable weakObjectsHashTable];
+                [delegateList addObject:delegate];
+                _delegates[@(priority)] = delegateList;
+            } else {
+                NSHashTable *delegateList = _delegates[@(priority)];
+                [delegateList addObject:delegate];
+            }
         }
     }
 }
@@ -1065,8 +1091,11 @@ static Class InstanceClass = nil;
 {
     @synchronized(self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [self.delegates removeObject:nonretainedDelegate];
+            for (NSUInteger priority = SFAuthenticationManagerDelegatePriorityMax; priority <= SFAuthenticationManagerDelegatePriorityDefault; priority++) {
+                if (_delegates[@(priority)]) {
+                    [_delegates[@(priority)] removeObject:delegate];
+                }
+            }
         }
     }
 }
@@ -1074,12 +1103,12 @@ static Class InstanceClass = nil;
 - (void)enumerateDelegates:(void (^)(id<SFAuthenticationManagerDelegate>))block
 {
     @synchronized(self) {
-        [self.delegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFAuthenticationManagerDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
+        for (NSUInteger priority = SFAuthenticationManagerDelegatePriorityMax; priority <= SFAuthenticationManagerDelegatePriorityDefault; priority++) {
+            NSHashTable<id<SFAuthenticationManagerDelegate>> *safeCopy = [self.delegates[@(priority)] copy];
+            for (id<SFAuthenticationManagerDelegate> delegate in safeCopy) {
                 if (block) block(delegate);
             }
-        }];
+        }
     }
 }
 
@@ -1105,6 +1134,7 @@ static Class InstanceClass = nil;
     // If no delegates implement authManagerDidCancelBrowserFlow, display Login Host List
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }
@@ -1115,6 +1145,12 @@ static Class InstanceClass = nil;
             [delegate authManagerDidCancelGenericFlow:self];
         }
     }];
+}
+
+#pragma mark - SFSDKLoginHostDelegate
+
+- (void)hostListViewControllerDidSelectLoginHost:(SFSDKLoginHostListViewController *)hostListViewController {
+    [hostListViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - SFUserAccountManagerDelegate
@@ -1128,7 +1164,7 @@ static Class InstanceClass = nil;
 
 #pragma mark - SFOAuthCoordinatorDelegate
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator willBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:willBeginAuthenticationWithView:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1138,7 +1174,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didStartLoad:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didStartLoad:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1148,7 +1184,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(UIWebView *)view error:(NSError *)errorOrNil
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFinishLoad:(WKWebView *)view error:(NSError *)errorOrNil
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didFinishLoad:error:"];
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
@@ -1158,7 +1194,7 @@ static Class InstanceClass = nil;
     }];
 }
 
-- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(UIWebView *)view
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didBeginAuthenticationWithView:(WKWebView *)view
 {
     [self log:SFLogLevelDebug msg:@"oauthCoordinator:didBeginAuthenticationWithView"];
     
@@ -1257,9 +1293,9 @@ static Class InstanceClass = nil;
         }
     }];
     
-    // TODO: Determine if this is the correct approach. If so, then SFAuthenticationManager probably needs to conform to SFSDKLoginHostDelegate.
     if (!handledByDelegate) {
         SFSDKLoginHostListViewController *hostListViewController = [[SFSDKLoginHostListViewController alloc] initWithStyle:UITableViewStylePlain];
+        hostListViewController.delegate = self;
         [[SFRootViewManager sharedManager] pushViewController:hostListViewController];
     }
 }

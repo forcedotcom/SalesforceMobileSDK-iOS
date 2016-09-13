@@ -24,6 +24,7 @@
 
 #import "SFSmartSqlHelper.h"
 #import "SFSmartStore+Internal.h"
+#import "SFSoupSpec.h"
 
 static SFSmartSqlHelper *sharedInstance = nil;
 
@@ -67,6 +68,8 @@ static SFSmartSqlHelper *sharedInstance = nil;
             
             NSArray* parts = [foundString componentsSeparatedByString:@":"];
             NSString* soupName = parts[0];
+            SFSoupSpec *soupSpec = [store attributesForSoup:soupName withDb:db];
+            BOOL soupUsesExternalStorage = [soupSpec.features containsObject:kSoupFeatureExternalStorage];
             NSString* soupTableName = [store tableNameForSoup:soupName withDb:db];
             if (nil == soupTableName) {
                 @throw [NSException exceptionWithName:@"convertSmartSql failed" reason:[NSString stringWithFormat:@"Invalid soup name:%@", soupName] userInfo:nil];
@@ -82,8 +85,13 @@ static SFSmartSqlHelper *sharedInstance = nil;
                 NSString* path = parts[1];
                 // {soupName:_soup}
                 if ([path isEqualToString:@"_soup"]) {
-                    [sql appendString:tableQualifier];
-                    [sql appendString:@"soup"];
+                    if (soupUsesExternalStorage) {
+                        [sql appendFormat:@"'%@' as '%@'", soupTableName, kSoupFeatureExternalStorage];
+                        [sql appendFormat:@", %@.%@ as '%@'", soupTableName, ID_COL, SOUP_ENTRY_ID];
+                    } else {
+                        [sql appendString:tableQualifier];
+                        [sql appendString:@"soup"];
+                    }
                 }
                 // {soupName:_soupEntryId}
                 else if ([path isEqualToString:@"_soupEntryId"]) {

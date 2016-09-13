@@ -131,6 +131,11 @@
     });
 }
 
+- (void)beginJwtTokenExchangeFlow {
+    [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
+    self.beginJwtTokenExchangeFlowCalled = YES;
+}
+
 - (void)beginNativeBrowserFlow {
     [self log:SFLogLevelDebug format:@"%@ called.", NSStringFromSelector(_cmd)];
     self.beginNativeBrowserFlowCalled = YES;

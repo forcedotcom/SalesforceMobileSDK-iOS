@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
+- (void)beginJwtTokenExchangeFlow;
 - (void)handleTokenEndpointResponse:(NSMutableData *)data;
 - (void)beginNativeBrowserFlow;
 - (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
@@ -56,7 +57,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 @property (nonatomic, copy) NSString *approvalCode;
 @property (nonatomic, strong) NSTimer *refreshFlowConnectionTimer;
 @property (nonatomic, strong) NSThread *refreshTimerThread;
-@property (nonatomic, strong) UIWebView *view;
+@property (nonatomic, strong) WKWebView *view;
 @property (nonatomic, strong) NSString *codeVerifier;
 @property (nonatomic, strong) SFOAuthInfo *authInfo;
 @property (nonatomic, readwrite) SFOAuthAdvancedAuthState advancedAuthState;
@@ -80,6 +81,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
++ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 
 @end

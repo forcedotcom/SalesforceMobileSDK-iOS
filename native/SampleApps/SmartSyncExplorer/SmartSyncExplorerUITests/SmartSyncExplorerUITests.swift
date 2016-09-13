@@ -58,7 +58,7 @@ class SmartSyncExplorerTest: SalesforceTestCase {
     func createLocally(n:Int) -> [Int] {
         var uids : [Int] = []
         
-        for (var i=0; i<n; i++) {
+        for _ in 0 ..< n {
             let uid = generateUid()
             uids.append(uid)
             createRecord(uid)

@@ -34,6 +34,7 @@
 @property (nonatomic, assign) BOOL beginUserAgentFlowCalled;
 @property (nonatomic, assign) BOOL beginTokenEndpointFlowCalled;
 @property (nonatomic, assign) BOOL beginNativeBrowserFlowCalled;
+@property (nonatomic, assign) BOOL beginJwtTokenExchangeFlowCalled;
 @property (nonatomic, assign) SFOAuthTokenEndpointFlow tokenEndpointFlowType;
 @property (nonatomic, assign) BOOL handleTokenEndpointResponseCalled;
 

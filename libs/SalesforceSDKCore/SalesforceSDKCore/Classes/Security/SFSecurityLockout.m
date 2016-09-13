@@ -37,6 +37,7 @@
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
 #import "SFApplication.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Private constants
 
@@ -63,7 +64,7 @@ static SFLockScreenFailureCallbackBlock sLockScreenFailureCallbackBlock = NULL;
 static SFPasscodeViewControllerCreationBlock sPasscodeViewControllerCreationBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sPresentPasscodeViewControllerBlock = NULL;
 static SFPasscodeViewControllerPresentationBlock sDismissPasscodeViewControllerBlock = NULL;
-static NSMutableOrderedSet *sDelegates = nil;
+static NSHashTable<id<SFSecurityLockoutDelegate>> *sDelegates = nil;
 static BOOL sForcePasscodeDisplay = NO;
 static BOOL sValidatePasscodeAtStartup = NO;
 
@@ -75,39 +76,41 @@ static BOOL _showPasscode = YES;
 
 + (void)initialize
 {
-    [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
-    
-    // If this is the first time the passcode functionality has been run in the lifetime of the app install,
-    // reset passcode data, since keychain data can persist between app installs.
-    if (![SFCrypto baseAppIdentifierIsConfigured] || [SFCrypto baseAppIdentifierConfiguredThisLaunch]) {
-        [SFSecurityLockout setSecurityLockoutTime:0];
-        [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
-    } else {
-        securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
-    }
-    
-    sDelegates = [NSMutableOrderedSet orderedSet];
-    
-    [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData) {
-        SFPasscodeViewController *pvc = nil;
-        if (mode == SFPasscodeControllerModeCreate) {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:configData];
-        } else if (mode == SFPasscodeControllerModeChange) {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:configData];
+    if (self == [SFSecurityLockout class]) {
+        [SFSecurityLockout upgradeSettings];  // Ensures a lockout time value in the keychain.
+        
+        // If this is the first time the passcode functionality has been run in the lifetime of the app install,
+        // reset passcode data, since keychain data can persist between app installs.
+        if (![SFCrypto baseAppIdentifierIsConfigured] || [SFCrypto baseAppIdentifierConfiguredThisLaunch]) {
+            [SFSecurityLockout setSecurityLockoutTime:0];
+            [SFSecurityLockout setPasscodeLength:kDefaultPasscodeLength];
         } else {
-            pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
+            securityLockoutTime = [[SFSecurityLockout readLockoutTimeFromKeychain] unsignedIntegerValue];
         }
-        UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
-        return nc;
-    }];
-    
-    [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
-        [[SFRootViewManager sharedManager] pushViewController:pvc];
-    }];
-    
-    [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
-        [[SFRootViewManager sharedManager] popViewController:pvc];
-    }];
+        
+        sDelegates = [NSHashTable weakObjectsHashTable];
+        
+        [SFSecurityLockout setPasscodeViewControllerCreationBlock:^UIViewController *(SFPasscodeControllerMode mode, SFPasscodeConfigurationData configData) {
+            SFPasscodeViewController *pvc = nil;
+            if (mode == SFPasscodeControllerModeCreate) {
+                pvc = [[SFPasscodeViewController alloc] initForPasscodeCreation:configData];
+            } else if (mode == SFPasscodeControllerModeChange) {
+                pvc = [[SFPasscodeViewController alloc] initForPasscodeChange:configData];
+            } else {
+                pvc = [[SFPasscodeViewController alloc] initForPasscodeVerification];
+            }
+            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:pvc];
+            return nc;
+        }];
+        
+        [SFSecurityLockout setPresentPasscodeViewControllerBlock:^(UIViewController *pvc) {
+            [[SFRootViewManager sharedManager] pushViewController:pvc];
+        }];
+        
+        [SFSecurityLockout setDismissPasscodeViewControllerBlock:^(UIViewController *pvc) {
+            [[SFRootViewManager sharedManager] popViewController:pvc];
+        }];
+    }
 }
 
 + (void)upgradeSettings
@@ -116,7 +119,7 @@ static BOOL _showPasscode = YES;
     NSNumber *lockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
 	if (lockoutTime == nil) {
         // Try falling back to user defaults if there's no timeout in the keychain.
-        lockoutTime = [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
+        lockoutTime = [[NSUserDefaults msdkUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
         if (lockoutTime == nil) {
             [SFSecurityLockout writeLockoutTimeToKeychain:@(kDefaultLockoutTime)];
         } else {
@@ -128,23 +131,23 @@ static BOOL _showPasscode = YES;
     NSNumber *n = [SFSecurityLockout readIsLockedFromKeychain];
     if (n == nil) {
         // Try to fall back to the user defaults if isLocked isn't found in the keychain
-        BOOL locked = [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
+        BOOL locked = [[NSUserDefaults msdkUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
         [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
     }
     
     NSNumber *currentPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
     
     if (currentPasscodeLength) {
-        NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+        NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
         if (previousLength) {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+            [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
         }
         return;
     }
     
-    NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+    NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
     if (previousLength) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
         [self setPasscodeLength:[previousLength integerValue]];
     }
 }
@@ -153,8 +156,7 @@ static BOOL _showPasscode = YES;
 {
     @synchronized (self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [sDelegates addObject:nonretainedDelegate];
+            [sDelegates addObject:delegate];
         }
     }
 }
@@ -163,8 +165,7 @@ static BOOL _showPasscode = YES;
 {
     @synchronized (self) {
         if (delegate) {
-            NSValue *nonretainedDelegate = [NSValue valueWithNonretainedObject:delegate];
-            [sDelegates removeObject:nonretainedDelegate];
+            [sDelegates removeObject:delegate];
         }
     }
 }
@@ -172,12 +173,9 @@ static BOOL _showPasscode = YES;
 + (void)enumerateDelegates:(void (^)(id<SFSecurityLockoutDelegate>))block
 {
     @synchronized (self) {
-        [sDelegates enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            id<SFSecurityLockoutDelegate> delegate = [obj nonretainedObjectValue];
-            if (delegate) {
-                if (block) block(delegate);
-            }
-        }];
+        for (id<SFSecurityLockoutDelegate> delegate in sDelegates) {
+            if (block) block(delegate);
+        }
     }
 }
 

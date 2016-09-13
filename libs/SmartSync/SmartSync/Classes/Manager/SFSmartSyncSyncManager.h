@@ -22,7 +22,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
 #import "SFSyncUpTarget.h"

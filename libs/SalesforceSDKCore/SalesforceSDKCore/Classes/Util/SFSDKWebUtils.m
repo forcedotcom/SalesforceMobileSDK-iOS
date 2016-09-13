@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -25,21 +25,10 @@
 
 #import "SFSDKWebUtils.h"
 #import "SFApplication.h"
+#import "NSUserDefaults+SFAdditions.h"
+#import <WebKit/WebKit.h>
 
-// Public constants
 NSString * const kUserAgentPropKey = @"UserAgent";
-
-static NSString *gUserAgentForApp = nil;
-
-@interface SFSDKWebUtils ()
-
-/**
- Stages the value of the user agent as defined by the iOS framework, in the static variable
- gUserAgentForApp.  This value will not change in the lifetime of the app process.
- */
-+ (void)stageUserAgentForApp;
-
-@end
 
 @implementation SFSDKWebUtils
 
@@ -47,32 +36,7 @@ static NSString *gUserAgentForApp = nil;
 {
     if (userAgentString != nil) {
         NSDictionary *dictionary = @{kUserAgentPropKey: userAgentString};
-        [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-    }
-}
-
-+ (NSString *)currentUserAgentForApp
-{
-    [self stageUserAgentForApp];
-    
-    return gUserAgentForApp;
-}
-
-+ (void)stageUserAgentForApp
-{
-    if (gUserAgentForApp != nil) return;
-    
-    if ([NSThread isMainThread]) {
-        // Get the current user agent.  Yes, this is hack-ish.  Alternatives are more hackish.  UIWebView
-        // really doesn't want you to know about its HTTP headers.
-        UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-    } else {
-        // Needs to run on the main thread.
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-            gUserAgentForApp = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        });
+        [[NSUserDefaults msdkUserDefaults] registerDefaults:dictionary];
     }
 }
 

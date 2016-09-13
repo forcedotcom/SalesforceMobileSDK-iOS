@@ -25,7 +25,7 @@
 		829DA2BD1C126C6A0040F5F1 /* SFSmartStoreReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F3618A51AA51E9900AE3A65 /* SFSmartStoreReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2BE1C126C700040F5F1 /* SFSmartSyncReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FABF0691AA52E7E00D31E3F /* SFSmartSyncReactBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		829DA2C11C126D320040F5F1 /* SalesforceReact.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2C01C126D320040F5F1 /* SalesforceReact.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CE0AB04A1C10D24E00BFAEED /* SalesforceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */; };
+		CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4CE4661C0E5B93009F6029 /* SFSmartStoreReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F3618A41AA51E9900AE3A65 /* SFSmartStoreReactBridge.m */; };
 		CE4CE4671C0E5B9D009F6029 /* SFSmartSyncReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06A1AA52EC800D31E3F /* SFSmartSyncReactBridge.m */; };
 		CE4CE4681C0E5BBB009F6029 /* SFOauthReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FABF06E1AA6920800D31E3F /* SFOauthReactBridge.m */; };
@@ -34,7 +34,6 @@
 		CE65C2411C0FD57200319E68 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2401C0FD57200319E68 /* Foundation.framework */; };
 		CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2421C0FD58000319E68 /* SmartStore.framework */; };
 		CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */; };
-		CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */; };
 		CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65C24A1C0FD59800319E68 /* libz.tbd */; };
 		CE6AB3DF1C10CEF90012125E /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFEE6301BFE932100B7AA8A /* libReact.a */; };
 /* End PBXBuildFile section */
@@ -102,12 +101,11 @@
 		4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../../external/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		829DA2C01C126D320040F5F1 /* SalesforceReact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SalesforceReact.h; sourceTree = "<group>"; };
 		82D0AB401C4980420081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceNetwork.framework; path = "../SalesforceNetwork/build/Debug-iphoneos/SalesforceNetwork.framework"; sourceTree = "<group>"; };
+		CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceAnalytics.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-erwysdzugrhbsladkxhwtacrvgws/Build/Products/Debug-iphonesimulator/SalesforceAnalytics.framework"; sourceTree = "<group>"; };
 		CE4CE2F81C0E4673009F6029 /* SalesforceReact.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceReact.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE65C2401C0FD57200319E68 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CE65C2421C0FD58000319E68 /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
 		CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
-		CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceRestAPI.framework; path = "../SalesforceRestAPI/build/Debug-iphoneos/SalesforceRestAPI.framework"; sourceTree = "<group>"; };
 		CE65C24A1C0FD59800319E68 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.1.sdk/usr/lib/libz.tbd; sourceTree = DEVELOPER_DIR; };
 		CECB66341C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Debug.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Debug.xcconfig"; sourceTree = "<group>"; };
 		CECB66351C1BB8F3008038AE /* SalesforceReact-Dynamic-iOS-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "SalesforceReact-Dynamic-iOS-Release.xcconfig"; path = "Configuration/SalesforceReact-Dynamic-iOS-Release.xcconfig"; sourceTree = "<group>"; };
@@ -118,9 +116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE0AB04A1C10D24E00BFAEED /* SalesforceNetwork.framework in Frameworks */,
+				CE2B8D021CE9325E00C6FC6A /* SalesforceAnalytics.framework in Frameworks */,
 				CE65C24B1C0FD59800319E68 /* libz.tbd in Frameworks */,
-				CE65C2491C0FD59200319E68 /* SalesforceRestAPI.framework in Frameworks */,
 				CE65C2451C0FD58800319E68 /* SalesforceSDKCore.framework in Frameworks */,
 				CE65C2431C0FD58000319E68 /* SmartStore.framework in Frameworks */,
 				CE65C23F1C0FD56C00319E68 /* SmartSync.framework in Frameworks */,
@@ -200,11 +197,10 @@
 		4FFEE5CE1BFE901E00B7AA8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CE2B8D011CE9325E00C6FC6A /* SalesforceAnalytics.framework */,
 				4FFEE62B1BFE932100B7AA8A /* React.xcodeproj */,
 				4FFEE5CF1BFE904100B7AA8A /* SmartSync.xcodeproj */,
-				CE0AB0491C10D24E00BFAEED /* SalesforceNetwork.framework */,
 				CE65C24A1C0FD59800319E68 /* libz.tbd */,
-				CE65C2481C0FD59200319E68 /* SalesforceRestAPI.framework */,
 				CE65C2441C0FD58800319E68 /* SalesforceSDKCore.framework */,
 				CE65C2421C0FD58000319E68 /* SmartStore.framework */,
 				CE65C2401C0FD57200319E68 /* Foundation.framework */,

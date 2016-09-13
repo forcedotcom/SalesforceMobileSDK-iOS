@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0710"
+   LastUpgradeVersion = "0730"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -37,6 +37,14 @@
                BlueprintName = "SmartSyncExplorerUITests"
                ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "OAuthUITest">
+               </Test>
+               <Test
+                  Identifier = "PasscodeUITest">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>

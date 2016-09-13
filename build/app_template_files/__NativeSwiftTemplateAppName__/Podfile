@@ -6,11 +6,10 @@ source 'https://github.com/forcedotcom/SalesforceMobileSDK-iOS-Specs.git' # need
 source 'https://github.com/CocoaPods/Specs.git'
 
 use_frameworks!
+
+pod 'SalesforceAnalytics'
 pod 'SalesforceSDKCore'
-pod 'SalesforceNetwork'
-pod 'SalesforceRestAPI'
 pod 'SmartStore'
 pod 'SmartSync'
 
 end
-

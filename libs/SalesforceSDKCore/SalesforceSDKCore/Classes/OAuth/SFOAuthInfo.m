@@ -56,6 +56,9 @@
         case SFOAuthTypeAdvancedBrowser:
             desc = @"SFOAuthTypeAdvancedBrowser";
             break;
+        case SFOAuthTypeJwtTokenExchange:
+            desc = @"SFOAuthTypeJwtTokenExchange";
+            break;
         case SFOAuthTypeUnknown:
         default:
             desc = @"SFOAuthTypeUnknown";

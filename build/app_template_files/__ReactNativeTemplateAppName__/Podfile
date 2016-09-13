@@ -22,9 +22,8 @@ pod 'React', :path => './node_modules/react-native', :subspecs => [
     'RCTLinkingIOS'
 ]
 
+pod 'SalesforceAnalytics'
 pod 'SalesforceSDKCore'
-pod 'SalesforceNetwork'
-pod 'SalesforceRestAPI'
 pod 'SmartStore'
 pod 'SmartSync'
 pod 'SalesforceReact'

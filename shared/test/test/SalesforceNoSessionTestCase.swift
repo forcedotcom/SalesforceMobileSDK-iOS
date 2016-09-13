@@ -27,19 +27,44 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 import Foundation
 import XCTest
+import SalesforceSDKCore
 
 class SalesforceNoSessionTestCase: XCTestCase {
+    var loginAccounts : [NSDictionary!] = []
+    var accountWithPasscode : NSDictionary!
+    var passcodeTimeout: UInt32?
+    var passcodeLength: UInt32?
+    var passcode: String = ""
+    var app = XCUIApplication()
     
     override func setUp() {
         super.setUp()
         
         continueAfterFailure = true
-        XCUIApplication().launch()
+        app.launch()
+        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
+        loginAccounts = loginInfo as! [NSDictionary!]
+        accountWithPasscode = loginAccounts[loginAccounts.count-1] as NSDictionary! //assuming last account has passcode enabled
+        if (accountWithPasscode.valueForKey("passcodeTimeout") != nil && accountWithPasscode.valueForKey("passcodeLength") != nil) {
+            passcodeTimeout = accountWithPasscode.valueForKey("passcodeTimeout")!.unsignedIntValue!
+            passcodeLength = accountWithPasscode.valueForKey("passcodeLength")!.unsignedIntValue!
         
+            for _ in 0..<passcodeLength! {
+                passcode = randomPasscode()
+            }
+        }
     }
     
     override func tearDown() {
         super.tearDown()
     }
     
+    func randomPasscode() -> String {
+        srandom(UInt32(time(nil)))
+        var randomPass = ""
+        for _ in 0..<passcodeLength! {
+            randomPass = randomPass.stringByAppendingString(String (format: "%d", rand()%10))
+        }
+        return randomPass
+    }
 }

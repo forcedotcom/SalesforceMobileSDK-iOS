@@ -1,0 +1,12 @@
+//
+//  SalesforceAnalytics-Static.xcconfig
+//  SalesforceAnalytics
+//
+//  Created by Bharath Hariharan on 05/14/16.
+//  Copyright © 2016 salesforce.com. All rights reserved.
+//
+
+#include "SalesforceAnalytics-Common.xcconfig"
+
+INSTALL_PATH = /
+SKIP_INSTALL = YES

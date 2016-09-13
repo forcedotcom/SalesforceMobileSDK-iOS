@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014-2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 
 @interface MetadataManagerTests : XCTestCase
@@ -55,7 +55,7 @@ static NSString* const kCaseOneName = @"00001001";
 + (void)setUp
 {
     @try {
-        [SFLogger setLogLevel:SFLogLevelDebug];
+        [SFLogger sharedLogger].logLevel = SFLogLevelDebug;
         [TestSetupUtils populateAuthCredentialsFromConfigFileForClass:[self class]];
         [TestSetupUtils synchronousAuthRefresh];
     } @catch (NSException *exception) {

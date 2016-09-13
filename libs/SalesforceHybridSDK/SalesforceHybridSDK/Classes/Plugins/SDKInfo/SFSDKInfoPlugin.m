@@ -93,20 +93,17 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 - (void)getInfo:(CDVInvokedUrlCommand *)command
 {
     NSString* callbackId = command.callbackId;
-    /* NSString* jsVersionStr = */[self getVersion:@"getInfo" withArguments:command.arguments];
-    
+    [self getVersion:@"getInfo" withArguments:command.arguments];
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
-    NSString *appVersion = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
-    
-    
+    NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
+    NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
     NSDictionary *bootConfig = ((SFHybridViewController *)self.viewController).hybridViewConfig.configDict;
-    
     NSDictionary *sdkInfo = @{kSDKVersionKey: SALESFORCE_SDK_VERSION,
                               kAppNameKey: appName,
                               kAppVersionKey: appVersion,
                               kForcePluginsAvailableKey: self.forcePlugins,
                               kBootConfigKey: bootConfig};
-    
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }
 
