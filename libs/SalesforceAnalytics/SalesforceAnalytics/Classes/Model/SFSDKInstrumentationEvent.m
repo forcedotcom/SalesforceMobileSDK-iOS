@@ -31,25 +31,25 @@
 
 @interface SFSDKInstrumentationEvent ()
 
-@property (nonatomic, strong, readwrite) NSString *eventId;
+@property (nonatomic, copy, readwrite) NSString *eventId;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, assign, readwrite) NSString *sessionId;
+@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSDictionary *attributes;
+@property (nonatomic, copy, readwrite) NSString *sessionId;
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
-@property (nonatomic, strong, readwrite) NSString *senderId;
-@property (nonatomic, strong, readwrite) NSDictionary *senderContext;
+@property (nonatomic, copy, readwrite) NSString *senderId;
+@property (nonatomic, copy, readwrite) NSDictionary *senderContext;
 @property (nonatomic, assign, readwrite) SFASchemaType schemaType;
 @property (nonatomic, assign, readwrite) SFAEventType eventType;
 @property (nonatomic, assign, readwrite) SFAErrorType errorType;
 @property (nonatomic, strong, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
-@property (nonatomic, strong, readwrite) NSString *connectionType;
-@property (nonatomic, strong, readwrite) NSString *senderParentId;
+@property (nonatomic, copy, readwrite) NSString *connectionType;
+@property (nonatomic, copy, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
-@property (nonatomic, strong, readwrite) NSDictionary *page;
-@property (nonatomic, strong, readwrite) NSDictionary *previousPage;
-@property (nonatomic, strong, readwrite) NSDictionary *marks;
+@property (nonatomic, copy, readwrite) NSDictionary *page;
+@property (nonatomic, copy, readwrite) NSDictionary *previousPage;
+@property (nonatomic, copy, readwrite) NSDictionary *marks;
 
 @end
 
