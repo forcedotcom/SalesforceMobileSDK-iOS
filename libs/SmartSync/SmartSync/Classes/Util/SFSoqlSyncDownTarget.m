@@ -152,7 +152,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
     __weak SFSoqlSyncDownTarget* weakSelf = self;
     SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
-        totalSize = self.totalSize;
+        totalSize = weakSelf.totalSize;
         if (countFetched == 0) {
             if (totalSize == 0) {
                 completeBlock(nil);

@@ -27,6 +27,7 @@
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
+#import "SFSmartSyncObjectUtils.h"
 #import <SmartStore/SFQuerySpec.h>
 #import <SmartStore/SFSmartStore.h>
 
@@ -140,15 +141,30 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
         completeBlock(nil);
     }
     
-    NSMutableSet* remoteIds = [NSMutableSet new];
-    NSUInteger sliceSize = self.countIdsPerSoql;
-    NSUInteger countSlices = ceil((float)localIds.count / sliceSize);
-    for (NSUInteger slice=0; slice<countSlices; slice++) {
-        NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
+    __block NSMutableArray* remoteIds = [NSMutableArray new];
+    __block NSUInteger sliceSize = self.countIdsPerSoql;
+    __block NSUInteger countSlices = ceil((float)localIds.count / sliceSize);
+    __block NSUInteger slice = 0;
 
-        //            JSONArray records = fetchFromServer(syncManager, idsToFetch, Arrays.asList(getIdFieldName()), 0 /* get all */);
-        //            remoteIds.addAll(parseIdsFromResponse(records));
-    }
+    __weak SFRefreshSyncDownTarget* weakSelf = self;
+    __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
+    SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
+        [remoteIds addObjectsFromArray:records];
+
+        NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
+        if (slice < countSlices) {
+            [self fetchFromServer:idsToFetch
+                        fieldlist:@[weakSelf.idFieldName]
+                     maxTimeStamp:0 /*all*/
+                       errorBlock:errorBlock
+                    completeBlock:completionBlockRecurse];
+        } else {
+            completionBlockRecurse(remoteIds);
+        }
+    };
+    completionBlockRecurse = completionBlock;
+    // Let's get going
+    completionBlockRecurse([NSArray new]);
 }
 
 - (void) getIdsFromSmartStoreAndFetchFromServer:(SFSmartSyncSyncManager*)syncManager
@@ -197,7 +213,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
         }
         
     }
-
   
     // If fetch is starting, figuring out totalSize
     // NB: it might not be the correct value during resync
@@ -210,27 +225,31 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
             return;
         }
     }
-//    // Get records from server that have changed after maxTimeStamp
-//    final JSONArray records = fetchFromServer(syncManager, idsInSmartStore, fieldlist, maxTimeStamp);
-//    
-//    // Increment page if there is more to fetch
-//    boolean done = getCountIdsPerSoql() * (page + 1) >= totalSize;
-//    page = (done ? 0 : page+1);
-//    
-//    return records;
+    // Get records from server that have changed after maxTimeStamp
+    [self fetchFromServer:idsInSmartStore fieldlist:self.fieldlist maxTimeStamp:maxTimeStamp errorBlock:errorBlock completeBlock:^(NSArray *records) {
+            // Increment page if there is more to fetch
+            BOOL done = self.countIdsPerSoql * (self.page + 1) >= self.totalSize;
+            self.page = (done ? 0 : self.page+1);
+        completeBlock(records);
+    }];
 }
 
-//private JSONArray fetchFromServer(SyncManager syncManager, List<String> ids, List<String> fieldlist, long maxTimeStamp) throws IOException, JSONException {
-//    final String whereClause = ""
-//    + getIdFieldName() + " IN ('" + TextUtils.join("', '", ids) + "')"
-//    + (maxTimeStamp > 0 ? " AND " + getModificationDateFieldName() + " > " + Constants.TIMESTAMP_FORMAT.format(new Date(maxTimeStamp))
-//       : "");
-//    final String soql = SOQLBuilder.getInstanceWithFields(fieldlist).from(objectType).where(whereClause).build();
-//    final RestRequest request = RestRequest.getRequestForQuery(syncManager.apiVersion, soql);
-//    final RestResponse response = syncManager.sendSyncWithSmartSyncUserAgent(request);
-//    JSONObject responseJson = response.asJSONObject();
-//    return responseJson.getJSONArray(Constants.RECORDS);
-//}
+- (void) fetchFromServer:(NSArray*)ids fieldlist:(NSArray*)fieldlist
+            maxTimeStamp:(long long)maxTimeStamp
+              errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+           completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
+    NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
+    NSString* andClause = (maxTimeStamp > 0
+                           ? [NSString stringWithFormat:@" AND %@ > %@", self.modificationDateFieldName, maxTimeStampStr]
+                           : @"");
+    NSString* whereClause = [NSString stringWithFormat:@"%@ IN ('%@')%@", self.idFieldName, [ids componentsJoinedByString:@"','"], andClause];
+    NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:fieldlist] from:self.objectType] whereClause:whereClause] build];
+    SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:soql];
+    [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
+        completeBlock(d[kResponseRecords]);
+    }];
+    
+}
 
 @end
