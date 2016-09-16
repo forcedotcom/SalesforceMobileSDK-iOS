@@ -34,13 +34,12 @@
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 
 - (instancetype) initWithName:(NSString*)actionName;
-
 @end
 
 @implementation MockAction
 
 - (instancetype) initWithName:(NSString*)actionName {
-    self = [super initWithResponseBlock:nil];
+    self = [super initWithResponseBlock:^(CSFAction *action, NSError *error){}];
     if (self) {
         self.actionName = actionName;
         self.semaphore = dispatch_semaphore_create(0);
@@ -100,8 +99,8 @@
     XCTAssertFalse(network.networkSuspended);
     [network setNetworkSuspended:YES];
     
-    CSFSalesforceAction *action1 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
-    CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:nil];
+    CSFSalesforceAction *action1 = [[CSFSalesforceAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    CSFSalesforceAction *action2 = [[CSFSalesforceAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
     
     // Setting verbs and methods (values do not matter - but can't be nil otherwise it confuses duplicateActionInFlight/isEqualToAction
     action1.method = action2.method = @"GET";

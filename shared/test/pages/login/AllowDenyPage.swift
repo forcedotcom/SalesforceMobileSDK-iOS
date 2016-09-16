@@ -31,10 +31,10 @@ import XCTest
 
 class AllowDenyPage: PageObject, PageThatWaits {
     
-    private var allowButton: XCUIElement {
+    fileprivate var allowButton: XCUIElement {
         get {
             let buttonPredicate = NSPredicate(format: "label CONTAINS 'Allow'")
-            return app.buttons.elementMatchingPredicate(buttonPredicate)
+            return app.buttons.element(matching: buttonPredicate)
         }
     }
     

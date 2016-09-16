@@ -30,7 +30,7 @@ import XCTest
 import SalesforceSDKCore
 
 class SalesforceNoSessionTestCase: XCTestCase {
-    var loginAccounts : [NSDictionary!] = []
+    var loginAccounts : [NSDictionary?] = []
     var accountWithPasscode : NSDictionary!
     var passcodeTimeout: UInt32?
     var passcodeLength: UInt32?
@@ -42,12 +42,12 @@ class SalesforceNoSessionTestCase: XCTestCase {
         
         continueAfterFailure = true
         app.launch()
-        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFileForClass(self.dynamicType)
-        loginAccounts = loginInfo as! [NSDictionary!]
+        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFile(for: type(of: self)) as NSArray
+        loginAccounts = loginInfo as! [NSDictionary?]
         accountWithPasscode = loginAccounts[loginAccounts.count-1] as NSDictionary! //assuming last account has passcode enabled
-        if (accountWithPasscode.valueForKey("passcodeTimeout") != nil && accountWithPasscode.valueForKey("passcodeLength") != nil) {
-            passcodeTimeout = accountWithPasscode.valueForKey("passcodeTimeout")!.unsignedIntValue!
-            passcodeLength = accountWithPasscode.valueForKey("passcodeLength")!.unsignedIntValue!
+        if (accountWithPasscode.value(forKey: "passcodeTimeout") != nil && accountWithPasscode.value(forKey: "passcodeLength") != nil) {
+            passcodeTimeout = (accountWithPasscode.value(forKey: "passcodeTimeout")! as AnyObject).uint32Value!
+            passcodeLength = (accountWithPasscode.value(forKey: "passcodeLength")! as AnyObject).uint32Value!
         
             for _ in 0..<passcodeLength! {
                 passcode = randomPasscode()
@@ -63,7 +63,7 @@ class SalesforceNoSessionTestCase: XCTestCase {
         srandom(UInt32(time(nil)))
         var randomPass = ""
         for _ in 0..<passcodeLength! {
-            randomPass = randomPass.stringByAppendingString(String (format: "%d", rand()%10))
+            randomPass = randomPass.appendingFormat(String (format: "%d", arc4random()%10))
         }
         return randomPass
     }
