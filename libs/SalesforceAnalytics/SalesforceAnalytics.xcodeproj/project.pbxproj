@@ -113,6 +113,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B7282F401D8C711100475F79 /* SalesforceAnalyticsTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceAnalyticsTestApp.entitlements; sourceTree = "<group>"; };
 		B73981EF1D8BB6D500C9893F /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CE2B8BCF1CE900F500C6FC6A /* SalesforceAnalytics.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceAnalytics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE2B8BD21CE900F500C6FC6A /* SalesforceAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SalesforceAnalytics.h; sourceTree = "<group>"; };
@@ -254,6 +255,7 @@
 		CE2B8C2B1CE9218900C6FC6A /* SalesforceAnalyticsTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				B7282F401D8C711100475F79 /* SalesforceAnalyticsTestApp.entitlements */,
 				CEF371E31D10D7E60004A237 /* Main_iPad.storyboard */,
 				CEF371E41D10D7E60004A237 /* Main_iPhone.storyboard */,
 				CE2B8C501CE9245B00C6FC6A /* en.lproj */,
@@ -514,6 +516,11 @@
 					};
 					CE2B8C291CE9218900C6FC6A = {
 						CreatedOnToolsVersion = 7.3.1;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -908,9 +915,11 @@
 			baseConfigurationReference = CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -931,8 +940,10 @@
 			baseConfigurationReference = CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",

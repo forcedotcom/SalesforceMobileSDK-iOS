@@ -522,6 +522,7 @@
 		82EFF34316E80B6300A63CDF /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		82EFF39D16E816CB00A63CDF /* SFTestRunnerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFTestRunnerPlugin.h; sourceTree = "<group>"; };
 		82EFF39E16E816CB00A63CDF /* SFTestRunnerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFTestRunnerPlugin.m; sourceTree = "<group>"; };
+		B7282F4C1D8C717200475F79 /* SalesforceHybridSDKTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceHybridSDKTestApp.entitlements; sourceTree = "<group>"; };
 		CE0AB0881C10D4D400BFAEED /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		CE0AB08A1C10D4F300BFAEED /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SalesforceSDKCore.framework; path = "../SalesforceSDKCore/build/Debug-iphoneos/SalesforceSDKCore.framework"; sourceTree = "<group>"; };
 		CE0AB0901C10D50500BFAEED /* SmartStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SmartStore.framework; path = "../SmartStore/build/Debug-iphoneos/SmartStore.framework"; sourceTree = "<group>"; };
@@ -1018,6 +1019,7 @@
 		82EFF30516E8049500A63CDF /* SalesforceHybridSDKTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				B7282F4C1D8C717200475F79 /* SalesforceHybridSDKTestApp.entitlements */,
 				82AF5A621A0D911D006C7A4B /* cordova-plugin-console */,
 				82EFF34616E80D8800A63CDF /* shared-www */,
 				82EFF34116E80B6300A63CDF /* Classes */,
@@ -1255,6 +1257,14 @@
 				TargetAttributes = {
 					8222729C19C39F4500FC537E = {
 						TestTargetID = 82EFF2FE16E8049500A63CDF;
+					};
+					82EFF2FE16E8049500A63CDF = {
+						DevelopmentTeam = 4PZ44KB26X;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					CE4CE2E01C0E465B009F6029 = {
 						CreatedOnToolsVersion = 7.1;
@@ -1650,7 +1660,9 @@
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Info.plist";
@@ -1672,7 +1684,9 @@
 			baseConfigurationReference = CE8F13091AD4A87200233F2F /* SalesforceHybridSDK-Test.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceHybridSDKTestApp/SalesforceHybridSDKTestApp-Info.plist";

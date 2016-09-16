@@ -42,7 +42,7 @@ class SalesforceNoSessionTestCase: XCTestCase {
         
         continueAfterFailure = true
         app.launch()
-        let loginInfo: NSArray = TestSetupUtils.populateUILoginInfoFromConfigFile(for: type(of: self)) as NSArray
+        let loginInfo: [NSDictionary?] = TestSetupUtils.populateUILoginInfoFromConfigFile(for: type(of: self)) as! [NSDictionary]
         loginAccounts = loginInfo as! [NSDictionary?]
         accountWithPasscode = loginAccounts[loginAccounts.count-1] as NSDictionary! //assuming last account has passcode enabled
         if (accountWithPasscode.value(forKey: "passcodeTimeout") != nil && accountWithPasscode.value(forKey: "passcodeLength") != nil) {
