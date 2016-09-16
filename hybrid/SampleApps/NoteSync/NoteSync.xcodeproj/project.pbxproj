@@ -76,6 +76,8 @@
 		CE2B8DD71CE9332C00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DB81CE9331500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3C01C10CBB90012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3BF1C10CBB90012125E /* libz.tbd */; };
 		CE6AB3C21C10CBC50012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3C11C10CBC50012125E /* libxml2.tbd */; };
+		CE7BA16E1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA16C1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js */; };
+		CE7BA16F1D8CA3CC000B91D7 /* com.salesforce.util.push.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA16D1D8CA3CC000B91D7 /* com.salesforce.util.push.js */; };
 		CEBDA0611D3C04E700DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0601D3C04E700DBDBD0 /* CDVAppDelegate.m */; };
 		CEBDA0B71D3C05DF00DBDBD0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0B51D3C05DF00DBDBD0 /* MainViewController.m */; };
 		CEBDA0B81D3C05DF00DBDBD0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBDA0B61D3C05DF00DBDBD0 /* MainViewController.xib */; };
@@ -555,6 +557,8 @@
 		CE2B8DA01CE9331500C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3BF1C10CBB90012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB3C11C10CBC50012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		CE7BA16C1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.network.js; sourceTree = "<group>"; };
+		CE7BA16D1D8CA3CC000B91D7 /* com.salesforce.util.push.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.push.js; sourceTree = "<group>"; };
 		CEBDA05F1D3C04E700DBDBD0 /* CDVAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVAppDelegate.h; path = ../../../../shared/hybrid/CDVAppDelegate.h; sourceTree = "<group>"; };
 		CEBDA0601D3C04E700DBDBD0 /* CDVAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVAppDelegate.m; path = ../../../../shared/hybrid/CDVAppDelegate.m; sourceTree = "<group>"; };
 		CEBDA0B41D3C05DF00DBDBD0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../../../../shared/hybrid/MainViewController.h; sourceTree = "<group>"; };
@@ -639,6 +643,8 @@
 		4FF15E601908852E00705FE0 /* com.salesforce */ = {
 			isa = PBXGroup;
 			children = (
+				CE7BA16C1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js */,
+				CE7BA16D1D8CA3CC000B91D7 /* com.salesforce.util.push.js */,
 				4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */,
 				4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */,
 				4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */,
@@ -1251,7 +1257,9 @@
 			files = (
 				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
 				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
+				CE7BA16E1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
+				CE7BA16F1D8CA3CC000B91D7 /* com.salesforce.util.push.js in Resources */,
 				CEBDA0B81D3C05DF00DBDBD0 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
