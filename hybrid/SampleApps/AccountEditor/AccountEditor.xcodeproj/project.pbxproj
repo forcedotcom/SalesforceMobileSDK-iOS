@@ -77,6 +77,9 @@
 		CE7BA1BD1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */; };
 		CE7BA1BE1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */; };
 		CE7BA1BF1D8CA3DF000B91D7 /* com.salesforce.util.push.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */; };
+		CE7BA1E81D8CB326000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */; };
+		CE7BA1E91D8CB330000B91D7 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */; };
+		CE7BA1EA1D8CB330000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */; };
 		CEBDA0891D3C052600DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0881D3C052600DBDBD0 /* CDVAppDelegate.m */; };
 		CEBDA0B21D3C059900DBDBD0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0B01D3C059900DBDBD0 /* MainViewController.m */; };
 		CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBDA0B11D3C059900DBDBD0 /* MainViewController.xib */; };
@@ -454,6 +457,9 @@
 			dstPath = www/plugins/com.salesforce;
 			dstSubfolderSpec = 7;
 			files = (
+				CE7BA1E91D8CB330000B91D7 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */,
+				CE7BA1EA1D8CB330000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */,
+				CE7BA1E81D8CB326000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */,
 				4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */,
 				4FF15E95190885CC00705FE0 /* com.salesforce.plugin.sdkinfo.js in Copy plugins Files */,
 				4FF15E96190885CC00705FE0 /* com.salesforce.plugin.sfaccountmanager.js in Copy plugins Files */,
