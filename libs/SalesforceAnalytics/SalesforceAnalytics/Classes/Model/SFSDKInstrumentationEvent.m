@@ -43,7 +43,7 @@
 @property (nonatomic, assign, readwrite) SFASchemaType schemaType;
 @property (nonatomic, assign, readwrite) SFAEventType eventType;
 @property (nonatomic, assign, readwrite) SFAErrorType errorType;
-@property (nonatomic, copy, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, copy, readwrite) NSString *connectionType;
 @property (nonatomic, copy, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;

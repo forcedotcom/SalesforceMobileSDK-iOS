@@ -92,7 +92,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 @property (nonatomic, assign, readonly) SFASchemaType schemaType;
 @property (nonatomic, assign, readonly) SFAEventType eventType;
 @property (nonatomic, assign, readonly) SFAErrorType errorType;
-@property (nonatomic, strong, readonly, nonnull) DeviceAppAttributes *deviceAppAttributes;
+@property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes;
 @property (nonatomic, copy, readonly, nonnull) NSString *connectionType;
 @property (nonatomic, copy, readonly, nullable) NSString *senderParentId;
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;
