@@ -59,15 +59,6 @@ typedef NS_ENUM(NSInteger, SFSyncDownTargetQueryType) {
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
 
 /**
- * Start fetching records conforming to target with query
- */
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock;
-
-/**
  * Continue fetching records conforming to target if any
  */
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager

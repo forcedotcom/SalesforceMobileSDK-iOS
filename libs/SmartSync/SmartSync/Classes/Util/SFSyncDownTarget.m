@@ -86,13 +86,6 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 ABSTRACT_METHOD
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-ABSTRACT_METHOD
-
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {

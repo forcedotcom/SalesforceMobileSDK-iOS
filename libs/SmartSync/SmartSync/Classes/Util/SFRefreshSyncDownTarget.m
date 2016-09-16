@@ -27,10 +27,20 @@
 #import "SFSmartSyncSoqlBuilder.h"
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
+#import <SmartStore/SFQuerySpec.h>
+#import <SmartStore/SFSmartStore.h>
+
 
 NSString * const kSFSyncTargetRefreshSoupName = @"soupName";
 NSString * const kSFSyncTargetRefreshObjectType = @"objectType";
 NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
+NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
+
+@interface SFSmartSyncSyncManager ()
+
+@property (nonatomic, strong) SFSmartStore *store;
+
+@end
 
 
 @interface SFRefreshSyncDownTarget ()
@@ -38,6 +48,13 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
 @property (nonatomic, strong, readwrite) NSString* soupName;
 @property (nonatomic, strong, readwrite) NSString* objectType;
 @property (nonatomic, strong, readwrite) NSArray*  fieldlist;
+@property (nonatomic, assign, readwrite) NSUInteger countIdsPerSoql;
+
+// NB: For each sync run - a fresh sync down target is created (by deserializing it from smartstore)
+// The following members are specific to a run
+// page will change during a run as we call start/continueFetch
+@property (nonatomic, assign, readwrite) BOOL isResync;
+@property (nonatomic, assign, readwrite) NSUInteger page;
 
 @end
 
@@ -50,6 +67,7 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
         self.soupName = dict[kSFSyncTargetRefreshSoupName];
         self.objectType = dict[kSFSyncTargetRefreshObjectType];
         self.fieldlist = dict[kSFSyncTargetRefreshFieldlist];
+        self.countIdsPerSoql = [(NSNumber*) dict[kSFSyncTargetRefreshCountIdsPerSoql] unsignedIntegerValue];
     }
     return self;
 }
@@ -70,6 +88,7 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
     syncTarget.soupName = soupName;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
+    syncTarget.countIdsPerSoql = 500;
     return syncTarget;
 }
 
@@ -80,6 +99,7 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
     dict[kSFSyncTargetRefreshSoupName] = self.soupName;
     dict[kSFSyncTargetRefreshObjectType] = self.objectType;
     dict[kSFSyncTargetRefreshFieldlist] = self.fieldlist;
+    dict[kSFSyncTargetRefreshCountIdsPerSoql] = [NSNumber numberWithUnsignedInteger:self.countIdsPerSoql];
     return dict;
 }
 
@@ -90,15 +110,26 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
-    // TBD
+    // During reSync, we can't make use of the maxTimeStamp that was captured during last refresh
+    // since we expect records to have been fetched from the server and written to the soup directly outside a sync down operation
+    // Instead during a reSymc, we compute maxTimeStamp from the records in the soup
+    self.isResync = maxTimeStamp > 0;
+    [self getIdsFromSmartStoreAndFetchFromServer:syncManager
+                                      errorBlock:errorBlock
+                                   completeBlock:completeBlock];
 }
 
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    // TBD
+- (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
+            errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+         completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    if (self.page > 0) {
+        [self getIdsFromSmartStoreAndFetchFromServer:syncManager
+                                          errorBlock:errorBlock
+                                       completeBlock:completeBlock];
+    }
+    else {
+        completeBlock(nil);
+    }
 }
 
 - (void) getListOfRemoteIds:(SFSmartSyncSyncManager*)syncManager
@@ -108,7 +139,98 @@ NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
     if (localIds == nil) {
         completeBlock(nil);
     }
-    // TBD
+    
+    NSMutableSet* remoteIds = [NSMutableSet new];
+    NSUInteger sliceSize = self.countIdsPerSoql;
+    NSUInteger countSlices = ceil((float)localIds.count / sliceSize);
+    for (NSUInteger slice=0; slice<countSlices; slice++) {
+        NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
+
+        //            JSONArray records = fetchFromServer(syncManager, idsToFetch, Arrays.asList(getIdFieldName()), 0 /* get all */);
+        //            remoteIds.addAll(parseIdsFromResponse(records));
+    }
 }
+
+- (void) getIdsFromSmartStoreAndFetchFromServer:(SFSmartSyncSyncManager*)syncManager
+                                     errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
+                                  completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
+    // Read from smartstore
+    SFQuerySpec* querySpec;
+    NSMutableArray* idsInSmartStore = [NSMutableArray new];
+    long long maxTimeStamp;
+    
+    if (self.isResync) {
+        // Getting full records from SmartStore to compute maxTimeStamp
+        // So doing more db work in the hope of doing less server work
+        querySpec = [SFQuerySpec newAllQuerySpec:self.soupName withOrderPath:self.idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:self.countIdsPerSoql];
+        NSError* error = nil;
+        NSArray* recordsFromSmartStore = [syncManager.store queryWithQuerySpec:querySpec pageIndex:self.page error:&error];
+        if (error != nil) {
+            errorBlock(error);
+            return;
+        }
+        
+        // Compute max time stamp
+        maxTimeStamp = [self getLatestModificationTimeStamp:recordsFromSmartStore];
+        
+        // Get ids
+        for (NSUInteger i = 0; i<recordsFromSmartStore.count; i++) {
+            [idsInSmartStore addObject:((NSDictionary*)recordsFromSmartStore[i])[self.idFieldName]];
+        }
+    }
+    else {
+        querySpec = [SFQuerySpec newSmartQuerySpec:[NSString stringWithFormat:@"SELECT {%1$@:%2$@} FROM {%1$@} ORDER BY {%1$@:%2$@} ASC", self.soupName, self.idFieldName] withPageSize:self.countIdsPerSoql];
+        
+        NSError* error = nil;
+        NSArray* result = [syncManager.store queryWithQuerySpec:querySpec pageIndex:self.page error:&error];
+        if (error != nil) {
+            errorBlock(error);
+            return;
+        }
+        
+        // Not a resync
+        maxTimeStamp = 0;
+        
+        // Get ids
+        for (NSUInteger i = 0; i<result.count; i++) {
+            [idsInSmartStore addObject:((NSArray*)result[i])[0]];
+        }
+        
+    }
+
+  
+    // If fetch is starting, figuring out totalSize
+    // NB: it might not be the correct value during resync
+    //     since not all records will have changed
+    if (self.page == 0) {
+        NSError* error = nil;
+        self.totalSize = [syncManager.store countWithQuerySpec:querySpec error:&error];
+        if (error != nil) {
+            errorBlock(error);
+            return;
+        }
+    }
+//    // Get records from server that have changed after maxTimeStamp
+//    final JSONArray records = fetchFromServer(syncManager, idsInSmartStore, fieldlist, maxTimeStamp);
+//    
+//    // Increment page if there is more to fetch
+//    boolean done = getCountIdsPerSoql() * (page + 1) >= totalSize;
+//    page = (done ? 0 : page+1);
+//    
+//    return records;
+}
+
+//private JSONArray fetchFromServer(SyncManager syncManager, List<String> ids, List<String> fieldlist, long maxTimeStamp) throws IOException, JSONException {
+//    final String whereClause = ""
+//    + getIdFieldName() + " IN ('" + TextUtils.join("', '", ids) + "')"
+//    + (maxTimeStamp > 0 ? " AND " + getModificationDateFieldName() + " > " + Constants.TIMESTAMP_FORMAT.format(new Date(maxTimeStamp))
+//       : "");
+//    final String soql = SOQLBuilder.getInstanceWithFields(fieldlist).from(objectType).where(whereClause).build();
+//    final RestRequest request = RestRequest.getRequestForQuery(syncManager.apiVersion, soql);
+//    final RestResponse response = syncManager.sendSyncWithSmartSyncUserAgent(request);
+//    JSONObject responseJson = response.asJSONObject();
+//    return responseJson.getJSONArray(Constants.RECORDS);
+//}
+
 
 @end
