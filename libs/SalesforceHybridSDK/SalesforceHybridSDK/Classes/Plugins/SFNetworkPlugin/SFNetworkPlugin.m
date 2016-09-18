@@ -45,6 +45,7 @@ NSString * const kfileParams      = @"fileParams";
 NSString * const kFileMimeType    = @"fileMimeType";
 NSString * const kFileUrl         = @"fileUrl";
 NSString * const kFileName        = @"fileName";
+NSString * const kPatchMethod     = @"PATCH";
 
 @implementation SFNetworkPlugin
 
@@ -54,7 +55,30 @@ NSString * const kFileName        = @"fileName";
     SFRestMethod method = [SFRestRequest sfRestMethodFromHTTPMethod:[argsDict nonNullObjectForKey:kMethodArg]];
     NSString* endPoint = [argsDict nonNullObjectForKey:kEndPointArg];
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
-    NSDictionary* queryParams = [argsDict nonNullObjectForKey:kQueryParams];
+
+    /*
+     * Android's network library has a limitation that it does not support
+     * PATCH requests. However, Salesforce REST API does not allow POST for
+     * updates, it only allows PATCH. Hence, we work around the issue on
+     * Android by passing in method name PATCH as a URL parameter. However,
+     * we don't need this on iOS, since we can directly make a PATCH request.
+     */
+    if ([path containsString:kPatchMethod]) {
+        method = SFRestMethodPATCH;
+    }
+    NSDictionary* queryParams = [[NSDictionary alloc] init];
+    id queryParamsObj = [argsDict nonNullObjectForKey:kQueryParams];
+
+    /*
+     * Query params are NSDictionary for GET and encoded JSON in NSString
+     * for POST. These checks ensure that both cases are handled properly.
+     */
+    if ([queryParamsObj isKindOfClass:[NSString class]]) {
+        NSData* queryParamsData = [queryParamsObj dataUsingEncoding:NSUTF8StringEncoding];
+        queryParams = [NSJSONSerialization JSONObjectWithData:queryParamsData options:0 error:nil];
+    } else {
+        queryParams = queryParamsObj;
+    }
     NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
