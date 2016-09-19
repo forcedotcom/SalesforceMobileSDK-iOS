@@ -26,4 +26,4 @@ import Foundation
 import UIKit
 import SalesforceSDKCore
 
-UIApplicationMain(Process.argc, Process.unsafeArgv, NSStringFromClass(SFApplication), NSStringFromClass(AppDelegate))
+UIApplicationMain(CommandLine.argc, CommandLine.unsafeArgv, NSStringFromClass(SFApplication), NSStringFromClass(AppDelegate))

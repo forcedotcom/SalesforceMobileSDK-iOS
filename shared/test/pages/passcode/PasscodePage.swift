@@ -29,52 +29,52 @@ import Foundation
 import XCTest
 
 enum PasscodeStatus {
-    case Creating
-    case Confirming
-    case Verifying
-    case Unknown
+    case creating
+    case confirming
+    case verifying
+    case unknown
 }
 
 class PasscodePage: PageObject, PageThatWaits {
     
-    private var createPasscodeNavigationBar: XCUIElement {
+    fileprivate var createPasscodeNavigationBar: XCUIElement {
         get {
             return app.navigationBars["Create Passcode"]
         }
     }
     
-    private var verifyPasscodeNavigationBar: XCUIElement {
+    fileprivate var verifyPasscodeNavigationBar: XCUIElement {
         get {
             return app.navigationBars["Verify Passcode"]
         }
     }
     
-    private var confirmPasscodeNavigationBar: XCUIElement {
+    fileprivate var confirmPasscodeNavigationBar: XCUIElement {
         get {
             return app.navigationBars["Confirm Passcode"]
         }
     }
     
-    private var passcodeNavigationBar: XCUIElement {
+    fileprivate var passcodeNavigationBar: XCUIElement {
         get {
-            return app.navigationBars.elementMatchingPredicate(NSPredicate(format: "identifier CONTAINS[cd] 'Passcode'" ))
+            return app.navigationBars.element(matching: NSPredicate(format: "identifier CONTAINS[cd] 'Passcode'" ))
         }
     }
     
     
-    private var nextButton: XCUIElement {
+    fileprivate var nextButton: XCUIElement {
         get {
             return createPasscodeNavigationBar.buttons["Next"]
         }
     }
 
-    private var passcodeSecureTextField: XCUIElement {
+    fileprivate var passcodeSecureTextField: XCUIElement {
         get {
             return app.secureTextFields.allElementsBoundByAccessibilityElement[app.secureTextFields.allElementsBoundByAccessibilityElement.count-1]
         }
     }
   
-    private var doneButton: XCUIElement {
+    fileprivate var doneButton: XCUIElement {
         get {
             if verifyPasscodeNavigationBar.exists {
                 return verifyPasscodeNavigationBar.buttons["Done"]
@@ -86,18 +86,18 @@ class PasscodePage: PageObject, PageThatWaits {
         }
     }
     
-    private var forgotPasscodeButton: XCUIElement {
+    fileprivate var forgotPasscodeButton: XCUIElement {
         get {
             return app.buttons["Forgot Passcode?"]
         }
     }
     
-    func verifyPasscode(passcode:String) {
+    func verifyPasscode(_ passcode:String) {
         enterPasscode(passcode)
         done()
     }
     
-    func enterPasscode(passcode:String) {
+    func enterPasscode(_ passcode:String) {
         passcodeSecureTextField.tap()
         passcodeSecureTextField.typeText(passcode)
     }
@@ -106,7 +106,7 @@ class PasscodePage: PageObject, PageThatWaits {
         doneButton.tap()
     }
     
-    func createPasscode(passcode:String) -> Bool {
+    @discardableResult func createPasscode(_ passcode:String) -> Bool {
         if (createPasscodeNavigationBar.exists) {
             passcodeSecureTextField.typeText(passcode)
             nextButton.tap()
@@ -118,7 +118,7 @@ class PasscodePage: PageObject, PageThatWaits {
         return false
     }
     
-    func forgotPasscode(confirm:Bool) {
+    func forgotPasscode(_ confirm:Bool) {
         forgotPasscodeButton.tap()
         let collectionViewsQuery = app.alerts["Forgot Passcode?"].collectionViews
         if (confirm) {
@@ -130,20 +130,20 @@ class PasscodePage: PageObject, PageThatWaits {
     }
     
     func isPresented() -> Bool {
-        return (getStatus() != PasscodeStatus.Unknown)
+        return (getStatus() != PasscodeStatus.unknown)
     }
     
     func getStatus() -> PasscodeStatus {
-        if verifyPasscodeNavigationBar.exists && verifyPasscodeNavigationBar.hittable {
-            return PasscodeStatus.Verifying
+        if verifyPasscodeNavigationBar.exists && verifyPasscodeNavigationBar.isHittable {
+            return PasscodeStatus.verifying
         }
-        else if createPasscodeNavigationBar.exists && createPasscodeNavigationBar.hittable {
-            return PasscodeStatus.Creating
+        else if createPasscodeNavigationBar.exists && createPasscodeNavigationBar.isHittable {
+            return PasscodeStatus.creating
         }
-        else if confirmPasscodeNavigationBar.exists && confirmPasscodeNavigationBar.hittable {
-            return PasscodeStatus.Confirming
+        else if confirmPasscodeNavigationBar.exists && confirmPasscodeNavigationBar.isHittable {
+            return PasscodeStatus.confirming
         }
-        return PasscodeStatus.Unknown
+        return PasscodeStatus.unknown
     }
     
     func waitForPageLoaded() {

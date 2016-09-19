@@ -53,40 +53,40 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
     
     // MARK: Tests
     func testPasscode() {
-        let user = accountWithPasscode.valueForKey("username") as! String
-        let password = accountWithPasscode.valueForKey("password") as! String
-        let host = accountWithPasscode.valueForKey("host") as! String
+        let user = accountWithPasscode.value(forKey: "username") as! String
+        let password = accountWithPasscode.value(forKey: "password") as! String
+        let host = accountWithPasscode.value(forKey: "host") as! String
         loginHelper.loginToSalesforce(user, password: password, url: host, withPasscode: passcode)
         
         //verify activity timeout
         sleep(passcodeTimeout! - 10)
         XCTAssertFalse(passcodePage.isPresented()) //should not present passcode
         sleep(15)
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying) //should present passcode
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying) //should present passcode
         
         //verify passcode enter
         passcodePage.verifyPasscode(getDifferentString())
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying) //should
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying) //should
         passcodePage.verifyPasscode(getDifferentString())
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying) //should
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying) //should
         
         passcodePage.enterPasscode(passcode)
         backspace(1) //backspace
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying)
-        passcodePage.enterPasscode(passcode.substringFromIndex(passcode.endIndex.advancedBy(-1)))
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying)
+        passcodePage.enterPasscode(passcode.substring(from: passcode.characters.index(passcode.endIndex, offsetBy: -1)))
         passcodePage.done()
         XCTAssertFalse(passcodePage.isPresented()) //should not present passcode
         
         //TODO: verify background/foreground after timeout
-        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+        XCUIDevice().press(XCUIDeviceButton.home)
         sleep(passcodeTimeout! + 5)
         app.resolve()
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying)
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying)
         
         //verify app resume after timeout
         sleep(passcodeTimeout! + 5)
         app.launch()
-        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.Verifying)
+        XCTAssertTrue(passcodePage.isPresented() && passcodePage.getStatus()==PasscodeStatus.verifying)
         
         //verify forgot passcode
         passcodePage.forgotPasscode(true)
@@ -105,7 +105,7 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
         }
     }
     
-    func backspace(number: UInt32) {
+    func backspace(_ number: UInt32) {
         for _ in 0..<number {
             app.keys["Delete"].tap()
         }
