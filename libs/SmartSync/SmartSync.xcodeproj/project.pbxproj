@@ -769,7 +769,6 @@
 				TargetAttributes = {
 					4F06AF2D1C499FD100F70798 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 4PZ44KB26X;
 						SystemCapabilities = {
 							com.apple.Keychain = {
 								enabled = 1;
@@ -1049,7 +1048,6 @@
 				CODE_SIGN_ENTITLEMENTS = SmartSyncTestApp/SmartSyncTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartSyncTestApp/Info.plist;
@@ -1071,7 +1069,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 4PZ44KB26X;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = SmartSyncTestApp/Info.plist;
