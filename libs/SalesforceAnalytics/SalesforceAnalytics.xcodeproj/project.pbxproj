@@ -942,7 +942,6 @@
 				CODE_SIGN_ENTITLEMENTS = SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
