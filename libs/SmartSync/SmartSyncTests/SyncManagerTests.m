@@ -46,6 +46,7 @@
 #define ACCOUNT_ID          @"Id"
 #define ACCOUNT_NAME        @"Name"
 #define ACCOUNT_TYPE        @"Account"
+#define LAST_MODIFIED_DATE  @"lastModifiedDate"
 #define ATTRIBUTES          @"attributes"
 #define TYPE                @"type"
 #define RECORDS             @"records"
@@ -523,106 +524,105 @@ static NSException *authException = nil;
     [self checkDb:idToNames];
 }
 
-///**
-// * Tests resync for a refresh-sync-down when they are more records in the table than can be enumerated
-// * in one soql call to the server
-// * @throws Exception
-// */
-//public void testRefreshReSyncWithMultipleRoundTrips() throws Exception {
-//    // Setup has created records on the server
-//    // Adding soup elements with just ids to soup
-//    for (String id : idToNames.keySet()) {
-//        JSONObject soupElement = new JSONObject();
-//        soupElement.put(Constants.ID, id);
-//        smartStore.create(ACCOUNTS_SOUP, soupElement);
-//    }
-//    // Running a refresh-sync-down for soup
-//    final RefreshSyncDownTarget target = new RefreshSyncDownTarget(Arrays.asList(Constants.ID, Constants.NAME, Constants.LAST_MODIFIED_DATE), Constants.ACCOUNT, ACCOUNTS_SOUP);
-//    target.setCountIdsPerSoql(1); //  to exercise continueFetch
-//    long syncId = trySyncDown(MergeMode.OVERWRITE, target, ACCOUNTS_SOUP, idToNames.size(), 10);
-//    
-//    // Check sync time stamp
-//    SyncState sync = syncManager.getSyncStatus(syncId);
-//    SyncOptions options = sync.getOptions();
-//    long maxTimeStamp = sync.getMaxTimeStamp();
-//    assertTrue("Wrong time stamp", maxTimeStamp > 0);
-//    
-//    // Make sure the soup has the records with id and names
-//    checkDb(idToNames);
-//    
-//    // Make some remote change
-//    Thread.sleep(1000); // time stamp precision is in seconds
-//    Map<String, String> idToNamesUpdated = new HashMap<String, String>();
-//    String[] allIds = idToNames.keySet().toArray(new String[0]);
-//    Arrays.sort(allIds); // to make the status updates sequence deterministic
-//    String[] ids = new String[]{allIds[0], allIds[2]};
-//    for (int i = 0; i < ids.length; i++) {
-//        String id = ids[i];
-//        idToNamesUpdated.put(id, idToNames.get(id) + "_updated");
-//    }
-//    updateAccountsOnServer(idToNamesUpdated);
-//    
-//    // Call reSync
-//    SyncUpdateCallbackQueue queue = new SyncUpdateCallbackQueue();
-//    syncManager.reSync(syncId, queue);
-//    
-//    // Check status updates
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 0, -1);
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 0, idToNames.size()); // totalSize is off for resync of sync-down-target if not all recrods got updated
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 10, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 10, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.RUNNING, 20, idToNames.size());
-//    checkStatus(queue.getNextSyncUpdate(), SyncState.Type.syncDown, syncId, target, options, SyncState.Status.DONE, 100, idToNames.size());
-//    
-//    // Check db
-//    checkDb(idToNamesUpdated);
-//    
-//    // Check sync time stamp
-//    assertTrue("Wrong time stamp", syncManager.getSyncStatus(syncId).getMaxTimeStamp() > maxTimeStamp);
-//}
+/**
+ * Tests resync for a refresh-sync-down when they are more records in the table than can be enumerated
+ * in one soql call to the server
+ */
+-(void) testRefreshReSyncWithMultipleRoundTrips
+{
+    // Create test data
+    [self createTestData];
+    
+    // Adding soup elements with just ids to soup
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+
+    // Running a refresh-sync-down for soup with two ids per soql query (to force multiple round trips)
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME, LAST_MODIFIED_DATE]];
+    target.countIdsPerSoql = 1;
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:idToNames.count]];
+
+    // Check sync time stamp
+    SFSyncState* sync = [syncManager getSyncStatus:syncId];
+    SFSyncOptions* options = sync.options;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    XCTAssertTrue(maxTimeStamp > 0, @"Wrong time stamp");
+
+    // Make sure the soup has the records with id and names
+    [self checkDb:idToNames];
+
+    // Make some remote changes
+    [NSThread sleepForTimeInterval:1.0f];
+    NSMutableDictionary* idToNamesUpdated = [NSMutableDictionary new];
+    NSArray* allIds = [idToNames allKeys];
+    NSArray* ids = @[ allIds[0], allIds[2] ];
+    for (NSString* accountId in ids) {
+        idToNamesUpdated[accountId] = [NSString stringWithFormat:@"%@_updated", idToNames[accountId]];
+    }
+    [self updateAccountsOnServer:idToNamesUpdated];
+    
+    
+    // Call reSync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runReSync:syncId syncManager:syncManager];
+    
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    
+    
+    for (NSNumber* expectedProgress in @[@0,@10,@10,@20,@20,@20,@20,@20,@20,@20,@20]) {
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:expectedProgress.unsignedIntegerValue expectedTotalSize:idToNames.count]; // totalSize is off for resync of sync-down-target if not all recrods got updated
+    }
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNamesUpdated.count];
+    
+    // Check db
+    [self checkDb:idToNamesUpdated];
+    
+    // Check sync time stamp
+    XCTAssertTrue([syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
+}
 
 
-///**
-// * Tests if ghost records are cleaned locally for a refresh target.
-// */
-//public void testCleanResyncGhostsForRefreshTarget() throws Exception {
-//    // Setup has created records on the server
-//    // Adding soup elements with just ids to soup
-//    for (String id : idToNames.keySet()) {
-//        JSONObject soupElement = new JSONObject();
-//        soupElement.put(Constants.ID, id);
-//        smartStore.create(ACCOUNTS_SOUP, soupElement);
-//    }
-//    // Running a refresh-sync-down for soup
-//    final RefreshSyncDownTarget target = new RefreshSyncDownTarget(Arrays.asList(Constants.ID, Constants.NAME), Constants.ACCOUNT, ACCOUNTS_SOUP);
-//    long syncId = trySyncDown(MergeMode.OVERWRITE, target, ACCOUNTS_SOUP, idToNames.size(), 1);
-//    
-//    // Make sure the soup has the records with id and names
-//    checkDb(idToNames);
-//    
-//    // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
-//    String[] ids = idToNames.keySet().toArray(new String[0]);
-//    String idDeleted = ids[0];
-//    deleteRecordsOnServer(new HashSet<String>(Arrays.asList(idDeleted)), Constants.ACCOUNT);
-//    syncManager.cleanResyncGhosts(syncId);
-//    
-//    // Map of id to names expected to be found in db
-//    Map<String, String> idToNamesLeft = new HashMap<>(idToNames);
-//    idToNamesLeft.remove(idDeleted);
-//    
-//    // Make sure the soup doesn't contain the record deleted on the server anymore
-//    checkDb(idToNamesLeft);
-//    int numRecords = smartStore.countQuery(QuerySpec.buildAllQuerySpec(ACCOUNTS_SOUP, "Id", QuerySpec.Order.ascending, 10));
-//    assertEquals("Wrong number of accounts found in soup", numRecords, idToNamesLeft.size());
-//}
+/**
+ * Tests if ghost records are cleaned locally for a refresh target.
+ */
+- (void)testCleanResyncGhostsForRefreshTarget
+{
+    // Create test data
+    [self createTestData];
+    
+    // Adding soup elements with just ids to soup
+    NSArray* accountIds = [idToNames allKeys];
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+    
+    // Running a refresh-sync-down for soup
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:1]];
+    
+    // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
+    NSString* idDeleted = accountIds[0];
+    [self deleteAccountsOnServer:@[idDeleted]];
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [cleanResyncGhosts fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
 
+    
+    // Map of id to names expected to be found in db
+    NSMutableDictionary* idToNamesLeft = [NSMutableDictionary dictionaryWithDictionary:idToNames];
+    [idToNamesLeft removeObjectForKey:idDeleted];
+
+    // Make sure the soup doesn't contain the record deleted on the server anymore
+    [self checkDb:idToNamesLeft];
+    NSUInteger numRecords = [store countWithQuerySpec:[SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:ACCOUNT_ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10] error:nil];
+    XCTAssertEqual(numRecords, idToNamesLeft.count, @"Wrong number of accounts found in soup");
+}
 
 /**
  * Sync down the test accounts, modify none, sync up, check smartstore and server afterwards
