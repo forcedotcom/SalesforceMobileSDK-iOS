@@ -475,7 +475,7 @@
 				4F1DA68F1C84FD7E0014FAD3 /* Info.plist */,
 			);
 			path = SmartSyncExplorerUITests;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		4F1DA6BE1C84FF3D0014FAD3 /* pagehelpers */ = {
 			isa = PBXGroup;
