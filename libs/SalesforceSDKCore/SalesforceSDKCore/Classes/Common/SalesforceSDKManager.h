@@ -184,7 +184,7 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  This action is called when `useSnapshotView` is YES. If this action is not set or if nil is returned,
  a default opaque white view will be used.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction;
 
 /**
  The block to execute to present the snapshot viewcontroller.
@@ -192,14 +192,14 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @discussion
  This block is only invoked if the dismissal action is also set.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction;
 
 /**
  The block to execute to dismiss the snapshot viewcontroller.
  @discussion
  This block is only invoked if the presentation action is also set.
  */
-@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
+@property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction;
 
 /**
  The preferred passcode provider for the app.  Defaults to kSFPasscodeProviderPBKDF2.

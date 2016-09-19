@@ -93,7 +93,7 @@
 }
 
 - (void)testBaseURL {
-    CSFAction *action = [[CSFAction alloc] initWithResponseBlock:nil];
+    CSFAction *action = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
     XCTAssertNotNil(action);
     XCTAssertTrue([action.headersForAction[@"Accept-Encoding"] isEqualToString:@"gzip"]);
     

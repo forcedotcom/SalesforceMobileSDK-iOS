@@ -36,13 +36,13 @@ enum Host {
 
 class LoginHelper {
     
-    func loginToSalesforce(userName: String, password: String, url: String!, withPasscode: String?=nil) {
+    func loginToSalesforce(_ userName: String, password: String, url: String!, withPasscode: String?=nil) {
         LoginPage().chooseConnection()
         HostPage().selectHost(url)
         loginToSalesforce(userName, password: password, withPasscode: withPasscode)
     }
     
-    func loginToSalesforce(userName: String, password: String, host: Host?=nil, withPasscode: String?=nil) {
+    func loginToSalesforce(_ userName: String, password: String, host: Host?=nil, withPasscode: String?=nil) {
         
         let loginPage = LoginPage()
         

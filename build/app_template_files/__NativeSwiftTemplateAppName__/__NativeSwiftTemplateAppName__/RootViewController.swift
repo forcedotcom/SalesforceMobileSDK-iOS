@@ -40,45 +40,45 @@ class RootViewController : UITableViewController, SFRestDelegate
     }
     
     // MARK: - SFRestAPIDelegate
-    func request(request: SFRestRequest!, didLoadResponse jsonResponse: AnyObject!)
+    func request(_ request: SFRestRequest!, didLoadResponse jsonResponse: AnyObject!)
     {
         self.dataRows = jsonResponse["records"] as! [NSDictionary]
         self.log(.Debug, msg: "request:didLoadResponse: #records: \(self.dataRows.count)")
-        dispatch_async(dispatch_get_main_queue(), {
+        DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
         })
     }
     
-    func request(request: SFRestRequest!, didFailLoadWithError error: NSError!)
+    func request(_ request: SFRestRequest!, didFailLoadWithError error: NSError!)
     {
         self.log(.Debug, msg: "didFailLoadWithError: \(error)")
         // Add your failed error handling here
     }
     
-    func requestDidCancelLoad(request: SFRestRequest!)
+    func requestDidCancelLoad(_ request: SFRestRequest!)
     {
         self.log(.Debug, msg: "requestDidCancelLoad: \(request)")
         // Add your failed error handling here
     }
     
-    func requestDidTimeout(request: SFRestRequest!)
+    func requestDidTimeout(_ request: SFRestRequest!)
     {
         self.log(.Debug, msg: "requestDidTimeout: \(request)")
         // Add your failed error handling here
     }
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView?) -> Int
+    override func numberOfSectionsInTableView(_ tableView: UITableView?) -> Int
     {
         return 1
     }
     
-    override func tableView(tableView: UITableView?, numberOfRowsInSection section: Int) -> Int
+    override func tableView(_ tableView: UITableView?, numberOfRowsInSection section: Int) -> Int
     {
         return self.dataRows.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cellIdentifier = "CellIdentifier"
 

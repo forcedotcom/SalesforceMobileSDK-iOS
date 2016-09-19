@@ -31,23 +31,23 @@ import XCTest
 let exists = NSPredicate(format: "exists == true")
 let enabled = NSPredicate(format: "enabled == true")
 let doesNotExist = NSPredicate(format: "exists == false")
-let waitTimeout: NSTimeInterval = 10
+let waitTimeout: TimeInterval = 10
 
 extension PageObject {
     
-    func waitForElementExists(element: XCUIElement) {
-        test.expectationForPredicate(exists, evaluatedWithObject: element, handler: nil)
-        test.waitForExpectationsWithTimeout(waitTimeout, handler: nil)
+    func waitForElementExists(_ element: XCUIElement) {
+        test.expectation(for: exists, evaluatedWith: element, handler: nil)
+        test.waitForExpectations(timeout: waitTimeout, handler: nil)
     }
     
-    func waitForElementEnabled(element: XCUIElement) {
-        test.expectationForPredicate(enabled, evaluatedWithObject: element, handler: nil)
-        test.waitForExpectationsWithTimeout(waitTimeout, handler: nil)
+    func waitForElementEnabled(_ element: XCUIElement) {
+        test.expectation(for: enabled, evaluatedWith: element, handler: nil)
+        test.waitForExpectations(timeout: waitTimeout, handler: nil)
     }
     
-    func waitForElementDoesNotExist(element: XCUIElement) {
-        test.expectationForPredicate(doesNotExist, evaluatedWithObject: element, handler: nil)
-        test.waitForExpectationsWithTimeout(waitTimeout, handler: nil)
+    func waitForElementDoesNotExist(_ element: XCUIElement) {
+        test.expectation(for: doesNotExist, evaluatedWith: element, handler: nil)
+        test.waitForExpectations(timeout: waitTimeout, handler: nil)
     }
     
 }
