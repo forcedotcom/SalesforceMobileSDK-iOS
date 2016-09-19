@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)SalesforceHybridSDKTestApp</string>
+		<string>$(AppIdentifierPrefix)com.salesforce.mobilesdk.SalesforceHybridSDKTestApp</string>
 	</array>
 </dict>
 </plist>
