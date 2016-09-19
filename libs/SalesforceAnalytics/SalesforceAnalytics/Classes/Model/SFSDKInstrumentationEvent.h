@@ -80,25 +80,25 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
 
 @interface SFSDKInstrumentationEvent : NSObject
 
-@property (nonatomic, strong, readonly, nonnull) NSString *eventId;
+@property (nonatomic, copy, readonly, nonnull) NSString *eventId;
 @property (nonatomic, assign, readonly) NSInteger startTime;
 @property (nonatomic, assign, readonly) NSInteger endTime;
-@property (nonatomic, strong, readonly, nonnull) NSString *name;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *attributes;
-@property (nonatomic, assign, readonly, nullable) NSString *sessionId;
+@property (nonatomic, copy, readonly, nonnull) NSString *name;
+@property (nonatomic, copy, readonly, nullable) NSDictionary *attributes;
+@property (nonatomic, copy, readonly, nullable) NSString *sessionId;
 @property (nonatomic, assign, readonly) NSInteger sequenceId;
-@property (nonatomic, strong, readonly, nullable) NSString *senderId;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *senderContext;
+@property (nonatomic, copy, readonly, nullable) NSString *senderId;
+@property (nonatomic, copy, readonly, nullable) NSDictionary *senderContext;
 @property (nonatomic, assign, readonly) SFASchemaType schemaType;
 @property (nonatomic, assign, readonly) SFAEventType eventType;
 @property (nonatomic, assign, readonly) SFAErrorType errorType;
 @property (nonatomic, strong, readonly, nonnull) SFSDKDeviceAppAttributes *deviceAppAttributes;
-@property (nonatomic, strong, readonly, nonnull) NSString *connectionType;
-@property (nonatomic, strong, readonly, nullable) NSString *senderParentId;
+@property (nonatomic, copy, readonly, nonnull) NSString *connectionType;
+@property (nonatomic, copy, readonly, nullable) NSString *senderParentId;
 @property (nonatomic, assign, readonly) NSInteger sessionStartTime;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *page;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *previousPage;
-@property (nonatomic, strong, readonly, nullable) NSDictionary *marks;
+@property (nonatomic, copy, readonly, nullable) NSDictionary *page;
+@property (nonatomic, copy, readonly, nullable) NSDictionary *previousPage;
+@property (nonatomic, copy, readonly, nullable) NSDictionary *marks;
 
 /**
  * Parameterized initializer.
