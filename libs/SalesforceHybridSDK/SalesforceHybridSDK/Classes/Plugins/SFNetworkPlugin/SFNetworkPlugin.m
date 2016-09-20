@@ -31,21 +31,22 @@
 #import "CDVPlugin+SFAdditions.h"
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/SFRestAPI+Blocks.h>
+#import <SalesforceSDKCore/SFJsonUtils.h>
 
 // NOTE: must match value in Cordova's config.xml file.
 NSString * const kSFNetworkPluginIdentifier = @"com.salesforce.network";
 
 // Private constants.
-NSString * const kMethodArg       = @"method";
-NSString * const kPathArg         = @"path";
-NSString * const kEndPointArg     = @"endPoint";
-NSString * const kQueryParams     = @"queryParams";
-NSString * const kHeaderParams    = @"headerParams";
-NSString * const kfileParams      = @"fileParams";
-NSString * const kFileMimeType    = @"fileMimeType";
-NSString * const kFileUrl         = @"fileUrl";
-NSString * const kFileName        = @"fileName";
-NSString * const kPatchMethod     = @"PATCH";
+static NSString * const kMethodArg       = @"method";
+static NSString * const kPathArg         = @"path";
+static NSString * const kEndPointArg     = @"endPoint";
+static NSString * const kQueryParams     = @"queryParams";
+static NSString * const kHeaderParams    = @"headerParams";
+static NSString * const kfileParams      = @"fileParams";
+static NSString * const kFileMimeType    = @"fileMimeType";
+static NSString * const kFileUrl         = @"fileUrl";
+static NSString * const kFileName        = @"fileName";
+static NSString * const kPatchMethod     = @"PATCH";
 
 @implementation SFNetworkPlugin
 
@@ -74,13 +75,12 @@ NSString * const kPatchMethod     = @"PATCH";
      * for POST. These checks ensure that both cases are handled properly.
      */
     if ([queryParamsObj isKindOfClass:[NSString class]]) {
-        NSData* queryParamsData = [queryParamsObj dataUsingEncoding:NSUTF8StringEncoding];
-        queryParams = [NSJSONSerialization JSONObjectWithData:queryParamsData options:0 error:nil];
+        queryParams = [SFJsonUtils objectFromJSONString:queryParamsObj];
     } else {
         queryParams = queryParamsObj;
     }
-    NSDictionary* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
-    NSDictionary* fileParams = [argsDict nonNullObjectForKey:kfileParams];
+    NSDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
+    NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
     // Adds custom headers, if any.
@@ -96,7 +96,8 @@ NSString * const kPatchMethod     = @"PATCH";
          * File params expected to be of the form:
          * {<fileParamNameInPost>: {fileMimeType:<someMimeType>, fileUrl:<fileUrl>, fileName:<fileNameForPost>}}.
          */
-        for (NSString* fileParamName in fileParams) {
+        NSArray<NSString*>* fileParamKeys = fileParams.allKeys;
+        for (NSString* fileParamName in fileParamKeys) {
             NSDictionary* fileParam = fileParams[fileParamName];
             NSString* fileMimeType = [fileParam nonNullObjectForKey:kFileMimeType];
             NSString* fileUrl = [fileParam nonNullObjectForKey:kFileUrl];
@@ -105,14 +106,17 @@ NSString * const kPatchMethod     = @"PATCH";
             [request addPostFileData:fileData paramName:fileParamName fileName:fileName mimeType:fileMimeType];
         }
     }
+    __weak typeof(self) weakSelf = self;
     [[SFRestAPI sharedInstance] sendRESTRequest:request
                                       failBlock:^(NSError *e) {
+                                          __strong typeof(self) strongSelf = weakSelf;
                                           CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:e.localizedDescription];
-                                          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                                          [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                       }
                                   completeBlock:^(id response) {
+                                      __strong typeof(self) strongSelf = weakSelf;
                                       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:response];
-                                      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                                      [strongSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                                   }
      ];
 }
