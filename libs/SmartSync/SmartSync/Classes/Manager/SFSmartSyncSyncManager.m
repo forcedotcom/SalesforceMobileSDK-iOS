@@ -275,46 +275,41 @@ static NSMutableDictionary *syncMgrList = nil;
 
     __block NSUInteger countFetched = 0;
     __block NSUInteger totalSize = 0;
-    __block SFSyncDownTargetFetchCompleteBlock completeBlockRecurse = ^(NSArray *records) {};
+    __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
     
-    SFSyncDownTargetFetchCompleteBlock completeBlock = ^(NSArray* records) {
+    SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         totalSize = target.totalSize;
-        if (countFetched == 0) { // after first request only
-            updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
-            if (totalSize == 0) {
-                return;
-            }
-        }
-        
-        if (records == nil || records.count == 0) {
-            // Shouldn't happen but custom target could be improperly coded
-            return;
-        }
-        countFetched += [records count];
-        NSUInteger progress = 100*countFetched / totalSize;
-        long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
-        
-        // Save records
-        NSError *saveRecordsError = nil;
-        [weakSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
-        if (saveRecordsError) {
-            failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
-        } else {
-            // Update status
-            updateSync(nil, progress, totalSize, maxTimeStampForFetched);
+        updateSync(nil, totalSize == 0 ? 100 : 0, totalSize, kSyncManagerUnchanged);
+        if (totalSize != 0) continueFetchBlockRecurse(records);
+    };
+
+    SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
+        if (records != nil) {
+            countFetched += [records count];
+            NSUInteger progress = 100*countFetched / totalSize;
+            long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
             
-            // Fetch next records if any
-            if (countFetched < totalSize) {
-                [target continueFetch:self errorBlock:failBlock completeBlock:completeBlockRecurse];
+            // Save records
+            NSError *saveRecordsError = nil;
+            [weakSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
+            if (saveRecordsError) {
+                failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
+            } else {
+                // Update status
+                updateSync(nil, progress, totalSize, maxTimeStampForFetched);
+                
+                // Continue
+                [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
             }
         }
     };
+    
     // initialize the alias
-    completeBlockRecurse = completeBlock;
+    continueFetchBlockRecurse = continueFetchBlock;
     
     // Start fetch
-    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:completeBlock];
+    [target startFetch:self maxTimeStamp:maxTimeStamp errorBlock:failBlock completeBlock:startFetchBlock];
 }
 
 - (void) saveRecords:(NSArray*)records

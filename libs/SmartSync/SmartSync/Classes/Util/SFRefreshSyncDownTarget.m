@@ -115,7 +115,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
     // since we expect records to have been fetched from the server and written to the soup directly outside a sync down operation
     // Instead during a reSymc, we compute maxTimeStamp from the records in the soup
     self.isResync = maxTimeStamp > 0;
-    NSLog(@"startFetch->%lu",self.page);
     [self getIdsFromSmartStoreAndFetchFromServer:syncManager
                                       errorBlock:errorBlock
                                    completeBlock:completeBlock];
@@ -124,7 +123,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
 - (void) continueFetch:(SFSmartSyncSyncManager*)syncManager
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    NSLog(@"continueFetch->%lu",self.page);
     if (self.page > 0) {
         [self getIdsFromSmartStoreAndFetchFromServer:syncManager
                                           errorBlock:errorBlock
@@ -141,6 +139,7 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
               completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
+        return;
     }
     
     __block NSMutableArray* remoteIds = [NSMutableArray new];
@@ -173,8 +172,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
                                      errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
                                   completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
-    NSLog(@"getIdsFromSmartStoreAndFetchFromServer-->%lu", self.page);
-    
     // Read from smartstore
     SFQuerySpec* querySpec;
     NSMutableArray* idsInSmartStore = [NSMutableArray new];
@@ -235,8 +232,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
         // Increment page if there is more to fetch
         BOOL done = self.countIdsPerSoql * (self.page + 1) >= self.totalSize;
         self.page = (done ? 0 : self.page+1);
-        NSLog(@"fetchFromServer Fetched %lu", records.count);
-        NSLog(@"fetchFromServer page now %lu", self.page);
         completeBlock(records);
     }];
 }
@@ -246,7 +241,6 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
               errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
            completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
 
-    NSLog(@"fetchFromServer-->%lu", self.page);
     NSString* maxTimeStampStr = [SFSmartSyncObjectUtils getIsoStringFromMillis:maxTimeStamp];
     NSString* andClause = (maxTimeStamp > 0
                            ? [NSString stringWithFormat:@" AND %@ > %@", self.modificationDateFieldName, maxTimeStampStr]

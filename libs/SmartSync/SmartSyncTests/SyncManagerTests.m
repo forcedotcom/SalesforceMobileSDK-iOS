@@ -189,7 +189,7 @@ static NSException *authException = nil;
  * Tests if ghost records are cleaned locally for a SOQL target.
  * FIXME crashing
  */
-- (void)_testCleanResyncGhostsForSOQLTarget
+- (void)testCleanResyncGhostsForSOQLTarget
 {
 
     // Creates 3 accounts on the server.
@@ -555,7 +555,7 @@ static NSException *authException = nil;
     // Make some remote changes
     [NSThread sleepForTimeInterval:1.0f];
     NSMutableDictionary* idToNamesUpdated = [NSMutableDictionary new];
-    NSArray* allIds = [idToNames allKeys];
+    NSArray* allIds = [[idToNames allKeys] sortedArrayUsingSelector:@selector(compare:)]; // // to make the status updates sequence deterministic
     NSArray* ids = @[ allIds[0], allIds[2] ];
     for (NSString* accountId in ids) {
         idToNamesUpdated[accountId] = [NSString stringWithFormat:@"%@_updated", idToNames[accountId]];
@@ -571,19 +571,12 @@ static NSException *authException = nil;
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
     
     
-//    for (NSNumber* expectedProgress in @[@0,@10,@10,@20,@20,@20,@20,@20,@20,@20,@20]) {
-//        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:expectedProgress.unsignedIntegerValue expectedTotalSize:idToNames.count]; // totalSize is off for resync of sync-down-target if not all recrods got updated
-//    }
-//    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNamesUpdated.count];
-
-    while(true) {
-        SFSyncState* sync = [queue getNextSyncUpdate];
-        NSLog(@"sync ---> %@", sync);
-        if (sync.status == SFSyncStateStatusDone) {
-            break;
-        }
+    for (NSNumber* expectedProgress in @[@0,@10,@10,@20,@20,@20,@20,@20,@20,@20,@20]) {
+        SFSyncState* state = [queue getNextSyncUpdate];
+        [self checkStatus:state expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:expectedProgress.unsignedIntegerValue expectedTotalSize:idToNames.count]; // totalSize is off for resync of sync-down-target if not all recrods got updated
     }
-    
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNamesUpdated.count];
+
     // Check db
     [self checkDb:idToNamesUpdated];
     

@@ -117,6 +117,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
               completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
+        return;
     }
     NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [localIds componentsJoinedByString:@"', '"], @"')"]
                              componentsJoinedByString:@""];

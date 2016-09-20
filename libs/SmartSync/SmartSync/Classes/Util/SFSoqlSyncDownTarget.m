@@ -138,6 +138,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
               completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (localIds == nil) {
         completeBlock(nil);
+        return;
     }
     NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
     [soql appendString:self.idFieldName];
@@ -156,6 +157,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
         if (countFetched == 0) {
             if (totalSize == 0) {
                 completeBlock(nil);
+                return;
             }
         }
         countFetched += [records count];
