@@ -171,7 +171,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 - (id)initWithConfig:(SFHybridViewConfig *)viewConfig
 {
-    return [self initWithConfig:viewConfig useWKWebView:NO];
+    return [self initWithConfig:viewConfig useWKWebView:YES];
 }
 
 - (id)initWithConfig:(SFHybridViewConfig *)viewConfig useWKWebView:(BOOL) useWKWebView
