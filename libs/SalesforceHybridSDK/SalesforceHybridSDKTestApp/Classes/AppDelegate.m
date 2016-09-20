@@ -89,27 +89,22 @@
 }
 
 - (NSString *) evalJS:(NSString *) js {
-    if (self.viewController.useWKWebView) {
-        __block NSString *resultString = nil;
-        __block BOOL finished = NO;
-        [(WKWebView *)(self.viewController.webView) evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
-            if (error == nil) {
-                if (result != nil) {
-                    resultString = [NSString stringWithFormat:@"%@", result];
-                }
-            } else {
-                [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
+    __block NSString *resultString = nil;
+    __block BOOL finished = NO;
+    [(WKWebView *)(self.viewController.webView) evaluateJavaScript:js completionHandler:^(id result, NSError *error) {
+        if (error == nil) {
+            if (result != nil) {
+                resultString = [NSString stringWithFormat:@"%@", result];
             }
-            finished = YES;
-        }];
-        while (!finished) {
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        } else {
+            [self log:SFLogLevelDebug format:@"evaluateJavaScript error : %@", error.localizedDescription];
         }
-        return resultString;
-    } else {
-        NSString *jsResult = [(UIWebView *)(self.viewController.webView) stringByEvaluatingJavaScriptFromString:js];
-        return jsResult;
+        finished = YES;
+    }];
+    while (!finished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
+    return resultString;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
