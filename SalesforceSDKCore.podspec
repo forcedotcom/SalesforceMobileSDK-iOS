@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'SalesforceSDKCore' do |sdkcore|
 
-      sdkcore.dependency 'CocoaLumberjack', '~> 2.3.0'
+      sdkcore.dependency 'CocoaLumberjack', '~> 2.4.0'
       sdkcore.libraries = 'z'
       sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ] }
       sdkcore.resource = 'shared/resources/SalesforceSDKAssets.xcassets'
