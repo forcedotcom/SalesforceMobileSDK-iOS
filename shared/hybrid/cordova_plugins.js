@@ -56,6 +56,10 @@ module.exports = [
         "clobbers": [
             "cordova.logger"
         ]
+    },
+    {
+        "file": "plugins/com.salesforce/com.salesforce.plugin.network.js",
+        "id": "com.salesforce.plugin.network"
     }
 ];
 module.exports.metadata = 

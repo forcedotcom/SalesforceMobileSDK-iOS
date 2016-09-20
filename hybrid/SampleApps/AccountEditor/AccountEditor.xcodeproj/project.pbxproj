@@ -74,6 +74,12 @@
 		CE2B8D9F1CE9330200C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D801CE932E800C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3AE1C10C5B60012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3AD1C10C5B60012125E /* libz.tbd */; };
 		CE6AB3B01C10C5BD0012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3AF1C10C5BD0012125E /* libxml2.tbd */; };
+		CE7BA1BD1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */; };
+		CE7BA1BE1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */; };
+		CE7BA1BF1D8CA3DF000B91D7 /* com.salesforce.util.push.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */; };
+		CE7BA1E81D8CB326000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */; };
+		CE7BA1E91D8CB330000B91D7 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */; };
+		CE7BA1EA1D8CB330000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */; };
 		CEBDA0891D3C052600DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0881D3C052600DBDBD0 /* CDVAppDelegate.m */; };
 		CEBDA0B21D3C059900DBDBD0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0B01D3C059900DBDBD0 /* MainViewController.m */; };
 		CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBDA0B11D3C059900DBDBD0 /* MainViewController.xib */; };
@@ -451,6 +457,9 @@
 			dstPath = www/plugins/com.salesforce;
 			dstSubfolderSpec = 7;
 			files = (
+				CE7BA1E91D8CB330000B91D7 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */,
+				CE7BA1EA1D8CB330000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */,
+				CE7BA1E81D8CB326000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */,
 				4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */,
 				4FF15E95190885CC00705FE0 /* com.salesforce.plugin.sdkinfo.js in Copy plugins Files */,
 				4FF15E96190885CC00705FE0 /* com.salesforce.plugin.sfaccountmanager.js in Copy plugins Files */,
@@ -549,6 +558,9 @@
 		CE2B8D681CE932E800C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE6AB3AD1C10C5B60012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CE6AB3AF1C10C5BD0012125E /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.network.js; sourceTree = "<group>"; };
+		CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartsync.js; sourceTree = "<group>"; };
+		CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.push.js; sourceTree = "<group>"; };
 		CEBDA0871D3C052600DBDBD0 /* CDVAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVAppDelegate.h; path = ../../../../shared/hybrid/CDVAppDelegate.h; sourceTree = "<group>"; };
 		CEBDA0881D3C052600DBDBD0 /* CDVAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVAppDelegate.m; path = ../../../../shared/hybrid/CDVAppDelegate.m; sourceTree = "<group>"; };
 		CEBDA0AF1D3C059900DBDBD0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../../../../shared/hybrid/MainViewController.h; sourceTree = "<group>"; };
@@ -633,6 +645,9 @@
 		4FF15E601908852E00705FE0 /* com.salesforce */ = {
 			isa = PBXGroup;
 			children = (
+				CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */,
+				CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */,
+				CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */,
 				4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */,
 				4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */,
 				4FF15E631908852E00705FE0 /* com.salesforce.plugin.sfaccountmanager.js */,
@@ -1240,8 +1255,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE7BA1BE1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js in Resources */,
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
 				8230E2401A24108900EFE764 /* Images.xcassets in Resources */,
+				CE7BA1BD1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js in Resources */,
+				CE7BA1BF1D8CA3DF000B91D7 /* com.salesforce.util.push.js in Resources */,
 				824A9DC11724CE4600C9BD79 /* config.xml in Resources */,
 				CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */,
 			);

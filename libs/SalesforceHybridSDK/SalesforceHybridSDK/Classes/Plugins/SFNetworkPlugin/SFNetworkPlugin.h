@@ -1,9 +1,9 @@
 /*
- SalesforceHybridSDK.h
+ SFNetworkPlugin.h
  SalesforceHybridSDK
-
- Created by Bharath Hariharan on Wed Sep 14 18:50:42 PDT 2016.
-
+ 
+ Created by Bharath Hariharan on 9/14/16.
+ 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -27,14 +27,19 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceHybridSDK/CDVPlugin+SFAdditions.h>
-#import <SalesforceHybridSDK/SalesforceOAuthPlugin.h>
-#import <SalesforceHybridSDK/SFAccountManagerPlugin.h>
-#import <SalesforceHybridSDK/SFForcePlugin.h>
-#import <SalesforceHybridSDK/SFHybridViewConfig.h>
-#import <SalesforceHybridSDK/SFHybridViewController.h>
-#import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
-#import <SalesforceHybridSDK/SFNetworkPlugin.h>
-#import <SalesforceHybridSDK/SFSDKInfoPlugin.h>
-#import <SalesforceHybridSDK/SFSmartStorePlugin.h>
-#import <SalesforceHybridSDK/SFSmartSyncPlugin.h>
+#import <Foundation/Foundation.h>
+#import "SFForcePlugin.h"
+
+/**
+ * String used with Cordova to uniquely identify this plugin.
+ */
+extern NSString * const kSFNetworkPluginIdentifier;
+
+@interface SFNetworkPlugin : SFForcePlugin
+
+/**
+ * Sends a network request using native network components.
+ */
+- (void) pgSendRequest:(CDVInvokedUrlCommand *) command;
+
+@end
