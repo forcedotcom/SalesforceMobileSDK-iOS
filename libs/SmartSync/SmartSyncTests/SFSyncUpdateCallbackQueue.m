@@ -69,7 +69,8 @@
 
 - (SFSyncState*)getNextSyncUpdate
 {
-    return [self getNextSyncUpdate:MAX_WAIT_TIME];
+    SFSyncState* syncState = [self getNextSyncUpdate:MAX_WAIT_TIME];
+    return syncState;
 }
 
 - (SFSyncState*)getNextSyncUpdate:(NSTimeInterval) maxWaitTime
