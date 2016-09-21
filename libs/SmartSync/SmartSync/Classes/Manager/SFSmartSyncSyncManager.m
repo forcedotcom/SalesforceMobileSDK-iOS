@@ -445,7 +445,7 @@ static NSMutableDictionary *syncMgrList = nil;
     /*
      * Fetches list of IDs present in local soup that have not been modified locally.
      */
-    __block SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
+    SFQuerySpec* querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:idFieldName withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger count = [self.store countWithQuerySpec:querySpec error:nil];
     NSMutableString* smartSqlQuery = [[NSMutableString alloc] init];
     [smartSqlQuery appendString:@"SELECT {"];
@@ -485,11 +485,10 @@ static NSMutableDictionary *syncMgrList = nil;
                 }
             }
             [localIds removeObjectsInArray:remoteIds];
-
             // Deletes extra IDs from SmartStore.
             if (localIds.count > 0) {
                 NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, SOUP_ENTRY_ID, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
-                querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
+                SFQuerySpec* querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
                 [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }

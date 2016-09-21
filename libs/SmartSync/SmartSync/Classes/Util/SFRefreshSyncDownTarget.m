@@ -149,6 +149,8 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
     __block NSString* idFieldName = self.idFieldName;
     __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
     SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
+        // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
+        //    are we leaking memory?
         [remoteIds addObjectsFromArray:records];
 
         if (slice < countSlices) {

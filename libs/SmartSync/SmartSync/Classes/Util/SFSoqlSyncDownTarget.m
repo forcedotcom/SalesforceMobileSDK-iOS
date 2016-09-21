@@ -103,12 +103,13 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     __weak SFSoqlSyncDownTarget* weakSelf = self;
-
+    
     // Resync?
     NSString* queryToRun = queryRun;
     if (maxTimeStamp > 0) {
         queryToRun = [SFSoqlSyncDownTarget addFilterForReSync:queryRun modDateFieldName:self.modificationDateFieldName maxTimeStamp:maxTimeStamp];
     }
+
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -149,29 +150,27 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
     [soql appendString:fromClause];
     __block NSUInteger countFetched = 0;
-    __block NSUInteger totalSize = 0;
     __block NSMutableArray* allRecords = [[NSMutableArray alloc] init];
-    __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
-    __weak SFSoqlSyncDownTarget* weakSelf = self;
-    SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        totalSize = strongSelf.totalSize;
+    __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
+    SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
+        // NB with the recursive block, using weakSelf doesn't work (it goes to nil)
+        //    are we leaking memory?
         if (countFetched == 0) {
-            if (totalSize == 0) {
+            if (self.totalSize == 0) {
                 completeBlock(nil);
                 return;
             }
         }
         countFetched += [records count];
         [allRecords addObjectsFromArray:records];
-        if (countFetched < totalSize) {
-            [strongSelf continueFetch:syncManager errorBlock:errorBlock completeBlock:completionBlockRecurse];
+        if (countFetched < self.totalSize) {
+            [self continueFetch:syncManager errorBlock:errorBlock completeBlock:fetchBlockRecurse];
         } else {
             completeBlock(allRecords);
         }
     };
-    completionBlockRecurse = completionBlock;
-    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:completionBlock];
+    fetchBlockRecurse = fetchBlock;
+    [self startFetch:syncManager maxTimeStamp:0 queryRun:soql errorBlock:errorBlock completeBlock:fetchBlock];
 }
 
 + (NSString*) addFilterForReSync:(NSString*)query modDateFieldName:(NSString *)modDateFieldName maxTimeStamp:(long long)maxTimeStamp {
