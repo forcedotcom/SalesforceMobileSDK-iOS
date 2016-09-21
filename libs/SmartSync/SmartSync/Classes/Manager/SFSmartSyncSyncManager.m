@@ -303,6 +303,13 @@ static NSMutableDictionary *syncMgrList = nil;
                 [target continueFetch:self errorBlock:failBlock completeBlock:continueFetchBlockRecurse];
             }
         }
+        else {
+            // In some cases (e.g. resync for refresh sync down), the totalSize is just an (over)estimation
+            // As a result progress might not get to 100 and therefore a DONE would never be sent
+            if (progress < 100) {
+                updateSync(nil, 100, -1 /*unchanged*/, -1 /*unchanged*/);
+            }
+        }
     };
     
     // initialize the alias
