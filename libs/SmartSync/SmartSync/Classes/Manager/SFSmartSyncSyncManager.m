@@ -170,7 +170,7 @@ static NSMutableDictionary *syncMgrList = nil;
 /** Run a previously created sync
  */
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
-    __weak SFSmartSyncSyncManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (status == nil) status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
@@ -200,7 +200,8 @@ static NSMutableDictionary *syncMgrList = nil;
     };
     
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
-        [weakSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
     
@@ -279,7 +280,7 @@ static NSMutableDictionary *syncMgrList = nil;
     __block NSUInteger totalSize = 0;
     __block NSUInteger progress = 0;
     __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
-    __weak SFSmartSyncSyncManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     SFSyncDownTargetFetchCompleteBlock startFetchBlock = ^(NSArray* records) {
         totalSize = target.totalSize;
@@ -288,7 +289,7 @@ static NSMutableDictionary *syncMgrList = nil;
     };
 
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
-        __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (records != nil) {
             countFetched += [records count];
             progress = 100*countFetched / totalSize;
@@ -470,13 +471,14 @@ static NSMutableDictionary *syncMgrList = nil;
      * Fetches list of IDs still present on the server from the list of local IDs
      * and removes the list of IDs that are still present on the server.
      */
-    __weak SFSmartSyncSyncManager* weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     __block NSMutableArray* remoteIds = [[NSMutableArray alloc] init];
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
-        [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
-        __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (records != nil) {
             for (NSDictionary* record in records) {
                 if (record != nil) {
@@ -543,9 +545,9 @@ static NSMutableDictionary *syncMgrList = nil;
      */
     if (mergeMode == SFSyncStateMergeModeLeaveIfChanged && !locallyCreated) {
         // Need to check the modification date on the server, against the local date.
-        __weak SFSmartSyncSyncManager *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFSyncUpRecordModificationResultBlock modificationBlock = ^(NSDate *localDate, NSDate *serverDate, NSError *error) {
-            __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             if (localDate == nil // We didn't capture the last modified date so we can't really enforce merge mode
                 || serverDate == nil // We were unable to get the last modified date from the server
                 || [localDate compare:serverDate] != NSOrderedAscending) // local date is newer than server

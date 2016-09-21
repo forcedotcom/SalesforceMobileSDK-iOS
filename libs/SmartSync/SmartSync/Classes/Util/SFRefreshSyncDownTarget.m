@@ -32,10 +32,10 @@
 #import <SmartStore/SFSmartStore.h>
 
 
-NSString * const kSFSyncTargetRefreshSoupName = @"soupName";
-NSString * const kSFSyncTargetRefreshObjectType = @"objectType";
-NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
-NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
+static NSString * const kSFSyncTargetRefreshSoupName = @"soupName";
+static NSString * const kSFSyncTargetRefreshObjectType = @"objectType";
+static NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
+static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
 
 @interface SFSmartSyncSyncManager ()
 
@@ -113,7 +113,7 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
 
     // During reSync, we can't make use of the maxTimeStamp that was captured during last refresh
     // since we expect records to have been fetched from the server and written to the soup directly outside a sync down operation
-    // Instead during a reSymc, we compute maxTimeStamp from the records in the soup
+    // Instead during a reSync, we compute maxTimeStamp from the records in the soup
     self.isResync = maxTimeStamp > 0;
     [self getIdsFromSmartStoreAndFetchFromServer:syncManager
                                       errorBlock:errorBlock

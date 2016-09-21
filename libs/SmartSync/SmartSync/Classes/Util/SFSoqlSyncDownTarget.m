@@ -28,7 +28,7 @@
 #import "SFSmartSyncObjectUtils.h"
 #import "SFSmartSyncNetworkUtils.h"
 
-NSString * const kSFSoqlSyncTargetQuery = @"query";
+static NSString * const kSFSoqlSyncTargetQuery = @"query";
 
 @interface SFSoqlSyncDownTarget ()
 
@@ -102,7 +102,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
            queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    __weak SFSoqlSyncDownTarget* weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     // Resync?
     NSString* queryToRun = queryRun;
@@ -123,7 +123,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
             errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
     if (self.nextRecordsUrl) {
-        __weak SFSoqlSyncDownTarget* weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFRestRequest* request = [SFRestRequest requestWithMethod:SFRestMethodGET path:self.nextRecordsUrl queryParams:nil];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
             weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];

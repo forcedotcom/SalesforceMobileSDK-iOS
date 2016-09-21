@@ -28,8 +28,8 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 
-NSString * const kSFSyncTargetObjectType = @"sobjectType";
-NSString * const kSFSyncTargetFieldlist = @"fieldlist";
+static NSString * const kSFSyncTargetObjectType = @"sobjectType";
+static NSString * const kSFSyncTargetFieldlist = @"fieldlist";
 
 
 @interface SFMruSyncDownTarget ()
@@ -84,15 +84,15 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
        maxTimeStamp:(long long)maxTimeStamp
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    __weak SFMruSyncDownTarget *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
-        __strong typeof(self) strongSelf = weakSelf;
-        NSArray* recentItems = [strongSelf pluck:d[kRecentItems] key:self.idFieldName];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSArray* recentItems = [strongSelf pluck:d[kRecentItems] key:strongSelf.idFieldName];
         NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
-        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
-                            from:self.objectType]
+        NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:strongSelf.fieldlist]
+                            from:strongSelf.objectType]
                            whereClause:inPredicate]
                           build];
         [strongSelf startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
@@ -104,7 +104,7 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
            queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    __weak SFMruSyncDownTarget *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFRestRequest * soqlRequest = [[SFRestAPI sharedInstance] requestForQuery:queryRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:soqlRequest failBlock:errorBlock completeBlock:^(NSDictionary * d) {
         weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
