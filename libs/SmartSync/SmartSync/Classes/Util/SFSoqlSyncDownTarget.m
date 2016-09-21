@@ -111,8 +111,9 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForQuery:queryToRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary *d) {
-        weakSelf.totalSize = [d[kResponseTotalSize] integerValue];
-        weakSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.totalSize = [d[kResponseTotalSize] integerValue];
+        strongSelf.nextRecordsUrl = d[kResponseNextRecordsUrl];
         completeBlock(d[kResponseRecords]);
     }];
 }
@@ -153,7 +154,8 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
     __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
     __weak SFSoqlSyncDownTarget* weakSelf = self;
     SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
-        totalSize = weakSelf.totalSize;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        totalSize = strongSelf.totalSize;
         if (countFetched == 0) {
             if (totalSize == 0) {
                 completeBlock(nil);
@@ -163,7 +165,7 @@ NSString * const kSFSoqlSyncTargetQuery = @"query";
         countFetched += [records count];
         [allRecords addObjectsFromArray:records];
         if (countFetched < totalSize) {
-            [weakSelf continueFetch:syncManager errorBlock:errorBlock completeBlock:completionBlockRecurse];
+            [strongSelf continueFetch:syncManager errorBlock:errorBlock completeBlock:completionBlockRecurse];
         } else {
             completeBlock(allRecords);
         }

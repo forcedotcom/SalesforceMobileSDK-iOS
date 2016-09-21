@@ -87,14 +87,15 @@ NSString * const kSFSyncTargetFieldlist = @"fieldlist";
     __weak SFMruSyncDownTarget *weakSelf = self;
     SFRestRequest *request = [[SFRestAPI sharedInstance] requestForMetadataWithObjectType:self.objectType];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSDictionary* d) {
-        NSArray* recentItems = [weakSelf pluck:d[kRecentItems] key:self.idFieldName];
+        __strong typeof(self) strongSelf = weakSelf;
+        NSArray* recentItems = [strongSelf pluck:d[kRecentItems] key:self.idFieldName];
         NSString* inPredicate = [@[ self.idFieldName, @" IN ('", [recentItems componentsJoinedByString:@"', '"], @"')"]
                                  componentsJoinedByString:@""];
         NSString* soql = [[[[SFSmartSyncSoqlBuilder withFieldsArray:self.fieldlist]
                             from:self.objectType]
                            whereClause:inPredicate]
                           build];
-        [weakSelf startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
+        [strongSelf startFetch:syncManager maxTimeStamp:maxTimeStamp queryRun:soql errorBlock:errorBlock completeBlock:completeBlock];
     }];
 }
 

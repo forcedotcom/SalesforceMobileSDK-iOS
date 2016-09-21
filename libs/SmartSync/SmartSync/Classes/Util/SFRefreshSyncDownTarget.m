@@ -146,26 +146,26 @@ NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
     __block NSUInteger sliceSize = self.countIdsPerSoql;
     __block NSUInteger countSlices = ceil((float)localIds.count / sliceSize);
     __block NSUInteger slice = 0;
-
-    __weak SFRefreshSyncDownTarget* weakSelf = self;
-    __block SFSyncDownTargetFetchCompleteBlock completionBlockRecurse = ^(NSArray *records) {};
-    SFSyncDownTargetFetchCompleteBlock completionBlock = ^(NSArray* records) {
+    __block NSString* idFieldName = self.idFieldName;
+    __block SFSyncDownTargetFetchCompleteBlock fetchBlockRecurse = ^(NSArray *records) {};
+    SFSyncDownTargetFetchCompleteBlock fetchBlock = ^(NSArray* records) {
         [remoteIds addObjectsFromArray:records];
 
-        NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
         if (slice < countSlices) {
+            NSArray* idsToFetch = [localIds subarrayWithRange:NSMakeRange(slice*sliceSize, MIN(localIds.count, (slice+1)*sliceSize))];
+            slice++;
             [self fetchFromServer:idsToFetch
-                        fieldlist:@[weakSelf.idFieldName]
+                        fieldlist:@[idFieldName]
                      maxTimeStamp:0 /*all*/
                        errorBlock:errorBlock
-                    completeBlock:completionBlockRecurse];
+                    completeBlock:fetchBlockRecurse];
         } else {
-            completionBlockRecurse(remoteIds);
+            completeBlock(remoteIds);
         }
     };
-    completionBlockRecurse = completionBlock;
+    fetchBlockRecurse = fetchBlock;
     // Let's get going
-    completionBlockRecurse([NSArray new]);
+    fetchBlock([NSArray new]);
 }
 
 - (void) getIdsFromSmartStoreAndFetchFromServer:(SFSmartSyncSyncManager*)syncManager

@@ -172,25 +172,26 @@ static NSMutableDictionary *syncMgrList = nil;
 - (void) runSync:(SFSyncState*) sync updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     __weak SFSmartSyncSyncManager *weakSelf = self;
     SyncUpdateBlock updateSync = ^(NSString* status, NSInteger progress, NSInteger totalSize, long long maxTimeStamp) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (status == nil) status = (progress == 100 ? kSFSyncStateStatusDone : kSFSyncStateStatusRunning);
         sync.status = [SFSyncState syncStatusFromString:status];
         if (progress>=0)  sync.progress = progress;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
-        [sync save:weakSelf.store];
+        [sync save:strongSelf.store];
         
-        [weakSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
+        [strongSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
         
         
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen
             case SFSyncStateStatusRunning:
-                [weakSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
+                [strongSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
-                [weakSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
+                [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
         
@@ -205,13 +206,14 @@ static NSMutableDictionary *syncMgrList = nil;
     
     // Run on background thread
     dispatch_async(self.queue, ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
-                [weakSelf syncDown:sync updateSync:updateSync failSync:failSync];
+                [strongSelf syncDown:sync updateSync:updateSync failSync:failSync];
                 break;
             case SFSyncStateSyncTypeUp:
-                [weakSelf syncUp:sync updateSync:updateSync failSync:failSync];
+                [strongSelf syncUp:sync updateSync:updateSync failSync:failSync];
                 break;
         }
     });
@@ -275,6 +277,7 @@ static NSMutableDictionary *syncMgrList = nil;
 
     __block NSUInteger countFetched = 0;
     __block NSUInteger totalSize = 0;
+    __block NSUInteger progress = 0;
     __block SFSyncDownTargetFetchCompleteBlock continueFetchBlockRecurse = ^(NSArray *records) {};
     __weak SFSmartSyncSyncManager *weakSelf = self;
     
@@ -285,14 +288,16 @@ static NSMutableDictionary *syncMgrList = nil;
     };
 
     SFSyncDownTargetFetchCompleteBlock continueFetchBlock = ^(NSArray* records) {
+        __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
         if (records != nil) {
             countFetched += [records count];
-            NSUInteger progress = 100*countFetched / totalSize;
+            progress = 100*countFetched / totalSize;
+
             long long maxTimeStampForFetched = [target getLatestModificationTimeStamp:records];
             
             // Save records
             NSError *saveRecordsError = nil;
-            [weakSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
+            [strongSelf saveRecords:records soup:soupName idFieldName:target.idFieldName mergeMode:mergeMode error:&saveRecordsError];
             if (saveRecordsError) {
                 failSync(@"Failed to save SmartStore records on syncDown", saveRecordsError);
             } else {
@@ -471,6 +476,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [weakSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
+        __strong SFSmartSyncSyncManager *strongSelf = weakSelf;
         if (records != nil) {
             for (NSDictionary* record in records) {
                 if (record != nil) {
@@ -484,7 +490,7 @@ static NSMutableDictionary *syncMgrList = nil;
             if (localIds.count > 0) {
                 NSString* smartSql = [NSString stringWithFormat:@"SELECT {%@:%@} FROM {%@} WHERE {%@:%@} IN ('%@')", soupName, SOUP_ENTRY_ID, soupName, soupName, idFieldName, [localIds componentsJoinedByString:@", "]];
                 querySpec = [SFQuerySpec newSmartQuerySpec:smartSql withPageSize:localIds.count];
-                [weakSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
+                [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
         completionStatusBlock(SFSyncStateStatusDone);
