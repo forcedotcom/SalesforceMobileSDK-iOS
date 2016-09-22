@@ -83,6 +83,7 @@
 		CEBDA0891D3C052600DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0881D3C052600DBDBD0 /* CDVAppDelegate.m */; };
 		CEBDA0B21D3C059900DBDBD0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0B01D3C059900DBDBD0 /* MainViewController.m */; };
 		CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEBDA0B11D3C059900DBDBD0 /* MainViewController.xib */; };
+		CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -566,6 +567,7 @@
 		CEBDA0AF1D3C059900DBDBD0 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../../../../shared/hybrid/MainViewController.h; sourceTree = "<group>"; };
 		CEBDA0B01D3C059900DBDBD0 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = ../../../../shared/hybrid/MainViewController.m; sourceTree = "<group>"; };
 		CEBDA0B11D3C059900DBDBD0 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewController.xib; path = ../../../../shared/hybrid/MainViewController.xib; sourceTree = "<group>"; };
+		CEF4A30F1D9493BB0025EDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -795,6 +797,7 @@
 		824A9BD81721FCA400C9BD79 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */,
 				824A9DC01724CE4600C9BD79 /* config.xml */,
 				824A9BD91721FCA400C9BD79 /* AccountEditor-Info.plist */,
 				824A9BDA1721FCA400C9BD79 /* InfoPlist.strings */,
@@ -958,6 +961,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 824A9BC51721FCA400C9BD79;
 			productRefGroup = 824A9BCF1721FCA400C9BD79 /* Products */;
@@ -1256,6 +1260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE7BA1BE1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js in Resources */,
+				CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */,
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
 				8230E2401A24108900EFE764 /* Images.xcassets in Resources */,
 				CE7BA1BD1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js in Resources */,
@@ -1330,6 +1335,14 @@
 				824A9BDB1721FCA400C9BD79 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CEF4A30E1D9493BB0025EDF0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CEF4A30F1D9493BB0025EDF0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
