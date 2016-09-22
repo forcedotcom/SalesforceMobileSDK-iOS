@@ -205,7 +205,7 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
     }
     [self.tableView reloadData];
-    __weak ContactDetailViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         [weakSelf.dataRows[0][3] becomeFirstResponder];
     });

@@ -383,9 +383,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)triggerActionAfterTokenRefresh {
     self.authRefreshInstance = [(CSFAuthRefresh *)[self.authRefreshClass alloc] initWithNetwork:self.enqueuedNetwork];
-    __weak CSFAction *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.authRefreshInstance refreshAuthWithCompletionBlock:^(CSFOutput *output, NSError *error) {
-        __strong CSFAction *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [strongSelf completeOperationWithError:error];
         } else {

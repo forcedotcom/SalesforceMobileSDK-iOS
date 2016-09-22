@@ -299,7 +299,7 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
 
 - (void)forgotPassAction
 {
-    __weak SFPasscodeViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:[SFSDKResourceUtils localizedString:@"forgotPasscodeTitle"]
                                                                    message:[SFSDKResourceUtils localizedString:@"logoutAlertViewTitle"]
@@ -311,8 +311,9 @@ static CGFloat      const kUseTouchIdButtonHeight           = 40.0f;
                                style:UIAlertActionStyleDefault
                                handler:^(UIAlertAction *action)
                                {
-                                   [weakSelf log:SFLogLevelDebug msg:@"User pressed Yes"];
-                                   [weakSelf validatePasscodeFailed];
+                                   __strong typeof(weakSelf) strongSelf = weakSelf;
+                                   [strongSelf log:SFLogLevelDebug msg:@"User pressed Yes"];
+                                   [strongSelf validatePasscodeFailed];
                                }];
 
     UIAlertAction *cancelAction = [UIAlertAction
