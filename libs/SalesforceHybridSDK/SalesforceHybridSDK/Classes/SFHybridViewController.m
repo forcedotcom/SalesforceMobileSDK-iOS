@@ -387,12 +387,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
         [self log:SFLogLevelDebug format:@"%@", newReturnUrl];
         return [self frontDoorUrlWithReturnUrl: newReturnUrl returnUrlIsEncoded:TRUE createAbsUrl: FALSE];
     }
-    NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
+    NSString *encodedUrl = (isEncoded ? fullReturnUrl : [fullReturnUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]);
     NSMutableString *frontDoorUrl = [NSMutableString stringWithString:instUrl];
     if (![frontDoorUrl hasSuffix:@"/"]) {
         [frontDoorUrl appendString:@"/"];
     }
-    NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedSidValue = [creds.accessToken stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     [frontDoorUrl appendFormat:@"secur/frontdoor.jsp?sid=%@&retURL=%@&display=touch", encodedSidValue, encodedUrl];
     return [NSURL URLWithString:frontDoorUrl];
 }
@@ -444,12 +444,8 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     NSMutableString *errorPageUrlString = [NSMutableString stringWithString:[rootUrl absoluteString]];
     [rootUrl query] == nil ? [errorPageUrlString appendString:@"?"] : [errorPageUrlString appendString:@"&"];
     [errorPageUrlString appendFormat:@"%@=%ld", kErrorCodeParameterName, (long)errorCode];
-    [errorPageUrlString appendFormat:@"&%@=%@",
-     kErrorDescriptionParameterName,
-     [errorDescription stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    [errorPageUrlString appendFormat:@"&%@=%@",
-     kErrorContextParameterName,
-     [errorContext stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [errorPageUrlString appendFormat:@"&%@=%@", kErrorDescriptionParameterName, [errorDescription stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
+    [errorPageUrlString appendFormat:@"&%@=%@", kErrorContextParameterName, [errorContext stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]];
     return [NSURL URLWithString:errorPageUrlString];
 }
 
@@ -635,7 +631,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     // If there's an original URL, load it through frontdoor.
     if (originalUrl != nil) {
         [self log:SFLogLevelDebug format:@"Authentication complete. Redirecting to '%@' through frontdoor.",
-                [originalUrl stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                [originalUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
         BOOL createAbsUrl = YES;
         if (authInfo.authType == SFOAuthTypeRefresh) {
             createAbsUrl = NO;
@@ -651,7 +647,7 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     SFOAuthCredentials *creds = [SFAuthenticationManager sharedManager].coordinator.credentials;
     if (nil != creds.apiUrl) {
         NSMutableString *instanceUrl = [[NSMutableString alloc] initWithString:creds.apiUrl.absoluteString];
-        NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *encodedPingUrlParam = [kVFPingPageUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
         [instanceUrl appendFormat:@"/visualforce/session?url=%@&autoPrefixVFDomain=true", encodedPingUrlParam];
         NSURL *pingURL = [[NSURL alloc] initWithString:instanceUrl];
         NSURLRequest *pingRequest = [[NSURLRequest alloc] initWithURL:pingURL];

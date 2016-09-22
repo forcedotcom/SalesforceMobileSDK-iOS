@@ -74,7 +74,7 @@ NSURL * CSFNotNullURLRelative(id value, NSURL *baseURL) {
         } else {
             result = [NSURL URLWithString:value relativeToURL:baseURL];
             if (!result) {
-                stringValue = [stringValue stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                stringValue = [stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
                 result = [NSURL URLWithString:value relativeToURL:baseURL];
             }
         }

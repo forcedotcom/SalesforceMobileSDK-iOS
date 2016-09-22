@@ -102,7 +102,7 @@
 #pragma mark Encoded Queries
 
 - (NSString *) encodeAndBuild {
-    return [[self build] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return [[self build] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
 }
 
 - (NSString *) encodeAndBuildWithPath:(NSString *) path {
