@@ -773,11 +773,12 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     __weak __typeof(self) weakSelf = self;
     __block BOOL accountsSaved = YES;
     dispatch_sync(_syncQueue, ^{
-        NSDictionary *userAccountMap = [weakSelf.userAccountMap copy];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSDictionary *userAccountMap = [strongSelf.userAccountMap copy];
         
         for (SFUserAccountIdentity *userIdentity in userAccountMap) {
             // Don't save the temporary user id
-            if ([userIdentity isEqual:weakSelf.temporaryUserIdentity]) {
+            if ([userIdentity isEqual:strongSelf.temporaryUserIdentity]) {
                 continue;
             }
             
@@ -785,22 +786,22 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
             SFUserAccount *user = userAccountMap[userIdentity];
             
             // And it's persistent file path
-            NSString *userAccountPath = [[weakSelf class] userAccountPlistFileForUser:user];
+            NSString *userAccountPath = [[strongSelf class] userAccountPlistFileForUser:user];
             
             // Make sure to remove any existing file
             NSFileManager *fm = [[NSFileManager alloc] init];
             if ([fm fileExistsAtPath:userAccountPath]) {
                 if (![fm removeItemAtPath:userAccountPath error:error]) {
                     NSError*const err = error ? *error : nil;
-                    [weakSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
+                    [strongSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
                     accountsSaved = NO;
                     return;
                 }
             }
             
             // And now save its content
-            if (![weakSelf saveUserAccount:user toFile:userAccountPath]) {
-                [weakSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
+            if (![strongSelf saveUserAccount:user toFile:userAccountPath]) {
+                [strongSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
                 accountsSaved = NO;
                 return ;
             }

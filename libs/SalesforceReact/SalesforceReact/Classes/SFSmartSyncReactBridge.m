@@ -68,7 +68,7 @@ RCT_EXPORT_METHOD(syncDown:(NSDictionary *)args callback:(RCTResponseSenderBlock
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
     BOOL isGlobal = [self isGlobal:args];
-    __weak SFSmartSyncReactBridge *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal]  syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
@@ -80,7 +80,7 @@ RCT_EXPORT_METHOD(reSync:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     BOOL isGlobal = [self isGlobal:args];
     [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
-    __weak SFSmartSyncReactBridge *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];
@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)c
     SFSyncOptions *options = [SFSyncOptions newFromDict:[args nonNullObjectForKey:kSyncOptionsArg]];
     SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[args nonNullObjectForKey:kSyncTargetArg]];
     BOOL isGlobal = [self isGlobal:args];
-    __weak SFSmartSyncReactBridge *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
         [weakSelf handleSyncUpdate:sync isGlobal:isGlobal callback:callback];
     }];

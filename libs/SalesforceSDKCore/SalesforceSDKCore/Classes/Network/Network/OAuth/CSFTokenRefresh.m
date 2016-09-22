@@ -107,9 +107,9 @@ static NSTimeInterval const kCSFTokenRefreshTimeout = 60.0;
     }
     
     NSURLSession *session = self.network.ephemeralSession;
-    __weak CSFTokenRefresh *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        __strong CSFTokenRefresh *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [strongSelf finishWithOutput:nil error:error];
             return;

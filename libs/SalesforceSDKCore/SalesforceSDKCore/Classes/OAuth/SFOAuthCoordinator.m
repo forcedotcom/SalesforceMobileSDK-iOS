@@ -215,7 +215,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self notifyDelegateOfBeginAuthentication];
         [self.oauthCoordinatorFlow beginJwtTokenExchangeFlow];
     } else {
-        __weak SFOAuthCoordinator *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         switch (self.advancedAuthConfiguration) {
             case SFOAuthAdvancedAuthConfigurationNone: {
                 [self notifyDelegateOfBeginAuthentication];
@@ -226,18 +226,21 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 // If advanced auth mode is allowed, we have to get auth configuration settings from the org, where
                 // available, and initiate advanced auth flows, if configured.
                 [self.oauthCoordinatorFlow retrieveOrgAuthConfiguration:^(SFOAuthOrgAuthConfiguration *orgAuthConfig, NSError *error) {
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
                     if (error) {
                         // That's fatal.
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [weakSelf notifyDelegateOfFailure:error authInfo:self.authInfo];
+                            __strong typeof(weakSelf) strongSelf = weakSelf;
+                            [strongSelf notifyDelegateOfFailure:error authInfo:strongSelf.authInfo];
                         });
                     } else if (orgAuthConfig.useNativeBrowserForAuth) {
-                        weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                        [weakSelf notifyDelegateOfBeginAuthentication];
-                        [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                        strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                        [strongSelf notifyDelegateOfBeginAuthentication];
+                        [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
                     } else {
-                        [self notifyDelegateOfBeginAuthentication];
-                        [weakSelf.oauthCoordinatorFlow beginUserAgentFlow];
+                        __strong typeof(weakSelf) strongSelf = weakSelf;
+                        [strongSelf notifyDelegateOfBeginAuthentication];
+                        [strongSelf.oauthCoordinatorFlow beginUserAgentFlow];
                     }
                 }];
                 break;
@@ -245,9 +248,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             case SFOAuthAdvancedAuthConfigurationRequire: {
                 // Advanced auth mode is required.  Begin the advanced browser flow.
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    weakSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
-                    [weakSelf notifyDelegateOfBeginAuthentication];
-                    [weakSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
+                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                    strongSelf.authInfo = [[SFOAuthInfo alloc] initWithAuthType:SFOAuthTypeAdvancedBrowser];
+                    [strongSelf notifyDelegateOfBeginAuthentication];
+                    [strongSelf.oauthCoordinatorFlow beginNativeBrowserFlow];
                 });
                 break;
             }
@@ -454,7 +458,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
 - (void)beginNativeBrowserFlow {
     if ([self.delegate respondsToSelector:@selector(oauthCoordinator:willBeginBrowserAuthentication:)]) {
-        __weak SFOAuthCoordinator *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [self.delegate oauthCoordinator:self willBeginBrowserAuthentication:^(BOOL proceed) {
             if (proceed) {
                 [weakSelf continueNativeBrowserFlow];

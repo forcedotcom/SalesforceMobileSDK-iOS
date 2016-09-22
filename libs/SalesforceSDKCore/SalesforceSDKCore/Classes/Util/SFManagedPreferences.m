@@ -64,7 +64,7 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
         self.syncQueue = [[NSOperationQueue alloc] init];
         self.syncQueue.name = @"NSUserDefaults Sync Queue";
         
-        __weak SFManagedPreferences *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
                                                           object:nil
                                                            queue:self.syncQueue
