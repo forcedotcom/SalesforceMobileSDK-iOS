@@ -45,7 +45,8 @@ NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
     if ([value isKindOfClass:[NSString class]]) {
         result = [NSURL URLWithString:value];
         if (!result) {
-            result = [NSURL URLWithString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            value = [value stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            result = [NSURL URLWithString:value];
         }
     }
     return result;
