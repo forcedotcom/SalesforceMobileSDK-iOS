@@ -106,17 +106,11 @@ NSString * CSFNotNullString(id value) {
 }
 
 NSString * CSFURLEncode(NSString *txt) {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                                 (CFStringRef)txt,
-                                                                                 NULL,
-                                                                                 CFSTR(",:/=+&"),
-                                                                                 kCFStringEncodingUTF8));
+    return [txt stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
 NSString * CSFURLDecode(NSString *txt) {
-    return (NSString *) CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL,(CFStringRef)txt,
-                                                                                                  CFSTR(""),
-                                                                                                  kCFStringEncodingUTF8));
+    return [txt stringByRemovingPercentEncoding];
 }
 
 NSString * CSFURLFormEncode(NSDictionary *info, NSError **error) {
