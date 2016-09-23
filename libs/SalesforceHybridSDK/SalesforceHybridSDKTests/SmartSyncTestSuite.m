@@ -234,6 +234,10 @@
     [self runTest:@"testSyncDownWithNoOverwrite"];
 }
 
+- (void)testRefreshSyncDown {
+    [self runTest:@"testRefreshSyncDown"];
+}
+
 - (void)testReSync {
     [self runTest:@"testReSync"];
 }
