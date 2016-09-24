@@ -36,6 +36,7 @@ static NSString * const kSFSyncTargetRefreshSoupName = @"soupName";
 static NSString * const kSFSyncTargetRefreshObjectType = @"sobjectType";
 static NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
 static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
+static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
 
 @interface SFSmartSyncSyncManager ()
 
@@ -68,7 +69,8 @@ static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql"
         self.soupName = dict[kSFSyncTargetRefreshSoupName];
         self.objectType = dict[kSFSyncTargetRefreshObjectType];
         self.fieldlist = dict[kSFSyncTargetRefreshFieldlist];
-        self.countIdsPerSoql = [(NSNumber*) dict[kSFSyncTargetRefreshCountIdsPerSoql] unsignedIntegerValue];
+        NSNumber* idsPerSoqlInDict = dict[kSFSyncTargetRefreshCountIdsPerSoql];
+        self.countIdsPerSoql = idsPerSoqlInDict == nil ? kSFSyncTargetRefreshDefaultCountIdsPerSoql : [idsPerSoqlInDict unsignedIntegerValue];
     }
     return self;
 }
@@ -89,7 +91,7 @@ static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql"
     syncTarget.soupName = soupName;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
-    syncTarget.countIdsPerSoql = 500;
+    syncTarget.countIdsPerSoql = kSFSyncTargetRefreshDefaultCountIdsPerSoql;
     return syncTarget;
 }
 
@@ -230,12 +232,17 @@ static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql"
         }
     }
     // Get records from server that have changed after maxTimeStamp
-    [self fetchFromServer:idsInSmartStore fieldlist:self.fieldlist maxTimeStamp:maxTimeStamp errorBlock:errorBlock completeBlock:^(NSArray *records) {
-        // Increment page if there is more to fetch
-        BOOL done = self.countIdsPerSoql * (self.page + 1) >= self.totalSize;
-        self.page = (done ? 0 : self.page+1);
-        completeBlock(records);
-    }];
+    if (idsInSmartStore.count > 0) {
+        [self fetchFromServer:idsInSmartStore fieldlist:self.fieldlist maxTimeStamp:maxTimeStamp errorBlock:errorBlock completeBlock:^(NSArray *records) {
+            // Increment page if there is more to fetch
+            BOOL done = self.countIdsPerSoql * (self.page + 1) >= self.totalSize;
+            self.page = (done ? 0 : self.page+1);
+            completeBlock(records);
+        }];
+    }
+    else {
+        completeBlock(nil);
+    }
 }
 
 - (void) fetchFromServer:(NSArray*)ids fieldlist:(NSArray*)fieldlist
