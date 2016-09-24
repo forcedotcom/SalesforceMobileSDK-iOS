@@ -33,7 +33,7 @@
 
 
 static NSString * const kSFSyncTargetRefreshSoupName = @"soupName";
-static NSString * const kSFSyncTargetRefreshObjectType = @"objectType";
+static NSString * const kSFSyncTargetRefreshObjectType = @"sobjectType";
 static NSString * const kSFSyncTargetRefreshFieldlist = @"fieldlist";
 static NSString * const kSFSyncTargetRefreshCountIdsPerSoql = @"coundIdsPerSoql";
 
