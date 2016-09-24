@@ -91,7 +91,7 @@ static NSUInteger const kSFSyncTargetRefreshDefaultCountIdsPerSoql = 500;
     syncTarget.soupName = soupName;
     syncTarget.objectType = objectType;
     syncTarget.fieldlist = fieldlist;
-    syncTarget.countIdsPerSoql = 500;
+    syncTarget.countIdsPerSoql = kSFSyncTargetRefreshDefaultCountIdsPerSoql;
     return syncTarget;
 }
 
