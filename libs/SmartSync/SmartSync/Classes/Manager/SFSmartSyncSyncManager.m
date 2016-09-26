@@ -122,6 +122,13 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
++ (void)removeSharedInstances {
+    @synchronized (([SFSmartSyncSyncManager class])) {
+        [syncMgrList removeAllObjects];
+    }
+}
+
+
 + (NSString*)keyForStore:(SFSmartStore*)store {
     return [SFSmartSyncSyncManager keyForUser:store.user storeName:store.storeName];
 }
@@ -206,9 +213,9 @@ static NSMutableDictionary *syncMgrList = nil;
     };
     
     // Run on background thread
+    updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
     dispatch_async(self.queue, ^{
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
         switch (sync.type) {
             case SFSyncStateSyncTypeDown:
                 [strongSelf syncDown:sync updateSync:updateSync failSync:failSync];
@@ -235,7 +242,7 @@ static NSMutableDictionary *syncMgrList = nil;
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
-    return sync;
+    return [sync copy];
 }
 
 /** Resync
@@ -260,7 +267,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [sync save:self.store];
     
     [self runSync:sync updateBlock:updateBlock];
-    return sync;
+    return [sync copy];
 }
 
 
@@ -390,7 +397,7 @@ static NSMutableDictionary *syncMgrList = nil;
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
-    return sync;
+    return [sync copy];
 }
 
 - (SFSyncState*)syncUpWithTarget:(SFSyncUpTarget *)target
@@ -399,7 +406,7 @@ static NSMutableDictionary *syncMgrList = nil;
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
     [self runSync:sync updateBlock:updateBlock];
-    return sync;
+    return [sync copy];
 }
 
 /** Run a sync up
