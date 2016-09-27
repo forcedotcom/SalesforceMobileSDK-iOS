@@ -91,6 +91,11 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
 + (void)removeSharedInstanceForStore:(SFSmartStore*)store;
 
 /**
+ * Removes all shared instances
+ */
++ (void)removeSharedInstances;
+
+/**
  * Returns details about a sync.
  *
  * @param syncId Sync ID.

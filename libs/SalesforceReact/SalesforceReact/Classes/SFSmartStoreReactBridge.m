@@ -292,9 +292,10 @@ RCT_EXPORT_METHOD(getSoupSpec:(NSDictionary *)argsDict callback:(RCTResponseSend
     }
 }
 
-- (void)resetSharedStore
+- (void)resetCursorCaches
 {
     [[self userCursorCache] removeAllObjects];
+    [[self globalCursorCache] removeAllObjects];
 }
 
 - (SFSmartStoreInspectorViewController*)inspector {

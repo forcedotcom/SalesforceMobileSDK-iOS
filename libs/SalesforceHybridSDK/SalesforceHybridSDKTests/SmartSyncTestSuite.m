@@ -42,7 +42,7 @@
         [SFSmartStore removeAllGlobalStores];
         AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *smartstorePlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [smartstorePlugin resetSharedStore];
+        [smartstorePlugin resetCursorCaches];
         SFSmartSyncPlugin *smartsyncPlugin = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartSyncPluginIdentifier];
         [smartsyncPlugin resetSyncManager];
     }
@@ -51,6 +51,7 @@
 - (void)tearDown
 {
     [SFSmartStore removeSharedStoreWithName:kDefaultSmartStoreName];
+    [SFSmartStore removeSharedGlobalStoreWithName:kDefaultSmartStoreName];
     [super tearDown];
 }
 
@@ -181,7 +182,7 @@
 - (void)testSObjectFetch {
     [self runTest:@"testSObjectFetch"];
 }
-
+ 
 - (void)testSObjectSave {
     [self runTest:@"testSObjectSave"];
 }
@@ -232,6 +233,10 @@
 
 - (void)testSyncDownWithNoOverwrite {
     [self runTest:@"testSyncDownWithNoOverwrite"];
+}
+
+- (void)testRefreshSyncDown {
+    [self runTest:@"testRefreshSyncDown"];
 }
 
 - (void)testReSync {

@@ -64,9 +64,8 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 - (void) resetSyncManager
 {
     self.syncManager = nil;
-    SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
-    [SFSmartSyncSyncManager removeSharedInstance:user];
-    self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
+    self.globalSyncManager = nil;
+    [SFSmartSyncSyncManager removeSharedInstances];
 }
 
 - (void) handleSyncUpdate:(SFSyncState*)sync isGlobal:(BOOL)isGlobal
