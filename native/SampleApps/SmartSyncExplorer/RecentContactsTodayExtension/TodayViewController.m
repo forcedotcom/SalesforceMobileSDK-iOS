@@ -44,6 +44,7 @@ static int const kNumberOfRecords = 3;
 
 @end
 
+static NSString *simpleTableIdentifier = @"SimpleTableItem";
 @implementation TodayViewController
 
 - (void)viewDidLoad {
@@ -114,7 +115,7 @@ static int const kNumberOfRecords = 3;
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
+   
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     
