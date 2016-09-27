@@ -84,7 +84,7 @@ class SearchScreen: PageObject {
     fileprivate var confirmLogoutButton : XCUIElement {
         get {
             // Only available after logout button is tapped
-            return app.sheets["Are you sure you want to log out?"].collectionViews.buttons["Confirm Logout"]
+            return app.sheets["Are you sure you want to log out?"].buttons["Confirm Logout"]
         }
     }
     
