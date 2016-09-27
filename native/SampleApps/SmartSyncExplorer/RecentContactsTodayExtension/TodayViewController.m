@@ -60,19 +60,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
     _contacts = [NSMutableArray new];
     [self.todayTableView setDataSource:self];
     [self.todayTableView setDelegate:self];
-
-   
-
-    
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void) refreshList {
-//    __weak TodayViewController *weakSelf = self;
-//
-//    [self.dataMgr filterOnSearchTerm:@"" completion:^{
-//        [weakSelf.todayTableView reloadData];
-//    }];
     [self.todayTableView reloadData];
 }
 
@@ -82,11 +72,6 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    // Perform any setup necessary in order to update the view.
-    
-    // If an error is encountered, use NCUpdateResultFailed
-    // If there's no update required, use NCUpdateResultNoData
-    // If there's an update, use NCUpdateResultNewData
     [SFSDKDatasharingHelper sharedInstance].appGroupName = @"group.com.salesforce.mobilesdk.internal.SmartSyncExplorer";
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if( [self userLoginStatus] ) {
