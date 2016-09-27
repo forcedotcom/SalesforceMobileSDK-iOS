@@ -33,7 +33,7 @@
 #import <SalesforceSDKCore/SFLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
-static int const kNumberOfRecords = 3;
+static const NSUInteger kNumberOfRecords = 3;
 
 @interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
 
