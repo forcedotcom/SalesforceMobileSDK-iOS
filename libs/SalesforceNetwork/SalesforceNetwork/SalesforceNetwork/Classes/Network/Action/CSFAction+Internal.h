@@ -49,6 +49,7 @@ CSF_EXTERN NSTimeInterval const CSFActionDefaultTimeOut;
 }
 
 @property (nonatomic, weak, readwrite) CSFNetwork *enqueuedNetwork;
+@property (nonatomic, strong, readwrite) NSProgress *progress;
 
 /** URL path prefix used as the basis for action requests.
  */
