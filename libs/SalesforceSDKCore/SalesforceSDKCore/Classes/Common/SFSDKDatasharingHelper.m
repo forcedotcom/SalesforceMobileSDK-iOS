@@ -69,6 +69,8 @@ NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     [sharedDefaults synchronize];
     if(appGroupEnabled) {
         [self migrateUserDefaultsToAppContainer:sharedDefaults];
+    } else {
+        [self migrateFromAppContainerToUserDefaults:sharedDefaults];
     }
 }
 
@@ -83,16 +85,30 @@ NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     [sharedDefaults synchronize];
 }
          
-- (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *) sharedDefaults {
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]){
-         NSDictionary *defaults = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-         for(id key in defaults.allKeys) {
-             [sharedDefaults setObject:defaults[key] forKey:key];
-         }
-         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
-         [sharedDefaults synchronize];
+- (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *)sharedDefaults {
+    if([self appGroupEnabled] && ![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
+        [self migrateFrom:[NSUserDefaults standardUserDefaults] to:sharedDefaults];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
+
+- (void)migrateFromAppContainerToUserDefaults:(NSUserDefaults *)sharedDefaults {
+    if(![self appGroupEnabled] && [[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kDidMigrateToAppGroupsKey];
+        [self migrateFrom:sharedDefaults to:[NSUserDefaults standardUserDefaults]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)migrateFrom:(NSUserDefaults *)source to:(NSUserDefaults *)target{
+    NSDictionary *sourceDictionary = [source dictionaryRepresentation];
+    for(id key in sourceDictionary.allKeys) {
+        [target setObject:sourceDictionary[key] forKey:key];
+    }
+    [target synchronize];
+}
+
 
 - (BOOL)keychainSharingEnabled {
 #if TARGET_IPHONE_SIMULATOR
