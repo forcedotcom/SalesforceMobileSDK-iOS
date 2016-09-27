@@ -69,16 +69,19 @@
 }
 
 - (void) storeEvent:(SFSDKInstrumentationEvent *) event {
-    if (!event || ![event jsonRepresentation]) {
+    // Copy event, to isolate data for I/O
+    SFSDKInstrumentationEvent *eventCopy = [event copy];
+    
+    if (!eventCopy || ![eventCopy jsonRepresentation]) {
         return;
     }
     if (![self shouldStoreEvent]) {
         return;
     }
-    NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
+    NSData *encryptedData = self.dataEncryptorBlock([eventCopy jsonRepresentation]);
     NSError *error = nil;
     if (encryptedData) {
-        NSString *filename = [self filenameForEvent:event.eventId];
+        NSString *filename = [self filenameForEvent:eventCopy.eventId];
         NSString *parentDir = [filename stringByDeletingLastPathComponent];
         [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
@@ -176,7 +179,8 @@
         return nil;
     }
     NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
-    return [[SFSDKInstrumentationEvent alloc] initWithJson:data];
+    SFSDKInstrumentationEvent *event = [[SFSDKInstrumentationEvent alloc] initWithJson:data];
+    return [event copy];
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {

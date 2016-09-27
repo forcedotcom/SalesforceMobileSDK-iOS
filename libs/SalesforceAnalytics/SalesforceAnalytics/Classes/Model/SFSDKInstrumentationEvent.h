@@ -78,7 +78,7 @@ typedef NS_ENUM(NSInteger, SFAErrorType) {
     ErrorTypeError
 };
 
-@interface SFSDKInstrumentationEvent : NSObject
+@interface SFSDKInstrumentationEvent : NSObject <NSCopying>
 
 @property (nonatomic, copy, readonly, nonnull) NSString *eventId;
 @property (nonatomic, assign, readonly) NSInteger startTime;
