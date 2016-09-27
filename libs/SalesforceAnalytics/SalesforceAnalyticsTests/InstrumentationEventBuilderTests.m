@@ -56,6 +56,13 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     [super tearDown];
 }
 
+- (void)testEventCopyAndEquality {
+    SFSDKInstrumentationEvent *event = [self standardTestEvent];
+    SFSDKInstrumentationEvent *eventCopy = [event copy];
+    XCTAssertEqualObjects(event, eventCopy, @"Events should still be equivalent.");
+    XCTAssertNotEqual(event, eventCopy, @"Copy should make a different event instance.");
+}
+
 /**
  * Test for missing mandatory field 'name'.
  */
@@ -151,18 +158,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for auto population of mandatory field 'event ID'.
  */
 - (void) testAutoPopulateEventId {
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-        double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
-        NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
-        builder.name = eventName;
-        builder.page = [[NSDictionary alloc] init];
-        builder.startTime = curTime;
-        builder.sessionId = kTestSessionId;
-        builder.senderId = kTestSenderId;
-        builder.schemaType = SchemaTypeError;
-        builder.eventType = EventTypeSystem;
-        builder.errorType = ErrorTypeWarn;
-    } analyticsManager:self.analyticsManager];
+    SFSDKInstrumentationEvent *event = [self standardTestEvent];
     XCTAssertTrue(event.eventId != nil, @"Event ID should have been auto populated");
 }
 
@@ -170,11 +166,22 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
  * Test for auto population of mandatory field 'sequence ID'.
  */
 - (void) testAutoPopulateSequenceId {
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+    SFSDKInstrumentationEvent *event = [self standardTestEvent];
+    NSInteger sequenceId = event.sequenceId;
+    XCTAssertTrue(sequenceId > 0, @"Sequence ID should have been auto populated");
+    NSInteger globalSequenceId = self.analyticsManager.globalSequenceId;
+    XCTAssertEqual(0, globalSequenceId - sequenceId);
+}
+
+#pragma mark - Helper methods
+
+- (SFSDKInstrumentationEvent *)standardTestEvent {
+    return [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         double curTime = 1000 * [[NSDate date] timeIntervalSince1970];
         NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
         builder.name = eventName;
         builder.page = [[NSDictionary alloc] init];
+        builder.attributes = @{ @"Name1": @"Value1" };
         builder.startTime = curTime;
         builder.sessionId = kTestSessionId;
         builder.senderId = kTestSenderId;
@@ -182,10 +189,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
         builder.eventType = EventTypeSystem;
         builder.errorType = ErrorTypeWarn;
     } analyticsManager:self.analyticsManager];
-    NSInteger sequenceId = event.sequenceId;
-    XCTAssertTrue(sequenceId > 0, @"Sequence ID should have been auto populated");
-    NSInteger globalSequenceId = self.analyticsManager.globalSequenceId;
-    XCTAssertEqual(0, globalSequenceId - sequenceId);
 }
 
 @end
