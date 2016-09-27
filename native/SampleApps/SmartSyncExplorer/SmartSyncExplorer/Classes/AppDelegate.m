@@ -30,7 +30,8 @@
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
-
+#import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
+#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
 // Fill these in when creating a new Connected Application on Force.com
 static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
@@ -48,6 +49,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
  */
 - (void)initializeAppViewState;
 
+- (void)setUserLoginStatus :(BOOL) loggedIn;
 @end
 
 @implementation AppDelegate
@@ -64,6 +66,10 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
 
+        [SFSDKDatasharingHelper sharedInstance].appGroupName = @"group.com.salesforce.mobilesdk.internal.SmartSyncExplorer";
+        [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
+        [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
+        
         // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
@@ -78,6 +84,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
+            [weakSelf setUserLoginStatus:YES];
             [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
             [weakSelf setupRootViewController];
         };
@@ -87,13 +94,21 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             [[SalesforceSDKManager sharedManager] launch];
         };
         [SalesforceSDKManager sharedManager].postLogoutAction = ^{
+            [weakSelf setUserLoginStatus:NO];
             [weakSelf handleSdkManagerLogout];
         };
         [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
+             [weakSelf setUserLoginStatus:NO];
             [weakSelf handleUserSwitch:fromUser toUser:toUser];
         };
     }
     return self;
+}
+
+- (void)setUserLoginStatus :(BOOL) loggedIn {
+    [[NSUserDefaults msdkUserDefaults] setBool:loggedIn forKey:@"userLoggedIn"];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
+    [self log:SFLogLevelDebug format:@"%d userLoggedIn", [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"] ];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

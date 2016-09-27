@@ -30,6 +30,8 @@ NSString * const kKeychainSharingEnabled = @"kKeyChainSharingEnabled";
 NSString * const KAppGroupName = @"KAppGroupName";
 NSString * const KKeychainGroupName = @"KKeychainGroupName";
 
+static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
+
 @implementation SFSDKDatasharingHelper
 
 + (instancetype)sharedInstance {
@@ -40,6 +42,9 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
     });
     return dataSharingHelper;
 }
+
+
+
 
 
 - (NSString *)appGroupName {
@@ -67,6 +72,7 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
 - (void)setAppGroupEnabled:(BOOL)appGroupEnabled {
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.appGroupName];
     [sharedDefaults setBool:appGroupEnabled forKey:kAppGroupEnabled];
+    
     [sharedDefaults synchronize];
 }
 
@@ -79,6 +85,23 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
      NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.keychainGroupName];
     [sharedDefaults setBool:keychainSharingEnabled forKey:kKeychainSharingEnabled];
     [sharedDefaults synchronize];
+    
+    if(keychainSharingEnabled) {
+        [self migrateUserDefaultsToAppContainer:sharedDefaults];
+    }
+}
+         
+- (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *) sharedDefaults {
+ 
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]){
+         NSDictionary *defaults = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
+         for(id key in defaults.allKeys) {
+             [sharedDefaults setObject:defaults[key] forKey:key];
+         }
+         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
+         [sharedDefaults synchronize];
+    }
+ 
 }
 
 - (BOOL)keychainSharingEnabled {
@@ -97,5 +120,9 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
     return [sharedDefaults boolForKey:kKeychainSharingEnabled];
 #endif
 }
+         
+         
+         
+
 
 @end

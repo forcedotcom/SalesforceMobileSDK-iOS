@@ -25,6 +25,10 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import "SFSDKDatasharingHelper.h"
 
+@interface NSUserDefaults()
++ (void)migrateUserDefaultsToAppContainer;
+@end
+
 @implementation NSUserDefaults (SFAdditions)
 
 + (NSUserDefaults *)msdkUserDefaults {
@@ -36,4 +40,5 @@
     }
     return sharedDefaults;
 }
+
 @end

@@ -72,7 +72,8 @@ static NSString * const kDefaultCommunityName = @"internal";
     NSString *directory;
     
     //we are only sharing library directory with the app extension other directory contents dont need to be shared.
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled && type == NSLibraryDirectory) {
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled){
+        // && type == NSLibraryDirectory) {
         NSURL *sharedURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         directory = [sharedURL path];
         directory = [directory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -197,7 +198,7 @@ static NSString * const kDefaultCommunityName = @"internal";
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *libraryDirectory;
-    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if (directories.count > 0) {
         libraryDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }

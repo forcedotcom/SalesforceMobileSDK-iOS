@@ -56,6 +56,8 @@ NSString * const kContactHomePhoneField    = @"HomePhone";
     return [self initWithObjectType:objectType objectFieldSpecs:objectFieldSpecs indexSpecs:indexSpecs soupName:soupName orderByFieldName:orderByFieldName];
 }
 
+
+
 #pragma mark - Abstract overrides
 
 + (SObjectData *)createSObjectData:(NSDictionary *)soupDict {
