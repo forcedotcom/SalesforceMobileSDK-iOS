@@ -181,7 +181,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
         NSString *eventName = [NSString stringWithFormat:kTestEventName, curTime];
         builder.name = eventName;
         builder.page = [[NSDictionary alloc] init];
-        builder.attributes = @{ @"Name1": @"Value1" };
         builder.startTime = curTime;
         builder.sessionId = kTestSessionId;
         builder.senderId = kTestSenderId;
