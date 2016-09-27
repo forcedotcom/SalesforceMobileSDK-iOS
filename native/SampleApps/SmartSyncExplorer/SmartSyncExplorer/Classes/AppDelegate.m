@@ -75,8 +75,9 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
-        __weak AppDelegate *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             //
             // If you wish to register for push notifications, uncomment the line below.  Note that,
             // if you want to receive push notifications from Salesforce, you will also need to
@@ -84,22 +85,28 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             //
             //[[SFPushNotificationManager sharedInstance] registerForRemoteNotifications];
             //
-            [weakSelf setUserLoginStatus:YES];
-            [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
-            [weakSelf setupRootViewController];
+            [strongSelf setUserLoginStatus:YES];
+            
+            [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+            [strongSelf setupRootViewController];
+
         };
         [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-            [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-            [weakSelf initializeAppViewState];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+
+            [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+            [strongSelf initializeAppViewState];
             [[SalesforceSDKManager sharedManager] launch];
         };
         [SalesforceSDKManager sharedManager].postLogoutAction = ^{
-            [weakSelf setUserLoginStatus:NO];
-            [weakSelf handleSdkManagerLogout];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf setUserLoginStatus:NO];
+            [strongSelf handleSdkManagerLogout];
         };
         [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
-             [weakSelf setUserLoginStatus:NO];
-            [weakSelf handleUserSwitch:fromUser toUser:toUser];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [strongSelf setUserLoginStatus:NO];
+            [strongSelf handleUserSwitch:fromUser toUser:toUser];
         };
     }
     return self;

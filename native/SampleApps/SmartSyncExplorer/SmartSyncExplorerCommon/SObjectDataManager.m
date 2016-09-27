@@ -73,9 +73,10 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     }
     __weak SObjectDataManager *weakSelf = self;
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([sync isDone] || [sync hasFailed]) {
-            weakSelf.syncDownId = sync.syncId;
-            [weakSelf refreshLocalData:completionBlock];
+            strongSelf.syncDownId = sync.syncId;
+            [strongSelf refreshLocalData:completionBlock];
         }
     };
     if (self.syncDownId == 0) {

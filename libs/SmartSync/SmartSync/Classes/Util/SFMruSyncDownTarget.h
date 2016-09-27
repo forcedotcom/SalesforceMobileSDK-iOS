@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncDownTarget.h"
 
-extern NSString * const kSFSyncTargetFieldlist;
-
 @interface SFMruSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* objectType;

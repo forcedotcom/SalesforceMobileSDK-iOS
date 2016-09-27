@@ -25,8 +25,6 @@
 #import <Foundation/Foundation.h>
 #import "SFSyncDownTarget.h"
 
-extern NSString * const kSFSoslSyncTargetQuery;
-
 @interface SFSoslSyncDownTarget : SFSyncDownTarget
 
 @property (nonatomic, strong, readonly) NSString* query;

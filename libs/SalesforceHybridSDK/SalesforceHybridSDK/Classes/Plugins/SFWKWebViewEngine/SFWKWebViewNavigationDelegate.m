@@ -78,7 +78,8 @@
     [self log:SFLogLevelDebug format:message];
     NSURL *errorUrl = vc.errorURL;
     if (errorUrl) {
-        errorUrl = [NSURL URLWithString:[NSString stringWithFormat:@"?error=%@", [message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] relativeToURL:errorUrl];
+        NSString *urlString = [NSString stringWithFormat:@"?error=%@", [message stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
+        errorUrl = [NSURL URLWithString:urlString relativeToURL:errorUrl];
         [self log:SFLogLevelDebug format:[errorUrl absoluteString]];
         [webView loadRequest:[NSURLRequest requestWithURL:errorUrl]];
     }

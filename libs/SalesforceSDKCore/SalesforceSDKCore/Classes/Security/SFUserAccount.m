@@ -266,20 +266,22 @@ static NSString * const kGlobalScopingKey = @"-global-";
 - (void)setCustomDataObject:(id<NSCoding>)object forKey:(id<NSCopying>)key {
     __weak __typeof(self) weakSelf = self;
     dispatch_sync(_syncQueue, ^{
-        if(!weakSelf.customData) {
-            weakSelf.customData = [NSMutableDictionary dictionary];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(!strongSelf.customData) {
+            strongSelf.customData = [NSMutableDictionary dictionary];
         }
-        [weakSelf.customData setObject:object forKey:key];
+        [strongSelf.customData setObject:object forKey:key];
     });
 }
 
 - (void)removeCustomDataObjectForKey:(id)key {
     __weak __typeof(self) weakSelf = self;
     dispatch_sync(_syncQueue, ^{
-        if(!weakSelf.customData) {
-            weakSelf.customData = [NSMutableDictionary dictionary];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(!strongSelf.customData) {
+            strongSelf.customData = [NSMutableDictionary dictionary];
         }
-        [weakSelf.customData removeObjectForKey:key];
+        [strongSelf.customData removeObjectForKey:key];
     });
 }
 
@@ -287,10 +289,11 @@ static NSString * const kGlobalScopingKey = @"-global-";
     __weak __typeof(self) weakSelf = self;
     __block id object;
     dispatch_sync(_syncQueue, ^{
-        if(!weakSelf.customData) {
-            weakSelf.customData = [NSMutableDictionary dictionary];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(!strongSelf.customData) {
+            strongSelf.customData = [NSMutableDictionary dictionary];
         }
-        object = [weakSelf.customData objectForKey:key];
+        object = [strongSelf.customData objectForKey:key];
     });
     return object;
 }

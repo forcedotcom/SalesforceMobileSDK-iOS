@@ -75,7 +75,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 /**
  * Test for storing many events and retrieving them.
  */
-- (void) testStoreMultipleEvents {
+- (void) testStoreAndFetchMultipleEvents {
     SFSDKInstrumentationEvent *event1 = [self createTestEvent];
     XCTAssertTrue(event1 != nil, @"Generated event stored should not be nil");
     SFSDKInstrumentationEvent *event2 = [self createTestEvent];
@@ -87,8 +87,8 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     NSArray<SFSDKInstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
     XCTAssertEqual(2, events.count, @"Number of events stored should be 2");
-    XCTAssertTrue([event1 isEqual:[events firstObject]], @"Stored event should be the same as generated event");
-    XCTAssertTrue([event2 isEqual:[events objectAtIndex:1]], @"Stored event should be the same as generated event");
+    XCTAssertTrue([events containsObject:event1], @"Event should be stored");
+    XCTAssertTrue([events containsObject:event2], @"Event should be stored");
 }
 
 /**
@@ -102,23 +102,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     SFSDKInstrumentationEvent *storedEvent = [self.storeManager fetchEvent:eventId];
     XCTAssertTrue(storedEvent != nil, @"Event stored should not be nil");
     XCTAssertEqualObjects(event, storedEvent, @"Stored event should be the same as generated event");
-}
-
-/**
- * Test for fetching all stored events.
- */
-- (void) testFetchAllEvents {
-    SFSDKInstrumentationEvent *event1 = [self createTestEvent];
-    XCTAssertTrue(event1 != nil, @"Generated event stored should not be nil");
-    [self.storeManager storeEvent:event1];
-    SFSDKInstrumentationEvent *event2 = [self createTestEvent];
-    XCTAssertTrue(event2 != nil, @"Generated event stored should not be nil");
-    [self.storeManager storeEvent:event2];
-    NSArray<SFSDKInstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
-    XCTAssertTrue(events != nil, @"List of events should not be nil");
-    XCTAssertEqual(2, events.count, @"Number of events stored should be 2");
-    XCTAssertTrue([event1 isEqual:[events firstObject]], @"Stored event should be the same as generated event");
-    XCTAssertTrue([event2 isEqual:[events objectAtIndex:1]], @"Stored event should be the same as generated event");
 }
 
 /**
@@ -156,8 +139,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     NSArray<SFSDKInstrumentationEvent *> *eventsBeforeDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsBeforeDel != nil, @"List of events should not be nil");
     XCTAssertEqual(2, eventsBeforeDel.count, @"Number of events stored should be 2");
-    XCTAssertTrue([event1 isEqual:[eventsBeforeDel firstObject]], @"Stored event should be the same as generated event");
-    XCTAssertTrue([event2 isEqual:[eventsBeforeDel objectAtIndex:1]], @"Stored event should be the same as generated event");
     NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
     [eventIds addObject:eventId1];
     [eventIds addObject:eventId2];
@@ -182,8 +163,6 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
     NSArray<SFSDKInstrumentationEvent *> *eventsBeforeDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsBeforeDel != nil, @"List of events should not be nil");
     XCTAssertEqual(2, eventsBeforeDel.count, @"Number of events stored should be 2");
-    XCTAssertTrue([event1 isEqual:[eventsBeforeDel firstObject]], @"Stored event should be the same as generated event");
-    XCTAssertTrue([event2 isEqual:[eventsBeforeDel objectAtIndex:1]], @"Stored event should be the same as generated event");
     [self.storeManager deleteAllEvents];
     NSArray<SFSDKInstrumentationEvent *> *eventsAfterDel = [self.storeManager fetchAllEvents];
     XCTAssertTrue(eventsAfterDel != nil, @"List of events should not be nil");

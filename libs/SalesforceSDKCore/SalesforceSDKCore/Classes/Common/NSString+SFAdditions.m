@@ -141,10 +141,7 @@ static inline BOOL IsValidEntityId(NSString *string) {
 }
 
 - (NSString *)stringByURLEncoding {
-    CFStringRef cfStr = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)self, NULL, CFSTR("&:/=+"), kCFStringEncodingUTF8);
-    NSString *result = [NSString stringWithFormat:@"%@", (__bridge NSString *) cfStr];
-    CFRelease(cfStr);
-    return result;
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
 - (NSString *)stringByStrippingHTML {

@@ -74,7 +74,7 @@ NSURL * CSFNotNullURLRelative(id value, NSURL *baseURL) {
         } else {
             result = [NSURL URLWithString:value relativeToURL:baseURL];
             if (!result) {
-                stringValue = [stringValue stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                stringValue = [stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
                 result = [NSURL URLWithString:value relativeToURL:baseURL];
             }
         }
@@ -106,17 +106,11 @@ NSString * CSFNotNullString(id value) {
 }
 
 NSString * CSFURLEncode(NSString *txt) {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                                 (CFStringRef)txt,
-                                                                                 NULL,
-                                                                                 CFSTR(",:/=+&"),
-                                                                                 kCFStringEncodingUTF8));
+    return [txt stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
 }
 
 NSString * CSFURLDecode(NSString *txt) {
-    return (NSString *) CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL,(CFStringRef)txt,
-                                                                                                  CFSTR(""),
-                                                                                                  kCFStringEncodingUTF8));
+    return [txt stringByRemovingPercentEncoding];
 }
 
 NSString * CSFURLFormEncode(NSDictionary *info, NSError **error) {

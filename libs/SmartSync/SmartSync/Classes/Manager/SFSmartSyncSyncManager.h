@@ -30,14 +30,6 @@
 
 @class SFUserAccount;
 
-extern NSString * const kSyncManagerTargetQueryType;
-extern NSString * const kSyncManagerTargetQuery;
-extern NSString * const kSyncManagerTargetObjectType;
-extern NSString * const kSyncManagerTargetFieldlist;
-extern NSString * const kSyncManagerQueryTypeMru;
-extern NSString * const kSyncManagerQueryTypeSoql;
-extern NSString * const kSyncManagerQueryTypeSosl;
-
 extern NSString * const kSyncManagerLocal;
 extern NSString * const kSyncManagerLocallyCreated;
 extern NSString * const kSyncManagerLocallyUpdated;
@@ -97,6 +89,11 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param store The store instance.
  */
 + (void)removeSharedInstanceForStore:(SFSmartStore*)store;
+
+/**
+ * Removes all shared instances
+ */
++ (void)removeSharedInstances;
 
 /**
  * Returns details about a sync.

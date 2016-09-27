@@ -45,7 +45,7 @@
         [SFSmartStore removeAllGlobalStores];
         AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetSharedStore];
+        [pluginInstance resetCursorCaches];
     }
     
 }

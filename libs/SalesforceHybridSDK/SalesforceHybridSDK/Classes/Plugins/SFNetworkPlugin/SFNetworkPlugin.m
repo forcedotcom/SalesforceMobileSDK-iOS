@@ -46,7 +46,6 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
-static NSString * const kPatchMethod     = @"PATCH";
 
 @implementation SFNetworkPlugin
 
@@ -57,16 +56,6 @@ static NSString * const kPatchMethod     = @"PATCH";
     NSString* endPoint = [argsDict nonNullObjectForKey:kEndPointArg];
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
 
-    /*
-     * Android's network library has a limitation that it does not support
-     * PATCH requests. However, Salesforce REST API does not allow POST for
-     * updates, it only allows PATCH. Hence, we work around the issue on
-     * Android by passing in method name PATCH as a URL parameter. However,
-     * we don't need this on iOS, since we can directly make a PATCH request.
-     */
-    if ([path containsString:kPatchMethod]) {
-        method = SFRestMethodPATCH;
-    }
     NSDictionary* queryParams = [[NSDictionary alloc] init];
     id queryParamsObj = [argsDict nonNullObjectForKey:kQueryParams];
 

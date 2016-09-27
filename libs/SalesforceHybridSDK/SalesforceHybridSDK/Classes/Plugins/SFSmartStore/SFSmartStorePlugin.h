@@ -34,9 +34,9 @@ extern NSString * const kSmartStorePluginIdentifier;
 @interface SFSmartStorePlugin : SFForcePlugin
 
 /**
- Used for unit testing purposes only: allows the shared smart store instance to be reset.
+ Used for unit testing purposes only: resets the cursor caches.
  */
-- (void)resetSharedStore;
+- (void)resetCursorCaches;
 
 #pragma mark - Cordova Plugin methods called from js
 
