@@ -21,12 +21,39 @@
  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
-#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/SObjectData.h>
-#import <SmartSyncExplorerCommon/SObjectDataFieldSpec.h>
-#import <SmartSyncExplorerCommon/SObjectDataSpec.h>
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
 
+#import <Foundation/Foundation.h>
+/** SmartSyncExplorerConfig holds the config for both the app and the extension.
+ */
+@interface SmartSyncExplorerConfig : NSObject
 
+/* The Connected App key associated with this application.
+*/
+@property (readonly,nonatomic, copy) NSString *remoteAccessConsumerKey;
+
+/**
+ * The OAuth Redirect URI associated with the configured Connected Application.
+ */
+@property (readonly,nonatomic, copy) NSString *oauthRedirectURI;
+
+/**
+ * The App GroupName ("group.*") associated with the configured Connected Application.
+ */
+@property (readonly,nonatomic, copy) NSString *appGroupName;
+
+/* Indicated whether appgroups are enabled for SmartSyncExplorer.
+ */
+@property (readonly,assign) BOOL appGroupsEnabled;
+
+/**
+ * The OAuth Scopes being requested for this app.
+ */
+@property (readonly,nonatomic, strong) NSArray *oauthScopes;
+
+/**
+ * Returns flag associated with NSUSerDefauts for users logged in state.
+ */
+@property (readonly,nonatomic, copy) NSString *userLogInStatusKey;
+
++ (instancetype)sharedInstance;
+@end

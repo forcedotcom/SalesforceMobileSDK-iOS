@@ -32,9 +32,7 @@
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
 #import <SalesforceSDKCore/SFSDKDatasharingHelper.h>
 #import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
-// Fill these in when creating a new Connected Application on Force.com
-static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
+#import <SmartSyncExplorerCommon/SmartSyncExplorerConfig.h>
 
 @interface AppDelegate ()
 
@@ -65,16 +63,16 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
         #else
             [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
         #endif
-
-        [SFSDKDatasharingHelper sharedInstance].appGroupName = @"group.com.salesforce.mobilesdk.internal.SmartSyncExplorer";
-        [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
+        SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+        [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
+        [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = config.appGroupsEnabled;
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         
         // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = @[ @"web", @"api" ];
+        [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
+        [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         __weak typeof(self) weakSelf = self;
         [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
             __strong typeof(weakSelf) strongSelf = weakSelf;

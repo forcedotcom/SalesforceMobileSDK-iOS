@@ -26,11 +26,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 NSString * const kAppGroupEnabled = @"kAccessGroupEnabled";
 NSString * const kKeychainSharingEnabled = @"kKeyChainSharingEnabled";
-
 NSString * const KAppGroupName = @"KAppGroupName";
 NSString * const KKeychainGroupName = @"KKeychainGroupName";
-
-static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
+NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 
 @implementation SFSDKDatasharingHelper
 
@@ -42,10 +40,6 @@ static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGr
     });
     return dataSharingHelper;
 }
-
-
-
-
 
 - (NSString *)appGroupName {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -72,8 +66,10 @@ static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGr
 - (void)setAppGroupEnabled:(BOOL)appGroupEnabled {
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.appGroupName];
     [sharedDefaults setBool:appGroupEnabled forKey:kAppGroupEnabled];
-    
     [sharedDefaults synchronize];
+    if(appGroupEnabled) {
+        [self migrateUserDefaultsToAppContainer:sharedDefaults];
+    }
 }
 
 - (BOOL)appGroupEnabled {
@@ -85,14 +81,9 @@ static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGr
      NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.keychainGroupName];
     [sharedDefaults setBool:keychainSharingEnabled forKey:kKeychainSharingEnabled];
     [sharedDefaults synchronize];
-    
-    if(keychainSharingEnabled) {
-        [self migrateUserDefaultsToAppContainer:sharedDefaults];
-    }
 }
          
 - (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *) sharedDefaults {
- 
     if(![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]){
          NSDictionary *defaults = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
          for(id key in defaults.allKeys) {
@@ -101,7 +92,6 @@ static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGr
          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
          [sharedDefaults synchronize];
     }
- 
 }
 
 - (BOOL)keychainSharingEnabled {
@@ -120,9 +110,5 @@ static NSString *const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGr
     return [sharedDefaults boolForKey:kKeychainSharingEnabled];
 #endif
 }
-         
-         
-         
-
 
 @end

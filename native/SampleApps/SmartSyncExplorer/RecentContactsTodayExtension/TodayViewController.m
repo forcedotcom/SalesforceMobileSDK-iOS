@@ -34,12 +34,9 @@
 #import <SalesforceSDKCore/SFLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
+static int const kNumberOfRecords = 3;
 
-
-static NSString * const RemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
-static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect/oauth/done";
-
-@interface TodayViewController () <NCWidgetProviding,SFRestDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>{
       NSMutableArray *_contacts;
 }
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
@@ -72,19 +69,23 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    [SFSDKDatasharingHelper sharedInstance].appGroupName = @"group.com.salesforce.mobilesdk.internal.SmartSyncExplorer";
+    
+    SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+
+    [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
     if( [self userLoginStatus] ) {
-       
+        [self log:SFLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
-        [SalesforceSDKManager sharedManager].connectedAppId = RemoteAccessConsumerKey;
-        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = OAuthRedirectURI;
-        [SalesforceSDKManager sharedManager].authScopes = @[@"web", @"api"];
-        [SalesforceSDKManager sharedManager].authenticateAtLaunch = FALSE;
+        [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
+        [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
+        [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
+        [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
         
         NSArray *accounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
         if(accounts && accounts.count>0) {
             // check for actual Account or id of account or pick the first one?
+            [self log:SFLogLevelError format:@"Loaded user account"];
             [[SFUserAccountManager sharedInstance] setCurrentUser:accounts[0]];
             
             __weak typeof(self) weakSelf = self;
@@ -95,7 +96,7 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
             if (!self.dataMgr) {
                 self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
             }
-            [self.dataMgr lastModifiedRecords:3 completion:completionBlock];
+            [self.dataMgr lastModifiedRecords:kNumberOfRecords completion:completionBlock];
             
         }
     }
@@ -103,31 +104,8 @@ static NSString * const OAuthRedirectURI        = @"testsfdc:///mobilesdk/detect
 }
 
 - (BOOL)userLoginStatus {
-    return [[NSUserDefaults msdkUserDefaults] boolForKey:@"userLoggedIn"];
-}
-
-- (void)request:(SFRestRequest *)request didLoadResponse:(id)dataResponse {
-    NSLog(@"Request Success");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSArray *records = ((NSDictionary *)dataResponse)[@"records"];
-        [_contacts removeAllObjects];
-        [_contacts addObjectsFromArray:records];
-        [_todayTableView reloadData];
-        NSLog(@"didLoadResponse %@",records);
-    });
-
-}
-
-- (void)request:(SFRestRequest *)request didFailLoadWithError:(NSError *)error {
-    NSLog(@"Request Error");
-}
-
-- (void)requestDidCancelLoad:(SFRestRequest *)request {
-    NSLog(@"Request requestDidCancelLoad");
-}
-
-- (void)requestDidTimeout:(SFRestRequest *)request {
-    NSLog(@"Request requestDidTimeout");
+    SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
+    return [[NSUserDefaults msdkUserDefaults] boolForKey:config.userLogInStatusKey];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -44,6 +44,8 @@
 		82D0AC131C49A7F60081F833 /* SmartStore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 82D0AB9A1C49A6FB0081F833 /* SmartStore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		82D0AC161C49A8120081F833 /* SmartSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; };
 		82D0AC171C49A8120081F833 /* SmartSync.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 829DA25D1C1260960040F5F1 /* SmartSync.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B71E61B51D9AD4990065FD4E /* SmartSyncExplorerConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = B71E61B31D9AD4990065FD4E /* SmartSyncExplorerConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B71E61B61D9AD4990065FD4E /* SmartSyncExplorerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = B71E61B41D9AD4990065FD4E /* SmartSyncExplorerConfig.m */; };
 		B7A134341D99D52600A4559C /* SmartSyncExplorerCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = B7A134321D99D52600A4559C /* SmartSyncExplorerCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B7A134371D99D52600A4559C /* SmartSyncExplorerCommon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */; };
 		B7A134381D99D52600A4559C /* SmartSyncExplorerCommon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -74,7 +76,7 @@
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
-		CEF4A2EE1D9491010025EDF0 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		CEF4A2EE1D9491010025EDF0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEF4A2EC1D9491010025EDF0 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -457,6 +459,8 @@
 		82D0AB921C49A6FB0081F833 /* SmartStore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartStore.xcodeproj; path = ../../../libs/SmartStore/SmartStore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABBB1C49A7540081F833 /* SalesforceSDKCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceSDKCore.xcodeproj; path = ../../../libs/SalesforceSDKCore/SalesforceSDKCore.xcodeproj; sourceTree = "<group>"; };
 		82D0ABCE1C49A7710081F833 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
+		B71E61B31D9AD4990065FD4E /* SmartSyncExplorerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartSyncExplorerConfig.h; sourceTree = "<group>"; };
+		B71E61B41D9AD4990065FD4E /* SmartSyncExplorerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmartSyncExplorerConfig.m; sourceTree = "<group>"; };
 		B7A134301D99D52600A4559C /* SmartSyncExplorerCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SmartSyncExplorerCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7A134321D99D52600A4559C /* SmartSyncExplorerCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SmartSyncExplorerCommon.h; sourceTree = "<group>"; };
 		B7A134331D99D52600A4559C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -488,7 +492,9 @@
 		BCAE01061D7F365000944153 /* ui_test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = ui_test_credentials.json; path = ../../../../shared/test/ui_test_credentials.json; sourceTree = "<group>"; };
 		BCC8F2261D46C01900171499 /* HostPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HostPage.swift; sourceTree = "<group>"; };
 		CE2B8D341CE932BD00C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../../../libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
-		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		CE6AB39A1C10C4F50012125E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT;
+		CEF4A2ED1D9491010025EDF0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		};
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -785,6 +791,8 @@
 				B7A134721D99DF8E00A4559C /* SObjectDataSpec.m */,
 				B7A134321D99D52600A4559C /* SmartSyncExplorerCommon.h */,
 				B7A134331D99D52600A4559C /* Info.plist */,
+				B71E61B31D9AD4990065FD4E /* SmartSyncExplorerConfig.h */,
+				B71E61B41D9AD4990065FD4E /* SmartSyncExplorerConfig.m */,
 			);
 			path = SmartSyncExplorerCommon;
 			sourceTree = "<group>";
@@ -840,6 +848,7 @@
 				B7A134AA1D99E9FE00A4559C /* ContactSObjectDataSpec.h in Headers */,
 				B7A134AB1D99E9FE00A4559C /* SObjectData.h in Headers */,
 				B7A134AD1D99E9FE00A4559C /* SObjectDataFieldSpec.h in Headers */,
+				B71E61B51D9AD4990065FD4E /* SmartSyncExplorerConfig.h in Headers */,
 				B7A134AE1D99E9FE00A4559C /* SObjectDataSpec.h in Headers */,
 				B7A134AC1D99E9FE00A4559C /* SObjectData+Internal.h in Headers */,
 			);
@@ -1330,6 +1339,7 @@
 				B7A135141D99EC6100A4559C /* ContactSObjectDataSpec.m in Sources */,
 				B7A135131D99EC6100A4559C /* SObjectDataManager.m in Sources */,
 				B7A135181D99EC6100A4559C /* SObjectDataSpec.m in Sources */,
+				B71E61B61D9AD4990065FD4E /* SmartSyncExplorerConfig.m in Sources */,
 				B7A135171D99EC6100A4559C /* SObjectDataFieldSpec.m in Sources */,
 				B7A135151D99EC6100A4559C /* ContactSObjectData.m in Sources */,
 			);
@@ -1571,7 +1581,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = SmartSyncExplorer/SmartSyncExplorer.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SmartSyncExplorer/SmartSyncExplorer-Prefix.pch";
 				INFOPLIST_FILE = "SmartSyncExplorer/SmartSyncExplorer-Info.plist";
