@@ -22,7 +22,6 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #import "TodayViewController.h"
-
 #import <SmartSyncExplorerCommon/SmartSyncExplorerCommon.h>
 #import <NotificationCenter/NotificationCenter.h>
 #import <SmartStore/SalesforceSDKManagerWithSmartStore.h>
@@ -36,11 +35,11 @@
 
 static int const kNumberOfRecords = 3;
 
-@interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>{
-      NSMutableArray *_contacts;
-}
+@interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
+
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
+- (BOOL)userIsLoggedIn;
 
 @end
 
@@ -54,10 +53,8 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     #else
         [SFLogger sharedLogger].logLevel = SFLogLevelInfo;
     #endif
-
-    _contacts = [NSMutableArray new];
-    [self.todayTableView setDataSource:self];
-    [self.todayTableView setDelegate:self];
+    self.todayTableView.dataSource = self;
+    self.todayTableView.delegate = self;
 }
 
 - (void) refreshList {
@@ -75,7 +72,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
     [SFSDKDatasharingHelper sharedInstance].appGroupEnabled = YES;
-    if( [self userLoginStatus] ) {
+    if([self userIsLoggedIn] ) {
         [self log:SFLogLevelError format:@"User has logged in"];
         [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
         [SalesforceSDKManager sharedManager].connectedAppId = config.remoteAccessConsumerKey;
@@ -83,28 +80,26 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
         
-        NSArray *accounts = [[SFUserAccountManager sharedInstance] allUserAccounts];
-        if(accounts && accounts.count>0) {
-            // check for actual Account or id of account or pick the first one?
-            [self log:SFLogLevelError format:@"Loaded user account"];
-            [[SFUserAccountManager sharedInstance] setCurrentUser:accounts[0]];
-            
-            __weak typeof(self) weakSelf = self;
-            void (^completionBlock)(void) = ^{
-                [weakSelf refreshList];
-            };
-          
+        SFUserAccountIdentity *activeUserIdentity = [SFUserAccountManager sharedInstance].activeUserIdentity;
+        SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:activeUserIdentity];
+        [SFUserAccountManager sharedInstance].currentUser = currentUser;
+        
+        __weak typeof(self) weakSelf = self;
+        void (^completionBlock)(void) = ^{
+            [weakSelf refreshList];
+        };
+
+        if(currentUser) {
             if (!self.dataMgr) {
                 self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
             }
             [self.dataMgr lastModifiedRecords:kNumberOfRecords completion:completionBlock];
-            
         }
     }
     completionHandler(NCUpdateResultNewData);
 }
 
-- (BOOL)userLoginStatus {
+- (BOOL)userIsLoggedIn {
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
     return [[NSUserDefaults msdkUserDefaults] boolForKey:config.userLogInStatusKey];
 }
@@ -113,12 +108,8 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
     return  self.dataMgr==nil?0:[self.dataMgr.dataRows count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-   
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
+   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
     }
