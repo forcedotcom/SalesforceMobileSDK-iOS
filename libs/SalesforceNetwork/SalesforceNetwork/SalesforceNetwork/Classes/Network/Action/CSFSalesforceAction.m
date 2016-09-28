@@ -91,10 +91,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
                                  options:(NSKeyValueObservingOptionInitial |
                                           NSKeyValueObservingOptionNew)
                                  context:kObservingKey];
-            self.progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress] userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
-            self.progress.totalUnitCount = -1;
-            self.progress.cancellable = YES;
-            self.progress.pausable = NO;
         }
     }
 }

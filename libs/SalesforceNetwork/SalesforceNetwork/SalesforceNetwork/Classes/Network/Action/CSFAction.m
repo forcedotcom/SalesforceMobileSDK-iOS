@@ -186,7 +186,10 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         _method = @"GET";
         _authRefreshClass = [CSFTokenRefresh class];
         _requiresAuthentication = YES;
-        
+        _progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress] userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
+        _progress.totalUnitCount = -1;
+        _progress.cancellable = YES;
+        _progress.pausable = NO;
         self.credentialsReady = YES;
         self.responseBlock = responseBlock;
     }
@@ -728,6 +731,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     self.error = error;
     self.responseData = nil;
     self.timingValues[@"endTime"] = [NSDate date];
+    self.progress.totalUnitCount = -1;
+    self.progress.cancellable = YES;
+    self.progress.pausable = NO;
 
     if (self.responseBlock) {
         self.responseBlock(self, self.error);
