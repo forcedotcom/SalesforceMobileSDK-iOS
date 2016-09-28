@@ -36,5 +36,4 @@
     }
     return sharedDefaults;
 }
-
 @end
