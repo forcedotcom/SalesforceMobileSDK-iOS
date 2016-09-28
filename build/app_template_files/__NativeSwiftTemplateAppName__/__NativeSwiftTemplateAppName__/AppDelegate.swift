@@ -74,9 +74,9 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     
     // MARK: - App delegate lifecycle
     
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject : AnyObject]?) -> Bool
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool
     {
-        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window = UIWindow(frame: UIScreen.main.bounds)
         self.initializeAppViewState();
         
         //
@@ -104,7 +104,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         return true
     }
     
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData)
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     {
         //
         // Uncomment the code below to register your device token with the push notification manager
@@ -118,7 +118,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     }
     
     
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError )
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error )
     {
         // Respond to any push notification registration errors here.
     }
@@ -126,8 +126,8 @@ class AppDelegate : UIResponder, UIApplicationDelegate
     // MARK: - Private methods
     func initializeAppViewState()
     {
-        if (!NSThread.isMainThread()) {
-            dispatch_async(dispatch_get_main_queue()) {
+        if (!Thread.isMainThread) {
+            DispatchQueue.main.async {
                 self.initializeAppViewState()
             }
             return
@@ -144,11 +144,11 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         self.window!.rootViewController = navVC
     }
     
-    func resetViewState(postResetBlock: () -> ())
+    func resetViewState(_ postResetBlock: @escaping () -> ())
     {
         if let rootViewController = self.window!.rootViewController {
             if let _ = rootViewController.presentedViewController {
-                rootViewController.dismissViewControllerAnimated(false, completion: postResetBlock)
+                rootViewController.dismiss(animated: false, completion: postResetBlock)
                 return
             }
         }
@@ -194,7 +194,7 @@ class AppDelegate : UIResponder, UIApplicationDelegate
         }
     }
     
-    func handleUserSwitch(fromUser: SFUserAccount?, toUser: SFUserAccount?)
+    func handleUserSwitch(_ fromUser: SFUserAccount?, toUser: SFUserAccount?)
     {
         let fromUserName = (fromUser != nil) ? fromUser?.userName : "<none>"
         let toUserName = (toUser != nil) ? toUser?.userName : "<none>"

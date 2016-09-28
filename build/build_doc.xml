@@ -4,9 +4,19 @@
     <property name="simulatorBuildName" value="iphonesimulator" />
     <property name="thirdPartyLibDir" location="../external/ThirdPartyDependencies" />
     
-    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="coreDoc, networkDoc, hybridSDKDoc, restAPIDoc, reactDoc, smartStoreDoc, smartSyncDoc">
+    <target name="all" description="Cleans the doc folders and builds docs for all Salesforce-specific iOS libraries" depends="analyticsDoc, coreDoc, hybridSDKDoc, reactDoc, smartStoreDoc, smartSyncDoc">
     </target>
-    
+
+    <target name="analyticsDoc">
+        <antcall target="clean">
+            <param name="buildConfiguration" value="SalesforceAnalytics" />
+        </antcall>
+        <antcall target="buildDoc">
+            <param name="PROJECT_DIR" value="../libs" />
+            <param name="PROJECT_NAME" value="SalesforceAnalytics" />
+        </antcall>
+    </target>
+
     <target name="coreDoc">
         <antcall target="clean">
             <param name="buildConfiguration" value="SalesforceSDKCore" />
@@ -17,16 +27,6 @@
         </antcall>
     </target>
     
-    <target name="networkDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceNetwork" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceNetwork" />
-        </antcall>
-    </target>
-    
     <target name="hybridSDKDoc">
         <antcall target="clean">
             <param name="buildConfiguration" value="SalesforceHybridSDK" />
@@ -34,16 +34,6 @@
         <antcall target="buildDoc">
             <param name="PROJECT_DIR" value="../libs" />
             <param name="PROJECT_NAME" value="SalesforceHybridSDK" />
-        </antcall>
-    </target>
-    
-    <target name="restAPIDoc">
-        <antcall target="clean">
-            <param name="buildConfiguration" value="SalesforceRestAPI" />
-        </antcall>
-        <antcall target="buildDoc">
-            <param name="PROJECT_DIR" value="../libs" />
-            <param name="PROJECT_NAME" value="SalesforceRestAPI" />
         </antcall>
     </target>
     

@@ -1,0 +1,10 @@
+//
+//  SalesforceAnalytics-Test.xcconfig
+//  SalesforceAnalytics
+//
+//  Created by Bharath Hariharan on 05/14/16.
+//  Copyright © 2016 salesforce.com. All rights reserved.
+//
+
+#include "../../../configuration/Common-Test.xcconfig"
+#include "SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig"

@@ -28,9 +28,9 @@
 #import "QueryListViewController.h"
 #import "AppDelegate.h"
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceRestAPI/SFRestAPI.h>
-#import <SalesforceRestAPI/SFRestAPI+Files.h>
-#import <SalesforceRestAPI/SFRestRequest.h>
+#import <SalesforceSDKCore/SFRestAPI.h>
+#import <SalesforceSDKCore/SFRestAPI+Files.h>
+#import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>

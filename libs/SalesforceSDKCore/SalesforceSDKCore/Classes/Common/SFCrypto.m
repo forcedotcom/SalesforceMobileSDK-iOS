@@ -27,12 +27,14 @@
 #import "NSString+SFAdditions.h"
 #import "NSData+SFAdditions.h"
 #import "SFKeychainItemWrapper.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import "SFLogger.h"
 
 static NSString * const kKeychainIdentifierPasscode = @"com.salesforce.security.passcode";
 static NSString * const kKeychainIdentifierIV = @"com.salesforce.security.IV";
 
 NSString * const kKeychainIdentifierBaseAppId = @"com.salesforce.security.baseappid";
+static NSString * const kKeychainIdentifierSimulatorBaseAppId = @"com.salesforce.security.baseappid.sim";
 
 @implementation SFCrypto
 
@@ -134,12 +136,12 @@ NSString * const kKeychainIdentifierBaseAppId = @"com.salesforce.security.baseap
 }
 
 + (BOOL)baseAppIdentifierIsConfigured {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kKeychainIdentifierBaseAppId];
+    return [[NSUserDefaults msdkUserDefaults] boolForKey:kKeychainIdentifierBaseAppId];
 }
 
 + (void)setBaseAppIdentifierIsConfigured:(BOOL)isConfigured {
-    [[NSUserDefaults standardUserDefaults] setBool:isConfigured forKey:kKeychainIdentifierBaseAppId];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] setBool:isConfigured forKey:kKeychainIdentifierBaseAppId];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 static BOOL sBaseAppIdConfiguredThisLaunch = NO;
@@ -151,6 +153,41 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
 }
 
 + (NSString *)baseAppIdentifier {
+#if TARGET_IPHONE_SIMULATOR
+    return [self simulatorBaseAppIdentifier];
+#else
+    return [self deviceBaseAppIdentifier];
+#endif
+}
+
++ (BOOL)setBaseAppIdentifier:(NSString *)appId {
+#if TARGET_IPHONE_SIMULATOR
+    return [self setSimulatorBaseAppIdentifier:appId];
+#else
+    return [self setDeviceBaseAppIdentifier:appId];
+#endif
+}
+
++ (NSString *)simulatorBaseAppIdentifier {
+    NSString *baseAppId = nil;
+    BOOL hasBaseAppId = [self baseAppIdentifierIsConfigured];
+    if (!hasBaseAppId) {
+        baseAppId = [[NSUUID UUID] UUIDString];
+        [self setSimulatorBaseAppIdentifier:baseAppId];
+        [self setBaseAppIdentifierIsConfigured:YES];
+        [self setBaseAppIdentifierConfiguredThisLaunch:YES];
+    } else {
+        baseAppId = [[NSUserDefaults standardUserDefaults] objectForKey:kKeychainIdentifierSimulatorBaseAppId];
+    }
+    return baseAppId;
+}
+
++ (BOOL)setSimulatorBaseAppIdentifier:(NSString *)appId {
+    [[NSUserDefaults standardUserDefaults] setObject:appId forKey:kKeychainIdentifierSimulatorBaseAppId];
+    return [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSString *)deviceBaseAppIdentifier {
     static NSString *baseAppId = nil;
     
     @synchronized (self) {
@@ -160,7 +197,7 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
             [SFLogger log:self level:SFLogLevelInfo msg:@"Base app identifier not configured.  Creating a new value."];
             if (baseAppId == nil)
                 baseAppId = [[NSUUID UUID] UUIDString];
-            BOOL creationSuccess = [self setBaseAppIdentifier:baseAppId];
+            BOOL creationSuccess = [self setDeviceBaseAppIdentifier:baseAppId];
             if (!creationSuccess) {
                 [SFLogger log:self level:SFLogLevelError msg:@"Could not persist the base app identifier.  Returning in-memory value."];
             } else {
@@ -179,7 +216,7 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
                 [self setBaseAppIdentifierConfiguredThisLaunch:NO];
                 if (baseAppId == nil)
                     baseAppId = [[NSUUID UUID] UUIDString];
-                BOOL creationSuccess = [self setBaseAppIdentifier:baseAppId];
+                BOOL creationSuccess = [self setDeviceBaseAppIdentifier:baseAppId];
                 if (!creationSuccess) {
                     [SFLogger log:self level:SFLogLevelError msg:@"Could not persist the base app identifier.  Returning in-memory value."];
                 } else {
@@ -196,7 +233,7 @@ static BOOL sBaseAppIdConfiguredThisLaunch = NO;
     }
 }
 
-+ (BOOL)setBaseAppIdentifier:(NSString *)appId {
++ (BOOL)setDeviceBaseAppIdentifier:(NSString *)appId {
     static NSUInteger maxRetries = 3;
     
     // Store the app ID value in the keychain.

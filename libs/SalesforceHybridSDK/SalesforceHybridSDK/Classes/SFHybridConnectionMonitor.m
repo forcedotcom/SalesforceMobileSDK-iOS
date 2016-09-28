@@ -23,7 +23,7 @@
  */
 
 #import "SFHybridConnectionMonitor.h"
-#import <SalesforceSDKCore/SFSDKReachability.h>
+#import <SalesforceAnalytics/SFSDKReachability.h>
 
 @implementation SFHybridConnectionMonitor
 

@@ -64,9 +64,8 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
 - (void) resetSyncManager
 {
     self.syncManager = nil;
-    SFUserAccount* user = [SFUserAccountManager sharedInstance].currentUser;
-    [SFSmartSyncSyncManager removeSharedInstance:user];
-    self.syncManager = [SFSmartSyncSyncManager sharedInstance:user];
+    self.globalSyncManager = nil;
+    [SFSmartSyncSyncManager removeSharedInstances];
 }
 
 - (void) handleSyncUpdate:(SFSyncState*)sync isGlobal:(BOOL)isGlobal
@@ -132,7 +131,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
         SFSyncDownTarget *target = [SFSyncDownTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
         BOOL isGlobal = [self isGlobal:argsDict];
-        __weak SFSmartSyncPlugin *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncDownWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];
@@ -147,7 +146,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
         BOOL isGlobal = [self isGlobal:argsDict];
         [self log:SFLogLevelDebug format:@"reSync with sync id: %@", syncId];
-        __weak SFSmartSyncPlugin *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal] reSync:syncId updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];
@@ -165,7 +164,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         NSNumber* syncId = (NSNumber*) [argsDict nonNullObjectForKey:kSyncIdArg];
         BOOL isGlobal = [self isGlobal:argsDict];
         [self log:SFLogLevelDebug format:@"cleanResyncGhosts with sync id: %@", syncId];
-        __weak SFSmartSyncPlugin *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [[self getSyncManagerInst:isGlobal] cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
             [weakSelf handleGhostSyncUpdate:syncStatus];
         }];
@@ -180,7 +179,7 @@ NSString * const kSyncIsGlobalStoreArg    = @"isGlobalStore";
         SFSyncOptions *options = [SFSyncOptions newFromDict:[argsDict nonNullObjectForKey:kSyncOptionsArg]];
         SFSyncUpTarget *target = [SFSyncUpTarget newFromDict:[argsDict nonNullObjectForKey:kSyncTargetArg]];
         BOOL isGlobal = [self isGlobal:argsDict];
-        __weak SFSmartSyncPlugin *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFSyncState* sync = [[self getSyncManagerInst:isGlobal] syncUpWithTarget:target options:options soupName:soupName updateBlock:^(SFSyncState* sync) {
             [weakSelf handleSyncUpdate:sync isGlobal:isGlobal];
         }];

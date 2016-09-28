@@ -70,25 +70,24 @@ static char* const kSearchFilterQueueName = "com.salesforce.smartSyncExplorer.se
     if (![self.store soupExists:self.dataSpec.soupName]) {
         [self registerSoup];
     }
-    
     __weak SObjectDataManager *weakSelf = self;
     SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if ([sync isDone] || [sync hasFailed]) {
-            weakSelf.syncDownId = sync.syncId;
-            [weakSelf refreshLocalData:completionBlock];
+            strongSelf.syncDownId = sync.syncId;
+            [strongSelf refreshLocalData:completionBlock];
         }
     };
-
-    
     if (self.syncDownId == 0) {
-        // first time
+
+        // First time.
         NSString *soqlQuery = [NSString stringWithFormat:@"SELECT %@ FROM %@ LIMIT %lu", [self.dataSpec.fieldNames componentsJoinedByString:@","], self.dataSpec.objectType, (unsigned long)kSyncLimit];
         SFSyncOptions *syncOptions = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeLeaveIfChanged];
         SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soqlQuery];
         [self.syncMgr syncDownWithTarget:syncTarget options:syncOptions soupName:self.dataSpec.soupName updateBlock:updateBlock];
-    }
-    else {
-        // subsequent times
+    } else {
+
+        // Subsequent times.
         [self.syncMgr reSync:[NSNumber numberWithInteger:self.syncDownId] updateBlock:updateBlock];
     }
 }

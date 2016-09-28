@@ -36,7 +36,13 @@ enum Host {
 
 class LoginHelper {
     
-    func loginToSalesforce(userName: String, password: String, host: Host?=nil) {
+    func loginToSalesforce(_ userName: String, password: String, url: String!, withPasscode: String?=nil) {
+        LoginPage().chooseConnection()
+        HostPage().selectHost(url)
+        loginToSalesforce(userName, password: password, withPasscode: withPasscode)
+    }
+    
+    func loginToSalesforce(_ userName: String, password: String, host: Host?=nil, withPasscode: String?=nil) {
         
         let loginPage = LoginPage()
         
@@ -57,5 +63,11 @@ class LoginHelper {
         // Tap allow
         allowDenyPage.tapAllowButton()
         
+        loginPage.waitForPageInvalid()
+        
+        if let wrappedPasscode = withPasscode {
+            PasscodePage().waitForPageLoaded()
+            PasscodePage().createPasscode(wrappedPasscode)
+        }
     }
 }

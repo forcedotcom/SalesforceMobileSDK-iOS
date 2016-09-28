@@ -1,14 +1,14 @@
 Pod::Spec.new do |s|
 
   s.name         = "SmartStore"
-  s.version      = "4.3.1"
+  s.version      = "5.0.0"
   s.summary      = "Salesforce Mobile SDK for iOS - SmartStore"
   s.homepage     = "https://github.com/forcedotcom/SalesforceMobileSDK-iOS"
 
   s.license      = { :type => "Salesforce.com Mobile SDK License", :file => "LICENSE.md" }
   s.author       = { "Kevin Hawkins" => "khawkins@salesforce.com" }
 
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "9.0"
 
   s.source       = { :git => "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git",
                      :tag => "pod_v#{s.version}",

@@ -65,9 +65,10 @@ NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
 
 @implementation SFSmartStorePlugin
 
-- (void)resetSharedStore
+- (void)resetCursorCaches
 {
     [[self userCursorCache] removeAllObjects];
+    [[self globalCursorCache] removeAllObjects];
 }
 
 - (SFSmartStore *)store

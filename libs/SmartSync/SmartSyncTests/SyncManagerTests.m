@@ -46,10 +46,19 @@
 #define ACCOUNT_ID          @"Id"
 #define ACCOUNT_NAME        @"Name"
 #define ACCOUNT_TYPE        @"Account"
+#define LAST_MODIFIED_DATE  @"lastModifiedDate"
 #define ATTRIBUTES          @"attributes"
 #define TYPE                @"type"
 #define RECORDS             @"records"
 #define COUNT_TEST_ACCOUNTS 10
+#define TOTAL_SIZE_UNKNOWN  -2
+
+/**
+ To test multiple round trip during refresh-sync-down, we need access to countIdsPerSoql
+ */
+@interface SFRefreshSyncDownTarget ()
+@property (nonatomic, assign, readwrite) NSUInteger countIdsPerSoql;
+@end
 
 /**
  Soql sync down target that pauses for a second at the beginning of the fetch
@@ -178,6 +187,7 @@ static NSException *authException = nil;
 
 /**
  * Tests if ghost records are cleaned locally for a SOQL target.
+ * FIXME crashing
  */
 - (void)testCleanResyncGhostsForSOQLTarget
 {
@@ -198,7 +208,7 @@ static NSException *authException = nil;
     [soql appendString:@"', '"];
     [soql appendString:accountIds[2]];
     [soql appendString:@"')"];
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoqlSyncDownTarget newSyncTarget:soql] idNames:accountIdToNames soupName:soupName]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoqlSyncDownTarget newSyncTarget:soql] soupName:soupName totalSize:accountIdToNames.count numberFetches:1]];
     SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:@"Id" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger numRecords = [store countWithQuerySpec:querySpec error:nil];
     XCTAssertEqual(numRecords, 3, @"3 accounts should be stored in the soup");
@@ -245,7 +255,7 @@ static NSException *authException = nil;
     NSMutableArray* fieldList = [[NSMutableArray alloc] init];
     [fieldList addObject:@"Id"];
     [fieldList addObject:@"Name"];
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:@"Account" fieldlist:fieldList] idNames:accountIdToNames soupName:soupName]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFMruSyncDownTarget newSyncTarget:@"Account" fieldlist:fieldList] soupName:soupName totalSize:accountIdToNames.count numberFetches:1]];
     SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:@"Id" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger preNumRecords = [store countWithQuerySpec:querySpec error:nil];
     XCTAssertTrue(preNumRecords > 0, @"At least 1 account should be stored in the soup");
@@ -287,7 +297,7 @@ static NSException *authException = nil;
     SFSmartSyncSoslReturningBuilder* returningBuilder = [SFSmartSyncSoslReturningBuilder withObjectName:@"Account"];
     [returningBuilder fields:@"Id, Name"];
     NSString* sosl = [[[soslBuilder returning:returningBuilder] searchGroup:@"NAME FIELDS"] build];
-    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoslSyncDownTarget newSyncTarget:sosl] idNames:accountIdToNames soupName:soupName]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeLeaveIfChanged target:[SFSoslSyncDownTarget newSyncTarget:sosl] soupName:soupName totalSize:accountIdToNames.count numberFetches:1]];
     SFQuerySpec *querySpec = [SFQuerySpec newAllQuerySpec:soupName withOrderPath:@"Id" withOrder:kSFSoupQuerySortOrderAscending withPageSize:10];
     NSUInteger numRecords = [store countWithQuerySpec:querySpec error:nil];
     XCTAssertEqual(numRecords, 1, @"1 account should be stored in the soup");
@@ -468,6 +478,151 @@ static NSException *authException = nil;
     
     // Check sync time stamp
     XCTAssertTrue([syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
+}
+
+/**
+ * Tests refresh-sync-down
+ */
+-(void) testRefreshSyncDown
+{
+    // Create test data
+    [self createTestData];
+
+    // Adding soup elements with just ids to soup
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+
+    // Running a refresh-sync-down for soup
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME]];
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:1];
+    
+    // Check db
+    [self checkDb:idToNames];
+}
+
+/**
+ * Tests refresh-sync-down when they are more records in the table than can be enumerated in one
+ * soql call to the server
+ */
+-(void) testRefreshSyncDownWithMultipleRoundTrips
+{
+    // Create test data
+    [self createTestData];
+    
+    // Adding soup elements with just ids to soup
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+
+    // Running a refresh-sync-down for soup with two ids per soql query (to force multiple round trips)
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME]];
+    target.countIdsPerSoql = 2;
+    [self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:idToNames.count/2];
+    
+    // Check db
+    [self checkDb:idToNames];
+}
+
+/**
+ * Tests resync for a refresh-sync-down when they are more records in the table than can be enumerated
+ * in one soql call to the server
+ */
+-(void) testRefreshReSyncWithMultipleRoundTrips
+{
+    // Create test data
+    [self createTestData];
+    
+    // Adding soup elements with just ids to soup
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+
+    // Running a refresh-sync-down for soup with two ids per soql query (to force multiple round trips)
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME, LAST_MODIFIED_DATE]];
+    target.countIdsPerSoql = 1;
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:idToNames.count]];
+
+    // Check sync time stamp
+    SFSyncState* sync = [syncManager getSyncStatus:syncId];
+    SFSyncOptions* options = sync.options;
+    long long maxTimeStamp = sync.maxTimeStamp;
+    XCTAssertTrue(maxTimeStamp > 0, @"Wrong time stamp");
+
+    // Make sure the soup has the records with id and names
+    [self checkDb:idToNames];
+
+    // Make some remote changes
+    [NSThread sleepForTimeInterval:1.0f];
+    NSMutableDictionary* idToNamesUpdated = [NSMutableDictionary new];
+    NSArray* allIds = [[idToNames allKeys] sortedArrayUsingSelector:@selector(compare:)]; // // to make the status updates sequence deterministic
+    NSArray* ids = @[ allIds[0], allIds[2] ];
+    for (NSString* accountId in ids) {
+        idToNamesUpdated[accountId] = [NSString stringWithFormat:@"%@_updated", idToNames[accountId]];
+    }
+    [self updateAccountsOnServer:idToNamesUpdated];
+    
+    
+    // Call reSync
+    SFSyncUpdateCallbackQueue* queue = [[SFSyncUpdateCallbackQueue alloc] init];
+    [queue runReSync:syncId syncManager:syncManager];
+    
+    // Check status updates
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1]; // we get an update right away before getting records to sync
+    
+    
+    for (NSNumber* expectedProgress in @[@0,@10,@10,@20,@20,@20,@20,@20,@20,@20,@20]) {
+        SFSyncState* state = [queue getNextSyncUpdate];
+        [self checkStatus:state expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:expectedProgress.unsignedIntegerValue expectedTotalSize:idToNames.count]; // totalSize is off for resync of sync-down-target if not all recrods got updated
+    }
+    [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:[syncId integerValue] expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idToNames.count];
+
+    // Check db
+    [self checkDb:idToNamesUpdated];
+    
+    // Check sync time stamp
+    XCTAssertTrue([syncManager getSyncStatus:syncId].maxTimeStamp > maxTimeStamp);
+}
+
+
+/**
+ * Tests if ghost records are cleaned locally for a refresh target.
+ */
+- (void)testCleanResyncGhostsForRefreshTarget
+{
+    // Create test data
+    [self createTestData];
+    
+    // Adding soup elements with just ids to soup
+    NSArray* accountIds = [idToNames allKeys];
+    for (NSString* accountId in [idToNames allKeys]) {
+        [store upsertEntries:@[@{ACCOUNT_ID:accountId}] toSoup:ACCOUNTS_SOUP];
+    }
+    
+    // Running a refresh-sync-down for soup
+    SFRefreshSyncDownTarget* target = [SFRefreshSyncDownTarget newSyncTarget:ACCOUNTS_SOUP objectType:ACCOUNT_TYPE fieldlist:@[ACCOUNT_ID, ACCOUNT_NAME]];
+    NSNumber* syncId = [NSNumber numberWithInteger:[self trySyncDown:SFSyncStateMergeModeOverwrite target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:1]];
+    
+    // Deletes 1 account on the server and verifies the ghost record is cleared from the soup.
+    NSString* idDeleted = accountIds[0];
+    [self deleteAccountsOnServer:@[idDeleted]];
+    XCTestExpectation* cleanResyncGhosts = [self expectationWithDescription:@"cleanResyncGhosts"];
+    [syncManager cleanResyncGhosts:syncId completionStatusBlock:^(SFSyncStateStatus syncStatus) {
+        if (syncStatus == SFSyncStateStatusFailed || syncStatus == SFSyncStateStatusDone) {
+            [cleanResyncGhosts fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:30.0 handler:nil];
+
+    
+    // Map of id to names expected to be found in db
+    NSMutableDictionary* idToNamesLeft = [NSMutableDictionary dictionaryWithDictionary:idToNames];
+    [idToNamesLeft removeObjectForKey:idDeleted];
+
+    // Make sure the soup doesn't contain the record deleted on the server anymore
+    [self checkDb:idToNamesLeft];
+    NSUInteger numRecords = [store countWithQuerySpec:[SFQuerySpec newAllQuerySpec:ACCOUNTS_SOUP withOrderPath:ACCOUNT_ID withOrder:kSFSoupQuerySortOrderAscending withPageSize:10] error:nil];
+    XCTAssertEqual(numRecords, idToNamesLeft.count, @"Wrong number of accounts found in soup");
 }
 
 /**
@@ -1232,40 +1387,6 @@ static NSException *authException = nil;
     while ([queue getNextSyncUpdate].status != SFSyncStateStatusDone);
 }
 
-- (void) testSyncForSelectedPath {
-    [self createAccountsSoup:ACCOUNTS_SOUP];
-    
-    NSString* soql = @"SELECT Id, Name, BillingCity, LastModifiedDate FROM Account limit 10";
-
-    SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:SFSyncStateMergeModeOverwrite];
-    
-    // Runs sync.
-    XCTestExpectation *syncExpectation = [self expectationWithDescription:@"store updated"];
-    SFSyncSyncManagerUpdateBlock updateBlock = ^(SFSyncState* sync) {
-        if ([sync isDone] || [sync hasFailed]) {
-            XCTAssertTrue([sync isDone]);
-            SFQuerySpec *querySpec = [SFQuerySpec newMatchQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[ACCOUNT_NAME,ACCOUNT_ID] withPath:ACCOUNT_NAME withMatchKey:@"Acme" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
-            NSArray *result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-            XCTAssertEqual(result.count, 2, @"Expect one account Acme returns");
-            
-            querySpec = [SFQuerySpec newLikeQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[ACCOUNT_NAME] withPath:ACCOUNT_NAME withLikeKey:@"acme-%" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
-            result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-            XCTAssertEqual(result.count, 1, @"Expect two accounts return");
-            
-            querySpec = [SFQuerySpec newLikeQuerySpec:ACCOUNTS_SOUP withSelectPaths:@[@"BillingCity"] withPath:ACCOUNT_NAME withLikeKey:@"new york" withOrderPath:ACCOUNT_NAME withOrder:kSFSoupQuerySortOrderDescending withPageSize:10];
-            result =[self->store queryWithQuerySpec:querySpec pageIndex:0 error:nil];
-            XCTAssertEqual(result.count, 0, @"Expect no account Acme returns");
-            
-            [syncExpectation fulfill];
-            
-        }
-    };
-    
-    SFSyncDownTarget *syncTarget = [SFSoqlSyncDownTarget newSyncTarget:soql];
-    [syncManager syncDownWithTarget:syncTarget options:options soupName:ACCOUNTS_SOUP updateBlock:updateBlock];
-    [self waitForExpectationsWithTimeout:20 handler:nil];
-}
-
 #pragma mark - helper methods
 
 - (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode {
@@ -1276,14 +1397,14 @@ static NSException *authException = nil;
     // Creates sync.
     NSString* soql = [@[@"SELECT Id, Name, LastModifiedDate FROM Account WHERE Id IN ", idsClause] componentsJoinedByString:@""];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soql];
-    return [self trySyncDown:mergeMode target:target idNames:idToNames soupName:ACCOUNTS_SOUP];
+    return [self trySyncDown:mergeMode target:target soupName:ACCOUNTS_SOUP totalSize:idToNames.count numberFetches:1];
 }
 
 - (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget*)target soupName:(NSString*)soupName {
-    return [self trySyncDown:mergeMode target:target idNames:nil soupName:soupName];
+    return [self trySyncDown:mergeMode target:target soupName:soupName totalSize:TOTAL_SIZE_UNKNOWN numberFetches:1];
 }
 
-- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget*)target idNames:(NSMutableDictionary*)idNames soupName:(NSString*)soupName {
+- (NSInteger)trySyncDown:(SFSyncStateMergeMode)mergeMode target:(SFSyncDownTarget*)target soupName:(NSString*)soupName totalSize:(NSUInteger)totalSize numberFetches:(NSUInteger)numberFetches {
 
     // Creates sync.
     SFSyncOptions* options = [SFSyncOptions newSyncOptionsForSyncDown:mergeMode];
@@ -1297,9 +1418,12 @@ static NSException *authException = nil;
 
     // Checks status updates.
     [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:-1];
-    if (idNames != nil) {
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0 expectedTotalSize:idNames.count];
-        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:idNames.count];
+
+    if (totalSize != TOTAL_SIZE_UNKNOWN) {
+        for (int i = 0; i < numberFetches; i++) {
+            [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:(i*100/numberFetches) expectedTotalSize:totalSize];
+        }
+        [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100 expectedTotalSize:totalSize];
     } else {
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusRunning expectedProgress:0];
         [self checkStatus:[queue getNextSyncUpdate] expectedType:SFSyncStateSyncTypeDown expectedId:syncId expectedTarget:target expectedOptions:options expectedStatus:SFSyncStateStatusDone expectedProgress:100];
@@ -1381,7 +1505,7 @@ static NSException *authException = nil;
     XCTAssertEqual(expectedId, sync.syncId);
     XCTAssertEqual(expectedStatus, sync.status);
     XCTAssertEqual(expectedProgress, sync.progress);
-    if (expectedTotalSize != -2) {
+    if (expectedTotalSize != TOTAL_SIZE_UNKNOWN) {
         XCTAssertEqual(expectedTotalSize, sync.totalSize);
     }
     if (expectedTarget) {
@@ -1425,7 +1549,7 @@ static NSException *authException = nil;
     expectedOptions:(SFSyncOptions*)expectedOptions
      expectedStatus:(SFSyncStateStatus)expectedStatus
    expectedProgress:(NSInteger)expectedProgress {
-    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:-2];
+    [self checkStatus:sync expectedType:expectedType expectedId:expectedId expectedTarget:expectedTarget expectedOptions:expectedOptions expectedStatus:expectedStatus expectedProgress:expectedProgress expectedTotalSize:TOTAL_SIZE_UNKNOWN];
 }
 
 - (void)createTestData {

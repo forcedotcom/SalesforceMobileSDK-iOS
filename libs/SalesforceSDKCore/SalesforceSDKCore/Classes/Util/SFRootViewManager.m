@@ -105,9 +105,10 @@
 
 - (void)pushViewController:(UIViewController *)viewController
 {
-    __weak SFRootViewManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     void (^pushControllerBlock)(void) = ^{
-        UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         while (currentViewController.presentedViewController != nil && !currentViewController.presentedViewController.isBeingDismissed) {
             currentViewController = currentViewController.presentedViewController;
         }
@@ -115,23 +116,23 @@
         if (currentViewController != nil) {
             if (currentViewController != viewController
                 && viewController.presentedViewController != currentViewController) {
-                [weakSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
+                [strongSelf log:SFLogLevelDebug format:@"pushViewController: Presenting view controller (%@).", viewController];
                 
-                [weakSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
                     if ([delegate respondsToSelector:@selector(rootViewManager:willPushViewControler:)]) {
-                        [delegate rootViewManager:weakSelf willPushViewControler:viewController];
+                        [delegate rootViewManager:strongSelf willPushViewControler:viewController];
                     }
                 }];
                 
                 [currentViewController presentViewController:viewController animated:NO completion:NULL];
             } else {
-                [weakSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
+                [strongSelf log:SFLogLevelDebug format:@"pushViewController: View controller (%@) is already presented.", viewController];
             }
         } else {
-            [weakSelf log:SFLogLevelDebug format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
-            weakSelf.mainWindow.rootViewController = viewController;
+            [strongSelf log:SFLogLevelDebug format:@"pushViewController: Making view controller (%@) the root view controller.", viewController];
+            strongSelf.mainWindow.rootViewController = viewController;
             [self saveCurrentKeyWindow];
-            [weakSelf.mainWindow makeKeyAndVisible];
+            [strongSelf.mainWindow makeKeyAndVisible];
         }
     };
     
@@ -140,12 +141,13 @@
 
 - (void)popViewController:(UIViewController *)viewController
 {
-    __weak SFRootViewManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     void (^popControllerBlock)(void) = ^{
-        UIViewController *currentViewController = weakSelf.mainWindow.rootViewController;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        UIViewController *currentViewController = strongSelf.mainWindow.rootViewController;
         if (currentViewController == viewController) {
-            [weakSelf log:SFLogLevelDebug format:@"popViewController: Removing rootViewController (%@).", viewController];
-            weakSelf.mainWindow.rootViewController = nil;
+            [strongSelf log:SFLogLevelDebug format:@"popViewController: Removing rootViewController (%@).", viewController];
+            strongSelf.mainWindow.rootViewController = nil;
             [self restorePreviousKeyWindow];
         } else {
             while ((currentViewController != nil) && (currentViewController != viewController)) {
@@ -153,13 +155,13 @@
             }
             
             if (currentViewController == nil) {
-                [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
+                [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) not found in the view controller stack.  No action taken.", viewController];
             } else {
-                [weakSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
+                [strongSelf log:SFLogLevelDebug format:@"popViewController: View controller (%@) is now being dismissed from presentation.", viewController];
                 [[currentViewController presentingViewController] dismissViewControllerAnimated:NO completion:^{
-                    [weakSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
+                    [strongSelf enumerateDelegates:^(id<SFRootViewManagerDelegate> delegate) {
                         if ([delegate respondsToSelector:@selector(rootViewManager:didPopViewControler:)]) {
-                            [delegate rootViewManager:weakSelf didPopViewControler:viewController];                            
+                            [delegate rootViewManager:strongSelf didPopViewControler:viewController];
                         }
                     }];
                 }];

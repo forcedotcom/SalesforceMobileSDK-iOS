@@ -104,7 +104,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
     }
     
-    __weak ContactListViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     void (^completionBlock)(void) = ^{
         [weakSelf refreshList];
     };
@@ -264,11 +264,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void) refreshList {
-    __weak ContactListViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.dataMgr filterOnSearchTerm:self.searchText completion:^{
-        [weakSelf.tableView reloadData];
-        if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
-            [weakSelf.searchBar becomeFirstResponder];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.tableView reloadData];
+        if (strongSelf.isSearching && ![strongSelf.searchBar isFirstResponder]) {
+            [strongSelf.searchBar becomeFirstResponder];
         }
     }];
 }
@@ -374,25 +375,26 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)syncUpDown {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showToast:@"Syncing with Salesforce"];
-    __weak ContactListViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     void(^completionBlock)(void) = ^{
         [weakSelf refreshList];
     };
     
     [self.dataMgr updateRemoteData:^(SFSyncState *syncProgressDetails) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
             // NB: when the sync failed it means not everything could be synched up
             //     it doesn't mean nothing could be synched up
             // Therefore we should be refreshing whether it was a complete success or not
-            [weakSelf.dataMgr refreshLocalData:completionBlock];
-            [weakSelf.dataMgr refreshRemoteData:completionBlock]; // NB will again call refreshLocalData when completing
+            [strongSelf.dataMgr refreshLocalData:completionBlock];
+            [strongSelf.dataMgr refreshRemoteData:completionBlock]; // NB will again call refreshLocalData when completing
 
             // Letting the user know whether it was a complete success or not
             if ([syncProgressDetails isDone]) {
-                [weakSelf showToast:@"Sync complete!"];
+                [strongSelf showToast:@"Sync complete!"];
             } else if ([syncProgressDetails hasFailed]) {
-                [weakSelf showToast:@"Sync failed."];
+                [strongSelf showToast:@"Sync failed."];
             }
         });
     }];
