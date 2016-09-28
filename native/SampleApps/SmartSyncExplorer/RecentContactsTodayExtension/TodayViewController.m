@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
- 
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -33,8 +33,6 @@
 #import <SalesforceSDKCore/SFLogger.h>
 #import <SmartStore/SFQuerySpec.h>
 
-static const NSUInteger kNumberOfRecords = 3;
-
 @interface TodayViewController () <NCWidgetProviding,UITableViewDelegate,UITableViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UITableView *todayTableView;
@@ -43,7 +41,9 @@ static const NSUInteger kNumberOfRecords = 3;
 
 @end
 
+static const NSUInteger kNumberOfRecords = 3;
 static NSString *simpleTableIdentifier = @"SimpleTableItem";
+
 @implementation TodayViewController
 
 - (void)viewDidLoad {
@@ -67,7 +67,7 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    
+
     SmartSyncExplorerConfig *config = [SmartSyncExplorerConfig sharedInstance];
 
     [SFSDKDatasharingHelper sharedInstance].appGroupName = config.appGroupName;
@@ -79,11 +79,11 @@ static NSString *simpleTableIdentifier = @"SimpleTableItem";
         [SalesforceSDKManager sharedManager].connectedAppCallbackUri = config.oauthRedirectURI;
         [SalesforceSDKManager sharedManager].authScopes = config.oauthScopes;
         [SalesforceSDKManager sharedManager].authenticateAtLaunch = config.appGroupsEnabled;
-        
+
         SFUserAccountIdentity *activeUserIdentity = [SFUserAccountManager sharedInstance].activeUserIdentity;
         SFUserAccount *currentUser = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:activeUserIdentity];
         [SFUserAccountManager sharedInstance].currentUser = currentUser;
-        
+
         __weak typeof(self) weakSelf = self;
         void (^completionBlock)(void) = ^{
             [weakSelf refreshList];
