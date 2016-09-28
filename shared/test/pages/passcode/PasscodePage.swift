@@ -120,17 +120,17 @@ class PasscodePage: PageObject, PageThatWaits {
     
     func forgotPasscode(_ confirm:Bool) {
         forgotPasscodeButton.tap()
-        let collectionViewsQuery = app.alerts["Forgot Passcode?"].collectionViews
+        let alertQuery = app.alerts["Forgot Passcode?"]
         if (confirm) {
-            collectionViewsQuery.buttons["Yes"].tap()
+            alertQuery.buttons["Yes"].tap()
         }
         else {
-            collectionViewsQuery.buttons["No"].tap()
+            alertQuery.buttons["No"].tap()
         }
     }
     
     func isPresented() -> Bool {
-        return (getStatus() != PasscodeStatus.unknown)
+        return !(app.navigationBars["Contacts"].exists && app.navigationBars["Contacts"].isHittable)
     }
     
     func getStatus() -> PasscodeStatus {

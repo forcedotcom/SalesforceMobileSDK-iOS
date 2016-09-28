@@ -81,7 +81,8 @@ class LoginPage: PageObject, PageThatWaits {
     // MARK: Act on screen
     
     @discardableResult func setUserName(_ userName: String) -> LoginPage {
-        userNameField.press(forDuration: 2)
+        userNameField.tap()
+        sleep(1)
         userNameField.typeText(userName)
         return self
     }
