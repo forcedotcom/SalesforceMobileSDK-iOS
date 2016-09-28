@@ -664,14 +664,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     if (_enqueuedNetwork != enqueuedNetwork) {
         _enqueuedNetwork = enqueuedNetwork;
         self.timingValues[@"enqueuedTime"] = [NSDate date];
-        
-        if (enqueuedNetwork) {
-            _progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress]
-                                                  userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
-            _progress.totalUnitCount = -1;
-            _progress.cancellable = YES;
-            _progress.pausable = NO;
-        }
     }
 }
 
