@@ -84,7 +84,7 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     [sharedDefaults setBool:keychainSharingEnabled forKey:kKeychainSharingEnabled];
     [sharedDefaults synchronize];
 }
-         
+
 - (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *)sharedDefaults {
     if([self appGroupEnabled] && ![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
         [SFLogger log:SFLogLevelWarning msg:@"Ensure that you have enabled app-groups for your app in the entitlements for your app."];
@@ -95,7 +95,7 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 }
 
 - (void)migrateFromAppContainerToUserDefaults:(NSUserDefaults *)sharedDefaults {
-  
+
     if(![self appGroupEnabled] && [[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
         [SFLogger log:SFLogLevelWarning msg:@"Ensure that you have not disabled app-groups for your app in the entitlements. Data will not be migrated from app containers if app-groups are disabled"];
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kDidMigrateToAppGroupsKey];
@@ -111,7 +111,6 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     }
     [target synchronize];
 }
-
 
 - (BOOL)keychainSharingEnabled {
 #if TARGET_IPHONE_SIMULATOR
@@ -129,5 +128,4 @@ NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
     return [sharedDefaults boolForKey:kKeychainSharingEnabled];
 #endif
 }
-
 @end
