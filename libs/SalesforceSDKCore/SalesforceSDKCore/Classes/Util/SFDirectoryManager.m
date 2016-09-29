@@ -195,10 +195,10 @@ static NSString * const kDefaultCommunityName = @"internal";
     BOOL filesShared = [sharedDefaults boolForKey:@"filesShared"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *targetDirectory;
+    NSString *docDirectory;
     NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if (directories.count > 0) {
-        targetDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+        docDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
     
     NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -206,10 +206,10 @@ static NSString * const kDefaultCommunityName = @"internal";
     sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     
     if (isGroupAccessEnabled && !filesShared) {
-        [self moveContentsOfDirectory:targetDirectory toDirectory:sharedDirectory];
+        [self moveContentsOfDirectory:docDirectory toDirectory:sharedDirectory];
         [sharedDefaults setBool:YES forKey:@"filesShared"];
     } else if (!isGroupAccessEnabled && filesShared) {
-        [self moveContentsOfDirectory:sharedDirectory toDirectory:targetDirectory];
+        [self moveContentsOfDirectory:sharedDirectory toDirectory:docDirectory];
         [sharedDefaults setBool:NO forKey:@"filesShared"];
     }
     [sharedDefaults synchronize];
