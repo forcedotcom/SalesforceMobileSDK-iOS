@@ -967,7 +967,6 @@
 					};
 					B7A1342F1D99D52600A4559C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 4PZ44KB26X;
 						ProvisioningStyle = Automatic;
 					};
 					B7E0CF301D91CECE0050A1F4 = {
