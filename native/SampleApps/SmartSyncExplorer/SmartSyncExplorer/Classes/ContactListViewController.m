@@ -24,11 +24,11 @@
 
 #import "ContactListViewController.h"
 #import "ActionsPopupController.h"
-#import "SObjectDataManager.h"
-#import "ContactSObjectDataSpec.h"
-#import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
+#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
+#import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>

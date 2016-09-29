@@ -22,13 +22,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import <Foundation/Foundation.h>
+#import <SmartSync/SFSmartSyncSyncManager.h>
+#import "SObjectDataSpec.h"
+#import "SObjectData.h"
 
-@interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
 
-- (id)initForNewContactWithDataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
-- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
+@interface SObjectDataManager : NSObject
+
+@property (nonatomic, readonly) SFSmartStore *store;
+@property (nonatomic, strong) NSArray *dataRows;
+
+- (id)initWithDataSpec:(SObjectDataSpec *)dataSpec;
+
+- (void)refreshLocalData:(void (^)(void))completionBlock;
+- (void)createLocalData:(SObjectData *)newData;
+- (void)updateLocalData:(SObjectData *)updatedData;
+- (void)deleteLocalData:(SObjectData *)dataToDelete;
+- (void)undeleteLocalData:(SObjectData *)dataToDelete;
+- (BOOL)dataHasLocalChanges:(SObjectData *)data;
+- (BOOL)dataLocallyCreated:(SObjectData *)data;
+- (BOOL)dataLocallyUpdated:(SObjectData *)data;
+- (BOOL)dataLocallyDeleted:(SObjectData *)data;
+- (void)refreshRemoteData:(void (^)(void))completionBlock;
+- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
+- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
+- (void)lastModifiedRecords:(int)limit completion:(void (^)(void))completionBlock;
 
 @end

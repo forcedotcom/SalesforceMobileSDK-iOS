@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,13 +22,42 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import <SmartSyncExplorerCommon/ContactSObjectData.h>
-#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import "SmartSyncExplorerConfig.h"
 
-@interface ContactDetailViewController : UITableViewController <UITableViewDataSource>
+static NSString * const kRemoteAccessConsumerKey = @"3MVG9Iu66FKeHhINkB1l7xt7kR8czFcCTUhgoA8Ol2Ltf1eYHOU4SqQRSEitYFDUpqRWcoQ2.dBv_a1Dyu5xa";
 
-- (id)initForNewContactWithDataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
-- (id)initWithContact:(ContactSObjectData *)contact dataManager:(SObjectDataManager *)dataMgr saveBlock:(void (^)(void))saveBlock;
+static NSString * const kOAuthRedirectURI = @"testsfdc:///mobilesdk/detect/oauth/done";
+static NSString * const kAppGroupName  = @"group.com.salesforce.mobilesdk.SmartSyncExplorer";
+static NSString * const kUserLoggedIn = @"userLoggedIn";
+
+static SmartSyncExplorerConfig *sharedInstance;
+
+@implementation SmartSyncExplorerConfig
+
+- (instancetype)init {
+ 
+    self = [super init];
+    if( self ) {
+        _oauthScopes = @[@"web", @"api"];
+        _remoteAccessConsumerKey = kRemoteAccessConsumerKey;
+        _oauthRedirectURI = kOAuthRedirectURI;
+        _appGroupName = kAppGroupName;
+        _userLogInStatusKey = kUserLoggedIn;
+        _appGroupsEnabled = NO;
+    }
+    return self;
+
+}
+
++ (instancetype)sharedInstance {
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedInstance =  [SmartSyncExplorerConfig new];
+    });
+    return sharedInstance;
+
+}
+
 
 @end

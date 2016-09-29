@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,29 +23,37 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <SmartSync/SFSmartSyncSyncManager.h>
-#import "SObjectDataSpec.h"
-#import "SObjectData.h"
+/** SmartSyncExplorerConfig holds the config for both the app and the extension.
+ */
+@interface SmartSyncExplorerConfig : NSObject
 
+/* The Connected App key associated with this application.
+*/
+@property (readonly,nonatomic, copy) NSString *remoteAccessConsumerKey;
 
-@interface SObjectDataManager : NSObject
+/**
+ * The OAuth Redirect URI associated with the configured Connected Application.
+ */
+@property (readonly,nonatomic, copy) NSString *oauthRedirectURI;
 
-@property (nonatomic, readonly) SFSmartStore *store;
-@property (nonatomic, strong) NSArray *dataRows;
+/**
+ * The App GroupName ("group.*") associated with the configured Connected Application.
+ */
+@property (readonly,nonatomic, copy) NSString *appGroupName;
 
-- (id)initWithDataSpec:(SObjectDataSpec *)dataSpec;
+/* Indicated whether appgroups are enabled for SmartSyncExplorer.
+ */
+@property (readonly,assign) BOOL appGroupsEnabled;
 
-- (void)refreshLocalData:(void (^)(void))completionBlock;
-- (void)createLocalData:(SObjectData *)newData;
-- (void)updateLocalData:(SObjectData *)updatedData;
-- (void)deleteLocalData:(SObjectData *)dataToDelete;
-- (void)undeleteLocalData:(SObjectData *)dataToDelete;
-- (BOOL)dataHasLocalChanges:(SObjectData *)data;
-- (BOOL)dataLocallyCreated:(SObjectData *)data;
-- (BOOL)dataLocallyUpdated:(SObjectData *)data;
-- (BOOL)dataLocallyDeleted:(SObjectData *)data;
-- (void)refreshRemoteData:(void (^)(void))completionBlock;
-- (void)updateRemoteData:(SFSyncSyncManagerUpdateBlock)completionBlock;
-- (void)filterOnSearchTerm:(NSString *)searchTerm completion:(void (^)(void))completionBlock;
+/**
+ * The OAuth Scopes being requested for this app.
+ */
+@property (readonly,nonatomic, strong) NSArray *oauthScopes;
 
+/**
+ * Returns flag associated with NSUSerDefauts for users logged in state.
+ */
+@property (readonly,nonatomic, copy) NSString *userLogInStatusKey;
+
++ (instancetype)sharedInstance;
 @end

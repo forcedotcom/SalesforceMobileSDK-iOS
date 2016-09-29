@@ -23,7 +23,7 @@
  */
 
 #import "ContactDetailViewController.h"
-#import "ContactSObjectDataSpec.h"
+#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
 
 @interface ContactDetailViewController () <UIAlertViewDelegate>
 
