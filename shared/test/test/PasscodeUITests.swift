@@ -33,7 +33,6 @@ class PasscodeUITest: SalesforceNoSessionTestCase {
     let loginHelper = LoginHelper()
     let loginPage = LoginPage()
     let hostPage = HostPage()
-    let searchScreen = SearchScreen()
     let userListScreen = UserListScreen()
     let passcodePage = PasscodePage()
     

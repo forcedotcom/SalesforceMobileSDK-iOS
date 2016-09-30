@@ -34,7 +34,6 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     let loginHelper = LoginHelper()
     let loginPage = LoginPage()
     let hostPage = HostPage()
-    let searchScreen = SearchScreen()
     let userListScreen = UserListScreen()
     
     // MARK: Setup

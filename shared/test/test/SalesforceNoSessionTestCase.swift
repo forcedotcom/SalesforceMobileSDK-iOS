@@ -36,6 +36,7 @@ class SalesforceNoSessionTestCase: XCTestCase {
     var passcodeLength: UInt32?
     var passcode: String = ""
     var app = XCUIApplication()
+    var searchScreen = SearchScreen()
     
     override func setUp() {
         super.setUp()
@@ -57,6 +58,7 @@ class SalesforceNoSessionTestCase: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
+        searchScreen.logout()
     }
     
     func randomPasscode() -> String {
