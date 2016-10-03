@@ -141,7 +141,8 @@ static inline BOOL IsValidEntityId(NSString *string) {
 }
 
 - (NSString *)stringByURLEncoding {
-    return [self stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSCharacterSet *urlAllowedCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@" \"#%/:<>?@[\\]^`{|}&:/=+"] invertedSet];
+    return [self stringByAddingPercentEncodingWithAllowedCharacters:urlAllowedCharacterSet];
 }
 
 - (NSString *)stringByStrippingHTML {

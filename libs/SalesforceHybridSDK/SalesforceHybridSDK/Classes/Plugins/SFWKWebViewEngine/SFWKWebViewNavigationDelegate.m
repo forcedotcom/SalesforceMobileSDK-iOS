@@ -30,6 +30,7 @@
 #import "SFWKWebViewNavigationDelegate.h"
 #import "SFHybridViewController.h"
 #import <SalesforceSDKCore/SFApplicationHelper.h>
+#import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -78,7 +79,7 @@
     [self log:SFLogLevelDebug format:message];
     NSURL *errorUrl = vc.errorURL;
     if (errorUrl) {
-        NSString *urlString = [NSString stringWithFormat:@"?error=%@", [message stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
+        NSString *urlString = [NSString stringWithFormat:@"?error=%@", [message stringByURLEncoding]];
         errorUrl = [NSURL URLWithString:urlString relativeToURL:errorUrl];
         [self log:SFLogLevelDebug format:[errorUrl absoluteString]];
         [webView loadRequest:[NSURLRequest requestWithURL:errorUrl]];

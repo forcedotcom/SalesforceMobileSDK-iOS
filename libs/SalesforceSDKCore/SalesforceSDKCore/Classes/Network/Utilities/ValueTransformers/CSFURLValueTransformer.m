@@ -23,6 +23,7 @@
  */
 
 #import "CSFURLValueTransformer.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
 
@@ -45,7 +46,7 @@ NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
     if ([value isKindOfClass:[NSString class]]) {
         result = [NSURL URLWithString:value];
         if (!result) {
-            value = [value stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+            value = [value stringByURLEncoding];
             result = [NSURL URLWithString:value];
         }
     }
