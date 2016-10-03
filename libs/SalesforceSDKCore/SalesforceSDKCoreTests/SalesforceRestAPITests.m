@@ -314,7 +314,7 @@ static NSException *authException = nil;
 // - query updated object (requestForSearch) and make sure we don't get anything
 - (void)testCreateUpdateQuerySearchDelete {
     // create object
-    NSString *lastName = [NSString stringWithFormat:@"Doe-%f",round([NSDate date].timeIntervalSince1970)];
+    NSString *lastName = [NSString stringWithFormat:@"Doe-%@", [NSDate date]];
     NSString *updatedLastName = [lastName stringByAppendingString:@"xyz"];
     
     NSDictionary *fields = @{@"FirstName": @"John", 
