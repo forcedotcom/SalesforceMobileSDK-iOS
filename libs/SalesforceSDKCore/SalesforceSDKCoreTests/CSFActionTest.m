@@ -116,4 +116,36 @@
     XCTAssertEqualObjects(action.verb, @"/some/path/to/a/request");
 }
 
+- (void)testEquals {
+    CSFAction *action1 = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    
+    XCTAssertNotNil(action1);
+    action1.baseURL = [NSURL URLWithString:@"http://some.example.com"];
+    action1.method = @"POST";
+    action1.verb=@"test";
+    
+    CSFAction *action2 = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    
+    XCTAssertNotNil(action2);
+    action2.baseURL = [NSURL URLWithString:@"http://some.example.com"];
+    action2.method = @"POST";
+    action2.verb=@"test";
+    XCTAssertTrue([action1 isEqual:action2]);
+}
+
+- (void)testMustNotBeEqual {
+    CSFAction *action1 = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    
+    XCTAssertNotNil(action1);
+    action1.baseURL = [NSURL URLWithString:@"http://some.example2.com"];
+    action1.method = @"POST";
+    action1.verb=@"test";
+    
+    CSFAction *action2 = [[CSFAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error){}];
+    XCTAssertNotNil(action2);
+    action2.baseURL = [NSURL URLWithString:@"http://some.example.com"];
+    action2.method = @"POST";
+    action2.verb=@"test";
+    XCTAssertFalse([action1 isEqual:action2]);
+}
 @end
