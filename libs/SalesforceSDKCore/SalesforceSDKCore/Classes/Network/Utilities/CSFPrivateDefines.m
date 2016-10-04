@@ -26,6 +26,7 @@
 #import "CSFInternalDefines.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCoordinator.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const CSFPropertyReadonlyKey = @"readonly";
 NSString * const CSFPropertyAtomicKey = @"atomic";
@@ -74,7 +75,7 @@ NSURL * CSFNotNullURLRelative(id value, NSURL *baseURL) {
         } else {
             result = [NSURL URLWithString:value relativeToURL:baseURL];
             if (!result) {
-                stringValue = [stringValue stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+                stringValue = [stringValue stringByURLEncoding];
                 result = [NSURL URLWithString:value relativeToURL:baseURL];
             }
         }
@@ -106,7 +107,7 @@ NSString * CSFNotNullString(id value) {
 }
 
 NSString * CSFURLEncode(NSString *txt) {
-    return [txt stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    return [txt stringByURLEncoding];
 }
 
 NSString * CSFURLDecode(NSString *txt) {
