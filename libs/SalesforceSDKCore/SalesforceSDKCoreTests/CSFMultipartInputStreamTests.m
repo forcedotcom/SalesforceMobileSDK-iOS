@@ -131,7 +131,7 @@
     XCTAssertEqual(readCount, 682U);
     [data appendBytes:buffer length:readCount];
     
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH::mm:ss'Z'"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
     NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *expectedString = [NSMutableString new];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nTest String\r\n", stream.boundary];
