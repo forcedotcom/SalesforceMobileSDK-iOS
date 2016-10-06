@@ -23,6 +23,7 @@
  */
 
 #import "SFSmartSyncSoslBuilder.h"
+#import <SalesforceSDKCore/NSString+SFAdditions.h>
 
 @interface SFSmartSyncSoslBuilder() {
     NSMutableDictionary *properties;
@@ -109,7 +110,7 @@
 #pragma mark Encoded Queries
 
 - (NSString *) encodeAndBuild {
-    return [[self build] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]];
+    return [[self build] stringByURLEncoding];
 }
 
 - (NSString *) encodeAndBuildWithPath:(NSString *) path {

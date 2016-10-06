@@ -63,8 +63,8 @@
                             self.coordinator.credentials.redirectUri,
                             @"some_access_token_val",
                             @(1418945872705),
-                            [@"https://na1.salesforce.com" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
-                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]
+                            [@"https://na1.salesforce.com" stringByURLEncoding],
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding]
                             ];
     return [NSURL URLWithString:successUrl];
 }
@@ -74,7 +74,7 @@
     NSString *errorUrl = [NSString stringWithFormat:errorFormatString,
                           self.coordinator.credentials.redirectUri,
                           @"user_agent_flow_error_from_unit_test",
-                          [@"User agent flow error from unit test" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]
+                          [@"User agent flow error from unit test" stringByURLEncoding]
                           ];
     return [NSURL URLWithString:errorUrl];
 }
@@ -83,9 +83,9 @@
     NSString *successFormatString = @"{\"id\":\"%@\",\"issued_at\":\"%@\",\"instance_url\":\"%@\",\"access_token\":\"%@\"}";
     NSString *successDataString = [NSString stringWithFormat:successFormatString,
                             self.coordinator.credentials.redirectUri,
-                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
+                            [@"https://login.salesforce.com/id/some_org_id/some_user_id" stringByURLEncoding],
                             @(1418945872705),
-                            [@"https://na1.salesforce.com" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]],
+                            [@"https://na1.salesforce.com" stringByURLEncoding],
                             @"some_access_token"];
      NSData *data = [successDataString dataUsingEncoding:NSUTF8StringEncoding];
     return [data mutableCopy];
@@ -96,7 +96,7 @@
     NSString *errorDataString = [NSString stringWithFormat:errorFormatString,
                           self.coordinator.credentials.redirectUri,
                           @"refresh_token_flow_error_from_unit_test",
-                          [@"Refresh token flow error from unit test" stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]]
+                          [@"Refresh token flow error from unit test" stringByURLEncoding]
                           ];
     NSData *data = [errorDataString dataUsingEncoding:NSUTF8StringEncoding];
     return [data mutableCopy];

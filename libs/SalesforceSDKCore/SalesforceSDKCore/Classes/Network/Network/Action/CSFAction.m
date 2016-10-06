@@ -338,6 +338,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (NSUInteger)hash {
     NSUInteger result = 17;
+    result ^= [self.baseURL hash] + result * 37;
     result ^= [self.verb hash] + result * 37;
     result ^= [self.method hash] + result * 37;
     result ^= [self.allHTTPHeaderFields hash] + result * 37;
@@ -348,11 +349,15 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 }
 
 - (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
     if ([object isKindOfClass:[CSFAction class]]) {
         return [self isEqualToAction:(CSFAction *)object];
-    } else {
-        return NO;
     }
+    
+    return NO;
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
@@ -360,11 +365,11 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         return NO;
     }
     
-    BOOL isEqual = [self.verb isEqualToString:action.verb];
+    BOOL isEqual = [self.baseURL isEqual:action.baseURL];
+    isEqual = isEqual && [self.verb isEqualToString:action.verb];
     isEqual = isEqual && [self.method isEqualToString:action.method];
     isEqual = (isEqual && ((!_parameters && !action->_parameters) ||
                            [_parameters isEqual:action.parameters]));
-
     // intentionally ignoring userData and completionBlock, as both are difficult to compare
     
     return isEqual;
