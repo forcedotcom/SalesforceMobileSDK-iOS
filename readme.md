@@ -1,3 +1,4 @@
+[![Build Status](https://gist.githubusercontent.com/huminzhi/74e0b81003314709ded9c23386ec28ba/raw/status.png)](https://mobilesdk.ci.data.com/job/MobileSDK-iOS)
 
 # Salesforce.com Mobile SDK for iOS
 
