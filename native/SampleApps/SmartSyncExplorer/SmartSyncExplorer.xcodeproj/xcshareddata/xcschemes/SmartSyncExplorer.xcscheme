@@ -37,14 +37,6 @@
                BlueprintName = "SmartSyncExplorerUITests"
                ReferencedContainer = "container:SmartSyncExplorer.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "OAuthUITest">
-               </Test>
-               <Test
-                  Identifier = "PasscodeUITest">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
