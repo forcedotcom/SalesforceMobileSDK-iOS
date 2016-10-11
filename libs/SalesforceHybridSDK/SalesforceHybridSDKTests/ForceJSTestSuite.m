@@ -24,16 +24,19 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ForcetkTestSuite.h"
+#import "ForceJSTestSuite.h"
 
-@implementation ForcetkTestSuite
+@implementation ForceJSTestSuite
 
 - (void)setUp
 {
     [super setUp];
-    self.jsSuiteName = @"ForcetkTestSuite";
+    self.jsSuiteName = @"ForceJSTestSuite";
 }
 
+- (void)testParseUrl {
+    [self runTest:@"testParseUrl"];
+}
 
 - (void)testComputeWebAppSdkAgentForUnrecognizedUserAgents {
     [self runTest:@"testComputeWebAppSdkAgentForUnrecognizedUserAgents"];
@@ -55,6 +58,10 @@
     [self runTest:@"testComputeWebAppSdkAgentForDesktopUserAgents"];
 }
 
+- (void)testComputeEndPointIfMissing {
+    [self runTest:@"testComputeEndPointIfMissing"];
+}
+
 - (void)testOwnedFilesList {
     [self runTest:@"testOwnedFilesList"];
 }
@@ -73,22 +80,6 @@
 
 - (void)testBatchFileDetails {
     [self runTest:@"testBatchFileDetails"];
-}
-
-- (void)testFileRenditionPath {
-    [self runTest:@"testFileRenditionPath"];
-}
-
-- (void)testFileRendition {
-    [self runTest:@"testFileRendition"];
-}
-
-- (void)testFileContentsPath {
-    [self runTest:@"testFileContentsPath"];
-}
-
-- (void)testFileContents {
-    [self runTest:@"testFileContents"];
 }
 
 - (void)testFileShares {

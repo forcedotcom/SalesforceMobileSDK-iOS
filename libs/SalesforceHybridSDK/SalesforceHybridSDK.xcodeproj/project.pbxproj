@@ -21,13 +21,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		4F06AFB11C49A77200F70798 /* ForcetkTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFA51C49A77200F70798 /* ForcetkTestSuite.h */; };
+		4F06AFB11C49A77200F70798 /* ForceJSTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFA51C49A77200F70798 /* ForceJSTestSuite.h */; };
 		4F06AFB31C49A77200F70798 /* SDKInfoTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */; };
 		4F06AFB51C49A77200F70798 /* SFPluginTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */; };
 		4F06AFB71C49A77200F70798 /* SmartStoreLoadTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFAB1C49A77200F70798 /* SmartStoreLoadTestSuite.h */; };
 		4F06AFB91C49A77200F70798 /* SmartStoreTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFAD1C49A77200F70798 /* SmartStoreTestSuite.h */; };
 		4F06AFBB1C49A77200F70798 /* SmartSyncTestSuite.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F06AFAF1C49A77200F70798 /* SmartSyncTestSuite.h */; };
-		4F06AFBD1C49A7BF00F70798 /* ForcetkTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFA61C49A77200F70798 /* ForcetkTestSuite.m */; };
+		4F06AFBD1C49A7BF00F70798 /* ForceJSTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */; };
 		4F06AFBE1C49A7BF00F70798 /* SDKInfoTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */; };
 		4F06AFBF1C49A7BF00F70798 /* SFPluginTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFAA1C49A77200F70798 /* SFPluginTestSuite.m */; };
 		4F06AFC01C49A7BF00F70798 /* SmartStoreLoadTestSuite.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F06AFAC1C49A77200F70798 /* SmartStoreLoadTestSuite.m */; };
@@ -39,7 +39,8 @@
 		4F0C192F18AAFE54000FD4E9 /* cordova.js in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4F0C192D18AAFE41000FD4E9 /* cordova.js */; };
 		4F0C194918AC1D71000FD4E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
 		4F22159B19DF60A200FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22159619DF60A200FF2D26 /* ImageIO.framework */; };
-		4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */; };
+		4F37EB0F1DA324130049992D /* force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F37EB0A1DA323AF0049992D /* force.js */; };
+		4F37EB121DA3247F0049992D /* SFForceJSTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F37EB101DA3246B0049992D /* SFForceJSTestSuite.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
@@ -56,7 +57,6 @@
 		4FC404BE1911C72D0027AD76 /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC404B61911C6F10027AD76 /* backbone-min.js */; };
 		4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
-		4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
 		822272A019C39F4500FC537E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		822272A119C39F4500FC537E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -168,7 +168,6 @@
 		CE7BA1581D89F9EE000B91D7 /* SFNetworkPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7BA1561D89F9EE000B91D7 /* SFNetworkPlugin.m */; };
 		CE7BA15D1D8A356F000B91D7 /* SFNetworkPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7BA1551D89F9EE000B91D7 /* SFNetworkPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE7BA15E1D8A3577000B91D7 /* SFNetworkPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7BA1561D89F9EE000B91D7 /* SFNetworkPlugin.m */; };
-		CE7BA1E41D8CA3E7000B91D7 /* com.salesforce.plugin.network.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA1E31D8CA3E7000B91D7 /* com.salesforce.plugin.network.js */; };
 		CE7BA1EF1D8CB388000B91D7 /* com.salesforce.plugin.network.js in Copy Salesforce plugin */ = {isa = PBXBuildFile; fileRef = CE7BA1E31D8CA3E7000B91D7 /* com.salesforce.plugin.network.js */; };
 		CEA884641C191878008D871B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		CEA884651C19187C008D871B /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F0C192B18AAFDF3000FD4E9 /* AssetsLibrary.framework */; };
@@ -295,7 +294,7 @@
 			dstPath = www/test;
 			dstSubfolderSpec = 7;
 			files = (
-				4FD231791AC4D33800FCE6C8 /* SFForcetkTestSuite.js in Copy test lib */,
+				4F37EB121DA3247F0049992D /* SFForceJSTestSuite.js in Copy test lib */,
 				4FC404AB1911C6E00027AD76 /* SFSmartSyncTestSuite.js in Copy test lib */,
 				4FC404AC1911C6E00027AD76 /* SFAbstractSmartStoreTestSuite.js in Copy test lib */,
 				4FC404AD1911C6E00027AD76 /* SFSDKInfoTestSuite.js in Copy test lib */,
@@ -324,7 +323,7 @@
 			dstPath = www/libs;
 			dstSubfolderSpec = 7;
 			files = (
-				4F458AED1911CF4C00545F86 /* forcetk.mobilesdk.js in Copy sfdc libs */,
+				4F37EB0F1DA324130049992D /* force.js in Copy sfdc libs */,
 				4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */,
 				4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */,
 			);
@@ -415,8 +414,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4F06AFA51C49A77200F70798 /* ForcetkTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForcetkTestSuite.h; path = SalesforceHybridSDKTests/ForcetkTestSuite.h; sourceTree = SOURCE_ROOT; };
-		4F06AFA61C49A77200F70798 /* ForcetkTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForcetkTestSuite.m; path = SalesforceHybridSDKTests/ForcetkTestSuite.m; sourceTree = SOURCE_ROOT; };
+		4F06AFA51C49A77200F70798 /* ForceJSTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForceJSTestSuite.h; path = SalesforceHybridSDKTests/ForceJSTestSuite.h; sourceTree = SOURCE_ROOT; };
+		4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForceJSTestSuite.m; path = SalesforceHybridSDKTests/ForceJSTestSuite.m; sourceTree = SOURCE_ROOT; };
 		4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDKInfoTestSuite.h; path = SalesforceHybridSDKTests/SDKInfoTestSuite.h; sourceTree = SOURCE_ROOT; };
 		4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDKInfoTestSuite.m; path = SalesforceHybridSDKTests/SDKInfoTestSuite.m; sourceTree = SOURCE_ROOT; };
 		4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFPluginTestSuite.h; path = SalesforceHybridSDKTests/SFPluginTestSuite.h; sourceTree = SOURCE_ROOT; };
@@ -440,12 +439,13 @@
 		4F22155619DF480100FF2D26 /* SFForcePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFForcePlugin.h; path = SFForcePlugin/SFForcePlugin.h; sourceTree = "<group>"; };
 		4F22155719DF480100FF2D26 /* SFForcePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFForcePlugin.m; path = SFForcePlugin/SFForcePlugin.m; sourceTree = "<group>"; };
 		4F22159619DF60A200FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4F37EB0A1DA323AF0049992D /* force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.js; sourceTree = "<group>"; };
+		4F37EB101DA3246B0049992D /* SFForceJSTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFForceJSTestSuite.js; sourceTree = "<group>"; };
 		4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLocalhostSubstitutionCache.h; sourceTree = "<group>"; };
 		4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLocalhostSubstitutionCache.m; sourceTree = "<group>"; };
 		4FAA891B175025DF00807E13 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = ../../../external/shared/test/forcepluginstest/index.html; sourceTree = "<group>"; };
 		4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFSmartSyncTestSuite.js; sourceTree = "<group>"; };
-		4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncPlugin.h; sourceTree = "<group>"; };
 		4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncPlugin.m; sourceTree = "<group>"; };
@@ -458,7 +458,6 @@
 		4FC404B61911C6F10027AD76 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
 		4FC404B71911C6F10027AD76 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
 		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
-		4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFForcetkTestSuite.js; sourceTree = "<group>"; };
 		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
 		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
 		4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
@@ -658,7 +657,7 @@
 		4F1A59D2174FF02500473EE8 /* test */ = {
 			isa = PBXGroup;
 			children = (
-				4FD231771AC4D30E00FCE6C8 /* SFForcetkTestSuite.js */,
+				4F37EB101DA3246B0049992D /* SFForceJSTestSuite.js */,
 				4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */,
 				4F1A59DB174FF02500473EE8 /* SFAbstractSmartStoreTestSuite.js */,
 				4F1A59DC174FF02500473EE8 /* SFSDKInfoTestSuite.js */,
@@ -673,7 +672,7 @@
 		4F1A59F0174FF0B100473EE8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				4FBFFAF0177A715300D1E36E /* forcetk.mobilesdk.js */,
+				4F37EB0A1DA323AF0049992D /* force.js */,
 				4FBFFAF1177A715300D1E36E /* smartsync.js */,
 				4F1A59F1174FF0B100473EE8 /* cordova.force.js */,
 			);
@@ -769,8 +768,8 @@
 		822272A219C39F4500FC537E /* SalesforceHybridSDKTests */ = {
 			isa = PBXGroup;
 			children = (
-				4F06AFA51C49A77200F70798 /* ForcetkTestSuite.h */,
-				4F06AFA61C49A77200F70798 /* ForcetkTestSuite.m */,
+				4F06AFA51C49A77200F70798 /* ForceJSTestSuite.h */,
+				4F06AFA61C49A77200F70798 /* ForceJSTestSuite.m */,
 				4F06AFA71C49A77200F70798 /* SDKInfoTestSuite.h */,
 				4F06AFA81C49A77200F70798 /* SDKInfoTestSuite.m */,
 				4F06AFA91C49A77200F70798 /* SFPluginTestSuite.h */,
@@ -1140,7 +1139,7 @@
 				CE4CE4521C0E5ADF009F6029 /* SFSmartSyncPlugin.h in Headers */,
 				4F06AFB31C49A77200F70798 /* SDKInfoTestSuite.h in Headers */,
 				CE405C891D3DB39E00E6F889 /* SFWKWebViewEngine.h in Headers */,
-				4F06AFB11C49A77200F70798 /* ForcetkTestSuite.h in Headers */,
+				4F06AFB11C49A77200F70798 /* ForceJSTestSuite.h in Headers */,
 				CE4CE45A1C0E5B14009F6029 /* SalesforceOAuthPlugin.h in Headers */,
 				4F06AFB51C49A77200F70798 /* SFPluginTestSuite.h in Headers */,
 				4F06AFC61C49A89900F70798 /* SalesforceHybridSDKTests-Prefix.pch in Headers */,
@@ -1377,7 +1376,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE7BA1E41D8CA3E7000B91D7 /* com.salesforce.plugin.network.js in Resources */,
 				4F06AFEB1C49D35B00F70798 /* test_credentials.json in Resources */,
 				82EFF30A16E8049500A63CDF /* InfoPlist.strings in Resources */,
 				4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */,
@@ -1425,7 +1423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F06AFC11C49A7BF00F70798 /* SmartStoreTestSuite.m in Sources */,
-				4F06AFBD1C49A7BF00F70798 /* ForcetkTestSuite.m in Sources */,
+				4F06AFBD1C49A7BF00F70798 /* ForceJSTestSuite.m in Sources */,
 				4F06AFC21C49A7BF00F70798 /* SmartSyncTestSuite.m in Sources */,
 				4F06AFC01C49A7BF00F70798 /* SmartStoreLoadTestSuite.m in Sources */,
 				4F06AFBE1C49A7BF00F70798 /* SDKInfoTestSuite.m in Sources */,

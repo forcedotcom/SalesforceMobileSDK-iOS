@@ -26,5 +26,5 @@
 #import "SFPluginTestSuite.h"
 
 
-@interface ForcetkTestSuite : SFPluginTestSuite
+@interface ForceJSTestSuite : SFPluginTestSuite
 @end
