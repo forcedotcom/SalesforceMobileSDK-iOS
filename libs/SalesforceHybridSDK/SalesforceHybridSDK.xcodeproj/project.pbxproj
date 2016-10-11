@@ -43,8 +43,9 @@
 		4F37EB121DA3247F0049992D /* SFForceJSTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4F37EB101DA3246B0049992D /* SFForceJSTestSuite.js */; };
 		4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FBFFAF1177A715300D1E36E /* smartsync.js */; };
 		4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4F1A59F1174FF0B100473EE8 /* cordova.force.js */; };
+		4F5B966A1DAD9D2B001627F2 /* com.salesforce.plugin.smartstore.client.js in Copy Salesforce plugin */ = {isa = PBXBuildFile; fileRef = 4F5B96661DAD9D09001627F2 /* com.salesforce.plugin.smartstore.client.js */; };
+		4F5B966B1DAD9D2B001627F2 /* com.salesforce.util.promiser.js in Copy Salesforce plugin */ = {isa = PBXBuildFile; fileRef = 4F5B96671DAD9D09001627F2 /* com.salesforce.util.promiser.js */; };
 		4FAA891D1750263200807E13 /* index.html in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FAA891B175025DF00807E13 /* index.html */; };
-		4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */ = {isa = PBXBuildFile; fileRef = 4FC404991911C6720027AD76 /* jquery.min.js */; };
 		4FC404A91911C6CA0027AD76 /* qunit.css in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049B1911C6720027AD76 /* qunit.css */; };
 		4FC404AA1911C6CA0027AD76 /* qunit.js in Copy qunit lib */ = {isa = PBXBuildFile; fileRef = 4FC4049C1911C6720027AD76 /* qunit.js */; };
 		4FC404AB1911C6E00027AD76 /* SFSmartSyncTestSuite.js in Copy test lib */ = {isa = PBXBuildFile; fileRef = 4FBFFAEE177A713500D1E36E /* SFSmartSyncTestSuite.js */; };
@@ -359,6 +360,8 @@
 			dstPath = www/plugins/com.salesforce;
 			dstSubfolderSpec = 7;
 			files = (
+				4F5B966A1DAD9D2B001627F2 /* com.salesforce.plugin.smartstore.client.js in Copy Salesforce plugin */,
+				4F5B966B1DAD9D2B001627F2 /* com.salesforce.util.promiser.js in Copy Salesforce plugin */,
 				CE7BA1EF1D8CB388000B91D7 /* com.salesforce.plugin.network.js in Copy Salesforce plugin */,
 				82AF5A8C1A0D9E2B006C7A4B /* SFTestRunnerPlugin.js in Copy Salesforce plugin */,
 				82AF5A8D1A0D9E2B006C7A4B /* com.salesforce.plugin.oauth.js in Copy Salesforce plugin */,
@@ -373,17 +376,6 @@
 				82AF5A961A0D9E2B006C7A4B /* com.salesforce.util.push.js in Copy Salesforce plugin */,
 			);
 			name = "Copy Salesforce plugin";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82EFF35D16E80E0B00A63CDF /* Copy jquery lib */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = www/dependencies/jquery;
-			dstSubfolderSpec = 7;
-			files = (
-				4FC404A81911C6B70027AD76 /* jquery.min.js in Copy jquery lib */,
-			);
-			name = "Copy jquery lib";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82EFF37016E8147C00A63CDF /* Copy files to www/ */ = {
@@ -441,6 +433,8 @@
 		4F22159619DF60A200FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F37EB0A1DA323AF0049992D /* force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.js; sourceTree = "<group>"; };
 		4F37EB101DA3246B0049992D /* SFForceJSTestSuite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SFForceJSTestSuite.js; sourceTree = "<group>"; };
+		4F5B96661DAD9D09001627F2 /* com.salesforce.plugin.smartstore.client.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartstore.client.js; sourceTree = "<group>"; };
+		4F5B96671DAD9D09001627F2 /* com.salesforce.util.promiser.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.promiser.js; sourceTree = "<group>"; };
 		4F70CA091C03DF6D00D26B3F /* SmartSync.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SmartSync.xcodeproj; path = ../SmartSync/SmartSync.xcodeproj; sourceTree = "<group>"; };
 		4FA19A571992C2B400FA3D69 /* SFLocalhostSubstitutionCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFLocalhostSubstitutionCache.h; sourceTree = "<group>"; };
 		4FA19A581992C2B400FA3D69 /* SFLocalhostSubstitutionCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFLocalhostSubstitutionCache.m; sourceTree = "<group>"; };
@@ -449,8 +443,6 @@
 		4FBFFAF1177A715300D1E36E /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2767F19DCA6BB008F4AA6 /* SFSmartSyncPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSmartSyncPlugin.h; sourceTree = "<group>"; };
 		4FC2768019DCA6BB008F4AA6 /* SFSmartSyncPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSmartSyncPlugin.m; sourceTree = "<group>"; };
-		4FC404981911C6720027AD76 /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
-		4FC404991911C6720027AD76 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
 		4FC4049B1911C6720027AD76 /* qunit.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = qunit.css; sourceTree = "<group>"; };
 		4FC4049C1911C6720027AD76 /* qunit.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = qunit.js; sourceTree = "<group>"; };
 		4FC404B31911C6F10027AD76 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
@@ -714,20 +706,10 @@
 			children = (
 				4FC404B21911C6F10027AD76 /* underscore */,
 				4FC404B51911C6F10027AD76 /* backbone */,
-				4FC404971911C6720027AD76 /* jquery */,
 				4FC4049A1911C6720027AD76 /* qunit */,
 			);
 			name = dependencies;
 			path = ../../../external/shared/dependencies;
-			sourceTree = "<group>";
-		};
-		4FC404971911C6720027AD76 /* jquery */ = {
-			isa = PBXGroup;
-			children = (
-				4FC404981911C6720027AD76 /* jquery.js */,
-				4FC404991911C6720027AD76 /* jquery.min.js */,
-			);
-			path = jquery;
 			sourceTree = "<group>";
 		};
 		4FC4049A1911C6720027AD76 /* qunit */ = {
@@ -841,6 +823,8 @@
 		82AF5A741A0D99EC006C7A4B /* com.salesforce */ = {
 			isa = PBXGroup;
 			children = (
+				4F5B96661DAD9D09001627F2 /* com.salesforce.plugin.smartstore.client.js */,
+				4F5B96671DAD9D09001627F2 /* com.salesforce.util.promiser.js */,
 				CE7BA1E31D8CA3E7000B91D7 /* com.salesforce.plugin.network.js */,
 				82AF5A891A0D9A0A006C7A4B /* SFTestRunnerPlugin.js */,
 				82AF5A751A0D99EC006C7A4B /* com.salesforce.plugin.oauth.js */,
@@ -1209,7 +1193,6 @@
 				82EFF2FC16E8049500A63CDF /* Frameworks */,
 				82EFF2FD16E8049500A63CDF /* Resources */,
 				82EFF37016E8147C00A63CDF /* Copy files to www/ */,
-				82EFF35D16E80E0B00A63CDF /* Copy jquery lib */,
 				4F1A5A01174FF4AD00473EE8 /* Copy test lib */,
 				4F1A5A091750090700473EE8 /* Copy qunit lib */,
 				4F0C193E18AB0509000FD4E9 /* Copy underscore lib */,
