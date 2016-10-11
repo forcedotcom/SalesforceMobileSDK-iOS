@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4F1FD0801A9559D3006E1795 /* SFContentSoqlSyncDownTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncDownTarget.m */; };
 		4F22155F19DF549400FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22155E19DF549400FF2D26 /* ImageIO.framework */; };
+		4F5B96181DA869BD001627F2 /* force.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F5B96131DA86949001627F2 /* force.js */; };
 		4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839819525B66003EBB16 /* AppDelegate.m */; };
 		4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 824A9DC01724CE4600C9BD79 /* config.xml */; };
@@ -20,7 +21,6 @@
 		4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2768F19DCBB1B008F4AA6 /* auth.js */; };
 		4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769019DCBB1B008F4AA6 /* backbone-min.js */; };
 		4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769319DCBB1B008F4AA6 /* fastclick.js */; };
-		4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */; };
 		4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769619DCBB1B008F4AA6 /* jquery.min.js */; };
 		4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769A19DCBB1B008F4AA6 /* smartsync.js */; };
 		4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */; };
@@ -76,8 +76,6 @@
 		CE2B8DD71CE9332C00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8DB81CE9331500C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB3C01C10CBB90012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3BF1C10CBB90012125E /* libz.tbd */; };
 		CE6AB3C21C10CBC50012125E /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB3C11C10CBC50012125E /* libxml2.tbd */; };
-		CE7BA16E1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA16C1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js */; };
-		CE7BA16F1D8CA3CC000B91D7 /* com.salesforce.util.push.js in Resources */ = {isa = PBXBuildFile; fileRef = CE7BA16D1D8CA3CC000B91D7 /* com.salesforce.util.push.js */; };
 		CE7BA1EB1D8CB348000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA16C1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js */; };
 		CE7BA1EC1D8CB348000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = CE7BA16D1D8CA3CC000B91D7 /* com.salesforce.util.push.js */; };
 		CEBDA0611D3C04E700DBDBD0 /* CDVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBDA0601D3C04E700DBDBD0 /* CDVAppDelegate.m */; };
@@ -440,10 +438,10 @@
 			dstPath = www/js;
 			dstSubfolderSpec = 7;
 			files = (
+				4F5B96181DA869BD001627F2 /* force.js in Copy js Files */,
 				4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */,
 				4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */,
 				4FC276BA19DCBC93008F4AA6 /* fastclick.js in Copy js Files */,
-				4FC276BB19DCBC93008F4AA6 /* forcetk.mobilesdk.js in Copy js Files */,
 				4FC276BD19DCBC93008F4AA6 /* jquery.min.js in Copy js Files */,
 				4FC276C119DCBC93008F4AA6 /* smartsync.js in Copy js Files */,
 				4FC276C219DCBC93008F4AA6 /* stackrouter.js in Copy js Files */,
@@ -491,6 +489,7 @@
 		4F1FD07E1A95593A006E1795 /* SFContentSoqlSyncDownTarget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFContentSoqlSyncDownTarget.h; sourceTree = "<group>"; };
 		4F1FD07F1A9559D3006E1795 /* SFContentSoqlSyncDownTarget.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFContentSoqlSyncDownTarget.m; sourceTree = "<group>"; };
 		4F22155E19DF549400FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		4F5B96131DA86949001627F2 /* force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.js; sourceTree = "<group>"; };
 		4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D839819525B66003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
@@ -503,7 +502,6 @@
 		4FC2768F19DCBB1B008F4AA6 /* auth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = auth.js; sourceTree = "<group>"; };
 		4FC2769019DCBB1B008F4AA6 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
 		4FC2769319DCBB1B008F4AA6 /* fastclick.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fastclick.js; sourceTree = "<group>"; };
-		4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = forcetk.mobilesdk.js; sourceTree = "<group>"; };
 		4FC2769619DCBB1B008F4AA6 /* jquery.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.min.js; sourceTree = "<group>"; };
 		4FC2769A19DCBB1B008F4AA6 /* smartsync.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = smartsync.js; sourceTree = "<group>"; };
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
@@ -627,7 +625,7 @@
 				4FC2768F19DCBB1B008F4AA6 /* auth.js */,
 				4FC2769019DCBB1B008F4AA6 /* backbone-min.js */,
 				4FC2769319DCBB1B008F4AA6 /* fastclick.js */,
-				4FC2769419DCBB1B008F4AA6 /* forcetk.mobilesdk.js */,
+				4F5B96131DA86949001627F2 /* force.js */,
 				4FC2769619DCBB1B008F4AA6 /* jquery.min.js */,
 				4FC2769A19DCBB1B008F4AA6 /* smartsync.js */,
 				4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */,
@@ -1265,10 +1263,8 @@
 			files = (
 				8230E2461A24181500EFE764 /* Images.xcassets in Resources */,
 				4FC276B019DCBC6E008F4AA6 /* config.xml in Resources */,
-				CE7BA16E1D8CA3CC000B91D7 /* com.salesforce.plugin.network.js in Resources */,
 				4FC276B119DCBC6E008F4AA6 /* InfoPlist.strings in Resources */,
 				CEF4A3361D9494010025EDF0 /* LaunchScreen.storyboard in Resources */,
-				CE7BA16F1D8CA3CC000B91D7 /* com.salesforce.util.push.js in Resources */,
 				CEBDA0B81D3C05DF00DBDBD0 /* MainViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
