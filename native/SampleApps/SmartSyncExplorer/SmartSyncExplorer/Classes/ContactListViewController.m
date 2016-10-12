@@ -634,17 +634,5 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self.logoutActionSheet dismissViewControllerAnimated:YES completion:nil];
     }
 }
-//
-//#pragma mark - UIActionSheetDelegate
-//
-//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-//{
-//    if ([actionSheet isEqual:self.logoutActionSheet]) {
-//        self.logoutActionSheet = nil;
-//        if (buttonIndex == actionSheet.destructiveButtonIndex) {
-//            [[SFAuthenticationManager sharedManager] logout];
-//        }
-//    }
-//}
 
 @end
