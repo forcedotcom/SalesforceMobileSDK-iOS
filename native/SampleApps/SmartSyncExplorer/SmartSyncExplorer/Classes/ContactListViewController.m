@@ -56,7 +56,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @interface ContactListViewController () <UISearchBarDelegate>
 
 @property (nonatomic, strong) WYPopoverController *popOverController;
-@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
+@property (nonatomic, strong) UIAlertController *logoutActionSheet;
 
 
 // View / UI properties
@@ -430,12 +430,14 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [self.popOverController dismissPopoverAnimated:YES];
     
     if ([text isEqualToString:kActionLogout]) {
-        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:@"Confirm Logout"
-                                                    otherButtonTitles:nil];
-        [self.logoutActionSheet showFromBarButtonItem:self.moreButton animated:YES];
+        [self showLogoutActionSheet];
+
+//                [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
+//                                                             delegate:self
+//                                                    cancelButtonTitle:@"Cancel"
+//                                               destructiveButtonTitle:@"Confirm Logout"
+//                                                    otherButtonTitles:nil];
+//        [self.logoutActionSheet showFromBarButtonItem:self.moreButton animated:YES];
         return;
     } else if ([text isEqualToString:kActionSwitchUser]) {
         SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -445,6 +447,22 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     } else if ([text isEqualToString:kActionDbInspector]) {
         [[[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store] present:self];
     }
+}
+
+- (void)showLogoutActionSheet
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
+                                                                   message:@"Are you sure you want to log out?"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action) {
+                                                            self.logoutActionSheet = nil;
+                                                            [[SFAuthenticationManager sharedManager] logout];
+                                                        }];
+    [alert addAction:logoutAction];
+    self.logoutActionSheet = alert;
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 
@@ -613,20 +631,20 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self.popOverController dismissPopoverAnimated:NO];
     }
     if (self.logoutActionSheet) {
-        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
+        [self.logoutActionSheet dismissViewControllerAnimated:YES completion:nil];
     }
 }
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if ([actionSheet isEqual:self.logoutActionSheet]) {
-        self.logoutActionSheet = nil;
-        if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            [[SFAuthenticationManager sharedManager] logout];
-        }
-    }
-}
+//
+//#pragma mark - UIActionSheetDelegate
+//
+//- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+//{
+//    if ([actionSheet isEqual:self.logoutActionSheet]) {
+//        self.logoutActionSheet = nil;
+//        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+//            [[SFAuthenticationManager sharedManager] logout];
+//        }
+//    }
+//}
 
 @end
