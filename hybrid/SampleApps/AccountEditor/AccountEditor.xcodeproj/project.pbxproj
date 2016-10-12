@@ -1257,11 +1257,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B7DF84341DADAD6300DC7A8F /* Images.xcassets in Resources */,
-				CE7BA1BE1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js in Resources */,
 				CEF4A3101D9493BB0025EDF0 /* LaunchScreen.storyboard in Resources */,
 				824A9BDC1721FCA400C9BD79 /* InfoPlist.strings in Resources */,
-				CE7BA1BD1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js in Resources */,
-				CE7BA1BF1D8CA3DF000B91D7 /* com.salesforce.util.push.js in Resources */,
 				824A9DC11724CE4600C9BD79 /* config.xml in Resources */,
 				CEBDA0B31D3C059900DBDBD0 /* MainViewController.xib in Resources */,
 			);
@@ -1440,7 +1437,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CODE_SIGN_ENTITLEMENTS = AccountEditor/AccountEditor.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1460,7 +1456,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				BUNDLE_PREFIX = com.salesforce.mobilesdk;
 				CODE_SIGN_ENTITLEMENTS = AccountEditor/AccountEditor.entitlements;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
