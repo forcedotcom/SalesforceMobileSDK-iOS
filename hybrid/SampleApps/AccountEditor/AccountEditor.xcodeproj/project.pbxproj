@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4F22156919DF5AA300FF2D26 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F22156819DF5AA300FF2D26 /* ImageIO.framework */; };
 		4F5B96171DA8698D001627F2 /* force.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4F5B96151DA8695E001627F2 /* force.js */; };
+		4F5B96931DAD9E98001627F2 /* com.salesforce.plugin.smartstore.client.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4F5B966C1DAD9E90001627F2 /* com.salesforce.plugin.smartstore.client.js */; };
+		4F5B96941DAD9E98001627F2 /* com.salesforce.util.promiser.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4F5B966D1DAD9E90001627F2 /* com.salesforce.util.promiser.js */; };
 		4F6D839A19525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */; };
 		4F6D839B19525B66003EBB16 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6D839819525B66003EBB16 /* AppDelegate.m */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
@@ -455,6 +457,8 @@
 			dstPath = www/plugins/com.salesforce;
 			dstSubfolderSpec = 7;
 			files = (
+				4F5B96931DAD9E98001627F2 /* com.salesforce.plugin.smartstore.client.js in Copy plugins Files */,
+				4F5B96941DAD9E98001627F2 /* com.salesforce.util.promiser.js in Copy plugins Files */,
 				CE7BA1E91D8CB330000B91D7 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */,
 				CE7BA1EA1D8CB330000B91D7 /* com.salesforce.util.push.js in Copy plugins Files */,
 				CE7BA1E81D8CB326000B91D7 /* com.salesforce.plugin.network.js in Copy plugins Files */,
@@ -487,6 +491,8 @@
 /* Begin PBXFileReference section */
 		4F22156819DF5AA300FF2D26 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4F5B96151DA8695E001627F2 /* force.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = force.js; sourceTree = "<group>"; };
+		4F5B966C1DAD9E90001627F2 /* com.salesforce.plugin.smartstore.client.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.smartstore.client.js; sourceTree = "<group>"; };
+		4F5B966D1DAD9E90001627F2 /* com.salesforce.util.promiser.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.util.promiser.js; sourceTree = "<group>"; };
 		4F6D839619525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+SalesforceHybridSDK.m"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.m"; sourceTree = "<group>"; };
 		4F6D839719525B66003EBB16 /* AppDelegate+SalesforceHybridSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+SalesforceHybridSDK.h"; path = "../../../../shared/hybrid/AppDelegate+SalesforceHybridSDK.h"; sourceTree = "<group>"; };
 		4F6D839819525B66003EBB16 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ../../../../shared/hybrid/AppDelegate.m; sourceTree = "<group>"; };
@@ -644,6 +650,8 @@
 		4FF15E601908852E00705FE0 /* com.salesforce */ = {
 			isa = PBXGroup;
 			children = (
+				4F5B966C1DAD9E90001627F2 /* com.salesforce.plugin.smartstore.client.js */,
+				4F5B966D1DAD9E90001627F2 /* com.salesforce.util.promiser.js */,
 				CE7BA1BA1D8CA3DF000B91D7 /* com.salesforce.plugin.network.js */,
 				CE7BA1BB1D8CA3DF000B91D7 /* com.salesforce.plugin.smartsync.js */,
 				CE7BA1BC1D8CA3DF000B91D7 /* com.salesforce.util.push.js */,
