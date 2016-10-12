@@ -78,7 +78,6 @@
 		BCC8F2271D46C01900171499 /* HostPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8F2261D46C01900171499 /* HostPage.swift */; };
 		CE2B8D671CE932D600C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8D4C1CE932BD00C6FC6A /* SalesforceAnalytics.framework */; };
 		CE6AB39B1C10C4F50012125E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CE6AB39A1C10C4F50012125E /* libz.tbd */; };
-		CEF4A2EE1D9491010025EDF0 /* (null) in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1270,7 +1269,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8284055A19EAFD9C0079AB60 /* Images.xcassets in Resources */,
-				CEF4A2EE1D9491010025EDF0 /* (null) in Resources */,
 				827C631F19E6018C00027484 /* InfoPlist.strings in Resources */,
 				B7B78FDF1DAEF6ED00FC01EF /* LaunchScreen.storyboard in Resources */,
 				4FADBCB51BA0CEDA00D01855 /* ImagesSmartSyncExplorer.xcassets in Resources */,
