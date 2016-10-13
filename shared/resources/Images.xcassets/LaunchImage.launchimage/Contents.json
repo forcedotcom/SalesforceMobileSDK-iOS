@@ -11,7 +11,7 @@
       "idiom" : "iphone",
       "subtype" : "736h",
       "filename" : "Default1242x2208.png",
-      "minimum-system-version" : "8.0",
+      "minimum-system-version" : "9.0",
       "orientation" : "portrait",
       "scale" : "3x"
     },
@@ -20,7 +20,7 @@
       "idiom" : "iphone",
       "subtype" : "736h",
       "filename" : "Default2208x1242.png",
-      "minimum-system-version" : "8.0",
+      "minimum-system-version" : "9.0",
       "orientation" : "landscape",
       "scale" : "3x"
     },
@@ -29,7 +29,7 @@
       "idiom" : "iphone",
       "subtype" : "667h",
       "filename" : "Default750x1334.png",
-      "minimum-system-version" : "8.0",
+      "minimum-system-version" : "9.0",
       "orientation" : "portrait",
       "scale" : "2x"
     }
