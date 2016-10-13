@@ -1,6 +1,6 @@
 //
 //  SFKeyboardHelper.m
-//  PublisherSDK
+//  SalesforceSDKCore
 //
 //  Created by Qingqing Liu 05/09/2014
 //  Copyright (c) 2013 Salesforce.com. All rights reserved.

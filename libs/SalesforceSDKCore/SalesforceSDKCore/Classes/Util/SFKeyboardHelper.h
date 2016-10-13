@@ -2,8 +2,6 @@
 //  SFKeyboardHelper.h
 //
 //  Created by Qingqing Liu, 05/09/2014.
-//  This class is copy of PSKeyboardHelper created by Jean Bovet under PublisherSDK. It is
-//  copied into CommonUtils as it is a common class that can be leveraged by any application
 //  Copyright (c) 2013 Salesforce.com. All rights reserved.
 //
 
