@@ -51,6 +51,10 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
     // Builds the POST body of the request.
     NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
+    return [[self class] publishLogLines:bodyDictionary];
+}
+
++ (BOOL) publishLogLines:(NSDictionary *) bodyDictionary {
     NSString *path = [NSString stringWithFormat:@"/%@/%@", kSFRestDefaultAPIVersion, kRestApiSuffix];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
 
@@ -65,14 +69,14 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     __block BOOL success = NO;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
         finished = YES;
-            if (e) {
-                [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
-            }
-        } completeBlock:^(id response) {
-            finished = YES;
-            success = YES;
+        if (e) {
+            [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
-    ];
+    } completeBlock:^(id response) {
+        finished = YES;
+        success = YES;
+    }
+     ];
     while(!finished) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
