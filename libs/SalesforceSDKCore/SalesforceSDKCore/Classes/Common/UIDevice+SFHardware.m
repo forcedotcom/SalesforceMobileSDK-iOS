@@ -450,6 +450,14 @@
     return orientation;
 }
 
++ (BOOL)currentDeviceIsIPad {
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad);
+}
+
++ (BOOL)currentDeviceIsIPhone {
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone);
+}
+
 - (BOOL)isSimulator {
     NSString *platform = [self platform];
     if ([platform hasSuffix:@"86"] || [platform isEqual:@"x86_64"]) {
