@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Amol Prabhu on Thu Oct 13 14:01:57 EDT 2016.
+ Created by Amol Prabhu on Thu Oct 13 14:36:16 EDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -79,6 +79,7 @@
 #import <SalesforceSDKCore/SFInactivityTimerCenter.h>
 #import <SalesforceSDKCore/SFInstrumentation.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SFKeyboardHelper.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFKeyStore.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
