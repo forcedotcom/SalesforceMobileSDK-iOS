@@ -98,8 +98,6 @@
 		BE2B45971DAFFB1E004DA618 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B45981DAFFB1E004DA618 /* NSObject+SFBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */; };
 		BE2B45BE1DB0037E004DA618 /* UIColor+SFColors.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE2B45CA1DB00B58004DA618 /* SFKeyboardHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45C81DB00B58004DA618 /* SFKeyboardHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BE2B45CB1DB00B58004DA618 /* SFKeyboardHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45C91DB00B58004DA618 /* SFKeyboardHelper.m */; };
 		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
@@ -1174,8 +1172,6 @@
 		BC9BFF411D5A46B6009FFA1F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
 		BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SFBlocks.m"; sourceTree = "<group>"; };
-		BE2B45C81DB00B58004DA618 /* SFKeyboardHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFKeyboardHelper.h; sourceTree = "<group>"; };
-		BE2B45C91DB00B58004DA618 /* SFKeyboardHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFKeyboardHelper.m; sourceTree = "<group>"; };
 		CE0021551C03DBB70079DCA4 /* Lumberjack.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Lumberjack.xcodeproj; path = ../../external/CocoaLumberjack/Lumberjack.xcodeproj; sourceTree = "<group>"; };
 		CE0CDED11D7F753D005AAFAB /* OCMock.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OCMock.xcodeproj; path = ../../external/ocmock/Source/OCMock.xcodeproj; sourceTree = "<group>"; };
 		CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKSalesforceAnalyticsManager.h; path = Analytics/SFSDKSalesforceAnalyticsManager.h; sourceTree = "<group>"; };
@@ -1650,8 +1646,6 @@
 		4F96FD371BFD32140022F021 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				BE2B45C81DB00B58004DA618 /* SFKeyboardHelper.h */,
-				BE2B45C91DB00B58004DA618 /* SFKeyboardHelper.m */,
 				4F96FD381BFD32140022F021 /* NSURL+SFStringUtils.h */,
 				4F96FD391BFD32140022F021 /* NSURL+SFStringUtils.m */,
 				4F96FD3A1BFD32140022F021 /* SalesforceSDKCoreDefines.h */,
@@ -2234,7 +2228,6 @@
 				CE4CE33C1C0E5245009F6029 /* SFIdentityData.h in Headers */,
 				CE4CE35D1C0E526A009F6029 /* SFAuthErrorHandler.h in Headers */,
 				CE8EA2C41D7F67FA00AAC74C /* CSFURLValueTransformer.h in Headers */,
-				BE2B45CA1DB00B58004DA618 /* SFKeyboardHelper.h in Headers */,
 				CE8EA2BC1D7F67FA00AAC74C /* CSFPrivateDefines.h in Headers */,
 				CE8EA2861D7F67FA00AAC74C /* NSValueTransformer+SalesforceNetwork.h in Headers */,
 				CE4CE32C1C0E523B009F6029 /* SalesforceSDKManager.h in Headers */,
@@ -2968,7 +2961,6 @@
 				E1DDC0FE1CAA2A8B002F51DD /* UIColor+SFColors.m in Sources */,
 				CE8EA2AA1D7F67FA00AAC74C /* CSFMultipartInputStream.m in Sources */,
 				CE4CE3601C0E526A009F6029 /* SFAuthErrorHandlerList.m in Sources */,
-				BE2B45CB1DB00B58004DA618 /* SFKeyboardHelper.m in Sources */,
 				CE4CE3AA1C0E5279009F6029 /* SFManagedPreferences.m in Sources */,
 				CE4CE35E1C0E526A009F6029 /* SFAuthErrorHandler.m in Sources */,
 				CE8EA2BD1D7F67FA00AAC74C /* CSFPrivateDefines.m in Sources */,

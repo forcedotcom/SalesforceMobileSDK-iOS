@@ -79,7 +79,6 @@
 #import <SalesforceSDKCore/SFInactivityTimerCenter.h>
 #import <SalesforceSDKCore/SFInstrumentation.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
-#import <SalesforceSDKCore/SFKeyboardHelper.h>
 #import <SalesforceSDKCore/SFKeychainItemWrapper.h>
 #import <SalesforceSDKCore/SFKeyStore.h>
 #import <SalesforceSDKCore/SFKeyStoreKey.h>
