@@ -100,6 +100,7 @@
 		BE2B45BE1DB0037E004DA618 /* UIColor+SFColors.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B46341DB03A10004DA618 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B46491DB03A1D004DA618 /* NSObject+SFBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */; };
+		BE2B464A1DB03B52004DA618 /* UIColor+SFColors.h in Headers */ = {isa = PBXBuildFile; fileRef = E1DDC0EE1CAA29A1002F51DD /* UIColor+SFColors.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE0CDEF51D7F765E005AAFAB /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE0CDEEB1D7F753D005AAFAB /* libOCMock.a */; };
 		CE145A9C1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
@@ -2471,6 +2472,7 @@
 				6FB714A51CEA61BF007D858C /* SFLogStorage.h in Headers */,
 				CEA882DF1C18FB8E008D871B /* SFDefaultUserManagementListViewController.h in Headers */,
 				CE8EA32F1D7F6A6000AAC74C /* CSFTokenRefresh.h in Headers */,
+				BE2B464A1DB03B52004DA618 /* UIColor+SFColors.h in Headers */,
 				CE8EA3271D7F6A2B00AAC74C /* CSFOutput_Internal.h in Headers */,
 				CE8EA32C1D7F6A5300AAC74C /* CSFAuthRefresh+Internal.h in Headers */,
 				CEA8830F1C18FB8E008D871B /* SFUserAccountManagerUpgrade.h in Headers */,
