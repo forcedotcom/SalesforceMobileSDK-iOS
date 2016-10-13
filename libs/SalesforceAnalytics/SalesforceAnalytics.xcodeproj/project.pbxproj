@@ -827,6 +827,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -842,6 +843,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAE1CE9281F00C6FC6A /* SalesforceAnalytics-Test.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				GCC_PREFIX_HEADER = "$(PROJECT_NAME)/Supporting Files/$(PROJECT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -920,6 +922,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAA1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -944,6 +947,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CE2B8CAB1CE9281F00C6FC6A /* SalesforceAnalytics-Dynamic-iOS-Release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SalesforceAnalyticsTestApp/SalesforceAnalyticsTestApp.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
