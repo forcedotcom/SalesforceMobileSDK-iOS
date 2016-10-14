@@ -38,26 +38,6 @@
     [self runTest:@"testParseUrl"];
 }
 
-- (void)testComputeWebAppSdkAgentForUnrecognizedUserAgents {
-    [self runTest:@"testComputeWebAppSdkAgentForUnrecognizedUserAgents"];
-}
-
-- (void)testComputeWebAppSdkAgentForIOSUserAgents {
-    [self runTest:@"testComputeWebAppSdkAgentForIOSUserAgents"];
-}
-
-- (void)testComputeWebAppSdkAgentForAndroidUserAgents {
-    [self runTest:@"testComputeWebAppSdkAgentForAndroidUserAgents"];
-}
-
-- (void)testComputeWebAppSdkAgentForWindowsPhoneUserAgents {
-    [self runTest:@"testComputeWebAppSdkAgentForWindowsPhoneUserAgents"];
-}
-
-- (void)testComputeWebAppSdkAgentForDesktopUserAgents {
-    [self runTest:@"testComputeWebAppSdkAgentForDesktopUserAgents"];
-}
-
 - (void)testComputeEndPointIfMissing {
     [self runTest:@"testComputeEndPointIfMissing"];
 }
