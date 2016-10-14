@@ -206,4 +206,12 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
  */
 - (BOOL)hasIphone6PlusScreenSize;
 
+/**Return YES if device is iPad
+ */
++ (BOOL)currentDeviceIsIPad;
+
+/**Return YES if device is iPhone
+ */
++ (BOOL)currentDeviceIsIPhone;
+
 @end

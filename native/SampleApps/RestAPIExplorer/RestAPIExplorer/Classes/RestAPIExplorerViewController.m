@@ -37,10 +37,10 @@
 #import <SalesforceSDKCore/SFIdentityData.h>
 #import <SalesforceSDKCore/SFApplicationHelper.h>
 
-@interface RestAPIExplorerViewController ()
+@interface RestAPIExplorerViewController()
 
-@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
-
+@property (nonatomic, strong) UIAlertController *logoutActionSheet;
+@property (nonatomic, assign) BOOL popOverDisplayed;
 - (NSString *)formatRequest:(SFRestRequest *)request;
 - (void)hideKeyboard;
 - (void)clearPopovers:(NSNotification *)note;
@@ -141,12 +141,7 @@
 }
 
 - (void)showMissingFieldError:(NSString *)missingFields {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Missing Field" 
-                                                    message:[NSString stringWithFormat:@"You need to fill out the following field(s): %@", missingFields]
-                                                   delegate:nil
-                                          cancelButtonTitle:@"Ok"
-                                          otherButtonTitles: nil];
-    [alert show];	
+    [self showAlert:@"Missing Field" withMessage:[NSString stringWithFormat:@"You need to fill out the following field(s): %@", missingFields]];
 }
 
 #pragma mark - actions
@@ -170,23 +165,25 @@
 - (IBAction)btnActionPressed:(id)sender {
     [self hideKeyboard];
 
-    if([self.popOverController isPopoverVisible]){
-        [self.popOverController dismissPopoverAnimated:YES];
+    if(self.popOverDisplayed){
+        self.popOverDisplayed = NO;
+        [self dismissViewControllerAnimated:YES completion:nil];
         return;
     }
 
     QueryListViewController *popoverContent = [[QueryListViewController alloc] initWithAppViewController:self];
     popoverContent.preferredContentSize = CGSizeMake(500,700);
-    UIPopoverController *myPopover = [[UIPopoverController alloc] initWithContentViewController:popoverContent];
-    self.popOverController = myPopover;
-    
-    [self.popOverController presentPopoverFromBarButtonItem:sender
-                                   permittedArrowDirections:UIPopoverArrowDirectionAny 
-                                                   animated:YES];
+    popoverContent.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:popoverContent animated:YES completion:nil];
+    UIPopoverPresentationController  *myPopover = [popoverContent popoverPresentationController];
+    myPopover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    myPopover.barButtonItem = (UIBarButtonItem *) sender;
+    self.popOverDisplayed = YES;
 }
 
+
 - (void)popoverOptionSelected:(NSString *)text {
-    [self.popOverController dismissPopoverAnimated:YES];
+    [self dismissPopoverController];
 
     SFRestRequest *request = nil;
 
@@ -381,20 +378,13 @@
                                     currentAccount.fullName,
                                     currentAccount.userName,
                                     currentAccount.email];
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"User Info"
-                                                            message:userInfoString
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles: nil];
-        [alertView show];
+
+        [self showAlert:@"User Info" withMessage:userInfoString];
+        
     }
     else if ([text isEqualToString:kActionLogout]) {
-        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
-                                                              delegate:self
-                                                     cancelButtonTitle:nil
-                                                destructiveButtonTitle:@"Confirm Logout"
-                                                     otherButtonTitles:nil];
-        [self.logoutActionSheet showFromToolbar:self.toolBar];
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+        [self createLogoutActionSheet];
         return;
     } else if ([text isEqualToString:kActionSwitchUser]) {
         SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -417,16 +407,54 @@
     }
 }
 
+#pragma mark - private methods
+
+-(void) dismissPopoverController {
+    if(self.popOverDisplayed){
+        self.popOverDisplayed = NO;
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+}
+
+- (void)createLogoutActionSheet
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
+                                                                   message:@"Are you sure you want to log out?"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
+                                                          style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                              self.logoutActionSheet = nil;
+                                                              [[SFAuthenticationManager sharedManager] logout];
+                                                          }];
+    [alert addAction:logoutAction];
+    self.logoutActionSheet = alert;
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) showAlert:(NSString *)title withMessage:(NSString *) message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Ok"
+                                                           style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            }];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - Passcode handling
 
 - (void)clearPopovers:(NSNotification *)note
 {
     [self log:SFLogLevelDebug msg:@"Passcode screen loading.  Clearing popovers."];
     if (self.popOverController) {
-        [self.popOverController dismissPopoverAnimated:NO];
+        [self dismissPopoverController];
     }
     if (self.logoutActionSheet) {
-        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
+        [self.logoutActionSheet dismissViewControllerAnimated:YES completion:Nil];
     }
 }
 
@@ -435,18 +463,6 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self btnGoPressed:nil];
     return NO;
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if ([actionSheet isEqual:self.logoutActionSheet]) {
-        self.logoutActionSheet = nil;
-        if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            [[SFAuthenticationManager sharedManager] logout];
-        }
-    }
 }
 
 #pragma mark - SFRestDelegate
@@ -483,5 +499,4 @@
         self.tfResult.text =  @"Request timedout";
     });
 }
-
 @end

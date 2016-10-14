@@ -32,4 +32,13 @@
 
 +(UIColor *) salesforceBlueColor;
 
+/** Construct a color given hex color, like "#00FF00" (#RRGGBB).
+ */
++ (UIColor *)colorFromHexValue:(NSString *)hexString;
+
+/** Returns a CSS hex color representation
+ of this color
+ */
+- (NSString *)hexStringFromColor;
+
 @end

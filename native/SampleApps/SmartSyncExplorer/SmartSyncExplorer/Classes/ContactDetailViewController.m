@@ -25,7 +25,7 @@
 #import "ContactDetailViewController.h"
 #import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
 
-@interface ContactDetailViewController () <UIAlertViewDelegate>
+@interface ContactDetailViewController ()
 
 @property (nonatomic, strong) ContactSObjectData *contact;
 @property (nonatomic, strong) SObjectDataManager *dataMgr;
@@ -137,16 +137,7 @@
     return self.dataRows[section][0];
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        [self deleteContact];
-    }
-}
-
 #pragma mark - Private methods
-
 - (void)configureInitialBarButtonItems {
     if (self.isNewContact) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveContact)];
@@ -245,8 +236,26 @@
 }
 
 - (void)deleteContactConfirm {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Confirm Delete" message:@"Are you sure you want to delete this contact?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    [alertView show];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Confirm Delete"
+                                                                   message:@"Are you sure you want to delete this contact?"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                               [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                                                           }];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK"
+                                                           style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                                                               [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                                                                [self deleteContact];
+                                                           }];
+    [alert addAction:cancelAction];
+    [alert addAction:okAction];
+    [self presentViewController:alert animated:YES completion:nil];
+
+    
 }
 
 - (void)deleteContact {
