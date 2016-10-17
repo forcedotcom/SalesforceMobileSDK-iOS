@@ -28,6 +28,7 @@
 		4FC276C319DCBC93008F4AA6 /* underscore-min.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */; };
 		4FC276C419DCBCA5008F4AA6 /* com.salesforce.plugin.smartsync.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FC2768519DCBAA3008F4AA6 /* com.salesforce.plugin.smartsync.js */; };
 		4FC276C719DCC9CD008F4AA6 /* ratchet-theme-ios.css in Copy css Files */ = {isa = PBXBuildFile; fileRef = 4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */; };
+		4FD3FC901DB05B7F00646D6D /* force+promise.js in Copy js Files */ = {isa = PBXBuildFile; fileRef = 4FD3FC6B1DB05B6A00646D6D /* force+promise.js */; };
 		4FF15E26190884C600705FE0 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FF15E25190884C600705FE0 /* AssetsLibrary.framework */; };
 		4FF15E94190885CC00705FE0 /* com.salesforce.plugin.oauth.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */; };
 		4FF15E95190885CC00705FE0 /* com.salesforce.plugin.sdkinfo.js in Copy plugins Files */ = {isa = PBXBuildFile; fileRef = 4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */; };
@@ -439,6 +440,7 @@
 			dstPath = www/js;
 			dstSubfolderSpec = 7;
 			files = (
+				4FD3FC901DB05B7F00646D6D /* force+promise.js in Copy js Files */,
 				4F5B96191DA869D5001627F2 /* force.js in Copy js Files */,
 				4FC276B619DCBC93008F4AA6 /* auth.js in Copy js Files */,
 				4FC276B719DCBC93008F4AA6 /* backbone-min.js in Copy js Files */,
@@ -510,6 +512,7 @@
 		4FC2769B19DCBB1B008F4AA6 /* stackrouter.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = stackrouter.js; sourceTree = "<group>"; };
 		4FC2769C19DCBB1B008F4AA6 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		4FC276C519DCC9BD008F4AA6 /* ratchet-theme-ios.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = "ratchet-theme-ios.css"; path = "../../../dependencies/ratchet2/ratchet-theme-ios.css"; sourceTree = "<group>"; };
+		4FD3FC6B1DB05B6A00646D6D /* force+promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = "force+promise.js"; path = "../../../libs/force+promise.js"; sourceTree = "<group>"; };
 		4FF15E25190884C600705FE0 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		4FF15E611908852E00705FE0 /* com.salesforce.plugin.oauth.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.oauth.js; sourceTree = "<group>"; };
 		4FF15E621908852E00705FE0 /* com.salesforce.plugin.sdkinfo.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = com.salesforce.plugin.sdkinfo.js; sourceTree = "<group>"; };
@@ -625,6 +628,7 @@
 		4FC2768E19DCBB1B008F4AA6 /* js */ = {
 			isa = PBXGroup;
 			children = (
+				4FD3FC6B1DB05B6A00646D6D /* force+promise.js */,
 				4FC2768F19DCBB1B008F4AA6 /* auth.js */,
 				4FC2769019DCBB1B008F4AA6 /* backbone-min.js */,
 				4FC2769319DCBB1B008F4AA6 /* fastclick.js */,
