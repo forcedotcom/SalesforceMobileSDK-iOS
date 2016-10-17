@@ -1,0 +1,10 @@
+
+
+junit.parse "test_output/report.junit"
+junit.report
+
+xcov.report(
+   scheme: 'UnitTests',
+   workspace: 'SalesforceMobileSDK.xcworkspace',
+   exclude_targets: 'Demo.app'
+)
