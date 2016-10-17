@@ -33,7 +33,6 @@ extern NSString * const kKeychainIdentifierBaseAppId;
 }
 @property (nonatomic) CCCryptorStatus status;
 @property (nonatomic, retain) NSOutputStream *outputStream;
-@property (nonatomic, copy) NSMutableData *dataBuffer;
 
 - (void)appendToBuffer:(NSData *)data;
 + (BOOL)setBaseAppIdentifier:(NSString *)appId;
