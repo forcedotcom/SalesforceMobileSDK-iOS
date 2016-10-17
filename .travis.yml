@@ -16,6 +16,7 @@ before_install:
    - npm install shelljs@0.7.0
    - brew update
    - brew install ant
+   - brew outdated xctool || brew upgrade xctool
 
 #before the script is run for the build, inject data into test_credentials file
 before_script:
