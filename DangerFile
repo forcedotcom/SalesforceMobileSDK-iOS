@@ -4,6 +4,6 @@ junit.report
 
 xcov.report(
    scheme: 'UnitTests',
-   workspace: 'SalesforceMobileSDK.xcworkspace',
-   exclude_targets: 'Demo.app'
+   workspace: 'SalesforceMobileSDK.xcworkspace', 
+   minimum_coverage_percentage: 80
 )
