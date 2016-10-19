@@ -35,11 +35,13 @@
 #import "SFSDKCryptoUtils.h"
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
+#import "SFIdentityData.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
+static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
@@ -47,6 +49,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
+@property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -91,6 +94,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
+        self.userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
@@ -110,6 +114,18 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) disableOrEnableLogging:(BOOL) enabled {
     self.eventStoreManager.isLoggingEnabled = enabled;
+}
+
+- (void) updateLoggingPrefs {
+    NSDictionary *customAttributes = self.userAccount.idData.customAttributes;
+    if (customAttributes) {
+        NSString *enabled = customAttributes[kAnalyticsOnOffKey];
+        if (enabled && ![enabled boolValue]) {
+            [self disableOrEnableLogging:NO];
+        } else {
+            [self disableOrEnableLogging:YES];
+        }
+    }
 }
 
 - (BOOL) isLoggingEnabled {

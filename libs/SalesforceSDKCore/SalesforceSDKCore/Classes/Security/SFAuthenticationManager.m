@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -48,6 +48,7 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
 #import <WebKit/WKWebView.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
@@ -669,18 +670,23 @@ static Class InstanceClass = nil;
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
-    
     NSDictionary *userInfo = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
         userInfo = @{ @"account" : user };
     }
-    
+    [self initAnalyticsManager];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
                                                         object:self
                                                       userInfo:userInfo];
-
     [self execCompletionBlocks];
+}
+
+- (void)initAnalyticsManager
+{
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:user];
+    [analyticsManager updateLoggingPrefs];
 }
 
 - (void)execCompletionBlocks
