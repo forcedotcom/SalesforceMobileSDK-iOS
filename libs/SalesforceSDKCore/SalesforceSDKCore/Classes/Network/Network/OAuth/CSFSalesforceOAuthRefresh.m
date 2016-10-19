@@ -80,7 +80,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:self.network.account];
             SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-                builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
+                builder.name = [NSString stringWithFormat:@"Server Error: %ld, Logout Cause: %@", (long)error.code, error.localizedDescription];
                 builder.page = @{ @"context" : @"Authentication Refresh"};
                 builder.schemaType = SchemaTypeInteraction;
                 builder.eventType = EventTypeUser;
