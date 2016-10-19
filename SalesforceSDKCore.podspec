@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
       sdkcore.resource_bundles = { 'SalesforceSDKResources' => [ 'shared/resources/SalesforceSDKResources.bundle/**' ] }
       sdkcore.resource = 'shared/resources/SalesforceSDKAssets.xcassets'
 
+      # subspec for code that any of the source_files of no-arc depend on
       sdkcore.subspec 'base' do |sp|
           sp.source_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFLogger.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFLogger.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSData+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSData+SFAdditions.m', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSString+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSString+SFAdditions.m','libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSNotificationCenter+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSNotificationCenter+SFAdditions.m'
           sp.public_header_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/Logging/SFLogger.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SalesforceSDKConstants.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSData+SFAdditions.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSString+SFAdditions.h','libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/NSNotificationCenter+SFAdditions.h'
@@ -31,6 +32,7 @@ Pod::Spec.new do |s|
           sp.prefix_header_contents = '#import "SFLogger.h"', '#import "SalesforceSDKConstants.h"'
       end
 
+      # subspec for code that doesn't support arc
       sdkcore.subspec 'no-arc' do |sp|
           sp.dependency 'SalesforceSDKCore/SalesforceSDKCore/base'
           sp.source_files = 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFKeychainItemWrapper.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFKeychainItemWrapper+Internal.h', 'libs/SalesforceSDKCore/SalesforceSDKCore/Classes/Common/SFKeychainItemWrapper.m'
@@ -39,6 +41,9 @@ Pod::Spec.new do |s|
           sp.prefix_header_contents = '#import "SFLogger.h"', '#import "SalesforceSDKConstants.h"'
       end
 
+      # subspec for everything else
+      # exclude_files should be the source_files from the base subspec plus the ones from the arc subspec
+      # public_header_files is automatically populated by update_podspec_headers.sh which is run when building SalesforceSDKCore
       sdkcore.subspec 'arc' do |sdkcore|
           sdkcore.dependency 'SalesforceSDKCore/SalesforceSDKCore/base'
           sdkcore.dependency 'SalesforceSDKCore/SalesforceSDKCore/no-arc'
