@@ -42,7 +42,6 @@
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
 static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
-static NSString * const kFalse = @"false";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
@@ -121,7 +120,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     NSDictionary *customAttributes = self.userAccount.idData.customAttributes;
     if (customAttributes) {
         NSString *enabled = customAttributes[kAnalyticsOnOffKey];
-        if (enabled && [enabled isEqualToString:kFalse]) {
+        if (enabled && ![enabled boolValue]) {
             [self disableOrEnableLogging:NO];
         } else {
             [self disableOrEnableLogging:YES];
