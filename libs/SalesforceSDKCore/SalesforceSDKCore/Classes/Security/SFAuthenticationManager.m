@@ -829,6 +829,8 @@ static Class InstanceClass = nil;
     self.coordinator.scopes = account.accessScopes;
     self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
     
     // re-create the identity coordinator for the current user
     self.idCoordinator.delegate = nil;

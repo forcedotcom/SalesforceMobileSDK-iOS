@@ -68,6 +68,9 @@
     
     self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:creds];
     self.coordinator.delegate = self;
+    self.coordinator.additionalTokenRefreshParams = [SFAuthenticationManager sharedManager].additionalTokenRefreshParams;
+    self.coordinator.additionalOAuthParameterKeys = [SFAuthenticationManager sharedManager].additionalOAuthParameterKeys;
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.coordinator authenticate];
     });
