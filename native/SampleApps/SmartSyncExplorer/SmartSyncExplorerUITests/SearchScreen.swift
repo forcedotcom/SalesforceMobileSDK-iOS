@@ -140,7 +140,6 @@ class SearchScreen: PageObject {
         if (navigationBar.exists) {
             shareButton.tap()
             logoutButton.tap()
-            confirmLogoutButton.tap()
             return LoginPage()
         }
         return nil;

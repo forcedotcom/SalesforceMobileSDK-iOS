@@ -1,0 +1,9 @@
+junit.parse "test_output/report.junit"
+junit.show_skipped_tests = true
+junit.report
+
+xcov.report(
+   scheme: 'UnitTests',
+   workspace: 'SalesforceMobileSDK.xcworkspace', 
+   minimum_coverage_percentage: 80
+)
