@@ -180,7 +180,10 @@
     }
     NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
     SFSDKInstrumentationEvent *event = [[SFSDKInstrumentationEvent alloc] initWithJson:data];
-    return [event copy];
+    if (event && event.eventId) {
+        return [event copy];
+    }
+    return nil;
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {
