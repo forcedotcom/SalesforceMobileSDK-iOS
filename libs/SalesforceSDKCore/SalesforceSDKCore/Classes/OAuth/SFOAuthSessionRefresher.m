@@ -106,8 +106,6 @@
 
 - (void)oauthCoordinatorDidAuthenticate:(SFOAuthCoordinator *)coordinator authInfo:(SFOAuthInfo *)info {
     [self completeWithSuccess:coordinator.credentials];
-    
-    [[SFAuthenticationManager sharedManager] oauthCoordinatorDidAuthenticate:coordinator authInfo:info];
 }
 
 - (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator didFailWithError:(NSError *)error authInfo:(SFOAuthInfo *)info {
