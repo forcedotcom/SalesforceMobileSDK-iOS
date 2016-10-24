@@ -369,14 +369,7 @@ static Class InstanceClass = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-    
-    @try {
-        [self dismissSnapshot];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
-    }
-    
+        
     if (_isLaunching) {
         [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
