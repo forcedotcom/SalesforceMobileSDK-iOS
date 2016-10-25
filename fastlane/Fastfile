@@ -41,7 +41,7 @@ lane  :localtest do
 #setup test accounts (for sf dev only)
 	`git clone https://git.soma.salesforce.com/gist/d103e1ef29e1c11ee9a7a4733a1193d8.git`
 
-	`cp d103e1ef29e1c11ee9a7a4733a1193d8/* shared/test/`
+	`cp d103e1ef29e1c11ee9a7a4733a1193d8/* ../shared/test/`
 
 	scan(
 		workspace: "SalesforceMobileSDK.xcworkspace",
