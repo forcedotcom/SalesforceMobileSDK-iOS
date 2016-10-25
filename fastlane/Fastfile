@@ -35,3 +35,27 @@ lane :CI do
 	end
 
 end
+
+
+lane  :localtest do
+#setup test accounts (for sf dev only)
+	`git clone https://git.soma.salesforce.com/gist/d103e1ef29e1c11ee9a7a4733a1193d8.git`
+
+	`cp d103e1ef29e1c11ee9a7a4733a1193d8/* shared/test/`
+
+	scan(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+    	device: "iPhone 6",
+		output_directory: "test_output”,
+		open_report: true,
+		code_coverage: true,
+  		clean: true
+	)
+	
+
+   	xcov(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+  		output_directory: "xcov_output"
+  	)
+
+end
