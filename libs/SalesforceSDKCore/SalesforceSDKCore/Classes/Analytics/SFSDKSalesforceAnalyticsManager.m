@@ -237,10 +237,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (void) storeAnalyticsPolicy:(BOOL) enabled {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    [defs setBool:enabled forKey:kAnalyticsOnOffKey];
-    [defs synchronize];
-    self.enabled = enabled;
+    @synchronized (self) {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        [defs setBool:enabled forKey:kAnalyticsOnOffKey];
+        [defs synchronize];
+        self.enabled = enabled;
+    }
 }
 
 - (void) readAnalyticsPolicy {
