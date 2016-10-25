@@ -58,6 +58,8 @@
 		4FC404BE1911C72D0027AD76 /* backbone-min.js in Copy backbone lib */ = {isa = PBXBuildFile; fileRef = 4FC404B61911C6F10027AD76 /* backbone-min.js */; };
 		4FC7B5D718AC3BB8006922FD /* bootconfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
 		4FC7B5E718AC3CC2006922FD /* bootconfig.json in Copy files to www/ */ = {isa = PBXBuildFile; fileRef = 4FC7B5D618AC3BB8006922FD /* bootconfig.json */; };
+		4FD3FC1D1DB0568C00646D6D /* force+files.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FD3FC161DB0566900646D6D /* force+files.js */; };
+		4FD3FC1E1DB0568C00646D6D /* force+promise.js in Copy sfdc libs */ = {isa = PBXBuildFile; fileRef = 4FD3FC171DB0566900646D6D /* force+promise.js */; };
 		8222729F19C39F4500FC537E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8222729E19C39F4500FC537E /* XCTest.framework */; };
 		822272A019C39F4500FC537E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF2D316E7C57100A63CDF /* Foundation.framework */; };
 		822272A119C39F4500FC537E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EFF30016E8049500A63CDF /* UIKit.framework */; };
@@ -324,6 +326,8 @@
 			dstPath = www/libs;
 			dstSubfolderSpec = 7;
 			files = (
+				4FD3FC1D1DB0568C00646D6D /* force+files.js in Copy sfdc libs */,
+				4FD3FC1E1DB0568C00646D6D /* force+promise.js in Copy sfdc libs */,
 				4F37EB0F1DA324130049992D /* force.js in Copy sfdc libs */,
 				4F458AEE1911CF4C00545F86 /* smartsync.js in Copy sfdc libs */,
 				4F458AEF1911CF4C00545F86 /* cordova.force.js in Copy sfdc libs */,
@@ -450,6 +454,8 @@
 		4FC404B61911C6F10027AD76 /* backbone-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "backbone-min.js"; sourceTree = "<group>"; };
 		4FC404B71911C6F10027AD76 /* backbone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = backbone.js; sourceTree = "<group>"; };
 		4FC7B5D618AC3BB8006922FD /* bootconfig.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = bootconfig.json; path = ../../../external/shared/test/forcepluginstest/bootconfig.json; sourceTree = "<group>"; };
+		4FD3FC161DB0566900646D6D /* force+files.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "force+files.js"; sourceTree = "<group>"; };
+		4FD3FC171DB0566900646D6D /* force+promise.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "force+promise.js"; sourceTree = "<group>"; };
 		4FD72F2418C955E200610988 /* SFHybridConnectionMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHybridConnectionMonitor.h; sourceTree = "<group>"; };
 		4FD72F2518C955E200610988 /* SFHybridConnectionMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHybridConnectionMonitor.m; sourceTree = "<group>"; };
 		4FFDAD6C1C06918A009BCD6D /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = "../../external/cordova-ios/cordova-ios/CordovaLib/CordovaLib.xcodeproj"; sourceTree = "<group>"; };
@@ -664,6 +670,8 @@
 		4F1A59F0174FF0B100473EE8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				4FD3FC161DB0566900646D6D /* force+files.js */,
+				4FD3FC171DB0566900646D6D /* force+promise.js */,
 				4F37EB0A1DA323AF0049992D /* force.js */,
 				4FBFFAF1177A715300D1E36E /* smartsync.js */,
 				4F1A59F1174FF0B100473EE8 /* cordova.force.js */,

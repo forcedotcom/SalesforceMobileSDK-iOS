@@ -36,6 +36,7 @@
 
 @property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager;
+@property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount;
 
 /**
  * Returns an instance of this class associated with the specified user account.
@@ -95,6 +96,11 @@
  * @param enabled True - if logging should be enabled, False - otherwise.
  */
 - (void) disableOrEnableLogging:(BOOL) enabled;
+
+/**
+ * Updates the preferences of this library.
+ */
+- (void) updateLoggingPrefs;
 
 /**
  * Returns whether logging is enabled or disabled.

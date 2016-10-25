@@ -192,7 +192,7 @@ static BOOL kIsTestRun;
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
             SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
             SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-                builder.name = [NSString stringWithFormat:@"Server Error %ld", (long) error.code];
+                builder.name = [NSString stringWithFormat:@"Server Error: %ld, Logout Cause: %@", (long)error.code, error.localizedDescription];
                 builder.page = @{ @"context" : @"REST Authentication Failed"};
                 builder.schemaType = SchemaTypeInteraction;
                 builder.eventType = EventTypeUser;

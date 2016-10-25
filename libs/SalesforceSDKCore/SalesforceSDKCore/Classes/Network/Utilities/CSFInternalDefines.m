@@ -90,10 +90,12 @@ static NSMutableDictionary * CSFClassIvarsDict = nil;
 NSDictionary * CSFClassIvars(Class currentClass) {
     NSMutableDictionary *ivarList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassIvarsDict = [[NSMutableDictionary alloc] init]; });
+    
     @synchronized (CSFClassIvarsDict) {
         NSString *className = NSStringFromClass(currentClass);
         
-        if (!CSFClassIvarsDict) CSFClassIvarsDict = [NSMutableDictionary new];
         ivarList = CSFClassIvarsDict[className];
         
         if (!ivarList) {
