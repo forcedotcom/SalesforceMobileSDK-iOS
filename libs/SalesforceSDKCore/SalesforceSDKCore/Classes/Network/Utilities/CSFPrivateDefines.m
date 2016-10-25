@@ -203,10 +203,12 @@ static NSMutableDictionary * CSFClassPropertiesDict = nil;
 NSArray * CSFClassProperties(Class currentClass) {
     NSMutableArray *propertyList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassPropertiesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFClassPropertiesDict) {
         NSString *className = NSStringFromClass(currentClass);
         
-        if (!CSFClassPropertiesDict) CSFClassPropertiesDict = [NSMutableDictionary new];
         propertyList = CSFClassPropertiesDict[className];
         
         if (!propertyList) {
@@ -240,10 +242,12 @@ static NSMutableDictionary * CSFProtocolPropertiesDict = nil;
 NSArray * CSFProtocolProperties(Protocol *proto) {
     NSMutableArray *propertyList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFProtocolPropertiesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFProtocolPropertiesDict) {
         NSString *protocolName = NSStringFromProtocol(proto);
         
-        if (!CSFProtocolPropertiesDict) CSFProtocolPropertiesDict = [NSMutableDictionary new];
         propertyList = CSFProtocolPropertiesDict[protocolName];
         
         if (!propertyList) {
@@ -313,10 +317,12 @@ static NSMutableDictionary * CSFPropertyAttributesDict = nil;
 NSDictionary * CSFPropertyAttributes(Class currentClass, NSString *propertyName) {
     NSMutableDictionary *attributes = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFPropertyAttributesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFPropertyAttributesDict) {
         NSString *lookupKey = [NSString stringWithFormat:@"%@.%@", NSStringFromClass(currentClass), propertyName];
         
-        if (!CSFPropertyAttributesDict) CSFPropertyAttributesDict = [NSMutableDictionary new];
         attributes = CSFPropertyAttributesDict[lookupKey];
         
         if (!attributes) {
@@ -402,10 +408,10 @@ static NSMutableDictionary *CSFClassesConformingToProtocolDict = nil;
 NSArray * CSFClassesConformingToProtocol(Protocol *prot) {
     NSArray *result = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassesConformingToProtocolDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFClassesConformingToProtocolDict) {
-        if (!CSFClassesConformingToProtocolDict) {
-            CSFClassesConformingToProtocolDict = [NSMutableDictionary new];
-        }
         
         NSString *key = NSStringFromProtocol(prot);
         result = CSFClassesConformingToProtocolDict[key];
