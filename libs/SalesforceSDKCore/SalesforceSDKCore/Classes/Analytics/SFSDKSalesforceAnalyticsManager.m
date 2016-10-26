@@ -37,6 +37,7 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -75,6 +76,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
             NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
             analyticsManagerList[key] = analyticsMgr;
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         }
         return analyticsMgr;
     }
@@ -251,6 +253,19 @@ static NSMutableDictionary *analyticsManagerList = nil;
         analyticsEnabled = [analyticsEnabledNum boolValue];
     }
     return analyticsEnabled;
+}
+
+- (void) publishOnAppBackground:(NSNotification *) notification {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __block UIBackgroundTaskIdentifier task;
+        task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+            task = UIBackgroundTaskInvalid;
+        }];
+        [self publishAllEvents];
+        [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+        task = UIBackgroundTaskInvalid;
+    });
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
