@@ -1,37 +1,38 @@
 lane :CI do
 
-	begin
-		scan(
-			workspace: "SalesforceMobileSDK.xcworkspace",
-			scheme: "UnitTests",
-	    	device: "iPhone 6",
-			xcargs: "analyze",
-			output_directory: "test_output”,
-	  		clean: true
-	   	)
+	scan(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+		scheme: "UnitTests",
+    	device: "iPhone 6",
+		output_directory: "test_output”,
+		output_types: "json-compilation-database, junit, html",
+		clean: true,
+		use_clang_report_name: true,
+		fail_build: false
+  	)
+
+    begin
+ 	xcodebuild(
+ 		 xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
+ 		 workspace: "SalesforceMobileSDK.xcworkspace",
+ 		 scheme: "UnitTests",
+ 		 fail_build: false
+ 	)
 	rescue => ex
 		UI.error(ex)
 	end
- 
-	begin
-		xcov(
-			workspace: "SalesforceMobileSDK.xcworkspace",
-	  		scheme: "UnitTests",
-	  		output_directory: "xcov_output"
-	  	)
-	rescue => ex
-	  	UI.error(ex)
-	end
 
-	begin
-	   	danger(
-	  		danger_id: "CI-result",
-	  		dangerfile: "DangerFile",
-	  		github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-	  		verbose: true
-	  	)
-	rescue => ex
-	   	UI.error(ex)
-	end
+	xcov(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+  		scheme: "UnitTests",
+  		output_directory: "xcov_output"
+  	)
+
+   	danger(
+  		danger_id: "CI-result",
+  		dangerfile: "DangerFile",
+  		github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+  		verbose: true
+  	)
 
 end
