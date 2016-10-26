@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/4/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -37,6 +37,7 @@ typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable d
 @property (nonatomic, strong, readonly, nonnull) NSString *storeDirectory;
 @property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock;
+@property (nonatomic, assign, readonly) NSInteger numStoredEvents;
 @property (nonatomic, assign, readwrite) BOOL isLoggingEnabled;
 @property (nonatomic, assign, readwrite) NSInteger maxEvents;
 

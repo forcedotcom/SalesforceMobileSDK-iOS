@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/16/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -36,6 +36,7 @@
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -50,6 +51,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
+@property (nonatomic, readwrite, assign) BOOL enabled;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -108,11 +110,16 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
+
+        // Reads the existing analytics policy and sets it upon initialization.
+        [self readAnalyticsPolicy];
+        [self disableOrEnableLogging:self.enabled];
     }
     return self;
 }
 
 - (void) disableOrEnableLogging:(BOOL) enabled {
+    [self storeAnalyticsPolicy:enabled];
     self.eventStoreManager.isLoggingEnabled = enabled;
 }
 
@@ -129,7 +136,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 }
 
 - (BOOL) isLoggingEnabled {
-    return self.eventStoreManager.isLoggingEnabled;
+    return self.enabled;
 }
 
 - (void) publishAllEvents {
@@ -229,10 +236,29 @@ static NSMutableDictionary *analyticsManagerList = nil;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
+- (void) storeAnalyticsPolicy:(BOOL) enabled {
+    @synchronized (self) {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        [defs setBool:enabled forKey:kAnalyticsOnOffKey];
+        [defs synchronize];
+        self.enabled = enabled;
+    }
+}
+
+- (void) readAnalyticsPolicy {
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    if ([defs objectForKey:kAnalyticsOnOffKey] == nil) {
+        [self storeAnalyticsPolicy:YES];
+    }
+    self.enabled = [defs boolForKey:kAnalyticsOnOffKey];
+}
+
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
     [self.analyticsManager reset];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
 }
 
