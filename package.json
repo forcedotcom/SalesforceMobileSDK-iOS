@@ -27,7 +27,8 @@
 	    "SmartStore.podspec",
         "SmartSync.podspec",
         "SalesforceReact.podspec",
-        "libs"
+        "libs",
+        "shared/resources"
     ],
     "dependencies": {
     }
