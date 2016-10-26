@@ -28,7 +28,8 @@
         "SmartSync.podspec",
         "SalesforceReact.podspec",
         "libs",
-        "shared/resources"
+        "shared/resources",
+        "external/fmdb"
     ],
     "dependencies": {
     }
