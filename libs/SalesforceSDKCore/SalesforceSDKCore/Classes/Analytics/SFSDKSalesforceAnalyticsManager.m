@@ -51,7 +51,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, assign) BOOL enabled;
+@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -113,30 +113,29 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
         // Reads the existing analytics policy and sets it upon initialization.
         [self readAnalyticsPolicy];
-        [self disableOrEnableLogging:self.enabled];
     }
     return self;
 }
 
-- (void) disableOrEnableLogging:(BOOL) enabled {
-    [self storeAnalyticsPolicy:enabled];
-    self.eventStoreManager.isLoggingEnabled = enabled;
+- (void) setLoggingEnabled:(BOOL)loggingEnabled {
+    [self storeAnalyticsPolicy:loggingEnabled];
+    self.eventStoreManager.loggingEnabled = loggingEnabled;
+}
+
+- (BOOL)isLoggingEnabled {
+    return [self readAnalyticsPolicy];
 }
 
 - (void) updateLoggingPrefs {
     NSDictionary *customAttributes = self.userAccount.idData.customAttributes;
     if (customAttributes) {
         NSString *enabled = customAttributes[kAnalyticsOnOffKey];
-        if (enabled && ![enabled boolValue]) {
-            [self disableOrEnableLogging:NO];
+        if (enabled == nil) {
+            self.loggingEnabled = YES;
         } else {
-            [self disableOrEnableLogging:YES];
+            self.loggingEnabled = [enabled boolValue];
         }
     }
-}
-
-- (BOOL) isLoggingEnabled {
-    return self.enabled;
 }
 
 - (void) publishAllEvents {
@@ -241,16 +240,20 @@ static NSMutableDictionary *analyticsManagerList = nil;
         NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         [defs setBool:enabled forKey:kAnalyticsOnOffKey];
         [defs synchronize];
-        self.enabled = enabled;
     }
 }
 
-- (void) readAnalyticsPolicy {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    if ([defs objectForKey:kAnalyticsOnOffKey] == nil) {
-        [self storeAnalyticsPolicy:YES];
+- (BOOL) readAnalyticsPolicy {
+    BOOL analyticsEnabled;
+    NSNumber *analyticsEnabledNum = [[NSUserDefaults msdkUserDefaults] objectForKey:kAnalyticsOnOffKey];
+    if (analyticsEnabledNum == nil) {
+        // Default is Enabled.
+        analyticsEnabled = YES;
+        [self storeAnalyticsPolicy:analyticsEnabled];
+    } else {
+        analyticsEnabled = [analyticsEnabledNum boolValue];
     }
-    self.enabled = [defs boolForKey:kAnalyticsOnOffKey];
+    return analyticsEnabled;
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

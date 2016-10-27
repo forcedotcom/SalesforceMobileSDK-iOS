@@ -37,7 +37,14 @@
 @property (nonatomic, readonly, strong, nonnull) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readonly, strong, nonnull) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readonly, strong, nonnull) SFUserAccount *userAccount;
-@property (nonatomic, readonly, assign) BOOL enabled;
+
+/**
+ * Disables or enables logging of events.
+ *
+ * @discussion If logging is disabled, no events will be stored. However, publishing
+ * of events is still possible.
+ */
+@property (nonatomic, readonly, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 
 /**
  * Returns an instance of this class associated with the specified user account.
@@ -91,23 +98,8 @@
 - (void) addRemotePublisher:(nonnull Class<SFSDKTransform>) transformer publisher:(nonnull Class<SFSDKAnalyticsPublisher>) publisher;
 
 /**
- * Disables or enables logging of events. If logging is disabled, no events
- * will be stored. However, publishing of events is still possible.
- *
- * @param enabled True - if logging should be enabled, False - otherwise.
- */
-- (void) disableOrEnableLogging:(BOOL) enabled;
-
-/**
  * Updates the preferences of this library.
  */
 - (void) updateLoggingPrefs;
-
-/**
- * Returns whether logging is enabled or disabled.
- *
- * @return True - if logging is enabled, False - otherwise.
- */
-- (BOOL) isLoggingEnabled;
 
 @end
