@@ -38,7 +38,7 @@ typedef NSData * _Nullable (^ _Nullable DataDecryptorBlock)(NSData * _Nullable d
 @property (nonatomic, strong, readonly, nullable) DataEncryptorBlock dataEncryptorBlock;
 @property (nonatomic, strong, readonly, nullable) DataDecryptorBlock dataDecryptorBlock;
 @property (nonatomic, assign, readonly) NSInteger numStoredEvents;
-@property (nonatomic, assign, readwrite) BOOL isLoggingEnabled;
+@property (nonatomic, assign, readwrite, getter=isLoggingEnabled) BOOL loggingEnabled;
 @property (nonatomic, assign, readwrite) NSInteger maxEvents;
 
 /**

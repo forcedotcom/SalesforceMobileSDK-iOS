@@ -43,7 +43,7 @@
 - (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
-        self.isLoggingEnabled = YES;
+        self.loggingEnabled = YES;
         self.maxEvents = 1000;
         self.storeDirectory = storeDirectory;
 
@@ -161,12 +161,6 @@
         if ([fileManager fileExistsAtPath:filePath]) {
             [fileManager removeItemAtPath:filePath error:nil];
         }
-    }
-}
-
-- (void) disableOrEnableLogging:(BOOL) enabled {
-    @synchronized (self) {
-        self.isLoggingEnabled = enabled;
     }
 }
 

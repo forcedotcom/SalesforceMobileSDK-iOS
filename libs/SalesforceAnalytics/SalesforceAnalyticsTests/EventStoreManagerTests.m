@@ -175,7 +175,7 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 - (void) testDisablingLogging {
     SFSDKInstrumentationEvent *event = [self createTestEvent];
     XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
-    self.storeManager.isLoggingEnabled = NO;
+    self.storeManager.loggingEnabled = NO;
     [self.storeManager storeEvent:event];
     NSArray<SFSDKInstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
@@ -188,12 +188,12 @@ static NSString * const kTestSessionId = @"TEST_SESSION_ID";
 - (void) testEnablingLogging {
     SFSDKInstrumentationEvent *event = [self createTestEvent];
     XCTAssertTrue(event != nil, @"Generated event stored should not be nil");
-    self.storeManager.isLoggingEnabled = NO;
+    self.storeManager.loggingEnabled = NO;
     [self.storeManager storeEvent:event];
     NSArray<SFSDKInstrumentationEvent *> *events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
     XCTAssertEqual(0, events.count, @"Number of events stored should be 0");
-    self.storeManager.isLoggingEnabled = YES;
+    self.storeManager.loggingEnabled = YES;
     [self.storeManager storeEvent:event];
     events = [self.storeManager fetchAllEvents];
     XCTAssertTrue(events != nil, @"List of events should not be nil");
