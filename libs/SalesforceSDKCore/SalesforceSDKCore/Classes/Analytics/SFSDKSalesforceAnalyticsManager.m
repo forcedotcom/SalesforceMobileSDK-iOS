@@ -37,6 +37,7 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -93,6 +94,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
@@ -110,6 +115,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -251,6 +257,19 @@ static NSMutableDictionary *analyticsManagerList = nil;
         analyticsEnabled = [analyticsEnabledNum boolValue];
     }
     return analyticsEnabled;
+}
+
+- (void) publishOnAppBackground {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __block UIBackgroundTaskIdentifier task;
+        task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+            task = UIBackgroundTaskInvalid;
+        }];
+        [self publishAllEvents];
+        [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+        task = UIBackgroundTaskInvalid;
+    });
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
