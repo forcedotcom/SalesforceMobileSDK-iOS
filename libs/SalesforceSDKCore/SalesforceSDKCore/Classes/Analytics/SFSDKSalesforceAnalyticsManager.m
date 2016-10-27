@@ -76,7 +76,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
             analyticsMgr = [[SFSDKSalesforceAnalyticsManager alloc] initWithUser:userAccount];
             NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
             analyticsManagerList[key] = analyticsMgr;
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
         }
         return analyticsMgr;
     }
@@ -93,6 +92,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
         NSString *key = SFKeyForUserAndScope(userAccount, SFUserAccountScopeCommunity);
         [analyticsManagerList removeObjectForKey:key];
     }
+}
+
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
@@ -112,6 +115,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
@@ -255,7 +259,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     return analyticsEnabled;
 }
 
-- (void) publishOnAppBackground:(NSNotification *) notification {
+- (void) publishOnAppBackground {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         __block UIBackgroundTaskIdentifier task;
         task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
