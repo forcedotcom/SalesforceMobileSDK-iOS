@@ -33,6 +33,7 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
+#import "SFIdentityData.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -537,7 +538,8 @@ static Class InstanceClass = nil;
 
 - (void)clearClipboard
 {
-    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
+    
+    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground || [SFUserAccountManager sharedInstance].currentUser.idData.shouldDisableExternalPaste) {
         [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
         [UIPasteboard generalPasteboard].strings = @[ ];
         [UIPasteboard generalPasteboard].URLs = @[ ];
