@@ -20,6 +20,9 @@
 #define IPHONE_6P_NAMESTRING            @"iPhone 6+"
 #define IPHONE_6s_NAMESTRING             @"iPhone 6s"
 #define IPHONE_6sP_NAMESTRING            @"iPhone 6s+"
+#define IPHONE_SE_NAMESTRING            @"iPhone SE"
+#define IPHONE_7_NAMESTRING            @"iPhone 7"
+#define IPHONE_7P_NAMESTRING            @"iPhone 7P"
 #define IPHONE_UNKNOWN_NAMESTRING       @"Unknown iPhone"
 
 #define IPOD_1G_NAMESTRING              @"iPod touch 1G"
@@ -75,6 +78,9 @@ typedef NS_ENUM(NSUInteger, UIDevicePlatform) {
     UIDevice6PlusiPhone,
     UIDevice6siPhone,
     UIDevice6sPlusiPhone,
+    UIDeviceSEiPhone,
+    UIDevice7iPhone,
+    UIDevice7PlusiPhone,
     
     UIDevice1GiPod,
     UIDevice2GiPod,
@@ -199,5 +205,13 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
  * @return Returns YES if so, NO otherwise.
  */
 - (BOOL)hasIphone6PlusScreenSize;
+
+/**Return YES if device is iPad
+ */
++ (BOOL)currentDeviceIsIPad;
+
+/**Return YES if device is iPhone
+ */
++ (BOOL)currentDeviceIsIPhone;
 
 @end

@@ -111,42 +111,6 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     credentials = nil;
 }
 
-/** Test the case of instantiating the credentials using alloc/init, in which case the identifier and clientId will both be nil.
- The credentials class requires the identifier to be set for nearly all operations, therefore under these circumstances most 
- public methods will raise an exception.
- */
-- (void)testCredentialsDefaultInstantiation {
-    
-    NSString * identifier       = nil;
-    NSString * clientId         = nil;
-    NSString * accessToken      = nil;
-    NSString * refreshToken     = nil;
-    NSString * userId           = nil;
-    NSString * activationCode   = nil;
-    
-    SFOAuthCredentials *credentials = [[SFOAuthCredentials alloc] init];
-    
-    XCTAssertNotNil(credentials, @"credentials object should not be nil");
-    XCTAssertThrows(accessToken = credentials.accessToken, @"should raise exception if no identifier is set");
-    XCTAssertThrows(credentials.accessToken = nil, @"should raise exception if no identifier is set");
-    XCTAssertNoThrow(credentials.clientId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
-    XCTAssertNoThrow(clientId = credentials.clientId, @"should not raise exception if no identifier is set");
-    XCTAssertNoThrow(identifier = credentials.identifier, @"should not raise exception if no identifier is set");
-    XCTAssertNoThrow(credentials.identifier = nil, @"should not raise exception if set to nil");
-    XCTAssertNoThrow(credentials.identityUrl = nil, @"should not raise exception if set to nil");
-    XCTAssertThrows(refreshToken = credentials.refreshToken, @"should raise exception if no identifier is set");
-    XCTAssertThrows(credentials.refreshToken = nil, @"should raise exception if no identifier is set");
-    XCTAssertThrows(activationCode = credentials.activationCode, @"should raise exception if no identifier is set");
-    XCTAssertThrows(credentials.activationCode = nil, @"should raise exception if no identifier is set");
-    XCTAssertNoThrow(userId = credentials.userId, @"should not raise exception if no identifier is set");
-    XCTAssertNoThrow(credentials.userId = nil, @"should not raise exception if no identifier is set and should allow a nil argument");
-    XCTAssertThrows([credentials revokeAccessToken], @"should raise exception if no identifier is set");
-    XCTAssertThrows([credentials revokeRefreshToken], @"should raise exception if no identifier is set");
-    XCTAssertThrows([credentials revokeActivationCode], @"should raise exception if no identifier is set");
-    
-    credentials = nil;
-}
-
 /** Test the <NSCoding> implementation of <SFOAuthCredentials>
  */
 - (void)testCredentialsCoding {
@@ -156,7 +120,7 @@ static NSString * const kTestRefreshToken = @"HowRefreshing";
     
     SFOAuthKeychainCredentials *credsIn = [[SFOAuthKeychainCredentials alloc] initWithIdentifier:kIdentifier clientId:kClientId encrypted:YES];
     credsIn.domain          = @"login.salesforce.com";
-    credsIn.redirectUri     = @"sfdc:///axm/detect/oauth/done";
+    credsIn.redirectUri     = @"unittest:///redirect/uri/callback";
     credsIn.organizationId  = @"org";
     credsIn.identityUrl     = [NSURL URLWithString:@"https://login.salesforce.com/ID/orgID/eighteenCharUsrXYZ"];
     credsIn.instanceUrl     = [NSURL URLWithString:@"http://www.salesforce.com"];

@@ -2,7 +2,7 @@
  SalesforceSDKCore.h
  SalesforceSDKCore
 
- Created by Michael Nachbaur on Wed May 11 11:34:05 PDT 2016.
+ Created by Amol Prabhu on Thu Oct 13 14:36:16 EDT 2016.
 
  Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
@@ -27,14 +27,31 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <SalesforceSDKCore/CSFAction.h>
+#import <SalesforceSDKCore/CSFActionInput.h>
+#import <SalesforceSDKCore/CSFActionModel.h>
+#import <SalesforceSDKCore/CSFActionValue.h>
+#import <SalesforceSDKCore/CSFAuthRefresh.h>
+#import <SalesforceSDKCore/CSFAvailability.h>
+#import <SalesforceSDKCore/CSFDefines.h>
+#import <SalesforceSDKCore/CSFForceDefines.h>
+#import <SalesforceSDKCore/CSFIndexedEntity.h>
+#import <SalesforceSDKCore/CSFInput.h>
+#import <SalesforceSDKCore/CSFNetwork.h>
+#import <SalesforceSDKCore/CSFNetworkOutputCache.h>
+#import <SalesforceSDKCore/CSFOutput.h>
+#import <SalesforceSDKCore/CSFParameterStorage.h>
+#import <SalesforceSDKCore/CSFSalesforceAction.h>
 #import <SalesforceSDKCore/NSArray+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFSDKUtils.h>
 #import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 #import <SalesforceSDKCore/NSNotificationCenter+SFAdditions.h>
+#import <SalesforceSDKCore/NSObject+SFBlocks.h>
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSURL+SFAdditions.h>
 #import <SalesforceSDKCore/NSURL+SFStringUtils.h>
+#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
 #import <SalesforceSDKCore/SalesforceSDKConstants.h>
 #import <SalesforceSDKCore/SalesforceSDKCoreDefines.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
@@ -89,7 +106,15 @@
 #import <SalesforceSDKCore/SFPBKDFData.h>
 #import <SalesforceSDKCore/SFPreferences.h>
 #import <SalesforceSDKCore/SFPushNotificationManager.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
+#import <SalesforceSDKCore/SFRestAPI+Files.h>
+#import <SalesforceSDKCore/SFRestAPI+QueryBuilder.h>
+#import <SalesforceSDKCore/SFRestAPI.h>
+#import <SalesforceSDKCore/SFRestAPISalesforceAction.h>
+#import <SalesforceSDKCore/SFRestRequest.h>
 #import <SalesforceSDKCore/SFRootViewManager.h>
+#import <SalesforceSDKCore/SFSDKAILTNPublisher.h>
+#import <SalesforceSDKCore/SFSDKAnalyticsPublisher.h>
 #import <SalesforceSDKCore/SFSDKAppConfig.h>
 #import <SalesforceSDKCore/SFSDKAppDelegate.h>
 #import <SalesforceSDKCore/SFSDKAsyncProcessListener.h>
@@ -99,8 +124,8 @@
 #import <SalesforceSDKCore/SFSDKLoginHostDelegate.h>
 #import <SalesforceSDKCore/SFSDKLoginHostListViewController.h>
 #import <SalesforceSDKCore/SFSDKLoginHostStorage.h>
-#import <SalesforceSDKCore/SFSDKReachability.h>
 #import <SalesforceSDKCore/SFSDKResourceUtils.h>
+#import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
 #import <SalesforceSDKCore/SFSDKTestCredentialsData.h>
 #import <SalesforceSDKCore/SFSDKTestRequestListener.h>
 #import <SalesforceSDKCore/SFSDKWebUtils.h>
@@ -108,6 +133,7 @@
 #import <SalesforceSDKCore/SFSecurityLockout.h>
 #import <SalesforceSDKCore/SFSHA256PasscodeProvider.h>
 #import <SalesforceSDKCore/SFTestContext.h>
+#import <SalesforceSDKCore/SFUserAccount+SalesforceNetwork.h>
 #import <SalesforceSDKCore/SFUserAccount.h>
 #import <SalesforceSDKCore/SFUserAccountConstants.h>
 #import <SalesforceSDKCore/SFUserAccountIdentity.h>
@@ -115,5 +141,6 @@
 #import <SalesforceSDKCore/SFUserAccountManagerUpgrade.h>
 #import <SalesforceSDKCore/SFUserActivityMonitor.h>
 #import <SalesforceSDKCore/TestSetupUtils.h>
+#import <SalesforceSDKCore/UIColor+SFColors.h>
 #import <SalesforceSDKCore/UIDevice+SFHardware.h>
 #import <SalesforceSDKCore/UIScreen+SFAdditions.h>

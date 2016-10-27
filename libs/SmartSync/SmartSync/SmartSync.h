@@ -2,9 +2,9 @@
  SmartSync.h
  SmartSync
 
- Created by Kevin Hawkins on Thu Mar 19 15:37:11 PDT 2015.
+ Created by Wolfgang Mathurin on Wed Sep 14 16:56:34 PDT 2016.
 
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,6 +31,7 @@
 #import <SmartSync/SFObject.h>
 #import <SmartSync/SFObjectType.h>
 #import <SmartSync/SFObjectTypeLayout.h>
+#import <SmartSync/SFRefreshSyncDownTarget.h>
 #import <SmartSync/SFSmartSyncCacheManager.h>
 #import <SmartSync/SFSmartSyncConstants.h>
 #import <SmartSync/SFSmartSyncMetadataManager.h>

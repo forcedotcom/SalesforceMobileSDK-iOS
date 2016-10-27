@@ -24,6 +24,7 @@
 
 #import "SFOAuthSessionRefresher+Internal.h"
 #import "SFOAuthCredentials.h"
+#import "SFAuthenticationManager.h"
 
 @implementation SFOAuthSessionRefresher
 
@@ -32,6 +33,8 @@
     if (self) {
         self.coordinator = [[SFOAuthCoordinator alloc] initWithCredentials:credentials];
         self.coordinator.delegate = self;
+        self.coordinator.additionalTokenRefreshParams = [SFAuthenticationManager sharedManager].additionalTokenRefreshParams;
+        self.coordinator.additionalOAuthParameterKeys = [SFAuthenticationManager sharedManager].additionalOAuthParameterKeys;
     }
     return self;
 }

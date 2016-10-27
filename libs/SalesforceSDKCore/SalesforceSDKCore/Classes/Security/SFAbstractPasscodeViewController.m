@@ -28,6 +28,7 @@
 #import "SFPasscodeManager.h"
 #import "SFPasscodeManager+Internal.h"
 #import "SFInactivityTimerCenter.h"
+#import "NSUserDefaults+SFAdditions.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 
 // Public constants
@@ -131,13 +132,13 @@ static  NSString * cachedPasscode;
 
 - (NSInteger)remainingAttempts
 {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:kRemainingAttemptsKey];
+    return [[NSUserDefaults msdkUserDefaults] integerForKey:kRemainingAttemptsKey];
 }
 
 - (void)setRemainingAttempts:(NSInteger)remainingAttempts
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] setInteger:remainingAttempts forKey:kRemainingAttemptsKey];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
 }
 
 #pragma mark - Private methods

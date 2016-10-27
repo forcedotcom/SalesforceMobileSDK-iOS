@@ -138,10 +138,6 @@ NSException * SFOAuthInvalidIdentifierException() {
    
 }
 
-- (id)init {
-    return [self initWithIdentifier:nil clientId:nil encrypted:YES];
-}
-
 - (instancetype)initWithIdentifier:(NSString *)theIdentifier clientId:(NSString*)theClientId encrypted:(BOOL)encrypted {
     return [self initWithIdentifier:theIdentifier clientId:theClientId encrypted:encrypted storageType:SFOAuthCredentialsStorageTypeKeychain];
 }

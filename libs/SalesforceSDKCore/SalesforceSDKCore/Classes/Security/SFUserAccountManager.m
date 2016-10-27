@@ -37,6 +37,7 @@
 #import "NSString+SFAdditions.h"
 #import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -164,28 +165,24 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     NSString *oldLoginHost = [self loginHost];
     
     if (nil == host) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kSFUserAccountOAuthLoginHost];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
+        [[NSUserDefaults msdkUserDefaults] setObject:host forKey:kSFUserAccountOAuthLoginHost];
     }
     
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults msdkUserDefaults] synchronize];
     
     // Only post the login host change notification if the host actually changed.
-    if (![host isEqualToString:oldLoginHost]) {
-        NSDictionary *userInfoDict;
-        if (host) {
-            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost, kSFLoginHostChangedNotificationUpdatedHostKey: host};
-        } else {
-            userInfoDict = @{kSFLoginHostChangedNotificationOriginalHostKey: oldLoginHost};
-        }
+    if ((oldLoginHost || host) && ![host isEqualToString:oldLoginHost]) {
+        NSDictionary *userInfoDict = @{ kSFLoginHostChangedNotificationOriginalHostKey: (oldLoginHost ?: [NSNull null]),
+                                        kSFLoginHostChangedNotificationUpdatedHostKey: (host ?: [NSNull null]) };
         NSNotification *loginHostUpdateNotification = [NSNotification notificationWithName:kSFLoginHostChangedNotification object:self userInfo:userInfoDict];
         [[NSNotificationCenter defaultCenter] postNotification:loginHostUpdateNotification];
     }
 }
 
 - (NSString *)loginHost {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [NSUserDefaults msdkUserDefaults];
 
     // First let's import any previously stored settings, if available.
     NSString *host = [defaults stringForKey:kDeprecatedLoginHostPrefKey];
@@ -229,7 +226,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (NSSet *)scopes
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSArray *scopesArray = [defs objectForKey:kOAuthScopesKey] ?: [NSArray array];
     return [NSSet setWithArray:scopesArray];
 }
@@ -237,35 +234,35 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 - (void)setScopes:(NSSet *)newScopes
 {
     NSArray *scopesArray = [newScopes allObjects];
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:scopesArray forKey:kOAuthScopesKey];
     [defs synchronize];
 }
 
 - (NSString *)oauthCompletionUrl
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSString *redirectUri = [defs objectForKey:kOAuthRedirectUriKey];
     return redirectUri;
 }
 
 - (void)setOauthCompletionUrl:(NSString *)newRedirectUri
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:newRedirectUri forKey:kOAuthRedirectUriKey];
     [defs synchronize];
 }
 
 - (NSString *)oauthClientId
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     NSString *clientId = [defs objectForKey:kOAuthClientIdKey];
     return clientId;
 }
 
 - (void)setOauthClientId:(NSString *)newClientId
 {
-    NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
     [defs setObject:newClientId forKey:kOAuthClientIdKey];
     [defs synchronize];
 }
@@ -776,11 +773,12 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     __weak __typeof(self) weakSelf = self;
     __block BOOL accountsSaved = YES;
     dispatch_sync(_syncQueue, ^{
-        NSDictionary *userAccountMap = [weakSelf.userAccountMap copy];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        NSDictionary *userAccountMap = [strongSelf.userAccountMap copy];
         
         for (SFUserAccountIdentity *userIdentity in userAccountMap) {
             // Don't save the temporary user id
-            if ([userIdentity isEqual:weakSelf.temporaryUserIdentity]) {
+            if ([userIdentity isEqual:strongSelf.temporaryUserIdentity]) {
                 continue;
             }
             
@@ -788,22 +786,22 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
             SFUserAccount *user = userAccountMap[userIdentity];
             
             // And it's persistent file path
-            NSString *userAccountPath = [[weakSelf class] userAccountPlistFileForUser:user];
+            NSString *userAccountPath = [[strongSelf class] userAccountPlistFileForUser:user];
             
             // Make sure to remove any existing file
             NSFileManager *fm = [[NSFileManager alloc] init];
             if ([fm fileExistsAtPath:userAccountPath]) {
                 if (![fm removeItemAtPath:userAccountPath error:error]) {
                     NSError*const err = error ? *error : nil;
-                    [weakSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
+                    [strongSelf log:SFLogLevelDebug format:@"failed to remove old user account %@: %@", userAccountPath, err];
                     accountsSaved = NO;
                     return;
                 }
             }
             
             // And now save its content
-            if (![weakSelf saveUserAccount:user toFile:userAccountPath]) {
-                [weakSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
+            if (![strongSelf saveUserAccount:user toFile:userAccountPath]) {
+                [strongSelf log:SFLogLevelDebug format:@"failed to archive user account: %@", userAccountPath];
                 accountsSaved = NO;
                 return ;
             }
@@ -925,13 +923,8 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (SFUserAccountIdentity *)activeUserIdentity {
     NSData *resultData = nil;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-        resultData = [sharedDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
-    } else {
-        resultData = [[NSUserDefaults standardUserDefaults] objectForKey:kUserDefaultsLastUserIdentityKey];
-    }
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
+    resultData = [userDefaults objectForKey:kUserDefaultsLastUserIdentityKey];
     if (resultData == nil)
         return nil;
     
@@ -950,13 +943,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 }
 
 + (void)setActiveUserIdentity:(SFUserAccountIdentity *)activeUserIdentity {
-    NSUserDefaults *standardDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        standardDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        standardDefaults = [NSUserDefaults standardUserDefaults];
-    }
-    
+    NSUserDefaults *standardDefaults = [NSUserDefaults msdkUserDefaults];
     if (activeUserIdentity == nil) {
         [standardDefaults removeObjectForKey:kUserDefaultsLastUserIdentityKey];
     } else {
@@ -974,23 +961,12 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 }
 
 - (NSString *)activeCommunityId {
-    NSUserDefaults *userDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        userDefaults =  [NSUserDefaults standardUserDefaults];
-    }
+     NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     return [userDefaults stringForKey:kUserDefaultsLastUserCommunityIdKey];
 }
 
 - (void)setActiveCommunityId:(NSString *)activeCommunityId {
-    NSUserDefaults *userDefaults;
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled) {
-        userDefaults = [[NSUserDefaults alloc] initWithSuiteName:[SFSDKDatasharingHelper sharedInstance].appGroupName];
-    } else {
-        userDefaults =  [NSUserDefaults standardUserDefaults];
-    }
-    
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     if (activeCommunityId == nil) {
         [userDefaults removeObjectForKey:kUserDefaultsLastUserCommunityIdKey];
     } else {

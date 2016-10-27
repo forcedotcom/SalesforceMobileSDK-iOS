@@ -2,9 +2,9 @@
  SalesforceHybridSDK.h
  SalesforceHybridSDK
 
- Created by Kevin Hawkins on Mon Mar  2 12:37:15 PST 2015.
+ Created by Bharath Hariharan on Wed Sep 14 18:50:42 PDT 2016.
 
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,6 +34,7 @@
 #import <SalesforceHybridSDK/SFHybridViewConfig.h>
 #import <SalesforceHybridSDK/SFHybridViewController.h>
 #import <SalesforceHybridSDK/SFLocalhostSubstitutionCache.h>
+#import <SalesforceHybridSDK/SFNetworkPlugin.h>
 #import <SalesforceHybridSDK/SFSDKInfoPlugin.h>
 #import <SalesforceHybridSDK/SFSmartStorePlugin.h>
 #import <SalesforceHybridSDK/SFSmartSyncPlugin.h>

@@ -33,15 +33,11 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
+#import "SFIdentityData.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
-
-// User agent constants
-static NSString * const kSFMobileSDKNativeDesignator = @"Native";
-static NSString * const kSFMobileSDKHybridDesignator = @"Hybrid";
-static NSString * const kSFMobileSDKReactNativeDesignator = @"ReactNative";
 
 // Device id
 static NSString* uid = nil;
@@ -126,6 +122,10 @@ static Class InstanceClass = nil;
     }
     
     return self;
+}
+
+- (NSString *) deviceId {
+    return uid;
 }
 
 #pragma mark - Public methods / properties
@@ -370,14 +370,7 @@ static Class InstanceClass = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-    
-    @try {
-        [self dismissSnapshot];
-    }
-    @catch (NSException *exception) {
-        [self log:SFLogLevelWarning format:@"Exception thrown while removing security snapshot view: '%@'. Will continue to resume app.", [exception reason]];
-    }
-    
+        
     if (_isLaunching) {
         [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
@@ -545,7 +538,8 @@ static Class InstanceClass = nil;
 
 - (void)clearClipboard
 {
-    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
+    
+    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground || [SFUserAccountManager sharedInstance].currentUser.idData.shouldDisableExternalPaste) {
         [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
         [UIPasteboard generalPasteboard].strings = @[ ];
         [UIPasteboard generalPasteboard].URLs = @[ ];

@@ -32,6 +32,7 @@
 #import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <SalesforceSDKCore/NSData+SFAdditions.h>
 #import <SalesforceSDKCore/SFPasscodeManager.h>
+#import <SalesforceSDKCore/NSUserDefaults+SFAdditions.h>
 #import "FMDatabase.h"
 
 static const char *const_key = "H347ergher/32hhj5%hff?Dn@21o";
@@ -233,7 +234,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 + (BOOL)usesKeyStoreEncryptionForUser:(SFUserAccount *)user store:(NSString *)storeName
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
     
     if (keyStoreDict == nil)
@@ -253,7 +254,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 + (void)setUsesKeyStoreEncryption:(BOOL)usesKeyStoreEncryption forUser:(SFUserAccount *)user store:(NSString *)storeName
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     NSDictionary *keyStoreDict = [userDefaults objectForKey:kKeyStoreEncryptedStoresKey];
     NSMutableDictionary *newDict;
     if (keyStoreDict == nil) {
@@ -353,7 +354,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 }
 
 + (BOOL)usesLegacyDefaultKey:(NSString *)storeName {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kLegacyDefaultPasscodeStoresKey];
     
     if (defaultPasscodeDict == nil)
@@ -367,7 +368,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 }
 
 + (void)setUsesLegacyDefaultKey:(BOOL)usesDefault forStore:(NSString *)storeName {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     NSDictionary *defaultPasscodeDict = [userDefaults objectForKey:kLegacyDefaultPasscodeStoresKey];
     NSMutableDictionary *newDict;
     if (defaultPasscodeDict == nil)
@@ -389,7 +390,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 + (void)setLegacyDefaultEncryptionType:(SFSmartStoreLegacyDefaultEncryptionType)encType forStore:(NSString *)storeName
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults msdkUserDefaults];
     NSDictionary *defaultEncTypeDict = [userDefaults objectForKey:kLegacyDefaultEncryptionTypeKey];
     NSMutableDictionary *newDict;
     if (defaultEncTypeDict == nil)
@@ -405,7 +406,7 @@ static NSString * const kKeyStoreEncryptedStoresKey = @"com.salesforce.smartstor
 
 + (SFSmartStoreLegacyDefaultEncryptionType)legacyDefaultEncryptionTypeForStore:(NSString *)storeName
 {
-    NSDictionary *encTypeDict = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyDefaultEncryptionTypeKey];
+    NSDictionary *encTypeDict = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyDefaultEncryptionTypeKey];
     if (encTypeDict == nil) return SFSmartStoreDefaultEncryptionTypeMac;
     NSNumber *encTypeNum = encTypeDict[storeName];
     if (encTypeNum == nil) return SFSmartStoreDefaultEncryptionTypeMac;

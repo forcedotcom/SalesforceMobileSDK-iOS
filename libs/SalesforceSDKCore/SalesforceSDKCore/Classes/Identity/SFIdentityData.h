@@ -204,10 +204,16 @@
 @property (readonly) BOOL mobilePoliciesConfigured;
 
 /**
+ * Whether or not extenal paste is allowed.
+ */
+@property (readonly) BOOL shouldDisableExternalPaste;
+
+/**
  * The length of the PIN code, if it's required.  Defaults to 0 if not set, but
  * querying mobilePoliciesConfigured is recommended to validate that policies
  * are set.
  */
+
 @property (readonly) int mobileAppPinLength;
 
 /**

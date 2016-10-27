@@ -34,6 +34,15 @@
 @class SFAuthErrorHandlerList;
 @class SFLoginHostUpdateResult;
 @class SFLoginViewController;
+
+typedef NS_ENUM(NSUInteger, SFAuthenticationManagerDelegatePriority) {
+    SFAuthenticationManagerDelegatePriorityMax = 0,
+    SFAuthenticationManagerDelegatePriorityHigh,
+    SFAuthenticationManagerDelegatePriorityMedium,
+    SFAuthenticationManagerDelegatePriorityLow,
+    SFAuthenticationManagerDelegatePriorityDefault,
+};
+
 NS_ASSUME_NONNULL_BEGIN
 /**
  Callback block definition for OAuth completion callback.
@@ -290,10 +299,22 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
 
 /**
+ A dictionary of additional parameters (key value pairs) to send during token refresh
+ */
+@property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
+
+/**
  Adds a delegate to the list of authentication manager delegates.
  @param delegate The delegate to add to the list.
  */
 - (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate;
+
+/**
+ Adds a delegate to the list of authentication manager delegates.
+ @param delegate The delegate to add to the list.
+ @param priority The priority for this delegate. Delegates get called in order of priority.
+ */
+- (void)addDelegate:(id<SFAuthenticationManagerDelegate>)delegate withPriority:(SFAuthenticationManagerDelegatePriority)priority;
 
 /**
  Removes a delegate from the delegate list.  No action is taken if the delegate does not exist.
@@ -310,8 +331,8 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
-- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Kick off the login process for the given user.
@@ -322,9 +343,22 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
-- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
                     account:(nullable SFUserAccount *)account;
+
+/**
+ Login using the given JWT token to exchange with the service for credentials.
+ @param jwtToken The JWT token (received out of band) to exchange for credentials.
+ @param completionBlock The block of code to execute when the authentication process successfully completes.
+ @param failureBlock The block of code to execute when the authentication process has a fatal failure.
+ @return YES if this call kicks off the authentication process.  NO if an authentication process has already
+ started, in which case subsequent requests are queued up to have their completion or failure blocks executed
+ in succession.
+ */
+- (BOOL)loginWithJwtToken:(NSString *)jwtToken
+               completion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

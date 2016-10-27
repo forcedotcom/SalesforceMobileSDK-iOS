@@ -37,6 +37,7 @@
 #import "SFIdentityData.h"
 #import "SFApplicationHelper.h"
 #import "SFApplication.h"
+#import "NSUserDefaults+SFAdditions.h"
 
 // Private constants
 
@@ -118,7 +119,7 @@ static BOOL _showPasscode = YES;
     NSNumber *lockoutTime = [SFSecurityLockout readLockoutTimeFromKeychain];
 	if (lockoutTime == nil) {
         // Try falling back to user defaults if there's no timeout in the keychain.
-        lockoutTime = [[NSUserDefaults standardUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
+        lockoutTime = [[NSUserDefaults msdkUserDefaults] objectForKey:kSecurityTimeoutLegacyKey];
         if (lockoutTime == nil) {
             [SFSecurityLockout writeLockoutTimeToKeychain:@(kDefaultLockoutTime)];
         } else {
@@ -130,23 +131,23 @@ static BOOL _showPasscode = YES;
     NSNumber *n = [SFSecurityLockout readIsLockedFromKeychain];
     if (n == nil) {
         // Try to fall back to the user defaults if isLocked isn't found in the keychain
-        BOOL locked = [[NSUserDefaults standardUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
+        BOOL locked = [[NSUserDefaults msdkUserDefaults] boolForKey:kSecurityIsLockedLegacyKey];
         [SFSecurityLockout writeIsLockedToKeychain:@(locked)];
     }
     
     NSNumber *currentPasscodeLength = [[SFPreferences globalPreferences] objectForKey:kPasscodeLengthKey];
     
     if (currentPasscodeLength) {
-        NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+        NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
         if (previousLength) {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+            [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
         }
         return;
     }
     
-    NSNumber *previousLength = [[NSUserDefaults standardUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
+    NSNumber *previousLength = [[NSUserDefaults msdkUserDefaults] objectForKey:kLegacyPasscodeLengthKey];
     if (previousLength) {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kLegacyPasscodeLengthKey];
         [self setPasscodeLength:[previousLength integerValue]];
     }
 }

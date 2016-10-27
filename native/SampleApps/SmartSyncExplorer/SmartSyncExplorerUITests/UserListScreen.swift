@@ -28,7 +28,7 @@ import Foundation
 import XCTest
 
 class UserListScreen: PageObject {
-    private var addUserButton: XCUIElement {
+    fileprivate var addUserButton: XCUIElement {
         get {
             return app.navigationBars["User List"].buttons["New User"]
         }
@@ -43,20 +43,20 @@ class UserListScreen: PageObject {
         waitForElementExists(addUserButton)
     }
     
-    func addUser() -> LoginPage {
+    @discardableResult func addUser() -> LoginPage {
         waitForPageLoaded()
         addUserButton.tap()
         return LoginPage()
     }
     
-    func switchToUser(username : String) {
+    func switchToUser(_ username : String) {
         waitForPageLoaded()
         app.tables.staticTexts[username].tap()
         app.buttons["Switch to User"].tap()
     }
     
     
-    func logout(username : String) {
+    func logout(_ username : String) {
         waitForPageLoaded()
         app.tables.staticTexts[username].tap()
         app.buttons["Logout User"].tap()

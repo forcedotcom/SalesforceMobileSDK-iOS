@@ -27,7 +27,7 @@
 #import "SFSmartSyncConstants.h"
 #import "SFSmartSyncNetworkUtils.h"
 
-NSString * const kSFSoslSyncTargetQuery = @"query";
+static NSString * const kSFSoslSyncTargetQuery = @"query";
 
 @interface SFSmartSyncSyncManager ()
 
@@ -90,7 +90,7 @@ NSString * const kSFSoslSyncTargetQuery = @"query";
            queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock {
-    __weak SFSoslSyncDownTarget* weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFRestRequest* request = [[SFRestAPI sharedInstance] requestForSearch:queryRun];
     [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSArray* records) {
         weakSelf.totalSize = [records count];

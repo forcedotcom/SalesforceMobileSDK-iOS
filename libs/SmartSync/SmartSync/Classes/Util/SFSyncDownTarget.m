@@ -24,6 +24,7 @@
 
 #import "SFSyncDownTarget.h"
 #import "SFMruSyncDownTarget.h"
+#import "SFRefreshSyncDownTarget.h"
 #import "SFSoqlSyncDownTarget.h"
 #import "SFSoslSyncDownTarget.h"
 #import "SFSmartSyncConstants.h"
@@ -34,8 +35,8 @@
 NSString * const kSFSyncTargetQueryTypeMru = @"mru";
 NSString * const kSFSyncTargetQueryTypeSoql = @"soql";
 NSString * const kSFSyncTargetQueryTypeSosl = @"sosl";
+NSString * const kSFSyncTargetQueryTypeRefresh = @"refresh";
 NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
-
 
 @implementation SFSyncDownTarget
 
@@ -50,6 +51,8 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
             return [[SFSoslSyncDownTarget alloc] initWithDict:dict];
         case SFSyncDownTargetQueryTypeSoql:
             return [[SFSoqlSyncDownTarget alloc] initWithDict:dict];
+        case SFSyncDownTargetQueryTypeRefresh:
+            return [[SFRefreshSyncDownTarget alloc] initWithDict:dict];
         case SFSyncDownTargetQueryTypeCustom:
             implClassName = dict[kSFSyncTargetiOSImplKey];
             if (implClassName.length == 0) {
@@ -79,13 +82,6 @@ NSString * const kSFSyncTargetQueryTypeCustom = @"custom";
 
 - (void) startFetch:(SFSmartSyncSyncManager*)syncManager
        maxTimeStamp:(long long)maxTimeStamp
-         errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
-      completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
-ABSTRACT_METHOD
-
-- (void) startFetch:(SFSmartSyncSyncManager*)syncManager
-       maxTimeStamp:(long long)maxTimeStamp
-           queryRun:(NSString*)queryRun
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 ABSTRACT_METHOD
@@ -127,6 +123,9 @@ ABSTRACT_METHOD
     if ([queryType isEqualToString:kSFSyncTargetQueryTypeSosl]) {
         return SFSyncDownTargetQueryTypeSosl;
     }
+    if ([queryType isEqualToString:kSFSyncTargetQueryTypeRefresh]) {
+        return SFSyncDownTargetQueryTypeRefresh;
+    }
     // Must be custom
     return SFSyncDownTargetQueryTypeCustom;
 }
@@ -136,6 +135,7 @@ ABSTRACT_METHOD
         case SFSyncDownTargetQueryTypeMru:  return kSFSyncTargetQueryTypeMru;
         case SFSyncDownTargetQueryTypeSosl: return kSFSyncTargetQueryTypeSosl;
         case SFSyncDownTargetQueryTypeSoql: return kSFSyncTargetQueryTypeSoql;
+        case SFSyncDownTargetQueryTypeRefresh: return kSFSyncTargetQueryTypeRefresh;
         case SFSyncDownTargetQueryTypeCustom: return kSFSyncTargetQueryTypeCustom;
     }
 }

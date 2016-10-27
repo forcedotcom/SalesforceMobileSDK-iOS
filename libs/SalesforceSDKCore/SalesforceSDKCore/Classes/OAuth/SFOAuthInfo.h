@@ -31,7 +31,8 @@ typedef NS_ENUM(NSUInteger, SFOAuthType) {
     SFOAuthTypeUnknown = 0,
     SFOAuthTypeUserAgent,
     SFOAuthTypeRefresh,
-    SFOAuthTypeAdvancedBrowser
+    SFOAuthTypeAdvancedBrowser,
+    SFOAuthTypeJwtTokenExchange
 };
 
 /**
