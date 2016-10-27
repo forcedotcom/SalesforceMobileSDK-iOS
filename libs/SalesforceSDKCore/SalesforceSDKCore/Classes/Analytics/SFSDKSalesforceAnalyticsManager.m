@@ -110,9 +110,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
-
-        // Reads the existing analytics policy and sets it upon initialization.
-        [self readAnalyticsPolicy];
     }
     return self;
 }
