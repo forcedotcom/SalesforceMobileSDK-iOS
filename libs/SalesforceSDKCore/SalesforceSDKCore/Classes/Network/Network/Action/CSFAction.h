@@ -247,6 +247,16 @@ NS_ASSUME_NONNULL_BEGIN
  @return The data to populate outputContent with, otherwise `nil` if nothing is appropriate.
  */
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error;
+
+/**
+ Subclassable method that will pre-process the HTTP response for errors, prior to handing off to
+ contentFromData:fromResponse:error: .
+ 
+ @param data NSData instance containing the HTTP response body.
+ @param response The HTTP response to process.
+ 
+ @return An NSError describing the error response, or `nil` if no errors were found in the response.
+ */
 - (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response;
 
 /**
