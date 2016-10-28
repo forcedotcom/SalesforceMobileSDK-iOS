@@ -150,6 +150,7 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     
     NSString *errorMessage = nil;
     NSString *errorCode = nil;
+    [self contentData:data extractErrorMessage:&errorMessage errorCode:&errorCode];
     
     // Note: request session refresh only when the error indicates the session expired.
     BOOL requestSessionRefresh = NO;
@@ -164,7 +165,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
             // unauthorized (not logged in / session expired)
             // The session ID or OAuth token used has expired or is invalid.
             // The response body contains the message and errorCode.
-            [self contentData:data extractErrorMessage:&errorMessage errorCode:&errorCode];
             if ([errorCode isEqualToString:@"INVALID_SESSION_ID"]) {
                 requestSessionRefresh = YES;
             }
@@ -196,7 +196,6 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
         default:
             // When the user is revoked, the response object is nil (so error code is 0)
             // but the errorObj contains the invalid session message that we need to handle.
-            [self contentData:data extractErrorMessage:&errorMessage errorCode:&errorCode];
             if ([errorCode isEqualToString:@"INVALID_SESSION_ID"]) {
                 requestSessionRefresh = YES;
             }
