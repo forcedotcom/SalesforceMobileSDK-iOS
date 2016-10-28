@@ -786,7 +786,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
 
 - (SFUserAccount *)desiredAccountWithPreviousIdentity:(SFUserAccountIdentity *)previousIdentity {
     //TODO: Find a better solution than userDefaults. Since this is triggered on init though, delegate pattern would require a passthrough.
-    NSDictionary *desiredUser = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kUserDefaultsDesiredUserKey];
+    NSDictionary *desiredUser = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kUserDefaultsDesiredUserKey];
     
     SFUserAccount *account = nil;
     
@@ -804,8 +804,8 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
                         account.communityId = [networkId entityId18];
                     }
                     
-                    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
+                    [[NSUserDefaults msdkUserDefaults] synchronize];
                     
                     return account;
                 }
@@ -833,8 +833,8 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
             account.communityId = [networkId entityId18];
         }
         
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
+        [[NSUserDefaults msdkUserDefaults] synchronize];
     }
     
     return account;
