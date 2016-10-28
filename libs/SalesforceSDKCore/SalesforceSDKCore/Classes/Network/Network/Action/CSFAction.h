@@ -247,6 +247,7 @@ NS_ASSUME_NONNULL_BEGIN
  @return The data to populate outputContent with, otherwise `nil` if nothing is appropriate.
  */
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error;
+- (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response;
 
 /**
  Method that can override the HTTP request process, and can allow a subclass to forcibly inject explicit response data without performing a network request.

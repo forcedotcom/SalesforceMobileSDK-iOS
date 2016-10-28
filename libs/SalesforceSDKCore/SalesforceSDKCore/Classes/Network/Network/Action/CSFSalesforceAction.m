@@ -225,6 +225,121 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     return content;
 }
 
+- (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response {
+    NSError *error = [super errorFromData:data response:response];
+    if (error != nil) {
+        return error;
+    }
+    
+    if (response.statusCode < 400) {
+        // Nothing that we care about, from an error standpoint.
+        return  nil;
+    }
+    
+    NSString *errorMessage = nil;
+    NSString *errorCode = nil;
+    CSFNetwork *network = self.enqueuedNetwork;
+        
+    // Note: request session refresh only when the error indicates the session expired.
+    BOOL requestSessionRefresh = NO;
+    switch (response.statusCode) {
+        case 400:
+            // bad request (invalid URI / invalid params)
+            // The request could not be understood, usually because of an invalid ID, such as a userId, feedItemId,
+            // or groupId being incorrect.
+            break;
+            
+        case 401:
+            // unauthorized (not logged in / session expired)
+            // The session ID or OAuth token used has expired or is invalid.
+            // The response body contains the message and errorCode.
+            [self contentData:data hasErrorMessage:&errorMessage errorCode:&errorCode];
+            if ([errorCode isEqualToString:@"INVALID_SESSION_ID"]) {
+                requestSessionRefresh = YES;
+            }
+            break;
+            
+        case 403:
+            // forbidden (user isn't allowed to do the operation). The request has been refused.
+            // i.e. 'operation couldn't be completed'
+            break;
+            
+        case 404:
+            // resource was not found or deleted
+            break;
+            
+        case 408:
+            // request timeout
+            // request took too long and was aborted - max time per request is a setting, when last check, 120s
+            break;
+            
+        case 503:
+            // unavailable - too many requests in an hour
+            // max concurrent requests hit - max concurrent requests is a setting, when last confirmed it was 50 per JVM)
+            break;
+            
+        case 500:
+            // all other errors: "An error has occurred within Force.com"
+            // fall-through
+            
+        default:
+            // When the user is revoked, the response object is nil (so error code is 0)
+            // but the errorObj contains the invalid session message that we need to handle.
+            [self contentData:data hasErrorMessage:&errorMessage errorCode:&errorCode];
+            if ([errorCode isEqualToString:@"INVALID_SESSION_ID"]) {
+                requestSessionRefresh = YES;
+            }
+            break;
+    }
+    
+    NSString *errorDescription = errorMessage ?: [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
+    NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:@{ NSLocalizedDescriptionKey:errorDescription,
+                                                                                         CSFNetworkErrorActionKey: self,
+                                                                                         CSFNetworkErrorAuthenticationFailureKey: @(requestSessionRefresh) }
+                                         ];
+        if (errorCode.length > 0) {
+            userInfoDict[NSLocalizedFailureReasonErrorKey] = errorCode;
+        }
+        NSError *responseError = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                            code:response.statusCode
+                                        userInfo:userInfoDict];
+    }
+    
+    // TODO: We need to figure out how to handle the security token some other way, so it doesn't collide with other action types.
+    if (!responseError && [content isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *jsonContent = (NSDictionary*)content;
+        NSString *securityToken = jsonContent[CSFActionSecurityTokenKey]; // retrieve the CSRF security token
+        if (securityToken) {
+            network.securityToken = securityToken;
+        }
+    }
+}
+
+- (void)contentData:(NSData *)data hasErrorMessage:(NSString **)errorMessage errorCode:(NSString **)errorCode {
+    NSString *retErrorMessage = nil;
+    NSString *retErrorCode = nil;
+    
+    NSError *jsonParseError = nil;
+    id content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
+    if (jsonParseError == nil && content != nil) {
+        if ([content isKindOfClass:[NSArray class]] && ((NSArray*)content).count > 0) {
+            NSArray *jsonArray = (NSArray*)content;
+            NSDictionary *errorDict = jsonArray[0];
+            if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+                retErrorMessage = CSFSalesforceErrorMessage(errorDict);
+                retErrorCode = errorDict[@"errorCode"];
+            }
+        } else if ([content isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *errorDict = (NSDictionary*)content;
+            retErrorMessage = CSFSalesforceErrorMessage(errorDict);
+            retErrorCode = errorDict[@"errorCode"];
+        }
+    }
+    
+    if (errorMessage) *errorMessage = retErrorMessage;
+    if (errorCode) *errorCode = retErrorCode;
+}
+
 - (NSString *)basePath {
     NSString *workingPathPrefix = ([self.pathPrefix length] == 0 ? @"" : self.pathPrefix);
     NSString *workingApiVersion = ([self.apiVersion length] == 0 ? @"" : self.apiVersion);

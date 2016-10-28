@@ -768,6 +768,11 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     return content;
 }
 
+- (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response {
+    // Default behavior is to not evaluate the response for errors.
+    return nil;
+}
+
 - (void)completeOperationWithResponse:(NSHTTPURLResponse *)response {
     self.timingValues[@"responseTime"] = [NSDate date];
     self.httpResponse = response;
