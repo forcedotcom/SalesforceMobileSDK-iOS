@@ -68,9 +68,6 @@ NSString * const kSFIdentityLastModifiedDateKey           = @"last_modified_date
 NSString * const kSFIdentityDateFormatString              = @"yyyy-MM-dd'T'HH:mm:ss.SSSZZZ";
 NSString * const kIdJsonDictKey                           = @"dictRepresentation";
 
-NSString * const kSFDisableExternalPaste                  = @"DISABLE_EXTERNAL_PASTE";
-
-
 @implementation SFIdentityData
 
 #pragma mark - init / dealloc / standard overrides
@@ -261,12 +258,6 @@ NSString * const kSFDisableExternalPaste                  = @"DISABLE_EXTERNAL_P
     return ((self.dictRepresentation)[kSFIdentityMobilePolicyKey] != nil);
 }
 
-- (BOOL)shouldDisableExternalPaste
-{
-    NSDictionary *attributes = (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
-    return ((attributes)[kSFDisableExternalPaste] != nil);
-}
-
 - (int)mobileAppPinLength
 {
     NSDictionary *mobilePolicy = (self.dictRepresentation)[kSFIdentityMobilePolicyKey];
@@ -292,7 +283,7 @@ NSString * const kSFDisableExternalPaste                  = @"DISABLE_EXTERNAL_P
 - (NSDictionary *)customAttributes
 {
     NSDictionary *attributes = (self.dictRepresentation)[kSFIdentityCustomAttributesKey];
-
+    
     // sometimes attributes returned as NSNull
     if (((NSObject *)attributes) == [NSNull null] || ![attributes isKindOfClass:[NSDictionary class]]) {
         attributes = nil;

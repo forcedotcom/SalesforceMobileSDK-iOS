@@ -39,6 +39,9 @@
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
 NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerErrorDetails";
 
+static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
+
+
 // Device id
 static NSString* uid = nil;
 
@@ -114,7 +117,7 @@ static Class InstanceClass = nil;
             }
             else {
                 self.appType = kSFAppTypeNative;
-            }            
+            }
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
@@ -370,7 +373,7 @@ static Class InstanceClass = nil;
             [delegate sdkManagerWillEnterForeground];
         }
     }];
-        
+    
     if (_isLaunching) {
         [self log:SFLogLevelDebug format:@"SDK is still launching.  No foreground action taken."];
     } else {
@@ -479,7 +482,7 @@ static Class InstanceClass = nil;
     [SFSecurityLockout removeTimer];
     [SFInactivityTimerCenter saveActivityTimestamp];
 }
-    
+
 - (BOOL)isSnapshotPresented
 {
     return (_snapshotViewController.presentingViewController || _snapshotViewController.view.superview);
@@ -536,10 +539,24 @@ static Class InstanceClass = nil;
     }
 }
 
+- (BOOL)shouldDisableExternalPaste
+{
+    
+    NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
+    if (customAttributes) {
+        NSString *disableExternalPaste = customAttributes[kSFDisableExternalPaste];
+        if (disableExternalPaste) {
+            return [disableExternalPaste boolValue];
+        }
+    }
+    return NO;
+}
+
+
 - (void)clearClipboard
 {
     
-    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground || [SFUserAccountManager sharedInstance].currentUser.idData.shouldDisableExternalPaste) {
+    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground || [self shouldDisableExternalPaste]) {
         [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
         [UIPasteboard generalPasteboard].strings = @[ ];
         [UIPasteboard generalPasteboard].URLs = @[ ];
@@ -551,7 +568,7 @@ static Class InstanceClass = nil;
 - (void)passcodeValidationAtLaunch
 {
     if ([SFUserAccountManager sharedInstance].isCurrentUserAnonymous) {
-
+        
         // Anonymous user doesn't have any passcode associated with it
         // so bypass this step and go to the next one directly.
         [self authValidationAtLaunch];
@@ -561,7 +578,7 @@ static Class InstanceClass = nil;
             [self passcodeValidatedToAuthValidation];
         }];
         [SFSecurityLockout setLockScreenFailureCallbackBlock:^{
-
+            
             // Note: Failed passcode verification automatically logs out users, which the logout
             // delegate handler will catch and pass on.  We just log the error and reset launch
             // state here.
@@ -631,7 +648,7 @@ static Class InstanceClass = nil;
     // the anonymous user - the auth flow never happens and the auth view controller
     // stays on the screen, masking the main UI.
     [[SFAuthenticationManager sharedManager] dismissAuthViewControllerIfPresent];
-
+    
     [SFSecurityLockout setupTimer];
     [SFSecurityLockout startActivityMonitoring];
     [self authValidatedToPostAuth:noAuthLaunchAction];
@@ -650,7 +667,7 @@ static Class InstanceClass = nil;
         NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
         NSString *appVersion = [NSString stringWithFormat:@"%@(%@)", prodAppVersion, buildNumber];
-
+        
         // App type.
         NSString* appTypeStr;
         switch (self.appType) {
@@ -710,7 +727,7 @@ static Class InstanceClass = nil;
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user
 {
-
+    
 }
 
 #pragma mark - SFUserAccountManagerDelegate
