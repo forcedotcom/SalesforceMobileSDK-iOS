@@ -777,8 +777,11 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     self.timingValues[@"responseTime"] = [NSDate date];
     self.httpResponse = response;
     
-    NSError *error = nil;
-    self.outputContent = [self contentFromData:self.responseData fromResponse:response error:&error];
+    NSError *error = [self errorFromData:self.responseData response:response];
+    if (error == nil) {
+        // No pre-determined error.  Process content.
+        self.outputContent = [self contentFromData:self.responseData fromResponse:response error:&error];
+    }
     self.responseData = nil;
     
     // Check to see if this action should be saved somewhere
