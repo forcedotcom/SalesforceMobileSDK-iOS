@@ -646,7 +646,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         account = [self userAccountForUserIdentity:curUserIdentity];
         account.communityId = self.previousCommunityId;
         self.currentUser = account;
-    } else{
+    } else {
         self.currentUser = nil;
     }
     
