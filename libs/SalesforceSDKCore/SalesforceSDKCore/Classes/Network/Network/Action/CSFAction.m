@@ -756,21 +756,31 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
     
     // Surface error back if we run into JSON parsing error on a successful HTTP response
-    if (jsonParseError && error && requestSucceeded) {
+    if (jsonParseError && requestSucceeded) {
         NetworkWarn(@"Error while parsing response; it doesn't appear to be JSON");
         
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkJSONInvalidError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
-                                             NSUnderlyingErrorKey: jsonParseError,
-                                             CSFNetworkErrorActionKey: self }];
+        if (error) {
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkJSONInvalidError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
+                                                 NSUnderlyingErrorKey: jsonParseError,
+                                                 CSFNetworkErrorActionKey: self }];
+        }
     }
     return content;
 }
 
 - (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response {
-    // Default behavior is to not evaluate the response for errors.
-    return nil;
+    NSError *error = nil;
+    if (response.statusCode >= 400) {
+        NSString *errorDescription = [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
+        NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:errorDescription,
+                                        CSFNetworkErrorActionKey: self };
+        error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                    code:response.statusCode
+                                userInfo:userInfoDict];
+    }
+    return error;
 }
 
 - (void)completeOperationWithResponse:(NSHTTPURLResponse *)response {

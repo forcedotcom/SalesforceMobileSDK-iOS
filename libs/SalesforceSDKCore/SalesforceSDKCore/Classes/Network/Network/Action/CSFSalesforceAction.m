@@ -137,15 +137,12 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
 }
 
 - (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response {
-    // If there are upstream error(s), just return those.
+    // Check for upstream errors.
     NSError *superError = [super errorFromData:data response:response];
-    if (superError != nil) {
-        return superError;
-    }
     
     if (response.statusCode < 400) {
         // Nothing that we care about, from an error standpoint.
-        return nil;
+        return superError;
     }
     
     NSString *errorMessage = nil;
@@ -209,6 +206,9 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     NSMutableDictionary *userInfoDict = [NSMutableDictionary dictionaryWithDictionary:baseErrorDict];
     if (errorCode.length > 0) {
         userInfoDict[NSLocalizedFailureReasonErrorKey] = errorCode;
+    }
+    if (superError != nil) {
+        userInfoDict[NSUnderlyingErrorKey] = superError;
     }
     NSError *responseError = [NSError errorWithDomain:CSFNetworkErrorDomain
                                                  code:response.statusCode
