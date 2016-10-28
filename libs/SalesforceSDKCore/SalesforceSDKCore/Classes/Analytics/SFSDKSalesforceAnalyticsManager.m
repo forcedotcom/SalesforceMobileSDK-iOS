@@ -37,6 +37,7 @@
 #import "UIDevice+SFHardware.h"
 #import "SFIdentityData.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
@@ -51,7 +52,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, assign) BOOL enabled;
+@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -93,6 +94,10 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
@@ -110,33 +115,30 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
-
-        // Reads the existing analytics policy and sets it upon initialization.
-        [self readAnalyticsPolicy];
-        [self disableOrEnableLogging:self.enabled];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
 
-- (void) disableOrEnableLogging:(BOOL) enabled {
-    [self storeAnalyticsPolicy:enabled];
-    self.eventStoreManager.isLoggingEnabled = enabled;
+- (void) setLoggingEnabled:(BOOL)loggingEnabled {
+    [self storeAnalyticsPolicy:loggingEnabled];
+    self.eventStoreManager.loggingEnabled = loggingEnabled;
+}
+
+- (BOOL)isLoggingEnabled {
+    return [self readAnalyticsPolicy];
 }
 
 - (void) updateLoggingPrefs {
     NSDictionary *customAttributes = self.userAccount.idData.customAttributes;
     if (customAttributes) {
         NSString *enabled = customAttributes[kAnalyticsOnOffKey];
-        if (enabled && ![enabled boolValue]) {
-            [self disableOrEnableLogging:NO];
+        if (enabled == nil) {
+            self.loggingEnabled = YES;
         } else {
-            [self disableOrEnableLogging:YES];
+            self.loggingEnabled = [enabled boolValue];
         }
     }
-}
-
-- (BOOL) isLoggingEnabled {
-    return self.enabled;
 }
 
 - (void) publishAllEvents {
@@ -241,16 +243,33 @@ static NSMutableDictionary *analyticsManagerList = nil;
         NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
         [defs setBool:enabled forKey:kAnalyticsOnOffKey];
         [defs synchronize];
-        self.enabled = enabled;
     }
 }
 
-- (void) readAnalyticsPolicy {
-    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
-    if ([defs objectForKey:kAnalyticsOnOffKey] == nil) {
-        [self storeAnalyticsPolicy:YES];
+- (BOOL) readAnalyticsPolicy {
+    BOOL analyticsEnabled;
+    NSNumber *analyticsEnabledNum = [[NSUserDefaults msdkUserDefaults] objectForKey:kAnalyticsOnOffKey];
+    if (analyticsEnabledNum == nil) {
+        // Default is Enabled.
+        analyticsEnabled = YES;
+        [self storeAnalyticsPolicy:analyticsEnabled];
+    } else {
+        analyticsEnabled = [analyticsEnabledNum boolValue];
     }
-    self.enabled = [defs boolForKey:kAnalyticsOnOffKey];
+    return analyticsEnabled;
+}
+
+- (void) publishOnAppBackground {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __block UIBackgroundTaskIdentifier task;
+        task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+            task = UIBackgroundTaskInvalid;
+        }];
+        [self publishAllEvents];
+        [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+        task = UIBackgroundTaskInvalid;
+    });
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
