@@ -483,15 +483,6 @@ static NSMutableDictionary *SharedInstances = nil;
     [action sessionTask:task willPerformHTTPRedirection:response newRequest:request completionHandler:completionHandler];
 }
 
-#pragma mark - Device Authorization support
-
-// TODO: This should probably be relocated to the CSFSalesforceAction logic, and cleaned up
-//       so that it fires a notification of some sort so we can decouple the alert view work.
-//       This way we don't ahve to reference UIKit from the network stack, and the consumer
-//       is capable of handling the unauthorized response.
-- (void)receivedDevicedUnauthorizedError:(CSFAction *)action {
-}
-
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void)authManager:(SFAuthenticationManager *)manager willLogoutUser:(SFUserAccount *)user {
