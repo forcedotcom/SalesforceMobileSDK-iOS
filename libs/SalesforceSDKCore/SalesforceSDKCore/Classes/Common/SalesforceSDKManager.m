@@ -33,7 +33,6 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
-#import "SFIdentityData.h"
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -539,24 +538,10 @@ static Class InstanceClass = nil;
     }
 }
 
-- (BOOL)shouldDisableExternalPaste
-{
-    
-    NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
-    if (customAttributes) {
-        NSString *disableExternalPaste = customAttributes[kSFDisableExternalPaste];
-        if (disableExternalPaste) {
-            return [disableExternalPaste boolValue];
-        }
-    }
-    return NO;
-}
-
-
 - (void)clearClipboard
 {
     
-    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground || [self shouldDisableExternalPaste]) {
+    if ([SFManagedPreferences sharedPreferences].clearClipboardOnBackground) {
         [self log:SFLogLevelInfo format:@"%@: Clearing clipboard on app background.", NSStringFromSelector(_cmd)];
         [UIPasteboard generalPasteboard].strings = @[ ];
         [UIPasteboard generalPasteboard].URLs = @[ ];
