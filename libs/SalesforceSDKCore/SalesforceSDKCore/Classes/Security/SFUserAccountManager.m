@@ -70,6 +70,13 @@ static NSString * const kUserAccountsMapCodingKey  = @"accountsMap";
 static NSString * const kUserDefaultsLastUserIdentityKey = @"LastUserIdentity";
 static NSString * const kUserDefaultsLastUserCommunityIdKey = @"LastUserCommunityId";
 
+// Desired User Keys
+NSString * const kDesiredOrgKey = @"desiredOrg";
+NSString * const kDesiredUserKey = @"desiredUser";
+NSString * const kDesiredCommunityKey = @"desiredCommunity";
+NSString * const kDesiredOrgURLKey = @"desiredOrgURL";
+NSString * const kUserDefaultsDesiredUserKey = @"DesiredUser";
+
 // Oauth
 static NSString * const kSFUserAccountOAuthLoginHostDefault = @"login.salesforce.com"; // last resort default OAuth host
 static NSString * const kSFUserAccountOAuthLoginHost = @"SFDCOAuthLoginHost";
@@ -627,11 +634,19 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     
     self.previousCommunityId = self.activeCommunityId;
 
+    SFUserAccount *account = nil;
+    
+    account = [self desiredAccountWithPreviousIdentity:curUserIdentity];
+    
+    if (account) {
+        curUserIdentity = account.accountIdentity;
+    }
+    
     if (curUserIdentity){
-        SFUserAccount *account = [self userAccountForUserIdentity:curUserIdentity];
+        account = [self userAccountForUserIdentity:curUserIdentity];
         account.communityId = self.previousCommunityId;
         self.currentUser = account;
-    }else{
+    } else {
         self.currentUser = nil;
     }
     
@@ -767,6 +782,113 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
             return NO;
         }
     }
+}
+
+- (SFUserAccount *)desiredAccountWithPreviousIdentity:(SFUserAccountIdentity *)previousIdentity {
+    //TODO: Find a better solution than userDefaults. Since this is triggered on init though, delegate pattern would require a passthrough.
+    NSDictionary *desiredUser = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kUserDefaultsDesiredUserKey];
+    
+    SFUserAccount *account = nil;
+    
+    if (desiredUser) {
+        NSString *userId = desiredUser[kDesiredUserKey];
+        NSString *orgId = desiredUser[kDesiredOrgKey];
+        NSString *networkId = desiredUser[kDesiredCommunityKey];
+        
+        if (previousIdentity) {
+            if (!userId) {
+                //Only if userID isn't preferred
+                if (orgId && [previousIdentity.orgId isEqualToEntityId:orgId]) {
+                    account = [self userAccountForUserIdentity:previousIdentity];
+                    if (networkId) {
+                        account.communityId = [networkId entityId18];
+                    }
+                    
+                    [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
+                    [[NSUserDefaults msdkUserDefaults] synchronize];
+                    
+                    return account;
+                }
+            }
+        }
+        
+        //TODO: Adjust SFUserAccount to treat 0000 community ID as nil.
+        if ([networkId isEqualToString:@"000000000000000"]) {
+            networkId = nil;
+        }
+        
+        NSString *oru = desiredUser[kDesiredOrgURLKey];
+        
+        if (userId || orgId) {
+            account = [self accountForUserId:userId orgId:orgId community:networkId];
+        }
+        
+        if (oru && !account) {
+            NSURL *oruURL = [NSURL URLWithString:oru];
+            NSArray *accountArray = [self accountsForInstanceURL:oruURL];
+            for (SFUserAccount *acc in accountArray) {
+                account = acc;
+                break;
+            }
+            account.communityId = [networkId entityId18];
+        }
+        
+        [[NSUserDefaults msdkUserDefaults] removeObjectForKey:kUserDefaultsDesiredUserKey];
+        [[NSUserDefaults msdkUserDefaults] synchronize];
+    }
+    
+    return account;
+}
+
+- (SFUserAccount *)accountForUserId:(NSString *)userId orgId:(NSString *)orgId community:(NSString *)communityId {
+    SFUserAccount *account = nil;
+    NSString *newCommunityId = nil;
+    NSString *validatedCommunityId = [communityId entityId18];
+    //Try to find a user who matches first
+    if (userId && orgId) {
+        SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:[userId entityId18] orgId:[orgId entityId18]];
+        account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
+        
+        if ([account communityWithId:validatedCommunityId] || validatedCommunityId == nil) {
+            //Set the community ID only if a change is possible/required, otherwise just navigate to the user's default community and hope!
+            newCommunityId = validatedCommunityId;
+        }
+    }
+    
+    //If no matching user exists, find the first user who matches the org/community values
+    if (!account) {
+        newCommunityId = validatedCommunityId;
+        account = [self firstAccountForOrgId:[orgId entityId18] communityId:validatedCommunityId];
+        
+        //If there is a retrieved community, and we have no access to the internal community and no requested community
+        if (account && !validatedCommunityId) {
+            newCommunityId = account.communityId;
+        }
+    }
+    
+    account.communityId = newCommunityId;
+    
+    return account;
+}
+
+- (SFUserAccount *)firstAccountForOrgId:(NSString *)orgId communityId:(NSString *)communityId {
+    NSString *org = [orgId entityId18];
+    NSString *comm = [communityId entityId18];
+    NSArray *accounts = [self accountsForOrgId:org];
+    
+    //Grab the first user who matches
+    for (SFUserAccount *account in accounts) {
+        //If the account org matches, set the community.
+        if (comm) {
+            if ([account communityWithId:comm]) {
+                return account;
+            }
+        } else {
+            return account;
+        }
+    }
+    
+    return nil;
 }
 
 - (BOOL)saveAccounts:(NSError**)error {
