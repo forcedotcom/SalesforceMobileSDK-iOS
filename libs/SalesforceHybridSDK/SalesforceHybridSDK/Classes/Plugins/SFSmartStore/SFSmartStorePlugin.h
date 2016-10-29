@@ -154,6 +154,36 @@ extern NSString * const kSmartStorePluginIdentifier;
  *
  */
 - (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Get soup spec details for the given soup name.
+ *
+ */
+-(void)pgGetAllGlobalStores:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Get soup spec details for the given soup name.
+ *
+ */
+-(void)pgGetAllStores:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove the Store given a store name.
+ * @param command Cordova arguments object containing "storeName" and "isGlobalStore".
+ */
+-(void)pgRemoveStore:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove All Global Stores.
+ *
+ */
+-(void)pgRemoveAllGlobalStores:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove All User Stores.
+ *
+ */
+-(void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command;
     
 #pragma mark - Object bridging helpers
 
