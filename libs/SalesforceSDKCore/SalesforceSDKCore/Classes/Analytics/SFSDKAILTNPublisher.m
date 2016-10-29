@@ -44,17 +44,18 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
 @implementation SFSDKAILTNPublisher
 
-+ (BOOL) publish:(NSArray *) events {
++ (void) publish:(NSArray *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (!events || [events count] == 0) {
-        return true;
+        publishCompleteBlock(NO);
+        return;
     }
 
     // Builds the POST body of the request.
     NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
-    return [[self class] publishLogLines:bodyDictionary];
+    [[self class] publishLogLines:bodyDictionary publishCompleteBlock:publishCompleteBlock];
 }
 
-+ (BOOL) publishLogLines:(NSDictionary *) bodyDictionary {
++ (void) publishLogLines:(NSDictionary *) bodyDictionary publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     NSString *path = [NSString stringWithFormat:@"/%@/%@", kSFRestDefaultAPIVersion, kRestApiSuffix];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
 
@@ -65,21 +66,14 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setCustomRequestBodyData:postData contentType:@"application/json"];
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
-    __block BOOL finished = NO;
-    __block BOOL success = NO;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        finished = YES;
         if (e) {
             [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
+        publishCompleteBlock(NO);
     } completeBlock:^(id response) {
-        finished = YES;
-        success = YES;
+        publishCompleteBlock(YES);
     }];
-    while(!finished) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-    }
-    return success;
 }
 
 + (NSDictionary *) buildRequestBody:(NSArray *) events {

@@ -31,12 +31,14 @@
 
 @protocol SFSDKAnalyticsPublisher <NSObject>
 
+typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success);
+
 /**
  * Publishes events to a network endpoint.
  *
  * @param events Events to be published.
- * @return True - if successful, False - otherwise.
+ * @param publishCompleteBlock Completion block invoked once network publish is complete.
  */
-+ (BOOL) publish:(nonnull NSArray *) events;
++ (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
 
 @end
