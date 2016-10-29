@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  Author: Amol Prabhu
  
  Redistribution and use of this software in source and binary forms, with or without modification,
