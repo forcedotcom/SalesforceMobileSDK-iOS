@@ -67,16 +67,6 @@ NSString * const kStoreName           = @"storeName";
     [[self cursorCache] removeAllObjects];
 }
 
-- (SFSmartStore *)store
-{
-    return [self storeWithName:kDefaultSmartStoreName isGlobal:false];
-}
-
-- (SFSmartStore *)globalStore
-{
-    return [self storeWithName:kDefaultSmartStoreName isGlobal:true];;
-}
-
 - (void)pluginInitialize
 {
     [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin pluginInitialize"];
@@ -457,7 +447,8 @@ NSString * const kStoreName           = @"storeName";
 - (NSString *)storeName:(NSDictionary *)args
 {
     NSString *storeName = args[kStoreName];
-    if(storeName==nil) {
+    if(storeName==NULL || storeName == (id)[NSNull null] || [storeName stringByTrimmingCharactersInSet:
+                         [NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1 ) {
         storeName = kDefaultSmartStoreName;
     }
     return storeName;
@@ -474,6 +465,7 @@ NSString * const kStoreName           = @"storeName";
 
 - (SFSmartStore *)storeWithName:(NSString *)storeName isGlobal:(BOOL) isGlobal
 {
+   
     SFSmartStore *store = isGlobal?[SFSmartStore sharedGlobalStoreWithName:storeName]:
                                    [SFSmartStore sharedStoreWithName:storeName];
     NSString *storeId = [self internalStoreId:storeName isGlobal:isGlobal];
