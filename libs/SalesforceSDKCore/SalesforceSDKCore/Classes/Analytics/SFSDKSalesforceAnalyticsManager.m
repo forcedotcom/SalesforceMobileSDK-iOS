@@ -161,14 +161,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
         __block BOOL overallCompletionStatus = NO;
         __block NSMutableArray<Class<SFSDKTransform>> *remoteKeySet = [[self.remotes allKeys] mutableCopy];
         __block Class<SFSDKTransform> curTransform = [remoteKeySet objectAtIndex:0];
-        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success) {
+        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
 
             /*
              * Updates the success flag only if all previous requests have been
              * successful. This ensures that the operation is marked success only
              * if all publishers are successful.
              */
-            if (success) {
+            if (overallSuccess) {
                 overallSuccess = success;
             }
 

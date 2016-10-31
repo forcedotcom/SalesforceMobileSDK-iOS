@@ -46,7 +46,7 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
 + (void) publish:(NSArray *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (!events || [events count] == 0) {
-        publishCompleteBlock(NO);
+        publishCompleteBlock(NO, nil);
         return;
     }
 
@@ -70,9 +70,9 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
         if (e) {
             [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
-        publishCompleteBlock(NO);
+        publishCompleteBlock(NO, e);
     } completeBlock:^(id response) {
-        publishCompleteBlock(YES);
+        publishCompleteBlock(YES, nil);
     }];
 }
 

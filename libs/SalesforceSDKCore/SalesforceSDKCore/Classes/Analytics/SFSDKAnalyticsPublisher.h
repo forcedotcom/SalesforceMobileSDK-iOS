@@ -31,7 +31,7 @@
 
 @protocol SFSDKAnalyticsPublisher <NSObject>
 
-typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success);
+typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success, NSError * _Nullable error);
 
 /**
  * Publishes events to a network endpoint.
