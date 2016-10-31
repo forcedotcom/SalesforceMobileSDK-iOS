@@ -46,6 +46,8 @@
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -152,8 +154,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
+            [[SalesforceSDKManager sharedManager] onAppFeatureUse:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
+            [[SalesforceSDKManager sharedManager] onAppFeatureUse:kSFAppFeatureSmartStoreUser];
         }
         
         // Setup listening for data protection available / unavailable

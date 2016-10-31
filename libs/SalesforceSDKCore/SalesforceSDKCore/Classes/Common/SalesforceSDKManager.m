@@ -41,6 +41,17 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
+
+bool featureVals[kSFAppFeatureSmartSync] = {false};
+
+#define featureName(enum) [@[\
+@"AU",\
+@"GS",\
+@"US",\
+@"SY",\
+] objectAtIndex:enum]
+
+
 // Instance class
 static Class InstanceClass = nil;
 
@@ -522,6 +533,11 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void)onAppFeatureUse:(SFAppFeature)appFeature
+{
+    featureVals[appFeature] = YES;
+}
+
 - (void)dismissSnapshot
 {
     if (![self isSnapshotPresented]) {
@@ -567,6 +583,7 @@ static Class InstanceClass = nil;
         }];
         [SFSecurityLockout lock];
     }
+    [self onAppFeatureUse:kSFAppFeatureOAuth];
 }
 
 - (void)passcodeValidatedToAuthValidation
@@ -641,6 +658,16 @@ static Class InstanceClass = nil;
     [self sendPostLaunch];
 }
 
+- (NSString *)featureString {
+    NSMutableArray *usedFeatures = [[NSMutableArray alloc] init];
+    for(int i=kSFAppFeatureOAuth; i<=kSFAppFeatureSmartSync; i++) {
+        if(featureVals[i]){
+            [usedFeatures addObject:featureName(i)];
+        }
+    }
+    return [usedFeatures componentsJoinedByString:@"."];
+}
+
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
         UIDevice *curDevice = [UIDevice currentDevice];
@@ -657,7 +684,7 @@ static Class InstanceClass = nil;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
         }
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -666,7 +693,8 @@ static Class InstanceClass = nil;
                                  appVersion,
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid
+                                 uid,
+                                 [self featureString]
                                  ];
         return myUserAgent;
     };

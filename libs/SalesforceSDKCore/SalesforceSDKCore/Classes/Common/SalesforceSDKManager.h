@@ -41,6 +41,13 @@ typedef NS_ENUM(NSUInteger, SFAppType) {
     kSFAppTypeReactNative
 };
 
+typedef NS_ENUM(NSUInteger, SFAppFeature) {
+    kSFAppFeatureOAuth = 0,
+    kSFAppFeatureSmartStoreGlobal,
+    kSFAppFeatureSmartStoreUser,
+    kSFAppFeatureSmartSync
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 // User agent constants
@@ -225,6 +232,11 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
 - (BOOL)launch;
+
+/**
+ @param appFeature Used SFAppFeature.
+ */
+- (void)onAppFeatureUse:(SFAppFeature)appFeature;
 
 /**
  Adds an SDK Manager delegate to the list of delegates.
