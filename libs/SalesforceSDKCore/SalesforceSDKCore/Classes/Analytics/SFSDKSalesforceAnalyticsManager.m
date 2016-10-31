@@ -154,40 +154,47 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
     @synchronized (self) {
         NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
-        BOOL success = YES;
-        NSArray<Class<SFSDKTransform>> *remoteKeySet = [self.remotes allKeys];
-        for (Class<SFSDKTransform> transformClass in remoteKeySet) {
-            if (transformClass) {
-                NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
-                for (SFSDKInstrumentationEvent *event in events) {
-                    [eventIds addObject:event.eventId];
-                    NSDictionary *eventJSON = [transformClass transform:event];
-                    if (eventJSON) {
-                        [eventsJSONArray addObject:eventJSON];
-                    }
-                }
-                Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[transformClass];
-                if (networkPublisher) {
-                    BOOL networkSuccess = [networkPublisher publish:eventsJSONArray];
-                    
-                    /*
-                     * Updates the success flag only if all previous requests have been
-                     * successful. This ensures that the operation is marked success only
-                     * if all publishers are successful.
-                     */
-                    if (success) {
-                        success = networkSuccess;
-                    }
+        for (SFSDKInstrumentationEvent *event in events) {
+            [eventIds addObject:event.eventId];
+        }
+        __block BOOL overallSuccess = YES;
+        __block BOOL overallCompletionStatus = NO;
+        __block NSMutableArray<Class<SFSDKTransform>> *remoteKeySet = [[self.remotes allKeys] mutableCopy];
+        __block Class<SFSDKTransform> curTransform = [remoteKeySet objectAtIndex:0];
+        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
+
+            /*
+             * Updates the success flag only if all previous requests have been
+             * successful. This ensures that the operation is marked success only
+             * if all publishers are successful.
+             */
+            if (overallSuccess) {
+                overallSuccess = success;
+            }
+
+            // Removes current transform from the list since it's done.
+            if (remoteKeySet) {
+                [remoteKeySet removeObject:curTransform];
+            }
+
+            // If there are no transforms left, we're done here.
+            if (!remoteKeySet || remoteKeySet.count == 0) {
+                overallCompletionStatus = YES;
+            }
+            if (!overallCompletionStatus) {
+                curTransform = [remoteKeySet objectAtIndex:0];
+                [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
+            } else {
+
+                /*
+                 * Deletes events from the event store if the network publishing was successful.
+                 */
+                if (overallSuccess) {
+                    [self.eventStoreManager deleteEvents:eventIds];
                 }
             }
-        }
-        
-        /*
-         * Deletes events from the event store if the network publishing was successful.
-         */
-        if (success) {
-            [self.eventStoreManager deleteEvents:eventIds];
-        }
+        };
+        [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
     }
 }
 
@@ -270,6 +277,22 @@ static NSMutableDictionary *analyticsManagerList = nil;
         [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
         task = UIBackgroundTaskInvalid;
     });
+}
+
+- (void) applyTransformAndPublish:(Class<SFSDKTransform>) curTransform events:(NSArray<SFSDKInstrumentationEvent *> *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
+    if (curTransform) {
+        NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
+        for (SFSDKInstrumentationEvent *event in events) {
+            NSDictionary *eventJSON = [curTransform transform:event];
+            if (eventJSON) {
+                [eventsJSONArray addObject:eventJSON];
+            }
+        }
+        Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[curTransform];
+        if (networkPublisher) {
+            [networkPublisher publish:eventsJSONArray publishCompleteBlock:publishCompleteBlock];
+        }
+    }
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
