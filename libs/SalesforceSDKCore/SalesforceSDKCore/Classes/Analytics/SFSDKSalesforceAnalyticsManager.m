@@ -195,6 +195,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
             }
         };
     }
+    [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
 }
 
 - (void) publishEvent:(SFSDKInstrumentationEvent *) event {
