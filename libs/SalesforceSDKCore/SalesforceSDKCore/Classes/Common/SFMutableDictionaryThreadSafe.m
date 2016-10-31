@@ -4,7 +4,7 @@
  
  Created by Raj Rao on Wed Oct 21 17:47:00 PDT 2016.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -53,24 +53,6 @@
     return self;
 }
 
-- (instancetype)initWithContentsOfFile:(NSString *)path
-{
-    self = [self initInternal];
-    if (self) {
-        _mutableInternalDictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [self initInternal];
-    if (self) {
-        _mutableInternalDictionary = [[NSMutableDictionary alloc] initWithCoder:aDecoder];
-    }
-    return self;
-}
-
 - (instancetype)initInternal
 {
     self = [super init];
@@ -79,21 +61,6 @@
     }
     return self;
 }
-
-
-- (instancetype)initWithObjects:(const id [])objects forKeys:(const id<NSCopying> [])keys count:(NSUInteger)cnt
-{
-    self = [self initInternal];
-    if (self) {
-        if (keys != nil && objects!=nil) {
-            for (NSUInteger i = 0; i < cnt; ++i) {
-                _mutableInternalDictionary[keys[i]] = objects[i];
-            }
-        }
-    }
-    return self;
-}
-
 
 - (NSUInteger)count
 {
