@@ -1318,6 +1318,7 @@ static Class InstanceClass = nil;
 
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator
 {
+    [[SalesforceSDKManager sharedManager] registerAppFeatureUse:kSFAppFeatureOAuth];
     [self retrievedIdentityData];
 }
 

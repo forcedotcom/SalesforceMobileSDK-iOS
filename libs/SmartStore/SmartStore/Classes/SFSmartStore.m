@@ -154,10 +154,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
-            [[SalesforceSDKManager sharedManager] onAppFeatureUse:kSFAppFeatureSmartStoreGlobal];
+            [[SalesforceSDKManager sharedManager] registerAppFeatureUse:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
-            [[SalesforceSDKManager sharedManager] onAppFeatureUse:kSFAppFeatureSmartStoreUser];
+            [[SalesforceSDKManager sharedManager] registerAppFeatureUse:kSFAppFeatureSmartStoreUser];
         }
         
         // Setup listening for data protection available / unavailable

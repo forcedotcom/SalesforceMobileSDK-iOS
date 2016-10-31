@@ -533,7 +533,7 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)onAppFeatureUse:(SFAppFeature)appFeature
+- (void)registerAppFeatureUse:(SFAppFeature)appFeature
 {
     featureVals[appFeature] = YES;
 }
@@ -583,7 +583,6 @@ static Class InstanceClass = nil;
         }];
         [SFSecurityLockout lock];
     }
-    [self onAppFeatureUse:kSFAppFeatureOAuth];
 }
 
 - (void)passcodeValidatedToAuthValidation
@@ -595,6 +594,7 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
+    [self registerAppFeatureUse:kSFAppFeatureOAuth];
     if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
