@@ -52,7 +52,6 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
