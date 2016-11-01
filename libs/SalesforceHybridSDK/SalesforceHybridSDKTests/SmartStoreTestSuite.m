@@ -257,14 +257,6 @@
     [self runTest:@"testSmartQueryAgainstArrayNode"];
 }
 
-- (void) testGetAllGlobalStores {
-    [self runTest:@"testGetAllGlobalStores"];
-}
-
-- (void) testGetAllStores {
-    [self runTest:@"testGetAllStores"];
-}
-
 - (void) testCreateMultipleGlobalStores {
     [self runTest:@"testCreateMultipleGlobalStores"];
 }
