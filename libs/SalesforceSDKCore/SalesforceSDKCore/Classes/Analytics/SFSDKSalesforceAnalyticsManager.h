@@ -44,7 +44,7 @@
  * @discussion If logging is disabled, no events will be stored. However, publishing
  * of events is still possible.
  */
-@property (nonatomic, readonly, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
+@property (nonatomic, readwrite, assign, getter=isLoggingEnabled) BOOL loggingEnabled;
 
 /**
  * Returns an instance of this class associated with the specified user account.
