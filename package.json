@@ -11,7 +11,7 @@
 	"os" : [ "darwin" ],
 	"repository": {
 		"type" : "git",
-		"url" : "https://github.com/wmathurin/SalesforceMobileSDK-iOS.git"
+		"url" : "https://github.com/forcedotcom/SalesforceMobileSDK-iOS.git"
 	},
     "engines": {
         "node": ">=4"
