@@ -3,7 +3,7 @@
  
  Created by Raj Rao on Wed Oct 24 17:47:00 PDT 2016.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:

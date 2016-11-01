@@ -156,13 +156,13 @@ extern NSString * const kSmartStorePluginIdentifier;
 - (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command;
 
 /**
- * Get soup spec details for the given soup name.
+ * Get All Global Store names.
  *
  */
 -(void)pgGetAllGlobalStores:(CDVInvokedUrlCommand *)command;
 
 /**
- * Get soup spec details for the given soup name.
+ * Get Get All User specific Store names.
  *
  */
 -(void)pgGetAllStores:(CDVInvokedUrlCommand *)command;
