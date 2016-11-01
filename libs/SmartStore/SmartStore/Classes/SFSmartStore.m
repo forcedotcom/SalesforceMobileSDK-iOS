@@ -57,6 +57,10 @@ static BOOL _storeUpgradeHasRun = NO;
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
 
+NSString * const kSFAppFeatureSmartStoreUser   = @"US";
+NSString * const kSFAppFeatureSmartStoreGlobal   = @"GS";
+
+
 // NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
 // in a plist, once we start delivering a bundle.
 NSString *        const kSFSmartStoreErrorDomain                = @"com.salesforce.smartstore.error";
@@ -154,10 +158,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
-            [[SalesforceSDKManager sharedManager] registerAppFeatureUse:kSFAppFeatureSmartStoreGlobal];
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
-            [[SalesforceSDKManager sharedManager] registerAppFeatureUse:kSFAppFeatureSmartStoreUser];
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreUser];
         }
         
         // Setup listening for data protection available / unavailable

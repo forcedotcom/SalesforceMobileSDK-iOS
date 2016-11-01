@@ -41,15 +41,9 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
+static NSMutableSet *features;
 
-bool featureVals[kSFAppFeatureSmartSync] = {false};
-
-#define featureName(enum) [@[\
-@"AU",\
-@"GS",\
-@"US",\
-@"SY",\
-] objectAtIndex:enum]
+NSString * const kSFAppFeatureOAuth = @"UA";
 
 
 // Instance class
@@ -90,6 +84,7 @@ static Class InstanceClass = nil;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred , ^{
         uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        features = [NSMutableSet setWithObjects:kSFAppFeatureOAuth, nil];
         if (InstanceClass) {
             sdkManager = [[InstanceClass alloc] init];
         } else {
@@ -533,9 +528,9 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)registerAppFeatureUse:(SFAppFeature)appFeature
+- (void)registerAppFeature:(NSString *)appFeature
 {
-    featureVals[appFeature] = YES;
+    [features addObject:appFeature];
 }
 
 - (void)dismissSnapshot
@@ -594,7 +589,6 @@ static Class InstanceClass = nil;
 
 - (void)authValidationAtLaunch
 {
-    [self registerAppFeatureUse:kSFAppFeatureOAuth];
     if (![SFUserAccountManager sharedInstance].isCurrentUserAnonymous && ![SFUserAccountManager sharedInstance].currentUser.credentials.accessToken && self.authenticateAtLaunch) {
         // Access token check works equally well for any of the members being nil, which are all conditions to
         // (re-)authenticate.
@@ -658,16 +652,6 @@ static Class InstanceClass = nil;
     [self sendPostLaunch];
 }
 
-- (NSString *)featureString {
-    NSMutableArray *usedFeatures = [[NSMutableArray alloc] init];
-    for(int i=kSFAppFeatureOAuth; i<=kSFAppFeatureSmartSync; i++) {
-        if(featureVals[i]){
-            [usedFeatures addObject:featureName(i)];
-        }
-    }
-    return [usedFeatures componentsJoinedByString:@"."];
-}
-
 - (SFSDKUserAgentCreationBlock)defaultUserAgentString {
     return ^NSString *(NSString *qualifier) {
         UIDevice *curDevice = [UIDevice currentDevice];
@@ -694,7 +678,7 @@ static Class InstanceClass = nil;
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
-                                 [self featureString]
+                                 [[[features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };
