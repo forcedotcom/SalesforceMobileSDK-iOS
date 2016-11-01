@@ -43,7 +43,6 @@ static NSString* uid = nil;
 
 static NSMutableSet *features;
 
-NSString * const kSFAppFeatureOAuth = @"UA";
 
 
 // Instance class
@@ -84,7 +83,7 @@ static Class InstanceClass = nil;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred , ^{
         uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        features = [NSMutableSet setWithObjects:kSFAppFeatureOAuth, nil];
+        features = [NSMutableSet set];
         if (InstanceClass) {
             sdkManager = [[InstanceClass alloc] init];
         } else {

@@ -34,11 +34,14 @@
 #import "SFApplicationHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
 #import "NSURL+SFStringUtils.h"
+#import "SalesforceSDKManager.h"
 
 // Public constants
 
 const NSTimeInterval kSFOAuthDefaultTimeout                     = 120.0; // seconds
 NSString * const     kSFOAuthErrorDomain                        = @"com.salesforce.OAuth.ErrorDomain";
+
+NSString * const kSFAppFeatureOAuth = @"UA";
 
 // Private constants
 
@@ -171,6 +174,9 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)authenticate {
+    
+    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureOAuth];
+
     NSAssert(nil != self.credentials, @"credentials cannot be nil");
     NSAssert(self.credentials.clientId.length > 0, @"credentials.clientId cannot be nil or empty");
     NSAssert(self.credentials.identifier.length > 0, @"credentials.identifier cannot be nil or empty");
