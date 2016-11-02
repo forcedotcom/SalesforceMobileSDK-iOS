@@ -41,7 +41,6 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
-static NSMutableSet *features;
 
 
 
@@ -83,7 +82,6 @@ static Class InstanceClass = nil;
     static SalesforceSDKManager *sdkManager = nil;
     dispatch_once(&pred , ^{
         uid = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-        features = [NSMutableSet set];
         if (InstanceClass) {
             sdkManager = [[InstanceClass alloc] init];
         } else {
@@ -122,6 +120,7 @@ static Class InstanceClass = nil;
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
+        self.features = [NSMutableSet set];
         self.userAgentString = [self defaultUserAgentString];
     }
     
@@ -529,7 +528,7 @@ static Class InstanceClass = nil;
 
 - (void)registerAppFeature:(NSString *)appFeature
 {
-    [features addObject:appFeature];
+    [self.features addObject:appFeature];
 }
 
 - (void)dismissSnapshot
@@ -677,7 +676,7 @@ static Class InstanceClass = nil;
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
                                  uid,
-                                 [[[features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
+                                 [[[self.features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };

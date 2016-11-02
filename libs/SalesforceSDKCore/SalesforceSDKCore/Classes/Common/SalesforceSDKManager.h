@@ -121,6 +121,8 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic, readonly) BOOL isLaunching;
 
+@property (nonatomic, strong) NSMutableSet *features;
+
 /**
  App type (native, hybrid or react native)
  */
