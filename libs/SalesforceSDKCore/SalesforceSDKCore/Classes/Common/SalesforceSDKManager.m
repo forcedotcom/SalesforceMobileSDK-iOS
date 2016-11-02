@@ -41,6 +41,9 @@ NSString * const kSalesforceSDKManagerErrorDetailsKey = @"SalesforceSDKManagerEr
 // Device id
 static NSString* uid = nil;
 
+
+
+
 // Instance class
 static Class InstanceClass = nil;
 
@@ -117,6 +120,7 @@ static Class InstanceClass = nil;
         }
         self.useSnapshotView = YES;
         self.authenticateAtLaunch = YES;
+        self.features = [NSMutableSet set];
         self.userAgentString = [self defaultUserAgentString];
     }
     
@@ -522,6 +526,11 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void)registerAppFeature:(NSString *)appFeature
+{
+    [self.features addObject:appFeature];
+}
+
 - (void)dismissSnapshot
 {
     if (![self isSnapshotPresented]) {
@@ -657,7 +666,7 @@ static Class InstanceClass = nil;
             case kSFAppTypeReactNative: appTypeStr = kSFMobileSDKReactNativeDesignator; break;
         }
         NSString *myUserAgent = [NSString stringWithFormat:
-                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@",
+                                 @"SalesforceMobileSDK/%@ %@/%@ (%@) %@/%@ %@%@ uid_%@ ftr_%@",
                                  SALESFORCE_SDK_VERSION,
                                  [curDevice systemName],
                                  [curDevice systemVersion],
@@ -666,7 +675,8 @@ static Class InstanceClass = nil;
                                  appVersion,
                                  appTypeStr,
                                  (qualifier != nil ? qualifier : @""),
-                                 uid
+                                 uid,
+                                 [[[self.features allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] componentsJoinedByString:@"."]
                                  ];
         return myUserAgent;
     };

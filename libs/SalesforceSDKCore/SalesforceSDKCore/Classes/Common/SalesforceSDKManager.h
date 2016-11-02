@@ -121,6 +121,8 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  */
 @property (nonatomic, readonly) BOOL isLaunching;
 
+@property (nonatomic, strong) NSMutableSet *features;
+
 /**
  App type (native, hybrid or react native)
  */
@@ -225,6 +227,12 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
  @return YES if the launch successfully kicks off, NO if launch is already running.
  */
 - (BOOL)launch;
+
+/**
+ @param appFeature AppFeature to register.
+ */
+- (void)registerAppFeature:(NSString *)appFeature;
+
 
 /**
  Adds an SDK Manager delegate to the list of delegates.

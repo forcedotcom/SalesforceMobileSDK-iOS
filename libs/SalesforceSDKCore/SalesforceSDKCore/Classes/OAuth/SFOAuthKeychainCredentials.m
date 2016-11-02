@@ -33,8 +33,11 @@
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SalesforceSDKManager.h"
 
 NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
+
+static NSString * const kSFAppFeatureOAuth = @"UA";
 
 @implementation SFOAuthKeychainCredentials
 
@@ -61,6 +64,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
+    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureOAuth];
     return [self accessTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
 }
 
