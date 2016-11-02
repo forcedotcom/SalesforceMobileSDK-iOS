@@ -171,7 +171,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)authenticate {
-    
     NSAssert(nil != self.credentials, @"credentials cannot be nil");
     NSAssert(self.credentials.clientId.length > 0, @"credentials.clientId cannot be nil or empty");
     NSAssert(self.credentials.identifier.length > 0, @"credentials.identifier cannot be nil or empty");
