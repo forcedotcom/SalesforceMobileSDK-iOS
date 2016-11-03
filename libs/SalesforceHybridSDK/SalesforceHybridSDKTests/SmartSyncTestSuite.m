@@ -271,4 +271,17 @@
     [self runTest:@"testSyncUpLocallyCreated"];
 }
 
+
+- (void)testStoreCacheWithGlobalStoreNamed {
+    [self runTest:@"testStoreCacheWithGlobalStoreNamed"];
+}
+
+- (void)testSyncDownToGlobalStoreNamed {
+    [self runTest:@"testSyncDownToGlobalStoreNamed"];
+}
+
+- (void)testSyncUpLocallyUpdatedWithGlobalStoreNamed {
+    [self runTest:@"testSyncUpLocallyUpdatedWithGlobalStoreNamed"];
+}
+
 @end
