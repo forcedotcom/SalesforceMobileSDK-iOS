@@ -763,6 +763,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
                   soupTableName:(NSString *)soupTableName {
     NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
                                              soupTableName:soupTableName];
+    if (filePath == nil) {
+        return NO;
+    }
     NSOutputStream *outputStream = nil;
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
     if (keyBlock) {
