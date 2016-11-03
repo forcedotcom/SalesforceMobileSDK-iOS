@@ -185,14 +185,4 @@ extern NSString * const kSmartStorePluginIdentifier;
  */
 -(void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command;
     
-#pragma mark - Object bridging helpers
-
-/**
- * Gets a handle to a cursor, from its ID.
- * @param cursorId The unique ID of the cursor.
- * @param isGlobal YES - if global store, NO - otherwise.
- * @return The cached SFStoreCursor isntance with the given ID, or nil.
- */
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal;
-
 @end

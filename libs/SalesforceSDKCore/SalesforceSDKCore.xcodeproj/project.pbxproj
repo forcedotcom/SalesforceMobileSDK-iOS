@@ -94,10 +94,6 @@
 		B76ACC521D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC531D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B76ACC541D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */; };
-		B7DD6CCC1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h in Headers */ = {isa = PBXBuildFile; fileRef = B7DD6CCA1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7DD6CCD1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h in Headers */ = {isa = PBXBuildFile; fileRef = B7DD6CCA1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7DD6CCE1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DD6CCB1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m */; };
-		B7DD6CCF1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DD6CCB1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m */; };
 		BC9BFF421D5A46B6009FFA1F /* test_credentials.json in Resources */ = {isa = PBXBuildFile; fileRef = BC9BFF411D5A46B6009FFA1F /* test_credentials.json */; };
 		BE2B45971DAFFB1E004DA618 /* NSObject+SFBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE2B45981DAFFB1E004DA618 /* NSObject+SFBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */; };
@@ -1176,8 +1172,6 @@
 		B7282F3F1D8C70E700475F79 /* SalesforceSDKCoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SalesforceSDKCoreTestApp.entitlements; sourceTree = "<group>"; };
 		B76ACC501D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+SFAdditions.h"; sourceTree = "<group>"; };
 		B76ACC511D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+SFAdditions.m"; sourceTree = "<group>"; };
-		B7DD6CCA1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMutableDictionaryThreadSafe.h; sourceTree = "<group>"; };
-		B7DD6CCB1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMutableDictionaryThreadSafe.m; sourceTree = "<group>"; };
 		BC9BFF411D5A46B6009FFA1F /* test_credentials.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test_credentials.json; path = ../../../shared/test/test_credentials.json; sourceTree = "<group>"; };
 		BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SFBlocks.h"; sourceTree = "<group>"; };
 		BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SFBlocks.m"; sourceTree = "<group>"; };
@@ -1440,8 +1434,6 @@
 		4F96FC511BFD32130022F021 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				B7DD6CCA1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h */,
-				B7DD6CCB1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m */,
 				BE2B45951DAFFB1E004DA618 /* NSObject+SFBlocks.h */,
 				BE2B45961DAFFB1E004DA618 /* NSObject+SFBlocks.m */,
 				4FF945F31BFFF4D9005368C5 /* Logging */,
@@ -2141,7 +2133,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7DD6CCC1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h in Headers */,
 				CE8EA2B11D7F67FA00AAC74C /* CSFIndexedEntity.h in Headers */,
 				CE8EA2AE1D7F67FA00AAC74C /* CSFActionInput.h in Headers */,
 				B76ACC521D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.h in Headers */,
@@ -2328,7 +2319,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B7DD6CCD1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.h in Headers */,
 				CEA8829F1C18FAAB008D871B /* NSData+SFSDKUtils.h in Headers */,
 				CE8EA3211D7F6A1400AAC74C /* CSFAction.h in Headers */,
 				CEA882971C18FAAB008D871B /* SFPathUtil.h in Headers */,
@@ -2953,7 +2943,6 @@
 				CE4CE39C1C0E5272009F6029 /* SFSDKTestCredentialsData.m in Sources */,
 				CE8EA2A41D7F67FA00AAC74C /* CSFNetwork+Salesforce.m in Sources */,
 				CE4CE3441C0E5252009F6029 /* SFOAuthCoordinator.m in Sources */,
-				B7DD6CCE1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m in Sources */,
 				CE4CE3741C0E526A009F6029 /* SFKeyStoreKey.m in Sources */,
 				CE4CE3521C0E5252009F6029 /* SFOAuthSessionRefresher.m in Sources */,
 				CE4CE3681C0E526A009F6029 /* SFDefaultUserManagementListViewController.m in Sources */,
@@ -3086,7 +3075,6 @@
 				CEA8828E1C18FAAB008D871B /* SFCrypto.m in Sources */,
 				CEA883141C18FC2C008D871B /* SFSDKTestCredentialsData.m in Sources */,
 				CE8EA3141D7F695C00AAC74C /* CSFSalesforceAction.m in Sources */,
-				B7DD6CCF1DC175BF004C04F4 /* SFMutableDictionaryThreadSafe.m in Sources */,
 				CEA882BC1C18FB4D008D871B /* SFOAuthCoordinator.m in Sources */,
 				CEA882EC1C18FB8E008D871B /* SFKeyStoreKey.m in Sources */,
 				CEA882CA1C18FB4D008D871B /* SFOAuthSessionRefresher.m in Sources */,
