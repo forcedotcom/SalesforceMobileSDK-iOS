@@ -1,1 +1,0 @@
-../../../../external/shared/libs/react.force.smartstore.js

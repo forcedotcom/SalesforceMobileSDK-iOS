@@ -46,6 +46,8 @@
 #import "SFAlterSoupLongOperation.h"
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -54,6 +56,10 @@ static BOOL _storeUpgradeHasRun = NO;
 
 // The name of the store name used by the SFSmartStorePlugin for hybrid apps
 NSString * const kDefaultSmartStoreName   = @"defaultStore";
+
+NSString * const kSFAppFeatureSmartStoreUser   = @"US";
+NSString * const kSFAppFeatureSmartStoreGlobal   = @"GS";
+
 
 // NSError constants  (TODO: We should move this stuff into a framework where errors can be configurable
 // in a plist, once we start delivering a bundle.
@@ -152,8 +158,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
         
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreGlobal];
         } else {
             _dbMgr = [SFSmartStoreDatabaseManager sharedManagerForUser:_user];
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreUser];
         }
         
         // Setup listening for data protection available / unavailable
