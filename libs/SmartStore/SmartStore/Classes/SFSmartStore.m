@@ -422,6 +422,18 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }
 }
 
++ (NSArray *)allStoreNames {
+    @synchronized (self) {
+        NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManagerForUser:[SFUserAccountManager sharedInstance].currentUser] allStoreNames];
+        return allStoreNames;
+    }
+}
+
++ (NSArray *)allGlobalStoreNames {
+    @synchronized (self) {
+        return [[SFSmartStoreDatabaseManager sharedGlobalManager] allStoreNames];
+    }
+}
 + (void)clearSharedStoreMemoryState
 {
     @synchronized (self) {

@@ -205,6 +205,16 @@ extern NSString *const EXPLAIN_ROWS;
 + (void)removeAllGlobalStores;
 
 /**
+ Get all of the store names for the current user from this app.
+ */
++ (NSArray *)allStoreNames;
+
+/**
+ Get all of the the global store names from this app.
+ */
++ (NSArray *)allGlobalStoreNames;
+
+/**
  @return The block used to generate the encryption key.  Sticking with the default encryption
  key derivation is recommended.
  */
