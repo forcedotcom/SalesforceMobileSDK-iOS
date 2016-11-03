@@ -245,7 +245,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncDown" startTime:[[NSDate date] timeIntervalSince1970]];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncDown"];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -266,7 +266,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"reSync" startTime:[[NSDate date] timeIntervalSince1970]];
+    [self logAnalyticsEventWithSyncState:sync name:@"reSync"];
     sync.totalSize = -1;
     [sync save:self.store];
     [self runSync:sync updateBlock:updateBlock];
@@ -399,7 +399,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" startTime:[[NSDate date] timeIntervalSince1970]];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncUp"];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -409,7 +409,7 @@ static NSMutableDictionary *syncMgrList = nil;
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" startTime:[[NSDate date] timeIntervalSince1970]];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncUp"];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -451,7 +451,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" startTime:[[NSDate date] timeIntervalSince1970]];
+    [self logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts"];
     NSString* soupName = [sync soupName];
     NSString* idFieldName = [sync.target idFieldName];
 
@@ -696,11 +696,11 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name startTime:(NSInteger) startTime {
+- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name {
     SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         builder.name = name;
-        builder.startTime = startTime;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
         builder.page = @{ @"context" : NSStringFromClass([self class]) };
         NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
         attributes[@"numRecords"] = [NSNumber numberWithInteger:syncState.totalSize];
