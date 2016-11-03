@@ -344,7 +344,7 @@ NSString * const kStoreName           = @"storeName";
 {
     [self runCommand:^(NSDictionary* argsDict) {
         __weak typeof(self) weakSelf = self;
-        __block SFSmartStoreInspectorViewController *inspector = [self inspector:command];
+        SFSmartStoreInspectorViewController *inspector = [self inspector:command];
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.viewController presentViewController:inspector animated:NO completion:nil];
         });
