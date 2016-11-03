@@ -37,15 +37,4 @@
  */
 - (instancetype) initWithStore:(SFSmartStore*)store;
 
-/**
- Show SmartStore inspector.
- @param currentViewController View controller that's currently controlling the display
- */
-- (void) present:(UIViewController*) currentViewController;
-
-/**
- Hide SmartStore inspector.
- */
-- (void) dismiss;
-
 @end

@@ -343,8 +343,11 @@ NSString * const kStoreName           = @"storeName";
 - (void)pgShowInspector:(CDVInvokedUrlCommand *)command
 {
     [self runCommand:^(NSDictionary* argsDict) {
-        SFSmartStoreInspectorViewController* inspector = [self inspector:command];
-        [inspector present:self.viewController];
+        __weak typeof(self) weakSelf = self;
+        __block SFSmartStoreInspectorViewController *inspector = [self inspector:command];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.viewController presentViewController:inspector animated:NO completion:nil];
+        });
         return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"OK"];
     } command:command];
 }

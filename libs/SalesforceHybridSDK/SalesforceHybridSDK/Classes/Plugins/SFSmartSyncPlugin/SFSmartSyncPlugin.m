@@ -187,9 +187,8 @@ NSString * const kSyncStoreNameArg    = @"storeName";
 
 - (NSString *)storeName:(NSDictionary *)args
 {
-    NSString *storeName = args[kSyncStoreNameArg];
-    if(storeName==NULL || storeName == (id)[NSNull null] || [storeName stringByTrimmingCharactersInSet:
-                                                             [NSCharacterSet whitespaceAndNewlineCharacterSet]].length < 1 ) {
+    NSString *storeName = [args nonNullObjectForKey:kSyncStoreNameArg];
+    if(storeName==nil) {
         storeName = kDefaultSmartStoreName;
     }
     return storeName;

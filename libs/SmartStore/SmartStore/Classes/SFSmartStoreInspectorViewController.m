@@ -97,31 +97,6 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     return self;
 }
 
-#pragma mark - Present / dimiss
-
-- (void) present:(UIViewController*)currentViewController
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self present:currentViewController];
-        });
-        return;
-    }
-
-    [currentViewController presentViewController:self animated:NO completion:nil];
-}
-
-- (void) dismiss
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismiss];
-        });
-        return;
-    }
-
-    [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
-}
 
 #pragma mark - Results setter
 
@@ -142,9 +117,8 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
 
 - (void) backButtonClicked
 {
-    [self dismiss];
+    [self.presentingViewController dismissViewControllerAnimated:NO completion:NULL];
 }
-
 
 - (void) runQuery
 {
