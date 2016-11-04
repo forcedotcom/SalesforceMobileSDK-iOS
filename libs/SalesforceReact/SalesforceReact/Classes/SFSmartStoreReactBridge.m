@@ -45,19 +45,25 @@ NSString * const kExternalIdPathArg   = @"externalIdPath";
 NSString * const kPathsArg            = @"paths";
 NSString * const kReIndexDataArg      = @"reIndexData";
 NSString * const kIsGlobalStoreArg    = @"isGlobalStore";
+NSString * const kStoreName           = @"storeName";
 
-@interface SFSmartStoreReactBridge()
+@interface SFSmartStoreReactBridge() {
+     dispatch_queue_t _dispatchQueue;
+}
 
-@property (nonatomic, strong) SFSmartStoreInspectorViewController *inspector;
-@property (nonatomic, strong) SFSmartStoreInspectorViewController *globalInspector;
-@property (nonatomic, strong) SFSmartStore *store;
-@property (nonatomic, strong) SFSmartStore *globalStore;
-@property (nonatomic, strong) NSMutableDictionary *userCursorCache;
-@property (nonatomic, strong) NSMutableDictionary *globalCursorCache;
-
+@property (nonatomic, strong) NSMutableDictionary *cursorCache;
 @end
 
 @implementation SFSmartStoreReactBridge
+
+- (instancetype)init
+{
+    self = [super init];
+    if( self ) {
+        _dispatchQueue = dispatch_queue_create([@"SFSmartStoreReactBridge CursorCache Queue" UTF8String], DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
 
 RCT_EXPORT_MODULE();
 
@@ -114,11 +120,10 @@ RCT_EXPORT_METHOD(querySoup:(NSDictionary *)argsDict callback:(RCTResponseSender
     NSError* error = nil;
     SFStoreCursor* cursor = [self runQuery:querySpec error:&error argsDict:argsDict];
     if (cursor.cursorId) {
-        if ([self isGlobal:argsDict] && self.globalCursorCache) {
-            (self.globalCursorCache)[cursor.cursorId] = cursor;
-        } else if (self.userCursorCache) {
-            (self.userCursorCache)[cursor.cursorId] = cursor;
-        }
+        NSString *internalCursorId = [self internalCursorId:cursor.cursorId withArgs:argsDict];
+        dispatch_sync(self->_dispatchQueue, ^{
+            self.cursorCache[internalCursorId] = cursor;
+        });
         callback(@[[NSNull null], [cursor asDictionary]]);
     } else {
         [self log:SFLogLevelError format:@"No cursor for query: %@", querySpec];
@@ -179,7 +184,7 @@ RCT_EXPORT_METHOD(closeCursor:(NSDictionary *)argsDict callback:(RCTResponseSend
 {
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     [self log:SFLogLevelDebug format:@"closeCursor with cursor ID: %@", cursorId];
-    [self closeCursorWithId:cursorId];
+    [self closeCursorWithId:cursorId andArgs:argsDict];
     callback(@[[NSNull null], @"OK"]);}
 
 RCT_EXPORT_METHOD(moveCursorToPageIndex:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
@@ -187,7 +192,7 @@ RCT_EXPORT_METHOD(moveCursorToPageIndex:(NSDictionary *)argsDict callback:(RCTRe
     NSString *cursorId = [argsDict nonNullObjectForKey:kCursorIdArg];
     NSNumber *newPageIndex = [argsDict nonNullObjectForKey:kIndexArg];
     [self log:SFLogLevelDebug format:@"moveCursorToPageIndex with cursor ID: %@, page index: %@", cursorId, newPageIndex];
-    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId andArgs:argsDict];
     [cursor setCurrentPageIndex:newPageIndex];
     callback(@[[NSNull null],  [cursor asDictionary]]);
 }
@@ -265,93 +270,120 @@ RCT_EXPORT_METHOD(getSoupSpec:(NSDictionary *)argsDict callback:(RCTResponseSend
     }
 }
 
-#pragma mark - Helper methods
-
-- (void)storeCursor:(SFStoreCursor*)cursor
+RCT_EXPORT_METHOD(getAllGlobalStores:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
-    @synchronized(self) {
-        if (nil == self.userCursorCache) {
-            self.userCursorCache = [[NSMutableDictionary alloc] init];
+    NSArray *allStoreNames = [SFSmartStore allGlobalStoreNames];
+    NSMutableArray *result = [NSMutableArray array];
+    if (allStoreNames.count >0 ) {
+        for(NSString *storeName in allStoreNames) {
+            NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+            dictionary[kStoreName] = storeName;
+            dictionary[kIsGlobalStoreArg] = @YES;
+            [result addObject:dictionary];
         }
     }
-    self.userCursorCache[cursor.cursorId] = cursor;
+    callback(@[[NSNull null], result]);
 }
 
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId
+RCT_EXPORT_METHOD(getAllStores:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
 {
-    return self.userCursorCache[cursorId];
-}
-
-
-- (void)closeCursorWithId:(NSString *)cursorId
-{
-    SFStoreCursor *cursor = [self cursorByCursorId:cursorId];
-    if (nil != cursor) {
-        [cursor close];
-        [self.userCursorCache removeObjectForKey:cursorId];
+    NSArray *allStoreNames = [SFSmartStore allStoreNames];
+    NSMutableArray *result = [NSMutableArray array];
+    if (allStoreNames.count >0 ) {
+        for(NSString *storeName in allStoreNames) {
+            NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+            dictionary[kStoreName] = storeName;
+            dictionary[kIsGlobalStoreArg] = @NO;
+            [result addObject:dictionary];
+        }
     }
+    callback(@[[NSNull null], result]);
+}
+
+RCT_EXPORT_METHOD(removeStore:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
+{
+    BOOL isGlobal = [self isGlobal:argsDict];
+    NSString *storeName = [self storeName:argsDict];
+    if (isGlobal) {
+        [SFSmartStore removeSharedGlobalStoreWithName:storeName];
+    }else {
+        [SFSmartStore removeSharedStoreWithName:storeName];
+    }
+    callback(@[[NSNull null], @"OK"]);
+}
+
+RCT_EXPORT_METHOD(removeAllGlobalStores:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
+{
+    [SFSmartStore removeAllGlobalStores];
+    callback(@[[NSNull null], @"OK"]);
+}
+
+RCT_EXPORT_METHOD(removeAllStores:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
+{
+    [SFSmartStore removeAllStores];
+    callback(@[[NSNull null], @"OK"]);
+}
+
+#pragma mark - Helper methods
+
+- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId andArgs:(NSDictionary *) args
+{
+    __block SFStoreCursor *cursor = nil;
+    dispatch_sync(_dispatchQueue, ^{
+        if (nil == self.cursorCache) {
+            self.cursorCache = [[NSMutableDictionary alloc] init];
+        }
+        NSString *internalCursorId = [self internalCursorId:cursorId withArgs:args];
+        cursor = self.cursorCache[internalCursorId];
+    });
+    return cursor;
+}
+
+- (void)closeCursorWithId:(NSString *)cursorId andArgs:(NSDictionary *) args
+{
+    SFStoreCursor *cursor = [self cursorByCursorId:cursorId andArgs:args];
+    dispatch_sync(_dispatchQueue, ^{
+         if (nil != cursor) {
+             [cursor close];
+             [self.cursorCache removeObjectForKey:cursorId];
+         }
+     });
 }
 
 - (void)resetCursorCaches
 {
-    [[self userCursorCache] removeAllObjects];
-    [[self globalCursorCache] removeAllObjects];
+    dispatch_sync(_dispatchQueue, ^{
+        [self.cursorCache removeAllObjects];
+    });
 }
 
-- (SFSmartStoreInspectorViewController*)inspector {
-    @synchronized(self) {
-        if (nil == _inspector) {
-            _inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.store];
-        }
+- (SFSmartStore *)getStoreInst:(NSDictionary *)args
+{
+    NSString *storeName = [self storeName:args];
+    BOOL isGlobal = [self isGlobal:args];
+    SFSmartStore *storeInst = [self storeWithName:storeName isGlobal:isGlobal];
+    return storeInst;
+}
+
+- (SFSmartStore *)storeWithName:(NSString *)storeName isGlobal:(BOOL) isGlobal
+{
+    SFSmartStore *store = isGlobal?[SFSmartStore sharedGlobalStoreWithName:storeName]:
+                                   [SFSmartStore sharedStoreWithName:storeName];
+    return store;
+}
+
+- (BOOL)isGlobal:(NSDictionary *)args
+{
+    return args[kIsGlobalStoreArg] != nil && [args[kIsGlobalStoreArg] boolValue];
+}
+
+- (NSString *)storeName:(NSDictionary *)args
+{
+    NSString *storeName = [args nonNullObjectForKey:kStoreName];
+    if(storeName==nil) {
+        storeName = kDefaultSmartStoreName;
     }
-    return _inspector;
-}
-
-- (SFSmartStoreInspectorViewController*)globalInspector {
-    @synchronized(self) {
-        if (nil == _globalInspector) {
-            _globalInspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.globalStore];
-        }
-    }
-    return _globalInspector;
-}
-
-- (SFSmartStore *)store
-{
-    return [SFSmartStore sharedStoreWithName:kDefaultSmartStoreName];
-}
-
-- (SFSmartStore *)globalStore
-{
-    return [SFSmartStore sharedGlobalStoreWithName:kDefaultSmartStoreName];
-}
-
-- (SFSmartStore *)getStoreInst:(NSDictionary *)argsDict
-{
-    return ([self isGlobal:argsDict] ? self.globalStore : self.store);
-}
-
-- (BOOL)isGlobal:(NSDictionary *)argsDict
-{
-    return argsDict[kIsGlobalStoreArg] != nil && [argsDict[kIsGlobalStoreArg] boolValue];
-}
-
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal
-{
-    return (isGlobal ? _globalCursorCache[cursorId] : _userCursorCache[cursorId]);
-}
-
-- (void)closeCursorWithId:(NSString *)cursorId isGlobal:(BOOL)isGlobal
-{
-    SFStoreCursor *cursor = [self cursorByCursorId:cursorId isGlobal:isGlobal];
-    if (nil != cursor) {
-        [cursor close];
-        if (isGlobal) {
-            [self.globalCursorCache removeObjectForKey:cursorId];
-        } else {
-            [self.userCursorCache removeObjectForKey:cursorId];
-        }
-    } 
+    return storeName;
 }
 
 - (SFStoreCursor*) runQuery:(SFQuerySpec*)querySpec error:(NSError**)error argsDict:(NSDictionary*)argsDict
@@ -368,6 +400,19 @@ RCT_EXPORT_METHOD(getSoupSpec:(NSDictionary *)argsDict callback:(RCTResponseSend
                                  ? [[self getStoreInst:argsDict] queryWithQuerySpec:querySpec pageIndex:0 error:error]
                                  : @[]);
     return [[SFStoreCursor alloc] initWithStore:[self getStoreInst:argsDict] querySpec:querySpec totalEntries:totalEntries firstPageEntries:firstPageEntries];
+}
+
+- (NSString *)internalCursorId:(NSString *) cursorId withArgs:(NSDictionary *) argsDict {
+    NSString *storeName = [self storeName:argsDict];
+    BOOL isGlobal = [self isGlobal:argsDict];
+    return [self internalCursorId:cursorId withGlobal:isGlobal andStoreName:storeName];
+}
+
+- (NSString *)internalCursorId:(NSString *) cursorId withGlobal:(BOOL) isGlobal andStoreName:(NSString *) storeName{
+    if(storeName==nil)
+        storeName = kDefaultSmartStoreName;
+    NSString *internalCursorId = [NSString stringWithFormat:@"%@_%@_%d",storeName,cursorId,isGlobal];
+    return internalCursorId;
 }
 
 @end
