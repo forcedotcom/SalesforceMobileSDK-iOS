@@ -847,7 +847,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
     //Try to find a user who matches first
     if (userId && orgId) {
         SFUserAccountIdentity *accountIdentity = [[SFUserAccountIdentity alloc] initWithUserId:[userId entityId18] orgId:[orgId entityId18]];
-        account = [[SFUserAccountManager sharedInstance] userAccountForUserIdentity:accountIdentity];
+        account = [self userAccountForUserIdentity:accountIdentity];
         
         if ([account communityWithId:validatedCommunityId] || validatedCommunityId == nil) {
             //Set the community ID only if a change is possible/required, otherwise just navigate to the user's default community and hope!
