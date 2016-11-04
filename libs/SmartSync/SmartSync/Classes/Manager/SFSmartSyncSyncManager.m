@@ -194,6 +194,15 @@ static NSMutableDictionary *syncMgrList = nil;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
         [strongSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
+        NSString *eventName = nil;
+        switch (sync.type) {
+            case SFSyncStateSyncTypeDown:
+                eventName = @"syncDown";
+                break;
+            case SFSyncStateSyncTypeUp:
+                eventName = @"syncUp";
+                break;
+        }
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen
@@ -201,7 +210,9 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
             case SFSyncStateStatusDone:
+                [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
             case SFSyncStateStatusFailed:
+                [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
@@ -245,7 +256,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncDown"];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncDown" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -266,7 +277,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"reSync"];
+    [self logAnalyticsEventWithSyncState:sync name:@"reSync" numRecords:nil];
     sync.totalSize = -1;
     [sync save:self.store];
     [self runSync:sync updateBlock:updateBlock];
@@ -399,7 +410,7 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp"];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -409,7 +420,7 @@ static NSMutableDictionary *syncMgrList = nil;
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp"];
+    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -451,7 +462,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts"];
+    [self logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:nil];
     NSString* soupName = [sync soupName];
     NSString* idFieldName = [sync.target idFieldName];
 
@@ -696,14 +707,16 @@ static NSMutableDictionary *syncMgrList = nil;
     }
 }
 
-- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name {
+- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name numRecords:(NSNumber *) numRecords {
     SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
     SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
         builder.name = name;
         builder.startTime = [[NSDate date] timeIntervalSince1970];
         builder.page = @{ @"context" : NSStringFromClass([self class]) };
         NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        attributes[@"numRecords"] = [NSNumber numberWithInteger:syncState.totalSize];
+        if (numRecords) {
+            attributes[@"numRecords"] = numRecords;
+        }
         attributes[@"syncTarget"] = NSStringFromClass([syncState.target class]);
         builder.attributes = attributes;
         builder.schemaType = SchemaTypeInteraction;
