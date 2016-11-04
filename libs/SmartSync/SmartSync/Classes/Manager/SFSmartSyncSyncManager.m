@@ -30,6 +30,8 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+
 
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
@@ -42,6 +44,9 @@ NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
 NSString * const kSyncManagerLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncManagerLocallyDeleted = @"__locally_deleted__";
+
+static NSString * const kSFAppFeatureSmartSync   = @"SY";
+
 
 // response
 NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
@@ -96,6 +101,7 @@ static NSMutableDictionary *syncMgrList = nil;
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartSync];
         return syncMgr;
     }
 }
