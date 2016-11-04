@@ -210,7 +210,6 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.runningSyncIds addObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
             case SFSyncStateStatusDone:
-                [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
             case SFSyncStateStatusFailed:
                 [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
@@ -256,7 +255,6 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncDownWithTarget:(SFSyncDownTarget*)target options:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState* sync = [SFSyncState newSyncDownWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncDown" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -277,7 +275,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return nil;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"reSync" numRecords:nil];
     sync.totalSize = -1;
     [sync save:self.store];
     [self runSync:sync updateBlock:updateBlock];
@@ -410,7 +407,6 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (SFSyncState*) syncUpWithOptions:(SFSyncOptions*)options soupName:(NSString*)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -420,7 +416,6 @@ static NSMutableDictionary *syncMgrList = nil;
                         soupName:(NSString *)soupName
                      updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock {
     SFSyncState *sync = [SFSyncState newSyncUpWithOptions:options target:target soupName:soupName store:self.store];
-    [self logAnalyticsEventWithSyncState:sync name:@"syncUp" numRecords:nil];
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -462,7 +457,6 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run cleanResyncGhosts:%@:wrong type:%@", syncId, [SFSyncState syncTypeToString:sync.type]];
         return;
     }
-    [self logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:nil];
     NSString* soupName = [sync soupName];
     NSString* idFieldName = [sync.target idFieldName];
 
@@ -499,6 +493,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:nil];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -517,6 +512,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
+        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:[NSNumber numberWithInteger:localIds.count]];
         completionStatusBlock(SFSyncStateStatusDone);
     }];
 }
@@ -717,6 +713,7 @@ static NSMutableDictionary *syncMgrList = nil;
         if (numRecords) {
             attributes[@"numRecords"] = numRecords;
         }
+        attributes[@"syncId"] = [NSNumber numberWithInteger:syncState.syncId];
         attributes[@"syncTarget"] = NSStringFromClass([syncState.target class]);
         builder.attributes = attributes;
         builder.schemaType = SchemaTypeInteraction;
