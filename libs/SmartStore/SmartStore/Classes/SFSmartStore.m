@@ -47,7 +47,8 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-
+#import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -313,7 +314,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [SFLogger log:self level:SFLogLevelWarning format:@"%@ Cannot create shared store with name '%@' for nil user.  Did you mean to call [%@ sharedGlobalStoreWithName:]?", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
             return nil;
         }
-        
         if (nil == _allSharedStores) {
             _allSharedStores = [NSMutableDictionary dictionary];
         }
@@ -322,18 +322,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
             // if user key is nil for any reason, return nil directly here otherwise app will crash with nil userKey
             return nil;
         }
-        
         if (_allSharedStores[userKey] == nil) {
             _allSharedStores[userKey] = [NSMutableDictionary dictionary];
         }
-        
         SFSmartStore *store = _allSharedStores[userKey][storeName];
         if (nil == store) {
             store = [[self alloc] initWithName:storeName user:user];
             if (store)
                 _allSharedStores[userKey][storeName] = store;
         }
-        
+        NSInteger numUserStores = [(NSArray *)(_allSharedStores[userKey]) count];
+        [self logAnalyticsEventWithName:@"userSmartStoreInit" userAccount:user storeAttributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] } features:nil];
         return store;
     }
 }
@@ -343,14 +342,14 @@ NSString *const EXPLAIN_ROWS = @"rows";
         if (nil == _allGlobalSharedStores) {
             _allGlobalSharedStores = [NSMutableDictionary dictionary];
         }
-
         SFSmartStore *store = _allGlobalSharedStores[storeName];
         if (nil == store) {
             store = [[self alloc] initWithName:storeName user:nil isGlobal:YES];
             if (store)
                 _allGlobalSharedStores[storeName] = store;
         }
-        
+        NSInteger numGlobalStores = _allGlobalSharedStores.allKeys.count;
+        [self logAnalyticsEventWithName:@"globalSmartStoreInit" userAccount:nil storeAttributes:@{ @"numGlobalStores" : [NSNumber numberWithInteger:numGlobalStores] } features:nil];
         return store;
     }
 }
@@ -1251,7 +1250,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (soupUsesExternalStorage && soupUsesJSON1) {
         @throw [NSException exceptionWithName:@"Can't have JSON1 index specs in externally stored soup" reason:nil userInfo:nil];
     }
-    
+    NSMutableArray<NSString *> *features = [[NSMutableArray alloc] init];
+    if (soupUsesJSON1) {
+        [features addObject:@"JSON1"];
+    }
+    if (soupUsesExternalStorage) {
+        [features addObject:@"ExternalStorage"];
+    }
+    if ([self hasFts:soupSpec.soupName withDb:db]) {
+        [features addObject:@"FTS"];
+    }
+    [[self class] logAnalyticsEventWithName:@"registerSoup" userAccount:self.user storeAttributes:nil features:features];
     if (nil == soupTableName) {
         soupTableName = [self registerNewSoupWithSpec:soupSpec withDb:db];
     } else {
@@ -2251,4 +2260,34 @@ NSString *const EXPLAIN_ROWS = @"rows";
         }
     } error:nil];
 }
+
++ (void) logAnalyticsEventWithName:(NSString *) name userAccount:(SFUserAccount *) userAccount storeAttributes:(NSDictionary *) storeAttributes features:(NSArray<NSString *> *) features {
+    SFUserAccount *account = userAccount;
+    if (!account) {
+        account = [SFUserAccountManager sharedInstance].currentUser;
+    }
+    if (!account) {
+        return;
+    }
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : NSStringFromClass([self class]) };
+        NSMutableDictionary *attributes = nil;
+        if (storeAttributes) {
+            attributes = [[NSMutableDictionary alloc] initWithDictionary:storeAttributes];
+        } else {
+            attributes = [[NSMutableDictionary alloc] init];
+        }
+        if (features) {
+            attributes[@"features"] = features;
+        }
+        builder.attributes = attributes;
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
+}
+
 @end

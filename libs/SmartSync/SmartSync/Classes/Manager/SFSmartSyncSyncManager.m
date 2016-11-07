@@ -31,7 +31,8 @@
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-
+#import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
@@ -169,7 +170,7 @@ static NSMutableDictionary *syncMgrList = nil;
 #pragma mark - get sync / run sync methods
 
 /** Return details about a sync
- @param syncId
+ @param syncId Sync ID.
  */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
@@ -192,10 +193,16 @@ static NSMutableDictionary *syncMgrList = nil;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
-        
         [strongSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
-        
-        
+        NSString *eventName = nil;
+        switch (sync.type) {
+            case SFSyncStateSyncTypeDown:
+                eventName = @"syncDown";
+                break;
+            case SFSyncStateSyncTypeUp:
+                eventName = @"syncUp";
+                break;
+        }
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen
@@ -204,20 +211,21 @@ static NSMutableDictionary *syncMgrList = nil;
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
+                [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
-        
-        if (updateBlock)
+        if (updateBlock) {
             updateBlock(sync);
+        }
     };
-    
+
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
-    
+
     // Run on background thread
     updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
     dispatch_async(self.queue, ^{
@@ -258,9 +266,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
-    
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
-    
     if (sync == nil) {
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
@@ -271,7 +277,6 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     sync.totalSize = -1;
     [sync save:self.store];
-    
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -419,9 +424,8 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    
     SFSyncUpTarget* target = (SFSyncUpTarget*) sync.target;
-    
+
     // Call smartstore
     NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self soupName:soupName];
     NSUInteger totalSize = [dirtyRecordIds count];
@@ -489,6 +493,7 @@ static NSMutableDictionary *syncMgrList = nil;
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:nil];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -507,6 +512,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
+        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:[NSNumber numberWithInteger:localIds.count]];
         completionStatusBlock(SFSyncStateStatusDone);
     }];
 }
@@ -695,6 +701,25 @@ static NSMutableDictionary *syncMgrList = nil;
             [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
             return;
     }
+}
+
+- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name numRecords:(NSNumber *) numRecords {
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : NSStringFromClass([self class]) };
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        if (numRecords) {
+            attributes[@"numRecords"] = numRecords;
+        }
+        attributes[@"syncId"] = [NSNumber numberWithInteger:syncState.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([syncState.target class]);
+        builder.attributes = attributes;
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate
