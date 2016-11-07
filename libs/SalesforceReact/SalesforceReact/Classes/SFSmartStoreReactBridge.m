@@ -265,6 +265,21 @@ RCT_EXPORT_METHOD(getSoupSpec:(NSDictionary *)argsDict callback:(RCTResponseSend
     }
 }
 
+RCT_EXPORT_METHOD(showInspector:(NSDictionary *)argsDict callback:(RCTResponseSenderBlock)callback)
+{
+    NSString *globalStoreStr = [argsDict nonNullObjectForKey:kIsGlobalStoreArg];
+    BOOL isGlobalStore = [globalStoreStr boolValue];
+    [self log:SFLogLevelDebug format:@"showInspector with isGlobalStore: %@", isGlobalStore ? @"true" : @"false"];
+    SFSmartStoreInspectorViewController *inspector;
+    if(isGlobalStore){
+        inspector = [self globalInspector];
+    } else {
+        inspector = [self inspector];
+    }
+    [inspector present:[UIApplication sharedApplication].keyWindow.rootViewController];
+    callback(@[[NSNull null], @"OK"]);
+}
+
 #pragma mark - Helper methods
 
 - (void)storeCursor:(SFStoreCursor*)cursor
