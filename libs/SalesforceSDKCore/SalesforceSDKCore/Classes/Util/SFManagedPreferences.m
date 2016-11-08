@@ -27,6 +27,8 @@
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
 #import "SalesforceSDKManager.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -73,7 +75,6 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     if (self) {
         self.syncQueue = [[NSOperationQueue alloc] init];
         self.syncQueue.name = @"NSUserDefaults Sync Queue";
-        
         __weak typeof(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
                                                           object:nil
@@ -85,9 +86,15 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                           }
                                                       }];
         self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
-        if(self.rawPreferences){
+        if (self.rawPreferences) {
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
         }
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
+        if (self.rawPreferences) {
+            attributes[@"mdmConfigs"] = self.rawPreferences;
+        }
+        [self logAnalyticsEventWithName:@"mdmConfiguration" attributes:attributes];
     }
     return self;
 }
@@ -128,7 +135,6 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
 }
 
-
 - (BOOL)shouldDisableExternalPasteDefinedByConnectedApp {
     NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
     if (customAttributes) {
@@ -142,6 +148,22 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (BOOL)clearClipboardOnBackground {
     return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
+}
+
+- (void) logAnalyticsEventWithName:name attributes:(NSDictionary *) attributes {
+    if (![SFUserAccountManager sharedInstance].currentUser) {
+        return;
+    }
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : NSStringFromClass([self class]) };
+        builder.attributes = attributes;
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 @end
