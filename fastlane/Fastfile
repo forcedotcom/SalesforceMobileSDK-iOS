@@ -1,9 +1,13 @@
+if !ENV["device"] or ENV["device"]==""
+	ENV["device"] = "iPhone 6"
+end
+
 lane :CI do
 
 	scan(
 		workspace: "SalesforceMobileSDK.xcworkspace",
 		scheme: "UnitTests",
-    	device: "iPhone 6",
+    	device: ENV["device"],
 		output_directory: "test_output”,
 		clean: true,
 		fail_build: false
