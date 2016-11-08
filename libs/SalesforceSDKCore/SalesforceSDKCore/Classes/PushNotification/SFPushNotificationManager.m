@@ -106,8 +106,8 @@ static NSString * const kSFAppFeaturePushNotifications   = @"PN";
     static SFPushNotificationManager *mgr = nil;
     dispatch_once(&pred, ^{
         mgr = [[super allocWithZone:nil] init];
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeaturePushNotifications];
     });
-    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeaturePushNotifications];
     return mgr;
 }
 
