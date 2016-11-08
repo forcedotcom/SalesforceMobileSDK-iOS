@@ -70,10 +70,10 @@ NSString * const kStoreName           = @"storeName";
 }
 
 - (void)pluginInitialize
-{
+{   
     [self log:SFLogLevelDebug msg:@"SFSmartStorePlugin pluginInitialize"];
     self.cursorCache = [[NSMutableDictionary alloc] init];
-    _dispatchQueue = dispatch_queue_create([@"SFSmartStorePlugin CursorCache Queue" UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    _dispatchQueue = dispatch_queue_create([@"SFSmartStorePlugin CursorCache Queue" UTF8String], DISPATCH_QUEUE_SERIAL);
 }
 
 #pragma mark - Object bridging helpers
