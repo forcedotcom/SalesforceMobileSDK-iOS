@@ -26,6 +26,7 @@
 #import "NSUserDefaults+SFAdditions.h"
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
+#import "SalesforceSDKManager.h"
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -40,6 +41,9 @@ static NSString * const kManagedKeyConnectedAppId             = @"ManagedAppOAut
 static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCallbackURL";
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
+
+
+static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
 
 
 static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
@@ -76,8 +80,14 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                            queue:self.syncQueue
                                                       usingBlock:^(NSNotification *note) {
                                                           weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+                                                          if(weakSelf.rawPreferences){
+                                                              [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+                                                          }
                                                       }];
         self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        if(self.rawPreferences){
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+        }
     }
     return self;
 }
