@@ -281,6 +281,10 @@
 		CE4CE3B21C0E5279009F6029 /* SFSDKWebUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F96FD491BFD32140022F021 /* SFSDKWebUtils.m */; };
 		CE4CE4711C0E5E2A009F6029 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8220B74F16D804CA00EC3921 /* Foundation.framework */; };
 		CE4CE5831C0FB5B4009F6029 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FFE4A001BFE522F00F15E01 /* libz.tbd */; };
+		CE50CE911DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */; };
+		CE50CEA71DD3DD2500F1297B /* SFSDKEventBuilderHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CE50CEA81DD3DD2C00F1297B /* SFSDKEventBuilderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */; };
 		CE88BD521D17065C00AE3BF7 /* SFSDKAILTNPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD4F1D17065B00AE3BF7 /* SFSDKAILTNPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE88BD531D17065C00AE3BF7 /* SFSDKAILTNPublisher.m in Sources */ = {isa = PBXBuildFile; fileRef = CE88BD501D17065C00AE3BF7 /* SFSDKAILTNPublisher.m */; };
 		CE88BD541D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h in Headers */ = {isa = PBXBuildFile; fileRef = CE88BD511D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1181,6 +1185,8 @@
 		CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKSalesforceAnalyticsManager.m; path = Analytics/SFSDKSalesforceAnalyticsManager.m; sourceTree = "<group>"; };
 		CE2B8CCB1CE92F8100C6FC6A /* SalesforceAnalytics.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SalesforceAnalytics.xcodeproj; path = ../SalesforceAnalytics/SalesforceAnalytics.xcodeproj; sourceTree = "<group>"; };
 		CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SalesforceSDKCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKEventBuilderHelper.h; path = Analytics/SFSDKEventBuilderHelper.h; sourceTree = "<group>"; };
+		CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKEventBuilderHelper.m; path = Analytics/SFSDKEventBuilderHelper.m; sourceTree = "<group>"; };
 		CE88BD4F1D17065B00AE3BF7 /* SFSDKAILTNPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAILTNPublisher.h; path = Analytics/SFSDKAILTNPublisher.h; sourceTree = "<group>"; };
 		CE88BD501D17065C00AE3BF7 /* SFSDKAILTNPublisher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFSDKAILTNPublisher.m; path = Analytics/SFSDKAILTNPublisher.m; sourceTree = "<group>"; };
 		CE88BD511D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFSDKAnalyticsPublisher.h; path = Analytics/SFSDKAnalyticsPublisher.h; sourceTree = "<group>"; };
@@ -1855,6 +1861,8 @@
 		CE145A881D137FD2003BCC20 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				CE50CE8F1DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h */,
+				CE50CE901DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m */,
 				CE88BD4F1D17065B00AE3BF7 /* SFSDKAILTNPublisher.h */,
 				CE88BD501D17065C00AE3BF7 /* SFSDKAILTNPublisher.m */,
 				CE88BD511D17065C00AE3BF7 /* SFSDKAnalyticsPublisher.h */,
@@ -2228,6 +2236,7 @@
 				CE4CE3461C0E5252009F6029 /* SFOAuthCredentials.h in Headers */,
 				CE4CE3511C0E5252009F6029 /* SFOAuthSessionRefresher.h in Headers */,
 				CE4CE3731C0E526A009F6029 /* SFKeyStoreKey.h in Headers */,
+				CE50CE911DD3DD1F00F1297B /* SFSDKEventBuilderHelper.h in Headers */,
 				CE4CE33C1C0E5245009F6029 /* SFIdentityData.h in Headers */,
 				CE4CE35D1C0E526A009F6029 /* SFAuthErrorHandler.h in Headers */,
 				CE8EA2C41D7F67FA00AAC74C /* CSFURLValueTransformer.h in Headers */,
@@ -2378,6 +2387,7 @@
 				CE8EA3481D7F6BFA00AAC74C /* NSDate+ActionValue.h in Headers */,
 				E1C80D291C5C3672001B3A21 /* SFSDKLoginHostDelegate.h in Headers */,
 				CE8EA3281D7F6A3300AAC74C /* CSFOAuthTokenRefreshInput.h in Headers */,
+				CE50CEA71DD3DD2500F1297B /* SFSDKEventBuilderHelper.h in Headers */,
 				CEA882D11C18FB8E008D871B /* SFAuthenticationManager.h in Headers */,
 				CEA8830A1C18FB8E008D871B /* SFUserAccountIdentity.h in Headers */,
 				CEA883021C18FB8E008D871B /* SFSecurityLockout.h in Headers */,
@@ -3013,6 +3023,7 @@
 				CE4CE3B21C0E5279009F6029 /* SFSDKWebUtils.m in Sources */,
 				CED452C11D808D0C009266EB /* SFRestAPISalesforceAction.m in Sources */,
 				CE4CE3B01C0E5279009F6029 /* SFSDKResourceUtils.m in Sources */,
+				CE50CE921DD3DD1F00F1297B /* SFSDKEventBuilderHelper.m in Sources */,
 				CE4CE3A61C0E5279009F6029 /* SFDirectoryManager.m in Sources */,
 				CE8EA29E1D7F67FA00AAC74C /* CSFSalesforceOAuthRefresh.m in Sources */,
 				B76ACC541D5BD75E004BF7DB /* NSUserDefaults+SFAdditions.m in Sources */,
@@ -3145,6 +3156,7 @@
 				E1C80D261C5C3664001B3A21 /* SFLoginViewController.m in Sources */,
 				CED452E31D808D48009266EB /* SFRestAPISalesforceAction.m in Sources */,
 				CEA8832A1C18FC40008D871B /* SFSDKWebUtils.m in Sources */,
+				CE50CEA81DD3DD2C00F1297B /* SFSDKEventBuilderHelper.m in Sources */,
 				CEA883281C18FC40008D871B /* SFSDKResourceUtils.m in Sources */,
 				CEA8831E1C18FC40008D871B /* SFDirectoryManager.m in Sources */,
 				010A9B401CC19E0D002AF4D3 /* SFDecryptStream.m in Sources */,
