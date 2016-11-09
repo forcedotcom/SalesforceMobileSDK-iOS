@@ -80,6 +80,9 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
                                                            queue:self.syncQueue
                                                       usingBlock:^(NSNotification *note) {
                                                           weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+                                                          if(weakSelf.rawPreferences){
+                                                              [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+                                                          }
                                                       }];
         self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
         if(self.rawPreferences){
