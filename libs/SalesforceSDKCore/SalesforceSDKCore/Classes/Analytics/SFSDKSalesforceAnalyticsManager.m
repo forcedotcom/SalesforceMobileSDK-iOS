@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/16/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -35,11 +35,15 @@
 #import "SFSDKCryptoUtils.h"
 #import "SFSDKAILTNPublisher.h"
 #import "UIDevice+SFHardware.h"
+#import "SFIdentityData.h"
+#import "NSUserDefaults+SFAdditions.h"
+#import "SFApplicationHelper.h"
 #import <SalesforceAnalytics/SFSDKAILTNTransform.h>
 #import <SalesforceAnalytics/SFSDKDeviceAppAttributes.h>
 
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
+static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
@@ -47,6 +51,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
+@property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
 
 @end
@@ -88,9 +93,14 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
+- (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
 - (instancetype) initWithUser:(SFUserAccount *) userAccount {
     self = [super init];
     if (self) {
+        self.userAccount = userAccount;
         SFSDKDeviceAppAttributes *deviceAttributes = [self buildDeviceAppAttributes];
         NSString *rootStoreDir = [[SFDirectoryManager sharedManager] directoryForUser:userAccount type:NSDocumentDirectory components:@[ kEventStoresDirectory ]];
         SFEncryptionKey *encKey = [[SFKeyStoreManager sharedInstance] retrieveKeyWithLabel:kEventStoreEncryptionKeyLabel keyType:SFKeyStoreKeyTypePasscode autoCreate:YES];
@@ -104,16 +114,30 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
         self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
 }
 
-- (void) disableOrEnableLogging:(BOOL) enabled {
-    self.eventStoreManager.isLoggingEnabled = enabled;
+- (void) setLoggingEnabled:(BOOL)loggingEnabled {
+    [self storeAnalyticsPolicy:loggingEnabled];
+    self.eventStoreManager.loggingEnabled = loggingEnabled;
 }
 
-- (BOOL) isLoggingEnabled {
-    return self.eventStoreManager.isLoggingEnabled;
+- (BOOL)isLoggingEnabled {
+    return [self readAnalyticsPolicy];
+}
+
+- (void) updateLoggingPrefs {
+    NSDictionary *customAttributes = self.userAccount.idData.customAttributes;
+    if (customAttributes) {
+        NSString *enabled = customAttributes[kAnalyticsOnOffKey];
+        if (enabled == nil) {
+            self.loggingEnabled = YES;
+        } else {
+            self.loggingEnabled = [enabled boolValue];
+        }
+    }
 }
 
 - (void) publishAllEvents {
@@ -129,40 +153,47 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
     @synchronized (self) {
         NSMutableArray<NSString *> *eventIds = [[NSMutableArray alloc] init];
-        BOOL success = YES;
-        NSArray<Class<SFSDKTransform>> *remoteKeySet = [self.remotes allKeys];
-        for (Class<SFSDKTransform> transformClass in remoteKeySet) {
-            if (transformClass) {
-                NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
-                for (SFSDKInstrumentationEvent *event in events) {
-                    [eventIds addObject:event.eventId];
-                    NSDictionary *eventJSON = [transformClass transform:event];
-                    if (eventJSON) {
-                        [eventsJSONArray addObject:eventJSON];
-                    }
-                }
-                Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[transformClass];
-                if (networkPublisher) {
-                    BOOL networkSuccess = [networkPublisher publish:eventsJSONArray];
-                    
-                    /*
-                     * Updates the success flag only if all previous requests have been
-                     * successful. This ensures that the operation is marked success only
-                     * if all publishers are successful.
-                     */
-                    if (success) {
-                        success = networkSuccess;
-                    }
+        for (SFSDKInstrumentationEvent *event in events) {
+            [eventIds addObject:event.eventId];
+        }
+        __block BOOL overallSuccess = YES;
+        __block BOOL overallCompletionStatus = NO;
+        __block NSMutableArray<Class<SFSDKTransform>> *remoteKeySet = [[self.remotes allKeys] mutableCopy];
+        __block Class<SFSDKTransform> curTransform = [remoteKeySet objectAtIndex:0];
+        PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
+
+            /*
+             * Updates the success flag only if all previous requests have been
+             * successful. This ensures that the operation is marked success only
+             * if all publishers are successful.
+             */
+            if (overallSuccess) {
+                overallSuccess = success;
+            }
+
+            // Removes current transform from the list since it's done.
+            if (remoteKeySet) {
+                [remoteKeySet removeObject:curTransform];
+            }
+
+            // If there are no transforms left, we're done here.
+            if (!remoteKeySet || remoteKeySet.count == 0) {
+                overallCompletionStatus = YES;
+            }
+            if (!overallCompletionStatus) {
+                curTransform = [remoteKeySet objectAtIndex:0];
+                [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
+            } else {
+
+                /*
+                 * Deletes events from the event store if the network publishing was successful.
+                 */
+                if (overallSuccess) {
+                    [self.eventStoreManager deleteEvents:eventIds];
                 }
             }
-        }
-        
-        /*
-         * Deletes events from the event store if the network publishing was successful.
-         */
-        if (success) {
-            [self.eventStoreManager deleteEvents:eventIds];
-        }
+        };
+        [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
     }
 }
 
@@ -213,10 +244,62 @@ static NSMutableDictionary *analyticsManagerList = nil;
     return [[SFSDKDeviceAppAttributes alloc] initWithAppVersion:appVersion appName:appName osVersion:osVersion osName:osName nativeAppType:appTypeStr mobileSdkVersion:mobileSdkVersion deviceModel:deviceModel deviceId:deviceId clientId:clientId];
 }
 
+- (void) storeAnalyticsPolicy:(BOOL) enabled {
+    @synchronized (self) {
+        NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+        [defs setBool:enabled forKey:kAnalyticsOnOffKey];
+        [defs synchronize];
+    }
+}
+
+- (BOOL) readAnalyticsPolicy {
+    BOOL analyticsEnabled;
+    NSNumber *analyticsEnabledNum = [[NSUserDefaults msdkUserDefaults] objectForKey:kAnalyticsOnOffKey];
+    if (analyticsEnabledNum == nil) {
+        // Default is Enabled.
+        analyticsEnabled = YES;
+        [self storeAnalyticsPolicy:analyticsEnabled];
+    } else {
+        analyticsEnabled = [analyticsEnabledNum boolValue];
+    }
+    return analyticsEnabled;
+}
+
+- (void) publishOnAppBackground {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __block UIBackgroundTaskIdentifier task;
+        task = [[SFApplicationHelper sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+            [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+            task = UIBackgroundTaskInvalid;
+        }];
+        [self publishAllEvents];
+        [[SFApplicationHelper sharedApplication] endBackgroundTask:task];
+        task = UIBackgroundTaskInvalid;
+    });
+}
+
+- (void) applyTransformAndPublish:(Class<SFSDKTransform>) curTransform events:(NSArray<SFSDKInstrumentationEvent *> *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
+    if (curTransform) {
+        NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
+        for (SFSDKInstrumentationEvent *event in events) {
+            NSDictionary *eventJSON = [curTransform transform:event];
+            if (eventJSON) {
+                [eventsJSONArray addObject:eventJSON];
+            }
+        }
+        Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[curTransform];
+        if (networkPublisher) {
+            [networkPublisher publish:eventsJSONArray publishCompleteBlock:publishCompleteBlock];
+        }
+    }
+}
+
 #pragma mark - SFAuthenticationManagerDelegate
 
 - (void) authManager:(SFAuthenticationManager *) manager willLogoutUser:(SFUserAccount *) user {
     [self.analyticsManager reset];
+    NSUserDefaults *defs = [NSUserDefaults msdkUserDefaults];
+    [defs removeObjectForKey:kAnalyticsOnOffKey];
     [[self class] removeSharedInstanceWithUser:user];
 }
 

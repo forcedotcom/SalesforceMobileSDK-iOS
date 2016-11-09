@@ -26,7 +26,7 @@
 #import <UIKit/UIKit.h>
 #import <SalesforceSDKCore/SFRestAPI.h>
 
-@interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate, UIActionSheetDelegate>
+@interface RestAPIExplorerViewController : UIViewController <SFRestDelegate, UITextFieldDelegate>
 
 - (void)popoverOptionSelected:(NSString *)text;
 
@@ -34,7 +34,7 @@
 - (IBAction)btnActionPressed:(id)sender;
 
 // action based query
-@property (nonatomic, strong) UIPopoverController *popOverController;
+@property (nonatomic, strong) UIPopoverPresentationController *popOverController;
 @property (nonatomic, strong) IBOutlet UIToolbar   *toolBar;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectType;
 @property (nonatomic, strong) IBOutlet UITextField *tfObjectId;

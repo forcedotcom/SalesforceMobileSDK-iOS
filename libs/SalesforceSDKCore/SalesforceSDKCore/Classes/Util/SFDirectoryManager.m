@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -71,8 +71,7 @@ static NSString * const kDefaultCommunityName = @"internal";
 - (NSString*)directoryForOrg:(NSString*)orgId user:(NSString*)userId community:(NSString*)communityId type:(NSSearchPathDirectory)type components:(NSArray*)components {
     NSString *directory;
     
-    //we are only sharing library directory with the app extension other directory contents dont need to be shared.
-    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled && type == NSLibraryDirectory) {
+    if ([SFSDKDatasharingHelper sharedInstance].appGroupEnabled){
         NSURL *sharedURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
         directory = [sharedURL path];
         directory = [directory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -196,10 +195,10 @@ static NSString * const kDefaultCommunityName = @"internal";
     BOOL filesShared = [sharedDefaults boolForKey:@"filesShared"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *libraryDirectory;
-    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *docDirectory;
+    NSArray *directories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     if (directories.count > 0) {
-        libraryDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
+        docDirectory = [directories[0] stringByAppendingPathComponent:[NSBundle mainBundle].bundleIdentifier];
     }
     
     NSURL *sharedURL = [fileManager containerURLForSecurityApplicationGroupIdentifier:[SFSDKDatasharingHelper sharedInstance].appGroupName];
@@ -207,10 +206,10 @@ static NSString * const kDefaultCommunityName = @"internal";
     sharedDirectory = [sharedDirectory stringByAppendingPathComponent:[SFSDKDatasharingHelper sharedInstance].appGroupName];
     
     if (isGroupAccessEnabled && !filesShared) {
-        [self moveContentsOfDirectory:libraryDirectory toDirectory:sharedDirectory];
+        [self moveContentsOfDirectory:docDirectory toDirectory:sharedDirectory];
         [sharedDefaults setBool:YES forKey:@"filesShared"];
     } else if (!isGroupAccessEnabled && filesShared) {
-        [self moveContentsOfDirectory:sharedDirectory toDirectory:libraryDirectory];
+        [self moveContentsOfDirectory:sharedDirectory toDirectory:docDirectory];
         [sharedDefaults setBool:NO forKey:@"filesShared"];
     }
     [sharedDefaults synchronize];

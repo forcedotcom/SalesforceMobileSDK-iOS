@@ -2,7 +2,7 @@
 OAuthUITests.swift
 OAuthUITests
 
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -34,7 +34,6 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     let loginHelper = LoginHelper()
     let loginPage = LoginPage()
     let hostPage = HostPage()
-    let searchScreen = SearchScreen()
     let userListScreen = UserListScreen()
     
     // MARK: Setup
@@ -51,22 +50,28 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     // MARK: Tests
     func testLoginSwitchBetweenAndLogoutUsers() {
         for login in loginAccounts {
-            let user = login.valueForKey("username") as! String
-            let password = login.valueForKey("password") as! String
-            let host = login.valueForKey("host") as! String
-            addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
+            let user = login?.value(forKey: "username") as! String
+            let password = login?.value(forKey: "password") as! String
+            let host = login?.value(forKey: "host") as! String
+            if (login?.value(forKey: "passcodeTimeout")) != nil {
+                addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
+            }
+            else {
+                addAndSwitchToUser(user, password:password, host:host)
+            }
+                
             sleep(1)
         }
         
         let total = loginAccounts.count
         for i in 0..<total {
-            let user = loginAccounts[i].valueForKey("username") as! String
+            let user = loginAccounts[i]?.value(forKey: "username") as! String
             switchToUser(user, onUserList: false)
         }
         
         searchScreen.switchUser()        
         for j in 0..<total-1 {
-            let user = loginAccounts[j].valueForKey("username") as! String
+            let user = loginAccounts[j]?.value(forKey: "username") as! String
             switchToUser(user, onUserList: true)
             searchScreen.logout()
         }
@@ -76,9 +81,10 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     }
     
     func testLogoutRelogin() {
-        let user = loginAccounts[0].valueForKey("username") as! String
-        let password = loginAccounts[0].valueForKey("password") as! String
-        loginHelper.loginToSalesforce(user, password: password, host: Host.sandbox)
+        let user = loginAccounts[0]?.value(forKey: "username") as! String
+        let password = loginAccounts[0]?.value(forKey: "password") as! String
+        let host = loginAccounts[0]?.value(forKey: "host") as! String
+        addAndSwitchToUser(user, password: password, host: host)
         searchScreen.waitForPageLoaded()
         let recordsNum = searchScreen.countRecords()
         searchScreen.logout()
@@ -95,15 +101,15 @@ class OAuthUITest: SalesforceNoSessionTestCase {
             if (i>2) {
               break
             }
-            let user = login.valueForKey("username") as! String
-            let password = login.valueForKey("password") as! String
-            let host = login.valueForKey("host") as! String
+            let user = login?.value(forKey: "username") as! String
+            let password = login?.value(forKey: "password") as! String
+            let host = login?.value(forKey: "host") as! String
             addAndSwitchToUser(user, password:password, host:host, passcode: passcode)
             i = i + 1
             sleep(1)
         }
         
-        SFAuthenticationManager.sharedManager().logoutAllUsers() //FIXME: for some reason, this doesn's work
+        SFAuthenticationManager.shared().logoutAllUsers() //FIXME: for some reason, this doesn's work
         sleep(5) //give server sometime to revoke the token
         
         searchScreen.sync()
@@ -111,7 +117,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         XCTAssert(!searchScreen.isPresenting(), "Should not stay on search screen")
     }
     
-    func switchToUser(username:String, onUserList:Bool) {
+    func switchToUser(_ username:String, onUserList:Bool) {
         if (!onUserList) {
             searchScreen.switchUser()
         }
@@ -119,7 +125,7 @@ class OAuthUITest: SalesforceNoSessionTestCase {
         searchScreen.waitForPageLoaded()
     }
     
-    func addAndSwitchToUser(username:String, password:String, host:String, passcode:String) {
+    func addAndSwitchToUser(_ username:String, password:String, host:String, passcode:String?=nil) {
         if (!loginPage.isPresenting()) {
             searchScreen.waitForPageLoaded()
             searchScreen.switchUser()

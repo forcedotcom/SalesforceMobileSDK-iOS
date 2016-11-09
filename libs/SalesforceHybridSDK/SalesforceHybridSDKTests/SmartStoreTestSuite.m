@@ -45,7 +45,7 @@
         [SFSmartStore removeAllGlobalStores];
         AppDelegate *appDelegate = (AppDelegate *)[SFApplicationHelper sharedApplication].delegate;
         SFSmartStorePlugin *pluginInstance = [appDelegate.viewController.commandDelegate getCommandInstance:kSmartStorePluginIdentifier];
-        [pluginInstance resetSharedStore];
+        [pluginInstance resetCursorCaches];
     }
     
 }
@@ -255,6 +255,14 @@
 
 - (void) testSmartQueryAgainstArrayNode {
     [self runTest:@"testSmartQueryAgainstArrayNode"];
+}
+
+- (void) testCreateMultipleGlobalStores {
+    [self runTest:@"testCreateMultipleGlobalStores"];
+}
+
+- (void) testCreateMultipleUserStores {
+    [self runTest:@"testCreateMultipleUserStores"];
 }
 
 @end

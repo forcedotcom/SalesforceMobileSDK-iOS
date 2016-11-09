@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -48,6 +48,7 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFTestContext.h"
 #import "SFLoginViewController.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
 #import <WebKit/WKWebView.h>
 
 static SFAuthenticationManager *sharedInstance = nil;
@@ -308,16 +309,18 @@ static Class InstanceClass = nil;
         self.delegates = [NSMutableDictionary new];
         
         // Default auth web view handler
-        __weak SFAuthenticationManager *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         self.authViewHandler = [[SFAuthenticationViewHandler alloc]
                                 initWithDisplayBlock:^(SFAuthenticationManager *authManager, WKWebView *authWebView) {
-                                    if (weakSelf.authViewController == nil)
-                                        weakSelf.authViewController = [SFLoginViewController sharedInstance];
-                                    [weakSelf.authViewController setOauthView:authWebView];
-                                    [[SFRootViewManager sharedManager] pushViewController:weakSelf.authViewController];
+                                    __strong typeof(weakSelf) strongSelf = weakSelf;
+                                    if (strongSelf.authViewController == nil)
+                                        strongSelf.authViewController = [SFLoginViewController sharedInstance];
+                                    [strongSelf.authViewController setOauthView:authWebView];
+                                    [[SFRootViewManager sharedManager] pushViewController:strongSelf.authViewController];
                                 } dismissBlock:^(SFAuthenticationManager *authViewManager) {
+                                    __strong typeof(weakSelf) strongSelf = weakSelf;
                                     [SFLoginViewController sharedInstance].oauthView = nil;
-                                    [weakSelf dismissAuthViewControllerIfPresent];
+                                    [strongSelf dismissAuthViewControllerIfPresent];
                                 }];
         
         [[SFUserAccountManager sharedInstance] addDelegate:self];
@@ -451,7 +454,7 @@ static Class InstanceClass = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFUserWillLogoutNotification
                                                         object:self
                                                       userInfo:userInfo];
-    __weak SFAuthenticationManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self enumerateDelegates:^(id<SFAuthenticationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(authManager:willLogoutUser:)]) {
             [delegate authManager:weakSelf willLogoutUser:user];
@@ -667,18 +670,23 @@ static Class InstanceClass = nil;
     // Notify the session is ready
     [self willChangeValueForKey:@"haveValidSession"];
     [self didChangeValueForKey:@"haveValidSession"];
-    
     NSDictionary *userInfo = nil;
     SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
     if (user) {
         userInfo = @{ @"account" : user };
     }
-    
+    [self initAnalyticsManager];
     [[NSNotificationCenter defaultCenter] postNotificationName:kSFAuthenticationManagerFinishedNotification
                                                         object:self
                                                       userInfo:userInfo];
-
     [self execCompletionBlocks];
+}
+
+- (void)initAnalyticsManager
+{
+    SFUserAccount *user = [SFUserAccountManager sharedInstance].currentUser;
+    SFSDKSalesforceAnalyticsManager *analyticsManager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:user];
+    [analyticsManager updateLoggingPrefs];
 }
 
 - (void)execCompletionBlocks
@@ -821,6 +829,8 @@ static Class InstanceClass = nil;
     self.coordinator.scopes = account.accessScopes;
     self.coordinator.advancedAuthConfiguration = self.advancedAuthConfiguration;
     self.coordinator.delegate = self;
+    self.coordinator.additionalOAuthParameterKeys = self.additionalOAuthParameterKeys;
+    self.coordinator.additionalTokenRefreshParams = self.additionalTokenRefreshParams;
     
     // re-create the identity coordinator for the current user
     self.idCoordinator.delegate = nil;
@@ -926,28 +936,29 @@ static Class InstanceClass = nil;
 - (void)showAlertWithTitle:(nullable NSString *)title message:(nullable NSString *)message firstButtonTitle:(nullable NSString *)firstButtonTitle secondButtonTitle:(nullable NSString *)secondButtonTitle tag:(NSInteger)tag
 {
     if (nil == self.statusAlert) {
-        __weak SFAuthenticationManager *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         self.statusAlert = [UIAlertController alertControllerWithTitle:title
                                                            message:message
                                                     preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:firstButtonTitle
                                    style:UIAlertActionStyleDefault
                                    handler:^(UIAlertAction *action) {
+                                       __strong typeof(weakSelf) strongSelf = weakSelf;
                                        if (tag == kOAuthGenericAlertViewTag) {
-                                           [weakSelf dismissAuthViewControllerIfPresent];
-                                           [weakSelf login];
+                                           [strongSelf dismissAuthViewControllerIfPresent];
+                                           [strongSelf login];
                                        } else if (tag == kIdentityAlertViewTag) {
-                                           [weakSelf.idCoordinator initiateIdentityDataRetrieval];
+                                           [strongSelf.idCoordinator initiateIdentityDataRetrieval];
                                        } else if (tag == kConnectedAppVersionMismatchViewTag) {
 
                                            // The OAuth failure block should be followed, after acknowledging the version mismatch.
-                                           [weakSelf execFailureBlocks];
+                                           [strongSelf execFailureBlocks];
                                        } else if (tag == kAdvancedAuthDialogTag) {
-                                           [weakSelf delegateDidProceedWithBrowserFlow];
+                                           [strongSelf delegateDidProceedWithBrowserFlow];
                                            
                                            // Let the OAuth coordinator know whether to proceed or not.
-                                           if (weakSelf.authCoordinatorBrowserBlock) {
-                                               weakSelf.authCoordinatorBrowserBlock(YES);
+                                           if (strongSelf.authCoordinatorBrowserBlock) {
+                                               strongSelf.authCoordinatorBrowserBlock(YES);
                                            }
                                        }
                                    }];
@@ -955,17 +966,18 @@ static Class InstanceClass = nil;
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:secondButtonTitle
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction *action) {
+                                            __strong typeof(weakSelf) strongSelf = weakSelf;
                                             if(tag == kAdvancedAuthDialogTag) {
-                                                [weakSelf cancelAuthentication];
-                                                [weakSelf delegateDidCancelBrowserFlow];
+                                                [strongSelf cancelAuthentication];
+                                                [strongSelf delegateDidCancelBrowserFlow];
                                            
                                                 // Let the OAuth coordinator know whether to proceed or not.
-                                                if (weakSelf.authCoordinatorBrowserBlock) {
-                                                    weakSelf.authCoordinatorBrowserBlock(NO);
+                                                if (strongSelf.authCoordinatorBrowserBlock) {
+                                                    strongSelf.authCoordinatorBrowserBlock(NO);
                                                 }
                                             } else if (tag == kOAuthGenericAlertViewTag){
                                                 // Let the delegate know about the cancellation
-                                                [weakSelf delegateDidCancelGenericFlow];
+                                                [strongSelf delegateDidCancelGenericFlow];
                                             }
                                         }];
         
@@ -978,7 +990,7 @@ static Class InstanceClass = nil;
 
 - (SFAuthErrorHandlerList *)populateDefaultAuthErrorHandlerList
 {
-    __weak SFAuthenticationManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFAuthErrorHandlerList *authHandlerList = [[SFAuthErrorHandlerList alloc] init];
     
     // Invalid credentials handler
@@ -986,9 +998,10 @@ static Class InstanceClass = nil;
     self.invalidCredentialsAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                            initWithName:kSFInvalidCredentialsAuthErrorHandler
                                            evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
-                                               if ([[weakSelf class] errorIsInvalidAuthCredentials:error]) {
-                                                   [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
-                                                   [weakSelf execFailureBlocks];
+                                               __strong typeof(weakSelf) strongSelf = weakSelf;
+                                               if ([[strongSelf class] errorIsInvalidAuthCredentials:error]) {
+                                                   [strongSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to invalid grant.  Error code: %ld", (long)error.code];
+                                                   [strongSelf execFailureBlocks];
                                                    return YES;
                                                }
                                                return NO;
@@ -1000,9 +1013,10 @@ static Class InstanceClass = nil;
     self.connectedAppVersionAuthErrorHandler = [[SFAuthErrorHandler alloc]
                                             initWithName:kSFConnectedAppVersionAuthErrorHandler
                                             evalBlock:^BOOL(NSError *error, SFOAuthInfo *authInfo) {
+                                                __strong typeof(weakSelf) strongSelf = weakSelf;
                                                 if (error.code == kSFOAuthErrorWrongVersion) {
-                                                    [weakSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
-                                                    [weakSelf showAlertForConnectedAppVersionMismatchError];
+                                                    [strongSelf log:SFLogLevelWarning format:@"OAuth refresh failed due to Connected App version mismatch.  Error code: %ld", (long)error.code];
+                                                    [strongSelf showAlertForConnectedAppVersionMismatchError];
                                                     return YES;
                                                 }
                                                 return NO;

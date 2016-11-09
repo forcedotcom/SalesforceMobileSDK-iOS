@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2013, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2013-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -29,6 +29,7 @@
 #import "SFUserAccountManager.h"
 #import "SFJsonUtils.h"
 #import "SFApplicationHelper.h"
+#import "SalesforceSDKManager.h"
 
 static NSString* const kSFDeviceToken = @"deviceToken";
 static NSString* const kSFDeviceSalesforceId = @"deviceSalesforceId";
@@ -48,6 +49,9 @@ static NSString* const kSFPushNotificationEndPoint = @"services/data/v36.0/sobje
 
 // Default: kiOS8UserNotificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert
 static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 << 2));
+
+static NSString * const kSFAppFeaturePushNotifications   = @"PN";
+
 
 #pragma clang diagnostic pop
 
@@ -102,6 +106,7 @@ static NSUInteger const kiOS8UserNotificationTypes = ((1 << 0) | (1 << 1) | (1 <
     static SFPushNotificationManager *mgr = nil;
     dispatch_once(&pred, ^{
         mgr = [[super allocWithZone:nil] init];
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeaturePushNotifications];
     });
     return mgr;
 }

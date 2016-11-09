@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/19/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -44,13 +44,18 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
 
 @implementation SFSDKAILTNPublisher
 
-+ (BOOL) publish:(NSArray *) events {
++ (void) publish:(NSArray *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (!events || [events count] == 0) {
-        return true;
+        publishCompleteBlock(NO, nil);
+        return;
     }
 
     // Builds the POST body of the request.
     NSDictionary *bodyDictionary = [[self class] buildRequestBody:events];
+    [[self class] publishLogLines:bodyDictionary publishCompleteBlock:publishCompleteBlock];
+}
+
++ (void) publishLogLines:(NSDictionary *) bodyDictionary publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     NSString *path = [NSString stringWithFormat:@"/%@/%@", kSFRestDefaultAPIVersion, kRestApiSuffix];
     SFRestRequest *request = [SFRestRequest requestWithMethod:SFRestMethodPOST path:path queryParams:nil];
 
@@ -61,22 +66,14 @@ static NSString* const kRestApiSuffix = @"connect/proxy/app-analytics-logging";
     [request setCustomRequestBodyData:postData contentType:@"application/json"];
     [request setHeaderValue:@"gzip" forHeaderName:@"Content-Encoding"];
     [request setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)[postData length]] forHeaderName:@"Content-Length"];
-    __block BOOL finished = NO;
-    __block BOOL success = NO;
     [[SFRestAPI sharedInstance] sendRESTRequest:request failBlock:^(NSError *e) {
-        finished = YES;
-            if (e) {
-                [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
-            }
-        } completeBlock:^(id response) {
-            finished = YES;
-            success = YES;
+        if (e) {
+            [SFLogger log:[self class] level:SFLogLevelError format:@"Upload failed %ld %@", (long)[e code], [e localizedDescription]];
         }
-    ];
-    while(!finished) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-    }
-    return success;
+        publishCompleteBlock(NO, e);
+    } completeBlock:^(id response) {
+        publishCompleteBlock(YES, nil);
+    }];
 }
 
 + (NSDictionary *) buildRequestBody:(NSArray *) events {

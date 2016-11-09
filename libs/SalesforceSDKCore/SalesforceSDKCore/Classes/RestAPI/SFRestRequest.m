@@ -77,9 +77,9 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
 }
 
 - (SFRestAPISalesforceAction *)actionFromMethod:(SFRestMethod)method path:(NSString *)path {
-    __weak SFRestRequest *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     SFRestAPISalesforceAction *action = [[SFRestAPISalesforceAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error) {
-        __strong SFRestRequest *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf handleCSFActionResponse:action error:error];
     }];
     
@@ -214,12 +214,12 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         }
         return;
     }
-    
+
     // If there are no query params, there's nothing left to do here.
-    if ([[self.queryParams allKeys] count] == 0) {
+    if (self.queryParams.allKeys.count == 0) {
         return;
     }
-    
+
     // Otherwise, determine request data delivery model.
     if (self.method != SFRestMethodGET && self.method != SFRestMethodDELETE) {
         // It's POSTish.  The Network SDK handles content-based requests more or less automatically,

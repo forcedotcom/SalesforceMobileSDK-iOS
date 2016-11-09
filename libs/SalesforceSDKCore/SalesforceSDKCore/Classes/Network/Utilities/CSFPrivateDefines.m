@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -26,6 +26,7 @@
 #import "CSFInternalDefines.h"
 #import "SFUserAccount.h"
 #import "SFOAuthCoordinator.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const CSFPropertyReadonlyKey = @"readonly";
 NSString * const CSFPropertyAtomicKey = @"atomic";
@@ -74,7 +75,7 @@ NSURL * CSFNotNullURLRelative(id value, NSURL *baseURL) {
         } else {
             result = [NSURL URLWithString:value relativeToURL:baseURL];
             if (!result) {
-                stringValue = [stringValue stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                stringValue = [stringValue stringByURLEncoding];
                 result = [NSURL URLWithString:value relativeToURL:baseURL];
             }
         }
@@ -106,17 +107,11 @@ NSString * CSFNotNullString(id value) {
 }
 
 NSString * CSFURLEncode(NSString *txt) {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                                                                                 (CFStringRef)txt,
-                                                                                 NULL,
-                                                                                 CFSTR(",:/=+&"),
-                                                                                 kCFStringEncodingUTF8));
+    return [txt stringByURLEncoding];
 }
 
 NSString * CSFURLDecode(NSString *txt) {
-    return (NSString *) CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL,(CFStringRef)txt,
-                                                                                                  CFSTR(""),
-                                                                                                  kCFStringEncodingUTF8));
+    return [txt stringByRemovingPercentEncoding];
 }
 
 NSString * CSFURLFormEncode(NSDictionary *info, NSError **error) {
@@ -208,10 +203,12 @@ static NSMutableDictionary * CSFClassPropertiesDict = nil;
 NSArray * CSFClassProperties(Class currentClass) {
     NSMutableArray *propertyList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassPropertiesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFClassPropertiesDict) {
         NSString *className = NSStringFromClass(currentClass);
         
-        if (!CSFClassPropertiesDict) CSFClassPropertiesDict = [NSMutableDictionary new];
         propertyList = CSFClassPropertiesDict[className];
         
         if (!propertyList) {
@@ -245,10 +242,12 @@ static NSMutableDictionary * CSFProtocolPropertiesDict = nil;
 NSArray * CSFProtocolProperties(Protocol *proto) {
     NSMutableArray *propertyList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFProtocolPropertiesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFProtocolPropertiesDict) {
         NSString *protocolName = NSStringFromProtocol(proto);
         
-        if (!CSFProtocolPropertiesDict) CSFProtocolPropertiesDict = [NSMutableDictionary new];
         propertyList = CSFProtocolPropertiesDict[protocolName];
         
         if (!propertyList) {
@@ -318,10 +317,12 @@ static NSMutableDictionary * CSFPropertyAttributesDict = nil;
 NSDictionary * CSFPropertyAttributes(Class currentClass, NSString *propertyName) {
     NSMutableDictionary *attributes = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFPropertyAttributesDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFPropertyAttributesDict) {
         NSString *lookupKey = [NSString stringWithFormat:@"%@.%@", NSStringFromClass(currentClass), propertyName];
         
-        if (!CSFPropertyAttributesDict) CSFPropertyAttributesDict = [NSMutableDictionary new];
         attributes = CSFPropertyAttributesDict[lookupKey];
         
         if (!attributes) {
@@ -407,10 +408,10 @@ static NSMutableDictionary *CSFClassesConformingToProtocolDict = nil;
 NSArray * CSFClassesConformingToProtocol(Protocol *prot) {
     NSArray *result = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassesConformingToProtocolDict = [[NSMutableDictionary alloc] init]; });
+
     @synchronized (CSFClassesConformingToProtocolDict) {
-        if (!CSFClassesConformingToProtocolDict) {
-            CSFClassesConformingToProtocolDict = [NSMutableDictionary new];
-        }
         
         NSString *key = NSStringFromProtocol(prot);
         result = CSFClassesConformingToProtocolDict[key];

@@ -24,6 +24,8 @@
 
 #import "SFManagedPreferences.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFUserAccountManager.h"
+#import "SFIdentityData.h"
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -38,6 +40,10 @@ static NSString * const kManagedKeyConnectedAppId             = @"ManagedAppOAut
 static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCallbackURL";
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
+
+
+static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
+
 
 @interface SFManagedPreferences ()
 
@@ -64,7 +70,7 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
         self.syncQueue = [[NSOperationQueue alloc] init];
         self.syncQueue.name = @"NSUserDefaults Sync Queue";
         
-        __weak SFManagedPreferences *weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
                                                           object:nil
                                                            queue:self.syncQueue
@@ -112,8 +118,20 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
     return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
 }
 
+
+- (BOOL)shouldDisableExternalPasteDefinedByConnectedApp {
+    NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
+    if (customAttributes) {
+        NSString *disableExternalPaste = customAttributes[kSFDisableExternalPaste];
+        if (disableExternalPaste) {
+            return [disableExternalPaste boolValue];
+        }
+    }
+    return NO;
+}
+
 - (BOOL)clearClipboardOnBackground {
-    return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue];
+    return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
 }
 
 @end

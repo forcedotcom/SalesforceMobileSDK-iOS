@@ -2,7 +2,7 @@
 HostURLTests.swift
 HostURLTests
 
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -63,7 +63,7 @@ class HostURLTest: SalesforceNoSessionTestCase {
         loginPage.chooseConnection()
         hostPage.chooseConnection("testSwitchURL")
         //background
-        XCUIDevice().pressButton(XCUIDeviceButton.Home)
+        XCUIDevice().press(XCUIDeviceButton.home)
         app.launch() //FIXME: seems this will actually terminate and relaunch the app, cannot find a better way to foreground the app yet than import some private headers
         loginPage.waitForPageLoaded()
         loginPage.chooseConnection()

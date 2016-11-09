@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/4/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -43,7 +43,7 @@
 - (instancetype) initWithStoreDirectory:(NSString *) storeDirectory dataEncryptorBlock:(DataEncryptorBlock) dataEncryptorBlock dataDecryptorBlock:(DataDecryptorBlock) dataDecryptorBlock {
     self = [super init];
     if (self) {
-        self.isLoggingEnabled = YES;
+        self.loggingEnabled = YES;
         self.maxEvents = 1000;
         self.storeDirectory = storeDirectory;
 
@@ -69,16 +69,19 @@
 }
 
 - (void) storeEvent:(SFSDKInstrumentationEvent *) event {
-    if (!event || ![event jsonRepresentation]) {
+
+    // Copies event, to isolate data for I/O.
+    SFSDKInstrumentationEvent *eventCopy = [event copy];
+    if (!eventCopy || ![eventCopy jsonRepresentation]) {
         return;
     }
     if (![self shouldStoreEvent]) {
         return;
     }
-    NSData *encryptedData = self.dataEncryptorBlock([event jsonRepresentation]);
+    NSData *encryptedData = self.dataEncryptorBlock([eventCopy jsonRepresentation]);
     NSError *error = nil;
     if (encryptedData) {
-        NSString *filename = [self filenameForEvent:event.eventId];
+        NSString *filename = [self filenameForEvent:eventCopy.eventId];
         NSString *parentDir = [filename stringByDeletingLastPathComponent];
         [[NSFileManager defaultManager] createDirectoryAtPath:parentDir withIntermediateDirectories:YES attributes: @{ NSFileProtectionKey: NSFileProtectionCompleteUntilFirstUserAuthentication } error:&error];
         [encryptedData writeToFile:filename options:NSDataWritingFileProtectionCompleteUntilFirstUserAuthentication error:&error];
@@ -98,6 +101,15 @@
     for (SFSDKInstrumentationEvent* event in events) {
         [self storeEvent:event];
     }
+}
+
+- (NSInteger) numStoredEvents {
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
+    NSInteger fileCount = 0;
+    if (files) {
+        fileCount = files.count;
+    }
+    return fileCount;
 }
 
 - (SFSDKInstrumentationEvent *) fetchEvent:(NSString *) eventId {
@@ -152,12 +164,6 @@
     }
 }
 
-- (void) disableOrEnableLogging:(BOOL) enabled {
-    @synchronized (self) {
-        self.isLoggingEnabled = enabled;
-    }
-}
-
 - (BOOL) shouldStoreEvent {
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.storeDirectory error:nil];
     NSInteger fileCount = 0;
@@ -176,7 +182,11 @@
         return nil;
     }
     NSData *data = self.dataDecryptorBlock([NSData dataWithContentsOfFile:file]);
-    return [[SFSDKInstrumentationEvent alloc] initWithJson:data];
+    SFSDKInstrumentationEvent *event = [[SFSDKInstrumentationEvent alloc] initWithJson:data];
+    if (event && event.eventId) {
+        return [event copy];
+    }
+    return nil;
 }
 
 - (NSString *) filenameForEvent:(NSString *) eventId {

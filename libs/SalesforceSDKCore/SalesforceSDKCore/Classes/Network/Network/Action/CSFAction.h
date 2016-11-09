@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -247,6 +247,17 @@ NS_ASSUME_NONNULL_BEGIN
  @return The data to populate outputContent with, otherwise `nil` if nothing is appropriate.
  */
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error;
+
+/**
+ Subclassable method that will pre-process the HTTP response for errors, prior to handing off to
+ contentFromData:fromResponse:error: .
+ 
+ @param data NSData instance containing the HTTP response body.
+ @param response The HTTP response to process.
+ 
+ @return An NSError describing the error response, or `nil` if no errors were found in the response.
+ */
+- (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response;
 
 /**
  Method that can override the HTTP request process, and can allow a subclass to forcibly inject explicit response data without performing a network request.

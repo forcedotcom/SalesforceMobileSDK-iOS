@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -90,10 +90,12 @@ static NSMutableDictionary * CSFClassIvarsDict = nil;
 NSDictionary * CSFClassIvars(Class currentClass) {
     NSMutableDictionary *ivarList = nil;
     
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{ CSFClassIvarsDict = [[NSMutableDictionary alloc] init]; });
+    
     @synchronized (CSFClassIvarsDict) {
         NSString *className = NSStringFromClass(currentClass);
         
-        if (!CSFClassIvarsDict) CSFClassIvarsDict = [NSMutableDictionary new];
         ivarList = CSFClassIvarsDict[className];
         
         if (!ivarList) {

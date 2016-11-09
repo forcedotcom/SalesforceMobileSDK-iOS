@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -69,7 +69,8 @@
 
 - (SFSyncState*)getNextSyncUpdate
 {
-    return [self getNextSyncUpdate:MAX_WAIT_TIME];
+    SFSyncState* syncState = [self getNextSyncUpdate:MAX_WAIT_TIME];
+    return syncState;
 }
 
 - (SFSyncState*)getNextSyncUpdate:(NSTimeInterval) maxWaitTime

@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 6/19/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,12 +31,14 @@
 
 @protocol SFSDKAnalyticsPublisher <NSObject>
 
+typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success, NSError * _Nullable error);
+
 /**
  * Publishes events to a network endpoint.
  *
  * @param events Events to be published.
- * @return True - if successful, False - otherwise.
+ * @param publishCompleteBlock Completion block invoked once network publish is complete.
  */
-+ (BOOL) publish:(nonnull NSArray *) events;
++ (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
 
 @end

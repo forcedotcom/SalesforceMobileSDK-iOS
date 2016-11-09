@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -71,12 +71,6 @@
 - (void)resetSession;
 
 - (CSFAction*)duplicateActionInFlight:(CSFAction*)action;
-
-/*!
- Provides a means for low-level code to tell us that this device has been de-authorized.
- This can happen if the device is unchecked from Chatter settings in the org setup.
- */
-- (void)receivedDevicedUnauthorizedError:(CSFAction*)action;
 
 - (CSFAction*)actionForSessionTask:(NSURLSessionTask*)task;
 

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -131,7 +131,7 @@
     XCTAssertEqual(readCount, 682U);
     [data appendBytes:buffer length:readCount];
     
-    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH::mm:ss'Z'"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
     NSString *stringData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSMutableString *expectedString = [NSMutableString new];
     [expectedString appendFormat:@"--%@\r\nContent-Disposition: form-data; name=\"title\"\r\n\r\nTest String\r\n", stream.boundary];

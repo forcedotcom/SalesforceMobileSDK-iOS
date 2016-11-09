@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  Author: Kevin Hawkins
  
  Redistribution and use of this software in source and binary forms, with or without modification,
@@ -331,8 +331,8 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
-- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Kick off the login process for the given user.
@@ -343,8 +343,8 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  started, in which case subsequent requests are queued up to have their completion or failure blocks executed
  in succession.
  */
-- (BOOL)loginWithCompletion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                    failure:(SFOAuthFlowFailureCallbackBlock)failureBlock
+- (BOOL)loginWithCompletion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                    failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock
                     account:(nullable SFUserAccount *)account;
 
 /**
@@ -357,8 +357,8 @@ extern NSString * const kSFAuthenticationManagerFinishedNotification;
  in succession.
  */
 - (BOOL)loginWithJwtToken:(NSString *)jwtToken
-               completion:(SFOAuthFlowSuccessCallbackBlock)completionBlock
-                  failure:(SFOAuthFlowFailureCallbackBlock)failureBlock;
+               completion:(nullable SFOAuthFlowSuccessCallbackBlock)completionBlock
+                  failure:(nullable SFOAuthFlowFailureCallbackBlock)failureBlock;
 
 /**
  Forces a logout from the current account, redirecting the user to the login process.

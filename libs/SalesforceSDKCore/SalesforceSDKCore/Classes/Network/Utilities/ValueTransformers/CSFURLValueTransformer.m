@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@
  */
 
 #import "CSFURLValueTransformer.h"
+#import "NSString+SFAdditions.h"
 
 NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
 
@@ -45,7 +46,8 @@ NSString * const CSFURLValueTransformerName = @"CSFURLValueTransformer";
     if ([value isKindOfClass:[NSString class]]) {
         result = [NSURL URLWithString:value];
         if (!result) {
-            result = [NSURL URLWithString:[value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            value = [value stringByURLEncoding];
+            result = [NSURL URLWithString:value];
         }
     }
     return result;

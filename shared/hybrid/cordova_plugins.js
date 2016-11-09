@@ -20,6 +20,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/com.salesforce/com.salesforce.plugin.smartstore.client.js",
+        "id": "com.salesforce.plugin.smartstore.client",
+        "clobbers": [
+            "navigator.smartstoreClient"
+        ]
+    },
+    {
         "file": "plugins/com.salesforce/com.salesforce.plugin.smartsync.js",
         "id": "com.salesforce.plugin.smartsync",
     },
@@ -34,6 +41,10 @@ module.exports = [
     {
         "file": "plugins/com.salesforce/com.salesforce.util.exec.js",
         "id": "com.salesforce.util.exec"
+    },
+    {
+        "file": "plugins/com.salesforce/com.salesforce.util.promiser.js",
+        "id": "com.salesforce.util.promiser"
     },
     {
         "file": "plugins/com.salesforce/com.salesforce.util.logger.js",
@@ -56,6 +67,10 @@ module.exports = [
         "clobbers": [
             "cordova.logger"
         ]
+    },
+    {
+        "file": "plugins/com.salesforce/com.salesforce.plugin.network.js",
+        "id": "com.salesforce.plugin.network"
     }
 ];
 module.exports.metadata = 

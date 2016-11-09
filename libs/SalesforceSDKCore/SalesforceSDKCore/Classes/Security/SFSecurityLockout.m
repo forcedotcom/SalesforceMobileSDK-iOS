@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -38,6 +38,8 @@
 #import "SFApplicationHelper.h"
 #import "SFApplication.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
 // Private constants
 
@@ -371,7 +373,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         });
         return;
     }
-    
+    [self logAnalyticsEventWithName:@"passcodeUnlock"];
     [self sendPasscodeFlowCompletedNotification:success];
     UIViewController *passVc = [SFSecurityLockout passcodeViewController];
     if (passVc != nil) {
@@ -730,5 +732,16 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         [keychainWrapper resetKeychainItem];  // Predominantly for unit tests
 }
 
-@end
++ (void) logAnalyticsEventWithName:(NSString *) name {
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : NSStringFromClass([self class]) };
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
+}
 
+@end

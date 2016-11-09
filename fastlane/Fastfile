@@ -1,0 +1,42 @@
+lane :CI do
+
+	scan(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+		scheme: "UnitTests",
+    	device: "iPhone 6",
+		output_directory: "test_output”,
+		clean: true,
+		fail_build: false
+  	)
+
+	begin
+ 	xcodebuild(
+ 		 xcargs: "CLANG_ANALYZER_OUTPUT=plist-html CLANG_ANALYZER_OUTPUT_DIR=./clangReport RUN_CLANG_STATIC_ANALYZER=YES",
+ 		 workspace: "SalesforceMobileSDK.xcworkspace",
+ 		 scheme: "UnitTests",
+ 		 fail_build: false
+ 	)
+	rescue => ex
+		UI.error(ex)
+	end
+
+	xcov(
+		workspace: "SalesforceMobileSDK.xcworkspace",
+  		scheme: "UnitTests",
+		output_directory: "xcov_output",
+		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app"
+  	)
+
+
+	begin
+   	danger(
+  		danger_id: "CI-result",
+  		dangerfile: "DangerFile",
+  		github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+  		verbose: true
+  	)
+	rescue => ex
+		UI.error(ex)
+	end
+
+end

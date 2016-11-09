@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -34,9 +34,9 @@ extern NSString * const kSmartStorePluginIdentifier;
 @interface SFSmartStorePlugin : SFForcePlugin
 
 /**
- Used for unit testing purposes only: allows the shared smart store instance to be reset.
+ Used for unit testing purposes only: resets the cursor caches.
  */
-- (void)resetSharedStore;
+- (void)resetCursorCaches;
 
 #pragma mark - Cordova Plugin methods called from js
 
@@ -154,15 +154,35 @@ extern NSString * const kSmartStorePluginIdentifier;
  *
  */
 - (void)pgGetSoupSpec:(CDVInvokedUrlCommand *)command;
-    
-#pragma mark - Object bridging helpers
 
 /**
- * Gets a handle to a cursor, from its ID.
- * @param cursorId The unique ID of the cursor.
- * @param isGlobal YES - if global store, NO - otherwise.
- * @return The cached SFStoreCursor isntance with the given ID, or nil.
+ * Get All Global Store names.
+ *
  */
-- (SFStoreCursor*)cursorByCursorId:(NSString*)cursorId isGlobal:(BOOL)isGlobal;
+-(void)pgGetAllGlobalStores:(CDVInvokedUrlCommand *)command;
 
+/**
+ * Get Get All User specific Store names.
+ *
+ */
+-(void)pgGetAllStores:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove the Store given a store name.
+ * @param command Cordova arguments object containing "storeName" and "isGlobalStore".
+ */
+-(void)pgRemoveStore:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove All Global Stores.
+ *
+ */
+-(void)pgRemoveAllGlobalStores:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Remove All User Stores.
+ *
+ */
+-(void)pgRemoveAllStores:(CDVInvokedUrlCommand *)command;
+    
 @end

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0800"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "NO"
@@ -455,6 +455,16 @@
                BuildableName = "SmartSyncExplorerUITests.xctest"
                BlueprintName = "SmartSyncExplorerUITests"
                ReferencedContainer = "container:native/SampleApps/SmartSyncExplorer/SmartSyncExplorer.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CE2B8BD81CE900F500C6FC6A"
+               BuildableName = "SalesforceAnalyticsTests.xctest"
+               BlueprintName = "SalesforceAnalyticsTests"
+               ReferencedContainer = "container:libs/SalesforceAnalytics/SalesforceAnalytics.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

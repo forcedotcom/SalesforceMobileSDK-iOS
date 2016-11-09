@@ -266,7 +266,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
          errorBlock:(SFSyncDownTargetFetchErrorBlock)errorBlock
       completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
-    __weak SFContentSoqlSyncDownTarget* weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     
     // Resync?
     NSString* queryToRun = self.query;
@@ -277,7 +277,7 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
     [[SFRestAPI sharedInstance] performRequestForResourcesWithFailBlock:errorBlock completeBlock:^(NSDictionary* d) { // cheap call to refresh session
         SFRestRequest* request = [[SFSoapSoqlRequest alloc] initWithQuery:queryToRun];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData * response) {
-            __strong SFContentSoqlSyncDownTarget *strongSelf = weakSelf;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
                 strongSelf.totalSize = soapSoqlResponse.totalSize;
@@ -293,10 +293,10 @@ typedef void (^SFSoapSoqlResponseParseComplete) ();
          completeBlock:(SFSyncDownTargetFetchCompleteBlock)completeBlock
 {
     if (self.queryLocator) {
-        __weak SFContentSoqlSyncDownTarget* weakSelf = self;
+        __weak typeof(self) weakSelf = self;
         SFSoapSoqlRequest* request = [[SFSoapSoqlRequest alloc] initWithQueryLocator:self.queryLocator];
         [SFSmartSyncNetworkUtils sendRequestWithSmartSyncUserAgent:request failBlock:errorBlock completeBlock:^(NSData *response) {
-            __strong SFContentSoqlSyncDownTarget *strongSelf = weakSelf;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
             [strongSelf parseRestResponse:response parseCompletion:^(SFSoapSoqlResponse *soapSoqlResponse) {
                 strongSelf.queryLocator = soapSoqlResponse.queryLocator;
                 completeBlock(soapSoqlResponse.records);

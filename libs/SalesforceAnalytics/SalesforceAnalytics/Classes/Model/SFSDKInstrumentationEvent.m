@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 5/25/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,25 +31,25 @@
 
 @interface SFSDKInstrumentationEvent ()
 
-@property (nonatomic, strong, readwrite) NSString *eventId;
+@property (nonatomic, copy, readwrite) NSString *eventId;
 @property (nonatomic, assign, readwrite) NSInteger startTime;
 @property (nonatomic, assign, readwrite) NSInteger endTime;
-@property (nonatomic, strong, readwrite) NSString *name;
-@property (nonatomic, strong, readwrite) NSDictionary *attributes;
-@property (nonatomic, assign, readwrite) NSString *sessionId;
+@property (nonatomic, copy, readwrite) NSString *name;
+@property (nonatomic, copy, readwrite) NSDictionary *attributes;
+@property (nonatomic, copy, readwrite) NSString *sessionId;
 @property (nonatomic, assign, readwrite) NSInteger sequenceId;
-@property (nonatomic, strong, readwrite) NSString *senderId;
-@property (nonatomic, strong, readwrite) NSDictionary *senderContext;
+@property (nonatomic, copy, readwrite) NSString *senderId;
+@property (nonatomic, copy, readwrite) NSDictionary *senderContext;
 @property (nonatomic, assign, readwrite) SFASchemaType schemaType;
 @property (nonatomic, assign, readwrite) SFAEventType eventType;
 @property (nonatomic, assign, readwrite) SFAErrorType errorType;
 @property (nonatomic, strong, readwrite) SFSDKDeviceAppAttributes *deviceAppAttributes;
-@property (nonatomic, strong, readwrite) NSString *connectionType;
-@property (nonatomic, strong, readwrite) NSString *senderParentId;
+@property (nonatomic, copy, readwrite) NSString *connectionType;
+@property (nonatomic, copy, readwrite) NSString *senderParentId;
 @property (nonatomic, assign, readwrite) NSInteger sessionStartTime;
-@property (nonatomic, strong, readwrite) NSDictionary *page;
-@property (nonatomic, strong, readwrite) NSDictionary *previousPage;
-@property (nonatomic, strong, readwrite) NSDictionary *marks;
+@property (nonatomic, copy, readwrite) NSDictionary *page;
+@property (nonatomic, copy, readwrite) NSDictionary *previousPage;
+@property (nonatomic, copy, readwrite) NSDictionary *marks;
 
 @end
 
@@ -133,6 +133,56 @@
     return self;
 }
 
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone {
+    SFSDKInstrumentationEvent *eventCopy = [[[self class] allocWithZone:zone] init];
+    eventCopy.eventId = self.eventId;
+    eventCopy.startTime = self.startTime;
+    eventCopy.endTime = self.endTime;
+    eventCopy.name = self.name;
+    eventCopy.attributes = self.attributes;
+    eventCopy.sessionId = self.sessionId;
+    eventCopy.sequenceId = self.sequenceId;
+    eventCopy.senderId = self.senderId;
+    eventCopy.senderContext = self.senderContext;
+    eventCopy.schemaType = self.schemaType;
+    eventCopy.eventType = self.eventType;
+    eventCopy.errorType = self.errorType;
+    eventCopy.deviceAppAttributes = self.deviceAppAttributes;
+    eventCopy.connectionType = self.connectionType;
+    eventCopy.senderParentId = self.senderParentId;
+    eventCopy.sessionStartTime = self.sessionStartTime;
+    eventCopy.page = self.page;
+    eventCopy.previousPage = self.previousPage;
+    eventCopy.marks = self.marks;
+    return eventCopy;
+}
+
+#pragma mark - Equality
+
+- (NSUInteger) hash {
+    return [self.eventId hash];
+}
+
+- (BOOL) isEqual:(id) object {
+    if (nil == object || ![object isKindOfClass:[SFSDKInstrumentationEvent class]]) {
+        return NO;
+    }
+    SFSDKInstrumentationEvent *otherObj = (SFSDKInstrumentationEvent *) object;
+    
+    /*
+     * Since event ID is globally unique and is set during construction of the event,
+     * if the event IDs of both events are equal, the events themselves are the same.
+     */
+    if ([self.eventId isEqualToString:otherObj.eventId]) {
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark - Public methods
+
 - (NSData *) jsonRepresentation {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     dict[kEventIdKey] = self.eventId;
@@ -161,26 +211,6 @@
     return jsonData;
 }
 
-- (NSUInteger) hash {
-    return [self.eventId hash];
-}
-
-- (BOOL) isEqual:(id) object {
-    if (nil == object || ![object isKindOfClass:[SFSDKInstrumentationEvent class]]) {
-        return NO;
-    }
-    SFSDKInstrumentationEvent *otherObj = (SFSDKInstrumentationEvent *) object;
-
-    /*
-     * Since event ID is globally unique and is set during construction of the event,
-     * if the event IDs of both events are equal, the events themselves are the same.
-     */
-    if ([self.eventId isEqualToString:otherObj.eventId]) {
-        return YES;
-    }
-    return NO;
-}
-
 - (NSString *) stringValueOfSchemaType:(SFASchemaType) schemaType {
     NSString *typeString = nil;
     switch (schemaType) {
@@ -200,22 +230,6 @@
             typeString = @"LightningError";
     }
     return typeString;
-}
-
-- (SFASchemaType) schemaTypeFromString:(NSString *) schemaType {
-    SFASchemaType type = SchemaTypeError;
-    if (schemaType) {
-        if ([schemaType isEqualToString:@"LightningInteraction"]) {
-            type = SchemaTypeInteraction;
-        } else if ([schemaType isEqualToString:@"LightningPageView"]) {
-            type = SchemaTypePageView;
-        } else if ([schemaType isEqualToString:@"LightningPerformance"]) {
-            type = SchemaTypePerf;
-        } else if ([schemaType isEqualToString:@"LightningError"]) {
-            type = SchemaTypeError;
-        }
-    }
-    return type;
 }
 
 - (NSString *) stringValueOfEventType:(SFAEventType) eventType {
@@ -239,22 +253,6 @@
     return typeString;
 }
 
-- (SFAEventType) eventTypeFromString:(NSString *) eventType {
-    SFAEventType typeRes = EventTypeError;
-    if (eventType) {
-        if ([eventType isEqualToString:@"user"]) {
-            typeRes = EventTypeUser;
-        } else if ([eventType isEqualToString:@"system"]) {
-            typeRes = EventTypeSystem;
-        } else if ([eventType isEqualToString:@"error"]) {
-            typeRes = EventTypeError;
-        } else if ([eventType isEqualToString:@"crud"]) {
-            typeRes = EventTypeCrud;
-        }
-    }
-    return typeRes;
-}
-
 - (NSString *) stringValueOfErrorType:(SFAErrorType) errorType {
     NSString *typeString = nil;
     switch (errorType) {
@@ -271,6 +269,40 @@
             typeString = @"error";
     }
     return typeString;
+}
+
+#pragma mark - Private methods
+
+- (SFASchemaType) schemaTypeFromString:(NSString *) schemaType {
+    SFASchemaType type = SchemaTypeError;
+    if (schemaType) {
+        if ([schemaType isEqualToString:@"LightningInteraction"]) {
+            type = SchemaTypeInteraction;
+        } else if ([schemaType isEqualToString:@"LightningPageView"]) {
+            type = SchemaTypePageView;
+        } else if ([schemaType isEqualToString:@"LightningPerformance"]) {
+            type = SchemaTypePerf;
+        } else if ([schemaType isEqualToString:@"LightningError"]) {
+            type = SchemaTypeError;
+        }
+    }
+    return type;
+}
+
+- (SFAEventType) eventTypeFromString:(NSString *) eventType {
+    SFAEventType typeRes = EventTypeError;
+    if (eventType) {
+        if ([eventType isEqualToString:@"user"]) {
+            typeRes = EventTypeUser;
+        } else if ([eventType isEqualToString:@"system"]) {
+            typeRes = EventTypeSystem;
+        } else if ([eventType isEqualToString:@"error"]) {
+            typeRes = EventTypeError;
+        } else if ([eventType isEqualToString:@"crud"]) {
+            typeRes = EventTypeCrud;
+        }
+    }
+    return typeRes;
 }
 
 - (SFAErrorType) errorTypeFromString:(NSString *) errorType {

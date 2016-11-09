@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -186,7 +186,10 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         _method = @"GET";
         _authRefreshClass = [CSFTokenRefresh class];
         _requiresAuthentication = YES;
-        
+        _progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress] userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
+        _progress.totalUnitCount = -1;
+        _progress.cancellable = YES;
+        _progress.pausable = NO;
         self.credentialsReady = YES;
         self.responseBlock = responseBlock;
     }
@@ -335,6 +338,7 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (NSUInteger)hash {
     NSUInteger result = 17;
+    result ^= [self.baseURL hash] + result * 37;
     result ^= [self.verb hash] + result * 37;
     result ^= [self.method hash] + result * 37;
     result ^= [self.allHTTPHeaderFields hash] + result * 37;
@@ -345,11 +349,15 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 }
 
 - (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+    
     if ([object isKindOfClass:[CSFAction class]]) {
         return [self isEqualToAction:(CSFAction *)object];
-    } else {
-        return NO;
     }
+    
+    return NO;
 }
 
 - (BOOL)isEqualToAction:(CSFAction *)action {
@@ -357,11 +365,11 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         return NO;
     }
     
-    BOOL isEqual = [self.verb isEqualToString:action.verb];
+    BOOL isEqual = [self.baseURL isEqual:action.baseURL];
+    isEqual = isEqual && [self.verb isEqualToString:action.verb];
     isEqual = isEqual && [self.method isEqualToString:action.method];
     isEqual = (isEqual && ((!_parameters && !action->_parameters) ||
                            [_parameters isEqual:action.parameters]));
-
     // intentionally ignoring userData and completionBlock, as both are difficult to compare
     
     return isEqual;
@@ -383,9 +391,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 - (void)triggerActionAfterTokenRefresh {
     self.authRefreshInstance = [(CSFAuthRefresh *)[self.authRefreshClass alloc] initWithNetwork:self.enqueuedNetwork];
-    __weak CSFAction *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.authRefreshInstance refreshAuthWithCompletionBlock:^(CSFOutput *output, NSError *error) {
-        __strong CSFAction *strongSelf = weakSelf;
+        __strong typeof(weakSelf) strongSelf = weakSelf;
         if (error) {
             [strongSelf completeOperationWithError:error];
         } else {
@@ -667,14 +675,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     if (_enqueuedNetwork != enqueuedNetwork) {
         _enqueuedNetwork = enqueuedNetwork;
         self.timingValues[@"enqueuedTime"] = [NSDate date];
-        
-        if (enqueuedNetwork) {
-            _progress = [[NSProgress alloc] initWithParent:[NSProgress currentProgress]
-                                                  userInfo:@{ NSProgressFileOperationKindKey: NSProgressFileOperationKindReceiving }];
-            _progress.totalUnitCount = -1;
-            _progress.cancellable = YES;
-            _progress.pausable = NO;
-        }
     }
 }
 
@@ -734,6 +734,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     self.error = error;
     self.responseData = nil;
     self.timingValues[@"endTime"] = [NSDate date];
+    self.progress.totalUnitCount = -1;
+    self.progress.cancellable = YES;
+    self.progress.pausable = NO;
 
     if (self.responseBlock) {
         self.responseBlock(self, self.error);
@@ -753,24 +756,42 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
     
     // Surface error back if we run into JSON parsing error on a successful HTTP response
-    if (jsonParseError && error && requestSucceeded) {
+    if (jsonParseError && requestSucceeded) {
         NetworkWarn(@"Error while parsing response; it doesn't appear to be JSON");
         
-        *error = [NSError errorWithDomain:CSFNetworkErrorDomain
-                                     code:CSFNetworkJSONInvalidError
-                                 userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
-                                             NSUnderlyingErrorKey: jsonParseError,
-                                             CSFNetworkErrorActionKey: self }];
+        if (error) {
+            *error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                         code:CSFNetworkJSONInvalidError
+                                     userInfo:@{ NSLocalizedDescriptionKey: @"Processing response content failed",
+                                                 NSUnderlyingErrorKey: jsonParseError,
+                                                 CSFNetworkErrorActionKey: self }];
+        }
     }
     return content;
+}
+
+- (NSError *)errorFromData:(NSData *)data response:(NSHTTPURLResponse *)response {
+    NSError *error = nil;
+    if (response.statusCode >= 400) {
+        NSString *errorDescription = [NSString stringWithFormat:@"HTTP %ld for %@ %@", (long)response.statusCode, self.method, self.verb];
+        NSDictionary *userInfoDict = @{ NSLocalizedDescriptionKey:errorDescription,
+                                        CSFNetworkErrorActionKey: self };
+        error = [NSError errorWithDomain:CSFNetworkErrorDomain
+                                    code:response.statusCode
+                                userInfo:userInfoDict];
+    }
+    return error;
 }
 
 - (void)completeOperationWithResponse:(NSHTTPURLResponse *)response {
     self.timingValues[@"responseTime"] = [NSDate date];
     self.httpResponse = response;
     
-    NSError *error = nil;
-    self.outputContent = [self contentFromData:self.responseData fromResponse:response error:&error];
+    NSError *error = [self errorFromData:self.responseData response:response];
+    if (error == nil) {
+        // No pre-determined error.  Process content.
+        self.outputContent = [self contentFromData:self.responseData fromResponse:response error:&error];
+    }
     self.responseData = nil;
     
     // Check to see if this action should be saved somewhere
