@@ -31,8 +31,7 @@
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
@@ -203,6 +202,10 @@ static NSMutableDictionary *syncMgrList = nil;
                 eventName = @"syncUp";
                 break;
         }
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen
@@ -211,7 +214,7 @@ static NSMutableDictionary *syncMgrList = nil;
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
-                [strongSelf logAnalyticsEventWithSyncState:sync name:eventName numRecords:[NSNumber numberWithInteger:sync.totalSize]];
+                [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
@@ -493,7 +496,10 @@ static NSMutableDictionary *syncMgrList = nil;
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
-        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:nil];
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -512,7 +518,11 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
-        [strongSelf logAnalyticsEventWithSyncState:sync name:@"cleanResyncGhosts" numRecords:[NSNumber numberWithInteger:localIds.count]];
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
         completionStatusBlock(SFSyncStateStatusDone);
     }];
 }
@@ -701,25 +711,6 @@ static NSMutableDictionary *syncMgrList = nil;
             [self syncUpOneEntry:sync recordIds:recordIds index:i+1 updateSync:updateSync failBlock:failBlock];
             return;
     }
-}
-
-- (void) logAnalyticsEventWithSyncState:(SFSyncState *) syncState name:(NSString *) name numRecords:(NSNumber *) numRecords {
-    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-        builder.name = name;
-        builder.startTime = [[NSDate date] timeIntervalSince1970];
-        builder.page = @{ @"context" : NSStringFromClass([self class]) };
-        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        if (numRecords) {
-            attributes[@"numRecords"] = numRecords;
-        }
-        attributes[@"syncId"] = [NSNumber numberWithInteger:syncState.syncId];
-        attributes[@"syncTarget"] = NSStringFromClass([syncState.target class]);
-        builder.attributes = attributes;
-        builder.schemaType = SchemaTypeInteraction;
-        builder.eventType = EventTypeSystem;
-    } analyticsManager:manager.analyticsManager];
-    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 #pragma mark - SFAuthenticationManagerDelegate

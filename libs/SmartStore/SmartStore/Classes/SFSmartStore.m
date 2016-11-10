@@ -332,6 +332,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _allSharedStores[userKey][storeName] = store;
         }
         NSInteger numUserStores = [(NSArray *)(_allSharedStores[userKey]) count];
+        
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"userSmartStoreInit" userAccount:user className:NSStringFromClass([self class]) attributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] }];
+        
         [self logAnalyticsEventWithName:@"userSmartStoreInit" userAccount:user storeAttributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] } features:nil];
         return store;
     }
