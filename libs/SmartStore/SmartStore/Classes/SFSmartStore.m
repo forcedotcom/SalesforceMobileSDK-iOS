@@ -1349,7 +1349,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (soupUsesExternalStorage) {
         [features addObject:@"ExternalStorage"];
     }
-    if ([self hasFts:soupSpec.soupName withDb:db]) {
+    
+    if ([SFSoupIndex hasFts:indexSpecs]) {
         [features addObject:@"FTS"];
     }
     [[self class] logAnalyticsEventWithName:@"registerSoup" userAccount:self.user storeAttributes:nil features:features];
