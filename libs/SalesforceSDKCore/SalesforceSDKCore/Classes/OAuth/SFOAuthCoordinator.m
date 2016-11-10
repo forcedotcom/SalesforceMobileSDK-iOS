@@ -34,6 +34,11 @@
 #import "SFApplicationHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
 #import "NSURL+SFStringUtils.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import "SFUserAccountManager.h"
+#import "SFSDKLoginHostStorage.h"
+#import "SFSDKLoginHost.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
 // Public constants
 
@@ -552,27 +557,22 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)beginJwtTokenExchangeFlow {
-    
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self beginJwtTokenExchangeFlow];
         });
         return;
     }
-    
     NSAssert(self.credentials.jwt.length > 0, @"JWT token should be present at this point.");
-    
     [self swapJWTWithCompletionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error != nil) {
             [self log:SFLogLevelError format:@"Fail to swap JWT for access token: %@", error.localizedDescription];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
-        
         self.credentials.jwt = nil;
         NSError *jsonError = nil;
         id json = nil;
-        
         json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
         if (jsonError != nil) {
             NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
@@ -581,7 +581,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
-        
         if (![json isKindOfClass:[NSDictionary class]]) {
             NSString *errorDesc = [NSString stringWithFormat:@"Expected NSDictionary for JWT token response, received %@ instance.", NSStringFromClass([json class])];
                 NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeJWTLaunchFailed
@@ -589,14 +588,12 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
-        
         NSDictionary *dict = (NSDictionary *)json;
         if (nil != dict[kSFOAuthError]) {
             NSError *error = [[self class] errorWithType:dict[kSFOAuthError] description:dict[kSFOAuthErrorDescription]];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
             return;
         }
-        
         [self updateCredentials:dict];
         if (self.credentials.accessToken && self.credentials.apiUrl) {
             NSString *baseUrlString = [self.credentials.apiUrl absoluteString];
@@ -716,7 +713,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             [self log:SFLogLevelDebug format:@"SFOAuthCoordinator session failed with error: error code: %ld, description: %@, URL: %@", (long)error.code, [error localizedDescription], errorUrlString];
             [self stopRefreshFlowConnectionTimer];
             [self notifyDelegateOfFailure:error authInfo:self.authInfo];
-            
             return;
         }
         // reset the response data for a new refresh response
@@ -743,7 +739,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSString *responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
     NSError *jsonError = nil;
     id json = nil;
-
     json = [NSJSONSerialization JSONObjectWithData:self.responseData options:0 error:&jsonError];
     if (nil == jsonError && [json isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)json;
@@ -757,9 +752,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
             } else {
                 // In a non-IP flow, we already have the refresh token here.
             }
-
             [self updateCredentials:dict];
-            
             [self notifyDelegateOfSuccess:self.authInfo];
         }
     } else {
@@ -779,7 +772,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 }
 
 - (void)handleUserAgentResponse:(NSURL *)requestUrl {
-    
     NSString *response = nil;
     
     // Check for a response in the URL fragment first, then fall back to the query string.
@@ -789,20 +781,16 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         response = [requestUrl query];
     } else {
         [self log:SFLogLevelDebug format:@"%@ Error: response has no payload: %@", NSStringFromSelector(_cmd), requestUrl];
-        
         NSError *error = [[self class] errorWithType:kSFOAuthErrorTypeMalformedResponse description:@"redirect response has no payload"];
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
         response = nil;
     }
-    
     if (response) {
         NSDictionary *params = [[self class] parseQueryString:response];
         NSString *error = params[kSFOAuthError];
         if (nil == error) {
             [self updateCredentials:params];
-            
             self.credentials.refreshToken   = params[kSFOAuthRefreshToken];
-            
             self.approvalCode = params[kSFOAuthApprovalCode];
             if (self.approvalCode) {
                 // If there is an approval code, then proceed to get the access/refresh token (IP bypass flow).
@@ -817,7 +805,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                                              description:params[kSFOAuthErrorDescription]];
             
             // add any additional relevant info to the userInfo dictionary
-            
             if (kSFOAuthErrorInvalidClientId == error.code) {
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:error.userInfo];
                 dict[kSFOAuthClientId] = self.credentials.clientId;
@@ -834,7 +821,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     NSAssert(nil != self.credentials.domain, @"credentials.domain is required");
     NSAssert(nil != self.credentials.clientId, @"credentials.clientId is required");
     NSAssert(nil != self.credentials.redirectUri, @"credentials.redirectUri is required");
-    
     NSMutableString *approvalUrlString = [[NSMutableString alloc] initWithFormat:@"%@://%@%@?%@=%@&%@=%@&%@=%@",
                                           self.credentials.protocol, self.credentials.domain, kSFOAuthEndPointAuthorize,
                                           kSFOAuthClientId, self.credentials.clientId,
@@ -847,12 +833,10 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     } else {
         [approvalUrlString appendFormat:@"&%@=%@", kSFOAuthResponseType, kSFOAuthResponseTypeToken];
     }
-    
     NSString *scopeString = [self scopeQueryParamString];
     if (scopeString != nil) {
         [approvalUrlString appendString:scopeString];
     }
-    
     return approvalUrlString;
 }
 
@@ -873,14 +857,38 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
  - communityUrl
  */
 
-- (void)updateCredentials:(NSDictionary*)params {
+- (void) updateCredentials:(NSDictionary *) params {
+
+    // Logging event for token refresh flow.
+    if (self.authInfo.authType == SFOAuthTypeRefresh) {
+        [self logAnalyticsEventWithName:@"tokenRefresh" attributes:nil];
+    } else {
+
+        // Logging events for add user and number of servers.
+        NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
+        NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
+        userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
+        [self logAnalyticsEventWithName:@"addUser" attributes:userAttributes];
+        NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
+        NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
+        for (int i = 0; i < numHosts; i++) {
+            SFSDKLoginHost *host = [[SFSDKLoginHostStorage sharedInstance] loginHostAtIndex:i];
+            if (host) {
+                [hosts addObject:host.host];
+            }
+        }
+        NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
+        serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
+        serverAttributes[@"loginServers"] = hosts;
+        [self logAnalyticsEventWithName:@"addUser" attributes:serverAttributes];
+    }
     if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
     if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
     if (params[kSFOAuthInstanceUrl]) self.credentials.instanceUrl = [NSURL URLWithString:params[kSFOAuthInstanceUrl]];
     if (params[kSFOAuthId]) self.credentials.identityUrl = [NSURL URLWithString:params[kSFOAuthId]];
     if (params[kSFOAuthCommunityId]) self.credentials.communityId = params[kSFOAuthCommunityId];
     if (params[kSFOAuthCommunityUrl]) self.credentials.communityUrl = [NSURL URLWithString:params[kSFOAuthCommunityUrl]];
-    
+
     // Parse additional flags
     if(self.additionalOAuthParameterKeys.count > 0) {
         NSMutableDictionary * parsedValues = [NSMutableDictionary dictionaryWithCapacity:self.additionalOAuthParameterKeys.count];
@@ -890,9 +898,27 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
                 parsedValues[key] = obj;
             }
         }
-        
         self.credentials.additionalOAuthFields = parsedValues;
     }
+}
+
+- (void) logAnalyticsEventWithName:(NSString *) name attributes:(NSDictionary *) attributes {
+    SFUserAccount *account = [SFUserAccountManager sharedInstance].currentUser;
+    if (!account) {
+        return;
+    }
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : NSStringFromClass([self class]) };
+        if (attributes) {
+            builder.attributes = attributes;
+        }
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 - (void)configureWebUserAgent
