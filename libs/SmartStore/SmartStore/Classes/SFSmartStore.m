@@ -1250,17 +1250,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (soupUsesExternalStorage && soupUsesJSON1) {
         @throw [NSException exceptionWithName:@"Can't have JSON1 index specs in externally stored soup" reason:nil userInfo:nil];
     }
-    NSMutableArray<NSString *> *features = [[NSMutableArray alloc] init];
-    if (soupUsesJSON1) {
-        [features addObject:@"JSON1"];
-    }
-    if (soupUsesExternalStorage) {
-        [features addObject:@"ExternalStorage"];
-    }
-    if ([self hasFts:soupSpec.soupName withDb:db]) {
-        [features addObject:@"FTS"];
-    }
-    [[self class] logAnalyticsEventWithName:@"registerSoup" userAccount:self.user storeAttributes:nil features:features];
+   
     if (nil == soupTableName) {
         soupTableName = [self registerNewSoupWithSpec:soupSpec withDb:db];
     } else {
@@ -1351,6 +1341,19 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }
     [self insertIntoSoupIndexMap:soupIndexMapInserts withDb:db];
     
+    // LogEvent
+    NSMutableArray<NSString *> *features = [[NSMutableArray alloc] init];
+    if (soupUsesJSON1) {
+        [features addObject:@"JSON1"];
+    }
+    if (soupUsesExternalStorage) {
+        [features addObject:@"ExternalStorage"];
+    }
+    if ([self hasFts:soupSpec.soupName withDb:db]) {
+        [features addObject:@"FTS"];
+    }
+    [[self class] logAnalyticsEventWithName:@"registerSoup" userAccount:self.user storeAttributes:nil features:features];
+    
     // if soup uses external storage, create the dir now
     if (soupUsesExternalStorage) {
         if (![self createExternalStorageDirectory:soupTableName]) {
@@ -1359,6 +1362,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                          userInfo:nil];
         }
     }
+    
+    
 }
 
 - (void)removeSoup:(NSString*)soupName {
