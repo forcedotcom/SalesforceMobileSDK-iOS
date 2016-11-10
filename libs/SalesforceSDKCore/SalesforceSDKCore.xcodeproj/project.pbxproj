@@ -108,6 +108,8 @@
 		CE145A9D1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
 		CE145A9E1D13838B003BCC20 /* SFSDKSalesforceAnalyticsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CE145A9A1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CE145A9F1D138394003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CE145A9B1D138386003BCC20 /* SFSDKSalesforceAnalyticsManager.m */; };
+		CE27889D1DD52D1600DD3C39 /* SFSwiftDetectUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 05460B6F1DD409B8004E3320 /* SFSwiftDetectUtil.h */; };
+		CE2788B21DD52D1B00DD3C39 /* SFSwiftDetectUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 05460B701DD409B8004E3320 /* SFSwiftDetectUtil.m */; };
 		CE2B8CDD1CE92FBF00C6FC6A /* SalesforceAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE2B8CD41CE92F8100C6FC6A /* SalesforceAnalytics.framework */; };
 		CE4CE2721C0E449C009F6029 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; };
 		CE4CE2731C0E449C009F6029 /* SalesforceSDKCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CE4CE26B1C0E449C009F6029 /* SalesforceSDKCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -2364,6 +2366,7 @@
 				CEA882811C18FAAB008D871B /* NSURL+SFAdditions.h in Headers */,
 				CED452DD1D808D35009266EB /* SFRestAPI+Internal.h in Headers */,
 				CEA882FB1C18FB8E008D871B /* SFPBKDF2PasscodeProvider.h in Headers */,
+				CE27889D1DD52D1600DD3C39 /* SFSwiftDetectUtil.h in Headers */,
 				CED452DE1D808D38009266EB /* SFRestAPI+QueryBuilder.h in Headers */,
 				CEA883041C18FB8E008D871B /* SFSHA256PasscodeProvider.h in Headers */,
 				CE8EA33E1D7F6AA600AAC74C /* CSFForceDefines.h in Headers */,
@@ -3090,6 +3093,7 @@
 				CEA882CD1C18FB80008D871B /* SFPushNotificationManager.m in Sources */,
 				CE145A9F1D138394003BCC20 /* SFSDKSalesforceAnalyticsManager.m in Sources */,
 				CEA882D21C18FB8E008D871B /* SFAuthenticationManager.m in Sources */,
+				CE2788B21DD52D1B00DD3C39 /* SFSwiftDetectUtil.m in Sources */,
 				CEA882B71C18FB3D008D871B /* SFInstrumentation.m in Sources */,
 				E1C80D2B1C5C3679001B3A21 /* SFSDKLoginHostListViewController.m in Sources */,
 				CEA882A91C18FAAB008D871B /* SFSDKAppConfig.m in Sources */,
