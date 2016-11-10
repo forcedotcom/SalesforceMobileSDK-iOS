@@ -47,8 +47,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-#import <SalesforceSDKCore/SFSDKSalesforceAnalyticsManager.h>
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -152,11 +151,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 [SFSmartStoreUpgrade updateEncryption];
             }
         }
-        
         _storeName = name;
         _isGlobal = isGlobal;
         _user = user;
-        
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreGlobal];
@@ -332,10 +329,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _allSharedStores[userKey][storeName] = store;
         }
         NSInteger numUserStores = [(NSArray *)(_allSharedStores[userKey]) count];
-        
         [SFSDKEventBuilderHelper createAndStoreEvent:@"userSmartStoreInit" userAccount:user className:NSStringFromClass([self class]) attributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] }];
-        
-        [self logAnalyticsEventWithName:@"userSmartStoreInit" userAccount:user storeAttributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] } features:nil];
         return store;
     }
 }
@@ -352,7 +346,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 _allGlobalSharedStores[storeName] = store;
         }
         NSInteger numGlobalStores = _allGlobalSharedStores.allKeys.count;
-        [self logAnalyticsEventWithName:@"globalSmartStoreInit" userAccount:nil storeAttributes:@{ @"numGlobalStores" : [NSNumber numberWithInteger:numGlobalStores] } features:nil];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"globalSmartStoreInit" userAccount:nil className:NSStringFromClass([self class]) attributes:@{ @"numGlobalStores" : [NSNumber numberWithInteger:numGlobalStores] }];
         return store;
     }
 }
@@ -1343,8 +1337,8 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [self executeUpdateThrows:createIndexStmt withDb:db];
     }
     [self insertIntoSoupIndexMap:soupIndexMapInserts withDb:db];
-    
-    // LogEvent
+
+    // Logs analytics event.
     NSMutableArray<NSString *> *features = [[NSMutableArray alloc] init];
     if (soupUsesJSON1) {
         [features addObject:@"JSON1"];
@@ -1352,12 +1346,13 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (soupUsesExternalStorage) {
         [features addObject:@"ExternalStorage"];
     }
-    
     if ([SFSoupIndex hasFts:indexSpecs]) {
         [features addObject:@"FTS"];
     }
-    [[self class] logAnalyticsEventWithName:@"registerSoup" userAccount:self.user storeAttributes:nil features:features];
-    
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"features"] = features;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"registerSoup" userAccount:self.user className:NSStringFromClass([self class]) attributes:attributes];
+
     // if soup uses external storage, create the dir now
     if (soupUsesExternalStorage) {
         if (![self createExternalStorageDirectory:soupTableName]) {
@@ -1366,8 +1361,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
                                          userInfo:nil];
         }
     }
-    
-    
 }
 
 - (void)removeSoup:(NSString*)soupName {
@@ -2268,35 +2261,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [self executeUpdateThrows:renameSoupNamesTableSql withDb:db];
         }
     } error:nil];
-}
-
-+ (void) logAnalyticsEventWithName:(NSString *) name userAccount:(SFUserAccount *) userAccount storeAttributes:(NSDictionary *) storeAttributes features:(NSArray<NSString *> *) features {
-    SFUserAccount *account = userAccount;
-    if (!account) {
-        account = [SFUserAccountManager sharedInstance].currentUser;
-    }
-    if (!account) {
-        return;
-    }
-    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-        builder.name = name;
-        builder.startTime = [[NSDate date] timeIntervalSince1970];
-        builder.page = @{ @"context" : NSStringFromClass([self class]) };
-        NSMutableDictionary *attributes = nil;
-        if (storeAttributes) {
-            attributes = [[NSMutableDictionary alloc] initWithDictionary:storeAttributes];
-        } else {
-            attributes = [[NSMutableDictionary alloc] init];
-        }
-        if (features) {
-            attributes[@"features"] = features;
-        }
-        builder.attributes = attributes;
-        builder.schemaType = SchemaTypeInteraction;
-        builder.eventType = EventTypeSystem;
-    } analyticsManager:manager.analyticsManager];
-    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 @end
