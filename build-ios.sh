@@ -15,7 +15,7 @@ EOF
     exit 1
 }
 
-FRAMEWORK_NAME=FeedSDK
+FRAMEWORK_NAME=
 PROJECT_NAME=SalesforceMobileSDK
 
 OPT_HELP=
