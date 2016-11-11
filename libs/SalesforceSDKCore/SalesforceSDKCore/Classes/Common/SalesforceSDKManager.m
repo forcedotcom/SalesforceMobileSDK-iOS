@@ -532,9 +532,14 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)registerAppFeature:(NSString *)appFeature
+- (void) registerAppFeature:(NSString *) appFeature
 {
     [self.features addObject:appFeature];
+}
+
+- (void) unregisterAppFeature:(NSString *) appFeature
+{
+    [self.features removeObject:appFeature];
 }
 
 - (void)dismissSnapshot
