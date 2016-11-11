@@ -27,8 +27,7 @@
 #import "SFUserAccountManager.h"
 #import "SFIdentityData.h"
 #import "SalesforceSDKManager.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
+#import "SFSDKEventBuilderHelper.h"
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -44,12 +43,8 @@ static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCall
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
 
-
 static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
-
-
 static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
-
 
 @interface SFManagedPreferences ()
 
@@ -94,7 +89,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
         if (self.rawPreferences) {
             attributes[@"mdmConfigs"] = self.rawPreferences;
         }
-        [self logAnalyticsEventWithName:@"mdmConfiguration" attributes:attributes];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"mdmConfiguration" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
     }
     return self;
 }
@@ -148,22 +143,6 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (BOOL)clearClipboardOnBackground {
     return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
-}
-
-- (void) logAnalyticsEventWithName:name attributes:(NSDictionary *) attributes {
-    if (![SFUserAccountManager sharedInstance].currentUser) {
-        return;
-    }
-    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-        builder.name = name;
-        builder.startTime = [[NSDate date] timeIntervalSince1970];
-        builder.page = @{ @"context" : NSStringFromClass([self class]) };
-        builder.attributes = attributes;
-        builder.schemaType = SchemaTypeInteraction;
-        builder.eventType = EventTypeSystem;
-    } analyticsManager:manager.analyticsManager];
-    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 @end

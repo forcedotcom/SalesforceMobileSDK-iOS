@@ -34,11 +34,10 @@
 #import "SFApplicationHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
 #import "NSURL+SFStringUtils.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
 #import "SFUserAccountManager.h"
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
+#import "SFSDKEventBuilderHelper.h"
 
 // Public constants
 
@@ -861,14 +860,14 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
 
     // Logging event for token refresh flow.
     if (self.authInfo.authType == SFOAuthTypeRefresh) {
-        [self logAnalyticsEventWithName:@"tokenRefresh" attributes:nil];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"tokenRefresh" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
     } else {
 
         // Logging events for add user and number of servers.
         NSArray *accounts = [SFUserAccountManager sharedInstance].allUserAccounts;
         NSMutableDictionary *userAttributes = [[NSMutableDictionary alloc] init];
         userAttributes[@"numUsers"] = [NSNumber numberWithInteger:(accounts ? accounts.count : 0)];
-        [self logAnalyticsEventWithName:@"addUser" attributes:userAttributes];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:userAttributes];
         NSInteger numHosts = [SFSDKLoginHostStorage sharedInstance].numberOfLoginHosts;
         NSMutableArray<NSString *> *hosts = [[NSMutableArray alloc] init];
         for (int i = 0; i < numHosts; i++) {
@@ -880,7 +879,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         NSMutableDictionary *serverAttributes = [[NSMutableDictionary alloc] init];
         serverAttributes[@"numLoginServers"] = [NSNumber numberWithInteger:numHosts];
         serverAttributes[@"loginServers"] = hosts;
-        [self logAnalyticsEventWithName:@"addUser" attributes:serverAttributes];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"addUser" userAccount:nil className:NSStringFromClass([self class]) attributes:serverAttributes];
     }
     if (params[kSFOAuthAccessToken]) self.credentials.accessToken = params[kSFOAuthAccessToken];
     if (params[kSFOAuthIssuedAt]) self.credentials.issuedAt = [[self class] timestampStringToDate:params[kSFOAuthIssuedAt]];
@@ -900,25 +899,6 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         }
         self.credentials.additionalOAuthFields = parsedValues;
     }
-}
-
-- (void) logAnalyticsEventWithName:(NSString *) name attributes:(NSDictionary *) attributes {
-    SFUserAccount *account = [SFUserAccountManager sharedInstance].currentUser;
-    if (!account) {
-        return;
-    }
-    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
-    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-        builder.name = name;
-        builder.startTime = [[NSDate date] timeIntervalSince1970];
-        builder.page = @{ @"context" : NSStringFromClass([self class]) };
-        if (attributes) {
-            builder.attributes = attributes;
-        }
-        builder.schemaType = SchemaTypeInteraction;
-        builder.eventType = EventTypeSystem;
-    } analyticsManager:manager.analyticsManager];
-    [manager.analyticsManager.storeManager storeEvent:event];
 }
 
 - (void)configureWebUserAgent
