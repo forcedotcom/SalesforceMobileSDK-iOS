@@ -122,6 +122,17 @@ static NSString * const kAppFeatureKey   = @"feature";
             [[SalesforceSDKManager sharedManager] registerAppFeature:appFeatureCode];
         }
     }
- }
+}
 
+- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command
+{
+    [self getVersion:@"unregisterAppFeature" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    if(argsDict != nil){
+        NSString *appFeatureCode = [argsDict nonNullObjectForKey:kAppFeatureKey];
+        if(appFeatureCode != nil){
+            [[SalesforceSDKManager sharedManager] unregisterAppFeature:appFeatureCode];
+        }
+    }
+}
 @end
