@@ -351,6 +351,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
     if (_view == nil) {
         _view = [[WKWebView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         _view.navigationDelegate = self;
+        _view.UIDelegate = self;
     }
     return _view;
 }
@@ -1074,6 +1075,23 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         [self notifyDelegateOfFailure:error authInfo:self.authInfo];
     }
 
+}
+
+#pragma mark - WKUIDelegate
+- (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:displayAlertMessage:completion:)]) {
+        [self.delegate oauthCoordinator:self displayAlertMessage:message completion:completionHandler];
+    } else {
+        [self log:SFLogLevelWarning msg:@"WKWebView did want to display an alert but no delegate responded to it"];
+    }
+}
+
+- (void)webView:(WKWebView *)webView runJavaScriptConfirmPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(BOOL result))completionHandler {
+    if ([self.delegate respondsToSelector:@selector(oauthCoordinator:displayAlertMessage:completion:)]) {
+        [self.delegate oauthCoordinator:self displayConfirmationMessage:message completion:completionHandler];
+    } else {
+        [self log:SFLogLevelWarning msg:@"WKWebView did want to display a confirmation alert but no delegate responded to it"];
+    }
 }
 
 #pragma mark - Utilities
