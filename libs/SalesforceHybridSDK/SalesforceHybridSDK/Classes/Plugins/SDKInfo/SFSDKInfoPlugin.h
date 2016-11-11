@@ -31,5 +31,6 @@
 
 #pragma mark - Plugin methods called from js
 - (void)getInfo:(CDVInvokedUrlCommand *)command;
-
+- (void)registerAppFeature:(CDVInvokedUrlCommand *)command;
+- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command;
 @end
