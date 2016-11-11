@@ -31,8 +31,7 @@
 #import "SFAuthenticationManager.h"
 #import "SFSDKWebUtils.h"
 #import "SalesforceSDKManager.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
+#import "SFSDKEventBuilderHelper.h"
 
 NSString* const kSFRestDefaultAPIVersion = @"v36.0";
 NSString* const kSFRestErrorDomain = @"com.salesforce.RestAPI.ErrorDomain";
@@ -190,14 +189,10 @@ static BOOL kIsTestRun;
             [currentNetwork executeAction:request.action];
         } failure:^(SFOAuthInfo *authInfo, NSError *error) {
             [self log:SFLogLevelError format:@"Authentication failed in SFRestAPI: %@.  Logging out.", error];
-            SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:[SFUserAccountManager sharedInstance].currentUser];
-            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-                builder.name = [NSString stringWithFormat:@"Server Error: %ld, Logout Cause: %@", (long)error.code, error.localizedDescription];
-                builder.page = @{ @"context" : @"REST Authentication Failed"};
-                builder.schemaType = SchemaTypeInteraction;
-                builder.eventType = EventTypeUser;
-            } analyticsManager:manager.analyticsManager];
-            [manager.analyticsManager.storeManager storeEvent:event];
+            NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+            attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+            attributes[@"errorDescription"] = error.localizedDescription;
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
             [[SFAuthenticationManager sharedManager] logout];
         }];
     } else {

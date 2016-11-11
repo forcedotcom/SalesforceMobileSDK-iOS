@@ -231,8 +231,12 @@ typedef void (^SFSnapshotViewControllerDismissalBlock)(UIViewController* snapsho
 /**
  @param appFeature AppFeature to register.
  */
-- (void)registerAppFeature:(NSString *)appFeature;
+- (void) registerAppFeature:(NSString *) appFeature;
 
+/**
+ @param appFeature AppFeature to unregister.
+ */
+- (void) unregisterAppFeature:(NSString *) appFeature;
 
 /**
  Adds an SDK Manager delegate to the list of delegates.

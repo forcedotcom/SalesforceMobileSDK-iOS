@@ -220,20 +220,22 @@ static NSString inline * CSFSalesforceErrorMessage(NSDictionary *errorDict) {
     NSString *retErrorMessage = nil;
     NSString *retErrorCode = nil;
     
-    NSError *jsonParseError = nil;
-    id content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
-    if (jsonParseError == nil && content != nil) {
-        if ([content isKindOfClass:[NSArray class]] && ((NSArray *)content).count > 0) {
-            NSArray *jsonArray = (NSArray *)content;
-            NSDictionary *errorDict = jsonArray[0];
-            if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+    if (data != nil) {
+        NSError *jsonParseError = nil;
+        id content = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&jsonParseError];
+        if (jsonParseError == nil && content != nil) {
+            if ([content isKindOfClass:[NSArray class]] && ((NSArray *)content).count > 0) {
+                NSArray *jsonArray = (NSArray *)content;
+                NSDictionary *errorDict = jsonArray[0];
+                if ([errorDict isKindOfClass:[NSDictionary class]] && errorDict[@"errorCode"]) {
+                    retErrorMessage = CSFSalesforceErrorMessage(errorDict);
+                    retErrorCode = errorDict[@"errorCode"];
+                }
+            } else if ([content isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDict = (NSDictionary*)content;
                 retErrorMessage = CSFSalesforceErrorMessage(errorDict);
                 retErrorCode = errorDict[@"errorCode"];
             }
-        } else if ([content isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *errorDict = (NSDictionary*)content;
-            retErrorMessage = CSFSalesforceErrorMessage(errorDict);
-            retErrorCode = errorDict[@"errorCode"];
         }
     }
     

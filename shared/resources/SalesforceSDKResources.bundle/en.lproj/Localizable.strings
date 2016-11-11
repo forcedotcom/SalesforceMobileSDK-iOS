@@ -32,7 +32,7 @@
 "createPasscodeNavTitle" = "Create Passcode";
 "confirmPasscodeNavTitle" = "Confirm Passcode";
 "verifyPasscodeNavTitle" = "Verify Passcode";
-"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access Salesforce when the session has timed out due to inactivity.";
+"passcodeCreateInstructions" = "For increased security, please create a passcode that you will use to access your app when the session has timed out due to inactivity.";
 "passcodeChangeInstructions" = "For increased security, your admininstrator requires you to change your passcode.";
 "passcodeConfirmInstructions" = "Confirm the passcode you just entered.";
 "passcodeVerifyInstructions" = "Please enter your security passcode.";
@@ -48,12 +48,12 @@
 
 // OAuth flow
 "authAlertContinueButton"="Continue";
-"authAlertErrorTitle" = "Salesforce Error";
+"authAlertErrorTitle" = "Server Error";
 "authAlertOkButton" = "OK";
 "authAlertCancelButton"="Cancel";
 "authAlertRetryButton" = "Retry";
 "authAlertDismissButton" = "Dismiss";
-"authAlertConnectionErrorFormatString" = "Can't connect to salesforce: %@";
+"authAlertConnectionErrorFormatString" = "Can't connect to the server: %@";
 "authAlertVersionMismatchError" = "Your app has been updated, and you will need to log in again to continue using the app.";
 "authAlertBrowserFlowTitle"="Log In";
 "authAlertBrowserFlowMessage"="To log you in to %1$@, Safari will open briefly. You'll switch back to %2$@ after authentication.";
