@@ -28,6 +28,8 @@
 #import <Cordova/CDVViewController.h>
 #import "CDVPlugin+SFAdditions.h"
 #import <Cordova/CDVInvokedUrlCommand.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/NSDictionary+SFAdditions.h>
 
 // Keys in sdk info map
 NSString * const kSDKVersionKey = @"sdkVersion";
@@ -38,6 +40,8 @@ NSString * const kBootConfigKey = @"bootConfig";
 
 // Other constants
 NSString * const kForcePluginPrefix = @"com.salesforce.";
+
+static NSString * const kAppFeatureKey   = @"feature";
 
 @interface SFSDKInfoPlugin ()
 
@@ -94,6 +98,7 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
 {
     NSString* callbackId = command.callbackId;
     [self getVersion:@"getInfo" withArguments:command.arguments];
+
     NSString *appName = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleNameKey];
     NSString *prodAppVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     NSString *buildNumber = [[NSBundle mainBundle] infoDictionary][(NSString*)kCFBundleVersionKey];
@@ -107,6 +112,16 @@ NSString * const kForcePluginPrefix = @"com.salesforce.";
     [self writeSuccessDictToJsRealm:sdkInfo callbackId:callbackId];
 }
 
-
+- (void)registerAppFeature:(CDVInvokedUrlCommand *)command
+{
+    [self getVersion:@"registerAppFeature" withArguments:command.arguments];
+    NSDictionary *argsDict = [self getArgument:command.arguments atIndex:0];
+    if(argsDict != nil){
+        NSString *appFeatureCode = [argsDict nonNullObjectForKey:kAppFeatureKey];
+        if(appFeatureCode != nil){
+            [[SalesforceSDKManager sharedManager] registerAppFeature:appFeatureCode];
+        }
+    }
+ }
 
 @end
