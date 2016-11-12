@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS.svg?branch=unstable)](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS)
+[![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/index.html)
 
 # Salesforce.com Mobile SDK for iOS
 
