@@ -34,8 +34,10 @@
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
 #import "SFSwiftDetectUtil.h"
+#import "SFUserAccountManager.h"
 
 static NSString * const kSFAppFeatureSwiftApp   = @"SW";
+static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -92,6 +94,12 @@ static Class InstanceClass = nil;
         }
         if([SFSwiftDetectUtil isSwiftApp]){
             [sdkManager registerAppFeature:kSFAppFeatureSwiftApp];
+        }
+        if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
+            [sdkManager registerAppFeature:kSFAppFeatureMultiUser];
+        }
+        else{
+            [sdkManager unregisterAppFeature:kSFAppFeatureMultiUser];
         }
     });
     return sdkManager;

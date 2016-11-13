@@ -38,6 +38,7 @@
 #import "SFSDKDatasharingHelper.h"
 #import "SFFileProtectionHelper.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SalesforceSDKManager.h"
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
@@ -106,6 +107,8 @@ static const NSUInteger SFUserAccountManagerCannotRetrieveUserData = 10003;
 
 static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.syncqueue";
 
+static NSString * const kSFAppFeatureMultiUser   = @"MU";
+
 @implementation SFUserAccountManager
 
 + (instancetype)sharedInstance {
@@ -157,7 +160,7 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         _anonymousUserIdentity = [[SFUserAccountIdentity alloc] initWithUserId:SFUserAccountManagerAnonymousUserAccountUserId orgId:SFUserAccountManagerAnonymousUserAccountOrgId];
         _syncQueue = dispatch_queue_create(kSyncQueue, NULL);
         [self loadAccounts:nil];
-        [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];
+        [self setupAnonymousUser:self.supportsAnonymousUser autocreateAnonymousUser:self.autocreateAnonymousUser];        
 	}
 	return self;
 }
@@ -967,6 +970,10 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         return NO;
     }
     
+    if([[self allUserIdentities] count]>1){
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureMultiUser];
+    }
+    
     // Save it.
     BOOL saveFileSuccess = [manager createFileAtPath:filePath contents:encryptedArchiveData attributes:@{ NSFileProtectionKey : [SFFileProtectionHelper fileProtectionForPath:filePath] }];
     if (!saveFileSuccess) {
@@ -1030,6 +1037,9 @@ static const char * kSyncQueue = "com.salesforce.mobilesdk.sfuseraccountmanager.
         }
         user.userDeleted = YES;
         [self.userAccountMap removeObjectForKey:user.accountIdentity];
+        if([[self allUserIdentities] count]<2){
+            [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureMultiUser];
+        }
     }
     return YES;
 }
