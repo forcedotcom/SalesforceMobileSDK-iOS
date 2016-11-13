@@ -85,9 +85,11 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
         }
         NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
         if (self.rawPreferences) {
+            attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
             attributes[@"mdmConfigs"] = self.rawPreferences;
+        } else {
+            attributes[@"mdmIsActive"] = [NSNumber numberWithBool:NO];
         }
         [SFSDKEventBuilderHelper createAndStoreEvent:@"mdmConfiguration" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
     }
