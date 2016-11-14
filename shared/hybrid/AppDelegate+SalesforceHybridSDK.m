@@ -1,6 +1,6 @@
 /*
  Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
-
+ 
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
-
+ 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -54,19 +54,19 @@
 #else
     [SFLogger sharedLogger].logLevel  = SFLogLevelInfo;
 #endif
-
+    
     SFHybridViewConfig *appConfig = [SFHybridViewConfig fromDefaultConfigFile];
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
-    __weak typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
         [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
         [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
@@ -77,7 +77,7 @@
     [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
         [weakSelf handleUserSwitch:fromUser toUser:toUser];
     };
-
+    
     return [self sfsdk_swizzled_init];
 }
 
@@ -89,10 +89,10 @@
     int cacheSizeDisk = 32 * 1024 * 1024; // 32MB
     NSURLCache* sharedCache = [[SFLocalhostSubstitutionCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"];
     [NSURLCache setSharedURLCache:sharedCache];
-
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.autoresizesSubviews = YES;
-
+    
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];
     return [self sfsdk_swizzled_application:application didFinishLaunchingWithOptions:launchOptions];
@@ -104,7 +104,7 @@
     if ([SFUserAccountManager sharedInstance].currentUser.credentials.accessToken != nil) {
         [[SFPushNotificationManager sharedInstance] registerForSalesforceNotifications];
     }
-
+    
     [self sfsdk_swizzled_application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
@@ -115,7 +115,7 @@
         [self log:SFLogLevelDebug msg:@"Logout notification received.  Resetting app."];
         ((SFHybridViewController*)self.viewController).appHomeUrl = nil;
         [self initializeAppViewState];
-
+        
         // Multi-user pattern:
         // - If there are two or more existing accounts after logout, let the user choose the account
         //   to switch to.
@@ -160,7 +160,7 @@
         });
         return;
     }
-
+    
     self.window.rootViewController = [[InitialViewController alloc] initWithNibName:nil bundle:nil];
     [self.window makeKeyAndVisible];
 }

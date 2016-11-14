@@ -65,6 +65,7 @@
 		828917A81C52D9CE002F9981 /* SalesforceSDKCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917A11C52D9BC002F9981 /* SalesforceSDKCore.framework */; };
 		828917AD1C52DB6B002F9981 /* libsqlcipher.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 828917AC1C52DB6B002F9981 /* libsqlcipher.a */; };
 		829DA2AA1C1266F70040F5F1 /* SmartStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 829DA2A91C1266F70040F5F1 /* SmartStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */; };
 		C03DE7D01D1B296400BFA6BD /* SFSoupSpec.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C03DE7D11D1B296400BFA6BD /* SFSoupSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */; };
 		C03DE7D31D1B296400BFA6BD /* SFSoupSpec+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */; };
@@ -291,6 +292,8 @@
 		829DA2A91C1266F70040F5F1 /* SmartStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmartStore.h; sourceTree = "<group>"; };
 		82D0AB331C497FD90081F833 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B7282F441D8C713C00475F79 /* SmartStoreTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SmartStoreTestApp.entitlements; sourceTree = "<group>"; };
+		B7DD6CE41DC178D0004C04F4 /* SFMultipleSmartStoresTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFMultipleSmartStoresTest.h; sourceTree = "<group>"; };
+		B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFMultipleSmartStoresTests.m; sourceTree = "<group>"; };
 		C03DE7CD1D1B296400BFA6BD /* SFSoupSpec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFSoupSpec.h; sourceTree = "<group>"; };
 		C03DE7CE1D1B296400BFA6BD /* SFSoupSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFSoupSpec.m; sourceTree = "<group>"; };
 		C03DE7CF1D1B296400BFA6BD /* SFSoupSpec+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SFSoupSpec+Internal.h"; sourceTree = "<group>"; };
@@ -509,6 +512,8 @@
 		CEAAAE5E195911E600CBBFE9 /* SmartStoreTests */ = {
 			isa = PBXGroup;
 			children = (
+				B7DD6CE41DC178D0004C04F4 /* SFMultipleSmartStoresTest.h */,
+				B7DD6CE51DC178D0004C04F4 /* SFMultipleSmartStoresTests.m */,
 				4FF4DC651CF51D9300385C2C /* SFQuerySpecTests.h */,
 				4FF4DC661CF51D9300385C2C /* SFQuerySpecTests.m */,
 				4F99B5401CEA81C6007BC4D2 /* SFSmartStoreLoadTests.h */,
@@ -935,6 +940,7 @@
 			files = (
 				4FEE44891BFD5CDC00F09C43 /* SFSmartStoreTestCase.m in Sources */,
 				4FEE44851BFD5CCC00F09C43 /* SFSmartSqlWithExternalStorageTests.m in Sources */,
+				B7DD6CE61DC178D0004C04F4 /* SFMultipleSmartStoresTests.m in Sources */,
 				4FF4DC671CF51D9300385C2C /* SFQuerySpecTests.m in Sources */,
 				4FEE44861BFD5CD200F09C43 /* SFSmartStoreAlterTests.m in Sources */,
 				4F99B53C1CEA81A6007BC4D2 /* SFSmartStoreLoadTests.m in Sources */,

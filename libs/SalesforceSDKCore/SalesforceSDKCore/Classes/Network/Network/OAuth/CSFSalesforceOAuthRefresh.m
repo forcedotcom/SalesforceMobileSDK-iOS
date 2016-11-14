@@ -26,11 +26,10 @@
 #import "CSFDefines.h"
 #import "CSFAuthRefresh+Internal.h"
 #import "CSFOAuthTokenRefreshOutput.h"
-#import "SFSDKSalesforceAnalyticsManager.h"
-#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 #import "CSFInternalDefines.h"
 #import "SFOAuthCoordinator.h"
 #import "SFAuthenticationManager.h"
+#import "SFSDKEventBuilderHelper.h"
 
 @interface CSFSalesforceOAuthRefresh () <SFOAuthCoordinatorDelegate>
 
@@ -81,14 +80,10 @@
         NetworkInfo(@"invalid grant error received, triggering logout.");
         // make sure we call logoutUser on main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:self.network.account];
-            SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
-                builder.name = [NSString stringWithFormat:@"Server Error: %ld, Logout Cause: %@", (long)error.code, error.localizedDescription];
-                builder.page = @{ @"context" : @"Authentication Refresh"};
-                builder.schemaType = SchemaTypeInteraction;
-                builder.eventType = EventTypeUser;
-            } analyticsManager:manager.analyticsManager];
-            [manager.analyticsManager.storeManager storeEvent:event];
+            NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+            attributes[@"errorCode"] = [NSNumber numberWithInteger:error.code];
+            attributes[@"errorDescription"] = error.localizedDescription;
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userLogout" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
             [[SFAuthenticationManager sharedManager] logoutUser:self.network.account];
         });
     }

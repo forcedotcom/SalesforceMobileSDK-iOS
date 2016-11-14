@@ -1,9 +1,13 @@
+if !ENV["device"] or ENV["device"]==""
+	ENV["device"] = "iPhone 6"
+end
+
 lane :CI do
 
 	scan(
 		workspace: "SalesforceMobileSDK.xcworkspace",
 		scheme: "UnitTests",
-    	device: "iPhone 6",
+    	device: ENV["device"],
 		output_directory: "test_output”,
 		clean: true,
 		fail_build: false
@@ -23,7 +27,8 @@ lane :CI do
 	xcov(
 		workspace: "SalesforceMobileSDK.xcworkspace",
   		scheme: "UnitTests",
-  		output_directory: "xcov_output"
+		output_directory: "xcov_output",
+		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app"
   	)
 
 

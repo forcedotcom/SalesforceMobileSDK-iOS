@@ -47,7 +47,7 @@
 #import <SalesforceSDKCore/SFUserAccountManager.h>
 #import <SalesforceSDKCore/SFDirectoryManager.h>
 #import <SalesforceSDKCore/SalesforceSDKManager.h>
-
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 static NSMutableDictionary *_allSharedStores;
 static NSMutableDictionary *_allGlobalSharedStores;
@@ -151,11 +151,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
                 [SFSmartStoreUpgrade updateEncryption];
             }
         }
-        
         _storeName = name;
         _isGlobal = isGlobal;
         _user = user;
-        
         if (_isGlobal) {
             _dbMgr = [SFSmartStoreDatabaseManager sharedGlobalManager];
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartStoreGlobal];
@@ -313,7 +311,6 @@ NSString *const EXPLAIN_ROWS = @"rows";
             [SFLogger log:self level:SFLogLevelWarning format:@"%@ Cannot create shared store with name '%@' for nil user.  Did you mean to call [%@ sharedGlobalStoreWithName:]?", NSStringFromSelector(_cmd), storeName, NSStringFromClass(self)];
             return nil;
         }
-        
         if (nil == _allSharedStores) {
             _allSharedStores = [NSMutableDictionary dictionary];
         }
@@ -322,18 +319,17 @@ NSString *const EXPLAIN_ROWS = @"rows";
             // if user key is nil for any reason, return nil directly here otherwise app will crash with nil userKey
             return nil;
         }
-        
         if (_allSharedStores[userKey] == nil) {
             _allSharedStores[userKey] = [NSMutableDictionary dictionary];
         }
-        
         SFSmartStore *store = _allSharedStores[userKey][storeName];
         if (nil == store) {
             store = [[self alloc] initWithName:storeName user:user];
             if (store)
                 _allSharedStores[userKey][storeName] = store;
         }
-        
+        NSInteger numUserStores = [(NSArray *)(_allSharedStores[userKey]) count];
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"userSmartStoreInit" userAccount:user className:NSStringFromClass([self class]) attributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] }];
         return store;
     }
 }
@@ -343,14 +339,14 @@ NSString *const EXPLAIN_ROWS = @"rows";
         if (nil == _allGlobalSharedStores) {
             _allGlobalSharedStores = [NSMutableDictionary dictionary];
         }
-
         SFSmartStore *store = _allGlobalSharedStores[storeName];
         if (nil == store) {
             store = [[self alloc] initWithName:storeName user:nil isGlobal:YES];
             if (store)
                 _allGlobalSharedStores[storeName] = store;
         }
-        
+        NSInteger numGlobalStores = _allGlobalSharedStores.allKeys.count;
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"globalSmartStoreInit" userAccount:nil className:NSStringFromClass([self class]) attributes:@{ @"numGlobalStores" : [NSNumber numberWithInteger:numGlobalStores] }];
         return store;
     }
 }
@@ -422,6 +418,18 @@ NSString *const EXPLAIN_ROWS = @"rows";
     }
 }
 
++ (NSArray *)allStoreNames {
+    @synchronized (self) {
+        NSArray *allStoreNames = [[SFSmartStoreDatabaseManager sharedManagerForUser:[SFUserAccountManager sharedInstance].currentUser] allStoreNames];
+        return allStoreNames;
+    }
+}
+
++ (NSArray *)allGlobalStoreNames {
+    @synchronized (self) {
+        return [[SFSmartStoreDatabaseManager sharedGlobalManager] allStoreNames];
+    }
+}
 + (void)clearSharedStoreMemoryState
 {
     @synchronized (self) {
@@ -763,6 +771,9 @@ NSString *const EXPLAIN_ROWS = @"rows";
                   soupTableName:(NSString *)soupTableName {
     NSString *filePath = [self externalStorageSoupFilePath:soupEntryId
                                              soupTableName:soupTableName];
+    if (filePath == nil) {
+        return NO;
+    }
     NSOutputStream *outputStream = nil;
     SFSmartStoreEncryptionKeyBlock keyBlock = [SFSmartStore encryptionKeyBlock];
     if (keyBlock) {
@@ -1236,7 +1247,7 @@ NSString *const EXPLAIN_ROWS = @"rows";
     if (soupUsesExternalStorage && soupUsesJSON1) {
         @throw [NSException exceptionWithName:@"Can't have JSON1 index specs in externally stored soup" reason:nil userInfo:nil];
     }
-    
+   
     if (nil == soupTableName) {
         soupTableName = [self registerNewSoupWithSpec:soupSpec withDb:db];
     } else {
@@ -1326,7 +1337,22 @@ NSString *const EXPLAIN_ROWS = @"rows";
         [self executeUpdateThrows:createIndexStmt withDb:db];
     }
     [self insertIntoSoupIndexMap:soupIndexMapInserts withDb:db];
-    
+
+    // Logs analytics event.
+    NSMutableArray<NSString *> *features = [[NSMutableArray alloc] init];
+    if (soupUsesJSON1) {
+        [features addObject:@"JSON1"];
+    }
+    if (soupUsesExternalStorage) {
+        [features addObject:@"ExternalStorage"];
+    }
+    if ([SFSoupIndex hasFts:indexSpecs]) {
+        [features addObject:@"FTS"];
+    }
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    attributes[@"features"] = features;
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"registerSoup" userAccount:self.user className:NSStringFromClass([self class]) attributes:attributes];
+
     // if soup uses external storage, create the dir now
     if (soupUsesExternalStorage) {
         if (![self createExternalStorageDirectory:soupTableName]) {
@@ -2236,4 +2262,5 @@ NSString *const EXPLAIN_ROWS = @"rows";
         }
     } error:nil];
 }
+
 @end

@@ -33,6 +33,11 @@
 #import "SFPasscodeProviderManager.h"
 #import "SFInactivityTimerCenter.h"
 #import "SFApplicationHelper.h"
+#import "SFSwiftDetectUtil.h"
+#import "SFUserAccountManager.h"
+
+static NSString * const kSFAppFeatureSwiftApp   = @"SW";
+static NSString * const kSFAppFeatureMultiUser   = @"MU";
 
 // Error constants
 NSString * const kSalesforceSDKManagerErrorDomain     = @"com.salesforce.sdkmanager.error";
@@ -86,6 +91,15 @@ static Class InstanceClass = nil;
             sdkManager = [[InstanceClass alloc] init];
         } else {
             sdkManager = [[self alloc] init];
+        }
+        if([SFSwiftDetectUtil isSwiftApp]){
+            [sdkManager registerAppFeature:kSFAppFeatureSwiftApp];
+        }
+        if([[[SFUserAccountManager sharedInstance] allUserIdentities] count]>1){
+            [sdkManager registerAppFeature:kSFAppFeatureMultiUser];
+        }
+        else{
+            [sdkManager unregisterAppFeature:kSFAppFeatureMultiUser];
         }
     });
     return sdkManager;
@@ -526,9 +540,14 @@ static Class InstanceClass = nil;
     }
 }
 
-- (void)registerAppFeature:(NSString *)appFeature
+- (void) registerAppFeature:(NSString *) appFeature
 {
     [self.features addObject:appFeature];
+}
+
+- (void) unregisterAppFeature:(NSString *) appFeature
+{
+    [self.features removeObject:appFeature];
 }
 
 - (void)dismissSnapshot

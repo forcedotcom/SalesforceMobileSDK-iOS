@@ -1314,6 +1314,40 @@ static Class InstanceClass = nil;
     }
 }
 
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString *)message completion:(dispatch_block_t)completion {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"] style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              if (completion) completion();
+                                                          }];
+    
+    [alert addAction:defaultAction];
+    [[SFRootViewManager sharedManager] pushViewController:alert];
+}
+
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString *)message completion:(void (^)(BOOL))completion {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertOkButton"] style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              if (completion) completion(YES);
+                                                          }];
+    [alert addAction:defaultAction];
+    
+    UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:[SFSDKResourceUtils localizedString:@"authAlertCancelButton"] style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {
+                                                              if (completion) completion(NO);
+                                                          }];
+    [alert addAction:cancelAction];
+
+    [[SFRootViewManager sharedManager] pushViewController:alert];
+}
+
 #pragma mark - SFIdentityCoordinatorDelegate
 
 - (void)identityCoordinatorRetrievedData:(SFIdentityCoordinator *)coordinator

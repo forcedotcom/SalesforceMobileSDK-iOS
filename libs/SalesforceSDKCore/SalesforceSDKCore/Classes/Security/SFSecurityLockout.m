@@ -38,6 +38,7 @@
 #import "SFApplicationHelper.h"
 #import "SFApplication.h"
 #import "NSUserDefaults+SFAdditions.h"
+#import "SFSDKEventBuilderHelper.h"
 
 // Private constants
 
@@ -371,7 +372,7 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
         });
         return;
     }
-    
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"passcodeUnlock" userAccount:nil className:NSStringFromClass([self class]) attributes:nil];
     [self sendPasscodeFlowCompletedNotification:success];
     UIViewController *passVc = [SFSecurityLockout passcodeViewController];
     if (passVc != nil) {
@@ -731,4 +732,3 @@ static NSString *const kSecurityLockoutSessionId = @"securityLockoutSession";
 }
 
 @end
-

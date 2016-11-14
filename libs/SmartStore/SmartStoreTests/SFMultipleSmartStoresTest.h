@@ -1,5 +1,9 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFMultipleSmartStoresTests.h
+ 
+ Created by Raj Rao on Wed Oct 24 17:47:00 PDT 2016.
+ 
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +26,7 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFSmartStore.h"
+#import "SFSmartStoreTestCase.h"
 
-/**
- * The view controller for managing the SmartStore inspector screen.
- */
-@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
-
-
-/**
- Constructor.
- @param store The SmartStore database to be inspected
- */
-- (instancetype) initWithStore:(SFSmartStore*)store;
-
+@interface SFMultipleSmartStoresTests : SFSmartStoreTestCase
 @end

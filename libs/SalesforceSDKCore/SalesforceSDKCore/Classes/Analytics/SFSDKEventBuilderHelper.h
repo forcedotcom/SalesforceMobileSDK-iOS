@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKEventBuilderHelper.h
+ SalesforceSDKCore
+ 
+ Created by Bharath Hariharan on 11/9/16.
+ 
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +27,18 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFSmartStore.h"
+#import "SFUserAccount.h"
+
+@interface SFSDKEventBuilderHelper : NSObject
 
 /**
- * The view controller for managing the SmartStore inspector screen.
+ * Creates and stores an analytics event with the supplied parameters.
+ *
+ * @param name Event name.
+ * @param userAccount User account.
+ * @param className Class name or context where the event was generated.
+ * @param attributes Addiitonal attributes.
  */
-@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
-
-
-/**
- Constructor.
- @param store The SmartStore database to be inspected
- */
-- (instancetype) initWithStore:(SFSmartStore*)store;
++ (void) createAndStoreEvent:(nonnull NSString *) name userAccount:(nullable SFUserAccount *) userAccount className:(nonnull NSString *) className attributes:(nullable NSDictionary *) attributes;
 
 @end

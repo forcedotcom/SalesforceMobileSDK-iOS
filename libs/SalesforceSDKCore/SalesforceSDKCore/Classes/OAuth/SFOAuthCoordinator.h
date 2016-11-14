@@ -233,6 +233,26 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
 
+/**
+ The delegate is expected to display an alert with the specific message and callback the completion block when
+ the user dismisses the alert.
+ 
+ @param coordinator The SFOAuthCoordinator instance
+ @param message The message to display
+ @param completion The completion block to invoke
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString*)message completion:(dispatch_block_t)completion;
+
+/**
+ The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+ the user dismisses the alert.
+ 
+ @param coordinator The SFOAuthCoordinator instance
+ @param message The message to display
+ @param completion The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString*)message completion:(void (^)(BOOL result))completion;
+
 @required
 
 /** Sent after authentication has begun and the view parameter is displaying the first page of authentication content.
@@ -262,7 +282,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate> {
 }
 
 /** User credentials to use within the authentication process.

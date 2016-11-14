@@ -438,7 +438,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         }];
         [self presentViewController:umvc animated:YES completion:NULL];
     } else if ([text isEqualToString:kActionDbInspector]) {
-        [[[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store] present:self];
+        SFSmartStoreInspectorViewController *inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store];
+         [self presentViewController:inspector animated:NO completion:nil];
+                                                         
     }
 }
 

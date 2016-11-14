@@ -44,6 +44,7 @@
 static NSString * const kEventStoresDirectory = @"event_stores";
 static NSString * const kEventStoreEncryptionKeyLabel = @"com.salesforce.eventStore.encryptionKey";
 static NSString * const kAnalyticsOnOffKey = @"ailtn_enabled";
+static NSString * const kSFAppFeatureAiltnEnabled = @"AI";
 
 static NSMutableDictionary *analyticsManagerList = nil;
 
@@ -119,7 +120,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
     return self;
 }
 
-- (void) setLoggingEnabled:(BOOL)loggingEnabled {
+- (void) setLoggingEnabled:(BOOL) loggingEnabled {
+    if (loggingEnabled) {
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureAiltnEnabled];
+    } else {
+        [[SalesforceSDKManager sharedManager] unregisterAppFeature:kSFAppFeatureAiltnEnabled];
+    }
     [self storeAnalyticsPolicy:loggingEnabled];
     self.eventStoreManager.loggingEnabled = loggingEnabled;
 }

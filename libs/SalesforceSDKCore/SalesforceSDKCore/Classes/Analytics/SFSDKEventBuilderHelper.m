@@ -1,5 +1,10 @@
 /*
- Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+ SFSDKEventBuilderHelper.m
+ SalesforceSDKCore
+ 
+ Created by Bharath Hariharan on 11/9/16.
+ 
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -22,19 +27,33 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
-#import "SFSmartStore.h"
+#import "SFSDKEventBuilderHelper.h"
+#import "SFUserAccountManager.h"
+#import "SFSDKSalesforceAnalyticsManager.h"
+#import <SalesforceAnalytics/SFSDKInstrumentationEventBuilder.h>
 
-/**
- * The view controller for managing the SmartStore inspector screen.
- */
-@interface SFSmartStoreInspectorViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITextViewDelegate>
+@implementation SFSDKEventBuilderHelper
 
-
-/**
- Constructor.
- @param store The SmartStore database to be inspected
- */
-- (instancetype) initWithStore:(SFSmartStore*)store;
++ (void) createAndStoreEvent:(NSString *) name userAccount:(SFUserAccount *) userAccount className:(NSString *) className attributes:(NSDictionary *) attributes {
+    SFUserAccount *account = userAccount;
+    if (!account) {
+        account = [SFUserAccountManager sharedInstance].currentUser;
+    }
+    if (!account) {
+        return;
+    }
+    SFSDKSalesforceAnalyticsManager *manager = [SFSDKSalesforceAnalyticsManager sharedInstanceWithUser:account];
+    SFSDKInstrumentationEvent *event = [SFSDKInstrumentationEventBuilder buildEventWithBuilderBlock:^(SFSDKInstrumentationEventBuilder *builder) {
+        builder.name = name;
+        builder.startTime = [[NSDate date] timeIntervalSince1970];
+        builder.page = @{ @"context" : className };
+        if (attributes) {
+            builder.attributes = attributes;
+        }
+        builder.schemaType = SchemaTypeInteraction;
+        builder.eventType = EventTypeSystem;
+    } analyticsManager:manager.analyticsManager];
+    [manager.analyticsManager.storeManager storeEvent:event];
+}
 
 @end

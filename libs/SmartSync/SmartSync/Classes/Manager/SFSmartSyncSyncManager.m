@@ -30,6 +30,8 @@
 #import <SmartStore/SFSmartStore.h>
 #import <SmartStore/SFQuerySpec.h>
 #import <SalesforceSDKCore/SFJsonUtils.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
+#import <SalesforceSDKCore/SFSDKEventBuilderHelper.h>
 
 // Page size
 NSUInteger const kSyncManagerPageSize = 2000;
@@ -42,6 +44,9 @@ NSString * const kSyncManagerLocal = @"__local__";
 NSString * const kSyncManagerLocallyCreated = @"__locally_created__";
 NSString * const kSyncManagerLocallyUpdated = @"__locally_updated__";
 NSString * const kSyncManagerLocallyDeleted = @"__locally_deleted__";
+
+static NSString * const kSFAppFeatureSmartSync   = @"SY";
+
 
 // response
 NSString * const kSyncManagerLObjectId = @"id"; // e.g. create response
@@ -96,6 +101,7 @@ static NSMutableDictionary *syncMgrList = nil;
             syncMgr = [[self alloc] initWithStore:store];
             syncMgrList[key] = syncMgr;
         }
+        [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSmartSync];
         return syncMgr;
     }
 }
@@ -163,7 +169,7 @@ static NSMutableDictionary *syncMgrList = nil;
 #pragma mark - get sync / run sync methods
 
 /** Return details about a sync
- @param syncId
+ @param syncId Sync ID.
  */
 - (SFSyncState*)getSyncStatus:(NSNumber*)syncId {
     SFSyncState* sync = [SFSyncState newById:syncId store:self.store];
@@ -186,10 +192,20 @@ static NSMutableDictionary *syncMgrList = nil;
         if (totalSize>=0) sync.totalSize = totalSize;
         if (maxTimeStamp>=0) sync.maxTimeStamp = (sync.maxTimeStamp < maxTimeStamp ? maxTimeStamp : sync.maxTimeStamp);
         [sync save:strongSelf.store];
-        
         [strongSelf log:SFLogLevelDebug format:@"Sync update:%@", sync];
-        
-        
+        NSString *eventName = nil;
+        switch (sync.type) {
+            case SFSyncStateSyncTypeDown:
+                eventName = @"syncDown";
+                break;
+            case SFSyncStateSyncTypeUp:
+                eventName = @"syncUp";
+                break;
+        }
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numRecords"] = [NSNumber numberWithInteger:sync.totalSize];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
         switch (sync.status) {
             case SFSyncStateStatusNew:
                 break; // should not happen
@@ -198,20 +214,21 @@ static NSMutableDictionary *syncMgrList = nil;
                 break;
             case SFSyncStateStatusDone:
             case SFSyncStateStatusFailed:
+                [SFSDKEventBuilderHelper createAndStoreEvent:eventName userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
                 [strongSelf.runningSyncIds removeObject:[NSNumber numberWithInteger:sync.syncId]];
                 break;
         }
-        
-        if (updateBlock)
+        if (updateBlock) {
             updateBlock(sync);
+        }
     };
-    
+
     SyncFailBlock failSync = ^(NSString* message, NSError* error) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Sync type:%@ id:%d FAILED cause:%@ error:%@", [SFSyncState syncTypeToString:sync.type], sync.syncId, message, error];
         updateSync(kSFSyncStateStatusFailed, kSyncManagerUnchanged, kSyncManagerUnchanged, kSyncManagerUnchanged);
     };
-    
+
     // Run on background thread
     updateSync(kSFSyncStateStatusRunning, 0, kSyncManagerUnchanged, kSyncManagerUnchanged);
     dispatch_async(self.queue, ^{
@@ -252,9 +269,7 @@ static NSMutableDictionary *syncMgrList = nil;
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:still running", syncId];
         return nil;
     }
-    
     SFSyncState* sync = [self getSyncStatus:(NSNumber *)syncId];
-    
     if (sync == nil) {
         [self log:SFLogLevelError format:@"Cannot run reSync:%@:no sync found", syncId];
          return nil;
@@ -265,7 +280,6 @@ static NSMutableDictionary *syncMgrList = nil;
     }
     sync.totalSize = -1;
     [sync save:self.store];
-    
     [self runSync:sync updateBlock:updateBlock];
     return [sync copy];
 }
@@ -413,9 +427,8 @@ static NSMutableDictionary *syncMgrList = nil;
  */
 - (void) syncUp:(SFSyncState*)sync updateSync:(SyncUpdateBlock)updateSync failSync:(SyncFailBlock)failSync {
     NSString* soupName = sync.soupName;
-    
     SFSyncUpTarget* target = (SFSyncUpTarget*) sync.target;
-    
+
     // Call smartstore
     NSArray* dirtyRecordIds = [target getIdsOfRecordsToSyncUp:self soupName:soupName];
     NSUInteger totalSize = [dirtyRecordIds count];
@@ -483,6 +496,10 @@ static NSMutableDictionary *syncMgrList = nil;
     [((SFSyncDownTarget*) sync.target) getListOfRemoteIds:self localIds:localIds errorBlock:^(NSError* e) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         [strongSelf log:SFLogLevelError format:@"Failed to get list of remote IDs, %@", [e localizedDescription]];
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
         completionStatusBlock(SFSyncStateStatusFailed);
     } completeBlock:^(NSArray* records) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
@@ -501,6 +518,11 @@ static NSMutableDictionary *syncMgrList = nil;
                 [strongSelf.store removeEntriesByQuery:querySpec fromSoup:soupName];
             }
         }
+        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+        attributes[@"numRecords"] = [NSNumber numberWithInteger:localIds.count];
+        attributes[@"syncId"] = [NSNumber numberWithInteger:sync.syncId];
+        attributes[@"syncTarget"] = NSStringFromClass([sync.target class]);
+        [SFSDKEventBuilderHelper createAndStoreEvent:@"cleanResyncGhosts" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
         completionStatusBlock(SFSyncStateStatusDone);
     }];
 }
