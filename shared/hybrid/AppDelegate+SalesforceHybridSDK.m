@@ -59,23 +59,23 @@
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
-    __weak typeof(self) weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
-        [strongSelf setupRootViewController];
+      __strong __typeof(weakSelf) strongSelf = weakSelf;
+      [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+      [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-        __strong typeof(weakSelf) strongSelf = weakSelf;
-        [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-        [strongSelf initializeAppViewState];
-        [[SalesforceSDKManager sharedManager] launch];
+      __strong __typeof(weakSelf) strongSelf = weakSelf;
+      [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+      [strongSelf initializeAppViewState];
+      [[SalesforceSDKManager sharedManager] launch];
     };
     [SalesforceSDKManager sharedManager].postLogoutAction = ^{
-        [weakSelf handleSdkManagerLogout];
+      [weakSelf handleSdkManagerLogout];
     };
     [SalesforceSDKManager sharedManager].switchUserAction = ^(SFUserAccount *fromUser, SFUserAccount *toUser) {
-        [weakSelf handleUserSwitch:fromUser toUser:toUser];
+      [weakSelf handleUserSwitch:fromUser toUser:toUser];
     };
 
     return [self sfsdk_swizzled_init];
