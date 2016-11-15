@@ -562,12 +562,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     } else {
         CSFNetwork *network = self.enqueuedNetwork;
         NSURLSession *session = network.ephemeralSession;
-        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
         if ([self requireBackgroundSession]) {
             session = network.backgroundSession;
         }
-        #endif
-        
         _sessionTask = [self sessionTaskToProcessRequest:request session:session];
         [_sessionTask resume];
         [self updateProgress];

@@ -147,18 +147,13 @@ static NSMutableDictionary *SharedInstances = nil;
         self.ephemeralSession = [NSURLSession sessionWithConfiguration:configuration
                                                               delegate:self
                                                          delegateQueue:nil];
-        #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
         if ([[NSURLSessionConfiguration class] respondsToSelector:@selector(backgroundSessionConfigurationWithIdentifier:)]) {
             self.backgroundSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:@"com.salesforce.network"]
                                                                    delegate:self
                                                               delegateQueue:nil];
         }
-        #endif
-
         self.actionSessionLimitCache = [[NSCache alloc] init];
-        
         self.actionQueue = dispatch_queue_create("com.salesforce.network.action", DISPATCH_QUEUE_SERIAL);
-        
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         #ifdef SFPlatformiOS
         [notificationCenter addObserver:self
