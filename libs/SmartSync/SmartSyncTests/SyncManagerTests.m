@@ -177,15 +177,12 @@ static NSException *authException = nil;
  */
 - (void)testQueryWithFromFieldtoSOQLTarget
 {
-    NSString *soqlQueryWithFromField = [[[[SFSmartSyncSoqlBuilder withFields:@"From_customer__c, Id"] from:@"Stock_Transfers__c"] limit:10] build];
+    NSString *soqlQueryWithFromField = [[[[SFSmartSyncSoqlBuilder withFields:@"From_customer__c, Id"] from:ACCOUNT_TYPE] limit:10] build];
     SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
-    [target getListOfRemoteIds:syncManager localIds:@[@"dummy"] errorBlock:^(NSError *e) {
-        NSString *errMsg = [e localizedDescription];
-        NSLog(@"%@",errMsg);
-        XCTAssert([errMsg rangeOfString:@"SELECT Id from Stock_Transfers__c"].location!=NSNotFound, @"Wrong query was conjectured.");
-    } completeBlock:^(NSArray *records) {
-    
-    }];
+    [target getListOfRemoteIds:syncManager localIds:@[] errorBlock:^(NSError *e) {
+        NSLog(@"%@", [e localizedDescription]);
+        XCTFail(@"Wrong query was generated.");
+    } completeBlock:^(NSArray *records) {}];
 }
 
 /**
