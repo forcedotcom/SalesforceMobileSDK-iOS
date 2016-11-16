@@ -172,6 +172,21 @@ static NSException *authException = nil;
 }
 
 #pragma mark - tests
+/**
+ * Test query with "From_customer__c" field
+ */
+- (void)testQueryWithFromFieldtoSOQLTarget
+{
+    NSString *soqlQueryWithFromField = [[[[SFSmartSyncSoqlBuilder withFields:@"From_customer__c, Id"] from:@"Stock_Transfers__c"] limit:10] build];
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
+    [target getListOfRemoteIds:syncManager localIds:@[@"dummy"] errorBlock:^(NSError *e) {
+        NSString *errMsg = [e localizedDescription];
+        NSLog(@"%@",errMsg);
+        XCTAssert([errMsg rangeOfString:@"SELECT Id from Stock_Transfers__c"].location!=NSNotFound, @"Wrong query was conjectured.");
+    } completeBlock:^(NSArray *records) {
+    
+    }];
+}
 
 /**
  * Test adding 'Id' and 'LastModifiedDate' to SOQL query, if they're missing.
