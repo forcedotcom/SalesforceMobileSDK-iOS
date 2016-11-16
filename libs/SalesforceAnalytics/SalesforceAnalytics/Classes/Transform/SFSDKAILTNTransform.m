@@ -121,7 +121,7 @@ static NSString* const kSFPerfEventType = @"defs";
         payload[kPreviousPageKey] = previousPage;
     }
     NSDictionary *marks = event.marks;
-    if (marks && schemaType == SchemaTypePageView) {
+    if (marks && (schemaType == SchemaTypePageView || schemaType == SchemaTypePerf)) {
         payload[kMarksKey] = marks;
     }
     if (schemaType == SchemaTypeInteraction || schemaType == SchemaTypePageView) {
