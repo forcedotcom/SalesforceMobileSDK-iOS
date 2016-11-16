@@ -147,4 +147,9 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  */
 + (BOOL)isFatalWebViewError:(NSError *)error;
 
+/** 
+ Configures Hybrid start URL.
+ */
+- (void)configureRemoteStartPage;
+
 @end
