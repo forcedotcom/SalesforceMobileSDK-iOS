@@ -55,7 +55,7 @@ if [[ -n $OPT_FRAMEWORK_SCHEME ]]; then
     FRAMEWORK_SCHEME=$FRAMEWORK_NAME
 fi
 
-ROOT=`(cd $(dirname $0)/; pwd)`
+ROOT=`(cd $(dirname $0)/../; pwd)`
 
 if [[ -n $OPT_BUILD ]]; then
     export BUILD_DIR=$OPT_BUILD;
@@ -65,9 +65,9 @@ fi
 
 if [[ -z $OPT_OUTPUT ]]; then
     if [[ -n $WORKSPACE ]]; then
-        OPT_OUTPUT="$WORKSPACE/artifacts"
+        OPT_OUTPUT="$WORKSPACE/build/artifacts"
     else
-        OPT_OUTPUT="$ROOT/artifacts"
+        OPT_OUTPUT="$ROOT/build/artifacts"
     fi
 fi
 
