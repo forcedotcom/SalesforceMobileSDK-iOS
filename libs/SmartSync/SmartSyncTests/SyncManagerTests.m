@@ -172,6 +172,18 @@ static NSException *authException = nil;
 }
 
 #pragma mark - tests
+/**
+ * Test query with "From_customer__c" field
+ */
+- (void)testQueryWithFromFieldtoSOQLTarget
+{
+    NSString *soqlQueryWithFromField = [[[[SFSmartSyncSoqlBuilder withFields:@"From_customer__c, Id"] from:ACCOUNT_TYPE] limit:10] build];
+    SFSoqlSyncDownTarget* target = [SFSoqlSyncDownTarget newSyncTarget:soqlQueryWithFromField];
+    [target getListOfRemoteIds:syncManager localIds:@[] errorBlock:^(NSError *e) {
+        NSLog(@"%@", [e localizedDescription]);
+        XCTFail(@"Wrong query was generated.");
+    } completeBlock:^(NSArray *records) {}];
+}
 
 /**
  * Test adding 'Id' and 'LastModifiedDate' to SOQL query, if they're missing.
