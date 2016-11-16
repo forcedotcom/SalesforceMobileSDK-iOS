@@ -148,7 +148,9 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 + (BOOL)isFatalWebViewError:(NSError *)error;
 
 /** 
- Configures Hybrid start URL.
+ Configures the startPage property to be embedded in the context of its remote bootstrapping absolute URL. The default method configures the startPage property into a frontdoor.jsp absolute URL.
+ 
+ Note: Do not override this method unless you know what you're doing. Improperly configuring the start page remote URL will cause your hybrid remote app to be unable to load. Your overriding method should set the startPage property to the remote URL to be loaded.
  */
 - (void)configureRemoteStartPage;
 
