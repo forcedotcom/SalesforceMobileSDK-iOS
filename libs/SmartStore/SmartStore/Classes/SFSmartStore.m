@@ -327,9 +327,10 @@ NSString *const EXPLAIN_ROWS = @"rows";
             store = [[self alloc] initWithName:storeName user:user];
             if (store)
                 _allSharedStores[userKey][storeName] = store;
+            
+            NSInteger numUserStores = [(NSDictionary *)(_allSharedStores[userKey]) count];
+            [SFSDKEventBuilderHelper createAndStoreEvent:@"userSmartStoreInit" userAccount:user className:NSStringFromClass([self class]) attributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] }];
         }
-        NSInteger numUserStores = [(NSArray *)(_allSharedStores[userKey]) count];
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"userSmartStoreInit" userAccount:user className:NSStringFromClass([self class]) attributes:@{ @"numUserStores" : [NSNumber numberWithInteger:numUserStores] }];
         return store;
     }
 }
