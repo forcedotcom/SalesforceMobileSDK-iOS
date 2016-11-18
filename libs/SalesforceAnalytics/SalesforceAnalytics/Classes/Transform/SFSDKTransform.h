@@ -36,8 +36,8 @@
  * Transforms an event into the required format.
  *
  * @param event Event to be transformed.
- * @return JSON representation after transformation.
+ * @return Transformed representation of the event, or nil if event is to be skipped from publishing.
  */
-+ (nullable NSDictionary *) transform:(nonnull SFSDKInstrumentationEvent *) event;
++ (nullable id) transform:(nonnull SFSDKInstrumentationEvent *) event;
 
 @end
