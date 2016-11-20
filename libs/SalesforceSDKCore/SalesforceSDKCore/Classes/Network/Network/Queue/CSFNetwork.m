@@ -265,16 +265,15 @@ static NSMutableDictionary *SharedInstances = nil;
     // Need to assign our network queue to the action so that the equality test
     // performed in duplicateActionInFlight: will match.
     action.enqueuedNetwork = self;
-    
-    
+
+    // Inform delegate the action will be enqueued.
+    [self delegate_networkWillEnqueueAction:action];
     if (contributeProgress) {
         [self.progress resignCurrent];
     }
-    
     if ([self shouldBypassDedupeForMethod:action.method]) {
         [self.queue addOperation:action];
-    }
-    else {
+    } else {
         dispatch_async(self.duplicateActionDetectionQueue, ^{
             CSFAction *duplicateAction = [self duplicateActionInFlight:action];
             if (duplicateAction) {
