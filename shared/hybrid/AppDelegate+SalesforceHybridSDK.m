@@ -95,7 +95,9 @@
     
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];
-    return [self sfsdk_swizzled_application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES; // we don't want to run's Cordova didFinishLaunchingWithOptions - it creates another window with a webview
+                // if devs want to customize their AppDelegate.m, then they should get rid of AppDelegate+SalesforceHybrid.m
+                // and bring all of its code in their AppDelegate.m
 }
 
 - (void)sfsdk_swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
