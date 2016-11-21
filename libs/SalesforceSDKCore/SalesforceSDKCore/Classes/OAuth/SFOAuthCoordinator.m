@@ -38,6 +38,7 @@
 #import "SFSDKLoginHostStorage.h"
 #import "SFSDKLoginHost.h"
 #import "SFSDKEventBuilderHelper.h"
+#import "SalesforceSDKManager.h"
 
 // Public constants
 
@@ -116,6 +117,8 @@ static NSString * const kHttpHeaderContentType                  = @"Content-Type
 static NSString * const kHttpPostContentType                    = @"application/x-www-form-urlencoded";
 static NSString * const kHttpHeaderUserAgent                    = @"User-Agent";
 static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
+
+static NSString * const kSFAppFeatureSafariBrowserForLogin   = @"BW";
 
 @implementation SFOAuthCoordinator
 
@@ -304,6 +307,7 @@ static NSString * const kOAuthUserAgentUserDefaultsKey          = @"UserAgent";
         // Re-trigger the native browser flow if the app becomes active on `SFOAuthAdvancedAuthStateBrowserRequestInitiated` state.
         if (_advancedAuthState == SFOAuthAdvancedAuthStateBrowserRequestInitiated) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAppDidBecomeActiveDuringAdvancedAuth:) name:UIApplicationDidBecomeActiveNotification object:nil];
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureSafariBrowserForLogin];
         }
         else {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];

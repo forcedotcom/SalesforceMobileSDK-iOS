@@ -144,8 +144,7 @@ static NSString * const kSFSoqlSyncTargetQuery = @"query";
     }
     NSMutableString* soql = [[NSMutableString alloc] initWithString:@"SELECT "];
     [soql appendString:self.idFieldName];
-    [soql appendString:@" "];
-    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@"from" options:NSRegularExpressionCaseInsensitive error:nil];
+    NSRegularExpression* regexp = [NSRegularExpression regularExpressionWithPattern:@" from " options:NSRegularExpressionCaseInsensitive error:nil];
     NSRange rangeFirst = [regexp rangeOfFirstMatchInString:self.query options:0 range:NSMakeRange(0, self.query.length)];
     NSString* fromClause = [self.query substringFromIndex:rangeFirst.location];
     [soql appendString:fromClause];

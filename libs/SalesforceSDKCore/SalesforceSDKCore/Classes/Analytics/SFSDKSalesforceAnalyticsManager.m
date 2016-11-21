@@ -286,16 +286,16 @@ static NSMutableDictionary *analyticsManagerList = nil;
 
 - (void) applyTransformAndPublish:(Class<SFSDKTransform>) curTransform events:(NSArray<SFSDKInstrumentationEvent *> *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (curTransform) {
-        NSMutableArray<NSDictionary *> *eventsJSONArray = [[NSMutableArray alloc] init];
+        NSMutableArray *eventsArray = [[NSMutableArray alloc] init];
         for (SFSDKInstrumentationEvent *event in events) {
-            NSDictionary *eventJSON = [curTransform transform:event];
-            if (eventJSON) {
-                [eventsJSONArray addObject:eventJSON];
+            id transformedEvent = [curTransform transform:event];
+            if (transformedEvent != nil) {
+                [eventsArray addObject:transformedEvent];
             }
         }
         Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[curTransform];
         if (networkPublisher) {
-            [networkPublisher publish:eventsJSONArray publishCompleteBlock:publishCompleteBlock];
+            [networkPublisher publish:eventsArray publishCompleteBlock:publishCompleteBlock];
         }
     }
 }
