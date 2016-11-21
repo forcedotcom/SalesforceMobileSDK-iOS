@@ -56,10 +56,15 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 /**
  Base view controller for Salesforce hybrid app components.
  */
-@interface SFHybridViewController : CDVViewController <WKNavigationDelegate>
+@interface SFHybridViewController : CDVViewController <WKNavigationDelegate, UIWebViewDelegate>
 {
     
 }
+
+/**
+ Indicates if UIWebView is being used instead of WKWebView.
+ */
+@property (nonatomic, readonly, assign) BOOL useUIWebView;
 
 /**
  The Remote Access object consumer key.
@@ -88,10 +93,17 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 @property (nonatomic, strong) NSURL *appHomeUrl;
 
 /**
- Designated initializer. Initializes the view controller with its hybrid view configuration.
+ Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
  @param viewConfig The hybrid view configuration associated with this component.
  */
-- (id)initWithConfig:(SFHybridViewConfig *)viewConfig;
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig;
+
+/**
+ Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.
+ @param viewConfig The hybrid view configuration associated with this component.
+ @param useUIWebView YES - to use UIWebView, NO - to use WKWebView.
+ */
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
 
 /**
  * Initializes a new Cordova view with the specified bounds and engine.
