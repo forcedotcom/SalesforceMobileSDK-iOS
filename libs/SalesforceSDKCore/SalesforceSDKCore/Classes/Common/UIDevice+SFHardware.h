@@ -152,6 +152,9 @@ typedef NS_ENUM(NSUInteger, UIDeviceFamily) {
 /**CPU Count*/
 - (NSUInteger) cpuCount;
 
+/**Total CUP*/
+- (float) totalCPU;
+
 /**Total memory*/
 - (NSUInteger) totalMemory;
 
