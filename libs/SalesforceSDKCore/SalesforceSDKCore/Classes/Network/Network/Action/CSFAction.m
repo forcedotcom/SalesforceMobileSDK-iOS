@@ -511,9 +511,9 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
 
 #pragma mark NSOperation implementation
 
-- (void)start {
+- (void) start {
+    [self.enqueuedNetwork delegate_networkStartedAction:self];
     self.timingValues[@"startTime"] = [NSDate date];
-    
     if ([self isCancelled]) {
         [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                              code:CSFNetworkCancelledError
@@ -521,7 +521,6 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
                                                                      CSFNetworkErrorActionKey: self }]];
         return;
     }
-    
     [self willChangeValueForKey:@"isExecuting"];
     _executing = YES;
     [self didChangeValueForKey:@"isExecuting"];
@@ -571,11 +570,14 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
 }
 
-- (void)cancel {
+- (void) cancel {
     [super cancel];
     NetworkVerbose(@"In-flight action cancelled");
     [self.sessionTask cancel];
     [self.progress cancel];
+
+    // This needs to be before the `completeOperation...` call.
+    [self.enqueuedNetwork delegate_networkCanceledAction:self];
     [self completeOperationWithError:[NSError errorWithDomain:CSFNetworkErrorDomain
                                                          code:CSFNetworkCancelledError
                                                      userInfo:@{ NSLocalizedDescriptionKey: @"Operation was cancelled",
@@ -711,14 +713,12 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
     }
 }
 
-- (void)completeOperationWithError:(NSError *)error {
+- (void) completeOperationWithError:(NSError *)error {
     if (_completeCalled) {
         return;
-    }
-    else {
+    } else {
         _completeCalled = YES;
     }
-
     if (self.isExecuting) {
         [self willChangeValueForKey:@"isExecuting"];
         [self willChangeValueForKey:@"isFinished"];
@@ -727,17 +727,16 @@ CSFActionTiming kCSFActionTimingPostProcessingKey = @"postProcessing";
         [self didChangeValueForKey:@"isExecuting"];
         [self didChangeValueForKey:@"isFinished"];
     }
-    
     self.error = error;
     self.responseData = nil;
     self.timingValues[@"endTime"] = [NSDate date];
     self.progress.totalUnitCount = -1;
     self.progress.cancellable = YES;
     self.progress.pausable = NO;
-
     if (self.responseBlock) {
         self.responseBlock(self, self.error);
     }
+    [self.enqueuedNetwork delegate_networkCompletedAction:self withError:error];
 }
 
 - (id)contentFromData:(NSData*)data fromResponse:(NSHTTPURLResponse*)response error:(NSError**)error {
