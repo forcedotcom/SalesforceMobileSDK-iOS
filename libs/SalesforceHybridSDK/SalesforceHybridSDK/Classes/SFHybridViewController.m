@@ -61,6 +61,9 @@ static NSString * const kErrorContextAppLoading = @"AppLoading";
 static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshExpiredSession";
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
+// App feature constant.
+static NSString * const kSFAppFeatureUsesUIWebView = @"UI";
+
 @interface SFHybridViewController()
 {
     BOOL _foundHomeUrl;
@@ -164,12 +167,12 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 @implementation SFHybridViewController
 
-- (id)init
+- (id) init
 {
     return [self initWithConfig:nil];
 }
 
-- (id)initWithConfig:(SFHybridViewConfig *)viewConfig
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig
 {
     return [self initWithConfig:viewConfig useUIWebView:NO];
 }
@@ -179,6 +182,9 @@ static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
     self = [super init];
     if (self) {
         self.useUIWebView = useUIWebView;
+        if (useUIWebView) {
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureUsesUIWebView];
+        }
         _hybridViewConfig = (viewConfig == nil ? [SFHybridViewConfig fromDefaultConfigFile] : viewConfig);
         NSAssert(_hybridViewConfig != nil, @"_hybridViewConfig was not properly initialized. See output log for errors.");
         self.startPage = _hybridViewConfig.startPage;

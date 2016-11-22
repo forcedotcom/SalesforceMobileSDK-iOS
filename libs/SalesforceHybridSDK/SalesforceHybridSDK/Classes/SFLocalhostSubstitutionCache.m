@@ -23,9 +23,13 @@
  */
 
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <SalesforceSDKCore/SalesforceSDKManager.h>
 #import "SFLocalhostSubstitutionCache.h"
 
 #define WWW_DIR @"www"
+
+// App feature constant.
+static NSString * const kSFAppFeatureUsesLocalhost = @"LH";
 
 @implementation SFLocalhostSubstitutionCache
 
@@ -56,38 +60,34 @@
 - (NSCachedURLResponse *)cachedResponseForRequest:(NSURLRequest *)request
 {
     NSURL* url = [request URL];
-    
-    // Not a localhost request
+
+    // Not a localhost request.
     if (![[url host] isEqualToString:@"localhost"]) {
         return [super cachedResponseForRequest:request];
     }
-    
-    // Localhost request
+
+    // Localhost request.
+    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureUsesLocalhost];
     NSString* urlPath = [url path];
     NSString* filePath = [self pathForResource:urlPath];
     NSString* wwwDirPath = [self pathForResource:@""];
-    
     NSData* data = nil;
     NSString* mimeType = @"text/plain";
     NSFileManager *manager = [[NSFileManager alloc] init];
     if (![filePath hasPrefix:wwwDirPath]) {
         [self log:SFLogLevelError format:@"Trying to access files outside www: %@", url];
-    }
-    else if (![manager fileExistsAtPath:filePath]) {
+    } else if (![manager fileExistsAtPath:filePath]) {
         [self log:SFLogLevelError format:@"Trying to access non-existent file: %@", url];
-    }
-    else {
+    } else {
         data = [NSData dataWithContentsOfFile:filePath];
         mimeType = [self mimeTypeForPath:filePath];
         [self log:SFLogLevelInfo format:@"Loading local file: %@", urlPath];
     }
-    
     NSURLResponse *response = [[NSURLResponse alloc]
                                initWithURL:[request URL]
                                MIMEType:mimeType
                                expectedContentLength:[data length]
                                textEncodingName:@"utf-8"];
-    
     return [[NSCachedURLResponse alloc] initWithResponse:response data:data];
 }
 
