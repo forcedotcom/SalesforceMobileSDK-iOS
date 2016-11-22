@@ -62,7 +62,7 @@ static NSString * const kErrorContextAuthExpiredSessionRefresh = @"AuthRefreshEx
 static NSString * const kVFPingPageUrl = @"/apexpages/utils/ping.apexp";
 
 // App feature constant.
-static NSString * const kSFAppFeatureUsesUIWebView = @"UI";
+static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
 
 @interface SFHybridViewController()
 {
