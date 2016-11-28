@@ -421,7 +421,7 @@ static NSString * const kSFAppFeatureUsesUIWebView = @"WV";
      * other cases, because of differences between instance URL and community URL.
      */
     if (createAbsUrl && ![returnUrl hasPrefix:@"http"]) {
-        fullReturnUrl = [NSString stringWithFormat:@"%@%@", instUrl, returnUrl];
+        fullReturnUrl = [NSString stringWithFormat:@"%@/%@", instUrl, returnUrl];
     }
     if([returnUrl containsString:@"frontdoor.jsp"]) {
         NSRange r1 = [returnUrl rangeOfString: isEncoded ? @"retURL%3D" : @"retURL="];
