@@ -71,11 +71,6 @@ static NSString* const kSFPerfEventType = @"defs";
     return logLine;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    id<SFSDKTransform> copiedTransformObj = [[[self class] allocWithZone:zone] init];
-    return copiedTransformObj;
-}
-
 + (NSDictionary *) buildDeviceAttributes:(SFSDKInstrumentationEvent *) event {
     NSMutableDictionary *deviceAttributes = [[NSMutableDictionary alloc] init];
     SFSDKDeviceAppAttributes *deviceAppAttributes = event.deviceAppAttributes;

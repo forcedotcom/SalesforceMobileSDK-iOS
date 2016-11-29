@@ -30,7 +30,7 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKInstrumentationEvent.h"
 
-@protocol SFSDKTransform <NSCopying>
+@protocol SFSDKTransform <NSObject>
 
 /**
  * Transforms an event into the required format.
