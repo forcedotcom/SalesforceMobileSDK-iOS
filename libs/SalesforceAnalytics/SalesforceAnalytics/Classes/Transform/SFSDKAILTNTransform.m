@@ -56,7 +56,7 @@ static NSString* const kSFPerfEventType = @"defs";
 
 @implementation SFSDKAILTNTransform
 
-+ (id) transform:(SFSDKInstrumentationEvent *) event {
+- (id) transform:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return nil;
     }
@@ -69,6 +69,11 @@ static NSString* const kSFPerfEventType = @"defs";
         }
     }
     return logLine;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    id<SFSDKTransform> copiedTransformObj = [[[self class] allocWithZone:zone] init];
+    return copiedTransformObj;
 }
 
 + (NSDictionary *) buildDeviceAttributes:(SFSDKInstrumentationEvent *) event {

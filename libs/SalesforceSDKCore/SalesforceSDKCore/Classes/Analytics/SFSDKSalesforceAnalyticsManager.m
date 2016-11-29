@@ -53,7 +53,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
 @property (nonatomic, readwrite, strong) SFSDKAnalyticsManager *analyticsManager;
 @property (nonatomic, readwrite, strong) SFSDKEventStoreManager *eventStoreManager;
 @property (nonatomic, readwrite, strong) SFUserAccount *userAccount;
-@property (nonatomic, readwrite, strong) NSMutableDictionary *remotes;
+@property (nonatomic, readwrite, strong) NSMutableDictionary<id<SFSDKTransform>, id<SFSDKAnalyticsPublisher>> *remotes;
 
 @end
 
@@ -114,7 +114,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
         self.analyticsManager = [[SFSDKAnalyticsManager alloc] initWithStoreDirectory:rootStoreDir dataEncryptorBlock:dataEncryptorBlock dataDecryptorBlock:dataDecryptorBlock deviceAttributes:deviceAttributes];
         self.eventStoreManager = self.analyticsManager.storeManager;
         self.remotes = [[NSMutableDictionary alloc] init];
-        self.remotes[(id<NSCopying>) [SFSDKAILTNTransform class]] = [SFSDKAILTNPublisher class];
+        self.remotes[[[SFSDKAILTNTransform alloc] init]] = [[SFSDKAILTNPublisher alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(publishOnAppBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
     return self;
@@ -164,8 +164,8 @@ static NSMutableDictionary *analyticsManagerList = nil;
         }
         __block BOOL overallSuccess = YES;
         __block BOOL overallCompletionStatus = NO;
-        __block NSMutableArray<Class<SFSDKTransform>> *remoteKeySet = [[self.remotes allKeys] mutableCopy];
-        __block Class<SFSDKTransform> curTransform = [remoteKeySet objectAtIndex:0];
+        __block NSMutableArray<id<SFSDKTransform>> *remoteKeySet = [[self.remotes allKeys] mutableCopy];
+        __block id<SFSDKTransform> curTransform = remoteKeySet[0];
         PublishCompleteBlock publishCompleteBlock = ^void(BOOL success, NSError *error) {
 
             /*
@@ -187,7 +187,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 overallCompletionStatus = YES;
             }
             if (!overallCompletionStatus) {
-                curTransform = [remoteKeySet objectAtIndex:0];
+                curTransform = remoteKeySet[0];
                 [self applyTransformAndPublish:curTransform events:events publishCompleteBlock:publishCompleteBlock];
             } else {
 
@@ -214,12 +214,12 @@ static NSMutableDictionary *analyticsManagerList = nil;
     }
 }
 
-- (void) addRemotePublisher:(Class<SFSDKTransform>) transformer publisher:(Class<SFSDKAnalyticsPublisher>) publisher {
+- (void) addRemotePublisher:(id<SFSDKTransform>) transformer publisher:(id<SFSDKAnalyticsPublisher>) publisher {
     if (!transformer || !publisher) {
         [self log:SFLogLevelWarning msg:@"Invalid transformer and/or publisher"];
         return;
     }
-    self.remotes[(id<NSCopying>) transformer] = publisher;
+    self.remotes[transformer] = publisher;
 }
 
 - (SFSDKDeviceAppAttributes *) buildDeviceAppAttributes {
@@ -284,7 +284,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
     });
 }
 
-- (void) applyTransformAndPublish:(Class<SFSDKTransform>) curTransform events:(NSArray<SFSDKInstrumentationEvent *> *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
+- (void) applyTransformAndPublish:(id<SFSDKTransform>) curTransform events:(NSArray<SFSDKInstrumentationEvent *> *) events publishCompleteBlock:(PublishCompleteBlock) publishCompleteBlock {
     if (curTransform) {
         NSMutableArray *eventsArray = [[NSMutableArray alloc] init];
         for (SFSDKInstrumentationEvent *event in events) {
@@ -293,7 +293,7 @@ static NSMutableDictionary *analyticsManagerList = nil;
                 [eventsArray addObject:transformedEvent];
             }
         }
-        Class<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[curTransform];
+        id<SFSDKAnalyticsPublisher> networkPublisher = self.remotes[curTransform];
         if (networkPublisher) {
             [networkPublisher publish:eventsArray publishCompleteBlock:publishCompleteBlock];
         }

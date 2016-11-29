@@ -30,7 +30,7 @@
 #import <Foundation/Foundation.h>
 #import "SFSDKInstrumentationEvent.h"
 
-@protocol SFSDKTransform <NSObject>
+@protocol SFSDKTransform <NSCopying>
 
 /**
  * Transforms an event into the required format.
@@ -38,6 +38,6 @@
  * @param event Event to be transformed.
  * @return Transformed representation of the event, or nil if event is to be skipped from publishing.
  */
-+ (nullable id) transform:(nonnull SFSDKInstrumentationEvent *) event;
+- (nullable id) transform:(nonnull SFSDKInstrumentationEvent *) event;
 
 @end
