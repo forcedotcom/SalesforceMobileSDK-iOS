@@ -46,6 +46,7 @@ static NSString * const kfileParams      = @"fileParams";
 static NSString * const kFileMimeType    = @"fileMimeType";
 static NSString * const kFileUrl         = @"fileUrl";
 static NSString * const kFileName        = @"fileName";
+static NSString * const kFormUrlUTF8EncodedType = @"application/x-www-form-urlencoded; charset=UTF-8";
 
 @implementation SFNetworkPlugin
 
@@ -57,6 +58,7 @@ static NSString * const kFileName        = @"fileName";
     NSString* path = [argsDict nonNullObjectForKey:kPathArg];
 
     NSDictionary* queryParams = [[NSDictionary alloc] init];
+    NSDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
     id queryParamsObj = [argsDict nonNullObjectForKey:kQueryParams];
 
     /*
@@ -64,11 +66,19 @@ static NSString * const kFileName        = @"fileName";
      * for POST. These checks ensure that both cases are handled properly.
      */
     if ([queryParamsObj isKindOfClass:[NSString class]]) {
-        queryParams = [SFJsonUtils objectFromJSONString:queryParamsObj];
+        NSString* contentType = [headerParams objectForKey:@"Content-Type"];
+        if(contentType && [contentType isEqualToString:kFormUrlUTF8EncodedType]){
+            //Send POST body as encoded string and not JSON as not all REST Endpoints
+            //support JSON as a Content Type;
+            queryParams = [[NSDictionary alloc] initWithObjectsAndKeys:queryParamsObj, @"x-www-form-urlencoded", nil];
+        }
+        else{
+             queryParams = [SFJsonUtils objectFromJSONString:queryParamsObj];
+        }
     } else {
         queryParams = queryParamsObj;
     }
-    NSDictionary<NSString*, NSString*>* headerParams = [argsDict nonNullObjectForKey:kHeaderParams];
+
     NSDictionary<NSString*, NSDictionary*>* fileParams = [argsDict nonNullObjectForKey:kfileParams];
     SFRestRequest* request = [SFRestRequest requestWithMethod:method path:path queryParams:queryParams];
 
