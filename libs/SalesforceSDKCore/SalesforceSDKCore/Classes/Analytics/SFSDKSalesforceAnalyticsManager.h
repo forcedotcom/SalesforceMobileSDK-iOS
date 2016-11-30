@@ -95,7 +95,7 @@
  * @param transformer Transformer class.
  * @param publisher Publisher class.
  */
-- (void) addRemotePublisher:(nonnull Class<SFSDKTransform>) transformer publisher:(nonnull Class<SFSDKAnalyticsPublisher>) publisher;
+- (void) addRemotePublisher:(nonnull id<SFSDKTransform>) transformer publisher:(nonnull id<SFSDKAnalyticsPublisher>) publisher;
 
 /**
  * Updates the preferences of this library.

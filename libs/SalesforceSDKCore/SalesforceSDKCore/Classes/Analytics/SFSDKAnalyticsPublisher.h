@@ -39,6 +39,6 @@ typedef void (^ _Nonnull PublishCompleteBlock)(BOOL success, NSError * _Nullable
  * @param events Events to be published.
  * @param publishCompleteBlock Completion block invoked once network publish is complete.
  */
-+ (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
+- (void) publish:(nonnull NSArray *) events publishCompleteBlock:(nonnull PublishCompleteBlock) publishCompleteBlock;
 
 @end

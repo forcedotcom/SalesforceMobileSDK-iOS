@@ -56,7 +56,7 @@ static NSString* const kSFPerfEventType = @"defs";
 
 @implementation SFSDKAILTNTransform
 
-+ (id) transform:(SFSDKInstrumentationEvent *) event {
+- (id) transform:(SFSDKInstrumentationEvent *) event {
     if (!event) {
         return nil;
     }
