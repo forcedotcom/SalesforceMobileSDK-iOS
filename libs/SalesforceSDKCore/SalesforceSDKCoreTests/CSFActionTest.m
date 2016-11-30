@@ -26,9 +26,38 @@
 #import <XCTest/XCTest.h>
 #import "TestDataAction.h"
 
+
+@interface MockDelegate : NSObject<CSFNetworkDelegate>
+
+@property (nonatomic) BOOL startCalled;
+@property (nonatomic) BOOL canceledCalled;
+@property (nonatomic) BOOL completedCalled;
+-(void)clearStatus;
+
+@end
+
+@implementation MockDelegate
+- (void)network:(CSFNetwork*)network didStartAction:(CSFAction*)action {
+    self.startCalled = YES;
+}
+- (void)network:(CSFNetwork*)network didCancelAction:(CSFAction*)action {
+    self.canceledCalled = YES;
+}
+- (void)network:(CSFNetwork*)network didCompleteAction:(CSFAction*)action withError:(NSError*)error {
+    self.completedCalled = YES;
+}
+- (void)clearStatus {
+    self.startCalled = NO;
+    self.canceledCalled = NO;
+    self.completedCalled = NO;
+}
+@end
+
+
 @interface CSFActionTest : XCTestCase
 
 @property (nonatomic, strong) CSFNetwork *networkMock;
+@property (nonatomic, strong) MockDelegate *delegateMock;
 
 @end
 
@@ -38,6 +67,7 @@
     [super setUp];
 
     self.networkMock = [TestDataAction mockNetworkWithAccount:nil];
+    self.delegateMock = [[MockDelegate alloc] init];
 }
 
 - (void)testCancel {
@@ -63,7 +93,7 @@
     testAction.enqueuedNetwork = self.networkMock;
     testAction.cancelled = YES;
     [testAction start];
-    
+
     [self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {
         XCTAssertNil(error);
     }];
@@ -148,4 +178,47 @@
     action2.verb=@"test";
     XCTAssertFalse([action1 isEqual:action2]);
 }
+
+- (void)testNetworkDelegate {
+    [self.delegateMock clearStatus];
+    [self.networkMock addDelegate:self.delegateMock];
+    
+    TestDataAction *testAction = nil;
+    XCTestExpectation *normalCancelExpectation = [self expectationWithDescription:@"normal cancel block called"];
+    testAction = [[TestDataAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error) {
+        XCTAssertNotNil(error);
+        XCTAssertEqualObjects(error.domain, CSFNetworkErrorDomain);
+        XCTAssertEqual(error.code, CSFNetworkCancelledError);
+        [normalCancelExpectation fulfill];
+    } testFilename:nil withExtension:nil];
+    testAction.enqueuedNetwork = self.networkMock;
+    [testAction cancel];
+
+    [self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        XCTAssertTrue(self.delegateMock.canceledCalled);
+        XCTAssertTrue(self.delegateMock.completedCalled);
+        XCTAssertFalse(self.delegateMock.startCalled);
+        [self.delegateMock clearStatus];
+    }];
+    
+    
+    XCTestExpectation *normalCompleteExpectation = [self expectationWithDescription:@"normal complete block called"];
+    testAction = [[TestDataAction alloc] initWithResponseBlock:^(CSFAction *action, NSError *error) {
+        XCTAssertNotNil(error);
+        [normalCompleteExpectation fulfill];
+    } testFilename:nil withExtension:nil];
+    testAction.enqueuedNetwork = self.networkMock;
+    [testAction start];
+    
+    [self waitForExpectationsWithTimeout:2 handler:^(NSError *error) {
+        XCTAssertNil(error);
+        XCTAssertTrue(self.delegateMock.startCalled);
+        XCTAssertTrue(self.delegateMock.completedCalled);
+        XCTAssertFalse(self.delegateMock.canceledCalled);
+        [self.delegateMock clearStatus];
+    }];
+}
+
+
 @end

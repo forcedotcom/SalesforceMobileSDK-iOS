@@ -54,7 +54,8 @@
     NSURLSession *session = [self mockURLSession];
     
     // Create a mock network for this user's network
-    CSFNetwork *network = OCMClassMock([CSFNetwork class]);
+    CSFNetwork *networkToMock = [[CSFNetwork alloc] init];
+    CSFNetwork *network = OCMPartialMock(networkToMock);
     OCMStub([network userAgent]).andReturn(@"MyClient");
     OCMStub([network ephemeralSession]).andReturn(session);
     OCMStub([network account]).andReturn(account);
