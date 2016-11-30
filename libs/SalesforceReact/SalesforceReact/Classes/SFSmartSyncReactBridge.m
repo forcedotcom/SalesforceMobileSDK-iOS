@@ -85,8 +85,9 @@ RCT_EXPORT_METHOD(cleanResyncGhosts:(NSDictionary *)args callback:(RCTResponseSe
 {
     NSNumber* syncId = (NSNumber*) [args nonNullObjectForKey:kSyncIdArg];
     [self log:SFLogLevelDebug format:@"cleanResyncGhosts with sync id: %@", syncId];
-    [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:nil];
-    callback(@[[NSNull null]]);
+    [[self getSyncManagerInst:args] cleanResyncGhosts:syncId completionStatusBlock:^void(SFSyncStateStatus syncStatus){
+        callback(@[[NSNull null], [SFSyncState syncStatusToString:syncStatus]]);
+    }];
 }
 
 RCT_EXPORT_METHOD(syncUp:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback)
