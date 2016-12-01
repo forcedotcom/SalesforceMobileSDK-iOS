@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
 
+/** Notification sent when something user init has finished
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidFinishUserInitNotification;
+
 /** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
  The value is a NSNumber that can be casted to the option SFUserAccountChange
  */

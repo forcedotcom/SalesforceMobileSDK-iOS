@@ -49,7 +49,8 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 @interface SFManagedPreferences ()
 
 @property (nonatomic, strong, readwrite) NSDictionary *rawPreferences;
-@property (nonatomic, strong) NSOperationQueue * syncQueue;
+@property (nonatomic, strong) NSOperationQueue *syncQueue;
+
 @end
 
 @implementation SFManagedPreferences
@@ -84,16 +85,17 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
         if (self.rawPreferences) {
             [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
         }
-        NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
-        if (self.rawPreferences) {
-            attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
-            attributes[@"mdmConfigs"] = self.rawPreferences;
-        } else {
-            attributes[@"mdmIsActive"] = [NSNumber numberWithBool:NO];
-        }
-        [SFSDKEventBuilderHelper createAndStoreEvent:@"mdmConfiguration" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:self
+                               selector:@selector(storeAnalyticsEvent)
+                                   name:SFUserAccountManagerDidFinishUserInitNotification
+                                 object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)hasManagedPreferences {
@@ -145,6 +147,17 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 - (BOOL)clearClipboardOnBackground {
     return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
+}
+
+- (void)storeAnalyticsEvent {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    if (self.rawPreferences) {
+        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
+        attributes[@"mdmConfigs"] = self.rawPreferences;
+    } else {
+        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:NO];
+    }
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"mdmConfiguration" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 @end
