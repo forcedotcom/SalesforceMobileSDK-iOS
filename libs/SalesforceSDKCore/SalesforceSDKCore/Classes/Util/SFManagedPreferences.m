@@ -88,7 +88,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
         [notificationCenter addObserver:self
                                selector:@selector(storeAnalyticsEvent)
-                                   name:SFUserAccountManagerDidChangeCurrentUserNotification
+                                   name:SFUserAccountManagerDidFinishUserInitNotification
                                  object:nil];
     }
     return self;

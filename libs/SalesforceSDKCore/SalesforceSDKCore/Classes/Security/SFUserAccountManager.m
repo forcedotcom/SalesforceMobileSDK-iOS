@@ -117,9 +117,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     static SFUserAccountManager *userAccountManager = nil;
     dispatch_once(&pred, ^{
 		userAccountManager = [[self alloc] init];
-        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification
-                                                            object:self];
 	});
+    [NSNotificationCenter postNotificationOnceWithName:SFUserAccountManagerDidFinishUserInitNotification object:nil userInfo:nil];
     return userAccountManager;
 }
 
