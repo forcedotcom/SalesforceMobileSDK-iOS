@@ -42,6 +42,7 @@
 
 // Notifications
 NSString * const SFUserAccountManagerDidChangeCurrentUserNotification   = @"SFUserAccountManagerDidChangeCurrentUserNotification";
+NSString * const SFUserAccountManagerDidFinishUserInitNotification   = @"SFUserAccountManagerDidFinishUserInitNotification";
 
 NSString * const SFUserAccountManagerUserChangeKey      = @"change";
 
@@ -116,6 +117,8 @@ static NSString * const kSFAppFeatureMultiUser   = @"MU";
     static SFUserAccountManager *userAccountManager = nil;
     dispatch_once(&pred, ^{
 		userAccountManager = [[self alloc] init];
+        [[NSNotificationCenter defaultCenter] postNotificationName:SFUserAccountManagerDidFinishUserInitNotification
+                                                            object:self];
 	});
     return userAccountManager;
 }
