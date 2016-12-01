@@ -57,7 +57,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
 
 @synthesize rawPreferences = _rawPreferences;
 
-+ (instancetype) sharedPreferences {
++ (instancetype)sharedPreferences {
     static dispatch_once_t pred;
     static SFManagedPreferences *preferences = nil;
     dispatch_once(&pred, ^{
@@ -66,7 +66,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return preferences;
 }
 
-- (id) init {
+- (id)init {
     self = [super init];
     if (self) {
         self.syncQueue = [[NSOperationQueue alloc] init];
@@ -94,23 +94,23 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (BOOL) hasManagedPreferences {
+- (BOOL)hasManagedPreferences {
     return ([self.rawPreferences allKeys].count > 0);
 }
 
-- (BOOL) requireCertificateAuthentication {
+- (BOOL)requireCertificateAuthentication {
     return [self.rawPreferences[kManagedKeyRequireCertAuth] boolValue];
 }
 
-- (BOOL) onlyShowAuthorizedHosts {
+- (BOOL)onlyShowAuthorizedHosts {
     return [self.rawPreferences[kManagedKeyOnlyShowAuthorizedHosts] boolValue];
 }
 
-- (NSArray *) loginHosts {
+- (NSArray *)loginHosts {
     id objLoginHosts = self.rawPreferences[kManagedKeyLoginHosts];
     if ([objLoginHosts isKindOfClass:[NSString class]]) {
         objLoginHosts = @[ objLoginHosts ];
@@ -118,7 +118,7 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return objLoginHosts;
 }
 
-- (NSArray *) loginHostLabels {
+- (NSArray *)loginHostLabels {
     id objLoginHostLabels = self.rawPreferences[kManagedKeyLoginHostLabels];
     if ([objLoginHostLabels isKindOfClass:[NSString class]]) {
         objLoginHostLabels = @[ objLoginHostLabels ];
@@ -126,15 +126,15 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return objLoginHostLabels;
 }
 
-- (NSString *) connectedAppId {
+- (NSString *)connectedAppId {
     return self.rawPreferences[kManagedKeyConnectedAppId];
 }
 
-- (NSString *) connectedAppCallbackUri {
+- (NSString *)connectedAppCallbackUri {
     return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
 }
 
-- (BOOL) shouldDisableExternalPasteDefinedByConnectedApp {
+- (BOOL)shouldDisableExternalPasteDefinedByConnectedApp {
     NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
     if (customAttributes) {
         NSString *disableExternalPaste = customAttributes[kSFDisableExternalPaste];
@@ -145,11 +145,11 @@ static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
     return NO;
 }
 
-- (BOOL) clearClipboardOnBackground {
+- (BOOL)clearClipboardOnBackground {
     return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
 }
 
-- (void) storeAnalyticsEvent {
+- (void)storeAnalyticsEvent {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     if (self.rawPreferences) {
         attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
