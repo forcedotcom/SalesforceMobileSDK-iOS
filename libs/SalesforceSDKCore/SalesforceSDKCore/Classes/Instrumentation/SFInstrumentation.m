@@ -71,23 +71,44 @@
 }
 
 - (void)interceptInstanceMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+    [self interceptMethod:selector beforeBlock:before afterBlock:after isInstanceMethod:YES];
+}
+
+
+- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace {
+    [self interceptMethod:selector replaceWithInvocationBlock:replace isInstanceMethod:YES];
+}
+
+- (void)interceptClassMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+    [self interceptMethod:selector beforeBlock:before afterBlock:after isInstanceMethod:NO];
+}
+
+- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace {
+    [self interceptMethod:selector replaceWithInvocationBlock:replace isInstanceMethod:NO];
+}
+
+- (void)interceptMethod:(SEL)selector
+            beforeBlock:(SFMethodInterceptorInvocationCallback)before
+             afterBlock:(SFMethodInterceptorInvocationAfterCallback)after
+       isInstanceMethod:(BOOL)isInstanceMethod {
     SFMethodInterceptor *interceptor = [[SFMethodInterceptor alloc] init];
     interceptor.classToIntercept = self.clazz;
     interceptor.selectorToIntercept = selector;
     interceptor.targetBeforeBlock = before;
     interceptor.targetAfterBlock = after;
-    interceptor.instanceMethod = YES;
+    interceptor.instanceMethod = isInstanceMethod;
     interceptor.enabled = YES;
     [self.interceptors addObject:interceptor];
 }
 
-
-- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace {
+- (void)interceptMethod:(SEL)selector
+replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
+       isInstanceMethod:(BOOL)isInstanceMethod {
     SFMethodInterceptor *interceptor = [[SFMethodInterceptor alloc] init];
     interceptor.classToIntercept = self.clazz;
     interceptor.selectorToIntercept = selector;
     interceptor.targetReplaceBlock = replace;
-    interceptor.instanceMethod = YES;
+    interceptor.instanceMethod = isInstanceMethod;
     interceptor.enabled = YES;
     [self.interceptors addObject:interceptor];
 }
@@ -101,12 +122,23 @@
         };
     }
     
+    // Instance methods
     unsigned int mc = 0;
-    Method * mlist = class_copyMethodList(self.clazz, &mc);
+    Method *instanceMethodList = class_copyMethodList(self.clazz, &mc);
     for(int i=0;i<mc;i++) {
-        SEL selector = method_getName(mlist[i]);
-        if (selectorFilter(selector)) {
+        SEL selector = method_getName(instanceMethodList[i]);
+        if (selectorFilter(selector, YES)) {
             [self interceptInstanceMethod:selector beforeBlock:nil afterBlock:after];
+        }
+    }
+    
+    // Class methods
+    mc = 0;
+    Method *classMethodList = class_copyMethodList(object_getClass(self.clazz), &mc);
+    for(int i=0;i<mc;i++) {
+        SEL selector = method_getName(classMethodList[i]);
+        if (selectorFilter(selector, NO)) {
+            [self interceptClassMethod:selector beforeBlock:nil afterBlock:after];
         }
     }
 }
