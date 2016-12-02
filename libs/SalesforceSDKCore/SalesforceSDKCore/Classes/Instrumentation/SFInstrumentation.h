@@ -25,7 +25,7 @@
 #import <Foundation/Foundation.h>
 #import "SFMethodInterceptor.h"
 
-typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector);
+typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSelector);
 
 
 /** This class exposes API that allow to intercept
@@ -54,9 +54,24 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector);
  and provide a block that will be invoked instead of the method.
  Note: the block contains a single argument which is the NSInvocation of the message.
  @param selector The instance method to be intercepted
- @param before The block to be invoked 
+ @param replace The block to be invoked
  */
-- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)before;
+- (void)interceptInstanceMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace;
+
+/** Use this method to intercept the class method specified by `selector`
+ @param selector The selector to intercept
+ @param before An optional block invoked before the selector is executed
+ @param after An optional block invoked after the selector is executed
+ */
+- (void)interceptClassMethod:(SEL)selector beforeBlock:(SFMethodInterceptorInvocationCallback)before afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+
+/** Use this method to intercept the class method specified by `selector`
+ and provide a block that will be invoked instead of the method.
+ Note: the block contains a single argument which is the NSInvocation of the message.
+ @param selector The instance method to be intercepted
+ @param replace The block to be invoked
+ */
+- (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace;
 
 /** Instrument some selectors of a the target class for performance timing
  @param selectorFilter A block invoked when to select selectors from the class to instrument
