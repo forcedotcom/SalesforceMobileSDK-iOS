@@ -42,6 +42,23 @@
 
 @end
 
+@implementation SFSDKInstrumentationSelectorConfig
+
++ (instancetype)configWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector {
+    return [[self alloc] initWithSelector:selector isInstanceSelector:isInstanceSelector];
+}
+
+- (instancetype)initWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector {
+    self = [super init];
+    if (self) {
+        _selector = selector;
+        _isInstanceSelector = isInstanceSelector;
+    }
+    return self;
+}
+
+@end
+
 @implementation SFInstrumentation
 
 + (instancetype)instrumentationForClass:(Class)clazz {
@@ -113,13 +130,9 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
     [self.interceptors addObject:interceptor];
 }
 
--(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
     if (after == nil) {
-        after = ^(NSInvocation *invocation, NSTimeInterval executionTime) {
-            [SFLogger log:self.clazz
-                    level:SFLogLevelInfo
-                   format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(self.clazz), [NSStringFromSelector(invocation.selector) substringFromIndex:19], executionTime*1000]; /* cutting off __method_forwarded_ */
-        };
+        after = [self defaultPostTimingBlock];
     }
     
     // Instance methods
@@ -143,6 +156,30 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
     }
 }
 
+- (void)instrumentSelectorsForTiming:(NSArray<SFSDKInstrumentationSelectorConfig *> *)selectorConfigs
+                          afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+    if (after == nil) {
+        after = [self defaultPostTimingBlock];
+    }
+    
+    for (SFSDKInstrumentationSelectorConfig *selectorConfig in selectorConfigs) {
+        if (selectorConfig.isInstanceSelector) {
+            [self interceptInstanceMethod:selectorConfig.selector beforeBlock:nil afterBlock:after];
+        } else {
+            [self interceptClassMethod:selectorConfig.selector beforeBlock:nil afterBlock:after];
+        }
+    }
+}
+
+- (SFMethodInterceptorInvocationAfterCallback)defaultPostTimingBlock {
+    __weak __typeof(self) weakSelf = self;
+    return ^(NSInvocation *invocation, NSTimeInterval executionTime) {
+        __strong __typeof(self) strongSelf = weakSelf;
+        [SFLogger log:strongSelf.clazz
+                level:SFLogLevelInfo
+               format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(strongSelf.clazz), [NSStringFromSelector(invocation.selector) substringFromIndex:19], executionTime*1000]; /* cutting off __method_forwarded_ */
+    };
+}
 
 #pragma mark - Driven
 

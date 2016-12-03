@@ -27,6 +27,18 @@
 
 typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSelector);
 
+/** A configuration object to specify a selector and whether or not
+ it's an instance method.
+ */
+@interface SFSDKInstrumentationSelectorConfig : NSObject
+
+@property (nonatomic, assign, readonly) SEL selector;
+@property (nonatomic, assign, readonly) BOOL isInstanceSelector;
+
++ (instancetype)configWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector;
+
+@end
+
 
 /** This class exposes API that allow to intercept
  method call and introspect the object being intercepted.
@@ -78,6 +90,14 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  @param after An optional block invoked after any selector is executed
  */
 -(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+
+/** Instrument some selectors of a the target class for performance timing
+ @param selectorConfigs An array of selector configs defining the selector and whether
+ or not it's an instance method.
+ @param after An optional block invoked after any selector is executed
+ */
+- (void)instrumentSelectorsForTiming:(NSArray<SFSDKInstrumentationSelectorConfig *> *)selectorConfigs
+                          afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
 
 /** Loads the array of instructions execute them. The instructions usually
  comes from a JSON file.
