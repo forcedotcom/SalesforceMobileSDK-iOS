@@ -50,6 +50,13 @@
     return perf;
 }
 
++ (instancetype)instrumentationForClassWithName:(NSString *)className {
+    NSAssert(className.length > 0, @"Class name cannot be empty.");
+    Class classToInstrument = NSClassFromString(className);
+    NSAssert(classToInstrument != nil, @"Class '%@' does not exist.", className);
+    return [self instrumentationForClass:classToInstrument];
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -113,36 +120,59 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
     [self.interceptors addObject:interceptor];
 }
 
--(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
+    [self instrumentForTiming:selectorFilter inheritanceLevels:0 afterBlock:after];
+}
+
+- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter
+          inheritanceLevels:(NSUInteger)numInheritanceLevels
+                 afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
     if (after == nil) {
-        after = ^(NSInvocation *invocation, NSTimeInterval executionTime) {
-            [SFLogger log:self.clazz
-                    level:SFLogLevelInfo
-                   format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(self.clazz), [NSStringFromSelector(invocation.selector) substringFromIndex:19], executionTime*1000]; /* cutting off __method_forwarded_ */
-        };
+        after = [self defaultPostTimingBlock];
     }
     
-    // Instance methods
-    unsigned int mc = 0;
-    Method *instanceMethodList = class_copyMethodList(self.clazz, &mc);
-    for(int i=0;i<mc;i++) {
-        SEL selector = method_getName(instanceMethodList[i]);
-        if (selectorFilter(selector, YES)) {
-            [self interceptInstanceMethod:selector beforeBlock:nil afterBlock:after];
+    NSMutableDictionary<NSString *, NSNumber *> *configuredSelectorsDict = [NSMutableDictionary dictionary];
+    NSUInteger currentInheritanceLevel = 0;
+    Class currentClass = self.clazz;
+    while (currentInheritanceLevel <= numInheritanceLevels && currentClass != nil) {
+        // Instance methods
+        unsigned int mc = 0;
+        Method *instanceMethodList = class_copyMethodList(currentClass, &mc);
+        for(NSUInteger i = 0; i < mc; i++) {
+            SEL selector = method_getName(instanceMethodList[i]);
+            NSString *selectorName = [NSString stringWithFormat:@"%@_%@", NSStringFromSelector(selector), @"inst"];
+            if (configuredSelectorsDict[selectorName] == nil && selectorFilter(selector, YES)) {
+                configuredSelectorsDict[selectorName] = @YES;
+                [self interceptInstanceMethod:selector beforeBlock:nil afterBlock:after];
+            }
         }
-    }
-    
-    // Class methods
-    mc = 0;
-    Method *classMethodList = class_copyMethodList(object_getClass(self.clazz), &mc);
-    for(int i=0;i<mc;i++) {
-        SEL selector = method_getName(classMethodList[i]);
-        if (selectorFilter(selector, NO)) {
-            [self interceptClassMethod:selector beforeBlock:nil afterBlock:after];
+        
+        // Class methods
+        mc = 0;
+        Method *classMethodList = class_copyMethodList(object_getClass(currentClass), &mc);
+        for(NSUInteger i = 0; i < mc; i++) {
+            SEL selector = method_getName(classMethodList[i]);
+            NSString *selectorName = [NSString stringWithFormat:@"%@_%@", NSStringFromSelector(selector), @"class"];
+            if (configuredSelectorsDict[selectorName] == nil && selectorFilter(selector, NO)) {
+                configuredSelectorsDict[selectorName] = @YES;
+                [self interceptClassMethod:selector beforeBlock:nil afterBlock:after];
+            }
         }
+        
+        currentInheritanceLevel++;
+        currentClass = [currentClass superclass];
     }
 }
 
+- (SFMethodInterceptorInvocationAfterCallback)defaultPostTimingBlock {
+    __weak __typeof(self) weakSelf = self;
+    return ^(NSInvocation *invocation, NSTimeInterval executionTime) {
+        __strong __typeof(self) strongSelf = weakSelf;
+        [SFLogger log:strongSelf.clazz
+                level:SFLogLevelInfo
+               format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(strongSelf.clazz), [NSStringFromSelector(invocation.selector) substringFromIndex:19], executionTime*1000]; /* cutting off __method_forwarded_ */
+    };
+}
 
 #pragma mark - Driven
 

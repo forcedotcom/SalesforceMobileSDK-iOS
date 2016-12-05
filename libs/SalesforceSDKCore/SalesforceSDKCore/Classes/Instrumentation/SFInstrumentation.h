@@ -43,6 +43,11 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 + (instancetype)instrumentationForClass:(Class)clazz;
 
+/** Returns an instrumentation instance for the class with the specified name.
+ @param className The name of the class to be instrumented.
+ */
++ (instancetype)instrumentationForClassWithName:(NSString *)className;
+
 /** Use this method to intercept the instance method specified by `selector`
  @param selector The selector to intercept
  @param before An optional block invoked before the selector is executed
@@ -73,11 +78,26 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 - (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace;
 
-/** Instrument some selectors of a the target class for performance timing
+/** Instrument some selectors of a the target class for performance timing.
  @param selectorFilter A block invoked when to select selectors from the class to instrument
  @param after An optional block invoked after any selector is executed
+ @discussion This method will only instrument selectors defined on or explicitly overridden
+ in the class.  To instrument inherited selectors, use the
+ instrumentForTiming:inheritanceLevels:afterBlock: overload.  Calling this method is
+ the same as calling instrumentForTiming:inheritanceLevels:afterBlock: with an
+ inheritance levels value of zero.
  */
 -(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+
+/** Instrument some selectors of the target class and its parent class(es)
+ for performance timing.
+ @param selectorFilter A block invoked when to select selectors from the class to instrument
+ @param numInheritanceLevels The number of inherited classes whose selectors will be made available.
+ @param after An optional block invoked after any selector is executed
+ */
+- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter
+          inheritanceLevels:(NSUInteger)numInheritanceLevels
+                 afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
 
 /** Loads the array of instructions execute them. The instructions usually
  comes from a JSON file.
