@@ -39,6 +39,17 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
     return [NSString stringWithFormat:@"%@:%@", NSStringFromClass(clazz), NSStringFromSelector(selector)];
 }
 
+static NSString * const kSFSDKInstrumentationForwardMethodPrefix = @"__method_forwarded_";
+static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_forwarded_block_";
+
+@implementation SFSDKInstrumentationPostExecutionData
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@:%p selectorName: %@, isInstanceMethod: %d, executionStartDate: %@, executionEndDate: %@, executionTime: %f>", [self class], self, self.selectorName, self.isInstanceMethod, self.executionStartDate, self.executionEndDate, self.executionTime];
+}
+
+@end
+
 @interface SFMethodInterceptor ()
 
 /** The instance or class of the intercepted object.
@@ -82,7 +93,7 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
 - (SEL)originalMethodRenamedSelector {
     // Rename the original selector by inserting a string that ensure it's unique
     NSMutableString *name = [[NSMutableString alloc] initWithCString:sel_getName(self.selectorToIntercept) encoding:NSASCIIStringEncoding];
-    [name insertString:@"__method_forwarded_" atIndex:0];
+    [name insertString:kSFSDKInstrumentationForwardMethodPrefix atIndex:0];
     
     // use sel_registerName() and not @selector to avoid warning
     SEL sel = sel_registerName([name cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -92,7 +103,7 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
 - (SEL)originalMethodRenamedSelectorForBlock {
     // Rename the original selector by inserting a string that ensure it's unique
     NSMutableString *name = [[NSMutableString alloc] initWithCString:sel_getName(self.selectorToIntercept) encoding:NSASCIIStringEncoding];
-    [name insertString:@"__method_forwarded_block_" atIndex:0];
+    [name insertString:kSFSDKInstrumentationForwardBlockPrefix atIndex:0];
     
     // use sel_registerName() and not @selector to avoid warning
     SEL sel = sel_registerName([name cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -152,15 +163,21 @@ static NSString * interceptorKey(Class clazz, SEL selector) {
     if (self.targetBeforeBlock) {
         self.targetBeforeBlock(anInvocation);
     }
-    NSTimeInterval startTime = [NSDate timeIntervalSinceReferenceDate];
+    NSDate *startTime = [NSDate date];
     if (self.targetReplaceBlock) {
         self.targetReplaceBlock(anInvocation);
     } else {
         [self invokeOriginal:anInvocation];
     }
-    NSTimeInterval endTime = [NSDate timeIntervalSinceReferenceDate];
+    NSDate *endTime = [NSDate date];
     if (self.targetAfterBlock) {
-        self.targetAfterBlock(anInvocation, endTime - startTime);
+        SFSDKInstrumentationPostExecutionData *data = [[SFSDKInstrumentationPostExecutionData alloc] init];
+        data.selectorName = [NSStringFromSelector(anInvocation.selector) substringFromIndex:kSFSDKInstrumentationForwardMethodPrefix.length];
+        data.isInstanceMethod = !(class_isMetaClass(object_getClass(anInvocation.target)));
+        data.executionStartDate = startTime;
+        data.executionEndDate = endTime;
+        data.executionTime = [endTime timeIntervalSinceDate:startTime];
+        self.targetAfterBlock(anInvocation, data);
     }
 }
 

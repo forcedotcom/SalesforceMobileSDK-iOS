@@ -166,11 +166,11 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
 
 - (SFMethodInterceptorInvocationAfterCallback)defaultPostTimingBlock {
     __weak __typeof(self) weakSelf = self;
-    return ^(NSInvocation *invocation, NSTimeInterval executionTime) {
+    return ^(NSInvocation *invocation, SFSDKInstrumentationPostExecutionData *data) {
         __strong __typeof(self) strongSelf = weakSelf;
         [SFLogger log:strongSelf.clazz
                 level:SFLogLevelInfo
-               format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(strongSelf.clazz), [NSStringFromSelector(invocation.selector) substringFromIndex:19], executionTime*1000]; /* cutting off __method_forwarded_ */
+               format:@"TIMING %@.%@: %.3f ms", NSStringFromClass(strongSelf.clazz), data.selectorName, data.executionTime*1000];
     };
 }
 
