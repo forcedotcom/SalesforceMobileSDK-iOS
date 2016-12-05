@@ -28,7 +28,7 @@ lane :CI do
 		workspace: "SalesforceMobileSDK.xcworkspace",
   		scheme: "UnitTests",
 		output_directory: "xcov_output",
-		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app"
+		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex"
   	)
 
 
