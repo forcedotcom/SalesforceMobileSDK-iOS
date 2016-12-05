@@ -42,23 +42,6 @@
 
 @end
 
-@implementation SFSDKInstrumentationSelectorConfig
-
-+ (instancetype)configWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector {
-    return [[self alloc] initWithSelector:selector isInstanceSelector:isInstanceSelector];
-}
-
-- (instancetype)initWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector {
-    self = [super init];
-    if (self) {
-        _selector = selector;
-        _isInstanceSelector = isInstanceSelector;
-    }
-    return self;
-}
-
-@end
-
 @implementation SFInstrumentation
 
 + (instancetype)instrumentationForClass:(Class)clazz {
@@ -178,21 +161,6 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
         
         currentInheritanceLevel++;
         currentClass = [currentClass superclass];
-    }
-}
-
-- (void)instrumentSelectorsForTiming:(NSArray<SFSDKInstrumentationSelectorConfig *> *)selectorConfigs
-                          afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {
-    if (after == nil) {
-        after = [self defaultPostTimingBlock];
-    }
-    
-    for (SFSDKInstrumentationSelectorConfig *selectorConfig in selectorConfigs) {
-        if (selectorConfig.isInstanceSelector) {
-            [self interceptInstanceMethod:selectorConfig.selector beforeBlock:nil afterBlock:after];
-        } else {
-            [self interceptClassMethod:selectorConfig.selector beforeBlock:nil afterBlock:after];
-        }
     }
 }
 

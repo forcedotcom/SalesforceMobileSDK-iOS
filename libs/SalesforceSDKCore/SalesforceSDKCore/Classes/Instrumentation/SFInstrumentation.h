@@ -27,18 +27,6 @@
 
 typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSelector);
 
-/** A configuration object to specify a selector and whether or not
- it's an instance method.
- */
-@interface SFSDKInstrumentationSelectorConfig : NSObject
-
-@property (nonatomic, assign, readonly) SEL selector;
-@property (nonatomic, assign, readonly) BOOL isInstanceSelector;
-
-+ (instancetype)configWithSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector;
-
-@end
-
 
 /** This class exposes API that allow to intercept
  method call and introspect the object being intercepted.
@@ -55,6 +43,9 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 + (instancetype)instrumentationForClass:(Class)clazz;
 
+/** Returns an instrumentation instance for the class with the specified name.
+ @param className The name of the class to be instrumented.
+ */
 + (instancetype)instrumentationForClassWithName:(NSString *)className;
 
 /** Use this method to intercept the instance method specified by `selector`
@@ -87,23 +78,26 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 - (void)interceptClassMethod:(SEL)selector replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace;
 
-/** Instrument some selectors of a the target class for performance timing
+/** Instrument some selectors of a the target class for performance timing.
  @param selectorFilter A block invoked when to select selectors from the class to instrument
  @param after An optional block invoked after any selector is executed
+ @discussion This method will only instrument selectors defined on or explicitly overridden
+ in the class.  To instrument inherited selectors, use the
+ instrumentForTiming:inheritanceLevels:afterBlock: overload.  Calling this method is
+ the same as calling instrumentForTiming:inheritanceLevels:afterBlock: with an
+ inheritance levels value of zero.
  */
 -(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
 
+/** Instrument some selectors of the target class and its parent class(es)
+ for performance timing.
+ @param selectorFilter A block invoked when to select selectors from the class to instrument
+ @param numInheritanceLevels The number of inherited classes whose selectors will be made available.
+ @param after An optional block invoked after any selector is executed
+ */
 - (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter
           inheritanceLevels:(NSUInteger)numInheritanceLevels
                  afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
-
-/** Instrument some selectors of a the target class for performance timing
- @param selectorConfigs An array of selector configs defining the selector and whether
- or not it's an instance method.
- @param after An optional block invoked after any selector is executed
- */
-- (void)instrumentSelectorsForTiming:(NSArray<SFSDKInstrumentationSelectorConfig *> *)selectorConfigs
-                          afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
 
 /** Loads the array of instructions execute them. The instructions usually
  comes from a JSON file.
