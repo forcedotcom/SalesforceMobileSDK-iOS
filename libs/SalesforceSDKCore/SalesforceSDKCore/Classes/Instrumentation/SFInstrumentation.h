@@ -91,6 +91,10 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 -(void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
 
+- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter
+          inheritanceLevels:(NSUInteger)numInheritanceLevels
+                 afterBlock:(SFMethodInterceptorInvocationAfterCallback)after;
+
 /** Instrument some selectors of a the target class for performance timing
  @param selectorConfigs An array of selector configs defining the selector and whether
  or not it's an instance method.
