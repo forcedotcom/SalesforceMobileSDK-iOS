@@ -67,6 +67,13 @@
     return perf;
 }
 
++ (instancetype)instrumentationForClassWithName:(NSString *)className {
+    NSAssert(className.length > 0, @"Class name cannot be empty.");
+    Class classToInstrument = NSClassFromString(className);
+    NSAssert(classToInstrument != nil, @"Class '%@' does not exist.", className);
+    return [self instrumentationForClass:classToInstrument];
+}
+
 - (instancetype)init {
     self = [super init];
     if (self) {

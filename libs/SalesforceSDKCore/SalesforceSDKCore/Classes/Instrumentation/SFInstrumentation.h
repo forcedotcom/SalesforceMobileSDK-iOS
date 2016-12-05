@@ -55,6 +55,8 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 + (instancetype)instrumentationForClass:(Class)clazz;
 
++ (instancetype)instrumentationForClassWithName:(NSString *)className;
+
 /** Use this method to intercept the instance method specified by `selector`
  @param selector The selector to intercept
  @param before An optional block invoked before the selector is executed
