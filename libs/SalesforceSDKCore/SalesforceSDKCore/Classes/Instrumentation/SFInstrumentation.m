@@ -30,7 +30,7 @@
 
 @property (nonatomic) Class clazz;
 
-@property (nonatomic, strong) NSMutableArray *interceptors;
+@property (nonatomic, strong) NSMutableArray<SFMethodInterceptor *> *interceptors;
 
 @property (nonatomic, strong) NSMutableDictionary *collector;
 
@@ -64,6 +64,13 @@
         self.collector = [NSMutableDictionary dictionary];
     }
     return self;
+}
+
+- (SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector {
+    NSUInteger interceptorIndex = [self.interceptors indexOfObjectPassingTest:^BOOL(SFMethodInterceptor *obj, NSUInteger idx, BOOL *stop) {
+        return (obj.classToIntercept == self.clazz && obj.selectorToIntercept == selector && obj.instanceMethod == isInstanceSelector);
+    }];
+    return (interceptorIndex == NSNotFound ? nil : self.interceptors[interceptorIndex]);
 }
 
 - (void)setEnabled:(BOOL)enabled {
