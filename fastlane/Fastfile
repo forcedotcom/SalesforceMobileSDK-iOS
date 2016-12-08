@@ -3,14 +3,16 @@ if !ENV["device"] or ENV["device"]==""
 end
 
 lane :CI do
+	system("/usr/libexec/PlistBuddy -c \"add :ConnectHardwareKeyboard bool 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist || /usr/libexec/PlistBuddy -c \"set :ConnectHardwareKeyboard 0\" ~/Library/Preferences/com.apple.iphonesimulator.plist")
+	system("rm -r $HOME/Library/Developer/Xcode/DerivedData/SalesforceMobileSDK-*")
 
 	scan(
-		workspace: "SalesforceMobileSDK.xcworkspace",
-		scheme: "UnitTests",
-    	device: ENV["device"],
-		output_directory: "test_output”,
-		clean: true,
-		fail_build: false
+ 		 workspace: "SalesforceMobileSDK.xcworkspace",
+ 		 scheme: "UnitTests",
+ 		 device: ENV["device"],
+ 		 output_directory: "test_output”,
+ 		 clean: true,
+ 		 fail_build: false
   	)
 
 	begin
@@ -20,27 +22,38 @@ lane :CI do
  		 scheme: "UnitTests",
  		 fail_build: false
  	)
+
 	rescue => ex
 		UI.error(ex)
+	ensure
+			#move clangReports to one folder
+			system("mkdir -p ../clangReport/StaticAnalyzer")
+			system("mv ../libs/SalesforceAnalytics/clangReport/StaticAnalyzer/SalesforceAnalytics ../clangReport/StaticAnalyzer/")
+			system("mv ../libs/SalesforceHybridSDK/clangReport/StaticAnalyzer/SalesforceHybridSDK ../clangReport/StaticAnalyzer/")
+			system("mv ../libs/SalesforceReact/clangReport/StaticAnalyzer/SalesforceReact ../clangReport/StaticAnalyzer/")
+			system("mv ../libs/SalesforceSDKCore/clangReport/StaticAnalyzer/SalesforceSDKCore ../clangReport/StaticAnalyzer/")
+			system("mv ../libs/SmartStore/clangReport/StaticAnalyzer/SmartStore ../clangReport/StaticAnalyzer/")
+			system("mv ../libs/SmartSync/clangReport/StaticAnalyzer/SmartSync ../clangReport/StaticAnalyzer/")
 	end
 
 	xcov(
-		workspace: "SalesforceMobileSDK.xcworkspace",
-  		scheme: "UnitTests",
-		output_directory: "xcov_output",
-		exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex"
+ 		 workspace: "SalesforceMobileSDK.xcworkspace",
+ 		 scheme: "UnitTests",
+ 		 output_directory: "xcov_output",
+ 		 exclude_targets:"CocoaLumberjack.framework,SalesforceSDKCoreTestApp.app,SmartStoreTestApp.app,SmartSyncTestApp.app,SalesforceHybridSDKTestApp.app,SalesforceAnalyticsTestApp.app,RestAPIExplorer.app,AccountEditor.app,NoteSync.app,SmartSyncExplorerHybrid.app,SmartSyncExplorer.app,SmartSyncExplorerCommon.framework,RecentContactsTodayExtension.appex"
   	)
 
-
-	begin
-   	danger(
-  		danger_id: "CI-result",
-  		dangerfile: "DangerFile",
-  		github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-  		verbose: true
-  	)
-	rescue => ex
-		UI.error(ex)
-	end
+ if ENV["JENKINS_URL"]
+		begin
+   		danger(
+				danger_id: "CI-result",
+				dangerfile: "DangerFile",
+  			github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+  			verbose: true
+  		)
+		rescue => ex
+			UI.error(ex)
+		end
+ end
 
 end
