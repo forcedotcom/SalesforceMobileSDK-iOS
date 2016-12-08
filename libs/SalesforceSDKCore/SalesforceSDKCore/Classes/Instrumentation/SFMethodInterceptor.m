@@ -35,8 +35,8 @@ static NSMutableDictionary *InterceptorsForClassAndSelector = nil;
 
 /** This method returns a key given a class and a selector
  */
-static NSString * interceptorKey(Class clazz, SEL selector) {
-    return [NSString stringWithFormat:@"%@:%@", NSStringFromClass(clazz), NSStringFromSelector(selector)];
+static NSString * interceptorKey(Class clazz, SEL selector, BOOL isInstanceMethod) {
+    return [NSString stringWithFormat:@"%@:%@:%d", NSStringFromClass(clazz), NSStringFromSelector(selector), isInstanceMethod];
 }
 
 static NSString * const kSFSDKInstrumentationForwardMethodPrefix = @"__method_forwarded_";
@@ -135,7 +135,8 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
     } else {
         // Let's find out which interceptor instance is managing
         // this selector and class
-        SFMethodInterceptor *interceptor = InterceptorsForClassAndSelector[interceptorKey([self class], aSelector)];
+        BOOL isInstanceSelector = !(class_isMetaClass(object_getClass(self)));
+        SFMethodInterceptor *interceptor = InterceptorsForClassAndSelector[interceptorKey([self class], aSelector, isInstanceSelector)];
         if (interceptor) {
             interceptor.interceptedObject = self;
             return interceptor;
@@ -209,7 +210,7 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
         @synchronized (InterceptorsForClassAndSelector) {
-            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)] = self;
         }
         
         // forward method
@@ -233,7 +234,7 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
         @synchronized (InterceptorsForClassAndSelector) {
-            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)] = self;
         }
         
         // forward method
@@ -267,7 +268,7 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         method_exchangeImplementations(originalMethod, targetMethod);
     }
     @synchronized (InterceptorsForClassAndSelector) {
-        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept)];
+        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept, self.instanceMethod)];
     }
     NSLog(@"%@ is DISABLED", self);
 }
