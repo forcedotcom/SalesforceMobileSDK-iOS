@@ -48,6 +48,15 @@ typedef BOOL (^SFInstrumentationSelectorFilter)(SEL selector, BOOL isInstanceSel
  */
 + (instancetype)instrumentationForClassWithName:(NSString *)className;
 
+/** Returns the interceptor configured for the class with the given selector, or `nil`
+ if an interceptor is not configured for the given selector.
+ @param selector The selector to check
+ @param isInstanceSelector Whether or not the selector is an instance selector.
+ @return The configured `SFMethodInterceptor` instance, or `nil` if an interceptor is
+ not configured.
+ */
+- (SFMethodInterceptor *)interceptorForSelector:(SEL)selector isInstanceSelector:(BOOL)isInstanceSelector;
+
 /** Use this method to intercept the instance method specified by `selector`
  @param selector The selector to intercept
  @param before An optional block invoked before the selector is executed
