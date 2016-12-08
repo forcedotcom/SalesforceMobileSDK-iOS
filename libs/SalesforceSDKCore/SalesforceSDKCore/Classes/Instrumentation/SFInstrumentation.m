@@ -104,8 +104,12 @@
     interceptor.targetBeforeBlock = before;
     interceptor.targetAfterBlock = after;
     interceptor.instanceMethod = isInstanceMethod;
-    interceptor.enabled = YES;
-    [self.interceptors addObject:interceptor];
+    if (![self.interceptors containsObject:interceptor]) {
+        interceptor.enabled = YES;
+        [self.interceptors addObject:interceptor];
+    } else {
+        [self log:SFLogLevelWarning format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
+    }
 }
 
 - (void)interceptMethod:(SEL)selector
@@ -116,8 +120,12 @@ replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)replace
     interceptor.selectorToIntercept = selector;
     interceptor.targetReplaceBlock = replace;
     interceptor.instanceMethod = isInstanceMethod;
-    interceptor.enabled = YES;
-    [self.interceptors addObject:interceptor];
+    if (![self.interceptors containsObject:interceptor]) {
+        interceptor.enabled = YES;
+        [self.interceptors addObject:interceptor];
+    } else {
+        [self log:SFLogLevelWarning format:@"Interceptor with class '%@' and %@ selector '%@' is already configured. No action taken.", NSStringFromClass(self.clazz), (isInstanceMethod ? @"instance" : @"class"), NSStringFromSelector(selector)];
+    }
 }
 
 - (void)instrumentForTiming:(SFInstrumentationSelectorFilter)selectorFilter afterBlock:(SFMethodInterceptorInvocationAfterCallback)after {

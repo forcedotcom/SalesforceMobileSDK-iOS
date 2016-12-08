@@ -85,9 +85,23 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
 }
 
 - (void)dealloc {
-    @synchronized (InterceptorsForClassAndSelector) {
-        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept)];
+    self.enabled = NO;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]]) {
+        return NO;
     }
+    
+    SFMethodInterceptor *otherObj = (SFMethodInterceptor *)object;
+    return ((otherObj.classToIntercept == self.classToIntercept)
+            && (otherObj.selectorToIntercept == self.selectorToIntercept)
+            && (otherObj.instanceMethod == self.instanceMethod));
+}
+
+- (NSUInteger)hash {
+    NSString *hashString = [NSString stringWithFormat:@"%@_%@_%d", NSStringFromClass(self.classToIntercept), NSStringFromSelector(self.selectorToIntercept), self.instanceMethod];
+    return [hashString hash];
 }
 
 - (SEL)originalMethodRenamedSelector {
@@ -194,7 +208,9 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         Method originalMethod = class_getInstanceMethod(self.classToIntercept, self.selectorToIntercept);
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
-        InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+        @synchronized (InterceptorsForClassAndSelector) {
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+        }
         
         // forward method
         IMP originalMethodIMP = method_setImplementation(originalMethod, (IMP)_objc_msgForward);
@@ -216,8 +232,10 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         Method originalMethod = class_getClassMethod(originalMetaClass, self.selectorToIntercept);
         const char *methodTypes = method_getTypeEncoding(originalMethod);
         
-        InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
-                
+        @synchronized (InterceptorsForClassAndSelector) {
+            InterceptorsForClassAndSelector[interceptorKey(self.classToIntercept, self.selectorToIntercept)] = self;
+        }
+        
         // forward method
         IMP originalMethodIMP = method_setImplementation(originalMethod, (IMP)_objc_msgForward);
         NSAssert(originalMethodIMP, @"Original method implementation must be found");
@@ -232,7 +250,6 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         
         class_replaceMethod(originalMetaClass, self.originalMethodRenamedSelector, originalMethodIMP, methodTypes);
     }
-    _enabled = YES;
     NSLog(@"%@ is ENABLED", self);
 }
 
@@ -249,7 +266,9 @@ static NSString * const kSFSDKInstrumentationForwardBlockPrefix = @"__method_for
         Method originalMethod = class_getClassMethod(self.classToIntercept, self.originalMethodRenamedSelector);
         method_exchangeImplementations(originalMethod, targetMethod);
     }
-    _enabled = NO;
+    @synchronized (InterceptorsForClassAndSelector) {
+        [InterceptorsForClassAndSelector removeObjectForKey:interceptorKey(self.classToIntercept, self.selectorToIntercept)];
+    }
     NSLog(@"%@ is DISABLED", self);
 }
 
