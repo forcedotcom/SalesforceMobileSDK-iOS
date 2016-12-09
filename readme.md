@@ -34,7 +34,7 @@ If you have problems building any of the projects, take a look at the online [FA
 Introduction
 ==
 
-### What's New in 4.3
+### What's New in 5.0
 
 **OS Version Support**
 - iOS 10.0 is fully supported in Mobile SDK 5.0.
