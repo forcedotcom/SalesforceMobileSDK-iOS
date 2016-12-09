@@ -50,10 +50,11 @@ Introduction
 - We have added new APIs that allow hybrid developers to create their own named databases.
 
 **SmartSync Enhancements**
-- We now allow sync down/refresh of data stored in local soups by specifying the fields to sync.
+- We now allow sync down/refresh of data stored in soups by specifying the fields to sync.
+- smartsync.js now uses native promises instead of jQuery.
 
 **Hybrid Networking Enhancements**
-- We have replaced forcetk.mobilesdk.js with force.js. Networking in hybrid apps is now handled natively. As a result, session token refresh happens automatically.
+- We have replaced forcetk.mobilesdk.js with force.js. Networking in hybrid apps is now handled natively through a new plugin (com.salesforce.plugin.network). As a result, session token refresh happens automatically.
 
 **Library Upgrades**
 - We've updated React Native to version 0.35.0.
