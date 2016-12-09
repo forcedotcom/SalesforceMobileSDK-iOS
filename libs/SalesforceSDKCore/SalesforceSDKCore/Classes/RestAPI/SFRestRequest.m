@@ -225,8 +225,17 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
         // It's POSTish.  The Network SDK handles content-based requests more or less automatically,
         // but if you want to post a JSON object or other data, you have to manage the contents yourself.
         if (self.action.parameters.parameterStyle != CSFParameterStyleMultipart) {
-            // Standard POST data.  We'll assume we can just send it as JSON.
-            NSData *bodyData = [SFJsonUtils JSONDataRepresentation:self.queryParams];
+            NSData *bodyData = nil;
+            //Check if the POST should be sent as an encoded string rather than JSON
+            NSString* formEncoded = (NSString*)[self.queryParams objectForKey: @"x-www-form-urlencoded" ];
+            if (formEncoded){
+               bodyData = [formEncoded dataUsingEncoding:NSUTF8StringEncoding];
+            }
+            else{
+                // Standard POST data.  We'll assume we can just send it as JSON.
+                bodyData = [SFJsonUtils JSONDataRepresentation:self.queryParams];
+                [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
+            }
             if (bodyData == nil) {
                 [self log:SFLogLevelError format:@"%@: Error serializing request data to NSData object: %@",
                  NSStringFromSelector(_cmd),
@@ -237,7 +246,7 @@ NSString * const kSFDefaultRestEndpoint = @"/services/data";
                 return [NSInputStream inputStreamWithData:bodyData];
             };
             self.action.parameters.bodyStreamBlock = bodyStreamBlock;
-            [self setHeaderValue:@"application/json" forHeaderName:@"Content-Type"];
+
             [self setHeaderValue:[NSString stringWithFormat:@"%lu", (unsigned long)bodyData.length] forHeaderName:@"Content-Length"];
         } else {
             [self convertQueryParamsToActionParams];
