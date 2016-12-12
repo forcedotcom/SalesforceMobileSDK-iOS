@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPluginTestSuite.html">
+	<File path="Classes/SFNetworkPlugin.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPluginTestSuite</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFNetworkPlugin</TokenIdentifier>
+			<Abstract type="html">String used with Cordova to uniquely identify this plugin.</Abstract>
+			<DeclaredIn>SFNetworkPlugin.h</DeclaredIn>
             
 			
 			<NodeRef refid="10"/>
@@ -13,122 +13,14 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsTestName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFNetworkPlugin/pgSendRequest:</TokenIdentifier>
+			<Abstract type="html">Sends a network request using native network components.</Abstract>
+			<DeclaredIn>SFNetworkPlugin.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
-			
-			
-			<Anchor>//api/name/jsTestName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsTestName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
+			<Declaration>- (void)pgSendRequest:(CDVInvokedUrlCommand *)command</Declaration>
 			
 			
-			<Anchor>//api/name/jsTestName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsTestName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsTestName</Declaration>
-			
-			
-			<Anchor>//api/name/jsTestName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/setJsSuiteName:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFPluginTestSuite/jsSuiteName</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) NSString *jsSuiteName</Declaration>
-			
-			
-			<Anchor>//api/name/jsSuiteName</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/waitForTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)waitForTestRunnerReady</Declaration>
-			
-			
-			<Anchor>//api/name/waitForTestRunnerReady</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:inSuite:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (void)runTest:(NSString *)testName inSuite:(NSString *)suiteName</Declaration>
-			
-			
-			<Anchor>//api/name/runTest:inSuite:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/runTest:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (void)runTest:(NSString *)testName</Declaration>
-			
-			
-			<Anchor>//api/name/runTest:</Anchor>
-            <NodeRef refid="10"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPluginTestSuite/isTestRunnerReady</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFPluginTestSuite.h</DeclaredIn>
-			
-			<Declaration>- (BOOL)isTestRunnerReady</Declaration>
-			
-			
-			<Anchor>//api/name/isTestRunnerReady</Anchor>
+			<Anchor>//api/name/pgSendRequest:</Anchor>
             <NodeRef refid="10"/>
 		</Token>
 		

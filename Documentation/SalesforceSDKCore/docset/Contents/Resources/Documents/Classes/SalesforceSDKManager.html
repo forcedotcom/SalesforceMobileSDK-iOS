@@ -70,6 +70,8 @@
 		
 		<option value="//api/name/delegates">delegates</option>
 		
+		<option value="//api/name/features">features</option>
+		
 		<option value="//api/name/hasVerifiedPasscodeAtStartup">hasVerifiedPasscodeAtStartup</option>
 		
 		<option value="//api/name/isLaunching">isLaunching</option>
@@ -124,11 +126,17 @@
 		
 		<option value="//api/name/authValidatedToPostAuth:">- authValidatedToPostAuth:</option>
 		
+		<option value="//api/name/deviceId">- deviceId</option>
+		
 		<option value="//api/name/launch">- launch</option>
 		
 		<option value="//api/name/passcodeValidatedToAuthValidation">- passcodeValidatedToAuthValidation</option>
 		
+		<option value="//api/name/registerAppFeature:">- registerAppFeature:</option>
+		
 		<option value="//api/name/removeDelegate:">- removeDelegate:</option>
+		
+		<option value="//api/name/unregisterAppFeature:">- unregisterAppFeature:</option>
 		
 	</optgroup>
 	
@@ -284,6 +292,52 @@ backgrounding and foregrounding state.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/deviceId" title="deviceId"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deviceId">&ndash;&nbsp;deviceId</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns a unique device ID.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (NSString *)deviceId</code></div>
+
+		    
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>Device ID.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/appConfig" title="appConfig"></a>
 	<h3 class="method-title"><code><a href="#//api/name/appConfig">&nbsp;&nbsp;appConfig</a></code>
 </h3>
@@ -363,6 +417,22 @@ backgrounding and foregrounding state.</p>
 			</div>
 			
 			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/features" title="features"></a>
+	<h3 class="method-title"><code><a href="#//api/name/features">&nbsp;&nbsp;features</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, strong) NSMutableSet *features</code></div>
+
+		    
 		</div>
 	</div>
 </div><div class="section-method">
@@ -838,7 +908,7 @@ a default opaque white view will be used.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSnapshotViewControllerCreationBlock snapshotViewControllerCreationAction</code></div>
 
 		    
 			
@@ -882,7 +952,7 @@ This block is only invoked if the dismissal action is also set.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSnapshotViewControllerPresentationBlock snapshotPresentationAction</code></div>
 
 		    
 			
@@ -925,7 +995,7 @@ This block is only invoked if the presentation action is also set.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, nullable) SFSnapshotViewControllerDismissalBlock snapshotDismissalAction</code></div>
 
 		    
 			
@@ -1067,6 +1137,112 @@ actions.</p>
 				<h4 class="method-subtitle parameter-title">Return Value</h4>
 				<p>YES if the launch successfully kicks off, NO if launch is already running.</p>
 			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/registerAppFeature:" title="registerAppFeature:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/registerAppFeature:">&ndash;&nbsp;registerAppFeature:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>AppFeature to register.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)registerAppFeature:(NSString *)<em>appFeature</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appFeature</code></th>
+						<td><p>AppFeature to register.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SalesforceSDKManager.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/unregisterAppFeature:" title="unregisterAppFeature:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/unregisterAppFeature:">&ndash;&nbsp;unregisterAppFeature:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>AppFeature to unregister.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)unregisterAppFeature:(NSString *)<em>appFeature</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>appFeature</code></th>
+						<td><p>AppFeature to unregister.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
 			
 
 			
@@ -1422,7 +1598,7 @@ actions.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

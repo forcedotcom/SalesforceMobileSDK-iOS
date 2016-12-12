@@ -1,17 +1,321 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SalesforceSDKManagerWithSmartStore.html">
+	<File path="Classes/SFStoreCursor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKManagerWithSmartStore</TokenIdentifier>
-			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartStore-enabled apps.
-By default, forceios apps use an instance of this class instead of SalesforceSDKManager.</Abstract>
-			<DeclaredIn>SalesforceSDKManagerWithSmartStore.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFStoreCursor</TokenIdentifier>
+			<Abstract type="html">Defines a cursor into data stored in a soup.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
             
 			
 			<NodeRef refid="23"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCursorId:</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			
+			
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			
+			
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/cursorId</TokenIdentifier>
+			<Abstract type="html">A unique ID for this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSString *cursorId</Declaration>
+			
+			
+			<Anchor>//api/name/cursorId</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setQuerySpec:</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/querySpec</TokenIdentifier>
+			<Abstract type="html">The query spec that generated this cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) SFQuerySpec *querySpec</Declaration>
+			
+			
+			<Anchor>//api/name/querySpec</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageOrderedEntries:</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageOrderedEntries</TokenIdentifier>
+			<Abstract type="html">The list of current page entries, ordered as requested in the querySpec.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSArray *currentPageOrderedEntries</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageOrderedEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setPageSize:</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/pageSize</TokenIdentifier>
+			<Abstract type="html">The maximum number of entries returned per page.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *pageSize</Declaration>
+			
+			
+			<Anchor>//api/name/pageSize</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalPages:</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalPages</TokenIdentifier>
+			<Abstract type="html">The total number of pages of results available.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalPages</Declaration>
+			
+			
+			<Anchor>//api/name/totalPages</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setTotalEntries:</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
+			
+			
+			<Anchor>//api/name/totalEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/totalEntries</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
+			
+			
+			<Anchor>//api/name/totalEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/totalEntries</TokenIdentifier>
+			<Abstract type="html">The total number of entries.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly, strong) NSNumber *totalEntries</Declaration>
+			
+			
+			<Anchor>//api/name/totalEntries</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/setCurrentPageIndex:</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFStoreCursor/currentPageIndex</TokenIdentifier>
+			<Abstract type="html">The current page index among totalPages available: writing this value
+causes currentPageOrderedEntries to be refetched.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readwrite, strong) NSNumber *currentPageIndex</Declaration>
+			
+			
+			<Anchor>//api/name/currentPageIndex</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/initWithStore:querySpec:totalEntries:firstPageEntries:</TokenIdentifier>
+			<Abstract type="html">Initializes a new instance of a soup cursor.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStore:(SFSmartStore *)store querySpec:(SFQuerySpec *)querySpec totalEntries:(NSUInteger)totalEntries firstPageEntries:(NSArray *)firstPageEntries</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The store where the soup is contained.</Abstract>
+				</Parameter><Parameter>
+					<Name>querySpec</Name>
+					<Abstract type="html">The query used to retrieve the data.</Abstract>
+				</Parameter><Parameter>
+					<Name>totalEntries</Name>
+					<Abstract type="html">The total number of entries retrieved from the query.</Abstract>
+				</Parameter><Parameter>
+					<Name>firstPageEntries</Name>
+					<Abstract type="html">The entries of the first page</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/initWithStore:querySpec:totalEntries:firstPageEntries:</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/asDictionary</TokenIdentifier>
+			<Abstract type="html">The NSDictionary representation of this object.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (NSDictionary *)asDictionary</Declaration>
+			
+			<ReturnValue><Abstract type="html">Dictionary representation of this object, for translation to JSON.</Abstract></ReturnValue>
+			<Anchor>//api/name/asDictionary</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFStoreCursor/close</TokenIdentifier>
+			<Abstract type="html">Close this cursor when finished operating on it.</Abstract>
+			<DeclaredIn>SFStoreCursor.h</DeclaredIn>
+			
+			<Declaration>- (void)close</Declaration>
+			
+			
+			<Anchor>//api/name/close</Anchor>
+            <NodeRef refid="23"/>
+		</Token>
 		
         
         

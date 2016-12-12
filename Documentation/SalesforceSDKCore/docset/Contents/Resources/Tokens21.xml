@@ -1,37 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFEncryptStream.html">
+	<File path="Classes/FIXCATEGORYBUG.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFEncryptStream</TokenIdentifier>
-			<Abstract type="html">SFEncryptStream is an output stream that encrypts data before it is written out.
-SFCryptChunks is used to perform the encryption.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/FIXCATEGORYBUG</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SalesforceSDKConstants.h</DeclaredIn>
             
 			
 			<NodeRef refid="21"/>
 		</Token>
 		
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFEncryptStream/setupWithKey:andInitializationVector:</TokenIdentifier>
-			<Abstract type="html">Setup for encryption. You must call this method before using the stream.</Abstract>
-			<DeclaredIn>SFEncryptStream.h</DeclaredIn>
-			
-			<Declaration>- (void)setupWithKey:(NSData *)key andInitializationVector:(nullable NSData *)iv</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>key</Name>
-					<Abstract type="html">the cipher key.</Abstract>
-				</Parameter><Parameter>
-					<Name>iv</Name>
-					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/setupWithKey:andInitializationVector:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
 		
         
         

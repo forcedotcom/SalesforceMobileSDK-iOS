@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Protocols/SFSDKAnalyticsPublisher.html">
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAnalyticsPublisher</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+            
+			
+			<NodeRef refid="158"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAnalyticsPublisher/publish:publishCompleteBlock:</TokenIdentifier>
+			<Abstract type="html">Publishes events to a network endpoint.</Abstract>
+			<DeclaredIn>SFSDKAnalyticsPublisher.h</DeclaredIn>
+			
+			<Declaration>- (void)publish:(nonnull NSArray *)events publishCompleteBlock:(nonnull PublishCompleteBlock)publishCompleteBlock</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>events</Name>
+					<Abstract type="html">Events to be published.</Abstract>
+				</Parameter><Parameter>
+					<Name>publishCompleteBlock</Name>
+					<Abstract type="html">Completion block invoked once network publish is complete.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/publish:publishCompleteBlock:</Anchor>
+            <NodeRef refid="158"/>
+		</Token>
 		
         
         

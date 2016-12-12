@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFCryptoMode.html">
+	<File path="Categories/NSData+SFSDKUtils.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFCryptoMode</TokenIdentifier>
-			<Abstract type="html">This class is responsible for encrypting and decrypting the content data for chatter.</Abstract>
-			<DeclaredIn>SFCrypto.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFSDKUtils)</TokenIdentifier>
+			<Abstract type="html">Mobile SDK utility additions to NSData.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
             
 			
 			<NodeRef refid="124"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeInMemory</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoModeInMemory</Declaration>
-            
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkBase64UrlString</TokenIdentifier>
+			<Abstract type="html">Creates a base64url string based on the data.  See RFC 4648.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)msdkBase64UrlString</Declaration>
+			
+			<ReturnValue><Abstract type="html">The base64url string based on the data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkBase64UrlString</Anchor>
             <NodeRef refid="124"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFCryptoModeDisk</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFCryptoModeDisk</Declaration>
-            
-            <DeclaredIn>SFCrypto.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSData/msdkSha256Data</TokenIdentifier>
+			<Abstract type="html">Creates an SHA256 hash of the given data.</Abstract>
+			<DeclaredIn>NSData+SFSDKUtils.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)msdkSha256Data</Declaration>
+			
+			<ReturnValue><Abstract type="html">The SHA256 hash of the given data.</Abstract></ReturnValue>
+			<Anchor>//api/name/msdkSha256Data</Anchor>
             <NodeRef refid="124"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

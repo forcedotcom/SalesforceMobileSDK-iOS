@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSArray+SFAdditions.html">
+	<File path="Classes/SFSDKLoginHostStorage.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSArray(SFAdditions)</TokenIdentifier>
-			<Abstract type="html">Provides Salesforce Mobile SDK filtering for NSArray objects.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKLoginHostStorage</TokenIdentifier>
+			<Abstract type="html">This class manages the list of login hosts as well its persistence.
+Currently this list is persisted in the user defaults.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
             
 			
 			<NodeRef refid="91"/>
@@ -13,59 +14,135 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithElementsOfClass:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements are guaranteed to be instances of the given class.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSDKLoginHostStorage/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Returns the shared instance of this class.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithElementsOfClass:(Class)aClass</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>aClass</Name>
-					<Abstract type="html">The class to filter on.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">An array whose elements are all of the given type (or a subtype).</Abstract></ReturnValue>
-			<Anchor>//api/name/filteredArrayWithElementsOfClass:</Anchor>
+			<Declaration>+ (SFSDKLoginHostStorage *)sharedInstance</Declaration>
+			
+			
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayWithValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements have a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/addLoginHost:</TokenIdentifier>
+			<Abstract type="html">Adds a new login host.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayWithValue:(id)value forKeyPath:(NSString *)key</Declaration>
+			<Declaration>- (void)addLoginHost:(SFSDKLoginHost *)loginHost</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
+					<Name>loginHost</Name>
+					<Abstract type="html">Login host to be added</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/filteredArrayWithValue:forKeyPath:</Anchor>
+			<Anchor>//api/name/addLoginHost:</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSArray/filteredArrayExcludingValue:forKeyPath:</TokenIdentifier>
-			<Abstract type="html">Returns an array whose elements exclude a given value at a given keypath.</Abstract>
-			<DeclaredIn>NSArray+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeLoginHostAtIndex:</TokenIdentifier>
+			<Abstract type="html">Removes the login host at the specified index.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
 			
-			<Declaration>- (NSArray *)filteredArrayExcludingValue:(id)value forKeyPath:(NSString *)key</Declaration>
+			<Declaration>- (void)removeLoginHostAtIndex:(NSUInteger)index</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>value</Name>
-					<Abstract type="html">The value to filter on.</Abstract>
-				</Parameter><Parameter>
-					<Name>key</Name>
-					<Abstract type="html">The key path for the value to filter on.</Abstract>
+					<Name>index</Name>
+					<Abstract type="html">Index of the login host</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/filteredArrayExcludingValue:forKeyPath:</Anchor>
+			<Anchor>//api/name/removeLoginHostAtIndex:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/indexOfLoginHost:</TokenIdentifier>
+			<Abstract type="html">Returns the index of the specified host if exists.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)indexOfLoginHost:(SFSDKLoginHost *)host</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>host</Name>
+					<Abstract type="html">Requested login host</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/indexOfLoginHost:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostAtIndex:</TokenIdentifier>
+			<Abstract type="html">Returns the login host at the specified index.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKLoginHost *)loginHostAtIndex:(NSUInteger)index</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>index</Name>
+					<Abstract type="html">Requested index</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loginHostAtIndex:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/loginHostForHostAddress:</TokenIdentifier>
+			<Abstract type="html">Returns the login host with a particular host address, if any.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (SFSDKLoginHost *)loginHostForHostAddress:(NSString *)hostAddress</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>hostAddress</Name>
+					<Abstract type="html">Address to be queried</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/loginHostForHostAddress:</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/removeAllLoginHosts</TokenIdentifier>
+			<Abstract type="html">Removes all the login hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllLoginHosts</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllLoginHosts</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/numberOfLoginHosts</TokenIdentifier>
+			<Abstract type="html">Returns the number of login hosts.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (NSUInteger)numberOfLoginHosts</Declaration>
+			
+			
+			<Anchor>//api/name/numberOfLoginHosts</Anchor>
+            <NodeRef refid="91"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKLoginHostStorage/save</TokenIdentifier>
+			<Abstract type="html">Stores all the login host except the non-deletable ones in the user defaults.</Abstract>
+			<DeclaredIn>SFSDKLoginHostStorage.h</DeclaredIn>
+			
+			<Declaration>- (void)save</Declaration>
+			
+			
+			<Anchor>//api/name/save</Anchor>
             <NodeRef refid="91"/>
 		</Token>
 		

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSyncUpTarget.html">
+	<File path="Classes/SFSyncTarget.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSyncUpTarget</TokenIdentifier>
-			<Abstract type="html">Base class for a server target, used to manage sync ups to the configured service.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSyncTarget</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
             
 			
 			<NodeRef refid="21"/>
@@ -13,210 +13,105 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/setTargetType:</TokenIdentifier>
-			<Abstract type="html">The type of server target represented by this instance.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setIdFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/targetType</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/targetType</TokenIdentifier>
-			<Abstract type="html">The type of server target represented by this instance.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/targetType</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFSyncUpTarget/targetType</TokenIdentifier>
-			<Abstract type="html">The type of server target represented by this instance.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/idFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the ID field of the record.  Defaults to &quot;Id&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, assign) SFSyncUpTargetType targetType</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *idFieldName</Declaration>
 			
 			
-			<Anchor>//api/name/targetType</Anchor>
+			<Anchor>//api/name/idFieldName</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/newFromDict:</TokenIdentifier>
-			<Abstract type="html">Creates a new instance of a server target from a serialized dictionary.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/setModificationDateFieldName:</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)newFromDict:(NSDictionary *)dict</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSyncTarget/modificationDateFieldName</TokenIdentifier>
+			<Abstract type="html">The field name of the modification date field of the record.  Defaults to &quot;LastModifiedDate&quot;.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *modificationDateFieldName</Declaration>
+			
+			
+			<Anchor>//api/name/modificationDateFieldName</Anchor>
+            <NodeRef refid="21"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/initWithDict:</TokenIdentifier>
+			<Abstract type="html">Designated initializer that initializes a sync target from the given dictionary.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithDict:(NSDictionary *)dict</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>dict</Name>
-					<Abstract type="html">The dictionary with the serialized server target.</Abstract>
+					<Abstract type="html">The sync target serialized to an NSDictionary.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/newFromDict:</Anchor>
+			<Anchor>//api/name/initWithDict:</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeFromString:</TokenIdentifier>
-			<Abstract type="html">Converts a string representation of a target type into its target type.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSyncTarget/asDict</TokenIdentifier>
+			<Abstract type="html">The target represented as a dictionary.  Note: inheriting classes should initialize their
+dictionary from the super representation, as each parent class can add fields to the
+dictionary along the way.</Abstract>
+			<DeclaredIn>SFSyncTarget.h</DeclaredIn>
 			
-			<Declaration>+ (SFSyncUpTargetType)targetTypeFromString:(NSString *)targetType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>targetType</Name>
-					<Abstract type="html">The string representation of the target type.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The target type value.</Abstract></ReturnValue>
-			<Anchor>//api/name/targetTypeFromString:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSyncUpTarget/targetTypeToString:</TokenIdentifier>
-			<Abstract type="html">Gives the string representation of a target type.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
+			<Declaration>- (NSMutableDictionary *)asDict</Declaration>
 			
-			<Declaration>+ (NSString *)targetTypeToString:(SFSyncUpTargetType)targetType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>targetType</Name>
-					<Abstract type="html">The target type to display.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The string representation of the target type.</Abstract></ReturnValue>
-			<Anchor>//api/name/targetTypeToString:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/fetchRecordModificationDates:modificationResultBlock:</TokenIdentifier>
-			<Abstract type="html">Gives the current modification times of a record, on the client and on the server.</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)fetchRecordModificationDates:(NSDictionary *)record modificationResultBlock:(SFSyncUpRecordModificationResultBlock)modificationResultBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>record</Name>
-					<Abstract type="html">The record to query for modification times.</Abstract>
-				</Parameter><Parameter>
-					<Name>modificationResultBlock</Name>
-					<Abstract type="html">The block to execute with the modification date values.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/fetchRecordModificationDates:modificationResultBlock:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/createOnServer:fields:completionBlock:failBlock:</TokenIdentifier>
-			<Abstract type="html">Save locally created record back to server</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)createOnServer:(NSString *)objectType fields:(NSDictionary *)fields completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">The object type of the record.</Abstract>
-				</Parameter><Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">The map of record attribute names to values.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The block to execute after the server call completes.</Abstract>
-				</Parameter><Parameter>
-					<Name>failBlock</Name>
-					<Abstract type="html">The block to execute if the server call fails.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/createOnServer:fields:completionBlock:failBlock:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/updateOnServer:objectId:fields:completionBlock:failBlock:</TokenIdentifier>
-			<Abstract type="html">Save locally updated record back to server</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)updateOnServer:(NSString *)objectType objectId:(NSString *)objectId fields:(NSDictionary *)fields completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">The object type of the record.</Abstract>
-				</Parameter><Parameter>
-					<Name>objectId</Name>
-					<Abstract type="html">The object id of the record.</Abstract>
-				</Parameter><Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">The map of record attribute names to values.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The block to execute after the server call completes.</Abstract>
-				</Parameter><Parameter>
-					<Name>failBlock</Name>
-					<Abstract type="html">The block to execute if the server call fails.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/updateOnServer:objectId:fields:completionBlock:failBlock:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/deleteOnServer:objectId:completionBlock:failBlock:</TokenIdentifier>
-			<Abstract type="html">Delete locally deleted record from server</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (void)deleteOnServer:(NSString *)objectType objectId:(NSString *)objectId completionBlock:(SFSyncUpTargetCompleteBlock)completionBlock failBlock:(SFSyncUpTargetErrorBlock)failBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>objectType</Name>
-					<Abstract type="html">The object type of the record.</Abstract>
-				</Parameter><Parameter>
-					<Name>objectId</Name>
-					<Abstract type="html">The object id of the record.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionBlock</Name>
-					<Abstract type="html">The block to execute after the server call completes.</Abstract>
-				</Parameter><Parameter>
-					<Name>failBlock</Name>
-					<Abstract type="html">The block to execute if the server call fails.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/deleteOnServer:objectId:completionBlock:failBlock:</Anchor>
-            <NodeRef refid="21"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSyncUpTarget/getIdsOfRecordsToSyncUp:soupName:</TokenIdentifier>
-			<Abstract type="html">Return set of record ids (soup element ids) that need to be sent up to the server</Abstract>
-			<DeclaredIn>SFSyncUpTarget.h</DeclaredIn>
-			
-			<Declaration>- (NSArray *)getIdsOfRecordsToSyncUp:(SFSmartSyncSyncManager *)syncManager soupName:(NSString *)soupName</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncManager</Name>
-					<Abstract type="html">The sync manager running the sync.</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup name to look into for records.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getIdsOfRecordsToSyncUp:soupName:</Anchor>
+			<ReturnValue><Abstract type="html">The target represented as a dictionary.</Abstract></ReturnValue>
+			<Anchor>//api/name/asDict</Anchor>
             <NodeRef refid="21"/>
 		</Token>
 		

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/ViewController.html">
+	<File path="Classes/SalesforceSDKManagerWithSmartStore.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>ViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SalesforceSDKManagerWithSmartStore</TokenIdentifier>
+			<Abstract type="html">Version of SalesforceSDKManager to be used with all SmartStore-enabled apps.
+By default, forceios apps use an instance of this class instead of SalesforceSDKManager.</Abstract>
+			<DeclaredIn>SalesforceSDKManagerWithSmartStore.h</DeclaredIn>
             
 			
 			<NodeRef refid="24"/>

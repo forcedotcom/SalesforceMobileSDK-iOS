@@ -1,67 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFOAuthCredsEncryptionType.html">
+	<File path="Categories/NSURL+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFOAuthCredsEncryptionType</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSURL(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Salesforce Mobile SDK additions to the NSURL class</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="135"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeNotSet</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeNotSet</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSURL/valueForParameterName:</TokenIdentifier>
+			<Abstract type="html">Get value for a parameter name from the URL</Abstract>
+			<DeclaredIn>NSURL+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)valueForParameterName:(NSString *)name</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>name</Name>
+					<Abstract type="html">Name of the parameter</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/valueForParameterName:</Anchor>
             <NodeRef refid="135"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeMac</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeMac</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="135"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeIdForVendor</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeIdForVendor</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="135"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeBaseAppId</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeBaseAppId</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="135"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/kSFOAuthCredsEncryptionTypeKeyStore</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>kSFOAuthCredsEncryptionTypeKeyStore</Declaration>
-            
-            <DeclaredIn>SFOAuthCredentials+Internal.h</DeclaredIn>
-            
-            <NodeRef refid="135"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

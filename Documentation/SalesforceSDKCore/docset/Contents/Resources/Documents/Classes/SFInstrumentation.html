@@ -66,6 +66,8 @@
 		
 		<option value="//api/name/instrumentationForClass:">+ instrumentationForClass:</option>
 		
+		<option value="//api/name/instrumentationForClassWithName:">+ instrumentationForClassWithName:</option>
+		
 	</optgroup>
 	
 
@@ -74,9 +76,17 @@
 		
 		<option value="//api/name/instrumentForTiming:afterBlock:">- instrumentForTiming:afterBlock:</option>
 		
+		<option value="//api/name/instrumentForTiming:inheritanceLevels:afterBlock:">- instrumentForTiming:inheritanceLevels:afterBlock:</option>
+		
+		<option value="//api/name/interceptClassMethod:beforeBlock:afterBlock:">- interceptClassMethod:beforeBlock:afterBlock:</option>
+		
+		<option value="//api/name/interceptClassMethod:replaceWithInvocationBlock:">- interceptClassMethod:replaceWithInvocationBlock:</option>
+		
 		<option value="//api/name/interceptInstanceMethod:beforeBlock:afterBlock:">- interceptInstanceMethod:beforeBlock:afterBlock:</option>
 		
 		<option value="//api/name/interceptInstanceMethod:replaceWithInvocationBlock:">- interceptInstanceMethod:replaceWithInvocationBlock:</option>
+		
+		<option value="//api/name/interceptorForSelector:isInstanceSelector:">- interceptorForSelector:isInstanceSelector:</option>
 		
 		<option value="//api/name/loadInstructions:completion:">- loadInstructions:completion:</option>
 		
@@ -230,6 +240,124 @@ It can be used to record timing &amp; usage information for example.</p>
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/instrumentationForClassWithName:" title="instrumentationForClassWithName:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentationForClassWithName:">+&nbsp;instrumentationForClassWithName:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns an instrumentation instance for the class with the specified name.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)instrumentationForClassWithName:(NSString *)<em>className</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>className</code></th>
+						<td><p>The name of the class to be instrumented.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptorForSelector:isInstanceSelector:" title="interceptorForSelector:isInstanceSelector:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptorForSelector:isInstanceSelector:">&ndash;&nbsp;interceptorForSelector:isInstanceSelector:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Returns the interceptor configured for the class with the given selector, or <code>nil</code>
+if an interceptor is not configured for the given selector.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (SFMethodInterceptor *)interceptorForSelector:(SEL)<em>selector</em> isInstanceSelector:(BOOL)<em>isInstanceSelector</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selector</code></th>
+						<td><p>The selector to check</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>isInstanceSelector</code></th>
+						<td><p>Whether or not the selector is an instance selector.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>The configured <a href="../Classes/SFMethodInterceptor.html"><code>SFMethodInterceptor</code></a> instance, or <code>nil</code> if an interceptor is
+not configured.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/interceptInstanceMethod:beforeBlock:afterBlock:" title="interceptInstanceMethod:beforeBlock:afterBlock:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/interceptInstanceMethod:beforeBlock:afterBlock:">&ndash;&nbsp;interceptInstanceMethod:beforeBlock:afterBlock:</a></code>
 </h3>
@@ -311,7 +439,7 @@ Note: the block contains a single argument which is the NSInvocation of the mess
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)interceptInstanceMethod:(SEL)<em>selector</em> replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)<em>before</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)interceptInstanceMethod:(SEL)<em>selector</em> replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)<em>replace</em></code></div>
 
 		    
 			
@@ -325,7 +453,130 @@ Note: the block contains a single argument which is the NSInvocation of the mess
 					</tr>
 				
 					<tr>
+						<th scope="row" class="argument-name"><code>replace</code></th>
+						<td><p>The block to be invoked</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptClassMethod:beforeBlock:afterBlock:" title="interceptClassMethod:beforeBlock:afterBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptClassMethod:beforeBlock:afterBlock:">&ndash;&nbsp;interceptClassMethod:beforeBlock:afterBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this method to intercept the class method specified by <code>selector</code></p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)interceptClassMethod:(SEL)<em>selector</em> beforeBlock:(SFMethodInterceptorInvocationCallback)<em>before</em> afterBlock:(SFMethodInterceptorInvocationAfterCallback)<em>after</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selector</code></th>
+						<td><p>The selector to intercept</p></td>
+					</tr>
+				
+					<tr>
 						<th scope="row" class="argument-name"><code>before</code></th>
+						<td><p>An optional block invoked before the selector is executed</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>after</code></th>
+						<td><p>An optional block invoked after the selector is executed</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/interceptClassMethod:replaceWithInvocationBlock:" title="interceptClassMethod:replaceWithInvocationBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/interceptClassMethod:replaceWithInvocationBlock:">&ndash;&nbsp;interceptClassMethod:replaceWithInvocationBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Use this method to intercept the class method specified by <code>selector</code>
+and provide a block that will be invoked instead of the method.
+Note: the block contains a single argument which is the NSInvocation of the message.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)interceptClassMethod:(SEL)<em>selector</em> replaceWithInvocationBlock:(SFMethodInterceptorInvocationCallback)<em>replace</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selector</code></th>
+						<td><p>The instance method to be intercepted</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>replace</code></th>
 						<td><p>The block to be invoked</p></td>
 					</tr>
 				
@@ -364,7 +615,7 @@ Note: the block contains a single argument which is the NSInvocation of the mess
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Instrument some selectors of a the target class for performance timing</p>
+				<p>Instrument some selectors of a the target class for performance timing.</p>
 			</div>
 			
 		    
@@ -380,6 +631,79 @@ Note: the block contains a single argument which is the NSInvocation of the mess
 					<tr>
 						<th scope="row" class="argument-name"><code>selectorFilter</code></th>
 						<td><p>A block invoked when to select selectors from the class to instrument</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>after</code></th>
+						<td><p>An optional block invoked after any selector is executed</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>This method will only instrument selectors defined on or explicitly overridden
+in the class.  To instrument inherited selectors, use the
+<a href="#//api/name/instrumentForTiming:inheritanceLevels:afterBlock:">instrumentForTiming:inheritanceLevels:afterBlock:</a> overload.  Calling this method is
+the same as calling <a href="#//api/name/instrumentForTiming:inheritanceLevels:afterBlock:">instrumentForTiming:inheritanceLevels:afterBlock:</a> with an
+inheritance levels value of zero.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFInstrumentation.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/instrumentForTiming:inheritanceLevels:afterBlock:" title="instrumentForTiming:inheritanceLevels:afterBlock:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/instrumentForTiming:inheritanceLevels:afterBlock:">&ndash;&nbsp;instrumentForTiming:inheritanceLevels:afterBlock:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Instrument some selectors of the target class and its parent class(es)
+for performance timing.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)instrumentForTiming:(SFInstrumentationSelectorFilter)<em>selectorFilter</em> inheritanceLevels:(NSUInteger)<em>numInheritanceLevels</em> afterBlock:(SFMethodInterceptorInvocationAfterCallback)<em>after</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>selectorFilter</code></th>
+						<td><p>A block invoked when to select selectors from the class to instrument</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>numInheritanceLevels</code></th>
+						<td><p>The number of inherited classes whose selectors will be made available.</p></td>
 					</tr>
 				
 					<tr>
@@ -566,7 +890,7 @@ comes from a JSON file.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

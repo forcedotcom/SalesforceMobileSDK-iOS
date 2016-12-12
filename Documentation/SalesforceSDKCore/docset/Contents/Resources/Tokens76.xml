@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFTestContext.html">
+	<File path="Classes/SFPreferences.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFTestContext</TokenIdentifier>
-			<Abstract type="html">Helps determine whether we&apos;re currently running tests or not.</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFPreferences</TokenIdentifier>
+			<Abstract type="html">Preferences class that handles scoped preferences.
+A scope binds the preferences to a specific user,
+org or community.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
             
 			
 			<NodeRef refid="76"/>
@@ -13,47 +15,179 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/isRunningTests</TokenIdentifier>
-			<Abstract type="html">Return YES if is running test</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setPath:</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (BOOL)isRunningTests</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
 			
 			
-			<Anchor>//api/name/isRunningTests</Anchor>
+			<Anchor>//api/name/path</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setIsRunningTests:</TokenIdentifier>
-			<Abstract type="html">Update SFTestContext to indicate whether it is in testing context or live context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/path</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)setIsRunningTests:(BOOL)runningTests</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/path</TokenIdentifier>
+			<Abstract type="html">Returns the path in which the preferences file exists</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *path</Declaration>
+			
+			
+			<Anchor>//api/name/path</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setDictionaryRepresentation:</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			
+			
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/dictionaryRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			
+			
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFPreferences/dictionaryRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns the underlying dictionary representation</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy, readonly) NSDictionary *dictionaryRepresentation</Declaration>
+			
+			
+			<Anchor>//api/name/dictionaryRepresentation</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/globalPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the global instance of the preferences (one per application)</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)globalPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/globalPreferences</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/sharedPreferencesForScope:user:</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the specified user&apos;s organization
+or nil if there is no specified user or scope.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)sharedPreferencesForScope:(SFUserAccountScope)scope user:(SFUserAccount *)user</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>runningTests</Name>
-					<Abstract type="html">Yes if code is running under testing context</Abstract>
+					<Name>scope</Name>
+					<Abstract type="html">The scope to which the preferences apply: global, user&apos;s org, user&apos;s community, or user&apos;s account.</Abstract>
+				</Parameter><Parameter>
+					<Name>user</Name>
+					<Abstract type="html">The account to which the preferences apply. Not used if scope is global.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/setIsRunningTests:</Anchor>
+			<Anchor>//api/name/sharedPreferencesForScope:user:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/setObject:forKey:</TokenIdentifier>
-			<Abstract type="html">Sets an arbitrary object into the test context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentOrgLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the current user&apos;s organization
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)setObject:(id)object forKey:(id)key</Declaration>
+			<Declaration>+ (instancetype)currentOrgLevelPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/currentOrgLevelPreferences</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentUserLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the currrent user
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)currentUserLevelPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/currentUserLevelPreferences</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFPreferences/currentCommunityLevelPreferences</TokenIdentifier>
+			<Abstract type="html">Returns the preferences instance related to the currrent user&apos;s community
+or nil if there is no current user.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>+ (instancetype)currentCommunityLevelPreferences</Declaration>
+			
+			
+			<Anchor>//api/name/currentCommunityLevelPreferences</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/objectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the preferences object for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (id)objectForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested object.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/objectForKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setObject:forKey:</TokenIdentifier>
+			<Abstract type="html">Sets the preference object for the given attribute key. Logs an SFLogLevelError if the key is not found.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (void)setObject:(id)object forKey:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>object</Name>
-					<Abstract type="html">The object or nil to remove the object</Abstract>
+					<Abstract type="html">Object to be set.</Abstract>
 				</Parameter><Parameter>
 					<Name>key</Name>
-					<Abstract type="html">The key</Abstract>
+					<Abstract type="html">Key of object to be set.</Abstract>
 				</Parameter>
 			</Parameters>
 			
@@ -62,31 +196,134 @@
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/objectForKey:</TokenIdentifier>
-			<Abstract type="html">Returns an arbitrary object from the test context</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Removes the preference object for the given attribute key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (id)objectForKey:(id)key</Declaration>
+			<Declaration>- (void)removeObjectForKey:(NSString *)key</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>
-					<Abstract type="html">The key</Abstract>
+					<Abstract type="html">Key of object to be removed.</Abstract>
 				</Parameter>
 			</Parameters>
-			<ReturnValue><Abstract type="html">The object</Abstract></ReturnValue>
-			<Anchor>//api/name/objectForKey:</Anchor>
+			
+			<Anchor>//api/name/removeObjectForKey:</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFTestContext/clearObjects</TokenIdentifier>
-			<Abstract type="html">Removes all the stored objects</Abstract>
-			<DeclaredIn>SFTestContext.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/boolForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the Boolean preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
 			
-			<Declaration>+ (void)clearObjects</Declaration>
+			<Declaration>- (BOOL)boolForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/boolForKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setBool:forKey:</TokenIdentifier>
+			<Abstract type="html">Assigns the given Boolean preference value to the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (void)setBool:(BOOL)value forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">The Boolean value.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setBool:forKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/integerForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the integer preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (NSInteger)integerForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/integerForKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/setInteger:forKey:</TokenIdentifier>
+			<Abstract type="html">Assigns the given integer preference value to the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (void)setInteger:(NSInteger)value forKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>value</Name>
+					<Abstract type="html">The integer value.</Abstract>
+				</Parameter><Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the preference value to be edited.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/setInteger:forKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/stringForKey:</TokenIdentifier>
+			<Abstract type="html">Returns the string preference value for the given key.</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)stringForKey:(NSString *)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The key of the requested preference value.</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/stringForKey:</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/synchronize</TokenIdentifier>
+			<Abstract type="html">Saves the preferences to the disk</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (void)synchronize</Declaration>
 			
 			
-			<Anchor>//api/name/clearObjects</Anchor>
+			<Anchor>//api/name/synchronize</Anchor>
+            <NodeRef refid="76"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFPreferences/removeAllObjects</TokenIdentifier>
+			<Abstract type="html">Remove all saved objects</Abstract>
+			<DeclaredIn>SFPreferences.h</DeclaredIn>
+			
+			<Declaration>- (void)removeAllObjects</Declaration>
+			
+			
+			<Anchor>//api/name/removeAllObjects</Anchor>
             <NodeRef refid="76"/>
 		</Token>
 		

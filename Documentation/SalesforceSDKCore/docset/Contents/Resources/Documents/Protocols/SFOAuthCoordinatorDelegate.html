@@ -70,6 +70,10 @@
 		
 		<option value="//api/name/oauthCoordinator:didStartLoad:">- oauthCoordinator:didStartLoad:</option>
 		
+		<option value="//api/name/oauthCoordinator:displayAlertMessage:completion:">- oauthCoordinator:displayAlertMessage:completion:</option>
+		
+		<option value="//api/name/oauthCoordinator:displayConfirmationMessage:completion:">- oauthCoordinator:displayConfirmationMessage:completion:</option>
+		
 		<option value="//api/name/oauthCoordinator:willBeginAuthenticationWithView:">- oauthCoordinator:willBeginAuthenticationWithView:</option>
 		
 		<option value="//api/name/oauthCoordinator:willBeginBrowserAuthentication:">- oauthCoordinator:willBeginBrowserAuthentication:</option>
@@ -831,6 +835,134 @@ this method should be implemented and return NO to disable the browser authentic
 		</div>
 	</div>
 </div><div class="section-method">
+	<a name="//api/name/oauthCoordinator:displayAlertMessage:completion:" title="oauthCoordinator:displayAlertMessage:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:displayAlertMessage:completion:">&ndash;&nbsp;oauthCoordinator:displayAlertMessage:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate is expected to display an alert with the specific message and callback the completion block when
+the user dismisses the alert.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> displayAlertMessage:(NSString *)<em>message</em> completion:(dispatch_block_t)<em>completion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>The message to display</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completion</code></th>
+						<td><p>The completion block to invoke</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/oauthCoordinator:displayConfirmationMessage:completion:" title="oauthCoordinator:displayConfirmationMessage:completion:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:displayConfirmationMessage:completion:">&ndash;&nbsp;oauthCoordinator:displayConfirmationMessage:completion:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+the user dismisses the alert.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)oauthCoordinator:(SFOAuthCoordinator *)<em>coordinator</em> displayConfirmationMessage:(NSString *)<em>message</em> completion:(void ( ^ ) ( BOOL result ))<em>completion</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>coordinator</code></th>
+						<td><p>The <a href="../Classes/SFOAuthCoordinator.html">SFOAuthCoordinator</a> instance</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>message</code></th>
+						<td><p>The message to display</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>completion</code></th>
+						<td><p>The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFOAuthCoordinator.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
 	<a name="//api/name/oauthCoordinator:didBeginAuthenticationWithView:" title="oauthCoordinator:didBeginAuthenticationWithView:"></a>
 	<h3 class="method-title"><code><a href="#//api/name/oauthCoordinator:didBeginAuthenticationWithView:">&ndash;&nbsp;oauthCoordinator:didBeginAuthenticationWithView:</a></code>
 <span class="task-item-suffix">required method</span></h3>
@@ -918,7 +1050,7 @@ The receiver should display the view in the implementation of this method.</p><d
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFWKWebViewNavigationDelegate.html">
+	<File path="Classes/SFWKWebViewEngine.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewNavigationDelegate</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFWKWebViewEngine</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
             
 			
 			<NodeRef refid="18"/>
@@ -13,50 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/setEnginePlugin:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewEngine/setWkWebViewDelegate:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/enginePlugin</Anchor>
+			<Anchor>//api/name/wkWebViewDelegate</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/enginePlugin</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewEngine/wkWebViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/enginePlugin</Anchor>
+			<Anchor>//api/name/wkWebViewDelegate</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFWKWebViewNavigationDelegate/enginePlugin</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/SFWKWebViewEngine/wkWebViewDelegate</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
+			<DeclaredIn>SFWKWebViewEngine.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak) CDVPlugin *enginePlugin</Declaration>
-			
-			
-			<Anchor>//api/name/enginePlugin</Anchor>
-            <NodeRef refid="18"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFWKWebViewNavigationDelegate/initWithEnginePlugin:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFWKWebViewNavigationDelegate.h</DeclaredIn>
-			
-			<Declaration>- (instancetype)initWithEnginePlugin:(CDVPlugin *)enginePlugin</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) id&lt;WKNavigationDelegate&gt; wkWebViewDelegate</Declaration>
 			
 			
-			<Anchor>//api/name/initWithEnginePlugin:</Anchor>
+			<Anchor>//api/name/wkWebViewDelegate</Anchor>
             <NodeRef refid="18"/>
 		</Token>
 		

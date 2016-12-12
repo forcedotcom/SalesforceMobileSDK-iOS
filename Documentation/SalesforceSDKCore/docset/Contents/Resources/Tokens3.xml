@@ -1,16 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/NSURL_SFStringUtilsTests.html">
+	<File path="Classes/CSFAuthRefresh.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/NSURL_SFStringUtilsTests</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFAuthRefresh</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>NSURL+SFStringUtilsTests.h</DeclaredIn>
+			<DeclaredIn>CSFAuthRefresh.h</DeclaredIn>
             
 			
 			<NodeRef refid="3"/>
 		</Token>
 		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/initWithNetwork:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithNetwork:(CSFNetwork *)network</Declaration>
+			
+			
+			<Anchor>//api/name/initWithNetwork:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/refreshAuthWithCompletionBlock:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshAuthWithCompletionBlock:(CSFAuthRefreshCompletionBlock)completionBlock</Declaration>
+			
+			
+			<Anchor>//api/name/refreshAuthWithCompletionBlock:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/CSFAuthRefresh/isRefreshing</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh.h</DeclaredIn>
+			
+			<Declaration>+ (BOOL)isRefreshing</Declaration>
+			
+			
+			<Anchor>//api/name/isRefreshing</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/setNetwork:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/network</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFAuthRefresh/network</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh+Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) CSFNetwork *network</Declaration>
+			
+			
+			<Anchor>//api/name/network</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/refreshAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)refreshAuth</Declaration>
+			
+			
+			<Anchor>//api/name/refreshAuth</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFAuthRefresh/finishWithOutput:error:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFAuthRefresh+Internal.h</DeclaredIn>
+			
+			<Declaration>- (void)finishWithOutput:(CSFOutput *)refreshOutput error:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/finishWithOutput:error:</Anchor>
+            <NodeRef refid="3"/>
+		</Token>
 		
         
         

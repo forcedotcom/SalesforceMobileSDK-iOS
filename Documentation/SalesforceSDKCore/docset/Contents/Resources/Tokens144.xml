@@ -1,57 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountAccessRestriction.html">
+	<File path="Protocols/CSFActionValue.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountAccessRestriction</TokenIdentifier>
-			<Abstract type="html">User account restrictions</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFActionValue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
             
 			
 			<NodeRef refid="144"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionNone</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/actionValue</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			
+			<Declaration>- (id)actionValue</Declaration>
+			
+			
+			<Anchor>//api/name/actionValue</Anchor>
             <NodeRef refid="144"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionChatter</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionChatter</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionValue/decodedObjectForActionValue:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFActionValue.h</DeclaredIn>
+			
+			<Declaration>+ (id&lt;CSFActionValue&gt;)decodedObjectForActionValue:(id)actionValue</Declaration>
+			
+			
+			<Anchor>//api/name/decodedObjectForActionValue:</Anchor>
             <NodeRef refid="144"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionREST</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionREST</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="144"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountAccessRestrictionOther</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFUserAccountAccessRestrictionOther</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="144"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFKeychainItemExceptionErrorCode.html">
+	<File path="Categories/NSDictionary+SFAdditions.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFKeychainItemExceptionErrorCode</TokenIdentifier>
-			<Abstract type="html">This class is left to remain non-ARC INTENTIONALLY!</Abstract>
-			<DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cat/NSDictionary(SFAdditions)</TokenIdentifier>
+			<Abstract type="html">Extension to NSDictionary object</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
             
 			
 			<NodeRef refid="128"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFKeychainItemExceptionKeychainInaccessible</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFKeychainItemExceptionKeychainInaccessible</Declaration>
-            
-            <DeclaredIn>SFKeychainItemWrapper.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/objectAtPath:</TokenIdentifier>
+			<Abstract type="html">Get object from NSDictionary with &quot;/&quot; separated path.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (id)objectAtPath:(NSString *)path</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>path</Name>
+					<Abstract type="html">Path for the object to retrieve. Use &quot;/&quot; to separate between levels. For example, root/child/valueKey will retrieve value from the root NSDictionary object to its child dictionary&apos;s value with key &quot;valueKey&quot;</Abstract>
+				</Parameter>
+			</Parameters>
+			
+			<Anchor>//api/name/objectAtPath:</Anchor>
             <NodeRef refid="128"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/nonNullObjectForKey:</TokenIdentifier>
+			<Abstract type="html">Returns an object whose ID is key, or nil.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (id)nonNullObjectForKey:(id)key</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>key</Name>
+					<Abstract type="html">The ID of an object, or a null value</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">An object whose ID is key, or else nil if the key has a value of NSNull or an NSString value of &quot;&lt;nil&gt;&quot; or &quot;&lt;null&gt;&quot;.</Abstract></ReturnValue>
+			<Anchor>//api/name/nonNullObjectForKey:</Anchor>
+            <NodeRef refid="128"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/NSDictionary/jsonString</TokenIdentifier>
+			<Abstract type="html">Returns the dictionary&apos;s contents reformatted as a JSON string.</Abstract>
+			<DeclaredIn>NSDictionary+SFAdditions.h</DeclaredIn>
+			
+			<Declaration>- (NSString *)jsonString</Declaration>
+			
+			
+			<Anchor>//api/name/jsonString</Anchor>
+            <NodeRef refid="128"/>
+		</Token>
+		
         
         
 	</File>

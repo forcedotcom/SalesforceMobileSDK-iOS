@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/UIColor+SFColors.html">
+	<File path="Classes/SFTestSDKManagerFlow.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/UIColor(SFColors)</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFTestSDKManagerFlow</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
             
 			
 			<NodeRef refid="104"/>
@@ -13,14 +13,74 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/UIColor/salesforceBlueColor</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/setPauseInAuth:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>UIColor+SFColors.h</DeclaredIn>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
 			
-			<Declaration>+ (UIColor *)salesforceBlueColor</Declaration>
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
 			
 			
-			<Anchor>//api/name/salesforceBlueColor</Anchor>
+			<Anchor>//api/name/pauseInAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			
+			
+			<Anchor>//api/name/pauseInAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFTestSDKManagerFlow/pauseInAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, assign) BOOL pauseInAuth</Declaration>
+			
+			
+			<Anchor>//api/name/pauseInAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/initWithStepTimeDelaySecs:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (id)initWithStepTimeDelaySecs:(NSTimeInterval)timeDelayInSecs</Declaration>
+			
+			
+			<Anchor>//api/name/initWithStepTimeDelaySecs:</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/resumeAuth</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (void)resumeAuth</Declaration>
+			
+			
+			<Anchor>//api/name/resumeAuth</Anchor>
+            <NodeRef refid="104"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFTestSDKManagerFlow/waitForLaunchCompletion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFTestSDKManagerFlow.h</DeclaredIn>
+			
+			<Declaration>- (BOOL)waitForLaunchCompletion</Declaration>
+			
+			
+			<Anchor>//api/name/waitForLaunchCompletion</Anchor>
             <NodeRef refid="104"/>
 		</Token>
 		

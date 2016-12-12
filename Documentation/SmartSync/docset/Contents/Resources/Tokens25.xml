@@ -1,57 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSyncDownTargetQueryType.html">
+	<File path="Classes/ViewController.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSyncDownTargetQueryType</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/ViewController</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
+			<DeclaredIn>ViewController.h</DeclaredIn>
             
 			
 			<NodeRef refid="25"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeMru</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeMru</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="25"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSosl</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSosl</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="25"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeSoql</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeSoql</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="25"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSyncDownTargetQueryTypeCustom</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSyncDownTargetQueryTypeCustom</Declaration>
-            
-            <DeclaredIn>SFSyncDownTarget.h</DeclaredIn>
-            
-            <NodeRef refid="25"/>
-        </Token>
         
         
 	</File>

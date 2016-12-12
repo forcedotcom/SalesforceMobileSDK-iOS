@@ -1,67 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFSDKLaunchAction.html">
+	<File path="Protocols/CSFActionInput.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFSDKLaunchAction</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFActionInput</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
             
 			
 			<NodeRef refid="142"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionNone</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionNone</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFActionInput/formatJSONData:</TokenIdentifier>
+			<Abstract type="html">Method used to format the input model as a JSON blob.</Abstract>
+			<DeclaredIn>CSFActionInput.h</DeclaredIn>
+			
+			<Declaration>- (NSData *)formatJSONData:(NSError **)error</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>error</Name>
+					<Abstract type="html">Error reported, if any.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Formatted JSON data.</Abstract></ReturnValue>
+			<Anchor>//api/name/formatJSONData:</Anchor>
             <NodeRef refid="142"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="142"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAlreadyAuthenticated</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAlreadyAuthenticated</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="142"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionAuthBypassed</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionAuthBypassed</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="142"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFSDKLaunchActionPasscodeVerified</TokenIdentifier>
-            <Abstract type="html"></Abstract>
-            <Declaration>SFSDKLaunchActionPasscodeVerified</Declaration>
-            
-            <DeclaredIn>SalesforceSDKCoreDefines.h</DeclaredIn>
-            
-            <NodeRef refid="142"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

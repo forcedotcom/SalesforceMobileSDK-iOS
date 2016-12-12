@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFCocoaLumberJackCustomFormatter.html">
+	<File path="Classes/CSFOAuthTokenRefreshInput.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFCocoaLumberJackCustomFormatter</TokenIdentifier>
-			<Abstract type="html">This class applies custom formatting to log messages.</Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/CSFOAuthTokenRefreshInput</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,50 +13,146 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/setLogger:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setRedirectUri:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/redirectUri</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/redirectUri</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/redirectUri</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFCocoaLumberJackCustomFormatter/logger</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/redirectUri</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, weak, readonly) SFLogger *logger</Declaration>
+			<Declaration>@property (nonatomic, copy) NSString *redirectUri</Declaration>
 			
 			
-			<Anchor>//api/name/logger</Anchor>
+			<Anchor>//api/name/redirectUri</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFCocoaLumberJackCustomFormatter/initWithLogger:</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setInstanceUrl:</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFCocoaLumberJackCustomFormatter.h</DeclaredIn>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
 			
-			<Declaration>- (instancetype)initWithLogger:(SFLogger *)logger</Declaration>
+			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
 			
 			
-			<Anchor>//api/name/initWithLogger:</Anchor>
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/instanceUrl</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSURL *instanceUrl</Declaration>
+			
+			
+			<Anchor>//api/name/instanceUrl</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setClientId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/setRefreshToken:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
+			
+			
+			<Anchor>//api/name/refreshToken</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/CSFOAuthTokenRefreshInput/refreshToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
+			
+			
+			<Anchor>//api/name/refreshToken</Anchor>
+            <NodeRef refid="11"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/CSFOAuthTokenRefreshInput/refreshToken</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFOAuthTokenRefreshInput.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) NSString *refreshToken</Declaration>
+			
+			
+			<Anchor>//api/name/refreshToken</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

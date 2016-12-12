@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncSyncManager.html">
+	<File path="Classes/SFSmartSyncSoslReturningBuilder.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSyncManager</TokenIdentifier>
-			<Abstract type="html">This class provides methods for doing synching records to/from the server from/to the smartstore.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSoslReturningBuilder</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
             
 			
 			<NodeRef refid="14"/>
@@ -13,255 +13,152 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstance:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing sync manager instance by user. Configured SmartStore store will be
-the default store for the user.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/setObjectName:</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance:(SFUserAccount *)user</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncSoslReturningBuilder/objectName</TokenIdentifier>
+			<Abstract type="html">Returns the object name for this builder</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) NSString *objectName</Declaration>
+			
+			
+			<Anchor>//api/name/objectName</Anchor>
+            <NodeRef refid="14"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoslReturningBuilder/withObjectName:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
+			
+			<Declaration>+ (SFSmartSyncSoslReturningBuilder *)withObjectName:(NSString *)name</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">A user that will scope this manager instance data.</Abstract>
+					<Name>name</Name>
+					<Abstract type="html">the object to return.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/sharedInstance:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withObjectName:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstanceForUser:storeName:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing a sync manager based on user and store name. Configured SmartStore
-store will be the store with the given name for the given user.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/fields:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName</Declaration>
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)fields:(NSString *)fields</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
-				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the SmartStore associated with the user.</Abstract>
+					<Name>fields</Name>
+					<Abstract type="html">a list of one or more fields to return for a given object, comma separated</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/sharedInstanceForUser:storeName:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/fields:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/sharedInstanceForStore:</TokenIdentifier>
-			<Abstract type="html">Singleton method for accessing sync manager instance by SmartStore store.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/whereClause:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstanceForStore:(SFSmartStore *)store</Declaration>
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)whereClause:(NSString *)whereClause</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">The store instance to configure.</Abstract>
+					<Name>whereClause</Name>
+					<Abstract type="html">a description of how search results for the given object should be filtered, based on individual field values. If unspecified, the search retrieves all the rows in the object that are visible to the user</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/sharedInstanceForStore:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/whereClause:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstance:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the specified user.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/withNetwork:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstance:(SFUserAccount *)user</Declaration>
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)withNetwork:(NSString *)networkId</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user.</Abstract>
+					<Name>networkId</Name>
+					<Abstract type="html">The network id to scope this returning statement with, if necessary</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeSharedInstance:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/withNetwork:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstanceForUser:storeName:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the given user and store name.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/orderBy:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstanceForUser:(SFUserAccount *)user storeName:(NSString *)storeName</Declaration>
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)orderBy:(NSString *)orderBy</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>user</Name>
-					<Abstract type="html">The user associated with the store.</Abstract>
-				</Parameter><Parameter>
-					<Name>storeName</Name>
-					<Abstract type="html">The name of the store associated with the given user.</Abstract>
+					<Name>orderBy</Name>
+					<Abstract type="html">a description of how to order the returned result, including ascending and descending order, and how nulls are ordered</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeSharedInstanceForUser:storeName:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/orderBy:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSyncManager/removeSharedInstanceForStore:</TokenIdentifier>
-			<Abstract type="html">Removes the shared instance associated with the specified store.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/limit:</TokenIdentifier>
+			<Abstract type="html">A builder to help create a returning statement.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeSharedInstanceForStore:(SFSmartStore *)store</Declaration>
+			<Declaration>- (SFSmartSyncSoslReturningBuilder *)limit:(NSInteger)limit</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>store</Name>
-					<Abstract type="html">The store instance.</Abstract>
+					<Name>limit</Name>
+					<Abstract type="html">the maximum number of records returned for the given object. If unspecified, all matching records are returned, up to the limit set for the query as a whole</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/removeSharedInstanceForStore:</Anchor>
+			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
+			<Anchor>//api/name/limit:</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/getSyncStatus:</TokenIdentifier>
-			<Abstract type="html">Returns details about a sync.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoslReturningBuilder/build</TokenIdentifier>
+			<Abstract type="html">Builds a returning statement from the builder.</Abstract>
+			<DeclaredIn>SFSmartSyncSoslReturningBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSyncState *)getSyncStatus:(NSNumber *)syncId</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncId</Name>
-					<Abstract type="html">Sync ID.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>- (NSString *)build</Declaration>
 			
-			<Anchor>//api/name/getSyncStatus:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync down that will overwrite any modified records.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
-			
-			
-			<Anchor>//api/name/syncDownWithTarget:soupName:updateBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncDownWithTarget:options:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync down.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)syncDownWithTarget:(SFSyncDownTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
-			
-			
-			<Anchor>//api/name/syncDownWithTarget:options:soupName:updateBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/reSync:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Performs a resync.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)reSync:(NSNumber *)syncId updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
-			
-			
-			<Anchor>//api/name/reSync:updateBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithOptions:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync up with the default SFSyncUpTarget.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)syncUpWithOptions:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
-				</Parameter><Parameter>
-					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync up.</Abstract></ReturnValue>
-			<Anchor>//api/name/syncUpWithOptions:soupName:updateBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/syncUpWithTarget:options:soupName:updateBlock:</TokenIdentifier>
-			<Abstract type="html">Creates and runs a sync up with the configured SFSyncUpTarget.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (SFSyncState *)syncUpWithTarget:(SFSyncUpTarget *)target options:(SFSyncOptions *)options soupName:(NSString *)soupName updateBlock:(SFSyncSyncManagerUpdateBlock)updateBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>target</Name>
-					<Abstract type="html">The sync up target that will manage the sync up process.</Abstract>
-				</Parameter><Parameter>
-					<Name>options</Name>
-					<Abstract type="html">The options associated with this sync up.</Abstract>
-				</Parameter><Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The soup name where the local entries are stored.</Abstract>
-				</Parameter><Parameter>
-					<Name>updateBlock</Name>
-					<Abstract type="html">The block to be called with updates.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The sync state associated with this sync up.</Abstract></ReturnValue>
-			<Anchor>//api/name/syncUpWithTarget:options:soupName:updateBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/cleanResyncGhosts:completionStatusBlock:</TokenIdentifier>
-			<Abstract type="html">Removes local copies of records that have been deleted on the server
-or do not match the query results on the server anymore.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (void)cleanResyncGhosts:(NSNumber *)syncId completionStatusBlock:(SFSyncSyncManagerCompletionStatusBlock)completionStatusBlock</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>syncId</Name>
-					<Abstract type="html">Sync ID.</Abstract>
-				</Parameter><Parameter>
-					<Name>completionStatusBlock</Name>
-					<Abstract type="html">Completion status block.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/cleanResyncGhosts:completionStatusBlock:</Anchor>
-            <NodeRef refid="14"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSyncManager/getDirtyRecordIds:idField:</TokenIdentifier>
-			<Abstract type="html">Returns IDs (specified ID field) from dirty records in the given soup.</Abstract>
-			<DeclaredIn>SFSmartSyncSyncManager.h</DeclaredIn>
-			
-			<Declaration>- (NSOrderedSet *)getDirtyRecordIds:(NSString *)soupName idField:(NSString *)idField</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>soupName</Name>
-					<Abstract type="html">The name of the soup to look into.</Abstract>
-				</Parameter><Parameter>
-					<Name>idField</Name>
-					<Abstract type="html">The field to return.</Abstract>
-				</Parameter>
-			</Parameters>
-			
-			<Anchor>//api/name/getDirtyRecordIds:idField:</Anchor>
+			<ReturnValue><Abstract type="html">the built returning statement</Abstract></ReturnValue>
+			<Anchor>//api/name/build</Anchor>
             <NodeRef refid="14"/>
 		</Token>
 		

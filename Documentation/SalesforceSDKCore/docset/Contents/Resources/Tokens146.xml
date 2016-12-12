@@ -1,61 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountScope.html">
+	<File path="Protocols/CSFNetworkDelegate.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountScope</TokenIdentifier>
-			<Abstract type="html">The various scopes related to a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFNetworkDelegate</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
             
 			
 			<NodeRef refid="146"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeGlobal</TokenIdentifier>
-            <Abstract type="html">Global scope (one per application)
-     </Abstract>
-            <Declaration>SFUserAccountScopeGlobal</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:willEnqueueAction:</TokenIdentifier>
+			<Abstract type="html">Called when an action is about to get enqueued.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network willEnqueueAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:willEnqueueAction:</Anchor>
             <NodeRef refid="146"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeOrg</TokenIdentifier>
-            <Abstract type="html">Scope by organization
-     </Abstract>
-            <Declaration>SFUserAccountScopeOrg</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didStartAction:</TokenIdentifier>
+			<Abstract type="html">These methods inform delegates asynchronously about state of actions.</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network didStartAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:didStartAction:</Anchor>
             <NodeRef refid="146"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeUser</TokenIdentifier>
-            <Abstract type="html">Scope by user
-     </Abstract>
-            <Declaration>SFUserAccountScopeUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCancelAction:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network didCancelAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:didCancelAction:</Anchor>
             <NodeRef refid="146"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountScopeCommunity</TokenIdentifier>
-            <Abstract type="html">Scope by community
-     </Abstract>
-            <Declaration>SFUserAccountScopeCommunity</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:didCompleteAction:withError:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network didCompleteAction:(CSFAction *)action withError:(NSError *)error</Declaration>
+			
+			
+			<Anchor>//api/name/network:didCompleteAction:withError:</Anchor>
             <NodeRef refid="146"/>
-        </Token>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFNetworkDelegate/network:sessionTask:changedState:toState:forAction:</TokenIdentifier>
+			<Abstract type="html">Inform delegates asynchronously about states of tasks for an action</Abstract>
+			<DeclaredIn>CSFNetwork.h</DeclaredIn>
+			
+			<Declaration>- (void)network:(CSFNetwork *)network sessionTask:(NSURLSessionTask *)task changedState:(NSURLSessionTaskState)oldState toState:(NSURLSessionTaskState)newState forAction:(CSFAction *)action</Declaration>
+			
+			
+			<Anchor>//api/name/network:sessionTask:changedState:toState:forAction:</Anchor>
+            <NodeRef refid="146"/>
+		</Token>
+		
         
         
 	</File>

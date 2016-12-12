@@ -66,7 +66,7 @@
 		
 		<option value="//api/name/remoteAccessConsumerKey">remoteAccessConsumerKey</option>
 		
-		<option value="//api/name/useWKWebView">useWKWebView</option>
+		<option value="//api/name/useUIWebView">useUIWebView</option>
 		
 	</optgroup>
 	
@@ -84,13 +84,15 @@
 		
 		<option value="//api/name/authenticateWithCompletionBlock:failureBlock:">- authenticateWithCompletionBlock:failureBlock:</option>
 		
+		<option value="//api/name/configureRemoteStartPage">- configureRemoteStartPage</option>
+		
 		<option value="//api/name/credentialsAsDictionary">- credentialsAsDictionary</option>
 		
 		<option value="//api/name/getAuthCredentialsWithCompletionBlock:failureBlock:">- getAuthCredentialsWithCompletionBlock:failureBlock:</option>
 		
 		<option value="//api/name/initWithConfig:">- initWithConfig:</option>
 		
-		<option value="//api/name/initWithConfig:useWKWebView:">- initWithConfig:useWKWebView:</option>
+		<option value="//api/name/initWithConfig:useUIWebView:">- initWithConfig:useUIWebView:</option>
 		
 		<option value="//api/name/loadErrorPageWithCode:description:context:">- loadErrorPageWithCode:description:context:</option>
 		
@@ -151,8 +153,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/useWKWebView" title="useWKWebView"></a>
-	<h3 class="method-title"><code><a href="#//api/name/useWKWebView">&nbsp;&nbsp;useWKWebView</a></code>
+	<a name="//api/name/useUIWebView" title="useUIWebView"></a>
+	<h3 class="method-title"><code><a href="#//api/name/useUIWebView">&nbsp;&nbsp;useUIWebView</a></code>
 </h3>
 
 	<div class="method-info">
@@ -162,12 +164,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Indicates if WKWebView is being used instead of UIWebView.</p>
+				<p>Indicates if UIWebView is being used instead of WKWebView.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) BOOL useWKWebView</code></div>
+			<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly, assign) BOOL useUIWebView</code></div>
 
 		    
 			
@@ -409,7 +411,7 @@ found.</p>
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Designated initializer. Initializes the view controller with its hybrid view configuration.</p>
+				<p>Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.</p>
 			</div>
 			
 		    
@@ -451,8 +453,8 @@ found.</p>
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/initWithConfig:useWKWebView:" title="initWithConfig:useWKWebView:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/initWithConfig:useWKWebView:">&ndash;&nbsp;initWithConfig:useWKWebView:</a></code>
+	<a name="//api/name/initWithConfig:useUIWebView:" title="initWithConfig:useUIWebView:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initWithConfig:useUIWebView:">&ndash;&nbsp;initWithConfig:useUIWebView:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -467,7 +469,7 @@ found.</p>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(SFHybridViewConfig *)<em>viewConfig</em> useWKWebView:(BOOL)<em>useWKWebView</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (id)initWithConfig:(SFHybridViewConfig *)<em>viewConfig</em> useUIWebView:(BOOL)<em>useUIWebView</em></code></div>
 
 		    
 			
@@ -481,8 +483,8 @@ found.</p>
 					</tr>
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>useWKWebView</code></th>
-						<td><p>YES - to use WKWebView, NO - to use UIWebView.</p></td>
+						<th scope="row" class="argument-name"><code>useUIWebView</code></th>
+						<td><p>YES - to use UIWebView, NO - to use WKWebView.</p></td>
 					</tr>
 				
 				</table>
@@ -889,6 +891,52 @@ loaded with the details of the error.</p>
 			
 		</div>
 	</div>
+</div><div class="section-method">
+	<a name="//api/name/configureRemoteStartPage" title="configureRemoteStartPage"></a>
+	<h3 class="method-title"><code><a href="#//api/name/configureRemoteStartPage">&ndash;&nbsp;configureRemoteStartPage</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Configures the startPage property to be embedded in the context of its remote bootstrapping absolute URL. The default method configures the startPage property into a frontdoor.jsp absolute URL.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)configureRemoteStartPage</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>Note: Do not override this method unless you know what you&rsquo;re doing. Improperly configuring the start page remote URL will cause your hybrid remote app to be unable to load. Your overriding method should set the startPage property to the remote URL to be loaded.</p>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFHybridViewController.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
 </div>
 						</div>
 						
@@ -904,7 +952,7 @@ loaded with the details of the error.</p>
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

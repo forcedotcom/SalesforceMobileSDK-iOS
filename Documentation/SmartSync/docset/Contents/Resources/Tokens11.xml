@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSyncSoqlBuilder.html">
+	<File path="Classes/SFSmartSyncPersistableObject.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncSoqlBuilder</TokenIdentifier>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSyncPersistableObject</TokenIdentifier>
 			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
             
 			
 			<NodeRef refid="11"/>
@@ -13,230 +13,98 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoqlBuilder/withFields:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setRawData:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartSyncSoqlBuilder *)withFields:(NSString *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFields:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSyncSoqlBuilder/withFieldsArray:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>+ (SFSmartSyncSoqlBuilder *)withFieldsArray:(NSArray *)fields</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>fields</Name>
-					<Abstract type="html">an array of one or more fields, that are to be retrieved from the specified object</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/withFieldsArray:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/from:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/rawData</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)from:(NSString *)from</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>from</Name>
-					<Abstract type="html">the object to be queried</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/from:</Anchor>
+			<Declaration>@property (nonatomic, strong) NSDictionary *rawData</Declaration>
+			
+			
+			<Anchor>//api/name/rawData</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/whereClause:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/setObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)whereClause:(NSString *)whereClause</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>whereClause</Name>
-					<Abstract type="html">a conditional statement</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/whereClause:</Anchor>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/with:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)with:(NSString *)with</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>with</Name>
-					<Abstract type="html">used to filter records based on field values.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/with:</Anchor>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/groupBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSmartSyncPersistableObject/objectType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject+Internal.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)groupBy:(NSString *)groupBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>groupBy</Name>
-					<Abstract type="html">a list of one or more fields, separated by commas, the resutls are to be grouped by</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/groupBy:</Anchor>
+			<Declaration>@property (nonatomic, readonly, copy) NSString *objectType</Declaration>
+			
+			
+			<Anchor>//api/name/objectType</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/having:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)having:(NSString *)having</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>having</Name>
-					<Abstract type="html">specifies one or more conditional expressions using aggregate functions to filter the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/having:</Anchor>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data</Declaration>
+			
+			
+			<Anchor>//api/name/initWithDictionary:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/orderBy:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncPersistableObject/initWithDictionary:forObjectType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSmartSyncPersistableObject.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)orderBy:(NSString *)orderBy</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>orderBy</Name>
-					<Abstract type="html">controls the order of the query results</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/orderBy:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/limit:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
+			<Declaration>- (id)initWithDictionary:(NSDictionary *)data forObjectType:(NSString *)objectType</Declaration>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)limit:(NSInteger)limit</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>limit</Name>
-					<Abstract type="html">specifies the maximum number of rows to return</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/limit:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/offset:</TokenIdentifier>
-			<Abstract type="html">A builder to help create a SOQL statement.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
 			
-			<Declaration>- (SFSmartSyncSoqlBuilder *)offset:(NSInteger)offset</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>offset</Name>
-					<Abstract type="html">specifies the starting row offset into the result set returned by the query</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the builder</Abstract></ReturnValue>
-			<Anchor>//api/name/offset:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/encodeAndBuild</TokenIdentifier>
-			<Abstract type="html">Builds an encoded query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuild</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuild</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/encodeAndBuildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds an enoded query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)encodeAndBuildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/encodeAndBuildWithPath:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/buildWithPath:</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)buildWithPath:(NSString *)path</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>path</Name>
-					<Abstract type="html">the path to build the query for</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/buildWithPath:</Anchor>
-            <NodeRef refid="11"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSyncSoqlBuilder/build</TokenIdentifier>
-			<Abstract type="html">Builds a raw (unencoded) query from the builder.</Abstract>
-			<DeclaredIn>SFSmartSyncSoqlBuilder.h</DeclaredIn>
-			
-			<Declaration>- (NSString *)build</Declaration>
-			
-			<ReturnValue><Abstract type="html">the built query</Abstract></ReturnValue>
-			<Anchor>//api/name/build</Anchor>
+			<Anchor>//api/name/initWithDictionary:forObjectType:</Anchor>
             <NodeRef refid="11"/>
 		</Token>
 		

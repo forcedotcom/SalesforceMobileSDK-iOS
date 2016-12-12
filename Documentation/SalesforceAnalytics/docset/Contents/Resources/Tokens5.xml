@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Classes/SFSDKDeviceAppAttributes.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKDeviceAppAttributes</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+            
+			
+			<NodeRef refid="5"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setAppVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			
+			
+			<Anchor>//api/name/appVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/appVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			
+			
+			<Anchor>//api/name/appVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/appVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appVersion</Declaration>
+			
+			
+			<Anchor>//api/name/appVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setAppName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			
+			
+			<Anchor>//api/name/appName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/appName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			
+			
+			<Anchor>//api/name/appName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/appName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *appName</Declaration>
+			
+			
+			<Anchor>//api/name/appName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setOsVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			
+			
+			<Anchor>//api/name/osVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/osVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			
+			
+			<Anchor>//api/name/osVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/osVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osVersion</Declaration>
+			
+			
+			<Anchor>//api/name/osVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setOsName:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			
+			
+			<Anchor>//api/name/osName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/osName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			
+			
+			<Anchor>//api/name/osName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/osName</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *osName</Declaration>
+			
+			
+			<Anchor>//api/name/osName</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setNativeAppType:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			
+			
+			<Anchor>//api/name/nativeAppType</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/nativeAppType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			
+			
+			<Anchor>//api/name/nativeAppType</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/nativeAppType</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *nativeAppType</Declaration>
+			
+			
+			<Anchor>//api/name/nativeAppType</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setMobileSdkVersion:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			
+			
+			<Anchor>//api/name/mobileSdkVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/mobileSdkVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			
+			
+			<Anchor>//api/name/mobileSdkVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/mobileSdkVersion</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *mobileSdkVersion</Declaration>
+			
+			
+			<Anchor>//api/name/mobileSdkVersion</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setDeviceModel:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
+			
+			
+			<Anchor>//api/name/deviceModel</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/deviceModel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
+			
+			
+			<Anchor>//api/name/deviceModel</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/deviceModel</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceModel</Declaration>
+			
+			
+			<Anchor>//api/name/deviceModel</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setDeviceId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/deviceId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/deviceId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *deviceId</Declaration>
+			
+			
+			<Anchor>//api/name/deviceId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/setClientId:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKDeviceAppAttributes/clientId</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly, nonnull) NSString *clientId</Declaration>
+			
+			
+			<Anchor>//api/name/clientId</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/initWithAppVersion:appName:osVersion:osName:nativeAppType:mobileSdkVersion:deviceModel:deviceId:clientId:</TokenIdentifier>
+			<Abstract type="html">Parameterized initializer.</Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithAppVersion:(nonnull NSString *)appVersion appName:(nonnull NSString *)appName osVersion:(nonnull NSString *)osVersion osName:(nonnull NSString *)osName nativeAppType:(nonnull NSString *)nativeAppType mobileSdkVersion:(nonnull NSString *)mobileSdkVersion deviceModel:(nonnull NSString *)deviceModel deviceId:(nonnull NSString *)deviceId clientId:(nonnull NSString *)clientId</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>appVersion</Name>
+					<Abstract type="html">App version.</Abstract>
+				</Parameter><Parameter>
+					<Name>appName</Name>
+					<Abstract type="html">App name.</Abstract>
+				</Parameter><Parameter>
+					<Name>osVersion</Name>
+					<Abstract type="html">OS version.</Abstract>
+				</Parameter><Parameter>
+					<Name>osName</Name>
+					<Abstract type="html">OS name.</Abstract>
+				</Parameter><Parameter>
+					<Name>nativeAppType</Name>
+					<Abstract type="html">Native app type.</Abstract>
+				</Parameter><Parameter>
+					<Name>mobileSdkVersion</Name>
+					<Abstract type="html">Mobile SDK version.</Abstract>
+				</Parameter><Parameter>
+					<Name>deviceModel</Name>
+					<Abstract type="html">Device model.</Abstract>
+				</Parameter><Parameter>
+					<Name>deviceId</Name>
+					<Abstract type="html">Device ID.</Abstract>
+				</Parameter><Parameter>
+					<Name>clientId</Name>
+					<Abstract type="html">Client ID.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithAppVersion:appName:osVersion:osName:nativeAppType:mobileSdkVersion:deviceModel:deviceId:clientId:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/initWithJson:</TokenIdentifier>
+			<Abstract type="html">Parameterized initializer.</Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>- (nonnull instancetype)initWithJson:(nonnull NSDictionary *)jsonRepresentation</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>jsonRepresentation</Name>
+					<Abstract type="html">JSON representation.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">Instance of this class.</Abstract></ReturnValue>
+			<Anchor>//api/name/initWithJson:</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKDeviceAppAttributes/jsonRepresentation</TokenIdentifier>
+			<Abstract type="html">Returns a JSON representation of device app attributes.</Abstract>
+			<DeclaredIn>SFSDKDeviceAppAttributes.h</DeclaredIn>
+			
+			<Declaration>- (nonnull NSDictionary *)jsonRepresentation</Declaration>
+			
+			<ReturnValue><Abstract type="html">JSON representation.</Abstract></ReturnValue>
+			<Anchor>//api/name/jsonRepresentation</Anchor>
+            <NodeRef refid="5"/>
+		</Token>
+		
+        
+        
+	</File>
+</Tokens>

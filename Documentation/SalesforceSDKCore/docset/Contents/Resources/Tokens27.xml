@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFInactivityTimerCenter.html">
+	<File path="Classes/SFAuthErrorHandlerList.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFInactivityTimerCenter</TokenIdentifier>
-			<Abstract type="html">This class manages manages the inactivity timer. See NSTimer in the Objective-C documentation for more details.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFAuthErrorHandlerList</TokenIdentifier>
+			<Abstract type="html">Manages the authentication handler filter list, for processing authentication errors.  Note that
+order of entries is important: the list will be processed serially, starting with the first item
+and ending with the last.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
             
 			
 			<NodeRef refid="27"/>
@@ -13,110 +15,132 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/registerTimer:target:selector:timerInterval:</TokenIdentifier>
-			<Abstract type="html">* Register the timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/setAuthHandlerArray:</TokenIdentifier>
+			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
 			
-			<Declaration>+ (void)registerTimer:(NSString *)timerName target:(id)target selector:(SEL)aSelector timerInterval:(NSTimeInterval)interval</Declaration>
+			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			
+			
+			<Anchor>//api/name/authHandlerArray</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
+			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			
+			
+			<Anchor>//api/name/authHandlerArray</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFAuthErrorHandlerList/authHandlerArray</TokenIdentifier>
+			<Abstract type="html">A readonly copy of the array of authentication error handlers.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSArray *authHandlerArray</Declaration>
+			
+			
+			<Anchor>//api/name/authHandlerArray</Anchor>
+            <NodeRef refid="27"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">Adds an authentication error handler to the end of the filter list.  Note: Error handler
+names must be unique within the list, so if an error handler already exists with the
+given name, it will be removed before adding the new handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
+			
+			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name to use to register the timer.</Abstract>
-				</Parameter><Parameter>
-					<Name>target</Name>
-					<Abstract type="html">The object to which to send the message specified by aSelector when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>aSelector</Name>
-					<Abstract type="html">The message to send to target when the timer fires. See NSTimer documentation.</Abstract>
-				</Parameter><Parameter>
-					<Name>interval</Name>
-					<Abstract type="html">For a repeating timer, this parameter contains the number of seconds between firings of the timer. See NSTimer documentation.</Abstract>
+					<Name>errorHandler</Name>
+					<Abstract type="html">The error handler to add to the list.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/registerTimer:target:selector:timerInterval:</Anchor>
+			<Anchor>//api/name/addAuthErrorHandler:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeTimer:</TokenIdentifier>
-			<Abstract type="html">* Remove a specific timer.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/addAuthErrorHandler:atIndex:</TokenIdentifier>
+			<Abstract type="html">Adds an authentication error handler at a specific index in the list.  Note: Error handler
+names must be unique within the list, so if an error handler already exists with the
+given name, it will be removed before adding the new handler.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeTimer:(NSString *)timerName</Declaration>
+			<Declaration>- (void)addAuthErrorHandler:(SFAuthErrorHandler *)errorHandler atIndex:(NSUInteger)index</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>timerName</Name>
-					<Abstract type="html">Name of the timer to remove.</Abstract>
+					<Name>errorHandler</Name>
+					<Abstract type="html">The error handler to add to the list.</Abstract>
+				</Parameter><Parameter>
+					<Name>index</Name>
+					<Abstract type="html">The index at which to add the error handler.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/removeTimer:</Anchor>
+			<Anchor>//api/name/addAuthErrorHandler:atIndex:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/removeAllTimers</TokenIdentifier>
-			<Abstract type="html">Remove all timers.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandlerWithName:</TokenIdentifier>
+			<Abstract type="html">Removes the error handler with the given name from the list.  If no error handler exists
+in the list with the name, no action is taken.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
 			
-			<Declaration>+ (void)removeAllTimers</Declaration>
-			
-			
-			<Anchor>//api/name/removeAllTimers</Anchor>
-            <NodeRef refid="27"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Update last activity timestamp to current time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
-			
-			<Declaration>+ (void)updateActivityTimestamp</Declaration>
-			
-			
-			<Anchor>//api/name/updateActivityTimestamp</Anchor>
-            <NodeRef refid="27"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/updateActivityTimestampTo:</TokenIdentifier>
-			<Abstract type="html">* Update last activity timestamp to specified time.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
-			
-			<Declaration>+ (void)updateActivityTimestampTo:(NSDate *)date</Declaration>
+			<Declaration>- (void)removeAuthErrorHandlerWithName:(NSString *)errorHandlerName</Declaration>
 			<Parameters>
 				<Parameter>
-					<Name>date</Name>
-					<Abstract type="html">The NSDate object that specifies the new timestamp.</Abstract>
+					<Name>errorHandlerName</Name>
+					<Abstract type="html">The name of the error handler to remove.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/updateActivityTimestampTo:</Anchor>
+			<Anchor>//api/name/removeAuthErrorHandlerWithName:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/lastActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Return the timestamp for the latest activity.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/removeAuthErrorHandler:</TokenIdentifier>
+			<Abstract type="html">Removes the given error handler from the list.  If the error handler cannot be found, no
+action is taken.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
 			
-			<Declaration>+ (NSDate *)lastActivityTimestamp</Declaration>
+			<Declaration>- (void)removeAuthErrorHandler:(SFAuthErrorHandler *)errorHandler</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorHandler</Name>
+					<Abstract type="html">The error handler to remove.</Abstract>
+				</Parameter>
+			</Parameters>
 			
-			
-			<Anchor>//api/name/lastActivityTimestamp</Anchor>
+			<Anchor>//api/name/removeAuthErrorHandler:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFInactivityTimerCenter/saveActivityTimestamp</TokenIdentifier>
-			<Abstract type="html">Save the activity timestamp to persistant storage.</Abstract>
-			<DeclaredIn>SFInactivityTimerCenter.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFAuthErrorHandlerList/authErrorHandlerInList:</TokenIdentifier>
+			<Abstract type="html">Determines whether the given error handler is in the list.</Abstract>
+			<DeclaredIn>SFAuthErrorHandlerList.h</DeclaredIn>
 			
-			<Declaration>+ (void)saveActivityTimestamp</Declaration>
-			
-			
-			<Anchor>//api/name/saveActivityTimestamp</Anchor>
+			<Declaration>- (BOOL)authErrorHandlerInList:(SFAuthErrorHandler *)errorHandler</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>errorHandler</Name>
+					<Abstract type="html">The error handler to look for in the list.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">YES if the error handler is in the list, NO otherwise.</Abstract></ReturnValue>
+			<Anchor>//api/name/authErrorHandlerInList:</Anchor>
             <NodeRef refid="27"/>
 		</Token>
 		

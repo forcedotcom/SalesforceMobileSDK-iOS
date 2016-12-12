@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Categories/NSData+SFzlib.html">
+	<File path="Classes/SFSDKTextFieldTableViewCell.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cat/NSData(SFzlib)</TokenIdentifier>
-			<Abstract type="html">Provides gzip uncompressed conversion support.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSDKTextFieldTableViewCell</TokenIdentifier>
+			<Abstract type="html">A custom UITableViewCell which contains a UITextField for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
             
 			
 			<NodeRef refid="97"/>
@@ -13,26 +13,38 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipInflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip uncompressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/setTextField:</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)gzipInflate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip uncompressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipInflate</Anchor>
+			
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/NSData/gzipDeflate</TokenIdentifier>
-			<Abstract type="html">Converts this data to gzip compressed format.</Abstract>
-			<DeclaredIn>NSData+SFAdditions.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
 			
-			<Declaration>- (NSData *)gzipDeflate</Declaration>
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
 			
-			<ReturnValue><Abstract type="html">This data in gzip compressed format.</Abstract></ReturnValue>
-			<Anchor>//api/name/gzipDeflate</Anchor>
+			
+			<Anchor>//api/name/textField</Anchor>
+            <NodeRef refid="97"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFSDKTextFieldTableViewCell/textField</TokenIdentifier>
+			<Abstract type="html">Text field for inserting and editing text.</Abstract>
+			<DeclaredIn>SFSDKTextFieldTableViewCell.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) UITextField *textField</Declaration>
+			
+			
+			<Anchor>//api/name/textField</Anchor>
             <NodeRef refid="97"/>
 		</Token>
 		

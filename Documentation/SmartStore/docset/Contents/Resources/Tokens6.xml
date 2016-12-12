@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFSmartSqlTests.html">
+	<File path="Classes/SFSmartSqlHelper.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlTests</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFSmartSqlHelper</TokenIdentifier>
+			<Abstract type="html">Utility helper functions for Smart SQL.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
             
 			
 			<NodeRef refid="6"/>
@@ -13,242 +13,37 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/createUserAccount</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/clm/SFSmartSqlHelper/sharedInstance</TokenIdentifier>
+			<Abstract type="html">Gets the shared instance of the Smart SQL helper.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
 			
-			<Declaration>- (SFUserAccount *)createUserAccount</Declaration>
+			<Declaration>+ (SFSmartSqlHelper *)sharedInstance</Declaration>
 			
-			
-			<Anchor>//api/name/createUserAccount</Anchor>
+			<ReturnValue><Abstract type="html">Pointer to the shared SFSmartSqlHelper instance.</Abstract></ReturnValue>
+			<Anchor>//api/name/sharedInstance</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSharedInstance</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlHelper/convertSmartSql:withStore:withDb:</TokenIdentifier>
+			<Abstract type="html">Converts a Smart SQL query to SQL.</Abstract>
+			<DeclaredIn>SFSmartSqlHelper.h</DeclaredIn>
 			
-			<Declaration>- (void)testSharedInstance</Declaration>
-			
-			
-			<Anchor>//api/name/testSharedInstance</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithInsertUpdateDelete</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithInsertUpdateDelete</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithInsertUpdateDelete</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSimpleConvertSmartSql</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSimpleConvertSmartSql</Declaration>
-			
-			
-			<Anchor>//api/name/testSimpleConvertSmartSql</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithJoin</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithJoin</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithJoin</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithSelfJoin</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithSelfJoin</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithSelfJoin</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithSpecialColumns</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithSpecialColumns</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithSpecialColumns</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithSpecialColumnsAndJoin</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithSpecialColumnsAndJoin</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithSpecialColumnsAndJoin</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithSpecialColumnsAndSelfJoin</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithSpecialColumnsAndSelfJoin</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithSpecialColumnsAndSelfJoin</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithJSON1</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithJSON1</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithJSON1</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithJSON1AndTableQualifiedColumn</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithJSON1AndTableQualifiedColumn</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithJSON1AndTableQualifiedColumn</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testConvertSmartSqlWithJSON1AndTableAliases</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testConvertSmartSqlWithJSON1AndTableAliases</Declaration>
-			
-			
-			<Anchor>//api/name/testConvertSmartSqlWithJSON1AndTableAliases</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryDoingCount</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryDoingCount</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryDoingCount</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryDoingSum</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryDoingSum</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryDoingSum</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryReturningOneRowWithOneInteger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryReturningOneRowWithOneInteger</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryReturningOneRowWithOneInteger</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryReturningOneRowWithTwoIntegers</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryReturningOneRowWithTwoIntegers</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryReturningOneRowWithTwoIntegers</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryReturningTwoRowsWithOneIntegerEach</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryReturningTwoRowsWithOneIntegerEach</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryReturningTwoRowsWithOneIntegerEach</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryReturningSoupStringAndInteger</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryReturningSoupStringAndInteger</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryReturningSoupStringAndInteger</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryWithPaging</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryWithPaging</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryWithPaging</Anchor>
-            <NodeRef refid="6"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFSmartSqlTests/testSmartQueryWithSpecialFields</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFSmartSqlTests.h</DeclaredIn>
-			
-			<Declaration>- (void)testSmartQueryWithSpecialFields</Declaration>
-			
-			
-			<Anchor>//api/name/testSmartQueryWithSpecialFields</Anchor>
+			<Declaration>- (NSString *)convertSmartSql:(NSString *)smartSql withStore:(SFSmartStore *)store withDb:(FMDatabase *)db</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>smartSql</Name>
+					<Abstract type="html">The Smart SQL query to convert.</Abstract>
+				</Parameter><Parameter>
+					<Name>store</Name>
+					<Abstract type="html">The SmartStore instance.</Abstract>
+				</Parameter><Parameter>
+					<Name>db</Name>
+					<Abstract type="html">The database.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">The SQL version of the given Smart SQL query.</Abstract></ReturnValue>
+			<Anchor>//api/name/convertSmartSql:withStore:withDb:</Anchor>
             <NodeRef refid="6"/>
 		</Token>
 		

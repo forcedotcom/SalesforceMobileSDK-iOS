@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFRootViewManager.html">
+	<File path="Classes/SFMethodInterceptor.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFRootViewManager</TokenIdentifier>
-			<Abstract type="html">Class to control the presentation of temporary modal views in an existing view stack.  Used
-internally for things like the authentication view and the passcode screen.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFMethodInterceptor</TokenIdentifier>
+			<Abstract type="html">This class provides a simple way to intercept an
+instance method or a class method and forward message
+to the original method if needed.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
             
 			
 			<NodeRef refid="58"/>
@@ -14,118 +15,257 @@ internally for things like the authentication view and the passcode screen.</Abs
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFRootViewManager/sharedManager</TokenIdentifier>
-			<Abstract type="html">The singleton SFRootViewManager object.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setClassToIntercept:</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>+ (SFRootViewManager *)sharedManager</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
-			<ReturnValue><Abstract type="html">The singleton SFRootViewManager object.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedManager</Anchor>
+			
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/setMainWindow:</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/mainWindow</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/mainWindow</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/classToIntercept</TokenIdentifier>
+			<Abstract type="html">Class to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
+			<Declaration>@property (nonatomic, strong) Class classToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/mainWindow</Anchor>
+			<Anchor>//api/name/classToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFRootViewManager/mainWindow</TokenIdentifier>
-			<Abstract type="html">The main window of the application.  If not explicitly set, defaults to [UIApplication sharedApplication].windows[0].</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setSelectorToIntercept:</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>@property (nonatomic, strong) UIWindow *mainWindow</Declaration>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
 			
-			<Anchor>//api/name/mainWindow</Anchor>
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/addDelegate:</TokenIdentifier>
-			<Abstract type="html">Add a delegate</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)addDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to add</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
-			<Anchor>//api/name/addDelegate:</Anchor>
+			
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/removeDelegate:</TokenIdentifier>
-			<Abstract type="html">Remove a delegate</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/selectorToIntercept</TokenIdentifier>
+			<Abstract type="html">Selector to intercept</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)removeDelegate:(id&lt;SFRootViewManagerDelegate&gt;)delegate</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>delegate</Name>
-					<Abstract type="html">The delegate to remove</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) SEL selectorToIntercept</Declaration>
 			
-			<Anchor>//api/name/removeDelegate:</Anchor>
+			
+			<Anchor>//api/name/selectorToIntercept</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/pushViewController:</TokenIdentifier>
-			<Abstract type="html">Push a view controller onto the top of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setInstanceMethod:</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)pushViewController:(UIViewController *)viewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view controller to display.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
-			<Anchor>//api/name/pushViewController:</Anchor>
+			
+			<Anchor>//api/name/instanceMethod</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFRootViewManager/popViewController:</TokenIdentifier>
-			<Abstract type="html">Take a view controller off of the presentation stack.</Abstract>
-			<DeclaredIn>SFRootViewManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
 			
-			<Declaration>- (void)popViewController:(UIViewController *)viewController</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>viewController</Name>
-					<Abstract type="html">The view to remove.  Does nothing if the view controller is not found in the presented stack.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
 			
-			<Anchor>//api/name/popViewController:</Anchor>
+			
+			<Anchor>//api/name/instanceMethod</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/instanceMethod</TokenIdentifier>
+			<Abstract type="html">YES if the selectorToIntercept is an instance
+method, NO if it&apos;s a class method.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL instanceMethod</Declaration>
+			
+			
+			<Anchor>//api/name/instanceMethod</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetBeforeBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetBeforeBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called before the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetBeforeBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetBeforeBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetReplaceBlock:</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetReplaceBlock</TokenIdentifier>
+			<Abstract type="html">Block that replaces the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationCallback targetReplaceBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetReplaceBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setTargetAfterBlock:</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetAfterBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetAfterBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/targetAfterBlock</TokenIdentifier>
+			<Abstract type="html">Block to be called after the target method. Can be nil.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, copy) SFMethodInterceptorInvocationAfterCallback targetAfterBlock</Declaration>
+			
+			
+			<Anchor>//api/name/targetAfterBlock</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/setEnabled:</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
+            <NodeRef refid="58"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFMethodInterceptor/enabled</TokenIdentifier>
+			<Abstract type="html">Set this property to YES to enable the interceptor.</Abstract>
+			<DeclaredIn>SFMethodInterceptor.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic) BOOL enabled</Declaration>
+			
+			
+			<Anchor>//api/name/enabled</Anchor>
             <NodeRef refid="58"/>
 		</Token>
 		

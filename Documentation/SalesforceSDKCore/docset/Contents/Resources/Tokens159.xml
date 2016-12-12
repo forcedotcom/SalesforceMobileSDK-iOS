@@ -1,7 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Protocols/SFSDKAppDelegate.html">
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/SFSDKAppDelegate</TokenIdentifier>
+			<Abstract type="html">Protocol defining an SDK-based app delegate.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+            
+			
+			<NodeRef refid="159"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/setUserAgentString:</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/userAgentString</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfp/SFSDKAppDelegate/userAgentString</TokenIdentifier>
+			<Abstract type="html">The User-Agent string presented by this application</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, readonly) NSString *userAgentString</Declaration>
+			
+			
+			<Anchor>//api/name/userAgentString</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/logout</TokenIdentifier>
+			<Abstract type="html">Forces a logout from the current account.
+This throws out the OAuth refresh token.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>- (void)logout</Declaration>
+			
+			
+			<Anchor>//api/name/logout</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SFSDKAppDelegate/createSnapshotView</TokenIdentifier>
+			<Abstract type="html">Creates a snapshot view.</Abstract>
+			<DeclaredIn>SFSDKAppDelegate.h</DeclaredIn>
+			
+			<Declaration>- (UIView *)createSnapshotView</Declaration>
+			
+			
+			<Anchor>//api/name/createSnapshotView</Anchor>
+            <NodeRef refid="159"/>
+		</Token>
 		
         
         

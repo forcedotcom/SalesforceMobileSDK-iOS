@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFKeyStoreManager.html">
+	<File path="Classes/SFCryptChunks.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFKeyStoreManager</TokenIdentifier>
-			<Abstract type="html">Singleton class to manage operations on the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFCryptChunks</TokenIdentifier>
+			<Abstract type="html">SFCryptChunks performs encryption / decryption in chunks, using a fixed size buffer in the stack.
+It does not allocate any memory to perform the encryption / decryption,
+the size of memory used (by SFCryptChunks) is O(1) regardless of the input / output data size.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
             
 			
 			<NodeRef refid="32"/>
@@ -13,309 +15,157 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/sharedInstance</TokenIdentifier>
-			<Abstract type="html">The singleton instance of the key store manager.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForEncryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for encryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>+ (instancetype)sharedInstance</Declaration>
-			
-			<ReturnValue><Abstract type="html">The singleton instance of the key store manager.</Abstract></ReturnValue>
-			<Anchor>//api/name/sharedInstance</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:autoCreate:</TokenIdentifier>
-			<Abstract type="html">Retrieves a key with the given label from the key store, or nil depending on the autoCreate value.
-Key will be stored with the default encryption type of &apos;passcode&apos;, and will fall back to a &apos;generated&apos;
-store encryption if a passcode is not configured.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel autoCreate:(BOOL)create</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the stored key.</Abstract>
-				</Parameter><Parameter>
-					<Name>create</Name>
-					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encryption key, or nil depending on the autoCreate value.</Abstract></ReturnValue>
-			<Anchor>//api/name/retrieveKeyWithLabel:autoCreate:</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/retrieveKeyWithLabel:keyType:autoCreate:</TokenIdentifier>
-			<Abstract type="html">Retrieves a key with the given label from the key store, or nil depending on the autoCreate value.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (SFEncryptionKey *)retrieveKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType autoCreate:(BOOL)create</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the stored key.</Abstract>
-				</Parameter><Parameter>
-					<Name>keyType</Name>
-					<Abstract type="html">The type of key store encryption to use for the key.  If &apos;passcode&apos; is specified and
-a passcode is not configured, the key will still be encrypted with a generated key.  If &apos;generated&apos; is
-specified, the key will be encrypted with a generated key, even if a passcode is configured.</Abstract>
-				</Parameter><Parameter>
-					<Name>create</Name>
-					<Abstract type="html">Indicates whether a new key should be created if one does not exist.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The encryption key, or nil depending on the autoCreate value.</Abstract></ReturnValue>
-			<Anchor>//api/name/retrieveKeyWithLabel:keyType:autoCreate:</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withLabel:</TokenIdentifier>
-			<Abstract type="html">Stores a key with the given label in the key store, with a default encryption type of &apos;passcode&apos;.  If
-a passcode is not configured, the key will be encrypted with a generated key.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withLabel:(NSString *)keyLabel</Declaration>
+			<Declaration>- (instancetype)initForEncryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>
-					<Abstract type="html">The encryption key to store.</Abstract>
+					<Abstract type="html">the cipher key.</Abstract>
 				</Parameter><Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key.</Abstract>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
 				</Parameter>
 			</Parameters>
-			
-			<Anchor>//api/name/storeKey:withLabel:</Anchor>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for encryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForEncryptionWithKey:initializationVector:</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/storeKey:withKeyType:label:</TokenIdentifier>
-			<Abstract type="html">Stores a key with the given label in the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/initForDecryptionWithKey:initializationVector:</TokenIdentifier>
+			<Abstract type="html">Initializes a SFCryptChunks for decryption that uses algorithm specified in SFCryptChunksCipherAlgorithm
+and options specified in SFCryptChunksCipherOptions.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (void)storeKey:(SFEncryptionKey *)key withKeyType:(SFKeyStoreKeyType)keyType label:(NSString *)keyLabel</Declaration>
+			<Declaration>- (instancetype)initForDecryptionWithKey:(NSData *)key initializationVector:(nullable NSData *)iv</Declaration>
 			<Parameters>
 				<Parameter>
 					<Name>key</Name>
-					<Abstract type="html">The encryption key to store.</Abstract>
+					<Abstract type="html">the cipher key.</Abstract>
 				</Parameter><Parameter>
-					<Name>keyType</Name>
-					<Abstract type="html">The type of key store encryption to use for the key.  If &apos;passcode&apos; is specified and
-a passcode is not configured, the key will still be encrypted with a generated key.  If &apos;generated&apos; is
-specified, the key will be encrypted with a generated key, even if a passcode is configured.</Abstract>
+					<Name>iv</Name>
+					<Abstract type="html">the initialization vector, must be size of SFCryptChunksCipherBlockSize.</Abstract>
+				</Parameter>
+			</Parameters>
+			<ReturnValue><Abstract type="html">a SFCryptChunks ready for decryption.</Abstract></ReturnValue>
+			<Anchor>//api/name/initForDecryptionWithKey:initializationVector:</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setDelegate:</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/delegate</TokenIdentifier>
+			<Abstract type="html">The delegate to receive crypt results.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, weak) id&lt;SFCryptChunksDelegate&gt; delegate</Declaration>
+			
+			
+			<Anchor>//api/name/delegate</Anchor>
+            <NodeRef refid="32"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptBuffer:bufferLen:</TokenIdentifier>
+			<Abstract type="html">A data buffer to be encrypted / decrypted. You may pass a buffer of any size here,
+the delegate will then be called with results as many times as needed:
+- the delegate may be called multiple times with chunk results; or
+- the delegate may not be called at all, if there isn&apos;t enough data to produce a result.
+This method utilizes a stack memory buffer the size of 2 cipher blocks.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
+			
+			<Declaration>- (void)cryptBuffer:(const uint8_t *)buffer bufferLen:(size_t)len</Declaration>
+			<Parameters>
+				<Parameter>
+					<Name>buffer</Name>
+					<Abstract type="html">the buffer data to be encrypted or decrypted.</Abstract>
 				</Parameter><Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key.</Abstract>
+					<Name>len</Name>
+					<Abstract type="html">the buffer size.</Abstract>
 				</Parameter>
 			</Parameters>
 			
-			<Anchor>//api/name/storeKey:withKeyType:label:</Anchor>
+			<Anchor>//api/name/cryptBuffer:bufferLen:</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:</TokenIdentifier>
-			<Abstract type="html">Removes the key with the given label from the key store holding passcode-based encrypted keys.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/setCryptFinalized:</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key to remove.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
 			
-			<Anchor>//api/name/removeKeyWithLabel:</Anchor>
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/removeKeyWithLabel:keyType:</TokenIdentifier>
-			<Abstract type="html">Removes the key with the given label and encryption type from the key store.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (void)removeKeyWithLabel:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label identifying the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>keyType</Name>
-					<Abstract type="html">The encryption type used to encrypt the key in the store.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
 			
-			<Anchor>//api/name/removeKeyWithLabel:keyType:</Anchor>
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithLabelExists:</TokenIdentifier>
-			<Abstract type="html">Determines whether a key with the given label, and encrypted with passcode-based encryption, exists.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFCryptChunks/cryptFinalized</TokenIdentifier>
+			<Abstract type="html">Whether or not the crypt operation completed.
+Once complete, this object must be disposed.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)keyWithLabelExists:(NSString *)keyLabel</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label associated with the key to query.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the key exists in the key store, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyWithLabelExists:</Anchor>
+			<Declaration>@property (nonatomic, assign, readonly) BOOL cryptFinalized</Declaration>
+			
+			
+			<Anchor>//api/name/cryptFinalized</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithLabelAndKeyTypeExists:keyType:</TokenIdentifier>
-			<Abstract type="html">Determines whether the key with the given label and encryption type exists.</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFCryptChunks/finalizeCrypt</TokenIdentifier>
+			<Abstract type="html">Finalizes the crypt operation. The delegate may be called with chunk results if the final crypt produced any results.
+The final result is never bigger than the cipher block size.
+This method utilizes a stack memory buffer the size of 1 cipher block.</Abstract>
+			<DeclaredIn>SFCryptChunks.h</DeclaredIn>
 			
-			<Declaration>- (BOOL)keyWithLabelAndKeyTypeExists:(NSString *)keyLabel keyType:(SFKeyStoreKeyType)keyType</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyLabel</Name>
-					<Abstract type="html">The label identifying the key.</Abstract>
-				</Parameter><Parameter>
-					<Name>keyType</Name>
-					<Abstract type="html">The type of encryption used to encrypt the key in the store.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">YES if the given key exists, NO otherwise.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyWithLabelAndKeyTypeExists:keyType:</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/keyWithRandomValue</TokenIdentifier>
-			<Abstract type="html">Returns a key with a random value for the key and initialization vector.  The key size
-will be the size for the AES-256 algorithm (kCCKeySizeAES256), and the initialization
-vector will be the block size associated with AES encryption (kCCBlockSizeAES128).</Abstract>
-			<DeclaredIn>SFKeyStoreManager.h</DeclaredIn>
-			
-			<Declaration>- (SFEncryptionKey *)keyWithRandomValue</Declaration>
-			
-			<ReturnValue><Abstract type="html">An instance of SFEncryptionKey with the described values.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyWithRandomValue</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/setGeneratedKeyStore:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
+			<Declaration>- (void)finalizeCrypt</Declaration>
 			
 			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
-			
-			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreManager/generatedKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFGeneratedKeyStore *generatedKeyStore</Declaration>
-			
-			
-			<Anchor>//api/name/generatedKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/setPasscodeKeyStore:</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/passcodeKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instp/SFKeyStoreManager/passcodeKeyStore</TokenIdentifier>
-			<Abstract type="html"></Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>@property (nonatomic, strong) SFPasscodeKeyStore *passcodeKeyStore</Declaration>
-			
-			
-			<Anchor>//api/name/passcodeKeyStore</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/createDefaultKey</TokenIdentifier>
-			<Abstract type="html">Creates a default key store key from random generated key and IV values.  Used when a passcode
-is not present.</Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (SFKeyStoreKey *)createDefaultKey</Declaration>
-			
-			<ReturnValue><Abstract type="html">The generated key used to encrypt/decrypt the key store.</Abstract></ReturnValue>
-			<Anchor>//api/name/createDefaultKey</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFKeyStoreManager/createNewPasscodeKey</TokenIdentifier>
-			<Abstract type="html">Creates a key store key based on the encryption key provided in part by the user&apos;s passcode.</Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>- (SFKeyStoreKey *)createNewPasscodeKey</Declaration>
-			
-			<ReturnValue><Abstract type="html">A passcode-based key store key used to encrypt/decrypt the key store.</Abstract></ReturnValue>
-			<Anchor>//api/name/createNewPasscodeKey</Anchor>
-            <NodeRef refid="32"/>
-		</Token>
-		
-		<Token>
-			<TokenIdentifier>//apple_ref/occ/clm/SFKeyStoreManager/keyStringToData:</TokenIdentifier>
-			<Abstract type="html">Converts an NSString-based key into NSData.</Abstract>
-			<DeclaredIn>SFKeyStoreManager+Internal.h</DeclaredIn>
-			
-			<Declaration>+ (NSData *)keyStringToData:(NSString *)keyString</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>keyString</Name>
-					<Abstract type="html">The key to convert.</Abstract>
-				</Parameter>
-			</Parameters>
-			<ReturnValue><Abstract type="html">The NSData representation of the key.</Abstract></ReturnValue>
-			<Anchor>//api/name/keyStringToData:</Anchor>
+			<Anchor>//api/name/finalizeCrypt</Anchor>
             <NodeRef refid="32"/>
 		</Token>
 		

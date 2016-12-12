@@ -60,13 +60,15 @@
 	
 	<optgroup label="Instance Methods">
 		
-		<option value="//api/name/cursorByCursorId:isGlobal:">- cursorByCursorId:isGlobal:</option>
-		
 		<option value="//api/name/pgAlterSoup:">- pgAlterSoup:</option>
 		
 		<option value="//api/name/pgClearSoup:">- pgClearSoup:</option>
 		
 		<option value="//api/name/pgCloseCursor:">- pgCloseCursor:</option>
+		
+		<option value="//api/name/pgGetAllGlobalStores:">- pgGetAllGlobalStores:</option>
+		
+		<option value="//api/name/pgGetAllStores:">- pgGetAllStores:</option>
 		
 		<option value="//api/name/pgGetDatabaseSize:">- pgGetDatabaseSize:</option>
 		
@@ -80,9 +82,15 @@
 		
 		<option value="//api/name/pgRegisterSoup:">- pgRegisterSoup:</option>
 		
+		<option value="//api/name/pgRemoveAllGlobalStores:">- pgRemoveAllGlobalStores:</option>
+		
+		<option value="//api/name/pgRemoveAllStores:">- pgRemoveAllStores:</option>
+		
 		<option value="//api/name/pgRemoveFromSoup:">- pgRemoveFromSoup:</option>
 		
 		<option value="//api/name/pgRemoveSoup:">- pgRemoveSoup:</option>
+		
+		<option value="//api/name/pgRemoveStore:">- pgRemoveStore:</option>
 		
 		<option value="//api/name/pgRetrieveSoupEntries:">- pgRetrieveSoupEntries:</option>
 		
@@ -94,7 +102,7 @@
 		
 		<option value="//api/name/pgUpsertSoupEntries:">- pgUpsertSoupEntries:</option>
 		
-		<option value="//api/name/resetSharedStore">- resetSharedStore</option>
+		<option value="//api/name/resetCursorCaches">- resetCursorCaches</option>
 		
 	</optgroup>
 	
@@ -146,8 +154,8 @@
 
 						<div class="task-list">
 							<div class="section-method">
-	<a name="//api/name/resetSharedStore" title="resetSharedStore"></a>
-	<h3 class="method-title"><code><a href="#//api/name/resetSharedStore">&ndash;&nbsp;resetSharedStore</a></code>
+	<a name="//api/name/resetCursorCaches" title="resetCursorCaches"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resetCursorCaches">&ndash;&nbsp;resetCursorCaches</a></code>
 </h3>
 
 	<div class="method-info">
@@ -157,12 +165,12 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Used for unit testing purposes only: allows the shared smart store instance to be reset.</p>
+				<p>Used for unit testing purposes only: resets the cursor caches.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (void)resetSharedStore</code></div>
+			<div class="method-subsection method-declaration"><code>- (void)resetCursorCaches</code></div>
 
 		    
 			
@@ -1035,8 +1043,8 @@
 		</div>
 	</div>
 </div><div class="section-method">
-	<a name="//api/name/cursorByCursorId:isGlobal:" title="cursorByCursorId:isGlobal:"></a>
-	<h3 class="method-title"><code><a href="#//api/name/cursorByCursorId:isGlobal:">&ndash;&nbsp;cursorByCursorId:isGlobal:</a></code>
+	<a name="//api/name/pgGetAllGlobalStores:" title="pgGetAllGlobalStores:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pgGetAllGlobalStores:">&ndash;&nbsp;pgGetAllGlobalStores:</a></code>
 </h3>
 
 	<div class="method-info">
@@ -1046,12 +1054,94 @@
 			
 			
 			<div class="method-subsection brief-description">
-				<p>Gets a handle to a cursor, from its ID.</p>
+				<p>Get All Global Store names.</p>
 			</div>
 			
 		    
 
-			<div class="method-subsection method-declaration"><code>- (SFStoreCursor *)cursorByCursorId:(NSString *)<em>cursorId</em> isGlobal:(BOOL)<em>isGlobal</em></code></div>
+			<div class="method-subsection method-declaration"><code>- (void)pgGetAllGlobalStores:(CDVInvokedUrlCommand *)<em>command</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStorePlugin.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pgGetAllStores:" title="pgGetAllStores:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pgGetAllStores:">&ndash;&nbsp;pgGetAllStores:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Get Get All User specific Store names.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)pgGetAllStores:(CDVInvokedUrlCommand *)<em>command</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStorePlugin.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pgRemoveStore:" title="pgRemoveStore:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pgRemoveStore:">&ndash;&nbsp;pgRemoveStore:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove the Store given a store name.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)pgRemoveStore:(CDVInvokedUrlCommand *)<em>command</em></code></div>
 
 		    
 			
@@ -1060,13 +1150,8 @@
 				<table class="argument-def parameter-def">
 				
 					<tr>
-						<th scope="row" class="argument-name"><code>cursorId</code></th>
-						<td><p>The unique ID of the cursor.</p></td>
-					</tr>
-				
-					<tr>
-						<th scope="row" class="argument-name"><code>isGlobal</code></th>
-						<td><p>YES - if global store, NO - otherwise.</p></td>
+						<th scope="row" class="argument-name"><code>command</code></th>
+						<td><p>Cordova arguments object containing &ldquo;storeName&rdquo; and &ldquo;isGlobalStore&rdquo;.</p></td>
 					</tr>
 				
 				</table>
@@ -1074,10 +1159,87 @@
 			
 
 			
-			<div class="method-subsection return">
-				<h4 class="method-subtitle parameter-title">Return Value</h4>
-				<p>The cached SFStoreCursor isntance with the given ID, or nil.</p>
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStorePlugin.h</code></p>
 			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pgRemoveAllGlobalStores:" title="pgRemoveAllGlobalStores:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pgRemoveAllGlobalStores:">&ndash;&nbsp;pgRemoveAllGlobalStores:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove All Global Stores.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)pgRemoveAllGlobalStores:(CDVInvokedUrlCommand *)<em>command</em></code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">SFSmartStorePlugin.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pgRemoveAllStores:" title="pgRemoveAllStores:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pgRemoveAllStores:">&ndash;&nbsp;pgRemoveAllStores:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>Remove All User Stores.</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)pgRemoveAllStores:(CDVInvokedUrlCommand *)<em>command</em></code></div>
+
+		    
+			
+
 			
 
 			
@@ -1112,7 +1274,7 @@
 				<footer>
 					<div class="footer-copyright">
 						
-						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-08-18</p>
+						<p class="copyright">Copyright &copy; 2016 Salesforce.com. All rights reserved. Updated: 2016-12-12</p>
 						
 						
 						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>

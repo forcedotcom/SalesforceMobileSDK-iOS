@@ -1,94 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Constants/SFUserAccountChange.html">
+	<File path="Protocols/CSFIndexedEntity.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/c/tdef/SFUserAccountChange</TokenIdentifier>
-			<Abstract type="html">The various changes that can affect a user account</Abstract>
-			<DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/intf/CSFIndexedEntity</TokenIdentifier>
+			<Abstract type="html">The CSFIndexedEntity protocol indicates that an instance of CSFOutput
+has an indexable property bound to it that is capable of being used to uniquely identify
+an instance of the response.  This allows for these objects to be cached and later
+retrieved using the property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
             
 			
 			<NodeRef refid="145"/>
 		</Token>
 		
 		
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUnknown</TokenIdentifier>
-            <Abstract type="html">Unknown change
-     </Abstract>
-            <Declaration>SFUserAccountChangeUnknown</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+			<Abstract type="html">The key name that represents the property that is indexed.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (NSString *)indexedKey</Declaration>
+			
+			<ReturnValue><Abstract type="html">String that can be used by valueForKey:.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedKey</Anchor>
             <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeNewUser</TokenIdentifier>
-            <Abstract type="html">A new user account has been created
-     </Abstract>
-            <Declaration>SFUserAccountChangeNewUser</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedValue</TokenIdentifier>
+			<Abstract type="html">The value for the indexed key property.</Abstract>
+			<DeclaredIn>CSFIndexedEntity.h</DeclaredIn>
+			
+	<RelatedTokens>
+		<TokenIdentifier>//apple_ref/occ/intfm/CSFIndexedEntity/indexedKey</TokenIdentifier>
+		
+	</RelatedTokens>
+	
+			<Declaration>- (id)indexedValue</Declaration>
+			
+			<ReturnValue><Abstract type="html">Value for the indexed property.</Abstract></ReturnValue>
+			<Anchor>//api/name/indexedValue</Anchor>
             <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCredentials</TokenIdentifier>
-            <Abstract type="html">The credentials changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeCredentials</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeOrgId</TokenIdentifier>
-            <Abstract type="html">The organization ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeOrgId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeUserId</TokenIdentifier>
-            <Abstract type="html">The user ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeUserId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeCommunityId</TokenIdentifier>
-            <Abstract type="html">The community ID changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeCommunityId</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="145"/>
-        </Token>
-        
-        <Token>
-            <TokenIdentifier>//apple_ref/c/econst/SFUserAccountChangeIdData</TokenIdentifier>
-            <Abstract type="html">The ID data changed
-     </Abstract>
-            <Declaration>SFUserAccountChangeIdData</Declaration>
-            
-            <DeclaredIn>SFUserAccountConstants.h</DeclaredIn>
-            
-            <NodeRef refid="145"/>
-        </Token>
+		</Token>
+		
         
         
 	</File>

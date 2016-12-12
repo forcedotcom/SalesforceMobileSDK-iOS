@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="Classes/SFPasscodeViewController.html">
+	<File path="Classes/SFLogTag.html">
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/cl/SFPasscodeViewController</TokenIdentifier>
-			<Abstract type="html">The view controller for managing the passcode screen.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/cl/SFLogTag</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
             
 			
 			<NodeRef refid="54"/>
@@ -13,48 +13,86 @@
 		
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeVerification</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for verifying an existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setSelector:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeVerification</Declaration>
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
 			
 			
-			<Anchor>//api/name/initForPasscodeVerification</Anchor>
+			<Anchor>//api/name/selector</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeCreation:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for creating a new passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/selector</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeCreation:(SFPasscodeConfigurationData)configData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
 			
-			<Anchor>//api/name/initForPasscodeCreation:</Anchor>
+			
+			<Anchor>//api/name/selector</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		
 		<Token>
-			<TokenIdentifier>//apple_ref/occ/instm/SFPasscodeViewController/initForPasscodeChange:</TokenIdentifier>
-			<Abstract type="html">Initializes the controller for changing the existing passcode.</Abstract>
-			<DeclaredIn>SFPasscodeViewController.h</DeclaredIn>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/selector</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
 			
-			<Declaration>- (id)initForPasscodeChange:(SFPasscodeConfigurationData)configData</Declaration>
-			<Parameters>
-				<Parameter>
-					<Name>configData</Name>
-					<Abstract type="html">Configuration for the new passcode.</Abstract>
-				</Parameter>
-			</Parameters>
+			<Declaration>@property (nonatomic, readonly) SEL selector</Declaration>
 			
-			<Anchor>//api/name/initForPasscodeChange:</Anchor>
+			
+			<Anchor>//api/name/selector</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/setOriginClass:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			
+			
+			<Anchor>//api/name/originClass</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/originClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			
+			
+			<Anchor>//api/name/originClass</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instp/SFLogTag/originClass</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>@property (nonatomic, strong, readonly) Class originClass</Declaration>
+			
+			
+			<Anchor>//api/name/originClass</Anchor>
+            <NodeRef refid="54"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/instm/SFLogTag/initWithClass:selector:</TokenIdentifier>
+			<Abstract type="html"></Abstract>
+			<DeclaredIn>SFLogger_Internal.h</DeclaredIn>
+			
+			<Declaration>- (instancetype)initWithClass:(Class)originClass selector:(SEL)selector</Declaration>
+			
+			
+			<Anchor>//api/name/initWithClass:selector:</Anchor>
             <NodeRef refid="54"/>
 		</Token>
 		

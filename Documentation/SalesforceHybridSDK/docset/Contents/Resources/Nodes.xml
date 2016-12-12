@@ -33,6 +33,7 @@
 						<NodeRef refid="20"/>
 						<NodeRef refid="21"/>
 						<NodeRef refid="22"/>
+						<NodeRef refid="23"/>
 						
 					</Subnodes>
 				</Node>
@@ -42,7 +43,7 @@
 					<Name>Categories</Name>
 					<Path>index.html</Path>
 					<Subnodes>
-						<NodeRef refid="23"/>
+						<NodeRef refid="24"/>
 						
 					</Subnodes>
 				</Node>
@@ -54,7 +55,7 @@
                     <Name>Blocks</Name>
                     <Path>index.html</Path>
                     <Subnodes>
-                        <NodeRef refid="24"/>
+                        <NodeRef refid="25"/>
                         
                     </Subnodes>
                 </Node>
@@ -98,8 +99,8 @@
             
         </Node>
 		<Node id="2" type="file" documentType="reference">
-            <Name>ForcetkTestSuite</Name>
-            <Path>Classes/ForcetkTestSuite.html</Path>
+            <Name>ForceJSTestSuite</Name>
+            <Path>Classes/ForceJSTestSuite.html</Path>
             
         </Node>
 		<Node id="3" type="file" documentType="reference">
@@ -272,6 +273,33 @@
             
         </Node>
 		<Node id="10" type="file" documentType="reference">
+            <Name>SFNetworkPlugin</Name>
+            <Path>Classes/SFNetworkPlugin.html</Path>
+            
+                <Subnodes>
+                <Node type="section">
+                    <Path>Classes/SFNetworkPlugin.html</Path>
+                    <Name>Overview</Name>
+                    <Anchor>overview</Anchor>
+                </Node>
+                <Node type="section">
+                    <Path>Classes/SFNetworkPlugin.html</Path>
+                    <Name>Tasks</Name>
+                    <Anchor>tasks</Anchor>
+                </Node>
+                
+                
+                
+                <Node type="section">
+                    <Path>Classes/SFNetworkPlugin.html</Path>
+                    <Name>Instance Methods</Name>
+                    <Anchor>instance_methods</Anchor>
+                </Node>
+                
+            </Subnodes>
+            
+        </Node>
+		<Node id="11" type="file" documentType="reference">
             <Name>SFPluginTestSuite</Name>
             <Path>Classes/SFPluginTestSuite.html</Path>
             
@@ -304,7 +332,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="11" type="file" documentType="reference">
+		<Node id="12" type="file" documentType="reference">
             <Name>SFSDKInfoPlugin</Name>
             <Path>Classes/SFSDKInfoPlugin.html</Path>
             
@@ -331,7 +359,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="12" type="file" documentType="reference">
+		<Node id="13" type="file" documentType="reference">
             <Name>SFSmartStorePlugin</Name>
             <Path>Classes/SFSmartStorePlugin.html</Path>
             
@@ -358,7 +386,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="13" type="file" documentType="reference">
+		<Node id="14" type="file" documentType="reference">
             <Name>SFSmartSyncPlugin</Name>
             <Path>Classes/SFSmartSyncPlugin.html</Path>
             
@@ -385,7 +413,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="14" type="file" documentType="reference">
+		<Node id="15" type="file" documentType="reference">
             <Name>SFTestResult</Name>
             <Path>Classes/SFTestResult.html</Path>
             
@@ -418,7 +446,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="15" type="file" documentType="reference">
+		<Node id="16" type="file" documentType="reference">
             <Name>SFTestRunnerPlugin</Name>
             <Path>Classes/SFTestRunnerPlugin.html</Path>
             
@@ -451,7 +479,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="16" type="file" documentType="reference">
+		<Node id="17" type="file" documentType="reference">
             <Name>SFWKWebViewDelegate</Name>
             <Path>Classes/SFWKWebViewDelegate.html</Path>
             
@@ -478,7 +506,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="17" type="file" documentType="reference">
+		<Node id="18" type="file" documentType="reference">
             <Name>SFWKWebViewEngine</Name>
             <Path>Classes/SFWKWebViewEngine.html</Path>
             
@@ -505,7 +533,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="18" type="file" documentType="reference">
+		<Node id="19" type="file" documentType="reference">
             <Name>SFWKWebViewNavigationDelegate</Name>
             <Path>Classes/SFWKWebViewNavigationDelegate.html</Path>
             
@@ -538,7 +566,7 @@
             </Subnodes>
             
         </Node>
-		<Node id="19" type="file" documentType="reference">
+		<Node id="20" type="file" documentType="reference">
             <Name>SalesforceOAuthPlugin</Name>
             <Path>Classes/SalesforceOAuthPlugin.html</Path>
             
@@ -565,23 +593,23 @@
             </Subnodes>
             
         </Node>
-		<Node id="20" type="file" documentType="reference">
+		<Node id="21" type="file" documentType="reference">
             <Name>SmartStoreLoadTestSuite</Name>
             <Path>Classes/SmartStoreLoadTestSuite.html</Path>
             
         </Node>
-		<Node id="21" type="file" documentType="reference">
+		<Node id="22" type="file" documentType="reference">
             <Name>SmartStoreTestSuite</Name>
             <Path>Classes/SmartStoreTestSuite.html</Path>
             
         </Node>
-		<Node id="22" type="file" documentType="reference">
+		<Node id="23" type="file" documentType="reference">
             <Name>SmartSyncTestSuite</Name>
             <Path>Classes/SmartSyncTestSuite.html</Path>
             
         </Node>
 		
-		<Node id="23" type="file" documentType="reference">
+		<Node id="24" type="file" documentType="reference">
             <Name>CDVPlugin(SFAdditions)</Name>
             <Path>Categories/CDVPlugin+SFAdditions.html</Path>
             
@@ -611,7 +639,7 @@
 		
         
         
-        <Node id="24" type="file" documentType="reference">
+        <Node id="25" type="file" documentType="reference">
             <Name>SFOAuthPluginAuthSuccessBlock</Name>
             <Path>Blocks/SFOAuthPluginAuthSuccessBlock.html</Path>
             

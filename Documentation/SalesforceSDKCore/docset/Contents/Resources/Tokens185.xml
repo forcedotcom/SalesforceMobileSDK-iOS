@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tokens version="1.0">
+	<File path="Constants/SFAppType.html">
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/c/tdef/SFAppType</TokenIdentifier>
+			<Abstract type="html">Block typedef for creating a custom snapshot view controller.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="185"/>
+		</Token>
+		
+		
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeNative</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeNative</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+            <NodeRef refid="185"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeHybrid</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeHybrid</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+            <NodeRef refid="185"/>
+        </Token>
+        
+        <Token>
+            <TokenIdentifier>//apple_ref/c/econst/kSFAppTypeReactNative</TokenIdentifier>
+            <Abstract type="html"></Abstract>
+            <Declaration>kSFAppTypeReactNative</Declaration>
+            
+            <DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+            <NodeRef refid="185"/>
+        </Token>
+        
+        
+	</File>
+</Tokens>

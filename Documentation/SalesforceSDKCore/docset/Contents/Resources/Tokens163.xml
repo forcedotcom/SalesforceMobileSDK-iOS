@@ -1,7 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Tokens version="1.0">
-	<File path="">
+	<File path="Protocols/SalesforceSDKManagerDelegate.html">
 		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intf/SalesforceSDKManagerDelegate</TokenIdentifier>
+			<Abstract type="html">Delegate protocol for handling foregrounding and backgrounding in Mobile SDK apps.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+            
+			
+			<NodeRef refid="163"/>
+		</Token>
+		
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillResignActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillResignActiveNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)sdkManagerWillResignActive</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerWillResignActive</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidBecomeActive</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidBecomeActiveNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)sdkManagerDidBecomeActive</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerDidBecomeActive</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerWillEnterForeground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationWillEnterForegroundNotification is received.</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)sdkManagerWillEnterForeground</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerWillEnterForeground</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
+		
+		<Token>
+			<TokenIdentifier>//apple_ref/occ/intfm/SalesforceSDKManagerDelegate/sdkManagerDidEnterBackground</TokenIdentifier>
+			<Abstract type="html">Called after UIApplicationDidEnterBackgroundNotification is received</Abstract>
+			<DeclaredIn>SalesforceSDKManager.h</DeclaredIn>
+			
+			<Declaration>- (void)sdkManagerDidEnterBackground</Declaration>
+			
+			
+			<Anchor>//api/name/sdkManagerDidEnterBackground</Anchor>
+            <NodeRef refid="163"/>
+		</Token>
 		
         
         
