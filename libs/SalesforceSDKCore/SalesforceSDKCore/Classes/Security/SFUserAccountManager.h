@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012-2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,6 +31,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** Notification sent when something has changed with the current user
  */
 FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidChangeCurrentUserNotification;
+
+/** Notification sent when something user init has finished
+ */
+FOUNDATION_EXTERN NSString * const SFUserAccountManagerDidFinishUserInitNotification;
 
 /** The key containing the type of change for the SFUserAccountManagerDidChangeCurrentUserNotification
  The value is a NSNumber that can be casted to the option SFUserAccountChange

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 - (void)beginUserAgentFlow;
 - (void)beginTokenEndpointFlow:(SFOAuthTokenEndpointFlow)flowType;
+- (void)beginJwtTokenExchangeFlow;
 - (void)handleTokenEndpointResponse:(NSMutableData *)data;
 - (void)beginNativeBrowserFlow;
 - (void)retrieveOrgAuthConfiguration:(void (^)(SFOAuthOrgAuthConfiguration*, NSError*))retrievedAuthConfigBlock;
@@ -80,6 +81,7 @@ typedef NS_ENUM(NSUInteger, SFOAuthTokenEndpointFlow) {
 
 + (NSDictionary *)parseQueryString:(NSString *)query;
 + (NSError *)errorWithType:(NSString *)type description:(NSString *)description;
++ (NSError *)errorWithType:(NSString *)type description:(NSString *)description underlyingError:(NSError *)underlyingError;
 + (NSDate *)timestampStringToDate:(NSString *)timestamp;
 
 @end

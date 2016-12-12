@@ -2,7 +2,7 @@
 OAuthUITests.swift
 OAuthUITests
 
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -27,13 +27,13 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 
 import XCTest
+@testable import SalesforceSDKCore
 
 class OAuthUITest: SalesforceNoSessionTestCase {
     
     let loginHelper = LoginHelper()
     let loginPage = LoginPage()
     let hostPage = HostPage()
-    let searchScreen = SearchScreen()
     let userListScreen = UserListScreen()
     
     // MARK: Setup
@@ -48,47 +48,90 @@ class OAuthUITest: SalesforceNoSessionTestCase {
     }
     
     // MARK: Tests
-    func FIXMEtestLoginSwitchBetweenAndLogoutUsers() {
-        loginPage.scrollUp() //sanity test scrolling is enabled
+    func testLoginSwitchBetweenAndLogoutUsers() {
         for login in loginAccounts {
-            let user = login.valueForKey("username") as! String
-            let password = login.valueForKey("password") as! String
-            let host = login.valueForKey("host") as! String
-            addAndSwitchToUser(user, password:password, host:host)
+            let user = login?.value(forKey: "username") as! String
+            let password = login?.value(forKey: "password") as! String
+            let host = login?.value(forKey: "host") as! String
+            if (login?.value(forKey: "passcodeTimeout")) != nil {
+                addAndSwitchToUser(user, password:password, host:host, passcode:passcode)
+            }
+            else {
+                addAndSwitchToUser(user, password:password, host:host)
+            }
+                
             sleep(1)
         }
         
         let total = loginAccounts.count
         for i in 0..<total {
-            let user = loginAccounts[i].valueForKey("username") as! String
-            switchToUser(user)
+            let user = loginAccounts[i]?.value(forKey: "username") as! String
+            switchToUser(user, onUserList: false)
         }
         
+        searchScreen.switchUser()        
         for j in 0..<total-1 {
-            let user = loginAccounts[j].valueForKey("username") as! String
-            switchToUser(user)
+            let user = loginAccounts[j]?.value(forKey: "username") as! String
+            switchToUser(user, onUserList: true)
             searchScreen.logout()
-            searchScreen.waitForPageLoaded()
         }
         searchScreen.logout()
         loginPage.waitForPageLoaded()
+        loginPage.scrollUp() //sanity test scrolling is enabled
     }
     
-    func switchToUser(username:String) {
+    func testLogoutRelogin() {
+        let user = loginAccounts[0]?.value(forKey: "username") as! String
+        let password = loginAccounts[0]?.value(forKey: "password") as! String
+        let host = loginAccounts[0]?.value(forKey: "host") as! String
+        addAndSwitchToUser(user, password: password, host: host)
         searchScreen.waitForPageLoaded()
-        searchScreen.switchUser()
-        userListScreen.switchToUser(username)
+        let recordsNum = searchScreen.countRecords()
+        searchScreen.logout()
+        loginHelper.loginToSalesforce(user, password: password)
+        searchScreen.waitForPageLoaded()
+        XCTAssertEqual(recordsNum, searchScreen.countRecords(), "Should have same number of records") //to test smart store is reset
+        searchScreen.logout()
     }
     
-    func addAndSwitchToUser(username:String, password:String, host:String) {
+    func TODOtestRevokeRefreshToken(){
+        //login up to 3 users
+        var i = 0
+        for login in loginAccounts {
+            if (i>2) {
+              break
+            }
+            let user = login?.value(forKey: "username") as! String
+            let password = login?.value(forKey: "password") as! String
+            let host = login?.value(forKey: "host") as! String
+            addAndSwitchToUser(user, password:password, host:host, passcode: passcode)
+            i = i + 1
+            sleep(1)
+        }
+        
+        SFAuthenticationManager.shared().logoutAllUsers() //FIXME: for some reason, this doesn's work
+        sleep(5) //give server sometime to revoke the token
+        
+        searchScreen.sync()
+        loginPage.waitForPageLoaded()
+        XCTAssert(!searchScreen.isPresenting(), "Should not stay on search screen")
+    }
+    
+    func switchToUser(_ username:String, onUserList:Bool) {
+        if (!onUserList) {
+            searchScreen.switchUser()
+        }
+        userListScreen.switchToUser(username)
+        searchScreen.waitForPageLoaded()
+    }
+    
+    func addAndSwitchToUser(_ username:String, password:String, host:String, passcode:String?=nil) {
         if (!loginPage.isPresenting()) {
             searchScreen.waitForPageLoaded()
             searchScreen.switchUser()
             userListScreen.addUser()
         }
-        loginPage.chooseConnection()
-        hostPage.selectHost(host)
-        loginHelper.loginToSalesforce(username, password: password)
+        loginHelper.loginToSalesforce(username, password: password, url:host, withPasscode: passcode)
     }
     
     

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS.svg?branch=unstable)](https://travis-ci.org/forcedotcom/SalesforceMobileSDK-iOS)
+[![Build Status](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/buildstatus.svg)](https://forcedotcom.github.io/SalesforceMobileSDK-TestResults/iOS-test-results/latest/index.html)
 
 # Salesforce.com Mobile SDK for iOS
 
@@ -27,23 +27,44 @@ This script pulls the submodule dependencies from GitHub, to finalize setup of t
 
 See [build.md](build.md) for information on generating binary distributions and app templates.
 
-The Salesforce Mobile SDK for iOS requires iOS 8.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
+The Salesforce Mobile SDK for iOS requires iOS 9.0 or greater.  The install.sh script checks for this, and aborts if the configured SDK version is incorrect.  Building from the command line has been tested using ant 1.8.  Older versions might work, but we recommend using the latest version of ant.
 
 If you have problems building any of the projects, take a look at the online [FAQ](https://github.com/forcedotcom/SalesforceMobileSDK-iOS/wiki/FAQ) for troubleshooting tips.
 
 Introduction
 ==
 
-### What's New in 4.3
+### What's New in 5.0
+
+**OS Version Support**
+- iOS 10.0 is fully supported in Mobile SDK 5.0.
+- The minimum supported version of Xcode is now Xcode 8.
+- The minimum supported version of iOS platform is now iOS 9.0.
+
+**Other iOS Platform Enhancements**
+- Hybrid apps built on Mobile SDK will now use WKWebView instead of UIWebView.
+- Extensions are now fully supported.
+- Salesforce servers are now fully ATS compliant. As a result, we have removed ATS exceptions from Mobile SDK apps.
 
 **SmartStore Enhancements**
-- To enhance performance in certain edge cases, SmartStore adds an option for serializing unusually large soup elements in external storage.
+- We have added new APIs that allow hybrid developers to create their own named databases.
+
+**SmartSync Enhancements**
+- We now allow sync down/refresh of data stored in soups by specifying the fields to sync.
+- smartsync.js now uses native promises instead of jQuery.
+
+**Hybrid Networking Enhancements**
+- We have replaced forcetk.mobilesdk.js with force.js. Networking in hybrid apps is now handled natively through a new plugin (com.salesforce.plugin.network). As a result, session token refresh happens automatically.
 
 **Library Upgrades**
-- We've updated React Native to version 0.30.0.
-- We've updated Cordova to version 4.2.0.
+- We've updated React Native to version 0.35.0.
+- We've updated Cordova to version 4.3.0.
+
+**SalesforceAnalytics Library**
+- We've added a new library in Mobile SDK 5.0 called SalesforceAnalytics. This enables us to collect non-sensitive data on which features in Mobile SDK are being used. It is turned on by default, but can be turned off if required.
 
 **Other Technical Improvements**
+- We now support rich app templates (see [forceios](https://npmjs.org/package/forceios) for more details).
 - Improvements to sample apps.
 - Various bug fixes.
 
@@ -68,13 +89,13 @@ Documentation
 ==
 
 * [Salesforce Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf?raw=true)
+* [SalesforceAnalytics Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceAnalytics/html/index.html)
 * [SalesforceSDKCore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceSDKCore/html/index.html)
-* [SalesforceRestAPI Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceRestAPI/html/index.html)
-* [SalesforceNetwork Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceNetwork/html/index.html)
 * [SmartStore Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartStore/html/index.html)
 * [SmartSync Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SmartSync/html/index.html)
 * [SalesforceHybridSDK Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceHybridSDK/html/index.html)
 * [SalesforceReact Library Reference](http://forcedotcom.github.io/SalesforceMobileSDK-iOS/Documentation/SalesforceReact/html/index.html)
+* [Mobile SDK Development Guide](https://github.com/forcedotcom/SalesforceMobileSDK-Shared/blob/master/doc/mobile_sdk.pdf)
 
 Discussion
 ==

@@ -103,7 +103,7 @@ cat <<EOF > "$OPT_TEMP"
 
  Created by $user on $(date).
 
- Copyright (c) $(date +"%Y"), salesforce.com, inc. All rights reserved.
+ Copyright (c) $(date +"%Y")-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:

@@ -4,7 +4,7 @@
  
  Created by Bharath Hariharan on 7/15/16.
  
- Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -30,6 +30,7 @@
 #import "SFWKWebViewNavigationDelegate.h"
 #import "SFHybridViewController.h"
 #import <SalesforceSDKCore/SFApplicationHelper.h>
+#import <SalesforceSDKCore/NSString+SFAdditions.h>
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVUserAgentUtil.h>
 #import <objc/message.h>
@@ -78,7 +79,8 @@
     [self log:SFLogLevelDebug format:message];
     NSURL *errorUrl = vc.errorURL;
     if (errorUrl) {
-        errorUrl = [NSURL URLWithString:[NSString stringWithFormat:@"?error=%@", [message stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] relativeToURL:errorUrl];
+        NSString *urlString = [NSString stringWithFormat:@"?error=%@", [message stringByURLEncoding]];
+        errorUrl = [NSURL URLWithString:urlString relativeToURL:errorUrl];
         [self log:SFLogLevelDebug format:[errorUrl absoluteString]];
         [webView loadRequest:[NSURLRequest requestWithURL:errorUrl]];
     }

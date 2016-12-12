@@ -22,21 +22,13 @@
  WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <SalesforceRestAPI/SFRestAPI+Blocks.h>
+#import <SalesforceSDKCore/SFRestAPI+Blocks.h>
 #import "SFSyncState.h"
 #import "SFSyncOptions.h"
 #import "SFSyncUpTarget.h"
 #import "SFSyncDownTarget.h"
 
 @class SFUserAccount;
-
-extern NSString * const kSyncManagerTargetQueryType;
-extern NSString * const kSyncManagerTargetQuery;
-extern NSString * const kSyncManagerTargetObjectType;
-extern NSString * const kSyncManagerTargetFieldlist;
-extern NSString * const kSyncManagerQueryTypeMru;
-extern NSString * const kSyncManagerQueryTypeSoql;
-extern NSString * const kSyncManagerQueryTypeSosl;
 
 extern NSString * const kSyncManagerLocal;
 extern NSString * const kSyncManagerLocallyCreated;
@@ -97,6 +89,11 @@ typedef void (^SFSyncSyncManagerCompletionStatusBlock) (SFSyncStateStatus syncSt
  * @param store The store instance.
  */
 + (void)removeSharedInstanceForStore:(SFSmartStore*)store;
+
+/**
+ * Removes all shared instances
+ */
++ (void)removeSharedInstances;
 
 /**
  * Returns details about a sync.

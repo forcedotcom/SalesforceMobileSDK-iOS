@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -59,14 +59,16 @@
     // Need to use SalesforceSDKManagerWithSmartStore when using smartstore
     [SalesforceSDKManager setInstanceClass:[SalesforceSDKManagerWithSmartStore class]];
     [SalesforceSDKManager sharedManager].appConfig = appConfig;
-    __weak AppDelegate *weakSelf = self;
+    __weak __typeof(self) weakSelf = self;
     [SalesforceSDKManager sharedManager].postLaunchAction = ^(SFSDKLaunchAction launchActionList) {
-        [weakSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
-        [weakSelf setupRootViewController];
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf log:SFLogLevelInfo format:@"Post-launch: launch actions taken: %@", [SalesforceSDKManager launchActionsStringRepresentation:launchActionList]];
+        [strongSelf setupRootViewController];
     };
     [SalesforceSDKManager sharedManager].launchErrorAction = ^(NSError *error, SFSDKLaunchAction launchActionList) {
-        [weakSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
-        [weakSelf initializeAppViewState];
+        __strong __typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf log:SFLogLevelError format:@"Error during SDK launch: %@", [error localizedDescription]];
+        [strongSelf initializeAppViewState];
         [[SalesforceSDKManager sharedManager] launch];
     };
     [SalesforceSDKManager sharedManager].postLogoutAction = ^{
@@ -93,7 +95,9 @@
     
     [self initializeAppViewState];
     [[SalesforceSDKManager sharedManager] launch];
-    return YES;
+    return YES; // we don't want to run's Cordova didFinishLaunchingWithOptions - it creates another window with a webview
+                // if devs want to customize their AppDelegate.m, then they should get rid of AppDelegate+SalesforceHybrid.m
+                // and bring all of its code in their AppDelegate.m
 }
 
 - (void)sfsdk_swizzled_application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken

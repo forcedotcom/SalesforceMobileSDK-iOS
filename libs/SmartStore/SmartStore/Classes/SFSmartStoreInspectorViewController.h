@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -36,16 +36,5 @@
  @param store The SmartStore database to be inspected
  */
 - (instancetype) initWithStore:(SFSmartStore*)store;
-
-/**
- Show SmartStore inspector.
- @param currentViewController View controller that's currently controlling the display
- */
-- (void) present:(UIViewController*) currentViewController;
-
-/**
- Hide SmartStore inspector.
- */
-- (void) dismiss;
 
 @end

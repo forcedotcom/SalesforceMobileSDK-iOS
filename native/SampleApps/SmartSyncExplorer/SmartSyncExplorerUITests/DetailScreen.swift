@@ -1,7 +1,7 @@
 /*
 SearchScreen.swift
 
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -28,52 +28,52 @@ import Foundation
 import XCTest
 
 class DetailScreen: PageObject {
-    private var firstNameField : XCUIElement {
+    fileprivate var firstNameField : XCUIElement {
         get {
             let tablesQuery = XCUIApplication().tables
-            return tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(0).childrenMatchingType(.TextField).element
+            return tablesQuery.children(matching: .cell).element(boundBy: 0).children(matching: .textField).element
         }
     }
 
-    private var lastNameField : XCUIElement {
+    fileprivate var lastNameField : XCUIElement {
         get {
             let tablesQuery = XCUIApplication().tables
-            return tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(1).childrenMatchingType(.TextField).element
+            return tablesQuery.children(matching: .cell).element(boundBy: 1).children(matching: .textField).element
         }
     }
     
-    private var titleField : XCUIElement {
+    fileprivate var titleField : XCUIElement {
         get {
             let tablesQuery = XCUIApplication().tables
-            return tablesQuery.childrenMatchingType(.Cell).elementBoundByIndex(2).childrenMatchingType(.TextField).element
+            return tablesQuery.children(matching: .cell).element(boundBy: 2).children(matching: .textField).element
         }
     }
     
-    private var navigationBar : XCUIElement {
+    fileprivate var navigationBar : XCUIElement {
         get {
             return app.navigationBars["ContactDetailView"]
         }
     }
     
-    private var saveButton : XCUIElement {
+    fileprivate var saveButton : XCUIElement {
         get {
             return navigationBar.buttons["Save"]
         }
     }
 
-    private var cancelButton : XCUIElement {
+    fileprivate var cancelButton : XCUIElement {
         get {
             return navigationBar.buttons["Cancel"]
         }
     }
     
-    private var editButton : XCUIElement {
+    fileprivate var editButton : XCUIElement {
         get {
             return navigationBar.buttons["Edit"]
         }
     }
     
-    private var contactsButton : XCUIElement {
+    fileprivate var contactsButton : XCUIElement {
         get {
             return navigationBar.buttons["Contacts"]
         }
@@ -81,54 +81,54 @@ class DetailScreen: PageObject {
 
     // MARK - Check screen
     
-    func hasFirstName(firstName : String) -> Bool {
+    func hasFirstName(_ firstName : String) -> Bool {
         return firstNameField.value as! String == firstName
     }
 
-    func hasLastName(lastName : String) -> Bool {
+    func hasLastName(_ lastName : String) -> Bool {
         return lastNameField.value as! String == lastName
     }
 
-    func hasTitle(title : String) -> Bool {
+    func hasTitle(_ title : String) -> Bool {
         return titleField.value as! String == title
     }
     
     // MARK - Act on screen
     
-    func typeFirstName(firstName: String) -> DetailScreen {
+    @discardableResult func typeFirstName(_ firstName: String) -> DetailScreen {
         firstNameField.tap()
         firstNameField.typeText(firstName)
         return self
     }
 
-    func typeLastName(lastName: String) -> DetailScreen {
+    @discardableResult func typeLastName(_ lastName: String) -> DetailScreen {
         lastNameField.tap()
         lastNameField.typeText(lastName)
         return self
     }
 
-    func typeTitle(title: String) -> DetailScreen {
+    @discardableResult func typeTitle(_ title: String) -> DetailScreen {
         titleField.tap()
         titleField.typeText(title)
         return self
     }
     
-    func save() -> SearchScreen {
+    @discardableResult func save() -> SearchScreen {
         saveButton.tap()
         return SearchScreen()
     }
     
-    func edit() -> DetailScreen {
+    @discardableResult func edit() -> DetailScreen {
         editButton.tap()
         return self
     }
     
-    func cancel() -> DetailScreen {
+    @discardableResult func cancel() -> DetailScreen {
         cancelButton.tap()
         return self
     }
     
-    func backToSearch() -> SearchScreen {
+    @discardableResult func backToSearch() -> SearchScreen {
         contactsButton.tap()
         return SearchScreen()
     }

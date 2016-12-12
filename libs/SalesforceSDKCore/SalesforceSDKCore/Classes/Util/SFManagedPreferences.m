@@ -23,6 +23,11 @@
  */
 
 #import "SFManagedPreferences.h"
+#import "NSUserDefaults+SFAdditions.h"
+#import "SFUserAccountManager.h"
+#import "SFIdentityData.h"
+#import "SalesforceSDKManager.h"
+#import "SFSDKEventBuilderHelper.h"
 
 // See "Extending Your Apps for Enterprise and Education Use" in the WWDC 2013 videos
 // See https://developer.apple.com/library/ios/samplecode/sc2279/ManagedAppConfig.zip
@@ -38,9 +43,13 @@ static NSString * const kManagedKeyConnectedAppCallbackUri    = @"ManagedAppCall
 static NSString * const kManagedKeyClearClipboardOnBackground = @"ClearClipboardOnBackground";
 static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthorizedHosts";
 
+static NSString * const kSFAppFeatureManagedByMDM   = @"MM";
+static NSString * const kSFDisableExternalPaste = @"DISABLE_EXTERNAL_PASTE";
+
 @interface SFManagedPreferences ()
 
 @property (nonatomic, strong, readwrite) NSDictionary *rawPreferences;
+@property (nonatomic, strong) NSOperationQueue *syncQueue;
 
 @end
 
@@ -60,16 +69,33 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
 - (id)init {
     self = [super init];
     if (self) {
-        __weak SFManagedPreferences *weakSelf = self;
+        self.syncQueue = [[NSOperationQueue alloc] init];
+        self.syncQueue.name = @"NSUserDefaults Sync Queue";
+        __weak typeof(self) weakSelf = self;
         [[NSNotificationCenter defaultCenter] addObserverForName:NSUserDefaultsDidChangeNotification
                                                           object:nil
-                                                           queue:[NSOperationQueue mainQueue]
+                                                           queue:self.syncQueue
                                                       usingBlock:^(NSNotification *note) {
                                                           weakSelf.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+                                                          if(weakSelf.rawPreferences){
+                                                              [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+                                                          }
                                                       }];
-        self.rawPreferences = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        self.rawPreferences = [[NSUserDefaults msdkUserDefaults] dictionaryForKey:kManagedConfigurationKey];
+        if (self.rawPreferences) {
+            [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureManagedByMDM];
+        }
+        NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
+        [notificationCenter addObserver:self
+                               selector:@selector(storeAnalyticsEvent)
+                                   name:SFUserAccountManagerDidFinishUserInitNotification
+                                 object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)hasManagedPreferences {
@@ -108,8 +134,30 @@ static NSString * const kManagedKeyOnlyShowAuthorizedHosts    = @"OnlyShowAuthor
     return self.rawPreferences[kManagedKeyConnectedAppCallbackUri];
 }
 
+- (BOOL)shouldDisableExternalPasteDefinedByConnectedApp {
+    NSDictionary *customAttributes = [SFUserAccountManager sharedInstance].currentUser.idData.customAttributes;
+    if (customAttributes) {
+        NSString *disableExternalPaste = customAttributes[kSFDisableExternalPaste];
+        if (disableExternalPaste) {
+            return [disableExternalPaste boolValue];
+        }
+    }
+    return NO;
+}
+
 - (BOOL)clearClipboardOnBackground {
-    return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue];
+    return [self.rawPreferences[kManagedKeyClearClipboardOnBackground] boolValue] || [self shouldDisableExternalPasteDefinedByConnectedApp];
+}
+
+- (void)storeAnalyticsEvent {
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    if (self.rawPreferences) {
+        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:YES];
+        attributes[@"mdmConfigs"] = self.rawPreferences;
+    } else {
+        attributes[@"mdmIsActive"] = [NSNumber numberWithBool:NO];
+    }
+    [SFSDKEventBuilderHelper createAndStoreEvent:@"mdmConfiguration" userAccount:nil className:NSStringFromClass([self class]) attributes:attributes];
 }
 
 @end

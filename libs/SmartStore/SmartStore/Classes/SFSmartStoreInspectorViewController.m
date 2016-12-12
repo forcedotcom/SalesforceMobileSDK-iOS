@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -97,31 +97,6 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
     return self;
 }
 
-#pragma mark - Present / dimiss
-
-- (void) present:(UIViewController*)currentViewController
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self present:currentViewController];
-        });
-        return;
-    }
-
-    [currentViewController presentViewController:self animated:NO completion:nil];
-}
-
-- (void) dismiss
-{
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self dismiss];
-        });
-        return;
-    }
-
-    [self.presentingViewController dismissViewControllerAnimated:NO completion:nil];
-}
 
 #pragma mark - Results setter
 
@@ -142,9 +117,8 @@ static NSString * const kInspectorRunButtonTitleKey = @"inspectorRunButtonTitle"
 
 - (void) backButtonClicked
 {
-    [self dismiss];
+    [self.presentingViewController dismissViewControllerAnimated:NO completion:NULL];
 }
-
 
 - (void) runQuery
 {

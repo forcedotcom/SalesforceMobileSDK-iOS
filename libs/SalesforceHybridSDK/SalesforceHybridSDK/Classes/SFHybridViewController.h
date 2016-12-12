@@ -62,9 +62,9 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 }
 
 /**
- Indicates if WKWebView is being used instead of UIWebView.
+ Indicates if UIWebView is being used instead of WKWebView.
  */
-@property (nonatomic, readonly, assign) BOOL useWKWebView;
+@property (nonatomic, readonly, assign) BOOL useUIWebView;
 
 /**
  The Remote Access object consumer key.
@@ -93,17 +93,17 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
 @property (nonatomic, strong) NSURL *appHomeUrl;
 
 /**
- Designated initializer. Initializes the view controller with its hybrid view configuration.
+ Designated initializer. Initializes the view controller with its hybrid view configuration. Uses WKWebView by default.
  @param viewConfig The hybrid view configuration associated with this component.
  */
-- (id)initWithConfig:(SFHybridViewConfig *)viewConfig;
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig;
 
 /**
  Designated initializer. Initializes the view controller with its hybrid view configuration and which view to use.
  @param viewConfig The hybrid view configuration associated with this component.
- @param useWKWebView YES - to use WKWebView, NO - to use UIWebView.
+ @param useUIWebView YES - to use UIWebView, NO - to use WKWebView.
  */
-- (id)initWithConfig:(SFHybridViewConfig *)viewConfig useWKWebView:(BOOL) useWKWebView;
+- (id) initWithConfig:(SFHybridViewConfig *) viewConfig useUIWebView:(BOOL) useUIWebView;
 
 /**
  * Initializes a new Cordova view with the specified bounds and engine.
@@ -158,5 +158,12 @@ typedef void (^SFOAuthPluginAuthSuccessBlock)(SFOAuthInfo *, NSDictionary *);
  @return YES if the error is fatal, NO otherwise.
  */
 + (BOOL)isFatalWebViewError:(NSError *)error;
+
+/** 
+ Configures the startPage property to be embedded in the context of its remote bootstrapping absolute URL. The default method configures the startPage property into a frontdoor.jsp absolute URL.
+ 
+ Note: Do not override this method unless you know what you're doing. Improperly configuring the start page remote URL will cause your hybrid remote app to be unable to load. Your overriding method should set the startPage property to the remote URL to be loaded.
+ */
+- (void)configureRemoteStartPage;
 
 @end

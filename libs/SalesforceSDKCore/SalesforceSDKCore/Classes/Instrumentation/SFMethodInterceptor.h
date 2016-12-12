@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -24,8 +24,34 @@
 
 #import <Foundation/Foundation.h>
 
+/** Class containing the perf data associated with a selector execution.
+ */
+@interface SFSDKInstrumentationPostExecutionData : NSObject
+
+/** The name of the original selector executed.
+ */
+@property (nonatomic, copy) NSString *selectorName;
+
+/** Whether or not the selector is an instance method.
+ */
+@property (nonatomic, assign) BOOL isInstanceMethod;
+
+/** The start date of the selector's execution.
+ */
+@property (nonatomic, strong) NSDate *executionStartDate;
+
+/** The end date of the selector's execution.
+ */
+@property (nonatomic, strong) NSDate *executionEndDate;
+
+/** The amount of execution time for the selector, in seconds.
+ */
+@property (nonatomic, assign) NSTimeInterval executionTime;
+
+@end
+
 typedef void(^SFMethodInterceptorInvocationCallback)(NSInvocation *invocation);
-typedef void(^SFMethodInterceptorInvocationAfterCallback)(NSInvocation *invocation, NSTimeInterval executionTime);
+typedef void(^SFMethodInterceptorInvocationAfterCallback)(NSInvocation *invocation, SFSDKInstrumentationPostExecutionData *data);
 
 /** This class provides a simple way to intercept an
  instance method or a class method and forward message

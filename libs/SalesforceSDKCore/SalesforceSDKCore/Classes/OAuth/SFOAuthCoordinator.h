@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2011-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -233,6 +233,26 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  */
 - (BOOL)oauthCoordinatorRetryAuthenticationOnApplicationDidBecomeActive:(SFOAuthCoordinator *)coordinator;
 
+/**
+ The delegate is expected to display an alert with the specific message and callback the completion block when
+ the user dismisses the alert.
+ 
+ @param coordinator The SFOAuthCoordinator instance
+ @param message The message to display
+ @param completion The completion block to invoke
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayAlertMessage:(NSString*)message completion:(dispatch_block_t)completion;
+
+/**
+ The delegate is expected to display a confirmation alert with the specific message and callback the completion block when
+ the user dismisses the alert.
+ 
+ @param coordinator The SFOAuthCoordinator instance
+ @param message The message to display
+ @param completion The completion block to invoke with YES as result if the user confirmed the alert or NO if the user cancelled the alert.
+ */
+- (void)oauthCoordinator:(SFOAuthCoordinator *)coordinator displayConfirmationMessage:(NSString*)message completion:(void (^)(BOOL result))completion;
+
 @required
 
 /** Sent after authentication has begun and the view parameter is displaying the first page of authentication content.
@@ -262,7 +282,7 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  the Security framework and either the NSJSONSerialization iOS 5.0 SDK class 
  or the third party SBJsonParser class.
  */
-@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate> {
+@interface SFOAuthCoordinator : NSObject <WKNavigationDelegate, WKUIDelegate> {
 }
 
 /** User credentials to use within the authentication process.
@@ -335,6 +355,12 @@ typedef void (^SFOAuthBrowserFlowCallbackBlock)(BOOL);
  An array of additional keys (NSString) to parse during OAuth
  */
 @property (nonatomic, strong) NSArray * additionalOAuthParameterKeys;
+
+/**
+ A dictionary of additional parameters (key value pairs) to send during token refresh
+ */
+@property (nonatomic, strong) NSDictionary * additionalTokenRefreshParams;
+
 ///---------------------------------------------------------------------------------------
 /// @name Initialization
 ///---------------------------------------------------------------------------------------

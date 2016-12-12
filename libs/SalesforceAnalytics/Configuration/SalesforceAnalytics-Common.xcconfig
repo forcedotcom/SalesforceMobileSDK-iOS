@@ -1,0 +1,17 @@
+//
+//  Common.xcconfig
+//  SalesforceAnalytics
+//
+//  Created by Bharath Hariharan on 05/14/16.
+//  Copyright © 2016 salesforce.com. All rights reserved.
+//
+
+GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_PREFIX_HEADER = $(PROJECT_NAME)/$(PROJECT_NAME)-Prefix.pch
+
+PRODUCT_NAME = SalesforceAnalytics
+
+LIBRARY_SEARCH_PATHS = $(inherited)
+
+// Make sure to use only API that are safe for application extensions
+APPLICATION_EXTENSION_API_ONLY = YES

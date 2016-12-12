@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <widget xmlns     = "http://www.w3.org/ns/widgets"
     id        = "com.salesforce.iossdk"
-    version   = "4.3.0">
+    version   = "5.0.0">
     <name>Hybrid Test Application</name>
     
     <access origin="https://localhost"/> <!-- allow local pages -->
@@ -27,6 +27,7 @@
     <feature name="com.salesforce.sfaccountmanager"><param name="ios-package" value="SFAccountManagerPlugin"/></feature>
     <feature name="com.salesforce.smartstore"><param name="ios-package" value="SFSmartStorePlugin"/></feature>
     <feature name="com.salesforce.smartsync"><param name="ios-package" value="SFSmartSyncPlugin"/></feature>
+    <feature name="com.salesforce.network"><param name="ios-package" value="SFNetworkPlugin"/></feature>
     <feature name="com.salesforce.testrunner"><param name="ios-package" value="SFTestRunnerPlugin"/></feature>
     
     <feature name="Console"><param name="ios-package" value="CDVLogger" /></feature>

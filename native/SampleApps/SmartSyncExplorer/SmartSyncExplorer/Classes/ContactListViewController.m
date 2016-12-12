@@ -1,6 +1,6 @@
 /*
- Copyright (c) 2014, salesforce.com, inc. All rights reserved.
- 
+ Copyright (c) 2014-present, salesforce.com, inc. All rights reserved.
+
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
  * Redistributions of source code must retain the above copyright notice, this list of conditions
@@ -11,7 +11,7 @@
  * Neither the name of salesforce.com, inc. nor the names of its contributors may be used to
  endorse or promote products derived from this software without specific prior written
  permission of salesforce.com, inc.
- 
+
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
  IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
  FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
@@ -24,11 +24,11 @@
 
 #import "ContactListViewController.h"
 #import "ActionsPopupController.h"
-#import "SObjectDataManager.h"
-#import "ContactSObjectDataSpec.h"
-#import "ContactSObjectData.h"
 #import "ContactDetailViewController.h"
 #import "WYPopoverController.h"
+#import <SmartSyncExplorerCommon/SObjectDataManager.h>
+#import <SmartSyncExplorerCommon/ContactSObjectDataSpec.h>
+#import <SmartSyncExplorerCommon/ContactSObjectData.h>
 #import <SalesforceSDKCore/SFDefaultUserManagementViewController.h>
 #import <SmartStore/SFSmartStoreInspectorViewController.h>
 #import <SalesforceSDKCore/SFAuthenticationManager.h>
@@ -56,7 +56,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 @interface ContactListViewController () <UISearchBarDelegate>
 
 @property (nonatomic, strong) WYPopoverController *popOverController;
-@property (nonatomic, strong) UIActionSheet *logoutActionSheet;
+@property (nonatomic, strong) UIAlertController *logoutActionSheet;
 
 
 // View / UI properties
@@ -103,12 +103,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     if (!self.dataMgr) {
         self.dataMgr = [[SObjectDataManager alloc] initWithDataSpec:[ContactSObjectData dataSpec]];
     }
-    
-    __weak ContactListViewController *weakSelf = self;
+
+    __weak typeof(self) weakSelf = self;
     void (^completionBlock)(void) = ^{
         [weakSelf refreshList];
     };
-    
+
     [self.dataMgr refreshLocalData:completionBlock];
     if ([self.dataMgr.dataRows count] == 0) {
         [self.dataMgr refreshRemoteData:completionBlock];
@@ -122,11 +122,11 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)loadView {
     [super loadView];
-    
+
     self.navigationController.navigationBar.barTintColor = [[self class] colorFromRgbHexValue:kNavBarTintColor];
-    
+
     [self addTapGestureRecognizers];
-    
+
     // Nav bar label
     self.navBarLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.navBarLabel.text = kNavBarTitleText;
@@ -135,7 +135,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     self.navBarLabel.backgroundColor = [UIColor clearColor];
     self.navBarLabel.font = [UIFont systemFontOfSize:kNavBarTitleFontSize];
     self.navigationItem.titleView = self.navBarLabel;
-    
+
     // Navigation bar buttons
     self.addButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"add"] style:UIBarButtonItemStylePlain target:self action:@selector(addContact)];
     self.syncButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"sync"] style:UIBarButtonItemStylePlain target:self action:@selector(syncUpDown)];
@@ -144,23 +144,23 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     for (UIBarButtonItem *bbi in self.navigationItem.rightBarButtonItems) {
         bbi.tintColor = [UIColor whiteColor];
     }
-    
+
     // Search header
     self.searchHeader = [[UIView alloc] initWithFrame:CGRectZero];
     self.searchHeader.backgroundColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
-    
+
     self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectZero];
     self.searchBar.barTintColor = [[self class] colorFromRgbHexValue:kSearchHeaderBackgroundColor];
     self.searchBar.placeholder = @"Search";
     self.searchBar.delegate = self;
     [self.searchHeader addSubview:self.searchBar];
-    
+
     // Toast view
     self.toastView = [[UIView alloc] initWithFrame:CGRectZero];
     self.toastView.backgroundColor = [UIColor colorWithRed:(38.0 / 255.0) green:(38.0 / 255.0) blue:(38.0 / 255.0) alpha:0.7];
     self.toastView.layer.cornerRadius = 10.0;
     self.toastView.alpha = 0.0;
-    
+
     self.toastViewMessageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.toastViewMessageLabel.font = [UIFont systemFontOfSize:kToastMessageFontSize];
     self.toastViewMessageLabel.textColor = [UIColor whiteColor];
@@ -177,14 +177,14 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
                                          navBarFrame.size.height);
     self.navBarLabel.frame = navBarLabelFrame;
     [self layoutSearchHeader];
-    
+
     [self layoutToastView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
-    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -196,12 +196,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (UITableViewCell *)tableView:(UITableView *)tableView_ cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"ContactListCellIdentifier";
-    
+
     UITableViewCell *cell = [tableView_ dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
+
     ContactSObjectData *obj = [self.dataMgr.dataRows objectAtIndex:indexPath.row];
     cell.textLabel.text = [self formatNameFromContact:obj];
     cell.textLabel.font = [UIFont systemFontOfSize:kContactTitleFontSize];
@@ -209,9 +209,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     cell.detailTextLabel.font = [UIFont systemFontOfSize:kContactDetailFontSize];
     cell.detailTextLabel.textColor = [[self class] colorFromRgbHexValue:kContactTitleTextColor];
     cell.imageView.image = [self initialsBackgroundImageWithColor:[self colorFromContact:obj] initials:[self formatInitialsFromContact:obj]];
-    
+
     cell.accessoryView = [self accessoryViewForContact:obj];
-    
+
     return cell;
 }
 
@@ -225,9 +225,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (section != 0) return nil;
-    
+
     [self layoutSearchHeader];
-    
+
     return self.searchHeader;
 }
 
@@ -264,11 +264,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void) refreshList {
-    __weak ContactListViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.dataMgr filterOnSearchTerm:self.searchText completion:^{
-        [weakSelf.tableView reloadData];
-        if (weakSelf.isSearching && ![weakSelf.searchBar isFirstResponder]) {
-            [weakSelf.searchBar becomeFirstResponder];
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf.tableView reloadData];
+        if (strongSelf.isSearching && ![strongSelf.searchBar isFirstResponder]) {
+            [strongSelf.searchBar becomeFirstResponder];
         }
     }];
 }
@@ -284,7 +285,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     static UIImage *sLocalUpdateImage = nil;
     static UIImage *sLocalDeleteImage = nil;
     static UIImage *sChevronRightImage = nil;
-    
+
     if (sLocalAddImage == nil) {
         sLocalAddImage = [UIImage imageNamed:@"local-add"];
     }
@@ -297,7 +298,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     if (sChevronRightImage == nil) {
         sChevronRightImage = [UIImage imageNamed:@"chevron-right"];
     }
-    
+
     if ([self.dataMgr dataHasLocalChanges:contact]) {
         UIImage *localImage;
         if ([self.dataMgr dataLocallyCreated:contact])
@@ -306,7 +307,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
             localImage = sLocalUpdateImage;
         else
             localImage = sLocalDeleteImage;
-        
+
         //
         // Uber view
         //
@@ -338,7 +339,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         UIImageView *chevronView = [[UIImageView alloc] initWithFrame:chevronViewRect];
         chevronView.image = sChevronRightImage;
         [accessoryView addSubview:chevronView];
-        
+
         return accessoryView;
     } else {
         //
@@ -356,7 +357,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         UIImageView *chevronView = [[UIImageView alloc] initWithFrame:chevronViewRect];
         chevronView.image = sChevronRightImage;
         [accessoryView addSubview:chevronView];
-        
+
         return accessoryView;
     }
 }
@@ -365,7 +366,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     UITapGestureRecognizer* navBarTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
     navBarTapGesture.cancelsTouchesInView = NO;
     [self.navigationController.navigationBar addGestureRecognizer:navBarTapGesture];
-    
+
     UITapGestureRecognizer* tableViewTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(searchResignFirstResponder)];
     tableViewTapGesture.cancelsTouchesInView = NO;
     [self.tableView addGestureRecognizer:tableViewTapGesture];
@@ -374,25 +375,26 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (void)syncUpDown {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [self showToast:@"Syncing with Salesforce"];
-    __weak ContactListViewController *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     void(^completionBlock)(void) = ^{
         [weakSelf refreshList];
     };
-    
+
     [self.dataMgr updateRemoteData:^(SFSyncState *syncProgressDetails) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
             // NB: when the sync failed it means not everything could be synched up
             //     it doesn't mean nothing could be synched up
             // Therefore we should be refreshing whether it was a complete success or not
-            [weakSelf.dataMgr refreshLocalData:completionBlock];
-            [weakSelf.dataMgr refreshRemoteData:completionBlock]; // NB will again call refreshLocalData when completing
+            [strongSelf.dataMgr refreshLocalData:completionBlock];
+            [strongSelf.dataMgr refreshRemoteData:completionBlock]; // NB will again call refreshLocalData when completing
 
             // Letting the user know whether it was a complete success or not
             if ([syncProgressDetails isDone]) {
-                [weakSelf showToast:@"Sync complete!"];
+                [strongSelf showToast:@"Sync complete!"];
             } else if ([syncProgressDetails hasFailed]) {
-                [weakSelf showToast:@"Sync failed."];
+                [strongSelf showToast:@"Sync failed."];
             }
         });
     }];
@@ -413,12 +415,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self.popOverController dismissPopoverAnimated:YES];
         return;
     }
-    
+
     ActionsPopupController *popoverContent = [[ActionsPopupController alloc] initWithAppViewController:self];
     popoverContent.preferredContentSize = CGSizeMake(260,130);
     self.popOverController = [[WYPopoverController alloc] initWithContentViewController:popoverContent];
-    
-    
+
+
     [self.popOverController presentPopoverFromBarButtonItem:self.moreButton
                                    permittedArrowDirections:WYPopoverArrowDirectionAny
                                                    animated:YES];
@@ -426,14 +428,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)popoverOptionSelected:(NSString *)text {
     [self.popOverController dismissPopoverAnimated:YES];
-    
+
     if ([text isEqualToString:kActionLogout]) {
-        self.logoutActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?"
-                                                             delegate:self
-                                                    cancelButtonTitle:@"Cancel"
-                                               destructiveButtonTitle:@"Confirm Logout"
-                                                    otherButtonTitles:nil];
-        [self.logoutActionSheet showFromBarButtonItem:self.moreButton animated:YES];
+        [self showLogoutActionSheet];
         return;
     } else if ([text isEqualToString:kActionSwitchUser]) {
         SFDefaultUserManagementViewController *umvc = [[SFDefaultUserManagementViewController alloc] initWithCompletionBlock:^(SFUserManagementAction action) {
@@ -441,8 +438,26 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         }];
         [self presentViewController:umvc animated:YES completion:NULL];
     } else if ([text isEqualToString:kActionDbInspector]) {
-        [[[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store] present:self];
+        SFSmartStoreInspectorViewController *inspector = [[SFSmartStoreInspectorViewController alloc] initWithStore:self.dataMgr.store];
+         [self presentViewController:inspector animated:NO completion:nil];
+                                                         
     }
+}
+
+- (void)showLogoutActionSheet
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:Nil
+                                                                   message:@"Are you sure you want to log out?"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *logoutAction = [UIAlertAction actionWithTitle:@"Confirm Logout"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action) {
+                                                            self.logoutActionSheet = nil;
+                                                            [[SFAuthenticationManager sharedManager] logout];
+                                                        }];
+    [alert addAction:logoutAction];
+    self.logoutActionSheet = alert;
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 
@@ -450,12 +465,12 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     CGFloat toastWidth = 250.0;
     CGFloat toastHeight = 50.0;
     CGFloat bottomScreenPadding = 40.0;
-    
+
     self.toastView.frame = CGRectMake(CGRectGetMidX([self.toastView superview].bounds) - (toastWidth / 2.0),
                                       CGRectGetMaxY([self.toastView superview].bounds) - bottomScreenPadding - toastHeight,
                                       toastWidth,
                                       toastHeight);
-    
+
     //
     // messageLabel
     //
@@ -473,7 +488,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 
 - (void)showToast:(NSString *)message {
     NSTimeInterval const toastDisplayTimeSecs = 2.0;
-    
+
     self.toastMessage = message;
     [self layoutToastView];
     self.toastView.alpha = 0.0;
@@ -481,7 +496,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     [UIView setAnimationDuration:0.3];
     self.toastView.alpha = 1.0;
     [UIView commitAnimations];
-    
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, toastDisplayTimeSecs * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [UIView beginAnimations:@"toastFadeOut" context:NULL];
         [UIView setAnimationDuration:0.3];
@@ -498,13 +513,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (void)layoutSearchHeader {
-    
+
     //
     // searchHeader
     //
     CGRect searchHeaderFrame = CGRectMake(0, 0, self.navigationController.navigationBar.frame.size.width, kSearchHeaderHeight);
     self.searchHeader.frame = searchHeaderFrame;
-    
+
     //
     // searchBar
     //
@@ -532,7 +547,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 - (NSString *)formatInitialsFromContact:(ContactSObjectData *)contact {
     NSString *firstName = [contact.firstName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+
     NSMutableString *initialsString = [NSMutableString stringWithString:@""];
     if ([firstName length] > 0) {
         unichar firstChar = [firstName characterAtIndex:0];
@@ -544,7 +559,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         NSString *firstCharString = [NSString stringWithCharacters:&firstChar length:1];
         [initialsString appendFormat:@"%@", firstCharString];
     }
-    
+
     return initialsString;
 }
 
@@ -554,13 +569,13 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (UIColor *)colorFromContact:(ContactSObjectData *)contact {
-    
+
     NSString *lastName = [contact.lastName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSUInteger codeSeedFromName = 0;
     for (NSUInteger i = 0; i < [lastName length]; i++) {
         codeSeedFromName += [lastName characterAtIndex:i];
     }
-    
+
     static NSUInteger colorCodesListCount = sizeof(kColorCodesList) / sizeof(NSUInteger);
     NSUInteger colorCodesListIndex = codeSeedFromName % colorCodesListCount;
     NSUInteger colorCodeHexValue = kColorCodesList[colorCodesListIndex];
@@ -575,9 +590,9 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
 }
 
 - (UIImage *)initialsBackgroundImageWithColor:(UIColor *)circleColor initials:(NSString *)initials {
-    
+
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(kInitialsCircleDiameter, kInitialsCircleDiameter), NO, [UIScreen mainScreen].scale);
-    
+
     // Draw the circle.
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
@@ -586,19 +601,19 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
     CGContextBeginPath(context);
     CGContextAddArc(context, circleCenter.x, circleCenter.y, kInitialsCircleDiameter / 2.0, 0, 2*M_PI, 0);
     CGContextFillPath(context);
-    
+
     // Draw the initials.
     NSDictionary *initialsAttrs = @{ NSForegroundColorAttributeName: [UIColor whiteColor], NSFontAttributeName: [UIFont systemFontOfSize:kInitialsFontSize] };
     CGSize initialsTextSize = [initials sizeWithAttributes:initialsAttrs];
     CGRect initialsRect = CGRectMake(circleCenter.x - (initialsTextSize.width / 2.0), circleCenter.y - (initialsTextSize.height / 2.0), initialsTextSize.width, initialsTextSize.height);
     [initials drawInRect:initialsRect withAttributes:initialsAttrs];
-    
+
     UIGraphicsPopContext();
-    
+
     UIImage *imageFromGraphicsContext = UIGraphicsGetImageFromCurrentImageContext();
-    
+
     UIGraphicsEndImageContext();
-    
+
     return imageFromGraphicsContext;
 }
 
@@ -611,19 +626,7 @@ static NSUInteger const kColorCodesList[] = { 0x1abc9c,  0x2ecc71,  0x3498db,  0
         [self.popOverController dismissPopoverAnimated:NO];
     }
     if (self.logoutActionSheet) {
-        [self.logoutActionSheet dismissWithClickedButtonIndex:-100 animated:NO];
-    }
-}
-
-#pragma mark - UIActionSheetDelegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if ([actionSheet isEqual:self.logoutActionSheet]) {
-        self.logoutActionSheet = nil;
-        if (buttonIndex == actionSheet.destructiveButtonIndex) {
-            [[SFAuthenticationManager sharedManager] logout];
-        }
+        [self.logoutActionSheet dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

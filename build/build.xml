@@ -17,7 +17,7 @@
 
     <target name="buildAll" />
 
-    <target name="libPackages" depends="packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceRestAPI, packageSalesforceHybridSDK, packageSalesforceNetwork, packageSalesforceSDKCore" />
+    <target name="libPackages" depends="packageSalesforceAnalytics, packageLumberjack, packageSmartSync, packageSmartStore, packageSalesforceHybridSDK, packageSalesforceSDKCore" />
 
     <target name="packageLumberjack" depends="buildLumberjack" description="Packages and builds the CocoaLumberjack library.">
         <antcall target="packageLib">
@@ -123,32 +123,6 @@
         </antcall>
     </target>
     
-    <target name="packageSalesforceRestAPI" depends="buildSalesforceRestAPI" description="Builds the SalesforceRestAPI library.">
-        <antcall target="packageLib">
-            <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
-            <param name="headerDir" value="Headers/SalesforceRestAPI" />
-        </antcall>
-    </target>
-    
-    <target name="buildSalesforceRestAPI">
-        <antcall target="buildLib">
-            <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
-            <param name="headerDir" value="Headers/SalesforceRestAPI" />
-            <param name="schemeName" value="SalesforceRestAPIStatic" />
-        </antcall>
-    </target>
-    
-    <target name="cleanSalesforceRestAPI" description="Cleans the build artifacts and output of the SalesforceRestAPI library.">
-        <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceRestAPI" />
-            <param name="libName" value="libSalesforceRestAPI.a" />
-            <param name="headerDir" value="Headers/SalesforceRestAPI" />
-            <param name="schemeName" value="SalesforceRestAPIStatic" />
-        </antcall>
-    </target>
-    
     <target name="packageSalesforceSDKCore" depends="buildSalesforceSDKCore" description="Builds the SalesforceSDKCore library.">
         <antcall target="packageLib">
             <param name="projectName" value="SalesforceSDKCore" />
@@ -174,30 +148,30 @@
             <param name="schemeName" value="SalesforceSDKCoreStatic" />
         </antcall>
     </target>
-    
-    <target name="packageSalesforceNetwork" depends="buildSalesforceNetwork" description="Builds the SalesforceNetwork library.">
+
+    <target name="packageSalesforceAnalytics" depends="buildSalesforceAnalytics" description="Builds the SalesforceAnalytics library.">
         <antcall target="packageLib">
-            <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
-            <param name="headerDir" value="Headers/SalesforceNetwork" />
+            <param name="projectName" value="SalesforceAnalytics" />
+            <param name="libName" value="libSalesforceAnalytics.a" />
+            <param name="headerDir" value="Headers/SalesforceAnalytics" />
         </antcall>
     </target>
     
-    <target name="buildSalesforceNetwork">
+    <target name="buildSalesforceAnalytics">
         <antcall target="buildLib">
-            <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
-            <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetworkStatic" />
+            <param name="projectName" value="SalesforceAnalytics" />
+            <param name="libName" value="libSalesforceAnalytics.a" />
+            <param name="headerDir" value="Headers/SalesforceAnalytics" />
+            <param name="schemeName" value="SalesforceAnalyticsStatic" />
         </antcall>
     </target>
     
-    <target name="cleanSalesforceNetwork" description="Cleans the build artifacts and output of the SalesforceNetwork library.">
+    <target name="cleanSalesforceAnalytics" description="Cleans the build artifacts and output of the SalesforceAnalytics library.">
         <antcall target="cleanLib">
-            <param name="projectName" value="SalesforceNetwork" />
-            <param name="libName" value="libSalesforceNetwork.a" />
-            <param name="headerDir" value="Headers/SalesforceNetwork" />
-            <param name="schemeName" value="SalesforceNetworkStatic" />
+            <param name="projectName" value="SalesforceAnalytics" />
+            <param name="libName" value="libSalesforceAnalytics.a" />
+            <param name="headerDir" value="Headers/SalesforceAnalytics" />
+            <param name="schemeName" value="SalesforceAnalyticsStatic" />
         </antcall>
     </target>
 
@@ -347,7 +321,7 @@
         </exec>
     </target>
     
-    <target name="clean" description="Cleans the build state." depends="cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceRestAPI, cleanSalesforceHybridSDK, cleanSalesforceNetwork, cleanSalesforceSDKCore">
+    <target name="clean" description="Cleans the build state." depends="cleanSalesforceAnalytics, cleanLumberjack, cleanSmartSync, cleanSmartStore, cleanSalesforceHybridSDK, cleanSalesforceSDKCore">
         <delete dir="${artifactsDir}" />
     </target>
 </project>

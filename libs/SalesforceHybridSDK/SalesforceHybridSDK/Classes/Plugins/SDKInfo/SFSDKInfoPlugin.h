@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2012, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2012-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -31,5 +31,6 @@
 
 #pragma mark - Plugin methods called from js
 - (void)getInfo:(CDVInvokedUrlCommand *)command;
-
+- (void)registerAppFeature:(CDVInvokedUrlCommand *)command;
+- (void)unregisterAppFeature:(CDVInvokedUrlCommand *)command;
 @end

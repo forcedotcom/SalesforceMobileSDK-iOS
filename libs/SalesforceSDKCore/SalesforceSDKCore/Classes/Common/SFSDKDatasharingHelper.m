@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -26,9 +26,9 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH 
 
 NSString * const kAppGroupEnabled = @"kAccessGroupEnabled";
 NSString * const kKeychainSharingEnabled = @"kKeyChainSharingEnabled";
-
 NSString * const KAppGroupName = @"KAppGroupName";
 NSString * const KKeychainGroupName = @"KKeychainGroupName";
+NSString * const kDidMigrateToAppGroupsKey = @"kAppDefaultsMigratedToAppGroups";
 
 @implementation SFSDKDatasharingHelper
 
@@ -40,7 +40,6 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
     });
     return dataSharingHelper;
 }
-
 
 - (NSString *)appGroupName {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
@@ -68,6 +67,11 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
     NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.appGroupName];
     [sharedDefaults setBool:appGroupEnabled forKey:kAppGroupEnabled];
     [sharedDefaults synchronize];
+    if(appGroupEnabled) {
+        [self migrateUserDefaultsToAppContainer:sharedDefaults];
+    } else {
+        [self migrateFromAppContainerToUserDefaults:sharedDefaults];
+    }
 }
 
 - (BOOL)appGroupEnabled {
@@ -79,6 +83,33 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
      NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc] initWithSuiteName:self.keychainGroupName];
     [sharedDefaults setBool:keychainSharingEnabled forKey:kKeychainSharingEnabled];
     [sharedDefaults synchronize];
+}
+
+- (void)migrateUserDefaultsToAppContainer:(NSUserDefaults *)sharedDefaults {
+    if([self appGroupEnabled] && ![[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
+        [SFLogger log:SFLogLevelWarning msg:@"Ensure that you have enabled app-groups for your app in the entitlements for your app."];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kDidMigrateToAppGroupsKey];
+        [self migrateFrom:[NSUserDefaults standardUserDefaults] to:sharedDefaults];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)migrateFromAppContainerToUserDefaults:(NSUserDefaults *)sharedDefaults {
+
+    if(![self appGroupEnabled] && [[NSUserDefaults standardUserDefaults] boolForKey:kDidMigrateToAppGroupsKey]) {
+        [SFLogger log:SFLogLevelWarning msg:@"Ensure that you have not disabled app-groups for your app in the entitlements. Data will not be migrated from app containers if app-groups are disabled"];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kDidMigrateToAppGroupsKey];
+        [self migrateFrom:sharedDefaults to:[NSUserDefaults standardUserDefaults]];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)migrateFrom:(NSUserDefaults *)source to:(NSUserDefaults *)target{
+    NSDictionary *sourceDictionary = [source dictionaryRepresentation];
+    for(id key in sourceDictionary.allKeys) {
+        [target setObject:sourceDictionary[key] forKey:key];
+    }
+    [target synchronize];
 }
 
 - (BOOL)keychainSharingEnabled {
@@ -97,5 +128,4 @@ NSString * const KKeychainGroupName = @"KKeychainGroupName";
     return [sharedDefaults boolForKey:kKeychainSharingEnabled];
 #endif
 }
-
 @end

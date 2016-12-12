@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2015, salesforce.com, inc. All rights reserved.
+ Copyright (c) 2015-present, salesforce.com, inc. All rights reserved.
  
  Redistribution and use of this software in source and binary forms, with or without modification,
  are permitted provided that the following conditions are met:
@@ -32,8 +32,12 @@
 #import "SFCrypto.h"
 #import "UIDevice+SFHardware.h"
 #import "NSString+SFAdditions.h"
+#import "NSUserDefaults+SFAdditions.h"
+#import "SalesforceSDKManager.h"
 
 NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryption.type";
+
+static NSString * const kSFAppFeatureOAuth = @"UA";
 
 @implementation SFOAuthKeychainCredentials
 
@@ -60,13 +64,14 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 #pragma mark - Public Methods
 
 - (NSString *)accessToken {
+    [[SalesforceSDKManager sharedManager] registerAppFeature:kSFAppFeatureOAuth];
     return [self accessTokenWithSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
 }
 
 - (void)setAccessToken:(NSString *)token {
     [self setAccessToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceAccess]];
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
     [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
     [standardUserDefaults synchronize];
 }
@@ -78,7 +83,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
 - (void)setRefreshToken:(NSString *)token {
     [self setRefreshToken:token withSFEncryptionKey:[self keyStoreKeyForService:kSFOAuthServiceRefresh]];
     
-    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults msdkUserDefaults];
     [standardUserDefaults setInteger:kSFOAuthCredsEncryptionTypeKeyStore forKey:kSFOAuthEncryptionTypeKey];
     [standardUserDefaults synchronize];
 }
@@ -332,7 +337,7 @@ NSString * const kSFOAuthEncryptionTypeKey = @"com.salesforce.oauth.creds.encryp
     // MAC address-based keys if the user is on iOS 7 or above, and we'll reset the tokens to nil;
     
     if (!self.isEncrypted) return;
-    SFOAuthCredsEncryptionType encType = (SFOAuthCredsEncryptionType)[[NSUserDefaults standardUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
+    SFOAuthCredsEncryptionType encType = (SFOAuthCredsEncryptionType)[[NSUserDefaults msdkUserDefaults] integerForKey:kSFOAuthEncryptionTypeKey];
     if (encType == kSFOAuthCredsEncryptionTypeKeyStore) return;
     
     // Try to convert the old tokens to the new format.

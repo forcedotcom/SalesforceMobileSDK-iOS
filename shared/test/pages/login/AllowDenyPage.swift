@@ -2,7 +2,7 @@
 AllowDenyPage.swift
 
 Created by Eric Engelking on 10/16/15.
-Copyright (c) 2016, salesforce.com, inc. All rights reserved.
+Copyright (c) 2016-present, salesforce.com, inc. All rights reserved.
 
 Redistribution and use of this software in source and binary forms, with or without modification,
 are permitted provided that the following conditions are met:
@@ -31,10 +31,10 @@ import XCTest
 
 class AllowDenyPage: PageObject, PageThatWaits {
     
-    private var allowButton: XCUIElement {
+    fileprivate var allowButton: XCUIElement {
         get {
             let buttonPredicate = NSPredicate(format: "label CONTAINS 'Allow'")
-            return app.buttons.elementMatchingPredicate(buttonPredicate)
+            return app.buttons.element(matching: buttonPredicate)
         }
     }
     
@@ -43,12 +43,13 @@ class AllowDenyPage: PageObject, PageThatWaits {
     }
     
     func waitForPageLoaded() {
-        waitForElementExists(allowButton)
+        waitForElementEnabled(allowButton)
         
     }
     
     func tapAllowButton() {
         allowButton.tap()
+        waitForPageInvalid()
     }
     
 }

@@ -9,8 +9,11 @@ node_modules
 /hybrid/SampleApps/ContactExplorer/build/
 /hybrid/SampleApps/VFConnector/build/
 /libs/SalesforceHybridSDK/build/
-/libs/SalesforceOAuth/build/
-/libs/SalesforceRestAPI/build/
+/libs/SalesforceReact/build/
+/libs/SalesforceSDKCore/build/
+/libs/SalesforceAnalytics/build/
+/libs/SmartStore/build/
+/libs/SmartSync/build/
 /native/SampleApps/RestAPIExplorer/build/
 node_modules/
 .github/
